@@ -55,6 +55,43 @@ const messages = defineMessages({
 })
 
 @injectSheet(styles)
+class User extends PureComponent {
+  static propTypes = {
+    onHide: PropTypes.func.isRequired,
+    onSelectUser: PropTypes.func.isRequired,
+    sheet: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
+  }
+
+  onClick = (e) => {
+    const {
+      onSelectUser,
+      onHide,
+      user: {slug}
+    } = this.props
+
+    e.preventDefault()
+    onHide()
+    onSelectUser(slug)
+  }
+
+  render() {
+    const {sheet: {classes}, user} = this.props
+    const {displayName, avatar, status} = user
+
+    return (
+      <a href={`/chat/${user.slug}`} className={classes.user} onClick={this.onClick}>
+        <Username
+          name={displayName}
+          avatar={avatar}
+          statusBorderColor={colors.white}
+          status={userStatusMap[status]} />
+      </a>
+    )
+  }
+}
+
+@injectSheet(styles)
 @injectIntl
 export default class ManageContactsDialog extends PureComponent {
   static propTypes = {
@@ -65,34 +102,10 @@ export default class ManageContactsDialog extends PureComponent {
     onSelectFilter: PropTypes.func.isRequired,
     onSelectUser: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
-    show: PropTypes.bool.isRequired
-  }
-
-  onUserClick(e, slug) {
-    const {
-      onSelectUser,
-      onHide
-    } = this.props
-    e.preventDefault()
-    onHide()
-    onSelectUser(slug)
-  }
-
-  renderUser(user) {
-    const {sheet: {classes}} = this.props
-    const {displayName, avatar, status} = user
-    return (
-      <a
-        className={classes.userLink}
-        href={`/chat/${user.slug}`}
-        onClick={e => this.onUserClick(e, user.slug)}>
-        <Username
-          name={displayName}
-          avatar={avatar}
-          statusBorderColor={colors.white}
-          status={userStatusMap[status]} />
-      </a>
-    )
+    show: PropTypes.bool.isRequired,
+    users: PropTypes.arrayOf(
+      PropTypes.object.isRequired
+    ).isRequired
   }
 
   renderUsersList(users) {
@@ -100,10 +113,17 @@ export default class ManageContactsDialog extends PureComponent {
       return null
     }
 
+    const {
+      onHide,
+      onSelectUser
+    } = this.props
+
     return (
       <ul>
         {users.map(user => (
-          <li key={user.id}>{this.renderUser(user)}</li>
+          <li key={user.id}>
+            <User user={user} onHide={onHide} onSelectUser={onSelectUser} />
+          </li>
         ))}
       </ul>
     )

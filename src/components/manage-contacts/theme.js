@@ -20,8 +20,9 @@ export const styles = {
     color: grayBlue,
     padding: [0, 20, 10]
   },
-  userLink: {
+  user: {
     color: grayDark,
+    cursor: 'pointer',
     display: 'block',
     padding: [10, 20],
     textDecoration: 'none',
