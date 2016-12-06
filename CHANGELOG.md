@@ -1,5 +1,7 @@
 ## Next version
 
+* Fixed history icons
+
 ## Release 0.42.3 (2016-12-05)
 
 * Fixed activity message data normalization (#209)
