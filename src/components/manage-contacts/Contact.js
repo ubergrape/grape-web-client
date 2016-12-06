@@ -9,22 +9,18 @@ import {styles} from './contactTheme'
 @injectSheet(styles)
 export default class Contact extends PureComponent {
   static propTypes = {
-    onHide: PropTypes.func.isRequired,
-    onSelectUser: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
-  onClick = (e) => {
+  onClick = () => {
     const {
-      onSelectUser,
-      onHide,
+      onSelect,
       user: {slug}
     } = this.props
 
-    e.preventDefault()
-    onHide()
-    onSelectUser(slug)
+    onSelect(slug)
   }
 
   render() {
@@ -35,13 +31,13 @@ export default class Contact extends PureComponent {
     const {displayName, avatar, slug, status} = user
 
     return (
-      <a href={`/chat/${slug}`} className={classes.item} onClick={this.onClick}>
+      <div className={classes.item} onClick={this.onClick}>
         <Username
           name={displayName}
           avatar={avatar}
           statusBorderColor={colors.white}
           status={userStatusMap[status]} />
-      </a>
+      </div>
     )
   }
 }
