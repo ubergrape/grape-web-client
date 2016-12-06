@@ -28,7 +28,7 @@ export default class Contact extends PureComponent {
       sheet: {classes},
       user
     } = this.props
-    const {displayName, avatar, slug, status} = user
+    const {displayName, avatar, status} = user
 
     return (
       <div className={classes.item} onClick={this.onClick}>
