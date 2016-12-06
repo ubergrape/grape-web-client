@@ -116,9 +116,8 @@ export default class GrapeInput extends Emitter {
 
   bindEvents() {
     this.events = events(this.el, this)
-    this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
-    this.events.bind('mousedown .js-emoji-browser-button', 'onToggleEmojiBrowser')
-    this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
+    this.events.bind('click .js-emoji-browser-button', 'onToggleEmojiBrowser')
+    this.events.bind('click .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
     this.events.bind('grapeLoadServicesResultsAmounts grape-input', 'onLoadServicesResultsAmounts')
@@ -247,10 +246,15 @@ export default class GrapeInput extends Emitter {
 
     // Map to a unified data structure.
     users = users.map(user => {
-      let name = user.username
-      if (user.firstName) {
+      let name
+
+      if (user.displayName) {
+        name = user.displayName
+      } else if (user.firstName) {
         name = user.firstName
         if (user.lastName) name += ' ' + user.lastName
+      } else {
+        name = user.username
       }
 
       const roomUsers = this.room.users.toArray()
@@ -295,9 +299,6 @@ export default class GrapeInput extends Emitter {
 
   completePreviousEdit() {
     if (!this.previous) return
-    if (!conf.newHistory) {
-      this.previous.el.classList.remove('editing')
-    }
     this.el.classList.remove('editing-previous')
     this.input.setTextContent('')
     this.previous = null
@@ -306,10 +307,6 @@ export default class GrapeInput extends Emitter {
   editMessage(msg) {
     this.completePreviousEdit()
     let el
-    if (!conf.newHistory) {
-      el = qs('.message[data-id="' + msg.id + '"]')
-      el.classList.add('editing')
-    }
     this.el.classList.add('editing-previous')
     this.input.setTextContent(msg.text)
     this.previous = {msg, el}
@@ -350,10 +347,6 @@ export default class GrapeInput extends Emitter {
 
   getUnsent(room) {
     return this.unsent[room.id] || ''
-  }
-
-  onMarkdownTipsShow() {
-    this.emit('showmarkdowntips')
   }
 
   onComplete(e) {
@@ -398,12 +391,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onEditPrevious() {
-    if (conf.newHistory) {
-      this.emit('editPreviousMessage')
-      return
-    }
-    const msg = this.findPreviousMessage()
-    if (msg) this.editMessage(msg)
+    this.emit('editPreviousMessage')
   }
 
   onAbort(e) {
@@ -474,7 +462,7 @@ export default class GrapeInput extends Emitter {
 
     if (this.previous) {
       let {msg} = this.previous
-      if (conf.newHistory) msg = {...msg, channel: {id: msg.channelId}}
+      msg = {...msg, channel: {id: msg.channelId}}
       this.emit('update', msg, data.content)
       this.completePreviousEdit()
     } else {
@@ -514,6 +502,7 @@ export default class GrapeInput extends Emitter {
 
   onToggleEmojiBrowser(e) {
     e.preventDefault()
+    e.stopPropagation()
     if (this.input.props.browser === 'emoji') {
       this.closeBrowser()
       return

@@ -1,14 +1,13 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import Avatar from '../avatar/Avatar'
 import Header from '../message-parts/Header'
 import Bubble from '../message-parts/Bubble'
 import styles from './messageStyles'
 
-@useSheet(styles)
-export default class Message extends Component {
+@injectSheet(styles)
+export default class Message extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -18,8 +17,6 @@ export default class Message extends Component {
     avatar: PropTypes.string,
     children: PropTypes.node.isRequired
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     const {sheet: {classes}, author, time, avatar, children} = this.props

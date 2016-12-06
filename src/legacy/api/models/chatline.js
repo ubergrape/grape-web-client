@@ -1,12 +1,12 @@
-let Model = require('model')
-let cache = require('model-cache')
-let cast = require('model-cast')
-let array = require('model-array')
+import Model from 'model';
+import cache from 'model-cache';
+import cast from 'model-cast';
+import array from 'model-array';
 
-let User = require('./user')
-let Channel = require('./room')
+import User from './user';
+import Channel from './room';
 
-module.exports = new Model([
+export default new Model([
     'author',
     'channel',
     'time',

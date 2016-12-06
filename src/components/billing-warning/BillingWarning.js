@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
@@ -8,9 +8,7 @@ import {
 } from 'react-intl'
 
 import Dialog from '../dialog/Dialog'
-import style from './style'
-
-import {useSheet} from 'grape-web/lib/jss'
+import {styles} from './theme'
 
 const messages = defineMessages({
   title: {
@@ -22,9 +20,9 @@ const messages = defineMessages({
 /**
  * Billing warning dialog.
  */
-@useSheet(style)
+@injectSheet(styles)
 @injectIntl
-export default class BillingWarning extends Component {
+export default class BillingWarning extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -41,36 +39,37 @@ export default class BillingWarning extends Component {
     }
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  onHide() {
+  onHide = () => {
     this.props.hideBillingWarning()
   }
 
-  onGoToPayment() {
+  onGoToPayment = () => {
     this.props.goToPayment()
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    const {classes} = this.props.sheet
+    const {
+      intl: {formatMessage},
+      sheet: {classes}
+    } = this.props
+
     return (
       <Dialog
         title={formatMessage(messages.title)}
         show={this.props.show}
-        onHide={::this.onHide}>
+        onHide={this.onHide}>
         <div className={classes.content}>
           <div className={classes.text}>{this.props.text}</div>
           <div className={classes.actions}>
             <button
-              onClick={::this.onHide}
+              onClick={this.onHide}
               className={classes.continueTrial}>
               <FormattedMessage
                 id="continueTrial"
                 defaultMessage="Continue Trial" />
             </button>
             <button
-              onClick={::this.onGoToPayment}
+              onClick={this.onGoToPayment}
               className={classes.enterDetails}>
               <FormattedMessage
                 id="enterDetails"

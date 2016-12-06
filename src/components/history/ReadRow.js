@@ -1,9 +1,8 @@
-import {Component, PropTypes} from 'react'
+import {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import shallowCompare from 'react-addons-shallow-compare'
 import debounce from 'lodash/function/debounce'
 
-export default class ReadRow extends Component {
+export default class ReadRow extends PureComponent {
   static propTypes = {
     channelId: PropTypes.number.isRequired,
     rows: PropTypes.arrayOf(
@@ -23,12 +22,10 @@ export default class ReadRow extends Component {
     children: noop
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.channelId !== this.props.channelId) {
       this.lastReadRow = undefined
     }
-
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onRowsRendered = ({stopIndex}) => {

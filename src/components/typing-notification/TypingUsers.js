@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
+import injectSheet from 'grape-web/lib/jss'
 
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import {styles} from './typingUsersTheme'
 
 /**
  * Render users list.
@@ -12,8 +12,8 @@ import {useSheet} from 'grape-web/lib/jss'
  * - Val, Oleg and Leo are typing.
  * - Val, Oleg, Leo and 3 others are typing.
  */
-@useSheet(style)
-export default class TypingUsers extends Component {
+@injectSheet(styles)
+export default class TypingUsers extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,

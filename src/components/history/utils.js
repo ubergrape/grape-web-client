@@ -58,11 +58,13 @@ export const createRowsState = (() => {
         message,
         prevMessage,
         isGroupable,
+        isPm: props.channel.type === 'pm',
         isLast: false,
         duplicates: [],
         ...pick(props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
-          'onGoToChannel', 'selectedMessageId')
+          'onGoToChannel', 'selectedMessageId', 'onCopyLink')
       })
+
       map[message.id] = message.id
       return result
     }, {rows: [], map: {}})
@@ -71,4 +73,4 @@ export const createRowsState = (() => {
 
     return ret
   }
-}())
+})()

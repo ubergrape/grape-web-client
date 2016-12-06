@@ -1,16 +1,15 @@
-import React, {Component, PropTypes} from 'react'
-import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
+import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
 import findIndex from 'lodash/array/findIndex'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
 import {styles} from './infiniteListTheme'
 
-@useSheet(styles)
-export default class InfiniteList extends Component {
+@injectSheet(styles)
+export default class InfiniteList extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
@@ -31,16 +30,12 @@ export default class InfiniteList extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows !== this.props.rows) {
       this.cache.setRows(nextProps.rows)
-      this.virtualScroll.recomputeRowHeights()
+      this.list.recomputeRowHeights()
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  }
-
-  onRefVirtualScroll = (ref) => {
-    this.virtualScroll = ref
+  onRefList = (ref) => {
+    this.list = ref
   }
 
   onResizeViewport = ({width}) => {
@@ -49,7 +44,7 @@ export default class InfiniteList extends Component {
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
       cache.clear()
-      this.virtualScroll.recomputeRowHeights()
+      this.list.recomputeRowHeights()
     }
     this.prevWidth = width
   }
@@ -97,7 +92,7 @@ export default class InfiniteList extends Component {
                       scrollToIndex,
                       onRowsRendered: onRowsRenderedInAutoScroll
                     }) => (
-                      <VirtualScroll
+                      <List
                         className={classes.grid}
                         scrollToIndex={scrollToIndex}
                         scrollToAlignment={scrollToAlignment}
@@ -116,7 +111,7 @@ export default class InfiniteList extends Component {
                         rowHeight={getRowHeight}
                         rowRenderer={renderRow}
                         overscanRowCount={5}
-                        ref={this.onRefVirtualScroll} />
+                        ref={this.onRefList} />
                     )}
                   </AutoScroll>
                 )}

@@ -1,15 +1,14 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
-import {useSheet} from 'grape-web/lib/jss'
-import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import style from './style'
-
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
 } from 'react-intl'
+
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import {styles} from './theme'
 
 const messages = defineMessages({
   title: {
@@ -18,9 +17,9 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(styles)
 @injectIntl
-export default class UserProfile extends Component {
+export default class UserProfile extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -31,12 +30,11 @@ export default class UserProfile extends Component {
     email: PropTypes.string,
     whatIDo: PropTypes.string,
     skypeUsername: PropTypes.string,
+    skypeForBusiness: PropTypes.string,
     phoneNumber: PropTypes.string
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  onClose() {
+  onClose = () => {
     this.props.hideSidebar()
   }
 
@@ -48,6 +46,7 @@ export default class UserProfile extends Component {
       whatIDo,
       email,
       skypeUsername,
+      skypeForBusiness,
       phoneNumber,
       intl: {formatMessage},
       sheet: {classes}
@@ -56,7 +55,7 @@ export default class UserProfile extends Component {
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={::this.onClose}>
+        onClose={this.onClose}>
         <div className={classes.profile}>
           <div className={classes.leftColumn}>
             <img
@@ -71,27 +70,44 @@ export default class UserProfile extends Component {
           </div>
         </div>
         <div>
-          {whatIDo && <div className={classes.about}>
-            <p>
-              <FormattedMessage
-                id="whatIDo"
-                defaultMessage="What I do" />
-              :
-            </p>
-            <p>{whatIDo}</p>
-          </div>}
+          {whatIDo && (
+            <div className={classes.about}>
+              <p>
+                <FormattedMessage
+                  id="whatIDo"
+                  defaultMessage="What I do" />
+                :
+              </p>
+              <p>{whatIDo}</p>
+            </div>
+          )}
           <ul>
             <li>
               <a href={`mailto:${email}`} className={classes.email}>
                 {email}
               </a>
             </li>
-            {skypeUsername && <li><a href={`skype:${skypeUsername}`} className={classes.skype}>
-              {skypeUsername}
-            </a></li>}
-            {phoneNumber && <li><a href={`tel:${phoneNumber}`} className={classes.phone}>
-              {phoneNumber}
-            </a></li>}
+            {skypeUsername && (
+              <li>
+                <a href={`skype:${skypeUsername}`} className={classes.skype}>
+                  {skypeUsername}
+                </a>
+              </li>
+            )}
+            {skypeForBusiness && (
+              <li>
+                <a href={`callto:sip:${skypeForBusiness}`} className={classes.skype}>
+                  {skypeForBusiness}
+                </a>
+              </li>
+            )}
+            {phoneNumber && (
+              <li>
+                <a href={`tel:${phoneNumber}`} className={classes.phone}>
+                  {phoneNumber}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </SidebarPanel>

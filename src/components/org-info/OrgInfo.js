@@ -1,16 +1,16 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 
-import style from './style'
+import {styles} from './theme'
 import {spinner} from '../../constants/images'
 import Tooltip from '../tooltip/HoverTooltip'
 
 const sizes = {width: 32, height: 32}
 
-@useSheet(style)
-export default class OrgInfo extends Component {
+@injectSheet(styles)
+export default class OrgInfo extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     toggleOrgSettings: PropTypes.func.isRequired,
@@ -26,14 +26,14 @@ export default class OrgInfo extends Component {
 
   renderLogo() {
     const {
-      sheet,
+      sheet: {classes},
       logo,
       name
     } = this.props
 
     return (
       <img
-        className={sheet.classes.logoImage}
+        className={classes.logoImage}
         src={logo}
         alt={name}
         style={sizes} />
@@ -42,7 +42,7 @@ export default class OrgInfo extends Component {
 
   renderHeaders() {
     const {
-      sheet,
+      sheet: {classes},
       name,
       username,
       isLoading
@@ -51,12 +51,12 @@ export default class OrgInfo extends Component {
     if (isLoading) return null
 
     return (
-      <div className={sheet.classes.headers}>
+      <div className={classes.headers}>
         <div>
-          <h1 className={sheet.classes.orgName}>
+          <h1 className={classes.orgName}>
             {name}
           </h1>
-          <h2 className={sheet.classes.userName}>
+          <h2 className={classes.userName}>
             {username}
           </h2>
         </div>
@@ -65,18 +65,20 @@ export default class OrgInfo extends Component {
   }
 
   render() {
-    const {sheet, isLoading} = this.props
+    const {
+      sheet: {classes},
+      isLoading
+    } = this.props
 
     return (
-      <header className={sheet.classes.orgInfo}>
+      <header className={classes.orgInfo}>
         <span
           style={sizes}
-          className={sheet.classes.logo}>
+          className={classes.logo}>
           {isLoading ? <Spinner image={spinner} size={sizes.height} /> : this.renderLogo() }
         </span>
         {this.renderHeaders()}
-        {
-          !isLoading &&
+        {!isLoading && (
           <Tooltip
             message={(
               <FormattedMessage
@@ -84,11 +86,11 @@ export default class OrgInfo extends Component {
                 defaultMessage="Settings" />
             )}>
             <button
-              className={sheet.classes.settings}
+              className={classes.settings}
               onClick={this.toggleOrgSettings}>
             </button>
           </Tooltip>
-        }
+        )}
       </header>
     )
   }

@@ -120,12 +120,7 @@ export const setTypingSelector = createSelector(
     channelSelector,
     typingNotificationSelector
   ],
-  (
-    user,
-    users,
-    channel,
-    typingNotification
-  ) => {
+  (user, users, channel, typingNotification) => {
     return {
       user,
       users,
@@ -136,16 +131,17 @@ export const setTypingSelector = createSelector(
 )
 
 export const userProfileSelector = createSelector(
-  [
-    currentPmsSelector
-  ],
-  (
-    pm
-  ) => {
-    return {
-      ...pm.mate
-    }
-  }
+  [currentPmsSelector],
+  (pm) => ({...pm.mate})
+)
+
+const notificationSettingsSelector = createSelector(
+  state => state.notificationSettings, state => state
+)
+
+export const notificationSettingsComponentSelector = createSelector(
+  [userSelector, notificationSettingsSelector],
+  (user, notificationSettings) => ({user, ...notificationSettings})
 )
 
 export const renameRoomErrorSelector = createSelector(
@@ -156,19 +152,15 @@ export const roomInfoSelector = createSelector(
   [
     renameRoomErrorSelector,
     channelSelector,
-    userSelector
+    userSelector,
+    notificationSettingsSelector
   ],
-  (
+  (renameError, channel, user, notificationSettings) => ({
+    channel: channel.type === 'room' ? channel : {},
+    user,
     renameError,
-    channel,
-    user
-  ) => {
-    return {
-      channel: channel.type === 'room' ? channel : {},
-      user,
-      renameError
-    }
-  }
+    notificationSettings
+  })
 )
 
 export const sharedFilesSelector = createSelector(
@@ -181,18 +173,14 @@ export const mentionsSelector = createSelector(
 
 export const mentionsWithChannels = createSelector(
   [mentionsSelector, channelsSelector, orgSelector],
-  (search, channels, {customEmojis}) => {
-    return {
-      ...search,
-      customEmojis,
-      items: search.items.map(message => {
-        return {
-          ...message,
-          channel: find(channels, {id: message.channelId})
-        }
-      })
-    }
-  }
+  (search, channels, {customEmojis}) => ({
+    ...search,
+    customEmojis,
+    items: search.items.map(message => ({
+      ...message,
+      channel: find(channels, {id: message.channelId})
+    }))
+  })
 )
 
 export const messageSearchSelector = createSelector(
@@ -201,18 +189,14 @@ export const messageSearchSelector = createSelector(
 
 export const messageSearchWithChannels = createSelector(
   [messageSearchSelector, channelsSelector, orgSelector],
-  (search, channels, {customEmojis}) => {
-    return {
-      ...search,
-      customEmojis,
-      items: search.items.map(message => {
-        return {
-          ...message,
-          channel: find(channels, {id: message.channelId})
-        }
-      })
-    }
-  }
+  (search, channels, {customEmojis}) => ({
+    ...search,
+    customEmojis,
+    items: search.items.map(message => ({
+      ...message,
+      channel: find(channels, {id: message.channelId})
+    }))
+  })
 )
 
 export const intercomSelector = createSelector(
@@ -231,42 +215,41 @@ export const newConversationSelector = createSelector(
   state => state.newConversation, state => state
 )
 
+export const inviteToOrgSelector = createSelector(
+  state => state.inviteToOrg, state => state
+)
+
 export const createRoomErrorSelector = createSelector(
   state => state.createRoomError, state => state
 )
 
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
-  ({alerts}, channel) => {
-    return {alerts, channel}
-  }
+  ({alerts}, channel) => ({alerts, channel})
 )
 
 export const unreadChannelsSelector = createSelector(
   [joinedRoomsSelector, activePmsSelector, channelSelector],
-  (rooms, pms, channel) => {
-    const channelName = channel.name || channel.users && channel.users[0].displayName
-    return {
-      amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
-      channelName
-    }
-  }
+  (rooms, pms, channel) => ({
+    amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
+    channelName: channel.name || channel.users && channel.users[0].displayName
+  })
 )
 
 export const unreadMentionsAmountSelector = createSelector(
   [joinedRoomsSelector, activePmsSelector],
-  (rooms, pms) => {
-    return rooms
+  (rooms, pms) => (
+    rooms
       .concat(pms)
       .filter(channel => channel.mentioned)
       .map(channel => channel.mentioned)
       .reduce((amount, mentions) => amount + mentions, 0)
-  }
+  )
 )
 
 export const isInviterSelector = createSelector(
   [orgSelector, userSelector],
-  ({inviterRole}, {role}) => role >= inviterRole
+  ({inviterRole}, {role}) => (role >= inviterRole)
 )
 
 export const newConversationDialog = createSelector(
@@ -287,46 +270,40 @@ export const inviteDialogSelector = createSelector(
     activeUsersWithLastPmSelector,
     isInviterSelector
   ],
-  (
-    channel,
-    inviteChannelMemebers,
-    allUsers,
-    isInviter
-  ) => {
-    return {
-      ...inviteChannelMemebers,
-      isInviter,
-      users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
-      channelType: channel.type
-    }
-  }
+  (channel, inviteChannelMemebers, allUsers, isInviter) => ({
+    ...inviteChannelMemebers,
+    isInviter,
+    users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
+    channelType: channel.type
+  })
+)
+
+export const inviteToOrgDialog = createSelector(
+  [inviteToOrgSelector, orgSelector, isInviterSelector],
+  (inviteToOrg, {id, features}, isInviter) => ({
+    ...inviteToOrg,
+    isInviter,
+    orgId: id,
+    showInviteLinkFeature: Boolean(features && features.inviteLink)
+  })
 )
 
 export const orgInfoSelector = createSelector(
-  [
-    orgSelector,
-    initialDataLoadingSelector,
-    userSelector
-  ],
-  (
-    org,
+  [orgSelector, initialDataLoadingSelector, userSelector],
+  (org, isLoading, {displayName: username}) => ({
+    ...org,
     isLoading,
-    {displayName: username}
-  ) => {
-    return {
-      ...org,
-      isLoading,
-      username
-    }
-  }
+    username
+  })
 )
 
 export const navigationPmsSelector = createSelector(
-  pmsSelector, pms => {
-    return pms.filter(pm => {
-      return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
-    })
-  }
+  [pmsSelector],
+  pms => (
+    pms.filter(pm => (
+      pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+    ))
+  )
 )
 
 function unixToIsoTimestamp(timestamp) {
@@ -368,18 +345,14 @@ export const navigationSelector = createSelector(
     channelSelector,
     initialDataLoadingSelector,
     roomsSelector,
-    activeUsersSelector
+    activeUsersSelector,
+    userSelector
   ],
-  (
-    joinedRooms,
-    pms,
-    channel,
-    isLoading,
-    allRooms,
-    users
-  ) => {
-    const all = allRooms.concat(usersAsPms(users))
-    const joined = joinedRooms.concat(pms)
+  (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
+    const all = [...allRooms, ...usersAsPms(users)]
+    const joined = [...joinedRooms, ...pms]
+    const unjoined = differenceBy(all, joined, 'slug')
+      .filter(({slug}) => slug !== user.slug)
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
@@ -389,22 +362,21 @@ export const navigationSelector = createSelector(
 
     return {
       joined,
+      unjoined,
       recent,
       favorited,
       isLoading,
-      channel,
-      unJoined: differenceBy(all, joined, 'slug')
+      channel
     }
   }
 )
 
 export const favoriteSelector = createSelector(
-  channelSelector, ({favorited, id}) => {
-    return {
-      favorited: Boolean(favorited),
-      id
-    }
-  }
+  channelSelector,
+  ({favorited, id}) => ({
+    favorited: Boolean(favorited),
+    id
+  })
 )
 
 export const supportSelector = createSelector(
@@ -426,21 +398,14 @@ export const sidebarComponentSelector = createSelector(
     supportSelector,
     userSelector
   ],
-  (
-    {show},
-    room,
-    pm,
-    files,
-    search,
-    mentions,
-    support,
-    user
-  ) => {
+  ({show}, room, pm, files, search, mentions, support, user) => {
     const select = {
       show,
       user
     }
+
     if (!show) return select
+
     const panels = {
       room,
       pm,
@@ -449,6 +414,7 @@ export const sidebarComponentSelector = createSelector(
       support,
       mentions: {...mentions, query: user.displayName}
     }
+
     return {...select, ...panels[show]}
   }
 )
@@ -469,10 +435,25 @@ export const historySelector = createSelector(
 
 export const historyComponentSelector = createSelector(
   [historySelector, orgSelector],
-  (history, {customEmojis}) => {
-    return {
-      ...omit(history, 'olderMessages', 'newerMessages'),
-      customEmojis
-    }
-  }
+  (history, {customEmojis}) => ({
+    ...omit(history, 'olderMessages', 'newerMessages'),
+    customEmojis
+  })
+)
+
+export const markdownTipsSelector = createSelector(
+  state => state.markdownTips, state => state
+)
+
+export const footerSelector = createSelector(
+  [typingNotificationSelector],
+  state => state
+)
+
+export const soundsSelector = createSelector(
+  state => state.sounds, state => state
+)
+
+export const toastNotificationSelector = createSelector(
+  state => state.toastNotification, state => state
 )

@@ -1,0 +1,1 @@
+export MarkdownTipsDialogProvider from './MarkdownTipsDialogProvider'

@@ -1,14 +1,13 @@
-import React, {Component, PropTypes} from 'react'
-
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
-
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
-import TagsInput from '../tags-input/TagsInput'
 import keyname from 'keyname'
 
-@useSheet(style)
-export default class FilterableList extends Component {
+import {styles} from './theme'
+import TagsInput from '../tags-input/TagsInput'
+
+@injectSheet(styles)
+export default class FilterableList extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     filterFocus: PropTypes.bool.isRequired,
@@ -44,12 +43,12 @@ export default class FilterableList extends Component {
     })
   }
 
-  onSelectItem(item) {
+  onSelectItem = (item) => {
     this.clearFilter()
     this.props.onSelect(item)
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     const {list} = this.refs
     switch (keyname(e.keyCode)) {
       case 'up':
@@ -70,7 +69,7 @@ export default class FilterableList extends Component {
     }
   }
 
-  onFocusItem(item) {
+  onFocusItem = (item) => {
     this.setState({
       focusedItem: item
     })
@@ -112,16 +111,16 @@ export default class FilterableList extends Component {
         className={this.props.listClassName}
         items={items}
         renderItem={renderItem}
-        onFocus={::this.onFocusItem}
-        onMouseOver={::this.onFocusItem}
-        onSelect={::this.onSelectItem}
+        onFocus={this.onFocusItem}
+        onMouseOver={this.onFocusItem}
+        onSelect={this.onSelectItem}
         focused={focusedItem} />
     )
   }
 
   render() {
     const {
-      sheet,
+      sheet: {classes},
       children,
       selected,
       filter,
@@ -134,7 +133,7 @@ export default class FilterableList extends Component {
     return (
       <div>
         <TagsInput
-          onKeyDown={::this.onKeyDown}
+          onKeyDown={this.onKeyDown}
           onChange={onChange}
           deleteTag={onRemoveSelected}
           list={selected}
@@ -142,10 +141,10 @@ export default class FilterableList extends Component {
           placeholder={placeholder}
           focused={this.shouldFocusFilter()}
           renderTag={renderSelected}
-          className={sheet.classes.filterArea} />
+          className={classes.filterArea} />
         {children}
         <div
-          className={sheet.classes.list}>
+          className={classes.list}>
           {this.renderList()}
         </div>
       </div>

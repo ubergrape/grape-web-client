@@ -6,6 +6,7 @@ export const styles = {
     textDecoration: 'none',
     color: link,
     '&:hover': {
+      isolate: false,
       textDecoration: 'none',
       color: color(link).lighten(0.2).hexString(),
       borderBottom: '1px solid'

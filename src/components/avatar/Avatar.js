@@ -1,12 +1,12 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import {defaultAvatar} from '../../constants/images'
-import styles from './styles'
+import {styles} from './theme'
 
-@useSheet(styles)
-export default class Avatar extends Component {
+@injectSheet(styles)
+export default class Avatar extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -24,8 +24,7 @@ export default class Avatar extends Component {
   }
 
   render() {
-    const {className, src, onClick, sheet, children} = this.props
-    const {classes} = sheet
+    const {className, src, onClick, sheet: {classes}, children} = this.props
     const style = {...this.props.style}
     if (src) style.backgroundImage = `url(${src})`
 

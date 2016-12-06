@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
 
-@useSheet(style)
-export default class Roomname extends Component {
+@injectSheet(style)
+export default class Roomname extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
@@ -26,10 +26,11 @@ export default class Roomname extends Component {
 
   render() {
     const {
-      name, sheet, icon, color: backgroundColor,
-      statusBorderColor, isPublic, showPrivateStatus
+      name, icon, color: backgroundColor,
+      statusBorderColor, isPublic, showPrivateStatus,
+      sheet: {classes}
     } = this.props
-    const {classes} = sheet
+
     return (
       <span className={classes.avatarName}>
         <Icon

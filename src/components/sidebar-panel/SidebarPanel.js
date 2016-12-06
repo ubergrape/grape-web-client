@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import {styles} from './theme'
 
 /**
  * Dialog has
@@ -10,8 +9,8 @@ import {useSheet} from 'grape-web/lib/jss'
  * - body
  * - positioned in the middle
  */
-@useSheet(style)
-export default class SidebarPanel extends Component {
+@injectSheet(styles)
+export default class SidebarPanel extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
@@ -19,8 +18,6 @@ export default class SidebarPanel extends Component {
     children: PropTypes.node,
     onClose: PropTypes.func.isRequired
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onClose() {
     this.props.onClose()

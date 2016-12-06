@@ -1,19 +1,20 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
+
 import {ActivityBubble as Bubble} from './Bubble'
 import Expander from './Expander'
 import DuplicatesBadge from './DuplicatesBadge'
-import {styles} from './activityMessageTheme'
+import Attachment from './Attachment'
+import {styles} from './baseMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
-@useSheet(styles)
-export default class ActivityMessage extends Component {
+@injectSheet(styles)
+export default class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -27,10 +28,6 @@ export default class ActivityMessage extends Component {
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
-    container: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired
-    }),
     user: PropTypes.object,
     isExpanded: PropTypes.bool
   }
@@ -42,28 +39,30 @@ export default class ActivityMessage extends Component {
     onToggleExpander: noop
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  }
-
   onToggleExpander = ({isExpanded}) => {
     this.props.onToggleExpander({id: this.props.id, isExpanded})
   }
 
+  renderAttachment = (attachment, key) => {
+    return <Attachment {...attachment} key={key} />
+  }
+
   render() {
     const {
-      sheet, user, author, time, avatar, container, title, children, duplicates,
-      isExpanded, hasBubbleArrow
+      sheet: {classes}, user, author, time, avatar, title, children, duplicates,
+      isExpanded, hasBubbleArrow, attachments
     } = this.props
-    const {classes} = sheet
 
     return (
       <div className={classes.message}>
         {author &&
-          <Header
-            time={time}
-            author={author.name}
-            className={classes.header} />
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <Header
+              time={time}
+              author={author.name}
+              className={classes.header} />
+          </div>
         }
         <div className={classes.row}>
           <div className={classes.avatarColumn}>
@@ -72,16 +71,9 @@ export default class ActivityMessage extends Component {
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
               <div className={classes.content}>
-                {container &&
-                  <a
-                    href={container.url}
-                    target="_blank"
-                    className={classes.container}>
-                    {container.name}
-                  </a>
-                }
                 <Grapedown text={title} user={user} />
                 <Grapedown text={children} user={user} />
+                {attachments.map(this.renderAttachment)}
               </div>
             </Expander>
           </Bubble>

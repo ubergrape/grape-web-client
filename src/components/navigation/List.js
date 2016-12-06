@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react'
+
 import Channel from './Channel'
 
 export default function List(props) {
   const {
-    theme,
+    theme: {classes},
     type,
     title,
     list,
@@ -12,20 +13,18 @@ export default function List(props) {
 
   if (!list.length) return null
 
-  const {classes} = theme
   return (
     <div className={classes.section}>
       <h2 className={`${classes.title} ${classes[type]}`}>{title}</h2>
       <div className={classes.list}>
-        {list.map(channel => {
-          return (
-            <Channel
-              {...props}
-              key={channel.type + channel.id}
-              onClick={() => goToChannel(channel)}
-              channel={channel} />
-          )
-        })}
+        {list.map(channel => (
+          <Channel
+            {...props}
+            key={channel.type + channel.id}
+            onClick={() => goToChannel(channel)}
+            channel={channel} />
+
+        ))}
       </div>
     </div>
   )

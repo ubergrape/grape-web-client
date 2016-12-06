@@ -1,13 +1,12 @@
-import React, {PropTypes, Component} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PropTypes, PureComponent} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import * as icons from 'grape-web/lib/svg-icons/data'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles, color} from './linkWithIconTheme'
 
-@useSheet(styles)
-export default class LinkWithIcon extends Component {
+@injectSheet(styles)
+export default class LinkWithIcon extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
@@ -20,18 +19,17 @@ export default class LinkWithIcon extends Component {
     icon: 'file'
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
+  getSvg() {
+    let {icon} = this.props
+    if (icon === 'default' || !icons[icon]) {
+      icon = this.constructor.defaultProps.icon
+    }
+    return getColoredIcon({name: icon, color})
   }
 
   render() {
-    const {url, name, sheet, icon, target} = this.props
-    const {classes} = sheet
-    const svg = getColoredIcon({
-      name: icons[icon] ? icon : this.constructor.defaultProps.icon,
-      color
-    })
-    const style = {backgroundImage: `url(${svg})`}
+    const {url, name, sheet: {classes}, target} = this.props
+    const style = {backgroundImage: `url(${this.getSvg()})`}
 
     return (
       <a href={url} target={target} className={classes.link}>

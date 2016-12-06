@@ -3,8 +3,8 @@
 var conf = require('conf');
 
 function staticurl(url) {
-    if (!conf.server.staticPath) return url;
-    return (conf.server.staticPath || '') + url;
+  const path = __STATIC_PATH__ || conf.server.staticPath;
+  return (path || '') + url;
 }
 
 module.exports = staticurl;

@@ -75,8 +75,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideMentions()
   }
 
-  showOrgInvite() {
-    this.emit('toggleOrgInvite')
+  showInviteToOrg() {
+    getBoundActions().showInviteToOrg()
   }
 
   showRoomInvite() {
@@ -101,6 +101,10 @@ class ReduxEmitter extends Emitter {
 
   hideAlert(type) {
     getBoundActions().hideAlertByType(type)
+  }
+
+  showToastNotification(message, options) {
+    getBoundActions().showToastNotification(message, options)
   }
 
   enableNotifications() {

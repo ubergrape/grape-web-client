@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 
 import Alert from './Alert'
 import TextAlert from './TextAlert'
@@ -7,11 +7,11 @@ import ConnectionLostAlert from './ConnectionLostAlert'
 
 import * as types from '../../constants/alerts'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './alertsStyle'
 
-@useSheet(style)
-export default class Alerts extends Component {
+@injectSheet(style)
+export default class Alerts extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     alerts: PropTypes.array,
@@ -42,27 +42,24 @@ export default class Alerts extends Component {
   }
 
   render() {
-    const {alerts, hideAlert} = this.props
+    const {alerts, hideAlert, sheet: {classes}} = this.props
+
     if (!alerts.length) return false
 
-    const {classes} = this.props.sheet
     return (
-      <ul
-        className={classes.alerts}>
-        {alerts.map((alert, i) => {
-          return (
-            <li
-              className={`${classes.alert} ${classes[alert.level]}`}
-              key={i}>
-              <Alert
-                key={i}
-                closeAfter={alert.closeAfter}
-                onCloseAfter={hideAlert.bind(null, alert)}>
-                {this.renderAlertContent(alert)}
-              </Alert>
-            </li>
-          )
-        })}
+      <ul className={classes.alerts}>
+        {alerts.map((alert, i) => (
+          <li
+            className={`${classes.alert} ${classes[alert.level]}`}
+            key={i}>
+            <Alert
+              key={i}
+              closeAfter={alert.closeAfter}
+              onCloseAfter={/* TODO #120 */hideAlert.bind(null, alert)}>
+              {this.renderAlertContent(alert)}
+            </Alert>
+          </li>
+        ))}
       </ul>
     )
   }

@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, {PureComponent, PropTypes} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -7,9 +6,9 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import style from './sharedFilesStyle'
+import {styles} from './sharedFilesTheme'
 import SharedFile from './SharedFile'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import {ShowMore} from '../i18n/i18n'
@@ -21,9 +20,9 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(styles)
 @injectIntl
-export default class SharedFiles extends Component {
+export default class SharedFiles extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -44,8 +43,6 @@ export default class SharedFiles extends Component {
       this.props.total != null
     if (reset) this.load(nextProps)
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onLoadMore() {
     this.load()

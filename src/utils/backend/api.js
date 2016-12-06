@@ -1,8 +1,10 @@
 import request from 'superagent'
+
 import conf from 'conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
+import {sequenceToSettings, settingsToSequence} from './notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -375,6 +377,34 @@ export function readMessage(channelId, messageId) {
   })
 }
 
+export function getInviteToOrgLink(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'get_invite_url',
+      args: [orgId]
+    },
+    (err, link) => {
+      if (err) return reject(err)
+      resolve(link)
+    })
+  })
+}
+
+export function inviteToOrg(orgId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'invite',
+      args: [orgId, settings]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
 export function loadConfig() {
   return new Promise((resolve, reject) => {
     const {host, protocol, authToken} = conf.server
@@ -387,5 +417,31 @@ export function loadConfig() {
         if (err) return reject(err)
         resolve(res.body)
       })
+  })
+}
+
+export function setNotificationSetting(orgId, channelId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'update_settings',
+      args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
+    }, err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function getNotificationSettings(orgId, channelId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'get_settings',
+      args: [`${orgId}:${channelId}`]
+    }, (err, sequence) => {
+      if (err) return reject(err)
+      resolve(sequenceToSettings(sequence))
+    })
   })
 }

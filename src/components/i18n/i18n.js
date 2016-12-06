@@ -64,3 +64,11 @@ export function Description() {
       defaultMessage="Description" />
   )
 }
+
+export function Create() {
+  return (
+    <FormattedMessage
+      id="create"
+      defaultMessage="Create" />
+  )
+}

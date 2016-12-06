@@ -1,5 +1,6 @@
 import find from 'lodash/collection/find'
 import pluck from 'lodash/collection/pluck'
+import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 import staticUrl from 'staticurl'
@@ -82,11 +83,31 @@ export const normalizeMessage = (() => {
     }
   }
 
+  function createLinkToMessage(channel, messageId) {
+    const {protocol, host} = location
+    const {users} = channel
+    let {slug} = channel
+
+    if (channel.type === 'pm') {
+      slug = `${users[0].slug}/${users[1].slug}`
+    }
+
+    return `${protocol}//${host}/chat/${slug}/${messageId}`
+  }
+
+  function normalizeMentions(mentions) {
+    const nMentions = {...mentions}
+    each(nMentions, (values, type) => {
+      nMentions[type] = values.map(Number)
+    })
+    return nMentions
+  }
+
   function normalizeRegularMessage(msg, state) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, mentions, channel: channelId} = msg
+    const {id, text, channel: channelId} = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -109,10 +130,10 @@ export const normalizeMessage = (() => {
       avatar = defaultAvatar
     }
 
-    const channel = find(channels, {id: channelId})
-    const slug = channel.type === 'room' ? channel.slug : `${channel.slug}/${author.slug}`
-    const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
-    const attachments = msg.attachments.map(normalizeAttachment)
+    const link = createLinkToMessage(find(channels, {id: channelId}), id)
+    const attachments = (msg.attachments || []).map(normalizeAttachment)
+    const mentions = normalizeMentions(msg.mentions)
+
     return {
       type, id, text, time, userTime, author, link, avatar, attachments,
       mentions, channelId
@@ -122,7 +143,7 @@ export const normalizeMessage = (() => {
   const ignoreActivityObjects = ['issue', 'label', 'user']
 
   function normalizeActivityMessage(msg) {
-    const {id, channel} = msg
+    const {id, channel: channelId} = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
@@ -135,7 +156,7 @@ export const normalizeMessage = (() => {
     if (msg.objects) {
       const objectsText = msg.objects
         .filter(({visible, type: _type}) => {
-          if (visible === false || ignoreActivityObjects.indexOf(_type) !== -1) {
+          if (visible === false || ignoreActivityObjects.includes(_type)) {
             return false
           }
           return true
@@ -152,7 +173,9 @@ export const normalizeMessage = (() => {
       text += `\n${objectsText}`
     }
 
-    return {type, id, channel, text, time, author, avatar, attachments: []}
+    const attachments = (msg.attachments || []).map(normalizeAttachment)
+
+    return {type, id, channelId, text, time, author, avatar, attachments}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
@@ -163,7 +186,7 @@ export const normalizeMessage = (() => {
 
     return normalizeRegularMessage(msg, state)
   }
-}())
+})()
 
 export function filterEmptyMessage({text, attachments}) {
   return (text && text.trim().length !== 0) || !isEmpty(attachments)
@@ -195,6 +218,6 @@ export function countMentions(message, user, rooms) {
 
 export function roomNameFromUsers(users) {
   return users.map(user => user.displayName)
-  .join(', ')
-  .slice(0, maxChannelNameLength - 1)
+    .join(', ')
+    .slice(0, maxChannelNameLength - 1)
 }

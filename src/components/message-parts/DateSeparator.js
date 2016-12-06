@@ -1,39 +1,65 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
+import {defineMessages, injectIntl} from 'react-intl'
 import moment from 'moment'
-import {useSheet} from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './dateSeparatorTheme'
 
-@useSheet(styles)
-export default class DateSeparator extends Component {
+const messages = defineMessages({
+  today: {
+    id: 'dateSeparatorToday',
+    description: 'Date separator used in history, search, mentions etc.',
+    defaultMessage: 'Today, {date}'
+  },
+  yesterday: {
+    id: 'dateSeparatorYesterday',
+    description: 'Date separator used in history, search, mentions etc.',
+    defaultMessage: 'Yesterday, {date}'
+  }
+})
+
+function format({date, intl: {formatDate, formatMessage}}) {
+  const now = moment()
+  const isToday = moment(date).isSame(now, 'day')
+
+  const dateStr = formatDate(date, {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit'
+  })
+
+  if (isToday) return formatMessage(messages.today, {date: dateStr})
+
+  const isYesterday = moment(date).isSame(now.subtract(1, 'day'), 'day')
+
+  if (isYesterday) return formatMessage(messages.yesterday, {date: dateStr})
+
+  return dateStr
+}
+
+@injectSheet(styles)
+@injectIntl
+export default class DateSeparator extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date),
-    format: PropTypes.string,
     theme: PropTypes.object
   }
 
   static defaultProps = {
     date: new Date(),
-    format: 'MMM Do, YYYY',
     theme: {
       date: ''
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  }
-
   render() {
-    const {theme, date, format} = this.props
-    const {classes} = this.props.sheet
+    const {theme, sheet: {classes}} = this.props
 
     return (
       <div className={classes.separator}>
-        <span className={`${classes.date} ${theme.date}`} >
-          {moment(date).format(format)}
+        <span className={`${classes.date} ${theme.date}`}>
+          {format(this.props)}
         </span>
       </div>
     )

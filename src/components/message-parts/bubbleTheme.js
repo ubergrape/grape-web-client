@@ -16,8 +16,7 @@ export const styles = {
       height: 7,
       content: '""',
       transform: 'rotate(45deg) translateX(-50%)',
-      background: white,
-      zIndex: 1
+      background: white
     }
   },
   content: {

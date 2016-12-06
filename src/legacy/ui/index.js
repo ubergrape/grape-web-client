@@ -1,40 +1,49 @@
 let Emitter = require('emitter')
 let broker = require('broker')
 let qs = require('query')
-let notification = require('notification')
 let classes = require('classes')
 let staticurl = require('staticurl')
 let events = require('events')
 let notify = require('html5-desktop-notifications')
 let Introjs = require("intro.js").introJs
-let Clipboard = require('clipboard')
-let dropAnywhere = require('drop-anywhere')
-let timezone = require('./jstz')
-let focus = require('./focus')
-let pipeEvents = require('./pipeEvents')
-let page = require('page')
-let setUpRouter = require('../init-router')
-let template = require('template')
-let _ = require('t')
-let v = require('virtualdom')
+import Clipboard from 'clipboard';
+import dropAnywhere from 'drop-anywhere';
+import timezone from './jstz';
+import focus from './focus';
+import pipeEvents from './pipeEvents';
+import page from 'page';
+import setUpRouter from '../init-router';
+import template from 'template';
+import v from 'virtualdom';
 
-let exports = module.exports = UI
+import ItemList from './utils/itemlist';
+import OrganizationPopover from './elements/popovers/organization';
+import GrapeInput from './elements/GrapeInput';
+import FileUploader from './elements/fileuploader';
+import Notifications from './elements/notifications';
+import Dropzone from './elements/dropzone.js';
+import DeleteRoomDialog from './elements/dialogs/deleteroom';
+import RoomManager from './elements/dialogs/roommanager';
+import PMManager from './elements/dialogs/pmmanager';
+
 
 require("startswith")
 require("endswith")
 
-exports.ItemList = require('./utils/itemlist')
-let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
-let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let HistoryView = exports.HistoryView = require('./elements/historyview')
-let FileUploader = exports.FileUploader = require('./elements/fileuploader')
-let Notifications = exports.Notifications = require('./elements/notifications')
-let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
-let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
-let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
-let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
-let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
-let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
+
+let exports = module.exports = UI
+
+exports.ItemList = ItemList
+exports.OrganizationPopover = OrganizationPopover
+exports.GrapeInput = GrapeInput
+exports.FileUploader = FileUploader
+exports.Notifications = Notifications
+exports.Dropzone = Dropzone
+exports.DeleteRoomDialog = DeleteRoomDialog
+exports.RoomManager = RoomManager
+exports.PMManager = PMManager
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -65,37 +74,12 @@ UI.prototype.init = function UI_init() {
     name: "Loading"
   }
 
-  this.el = v.toDOM(template('index.jade'))
-
-  this.clientBody = qs('.client-body', this.el)
-
   this.organizationMenu = new OrganizationPopover()
 
   // initialize the input field
   this.grapeInput = new GrapeInput()
-  qs('.footer', this.el).appendChild(this.grapeInput.el)
 
   this.reduxEmitter = reduxEmitter
-
-  // initialize dialogs
-  this.markdownTips = new MarkdownTipsDialog().closable()
-
-  const chatWrapper = qs('.chat-wrapper', this.el)
-
-  const chat = qs('.chat', chatWrapper)
-
-  if (!this.options.detached) {
-    if (this.options.newHistory) {
-      chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
-    } else {
-      this.historyView = new HistoryView()
-      chat.parentNode.replaceChild(this.historyView.el, chat)
-    }
-  }
-
-  chatWrapper.appendChild(document.createElement('grape-typing-notification'))
-
-  chatWrapper.appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -150,16 +134,6 @@ UI.prototype.init = function UI_init() {
 
 UI.prototype.bind = function UI_bind() {
   pipeEvents(this)
-  let self = this
-
-  this.events = events(this.el, {
-    'closeNotificationsMessage': function() {
-      self.enableNotificationMessage.remove()
-    }
-  })
-
-  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
-
   this.room = null
 }
 
@@ -315,7 +289,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-  notification.error(err.message)
+  this.reduxEmitter.showToastNotification(err.message)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
@@ -327,17 +301,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
     room: room
   }).closable().overlay().show()
   broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
-}
-
-UI.prototype.onToggleOrgInvite = function () {
-  let invite = new OrgInvite().closable().overlay().show()
-  broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
-  broker(this, 'inviteError', invite, 'onInviteError')
-  broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
-}
-
-UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-  this.markdownTips.overlay().show()
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {

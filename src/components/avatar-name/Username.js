@@ -1,18 +1,16 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 
 import style from './userStyle'
 import Avatar from '../avatar/Avatar'
 
-function Status({theme, status, borderColor}) {
-  return (
-    <i
-      className={`${theme.status} ${theme[status]}`}
-      style={{borderColor}}>
-    </i>
-  )
-}
+const Status = ({theme, status, borderColor}) => (
+  <i
+    className={`${theme.status} ${theme[status]}`}
+    style={{borderColor}}>
+  </i>
+)
 
 Status.propTypes = {
   borderColor: PropTypes.string,
@@ -24,8 +22,8 @@ Status.defaultPros = {
   borderColor: white
 }
 
-@useSheet(style)
-export default class Username extends Component {
+@injectSheet(style)
+export default class Username extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
@@ -40,13 +38,13 @@ export default class Username extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
     const {
       name,
       avatar,
       showStatus,
       status,
-      statusBorderColor
+      statusBorderColor,
+      sheet: {classes}
     } = this.props
 
     return (

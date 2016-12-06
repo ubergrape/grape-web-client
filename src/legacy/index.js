@@ -2,8 +2,6 @@ import './templates'
 import './stylus/app.styl'
 import 'meyer-reset/index.css'
 import 'normalize.css/normalize.css'
-import 'notification/notification.css'
-import 'scrollbars/scrollbars.css'
 import 'dialog-component/dialog.css'
 import 'overlay-component/overlay.css'
 import 'image-zoom/dist/imagezoom.css'
@@ -24,11 +22,9 @@ export default function init() {
   window.ui = new Ui({
     messages: legacyTranslataions[conf.user.languageCode],
     languageCode: conf.user.languageCode,
-    newHistory: conf.newHistory,
     uploadPath: conf.server.uploadPath,
     organizationId: conf.organization.id
   })
-  document.body.appendChild(window.ui.el)
 
   // initialize the App
   window.api = new Api()
