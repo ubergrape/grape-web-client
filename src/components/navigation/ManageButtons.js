@@ -9,7 +9,7 @@ export default function ManageButtons(props) {
     filter,
     showChannelsManager,
     showNewConversation,
-    showPmManager
+    showManageContacts
   } = props
 
   if (filter) return null
@@ -30,7 +30,7 @@ export default function ManageButtons(props) {
       <li className={classes.manageItem} id="intro-step3">
         <button
           className={classes.contacts}
-          onClick={showPmManager}>
+          onClick={showManageContacts}>
             <Contacts />
         </button>
       </li>
@@ -49,6 +49,6 @@ ManageButtons.propTypes = {
   theme: PropTypes.object.isRequired,
   filter: PropTypes.string.isRequired,
   showChannelsManager: PropTypes.func.isRequired,
-  showPmManager: PropTypes.func.isRequired,
+  showManageContacts: PropTypes.func.isRequired,
   showNewConversation: PropTypes.func.isRequired
 }

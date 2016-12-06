@@ -1,10 +1,15 @@
 ## Next version
 
+### Chore changes
+
+* Manage Contacts / PM dialog rewrite
 * Fixed history icons
+
 
 ## Release 0.42.3 (2016-12-05)
 
 * Fixed activity message data normalization (#209)
+
 
 ## Release 0.42.2 (2016-12-05)
 
@@ -12,11 +17,13 @@
 
 * Make attachments field for activity message optional
 
+
 ## Release 0.42.1 (2016-12-02)
 
 #### New Features
 
 * Activity can now display attachments (#180)
+
 
 ## Release 0.41.0 (2016-11-01)
 

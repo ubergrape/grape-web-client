@@ -8,7 +8,7 @@ import Navigation from '../../components/navigation/Navigation'
 
 const actionNames = [
   'showChannelsManager',
-  'showPmManager',
+  'showManageContacts',
   'showNewConversation',
   'goToChannel',
   'focusGrapeInput'

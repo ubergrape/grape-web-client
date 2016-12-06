@@ -4,6 +4,7 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
+import sortBy from 'lodash/collection/sortBy'
 
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
@@ -15,6 +16,14 @@ export const usersSelector = createSelector(
 
 export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.active)
+)
+
+export const invitedUsersSlector = createSelector(
+  usersSelector, users => users.filter(user => user.isOnlyInvited)
+)
+
+export const deletedUsersSelector = createSelector(
+  usersSelector, users => users.filter(user => !user.active)
 )
 
 export const userSelector = createSelector(
@@ -89,6 +98,14 @@ export const activeUsersWithLastPmSelector = createSelector(
       pm: find(sortedPms, {slug: user.slug})
     }))
   }
+)
+
+export const invitedUsersWithPmSlector = createSelector(
+  invitedUsersSlector, users => users.filter(user => user.pm)
+)
+
+export const deletedUsersWithPmSelector = createSelector(
+  deletedUsersSelector, users => users.filter(user => user.pm)
 )
 
 export const orgSelector = createSelector(
@@ -456,4 +473,26 @@ export const soundsSelector = createSelector(
 
 export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
+)
+
+export const manageContactsSelector = createSelector(
+  [
+    state => state.manageContacts,
+    activeUsersSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
+  ],
+  ({show, activeFilter}, allActiveUsers, invitedUsers, deletedUsers) => {
+    const activeUsers = allActiveUsers.filter(user => !user.current)
+    const contacts = {
+      active: activeUsers,
+      invited: invitedUsers,
+      deleted: deletedUsers
+    }
+    const users = sortBy(contacts[activeFilter] || [], 'displayName')
+
+    return {
+      show,
+      activeFilter,
+      users
+    }
+  }
 )

@@ -51,7 +51,6 @@ export default function pipeEvents(ui) {
   broker(ui.organizationMenu, 'toggleOrgInvite', ui.reduxEmitter, 'showInviteToOrg')
 
   // channel search, naviation
-  broker(ui.reduxEmitter, 'triggerPMManager', ui, 'onTriggerPMManager')
   broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // room info
