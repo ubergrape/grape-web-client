@@ -67,17 +67,14 @@ export default class ManageContactsDialog extends PureComponent {
     ).isRequired
   }
 
-  onSelectContact = (() => {
+  onSelectContact = ({slug}) => {
     const {
       onHide,
       onSelectUser
     } = this.props
-
-    return (slug) => {
-      onHide()
-      onSelectUser(slug)
-    }
-  })()
+    onHide()
+    onSelectUser(slug)
+  }
 
   renderContactsList(users) {
     if (!users.length) {

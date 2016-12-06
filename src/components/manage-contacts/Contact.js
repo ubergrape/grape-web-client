@@ -20,7 +20,7 @@ export default class Contact extends PureComponent {
       user: {slug}
     } = this.props
 
-    onSelect(slug)
+    onSelect({slug})
   }
 
   render() {
@@ -31,7 +31,7 @@ export default class Contact extends PureComponent {
     const {displayName, avatar, status} = user
 
     return (
-      <div className={classes.item} onClick={this.onClick}>
+      <div className={classes.item} onClick={this.onClick} tabIndex="0">
         <Username
           name={displayName}
           avatar={avatar}
