@@ -19,15 +19,17 @@ export default class LinkWithIcon extends PureComponent {
     icon: 'file'
   }
 
+  getSvg() {
+    let {icon} = this.props
+    if (icon === 'default' || !icons[icon]) {
+      icon = this.constructor.defaultProps.icon
+    }
+    return getColoredIcon({name: icon, color})
+  }
+
   render() {
-    const {url, name, sheet, icon, target} = this.props
-    const {classes} = sheet
-    const defaultIcon = this.constructor.defaultProps.icon
-    const svg = getColoredIcon({
-      name: icon === 'default' || !icons[icon] ? defaultIcon : icons[icon],
-      color
-    })
-    const style = {backgroundImage: `url(${svg})`}
+    const {url, name, sheet: {classes}, target} = this.props
+    const style = {backgroundImage: `url(${this.getSvg()})`}
 
     return (
       <a href={url} target={target} className={classes.link}>

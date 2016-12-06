@@ -3,6 +3,12 @@
 ### Chore changes
 
 * Manage Contacts / PM dialog rewrite
+* Fixed history icons
+
+
+## Release 0.42.3 (2016-12-05)
+
+* Fixed activity message data normalization (#209)
 
 
 ## Release 0.42.2 (2016-12-05)
