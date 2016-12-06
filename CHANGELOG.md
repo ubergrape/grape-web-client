@@ -1,5 +1,7 @@
 ## Next version
 
+## Release 0.42.4 (2016-12-06)
+
 * Fixed history icons
 
 ## Release 0.42.3 (2016-12-05)
