@@ -23,6 +23,30 @@ import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
 import {FooterProvider} from '../../containers/footer'
 import {SoundsProvider} from '../../containers/sounds'
 import {ManageContactsDialogProvider} from '../../containers/manage-contacts'
+import {FileUploadProvider} from '../../containers/file-upload'
+
+const Aside = ({classes}) => (
+  <aside className={classes.aside}>
+    <OrgInfoProvider />
+    <NavigationProvider />
+  </aside>
+)
+
+const Main = ({classes}) => (
+  <main className={classes.main}>
+    <HeaderProvider />
+    <div className={classes.mainBody}>
+      <div className={classes.mainLeft}>
+        <AlertsProvider />
+        <div className={classes.historyWrapper}>
+          <HistoryProvider />
+        </div>
+        <FooterProvider />
+      </div>
+      <SidebarProvider className={classes.sidebar} />
+    </div>
+  </main>
+)
 
 @injectSheet(styles)
 export default class App extends PureComponent {
@@ -39,35 +63,22 @@ export default class App extends PureComponent {
 
     return (
       <IntlProvider locale={locale} messages={messages}>
-        <div className={classes.app}>
-          <aside className={classes.aside}>
-            <OrgInfoProvider />
-            <NavigationProvider />
-          </aside>
-          <main className={classes.main}>
-            <HeaderProvider />
-            <div className={classes.mainBody}>
-              <div className={classes.mainLeft}>
-                <AlertsProvider />
-                <div className={classes.historyWrapper}>
-                  <HistoryProvider />
-                </div>
-                <FooterProvider />
-              </div>
-              <SidebarProvider className={classes.sidebar} />
-            </div>
-          </main>
-          <BillingWarningProvider />
-          <ChannelMembersInviteProvider />
-          <NewConversationProvider />
-          <ManageContactsDialogProvider />
-          <InviteToOrgProvider />
-          <NotificationSettingsProvider />
-          <UnreadChannelsProvider />
-          <MarkdownTipsDialogProvider />
-          <SoundsProvider />
-          <ToastNotificationProvider />
-        </div>
+        <FileUploadProvider>
+          <div className={classes.app}>
+            <Aside classes={classes} />
+            <Main classes={classes} />
+            <BillingWarningProvider />
+            <ChannelMembersInviteProvider />
+            <NewConversationProvider />
+            <ManageContactsDialogProvider />
+            <InviteToOrgProvider />
+            <NotificationSettingsProvider />
+            <UnreadChannelsProvider />
+            <MarkdownTipsDialogProvider />
+            <SoundsProvider />
+            <ToastNotificationProvider />
+          </div>
+        </FileUploadProvider>
       </IntlProvider>
     )
   }

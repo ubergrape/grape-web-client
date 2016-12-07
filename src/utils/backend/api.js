@@ -349,7 +349,7 @@ export function removeMessage(channelId, messageId) {
   })
 }
 
-export function postMessage(channelId, text, options) {
+export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
@@ -444,4 +444,13 @@ export function getNotificationSettings(orgId, channelId) {
       resolve(sequenceToSettings(sequence))
     })
   })
+}
+
+export function uploadFile(orgId, file) {
+  return request
+    .post(conf.server.uploadPath)
+    .field('organization', orgId)
+    .attach('file', file)
+    .accept('json')
+    .end()
 }

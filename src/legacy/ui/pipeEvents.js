@@ -16,8 +16,8 @@ export default function pipeEvents(ui) {
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
-  broker(ui, 'selectorganization', ui.upload, 'setOrganization')
-  broker(ui, 'uploadDragged', ui.upload, 'doUpload')
+  //broker(ui, 'selectorganization', ui.upload, 'setOrganization')
+  //broker(ui, 'uploadDragged', ui.upload, 'doUpload')
   broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady')
   broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
   broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
@@ -40,11 +40,11 @@ export default function pipeEvents(ui) {
   broker(ui.reduxEmitter, 'enableNotifications', ui, 'requestPermission')
 
   // file upload
-  broker(ui.upload, 'uploading', ui, 'onUploading')
-  broker(ui.upload, 'uploaded', ui, 'onUploaded')
+  //broker(ui.upload, 'uploading', ui, 'onUploading')
+  //broker(ui.upload, 'uploaded', ui, 'onUploaded')
 
   // clipboard
-  broker(ui.clipboard, 'upload', ui.upload, 'doUpload')
+  //broker(ui.clipboard, 'upload', ui.upload, 'doUpload')
 
   // organization popover
   broker.pass(ui.organizationMenu, 'editView', ui, 'editView')

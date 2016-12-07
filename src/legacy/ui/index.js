@@ -6,8 +6,8 @@ let staticurl = require('staticurl')
 let events = require('events')
 let notify = require('html5-desktop-notifications')
 let Introjs = require("intro.js").introJs
-import Clipboard from 'clipboard';
-import dropAnywhere from 'drop-anywhere';
+// import Clipboard from 'clipboard';
+// import dropAnywhere from 'drop-anywhere';
 import timezone from './jstz';
 import focus from './focus';
 import pipeEvents from './pipeEvents';
@@ -21,7 +21,7 @@ import OrganizationPopover from './elements/popovers/organization';
 import GrapeInput from './elements/GrapeInput';
 import FileUploader from './elements/fileuploader';
 import Notifications from './elements/notifications';
-import Dropzone from './elements/dropzone.js';
+// import Dropzone from './elements/dropzone.js';
 import DeleteRoomDialog from './elements/dialogs/deleteroom';
 import RoomManager from './elements/dialogs/roommanager';
 
@@ -39,7 +39,7 @@ exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
 exports.FileUploader = FileUploader
 exports.Notifications = Notifications
-exports.Dropzone = Dropzone
+//exports.Dropzone = Dropzone
 exports.DeleteRoomDialog = DeleteRoomDialog
 exports.RoomManager = RoomManager
 
@@ -79,29 +79,29 @@ UI.prototype.init = function UI_init() {
 
   this.reduxEmitter = reduxEmitter
 
-  this.upload = new FileUploader(this.options.uploadPath)
-  let uploadContainer = qs('.uploader', this.grapeInput.el)
-  uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
+  //this.upload = new FileUploader(this.options.uploadPath)
+  //let uploadContainer = qs('.uploader', this.grapeInput.el)
+  //uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
 
-  this.clipboard = new Clipboard(window)
+  //this.clipboard = new Clipboard(window)
 
   // on paste, check if the pasted item is a blob object -image-,
   // then emit an upload event to the broker to call the uploader
-  this.clipboard.on('paste', function (e) {
-    if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
-  })
+  //this.clipboard.on('paste', function (e) {
+  //  if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
+  //})
 
   // initialize dragAndDrop
   // receive the dragged items and emit
   // an event to the uploader to upload them
   let self = this
   if (!this.options.detached) {
-    this.dropzone = new Dropzone()
-    this.dragAndDrop = dropAnywhere(function (e) {
-      e.items.forEach(function (item) {
-        self.emit('uploadDragged', item)
-      })
-    }, this.dropzone.el)
+    // this.dropzone = new Dropzone()
+    // this.dragAndDrop = dropAnywhere(function (e) {
+    //   e.items.forEach(function (item) {
+    //     self.emit('uploadDragged', item)
+    //   })
+    // }, this.dropzone.el)
   }
   // initialize notifications
   this.notifications = new Notifications()
@@ -315,10 +315,10 @@ UI.prototype.onUploading = function () {
   this.uploadRoom = this.room
 }
 
-UI.prototype.onUploaded = function (attachment) {
-  this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
-  this.upload.hide()
-}
+//UI.prototype.onUploaded = function (attachment) {
+//  this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
+//  this.upload.hide()
+//}
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
   // TODO: need to be fixed before PR accepted!
