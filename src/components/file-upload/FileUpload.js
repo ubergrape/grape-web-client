@@ -16,7 +16,7 @@ export default class FileUpload extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state={
+    this.state = {
       isDragging: false
     }
   }
@@ -42,8 +42,8 @@ export default class FileUpload extends PureComponent {
 
     return (
       <Dropzone
-        disableClick={true}
-        disablePreview={true}
+        disableClick
+        disablePreview
         style={dropZoneStyle}
         onDrop={this.onDrop}
         onDragEnter={this.onDragEnter}

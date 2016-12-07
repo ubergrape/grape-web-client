@@ -4,7 +4,7 @@ import {orgSelector, channelSelector} from '../selectors'
 import {error} from './common'
 import {createMessage} from './history'
 
-function uploadFile({file}) {
+function uploadFile(file) {
   return (dispatch, getState) => {
     const state = getState()
     const org = orgSelector(state)
@@ -47,7 +47,7 @@ function uploadFile({file}) {
 export function uploadFiles({files}) {
   return dispatch => {
     files.forEach((file) => {
-      dispatch(uploadFile({file}))
+      dispatch(uploadFile(file))
     })
   }
 }

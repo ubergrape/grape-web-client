@@ -32,6 +32,10 @@ const Aside = ({classes}) => (
   </aside>
 )
 
+Aside.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
 const Main = ({classes}) => (
   <main className={classes.main}>
     <HeaderProvider />
@@ -47,6 +51,10 @@ const Main = ({classes}) => (
     </div>
   </main>
 )
+
+Main.propTypes = {
+  classes: PropTypes.object.isRequired
+}
 
 @injectSheet(styles)
 export default class App extends PureComponent {

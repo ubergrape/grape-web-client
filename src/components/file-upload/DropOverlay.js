@@ -7,7 +7,7 @@ import {styles} from './dropOverlayTheme'
 @injectSheet(styles)
 export default class DropOverlay extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    sheet: PropTypes.object.isRequired
   }
 
   render() {

@@ -38,7 +38,7 @@ export const styles = {
   image: {
     width: '50%'
   },
-  headline: {
+  headline: {
     extend: fonts.biggest,
     color: blue,
     textAlign: 'center'
