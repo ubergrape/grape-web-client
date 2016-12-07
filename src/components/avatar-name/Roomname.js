@@ -21,18 +21,20 @@ export default class Roomname extends PureComponent {
     statusBorderColor: '#fff',
     mentions: false,
     unread: 0,
-    showPrivateStatus: false
+    showPrivateStatus: false,
+    showRoomInfo: false
   }
 
   render() {
     const {
       name, icon, color: backgroundColor,
+      creatorUser, users, showRoomInfo,
       statusBorderColor, isPublic, showPrivateStatus,
       sheet: {classes}
     } = this.props
 
     return (
-      <span className={classes.avatarName}>
+      <div className={classes.avatarName}>
         <Icon
           name={icon}
           theme={{
@@ -41,10 +43,24 @@ export default class Roomname extends PureComponent {
           }}
           showPrivateStatus={showPrivateStatus}
           isPrivate={!isPublic} />
-        <span className={classes.name}>
-          {name}
-        </span>
-      </span>
+        <div className={classes.name}>
+          <div>{name}</div>
+          {showRoomInfo && (
+            <ul className={classes.info}>
+              <li className={classes.usersCount}>
+                <i className="mdi mdi-account-multiple"></i>
+                {users.length}
+              </li>
+              {creatorUser && (
+                <li className={classes.creator}>
+                  <i className="mdi mdi-account-box"></i>
+                  {creatorUser.displayName}
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+      </div>
     )
   }
 }

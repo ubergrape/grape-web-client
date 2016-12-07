@@ -17,7 +17,10 @@ export default class Dialog extends PureComponent {
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired,
-    title: PropTypes.string
+    title: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ])
   }
 
   render() {

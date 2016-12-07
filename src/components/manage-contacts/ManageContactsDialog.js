@@ -94,7 +94,7 @@ export default class ManageContactsDialog extends PureComponent {
     )
   }
 
-  renderFilterLink(filter) {
+  renderFilterLink({filter}) {
     const {
       activeFilter,
       intl: {formatMessage},
@@ -124,9 +124,9 @@ export default class ManageContactsDialog extends PureComponent {
         onHide={onHide}
         title={formatMessage(messages.dialogTitle)}>
         <TabsNav>
-          {this.renderFilterLink('active')}
-          {this.renderFilterLink('invited')}
-          {this.renderFilterLink('deleted')}
+          {this.renderFilterLink({filter: 'active'})}
+          {this.renderFilterLink({filter: 'invited'})}
+          {this.renderFilterLink({filter: 'deleted'})}
         </TabsNav>
         <div className={classes.container}>
           <p className={classes.message}>{formatMessage(messages[`info${capitalize(activeFilter)}`])}</p>
