@@ -8,10 +8,9 @@ import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
 import * as translations from '../i18n'
-import subscribe from './subscribe'
 import {create as createClient} from '../utils/backend/client'
-
-import {App} from '../components/app'
+import subscribe from './subscribe'
+import App from './App'
 
 const {languageCode: locale, email, username, id: userId} = user
 const messages = translations[locale]
