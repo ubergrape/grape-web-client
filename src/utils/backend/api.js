@@ -450,7 +450,7 @@ export function uploadFile(orgId, file) {
   return request
     .post(conf.server.uploadPath)
     .field('organization', orgId)
-    .attach('file', file)
+    .attach('file', file, file.name)
     .accept('json')
     .end()
 }

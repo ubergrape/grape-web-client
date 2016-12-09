@@ -1,7 +1,8 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './theme'
+import Controls from './Controls'
+import {styles} from './footerTheme'
 import {Link as MarkdownTipsLink} from '../markdown-tips'
 import {TypingNotification} from '../typing-notification'
 
@@ -10,7 +11,7 @@ import {TypingNotification} from '../typing-notification'
 @injectSheet(styles)
 export default class Footer extends PureComponent {
   componentDidMount() {
-    this.footer.appendChild(window.ui.grapeInput.el)
+    this.inputWithControls.insertBefore(window.ui.grapeInput.el, this.inputWithControls.firstChild)
   }
 
   static propTypes = {
@@ -23,7 +24,7 @@ export default class Footer extends PureComponent {
   }
 
   onRef = (ref) => {
-    this.footer = ref
+    this.inputWithControls = ref
   }
 
   render() {
@@ -39,7 +40,6 @@ export default class Footer extends PureComponent {
     return (
       <footer
         className={classes.footer}
-        ref={this.onRef}
         id="intro-stepOne"
         data-step="1"
         data-topic="grape input">
@@ -50,6 +50,9 @@ export default class Footer extends PureComponent {
           cleanupTyping={cleanupTyping} />
         <div className={classes.markdownTips}>
           <MarkdownTipsLink onClick={showMarkdownTips} />
+        </div>
+        <div className={classes.inputWithControls} ref={this.onRef}>
+          <Controls />
         </div>
       </footer>
     )

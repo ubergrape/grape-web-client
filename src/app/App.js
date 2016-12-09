@@ -53,7 +53,7 @@ const Globals = () => (
 export default class App extends PureComponent {
   static propTypes = {
     locale: PropTypes.string.isRequired,
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.object.isRequired
   }
 
   render() {

@@ -51,6 +51,10 @@ class ReduxEmitter extends Emitter {
     getBoundActions().createMessage({channelId: id, text, ...options})
   }
 
+  selectFiles() {
+    getBoundActions().selectFiles()
+  }
+
   onShowSharedFiles() {
     getBoundActions().showSharedFiles()
   }

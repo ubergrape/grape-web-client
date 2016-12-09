@@ -116,6 +116,7 @@ export default class GrapeInput extends Emitter {
 
   bindEvents() {
     this.events = events(this.el, this)
+    this.events.bind('click .js-upload-button', 'onUpload')
     this.events.bind('click .js-emoji-browser-button', 'onToggleEmojiBrowser')
     this.events.bind('click .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
@@ -498,6 +499,10 @@ export default class GrapeInput extends Emitter {
 
   onResize() {
     this.emit('resize')
+  }
+
+  onUpload() {
+    this.emit('selectFiles')
   }
 
   onToggleEmojiBrowser(e) {

@@ -34,6 +34,7 @@ export default function pipeEvents(ui) {
   broker(ui.grapeInput, 'editPreviousMessage', ui.reduxEmitter, 'onEditPreviousMessage')
   broker(ui.reduxEmitter, 'editMessage', ui.grapeInput, 'onEditMessage')
   broker(ui.grapeInput, 'input', ui.reduxEmitter, 'createMessage')
+  broker(ui.grapeInput, 'selectFiles', ui.reduxEmitter, 'selectFiles')
 
   // notifications
   broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')

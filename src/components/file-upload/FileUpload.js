@@ -1,7 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react'
 import Dropzone from 'react-dropzone'
+import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 import DropOverlay from './DropOverlay'
+import {getFilesFromClipboard} from './utils'
 
 export default class FileUpload extends PureComponent {
   static propTypes = {
@@ -33,6 +35,13 @@ export default class FileUpload extends PureComponent {
     this.props.onUpload({files})
   }
 
+  onPaste = ({clipboardData}) => {
+    getFilesFromClipboard(clipboardData)
+      .then(files => {
+        if (files.length) this.props.onUpload({files})
+      })
+  }
+
   render() {
     const {
       children,
@@ -50,6 +59,7 @@ export default class FileUpload extends PureComponent {
         onDropAccepted={this.onDropAccepted}>
         {children}
         {isDragging && <DropOverlay />}
+        <GlobalEvent event="paste" handler={this.onPaste} />
       </Dropzone>
     )
   }

@@ -19,5 +19,12 @@ export const styles = {
     padding: [3, 10],
     position: 'absolute',
     right: -10
+  },
+  inputWithControls: {
+    display: 'flex',
+    alignItems: 'center',
+    '&:last-child': {
+      marginRight: -8
+    }
   }
 }
