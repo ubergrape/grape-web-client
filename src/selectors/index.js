@@ -122,12 +122,7 @@ export const typingChannelsSelector = createSelector(
 
 export const typingNotificationSelector = createSelector(
   [typingChannelsSelector, channelSelector],
-  (typingNotification, channel) => {
-    return {
-      channel,
-      channels: typingNotification
-    }
-  }
+  (channels, channel) => ({channels, channel})
 )
 
 export const setTypingSelector = createSelector(
@@ -463,8 +458,12 @@ export const markdownTipsSelector = createSelector(
 )
 
 export const footerSelector = createSelector(
-  [typingNotificationSelector],
-  state => state
+  state => state.footer, state => state
+)
+
+export const footerComponentSelector = createSelector(
+  [typingNotificationSelector, footerSelector],
+  (typingNotification, footer) => ({...typingNotification, ...footer})
 )
 
 export const soundsSelector = createSelector(

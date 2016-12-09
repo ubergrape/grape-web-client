@@ -244,6 +244,9 @@ export function editMessage(message) {
   }
 }
 
+export function endEditMessage() {
+  return {type: types.END_EDIT_MESSAGE}
+}
 
 export function editPreviousMessage() {
   return (dispatch, getState) => {

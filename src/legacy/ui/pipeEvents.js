@@ -31,6 +31,7 @@ export default function pipeEvents(ui) {
   broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate')
   broker(ui.grapeInput, 'editPreviousMessage', ui.reduxEmitter, 'onEditPreviousMessage')
   broker(ui.grapeInput, 'input', ui.reduxEmitter, 'createMessage')
+  broker(ui.grapeInput, 'endEditMessage', ui.reduxEmitter, 'endEditMessage')
   broker(ui.reduxEmitter, 'editMessage', ui.grapeInput, 'onEditMessage')
   broker(ui.reduxEmitter, 'showEmojiBrowser', ui.grapeInput, 'onShowEmojiBrowser')
   broker(ui.reduxEmitter, 'showGrapeBrowser', ui.grapeInput, 'onShowGrapeSearch')

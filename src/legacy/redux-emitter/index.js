@@ -47,6 +47,10 @@ class ReduxEmitter extends Emitter {
     this.emit('editMessage', msg)
   }
 
+  endEditMessage() {
+    getBoundActions().endEditMessage()
+  }
+
   showEmojiBrowser() {
     this.emit('showEmojiBrowser')
   }

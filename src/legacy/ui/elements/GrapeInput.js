@@ -299,6 +299,7 @@ export default class GrapeInput extends Emitter {
     if (!this.previous) return
     this.el.classList.remove('editing-previous')
     this.input.setTextContent('')
+    this.emit('endEditMessage')
     this.previous = null
   }
 

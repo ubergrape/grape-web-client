@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
-import {footerSelector as selector} from '../../selectors'
+import {footerComponentSelector as selector} from '../../selectors'
 import {Footer} from '../../components/footer'
 
 const actionNames = {

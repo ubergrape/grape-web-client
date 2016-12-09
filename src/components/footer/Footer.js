@@ -19,7 +19,8 @@ export default class Footer extends PureComponent {
     onShowMarkdownTips: PropTypes.func.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    cleanupTyping: PropTypes.func.isRequired
+    cleanupTyping: PropTypes.func.isRequired,
+    isHighlighted: PropTypes.bool.isRequired
   }
 
   onRef = (ref) => {
@@ -32,6 +33,7 @@ export default class Footer extends PureComponent {
       channels,
       channel,
       cleanupTyping,
+      isHighlighted,
       onShowMarkdownTips,
       onUpload,
       onShowEmojiBrowser,
@@ -41,7 +43,7 @@ export default class Footer extends PureComponent {
 
     return (
       <footer
-        className={classes.footer}
+        className={`${classes.footer} ${isHighlighted ? classes.highlighted : ''}`}
         id="intro-stepOne"
         data-step="1"
         data-topic="grape input">
