@@ -27,6 +27,13 @@ export default function reduce(state = initialState, action) {
           notification => notification.key !== payload.key
         )
       }
+    case types.UPDATE_TOAST_NOTIFICATION:
+      return {
+        ...state,
+        notifications: state.notifications.map(notification => (
+          notification.key === payload.key ? {...notification, ...payload} : notification
+        ))
+      }
     default:
       return state
   }

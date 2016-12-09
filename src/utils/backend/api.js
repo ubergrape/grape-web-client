@@ -452,5 +452,4 @@ export function uploadFile(orgId, file) {
     .field('organization', orgId)
     .attach('file', file, file.name)
     .accept('json')
-    .end()
 }

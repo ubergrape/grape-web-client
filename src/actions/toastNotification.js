@@ -7,8 +7,8 @@ export function showToastNotification(message, options = {}) {
   return {
     type: types.SHOW_TOAST_NOTIFICATION,
     payload: {
-      message,
       key,
+      message,
       ...options
     }
   }
@@ -19,6 +19,17 @@ export function hideToastNotification({key}) {
     type: types.HIDE_TOAST_NOTIFICATION,
     payload: {
       key
+    }
+  }
+}
+
+export function updateToastNotification(key, message, options = {}) {
+  return {
+    type: types.UPDATE_TOAST_NOTIFICATION,
+    payload: {
+      key,
+      message,
+      ...options
     }
   }
 }

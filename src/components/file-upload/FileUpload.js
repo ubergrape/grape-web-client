@@ -29,7 +29,7 @@ export default class FileUpload extends PureComponent {
     this.setState({isDragging: true})
   }
 
-  onDrop = () => {
+  onDragDone = () => {
     this.setState({isDragging: false})
   }
 
@@ -62,8 +62,9 @@ export default class FileUpload extends PureComponent {
         disableClick
         disablePreview
         style={dropZoneStyle}
-        onDrop={this.onDrop}
+        onDrop={this.onDragDone}
         onDragEnter={this.onDragEnter}
+        onDragLeave={this.onDragDone}
         onDropAccepted={this.onAccept}
         onDropRejected={this.onReject}
         maxSize={maxSize}>

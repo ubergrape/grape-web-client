@@ -31,7 +31,10 @@ export default class ToastNotification extends PureComponent {
   }
 
   static propTypes = {
-    dismissAfter: PropTypes.number.isRequired,
+    dismissAfter: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired,
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func
   }
