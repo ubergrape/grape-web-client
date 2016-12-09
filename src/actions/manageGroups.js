@@ -15,8 +15,6 @@ export function hideManageGroups() {
 export function setManageGroupsFilter(filter) {
   return {
     type: types.SET_MANAGE_GROUPS_FILTER,
-    payload: {
-      filter
-    }
+    payload: filter
   }
 }

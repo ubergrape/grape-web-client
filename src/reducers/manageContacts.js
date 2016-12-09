@@ -18,10 +18,9 @@ export default function reducer(state = initialState, action) {
         show: false
       }
     case types.SET_MANAGE_CONTACTS_FILTER:
-      const {filter} = action.payload
       return {
         ...state,
-        activeFilter: filter
+        activeFilter: action.payload
       }
     default:
       return state

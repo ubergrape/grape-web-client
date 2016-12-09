@@ -4,7 +4,7 @@ import color from 'color'
 import button from './default'
 
 export default {
-  ...button,
+  extend: button,
   background: red,
   color: white,
   '&:hover, &:focus': {
