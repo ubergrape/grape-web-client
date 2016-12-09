@@ -7,23 +7,22 @@ const iconOptions = {
   iconOnly: true
 }
 
+export const padding = 8
+
 export const styles = {
   controls: {
     flexShrink: 0
   },
   attachment: {
-    composes: '$button',
-    extend: buttonIcon('paperclip', iconOptions)
+    extend: buttonIcon('paperclip', iconOptions),
+    padding
   },
   emoji: {
-    composes: '$button',
-    extend: buttonIcon('smileOpen', iconOptions)
+    extend: buttonIcon('smileOpen', iconOptions),
+    padding
   },
   search: {
-    composes: '$button',
-    extend: buttonIcon('hashtag', {...iconOptions, color: blue})
-  },
-  button: {
-    padding: 8
+    extend: buttonIcon('hashtag', {...iconOptions, color: blue}),
+    padding
   }
 }

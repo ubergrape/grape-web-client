@@ -116,9 +116,6 @@ export default class GrapeInput extends Emitter {
 
   bindEvents() {
     this.events = events(this.el, this)
-    this.events.bind('click .js-upload-button', 'onUpload')
-    this.events.bind('click .js-emoji-browser-button', 'onToggleEmojiBrowser')
-    this.events.bind('click .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
     this.events.bind('grapeLoadServicesResultsAmounts grape-input', 'onLoadServicesResultsAmounts')
@@ -501,13 +498,8 @@ export default class GrapeInput extends Emitter {
     this.emit('resize')
   }
 
-  onUpload() {
-    this.emit('selectFiles')
-  }
-
-  onToggleEmojiBrowser(e) {
-    e.preventDefault()
-    e.stopPropagation()
+  onShowEmojiBrowser() {
+    console.log(111, this.input.props.browser)
     if (this.input.props.browser === 'emoji') {
       this.closeBrowser()
       return
@@ -515,8 +507,7 @@ export default class GrapeInput extends Emitter {
     this.showEmojiBrowser({ignoreTrigger: true, setTrigger: true})
   }
 
-  onOpenSearchBrowser(e) {
-    e.preventDefault()
+  onShowGrapeSearch() {
     this.showSearchBrowser({value: '', setTrigger: true})
   }
 

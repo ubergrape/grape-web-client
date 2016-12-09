@@ -1,5 +1,6 @@
 import {borderDefault, chatBackground} from 'grape-theme/dist/web-colors'
 import {small} from 'grape-theme/dist/fonts'
+import {padding as buttonPadding} from './controlsTheme'
 
 export const styles = {
   footer: {
@@ -24,7 +25,7 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     '&:last-child': {
-      marginRight: -8
+      marginRight: -buttonPadding
     }
   }
 }

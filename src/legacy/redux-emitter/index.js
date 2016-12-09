@@ -47,12 +47,16 @@ class ReduxEmitter extends Emitter {
     this.emit('editMessage', msg)
   }
 
-  createMessage({id}, text, options) {
-    getBoundActions().createMessage({channelId: id, text, ...options})
+  showEmojiBrowser() {
+    this.emit('showEmojiBrowser')
   }
 
-  selectFiles() {
-    getBoundActions().selectFiles()
+  showGrapeBrowser() {
+    this.emit('showGrapeBrowser')
+  }
+
+  createMessage({id}, text, options) {
+    getBoundActions().createMessage({channelId: id, text, ...options})
   }
 
   onShowSharedFiles() {

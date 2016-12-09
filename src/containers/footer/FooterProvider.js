@@ -6,17 +6,18 @@ import getStore from '../../app/store'
 import {footerSelector as selector} from '../../selectors'
 import {Footer} from '../../components/footer'
 
-const actionNames = [
-  'setUsers',
-  'cleanupTyping',
-  'showMarkdownTips'
-]
+const actionNames = {
+  cleanupTyping: 'cleanupTyping',
+  showMarkdownTips: 'onShowMarkdownTips',
+  uploadFiles: 'onUpload',
+  showGrapeBrowser: 'onShowGrapeBrowser',
+  showEmojiBrowser: 'onShowEmojiBrowser'
+}
 
 const ConnectedFooter = connect(
   selector,
   mapActionsToProps(actionNames)
 )(Footer)
-
 
 export default class FooterProvider extends PureComponent {
   render() {

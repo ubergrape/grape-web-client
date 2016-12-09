@@ -16,10 +16,9 @@ export default class Footer extends PureComponent {
 
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    showMarkdownTips: PropTypes.func.isRequired,
+    onShowMarkdownTips: PropTypes.func.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    setUsers: PropTypes.func.isRequired,
     cleanupTyping: PropTypes.func.isRequired
   }
 
@@ -30,11 +29,13 @@ export default class Footer extends PureComponent {
   render() {
     const {
       sheet: {classes},
-      showMarkdownTips,
       channels,
       channel,
-      setUsers,
-      cleanupTyping
+      cleanupTyping,
+      onShowMarkdownTips,
+      onUpload,
+      onShowEmojiBrowser,
+      onShowGrapeBrowser
     } = this.props
 
     return (
@@ -46,13 +47,15 @@ export default class Footer extends PureComponent {
         <TypingNotification
           channels={channels}
           channel={channel}
-          setUsers={setUsers}
           cleanupTyping={cleanupTyping} />
         <div className={classes.markdownTips}>
-          <MarkdownTipsLink onClick={showMarkdownTips} />
+          <MarkdownTipsLink onClick={onShowMarkdownTips} />
         </div>
         <div className={classes.inputWithControls} ref={this.onRef}>
-          <Controls />
+          <Controls
+            onUpload={onUpload}
+            onShowEmojiBrowser={onShowEmojiBrowser}
+            onShowGrapeBrowser={onShowGrapeBrowser} />
         </div>
       </footer>
     )

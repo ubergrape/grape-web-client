@@ -51,7 +51,3 @@ export function uploadFiles({files}) {
     })
   }
 }
-
-export function selectFiles() {
-
-}
