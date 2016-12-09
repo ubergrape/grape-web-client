@@ -7,7 +7,8 @@ import getStore from '../../app/store'
 import {FileUpload} from '../../components/file-upload'
 
 const actionNames = {
-  uploadFiles: 'onUpload'
+  uploadFiles: 'onUpload',
+  rejectFiles: 'onReject'
 }
 
 const ConnectedFileUpload = connect(

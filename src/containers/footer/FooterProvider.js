@@ -10,6 +10,7 @@ const actionNames = {
   cleanupTyping: 'cleanupTyping',
   showMarkdownTips: 'onShowMarkdownTips',
   uploadFiles: 'onUpload',
+  rejectFiles: 'onRejectFiles',
   showGrapeBrowser: 'onShowGrapeBrowser',
   showEmojiBrowser: 'onShowEmojiBrowser'
 }

@@ -3,7 +3,9 @@ import Dropzone from 'react-dropzone'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 import DropOverlay from './DropOverlay'
-import {getFilesFromClipboard} from './utils'
+import FileTooBig from './FileTooBig'
+import {getFilesFromClipboard, findAcceptedAndRejected} from './utils'
+import {maxSize} from './constants'
 
 export default class FileUpload extends PureComponent {
   static propTypes = {
@@ -31,14 +33,20 @@ export default class FileUpload extends PureComponent {
     this.setState({isDragging: false})
   }
 
-  onDropAccepted = (files) => {
+  onAccept = (files) => {
     this.props.onUpload({files})
+  }
+
+  onReject = (files) => {
+    this.props.onReject({message: <FileTooBig files={files} />})
   }
 
   onPaste = ({clipboardData}) => {
     getFilesFromClipboard(clipboardData)
-      .then(files => {
-        if (files.length) this.props.onUpload({files})
+      .then(findAcceptedAndRejected)
+      .then(({accepted, rejected}) => {
+        if (accepted.length) this.onAccept(accepted)
+        if (rejected.length) this.onReject(rejected)
       })
   }
 
@@ -56,7 +64,9 @@ export default class FileUpload extends PureComponent {
         style={dropZoneStyle}
         onDrop={this.onDrop}
         onDragEnter={this.onDragEnter}
-        onDropAccepted={this.onDropAccepted}>
+        onDropAccepted={this.onAccept}
+        onDropRejected={this.onReject}
+        maxSize={maxSize}>
         {children}
         {isDragging && <DropOverlay />}
         <GlobalEvent event="paste" handler={this.onPaste} />

@@ -499,7 +499,6 @@ export default class GrapeInput extends Emitter {
   }
 
   onShowEmojiBrowser() {
-    console.log(111, this.input.props.browser)
     if (this.input.props.browser === 'emoji') {
       this.closeBrowser()
       return

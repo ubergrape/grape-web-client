@@ -35,7 +35,8 @@ export default class Footer extends PureComponent {
       onShowMarkdownTips,
       onUpload,
       onShowEmojiBrowser,
-      onShowGrapeBrowser
+      onShowGrapeBrowser,
+      onRejectFiles
     } = this.props
 
     return (
@@ -55,7 +56,8 @@ export default class Footer extends PureComponent {
           <Controls
             onUpload={onUpload}
             onShowEmojiBrowser={onShowEmojiBrowser}
-            onShowGrapeBrowser={onShowGrapeBrowser} />
+            onShowGrapeBrowser={onShowGrapeBrowser}
+            onRejectFiles={onRejectFiles} />
         </div>
       </footer>
     )

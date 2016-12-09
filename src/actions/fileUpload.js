@@ -3,6 +3,7 @@ import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector} from '../selectors'
 import {error} from './common'
 import {createMessage} from './history'
+import {showToastNotification} from './toastNotification'
 
 function uploadFile(file) {
   return (dispatch, getState) => {
@@ -21,7 +22,6 @@ function uploadFile(file) {
         console.log('progress', e)
       })
       .on('error', (err) => {
-        console.log('error', err)
         dispatch({
           type: types.HANDLE_FILE_UPLOAD_ERROR,
           payload: err
@@ -50,4 +50,8 @@ export function uploadFiles({files}) {
       dispatch(uploadFile(file))
     })
   }
+}
+
+export function rejectFiles({message}) {
+  return showToastNotification(message)
 }
