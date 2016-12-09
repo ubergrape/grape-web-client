@@ -48,12 +48,10 @@ export default class Roomname extends PureComponent {
           {showRoomInfo && (
             <ul className={classes.info}>
               <li className={classes.usersCount}>
-                <i className="mdi mdi-account-multiple"></i>
                 {users.length}
               </li>
               {creatorUser && (
                 <li className={classes.creator}>
-                  <i className="mdi mdi-account-box"></i>
                   {creatorUser.displayName}
                 </li>
               )}

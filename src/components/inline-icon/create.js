@@ -14,8 +14,10 @@ export default function create(name, options = {}) {
       backgroundSize: 'contain',
       content: '""',
       display: 'inline-block',
-      width: options.size || '1em',
-      height: options.size || '1em'
+      width: options.width || options.size || '1em',
+      height: options.height || options.size || '1em',
+      position: 'relative',
+      top: options.top || 'auto'
     }
   }
 
