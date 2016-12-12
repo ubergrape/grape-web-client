@@ -20,7 +20,7 @@ export const styles = {
     marginBottom: 4,
     padding: [3, 10],
     position: 'absolute',
-    right: -10
+    right: 10
   },
   inputWithControls: {
     display: 'flex',
