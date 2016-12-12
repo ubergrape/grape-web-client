@@ -4937,9 +4937,9 @@
       "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-4.2.0.tgz"
     },
     "react-notification": {
-      "version": "6.5.1",
+      "version": "6.5.2",
       "from": "react-notification@>=6.4.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/react-notification/-/react-notification-6.5.1.tgz"
+      "resolved": "https://registry.npmjs.org/react-notification/-/react-notification-6.5.2.tgz"
     },
     "react-overlays": {
       "version": "0.6.10",
