@@ -495,3 +495,7 @@ export const manageContactsSelector = createSelector(
     }
   }
 )
+
+export const fileUploadSelector = createSelector(
+  state => state.fileUpload, state => state
+)

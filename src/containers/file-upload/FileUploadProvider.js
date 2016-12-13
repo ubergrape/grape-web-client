@@ -8,7 +8,8 @@ import {FileUpload} from '../../components/file-upload'
 
 const actionNames = {
   uploadFiles: 'onUpload',
-  rejectFiles: 'onReject'
+  rejectFiles: 'onReject',
+  showUploadNotification: 'onNotify'
 }
 
 const ConnectedFileUpload = connect(
