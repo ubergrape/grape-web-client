@@ -47,11 +47,13 @@ export default class Roomname extends PureComponent {
           <div>{name}</div>
           {showRoomInfo && (
             <ul className={classes.info}>
-              <li className={classes.usersCount}>
+              <li>
+                <span className={classes.usersCountIcon} />
                 {users.length}
               </li>
               {creatorUser && (
                 <li className={classes.creator}>
+                  <span className={classes.creatorIcon} />
                   {creatorUser.displayName}
                 </li>
               )}

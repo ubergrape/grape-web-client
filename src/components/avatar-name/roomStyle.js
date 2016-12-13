@@ -4,14 +4,10 @@ import {smaller} from 'grape-theme/dist/fonts'
 import create from '../inline-icon/create'
 import style from './style'
 
-const createIcon = ({name, width}) => ([
-  create(name, {color: grayDark, width, top: '0.1em'}),
-  {
-    '&:before': {
-      marginRight: 5
-    }
-  }
-])
+const createIcon = ({name, width}) => ({
+  extend: create(name, {color: grayDark, width, top: '0.1em'}),
+  marginRight: 5
+})
 
 export default {
   ...style,
@@ -25,11 +21,9 @@ export default {
     extend: smaller,
     display: 'flex'
   },
-  usersCount: {
-    extend: createIcon({name: 'users', width: '1.4em'})
-  },
+  usersCountIcon: createIcon({name: 'users', width: '1.4em'}),
   creator: {
-    extend: createIcon({name: 'user'}),
     marginLeft: 10
-  }
+  },
+  creatorIcon: createIcon({name: 'user'})
 }
