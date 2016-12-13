@@ -124,13 +124,13 @@ export function joinChannel(channelId) {
   })
 }
 
-export function inviteToChannel(usernames, channelId) {
+export function inviteToChannel(emailAddresses, channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
         ns: 'channels',
         action: 'invite',
-        args: [channelId, usernames]
+        args: [channelId, emailAddresses]
       },
       err => {
         if (err) return reject(err)
