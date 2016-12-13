@@ -14,7 +14,6 @@ template.templates = {
   'dialogs/invite-form-content.jade': require('./dialogs/invite-form-content.jade'),
   'dialogs/menu.jade': require('./dialogs/menu.jade'),
   'dialogs/roomlist.jade': require('./dialogs/roomlist.jade'),
-  'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
   'dialogs/userlist.jade': require('./dialogs/userlist.jade'),
   'draganddrop.jade': require('./draganddrop.jade'),
   'fileuploader.jade': require('./fileuploader.jade'),

@@ -15,8 +15,6 @@ export function hideManageContacts() {
 export function setManageContactsFilter(filter) {
   return {
     type: types.SET_MANAGE_CONTACTS_FILTER,
-    payload: {
-      filter
-    }
+    payload: filter
   }
 }

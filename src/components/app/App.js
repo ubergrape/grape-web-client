@@ -23,6 +23,7 @@ import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
 import {FooterProvider} from '../../containers/footer'
 import {SoundsProvider} from '../../containers/sounds'
 import {ManageContactsDialogProvider} from '../../containers/manage-contacts'
+import {ManageGroupsDialogProvider} from '../../containers/manage-groups'
 
 @injectSheet(styles)
 export default class App extends PureComponent {
@@ -61,6 +62,7 @@ export default class App extends PureComponent {
           <ChannelMembersInviteProvider />
           <NewConversationProvider />
           <ManageContactsDialogProvider />
+          <ManageGroupsDialogProvider />
           <InviteToOrgProvider />
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />
