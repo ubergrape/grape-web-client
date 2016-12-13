@@ -87,7 +87,7 @@ export default class ChannelMembersInvite extends PureComponent {
     } = this.props
 
     if (!listed.length) return
-    if (channelType === 'room') inviteToChannel(listed.map({email} => email))
+    if (channelType === 'room') inviteToChannel(listed.map(({email}) => email))
     if (channelType === 'pm') createRoomFromPmAndInvite(listed)
 
     hideChannelMembersInvite()
