@@ -4,7 +4,8 @@ import {white} from 'grape-theme/dist/base-colors'
 export const styles = {
   bubble: {
     display: 'inline-block',
-    position: 'relative'
+    position: 'relative',
+    minWidth: 0
   },
   bubbleWithArrow: {
     extend: 'bubble',
