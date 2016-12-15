@@ -1,2 +1,2 @@
 // Max file size in bytes.
-export const maxSize = 5e6
+export const maxSize = 50e6
