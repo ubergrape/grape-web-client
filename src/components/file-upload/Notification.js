@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import LinearProgress from 'material-ui/progress/LinearProgress'
+import LinearProgress from 'material-ui/Progress/LinearProgress'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 import {FormattedMessage} from 'react-intl'
