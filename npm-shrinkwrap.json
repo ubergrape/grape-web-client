@@ -5011,9 +5011,9 @@
       }
     },
     "react-virtualized": {
-      "version": "8.8.1",
+      "version": "8.5.3",
       "from": "react-virtualized@>=8.1.1 <9.0.0",
-      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-8.8.1.tgz",
+      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-8.5.3.tgz",
       "dependencies": {
         "dom-helpers": {
           "version": "2.4.0",
