@@ -15,10 +15,10 @@ export const styles = {
     minWidth: 400
   },
   row: {
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'flex-start'
   },
   avatarColumn: {
-    verticalAlign: 'top',
     minWidth: 45
   },
   bubble: {
@@ -52,7 +52,7 @@ export const styles = {
       overflow: 'auto',
       wordBreak: 'initial',
       transform: 'translateZ(0)',
-      width: 500
+      maxWidth: '100%'
     }
   }
 }
