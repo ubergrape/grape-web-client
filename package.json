@@ -1,16 +1,18 @@
 {
   "name": "grape-web",
-  "version": "0.42.0",
+  "version": "0.43.0",
   "dependencies": {
-    "jss": "^5.5.6",
-    "jss-default-unit": "^4.1.4",
-    "jss-expand": "^1.6.0",
-    "jss-extend": "^2.0.6",
-    "jss-isolate": "^1.0.0",
-    "jss-props-sort": "^2.0.2",
-    "jss-vendor-prefixer": "^3.0.3",
-    "lodash": "^3.10.0",
-    "react-jss": "4.2.0"
+    "@ubergrape/material-ui": "^0.18.0-alpha",
+    "grape-theme": "^2.0.0",
+    "jss": "^6.0.1",
+    "jss-default-unit": "^5.0.0",
+    "jss-expand": "^2.0.1",
+    "jss-extend": "^3.0.0",
+    "jss-isolate": "^2.0.0",
+    "jss-props-sort": "^3.0.0",
+    "jss-vendor-prefixer": "^4.0.0",
+    "lodash": "^4.17.2",
+    "react-jss": "^5.0.0"
   },
   "devDependencies": {
     "babel": "^5.6.14",
