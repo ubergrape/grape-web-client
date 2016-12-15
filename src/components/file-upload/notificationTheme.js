@@ -1,6 +1,7 @@
 import fonts from 'grape-theme/dist/fonts'
 import {white, green, red} from 'grape-theme/dist/base-colors'
 import {LinearProgress} from 'grape-web/lib/mui-theme'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 import {verticalSpacing} from '../toast-notification'
 
@@ -42,6 +43,9 @@ export const styles = {
   progressCompleted: {
     height: textHeight
   },
+  progressErrored: {
+    height: textHeight * 2
+  },
   name: {
     extend: fonts.normal,
     color: white,
@@ -66,7 +70,7 @@ export const styles = {
     }
   },
   error: {
-    extend: fonts.normal,
+    extend: [ellipsis, fonts.normal],
     color: red
   }
 }

@@ -24,7 +24,8 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
   <div
     className={cn(
       classes.progress,
-      isComplete && classes.progressCompleted
+      isComplete && classes.progressCompleted,
+      error && classes.progressErrored
     )}>
     <div
       className={cn(
