@@ -103,7 +103,8 @@ module.exports = exports = {
       'resizable': 'jh3y-resizable',
       'upload': 'component-upload',
       'events': 'component-events',
-      'material-ui': '@ubergrape/material-ui'
+      'material-ui': '@ubergrape/material-ui',
+      'react-dropzone': '@ubergrape/react-dropzone'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
