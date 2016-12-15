@@ -2,7 +2,7 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
 
-import {FileTooBig, maxSize as maxFileSize} from '../file-upload'
+import {maxSize as maxFileSize} from '../file-upload'
 import {styles} from './controlsTheme'
 
 @injectSheet(styles)
@@ -20,7 +20,7 @@ export default class Controls extends PureComponent {
   }
 
   onRejectFiles = (files) => {
-    this.props.onRejectFiles({message: <FileTooBig files={files} />})
+    this.props.onRejectFiles({files})
   }
 
   onShowEmojiBrowser = (e) => {

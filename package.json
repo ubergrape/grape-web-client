@@ -13,6 +13,7 @@
     "babel-runtime": "^6.6.1",
     "backo": "^1.1.0",
     "broker": "Swatinem/broker#0.0.2",
+    "classnames": "^2.2.5",
     "color": "^0.10.1",
     "common-tags": "^1.4.0",
     "component-classes": "^1.2.3",

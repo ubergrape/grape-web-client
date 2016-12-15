@@ -3,11 +3,11 @@ import random from 'lodash/number/random'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector, toastNotificationSelector} from '../selectors'
-import {error} from './common'
 import {createMessage} from './history'
 import {
   showToastNotification,
-  updateToastNotification
+  updateToastNotification,
+  hideToastNotification
 } from './toastNotification'
 
 function uploadFile(file) {
@@ -19,7 +19,7 @@ function uploadFile(file) {
 
     dispatch({
       type: types.START_FILE_UPLOAD,
-      payload: {id}
+      payload: {id, name: file.name}
     })
 
     api
@@ -38,12 +38,12 @@ function uploadFile(file) {
           type: types.HANDLE_FILE_UPLOAD_ERROR,
           payload: {id, err}
         })
-        dispatch(error(err))
       })
-      .on('response', ({body: attachment}) => {
+      .on('response', (res) => {
+        if (res.error) return
         const message = createMessage({
           channelId: channel.id,
-          attachments: [attachment]
+          attachments: [res.body]
         })
         dispatch(message)
       })
@@ -65,20 +65,42 @@ export function uploadFiles({files}) {
   }
 }
 
-export function rejectFiles({message}) {
-  return showToastNotification(message)
-}
+const key = 'fileUploadsNotification'
 
-export function showUploadNotification({message, id}) {
+function showOrUpdateNotification(message, options) {
   return (dispatch, getState) => {
     const {notifications} = toastNotificationSelector(getState())
-    const notification = find(notifications, {key: id})
+    const notification = find(notifications, {key})
     if (notification) {
-      return dispatch(updateToastNotification(id, message))
+      return dispatch(updateToastNotification(key, message, options))
     }
     dispatch(showToastNotification(message, {
-      key: id,
+      ...options,
+      key,
       dismissAfter: false
     }))
+  }
+}
+
+export function rejectFiles({files}) {
+  return {
+    type: types.HANDLE_REJECTED_FILES,
+    payload: files.map(file => ({
+      id: random(10000),
+      name: file.name
+    }))
+  }
+}
+
+export function showUploadNotification({message, ...options}) {
+  return (dispatch) => {
+    dispatch(showOrUpdateNotification(message, options))
+  }
+}
+
+export function hideUploadNotification() {
+  return dispatch => {
+    dispatch(hideToastNotification({key}))
+    dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
   }
 }

@@ -1,6 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
 import {IntlProvider} from 'react-intl'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
@@ -63,21 +62,20 @@ export default class App extends PureComponent {
       messages
     } = this.props
 
+
     return (
-      <MuiThemeProvider>
-        <IntlProvider locale={locale} messages={messages}>
-          <FileUploadProvider>
-            <AppLayout
-              Aside={Aside}
-              Header={HeaderProvider}
-              Alerts={AlertsProvider}
-              History={HistoryProvider}
-              Footer={FooterProvider}
-              Sidebar={SidebarProvider}
-              Globals={Globals} />
-          </FileUploadProvider>
-        </IntlProvider>
-      </MuiThemeProvider>
+      <IntlProvider locale={locale} messages={messages}>
+        <FileUploadProvider>
+          <AppLayout
+            Aside={Aside}
+            Header={HeaderProvider}
+            Alerts={AlertsProvider}
+            History={HistoryProvider}
+            Footer={FooterProvider}
+            Sidebar={SidebarProvider}
+            Globals={Globals} />
+        </FileUploadProvider>
+      </IntlProvider>
     )
   }
 }

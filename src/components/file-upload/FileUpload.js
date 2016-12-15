@@ -3,8 +3,7 @@ import Dropzone from 'react-dropzone'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 import DropOverlay from './DropOverlay'
-import Progress from './Progress'
-import FileTooBig from './FileTooBig'
+import Notification from './Notification'
 import {getFilesFromClipboard, findAcceptedAndRejected} from './utils'
 import {maxSize} from './constants'
 
@@ -12,7 +11,7 @@ export default class FileUpload extends PureComponent {
   static propTypes = {
     dropZoneStyle: PropTypes.object.isRequired,
     onUpload: PropTypes.func.isRequired,
-    uploading: PropTypes.array.isRequired
+    uploads: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -40,7 +39,7 @@ export default class FileUpload extends PureComponent {
   }
 
   onReject = (files) => {
-    this.props.onReject({message: <FileTooBig files={files} />})
+    this.props.onReject({files})
   }
 
   onPaste = ({clipboardData}) => {
@@ -56,12 +55,11 @@ export default class FileUpload extends PureComponent {
     const {
       children,
       dropZoneStyle,
-      uploading,
-      onNotify
+      uploads,
+      onNotify,
+      onHideNotification
     } = this.props
     const {isDragging} = this.state
-
-    console.log('uploading', uploading)
 
     return (
       <Dropzone
@@ -77,9 +75,10 @@ export default class FileUpload extends PureComponent {
         {children}
         {isDragging && <DropOverlay />}
         <GlobalEvent event="paste" handler={this.onPaste} />
-        {uploading.map(upload => (
-          <Progress {...upload} onNotify={onNotify} key={upload.id} />)
-        )}
+        <Notification
+          uploads={uploads}
+          onNotify={onNotify}
+          onHideNotification={onHideNotification} />
       </Dropzone>
     )
   }

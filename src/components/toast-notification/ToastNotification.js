@@ -4,24 +4,28 @@ import {NotificationStack} from 'react-notification'
 import {inlineStyle} from 'grape-web/lib/jss'
 import {styles, verticalSpacing} from './theme'
 
-const activeBarStyleFactory = (index, style) => ({
-  ...style,
-  top: styles.bar.top + index * (styles.bar.height + verticalSpacing),
-  zIndex: 1
-})
+const activeBarStyleFactory = (index, style) => {
+  return ({
+    ...style,
+    top: styles.bar.top + index * (parseInt(style.height, 10) + verticalSpacing),
+    zIndex: 1
+  })}
 
 const barStyleFactory = (index, style) => style
 
 const styleNotification = (notification) => {
-  const {
-    activeBar: activeBarStyle,
-    bar: barStyle
-  } = styles
+  let {height} = notification
+  let {activeBar, bar} = styles
+
+  if (height == null) height = styles.bar.height
+
+  activeBar = {...activeBar, height}
+  bar = {...bar, height}
 
   return {
     ...notification,
-    activeBarStyle: inlineStyle(activeBarStyle),
-    barStyle: inlineStyle(barStyle)
+    activeBarStyle: inlineStyle(activeBar),
+    barStyle: inlineStyle(bar)
   }
 }
 
