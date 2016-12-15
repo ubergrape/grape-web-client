@@ -22,6 +22,8 @@
   "typeName": "Add contact...",
   "everyoneInvited": "Everyone has been invited to this group",
   "usersNotFoundFor": "No one found for",
+  "fileUploadTitle": "Uploading {uploading} of {total} Files",
+  "fileTooBig": "File exceeds size limit of {limit}Mb.",
   "imageWithDescr": "Image: [{description}]",
   "_imageWithDescr.comment": "**Used when rendered inline image from markdown with description.**",
   "imageWithoutDescr": "Image: [No Description]",

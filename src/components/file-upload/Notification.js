@@ -59,7 +59,13 @@ Upload.defaultProps = {
 const Message = ({uploads, handled, classes}) => (
   <div className={classes.message}>
     <h3 className={classes.title}>
-      Uploading {uploads.length - handled.length} of {uploads.length} Files
+      <FormattedMessage
+        id="fileUploadTitle"
+        defaultMessage="Uploading {uploading} of {total} Files"
+        values={{
+          uploading: uploads.length - handled.length,
+          total: uploads.length
+        }} />
     </h3>
     <div className={classes.list}>
       {uploads.map(upload => {
