@@ -1,8 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-const iconsWidth = 110
-
 const editableAndHighliter = {
   ...fonts.normal,
   minHeight: 38,
@@ -14,8 +12,7 @@ export default {
   container: {
     width: '100%',
     height: '100%',
-    minHeight: 38,
-    paddingRight: iconsWidth
+    minHeight: 38
   },
   editable: {
     extend: editableAndHighliter,
@@ -26,12 +23,6 @@ export default {
   },
   highlighter: {
     extend: editableAndHighliter,
-    // TODO
-    // Think of a better approach.
-    // Problem here is order of classes has less value than order of styles
-    // Which means that we either need to produce ready style sheets or add
-    // important tags.
-    right: `${iconsWidth}px !important`,
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word'
   },
