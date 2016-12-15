@@ -42,6 +42,9 @@ export bell from './svg/bell.svg'
 export bellOpen from './svg/bell-open.svg'
 export bellSlashOpen from './svg/bell-slash-open.svg'
 export lock from './svg/lock.svg'
+export paperclip from './svg/paperclip.svg'
+export smileOpen from './svg/smile-open.svg'
+export hashtag from './svg/hashtag.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'

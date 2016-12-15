@@ -23,5 +23,10 @@ module.exports = exports = {
         test: /\.json$/
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'material-ui': '@ubergrape/material-ui'
+    }
   }
 }
