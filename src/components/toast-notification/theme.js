@@ -5,7 +5,8 @@ import {height} from '../header'
 import {zIndex} from '../../utils/z-index'
 
 export const transitionDuration = 500
-export const verticalSpacing = 10
+
+const verticalSpacing = 10
 
 const barStyles = {
   position: 'relative',

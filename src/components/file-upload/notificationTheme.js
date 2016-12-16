@@ -1,9 +1,6 @@
 import fonts from 'grape-theme/dist/fonts'
 import {white, green, redLighter} from 'grape-theme/dist/base-colors'
-import {LinearProgress} from 'grape-web/lib/mui-theme'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-
-import {verticalSpacing} from '../toast-notification'
 
 export const styles = {
   title: {
