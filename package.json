@@ -1,9 +1,9 @@
 {
   "name": "grape-web",
-  "version": "0.43.0",
+  "version": "0.44.0",
   "dependencies": {
     "@ubergrape/material-ui": "^0.18.0-alpha",
-    "grape-theme": "^2.0.0",
+    "grape-theme": "2.x",
     "jss": "^6.0.1",
     "jss-default-unit": "^5.0.0",
     "jss-expand": "^2.0.1",
@@ -11,7 +11,7 @@
     "jss-isolate": "^2.0.0",
     "jss-props-sort": "^3.0.0",
     "jss-vendor-prefixer": "^4.0.0",
-    "lodash": "^4.17.2",
+    "lodash": "^3.10.0",
     "react-jss": "^5.0.0"
   },
   "devDependencies": {
