@@ -1,5 +1,5 @@
 import fonts from 'grape-theme/dist/fonts'
-import {white, green, redLighter} from 'grape-theme/dist/base-colors'
+import {white, green, red} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 export const styles = {
@@ -15,27 +15,23 @@ export const styles = {
     extend: fonts.normal,
     color: white,
     opacity: 0.7,
-    '&:after': {
-      content: '" \\2714"',
-      color: 'transparent'
-    }
+    display: 'flex',
+    alignItems: 'center'
   },
   nameCompleted: {
     opacity: 1,
-    color: green,
-    '&:after': {
-      color: green
-    }
+    color: green
   },
   nameErrored: {
-    color: redLighter,
-    '&:after': {
-      content: '" \\2718"',
-      color: redLighter
-    }
+    color: red
   },
   error: {
     extend: [ellipsis, fonts.normal],
-    color: redLighter
+    display: 'flex',
+    alignItems: 'center',
+    color: red
+  },
+  icon: {
+    marginLeft: 5
   }
 }

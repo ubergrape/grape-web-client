@@ -1,6 +1,8 @@
 import React, {PureComponent, PropTypes} from 'react'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
 import injectSheet from 'grape-web/lib/jss'
+import {green, red} from 'grape-theme/dist/base-colors'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 import {FormattedMessage} from 'react-intl'
 
@@ -30,6 +32,8 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
         error && classes.nameErrored
       )}>
       {truncate(name, 30)}
+      {isComplete && !error && <Icon name="check" color={green} className={classes.icon} />}
+      {error && <Icon name="remove" color={red} className={classes.icon} />}
     </div>
     {error && <div className={classes.error}>{error}</div>}
     {!isComplete && (
