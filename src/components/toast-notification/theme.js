@@ -2,20 +2,24 @@ import {white} from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import {height} from '../header'
+import {zIndex} from '../../utils/z-index'
 
 export const verticalSpacing = 10
 
 const barStyles = {
-  position: 'fixed',
-  top: height + verticalSpacing,
+  position: 'relative',
   right: '-100%',
+  top: 'auto',
   bottom: 'auto',
   left: 'auto',
-  width: 'auto',
-  minWidth: 250,
-  height: verticalSpacing * 4 + normal.fontSize,
+  width: '100%',
   padding: verticalSpacing * 2,
-  margin: 0,
+  margin: {
+    top: verticalSpacing,
+    right: 'auto',
+    bottom: 'auto',
+    left: verticalSpacing
+  },
   boxSizing: 'border-box',
   color: white,
   fontSize: normal.fontSize,
@@ -35,9 +39,17 @@ const barStyles = {
 }
 
 export const styles = {
+  container: {
+    position: 'fixed',
+    right: verticalSpacing,
+    top: height,
+    width: 300,
+    zIndex: zIndex('base')
+  },
   bar: barStyles,
   activeBar: {
     extend: barStyles,
-    right: verticalSpacing
+    right: 0,
+    marginLeft: 'auto'
   }
 }
