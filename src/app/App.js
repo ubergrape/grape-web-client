@@ -20,6 +20,7 @@ import {MarkdownTipsDialogProvider} from '../containers/markdown-tips'
 import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
 import {ManageContactsDialogProvider} from '../containers/manage-contacts'
+import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {FileUploadProvider} from '../containers/file-upload'
 
 import {AppLayout} from '../components/app-layout'
@@ -41,6 +42,7 @@ const Globals = () => (
     <ChannelMembersInviteProvider />
     <NewConversationProvider />
     <ManageContactsDialogProvider />
+    <ManageGroupsDialogProvider />
     <InviteToOrgProvider />
     <NotificationSettingsProvider />
     <UnreadChannelsProvider />

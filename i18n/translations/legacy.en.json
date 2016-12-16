@@ -53,9 +53,5 @@
   "{name} (Group Invite)": "{name} (Group Invite)",
   "Private message": "Private message",
   "[Image]": "[Image]",
-  "Please enter the name of the room you want to delete.": "Please enter the name of the group you want to delete.",
-  "Manage Groups": "Manage Groups",
-  "Create new group": "Create new group",
-  "Groups you can join": "Groups you can join",
-  "Groups you belong to": "Groups you belong to"
+  "Please enter the name of the room you want to delete.": "Please enter the name of the group you want to delete."
 }

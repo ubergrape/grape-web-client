@@ -499,3 +499,35 @@ export const manageContactsSelector = createSelector(
 export const fileUploadSelector = createSelector(
   state => state.fileUpload, state => state
 )
+
+export const manageGroupsSelector = createSelector(
+  [
+    state => state.manageGroups,
+    roomsSelector,
+    joinedRoomsSelector
+  ],
+  ({show, activeFilter}, allRooms, joinedRooms) => {
+    const unsorted = (
+      activeFilter === 'joined' ?
+        joinedRooms :
+        differenceBy(allRooms, joinedRooms, 'id')
+    )
+
+    const groups = sortBy(unsorted, 'name')
+      .map(group => {
+        const creatorUser = group.users.filter(
+          user => user.id === group.creator
+        )[0]
+        return {
+          ...group,
+          creatorUser
+        }
+      })
+
+    return {
+      show,
+      activeFilter,
+      groups
+    }
+  }
+)

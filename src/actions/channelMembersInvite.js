@@ -47,7 +47,7 @@ export function createRoomFromPmAndInvite(users) {
     const {id} = orgSelector(getState())
     const channel = channelSelector(getState())
     const newChannelUsers = [...channel.users, ...users]
-    const usernames = newChannelUsers.map(({username}) => username)
+    const emailAddresses = newChannelUsers.map(({email}) => email)
 
     const room = {
       name: roomNameFromUsers(newChannelUsers),
@@ -71,12 +71,12 @@ export function createRoomFromPmAndInvite(users) {
         }
       })
       .then(() => {
-        if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
+        if (newRoom) return api.inviteToChannel(emailAddresses, newRoom.id)
       })
       .then(() => {
         if (newRoom) {
           page(`/chat/${newRoom.slug}`)
-          dispatch(invitedToChannel(usernames, newRoom.id))
+          dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })
       .catch(err => dispatch(error(err)))

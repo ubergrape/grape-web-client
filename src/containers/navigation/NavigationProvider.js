@@ -7,9 +7,9 @@ import {navigationSelector as selector} from '../../selectors'
 import Navigation from '../../components/navigation/Navigation'
 
 const actionNames = [
-  'showChannelsManager',
-  'showManageContacts',
   'showNewConversation',
+  'showManageContacts',
+  'showManageGroups',
   'goToChannel',
   'focusGrapeInput'
 ]

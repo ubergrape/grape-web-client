@@ -15,12 +15,10 @@ import setUpRouter from '../init-router';
 import template from 'template';
 import v from 'virtualdom';
 
-import ItemList from './utils/itemlist';
 import OrganizationPopover from './elements/popovers/organization';
 import GrapeInput from './elements/GrapeInput';
 import Notifications from './elements/notifications';
 import DeleteRoomDialog from './elements/dialogs/deleteroom';
-import RoomManager from './elements/dialogs/roommanager';
 
 
 require("startswith")
@@ -31,13 +29,11 @@ const _ = require('t')
 
 let exports = module.exports = UI
 
-exports.ItemList = ItemList
 exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
 exports.Notifications = Notifications
 //exports.Dropzone = Dropzone
 exports.DeleteRoomDialog = DeleteRoomDialog
-exports.RoomManager = RoomManager
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -165,11 +161,11 @@ UI.prototype.renderIntro = function() {
   // intro
   this.intro.oncomplete(function () {
     self.emit('introend')
-    reduxEmitter.showChannelsManager()
+    reduxEmitter.showManageGroups()
   })
   this.intro.onexit(function () {
     self.emit('introend')
-    reduxEmitter.showChannelsManager()
+    reduxEmitter.showManageGroups()
   })
 }
 

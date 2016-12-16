@@ -135,8 +135,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideAlertByType(alerts.LOADING_HISTORY)
   }
 
-  showChannelsManager() {
-    this.emit('triggerRoomManager')
+  showManageGroups() {
+    getBoundActions().showManageGroups()
   }
 
   toggleOrgSettings(elem) {

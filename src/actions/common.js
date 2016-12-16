@@ -168,11 +168,11 @@ export function handleNotification(notification) {
   }
 }
 
-export function invitedToChannel(usernames, channelId) {
+export function invitedToChannel(emailAddresses, channelId) {
   return {
     type: types.INVITED_TO_CHANNEL,
     payload: {
-      usernames,
+      emailAddresses,
       channelId
     }
   }
@@ -193,12 +193,12 @@ export function joinChannel(options = {}) {
   }
 }
 
-export function inviteToChannel(usernames, options = {}) {
+export function inviteToChannel(emailAddresses, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
     return api
-      .inviteToChannel(usernames, id)
-      .then(() => dispatch(invitedToChannel(usernames, id)))
+      .inviteToChannel(emailAddresses, id)
+      .then(() => dispatch(invitedToChannel(emailAddresses, id)))
       .catch(err => dispatch(error(err)))
   }
 }
@@ -288,7 +288,7 @@ export function createRoomWithUsers(room, users) {
     dispatch(requestRoomCreate())
 
     const user = userSelector(getState())
-    const usernames = users.map(({username}) => username)
+    const emailAddresses = users.map(({email}) => email)
     let newRoom
     return api
       .createRoom({
@@ -300,12 +300,12 @@ export function createRoomWithUsers(room, users) {
         return api.joinChannel(newRoom.id)
       })
       .then(() => {
-        if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
+        if (newRoom) return api.inviteToChannel(emailAddresses, newRoom.id)
       })
       .then(() => {
         if (newRoom) {
           page(`/chat/${newRoom.slug}`)
-          dispatch(invitedToChannel(usernames, newRoom.id))
+          dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })
       .catch(err => {
