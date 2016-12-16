@@ -14,6 +14,11 @@
         }
       }
     },
+    "@ubergrape/react-dropzone": {
+      "version": "3.8.0",
+      "from": "@ubergrape/react-dropzone@3.8.0",
+      "resolved": "https://registry.npmjs.org/@ubergrape/react-dropzone/-/react-dropzone-3.8.0.tgz"
+    },
     "accepts": {
       "version": "1.3.3",
       "from": "accepts@1.3.3",
@@ -1166,18 +1171,6 @@
       "from": "component-classes@>=1.2.3 <2.0.0",
       "resolved": "https://registry.npmjs.org/component-classes/-/component-classes-1.2.6.tgz"
     },
-    "component-clipboard": {
-      "version": "0.1.7",
-      "from": "component-clipboard@>=0.1.6 <0.2.0",
-      "resolved": "https://registry.npmjs.org/component-clipboard/-/component-clipboard-0.1.7.tgz",
-      "dependencies": {
-        "component-emitter": {
-          "version": "1.2.0",
-          "from": "component-emitter@1.2.0",
-          "resolved": "https://registry.npmjs.org/component-emitter/-/component-emitter-1.2.0.tgz"
-        }
-      }
-    },
     "component-closest": {
       "version": "0.1.4",
       "from": "component-closest@>=0.1.4 <0.2.0",
@@ -1187,11 +1180,6 @@
       "version": "0.2.4",
       "from": "component-delegate@0.2.4",
       "resolved": "https://registry.npmjs.org/component-delegate/-/component-delegate-0.2.4.tgz"
-    },
-    "component-drop": {
-      "version": "0.1.7",
-      "from": "ubergrape/drop",
-      "resolved": "git://github.com/ubergrape/drop.git#b5a7fe74c0b77683989d0a81326aaa13bd374002"
     },
     "component-emitter": {
       "version": "1.2.1",
@@ -1208,11 +1196,6 @@
       "from": "component-events@>=1.0.7 <2.0.0",
       "resolved": "https://registry.npmjs.org/component-events/-/component-events-1.0.10.tgz"
     },
-    "component-file": {
-      "version": "0.1.1",
-      "from": "component-file@>=0.1.1 <0.2.0",
-      "resolved": "https://registry.npmjs.org/component-file/-/component-file-0.1.1.tgz"
-    },
     "component-indexof": {
       "version": "0.0.3",
       "from": "component-indexof@0.0.3",
@@ -1228,11 +1211,6 @@
       "from": "component-matches-selector@>=0.1.5 <0.2.0",
       "resolved": "https://registry.npmjs.org/component-matches-selector/-/component-matches-selector-0.1.6.tgz"
     },
-    "component-normalized-upload": {
-      "version": "0.0.6",
-      "from": "component-normalized-upload@0.0.6",
-      "resolved": "https://registry.npmjs.org/component-normalized-upload/-/component-normalized-upload-0.0.6.tgz"
-    },
     "component-props": {
       "version": "1.1.1",
       "from": "component-props@*",
@@ -1247,11 +1225,6 @@
       "version": "1.0.0",
       "from": "git://github.com/npmcomponent/component-t.git",
       "resolved": "git://github.com/npmcomponent/component-t.git#c6dea07aef0f4bbd6de443d29a86543338930d7f"
-    },
-    "component-upload": {
-      "version": "0.3.0",
-      "from": "component-upload@>=0.3.0 <0.4.0",
-      "resolved": "https://registry.npmjs.org/component-upload/-/component-upload-0.3.0.tgz"
     },
     "compressible": {
       "version": "2.0.9",
@@ -1673,11 +1646,6 @@
       "version": "1.1.2",
       "from": "dot-case@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/dot-case/-/dot-case-1.1.2.tgz"
-    },
-    "drop-anywhere": {
-      "version": "0.6.1",
-      "from": "ubergrape/drop-anywhere",
-      "resolved": "git://github.com/ubergrape/drop-anywhere.git#6ad7f2613d007cf154cabf7677b23319ed0f4a4e"
     },
     "ee-first": {
       "version": "1.1.1",
@@ -3288,11 +3256,6 @@
       "version": "0.7.1",
       "from": "javascript-natural-sort@>=0.7.1 <0.8.0",
       "resolved": "https://registry.npmjs.org/javascript-natural-sort/-/javascript-natural-sort-0.7.1.tgz"
-    },
-    "jh3y-resizable": {
-      "version": "0.0.1",
-      "from": "ubergrape/resizable",
-      "resolved": "git://github.com/ubergrape/resizable.git#03d47894f31ef56f94710d0903c83db0af73bfbb"
     },
     "join-strings-in-array": {
       "version": "0.0.4",
@@ -4946,11 +4909,6 @@
       "from": "react-dom@>=15.3.0 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.4.1.tgz"
     },
-    "@ubergrape/react-dropzone": {
-      "version": "3.8.0",
-      "from": "@ubergrape/react-dropzone@>=3.7.3 <4.0.0",
-      "resolved": "https://registry.npmjs.org/react-dropzone/-/react-dropzone-3.8.0.tgz"
-    },
     "react-event-listener": {
       "version": "0.4.0",
       "from": "react-event-listener@>=0.4.0 <0.5.0",
@@ -5023,9 +4981,9 @@
       }
     },
     "react-visibility-sensor": {
-      "version": "3.5.0",
+      "version": "3.6.0",
       "from": "react-visibility-sensor@>=3.1.1 <4.0.0",
-      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.5.0.tgz"
+      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.6.0.tgz"
     },
     "reactive-elements": {
       "version": "0.6.7",
@@ -5609,11 +5567,6 @@
       "version": "0.1.0",
       "from": "stream-to-observable@>=0.1.0 <0.2.0",
       "resolved": "https://registry.npmjs.org/stream-to-observable/-/stream-to-observable-0.1.0.tgz"
-    },
-    "strftime": {
-      "version": "0.8.2",
-      "from": "samsonjs/strftime#v0.8.2",
-      "resolved": "git://github.com/samsonjs/strftime.git#99232537902aebaefd592beb8470bc27e2eade9a"
     },
     "strict-uri-encode": {
       "version": "1.1.0",

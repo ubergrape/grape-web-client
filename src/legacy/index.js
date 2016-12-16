@@ -6,7 +6,6 @@ import 'dialog-component/dialog.css'
 import 'overlay-component/overlay.css'
 import 'image-zoom/dist/imagezoom.css'
 import 'intro.js/introjs.css'
-import 'jh3y-resizable/resizable.css'
 import 'grape-js-emoji/emoji.css'
 
 import Api from './api'

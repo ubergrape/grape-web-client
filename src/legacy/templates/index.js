@@ -2,7 +2,6 @@ import template from 'template'
 import v from 'virtualdom'
 import domify from 'domify'
 
-template.locals.strftime = require('strftime')
 template.locals._ = require('t')
 template.locals.constants = require('conf').constants
 template.locals.html = (html) => {
