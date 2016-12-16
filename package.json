@@ -3,6 +3,7 @@
   "version": "0.44.0",
   "dependencies": {
     "@ubergrape/material-ui": "^0.18.0-alpha",
+    "classnames": "^2.2.5",
     "grape-theme": "2.x",
     "jss": "^6.0.1",
     "jss-default-unit": "^5.0.0",
