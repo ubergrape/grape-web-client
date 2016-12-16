@@ -2,20 +2,21 @@ import {white} from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import {height} from '../header'
+import {zIndex} from '../../utils/z-index'
 
+export const transitionDuration = 500
 export const verticalSpacing = 10
 
 const barStyles = {
-  position: 'fixed',
-  top: height + verticalSpacing,
+  position: 'relative',
   right: '-100%',
+  top: 'auto',
   bottom: 'auto',
   left: 'auto',
-  width: 'auto',
-  minWidth: 250,
-  height: verticalSpacing * 4 + normal.fontSize,
+  width: '100%',
   padding: verticalSpacing * 2,
-  margin: 0,
+  marginTop: verticalSpacing,
+  marginLeft: verticalSpacing,
   boxSizing: 'border-box',
   color: white,
   fontSize: normal.fontSize,
@@ -30,14 +31,22 @@ const barStyles = {
   },
   background: '#6257d2',
   boxShadow: 'none',
-  transition: '0.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  transition: `right ${transitionDuration}ms cubic-bezier(0.89, 0.01, 0.5, 1.1)`,
   transform: 'translatez(0)'
 }
 
 export const styles = {
+  container: {
+    position: 'fixed',
+    right: verticalSpacing,
+    top: height,
+    width: 300,
+    zIndex: zIndex('base')
+  },
   bar: barStyles,
   activeBar: {
     extend: barStyles,
-    right: verticalSpacing
+    right: 0,
+    marginLeft: 'auto'
   }
 }
