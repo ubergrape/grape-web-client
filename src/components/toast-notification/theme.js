@@ -4,6 +4,7 @@ import {borderRadius} from 'grape-theme/dist/sizes'
 import {height} from '../header'
 import {zIndex} from '../../utils/z-index'
 
+export const transitionDuration = 500
 export const verticalSpacing = 10
 
 const barStyles = {
@@ -14,12 +15,8 @@ const barStyles = {
   left: 'auto',
   width: '100%',
   padding: verticalSpacing * 2,
-  margin: {
-    top: verticalSpacing,
-    right: 'auto',
-    bottom: 'auto',
-    left: verticalSpacing
-  },
+  marginTop: verticalSpacing,
+  marginLeft: verticalSpacing,
   boxSizing: 'border-box',
   color: white,
   fontSize: normal.fontSize,
@@ -34,7 +31,7 @@ const barStyles = {
   },
   background: '#6257d2',
   boxShadow: 'none',
-  transition: '0.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+  transition: `right ${transitionDuration}ms cubic-bezier(0.89, 0.01, 0.5, 1.1)`,
   transform: 'translatez(0)'
 }
 

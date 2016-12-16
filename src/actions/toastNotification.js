@@ -15,14 +15,10 @@ export function showToastNotification(message, options = {}) {
 }
 
 export function hideToastNotification({key}) {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch({
-        type: types.HIDE_TOAST_NOTIFICATION,
-        payload: {
-          key
-        }
-      })
-    }, 500) // this is the animation time
+  return {
+    type: types.HIDE_TOAST_NOTIFICATION,
+    payload: {
+      key
+    }
   }
 }

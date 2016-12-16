@@ -2,7 +2,7 @@ import React, {PropTypes, PureComponent} from 'react'
 import {NotificationStack} from 'react-notification'
 
 import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
-import {styles, verticalSpacing} from './theme'
+import {styles, transitionDuration} from './theme'
 
 const activeBarStyleFactory = (index, style) => ({
   ...style,
@@ -38,7 +38,9 @@ export default class ToastNotification extends PureComponent {
   }
 
   onDismiss = (notification) => {
-    this.props.onDismiss({key: notification.key})
+    setTimeout(() => {
+      this.props.onDismiss({key: notification.key})
+    }, transitionDuration)
   }
 
   render() {
