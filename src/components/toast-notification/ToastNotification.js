@@ -12,13 +12,7 @@ const activeBarStyleFactory = (index, style) => ({
 const barStyleFactory = (index, style) => style
 
 const styleNotification = (notification) => {
-  let {height} = notification
-  let {activeBar, bar} = styles
-
-  if (height == null) height = styles.bar.height
-
-  activeBar = {...activeBar, height}
-  bar = {...bar, height}
+  const {activeBar, bar} = styles
 
   return {
     ...notification,

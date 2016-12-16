@@ -3375,9 +3375,9 @@
       "resolved": "https://registry.npmjs.org/jss-props-sort/-/jss-props-sort-3.0.0.tgz"
     },
     "jss-theme-reactor": {
-      "version": "0.8.1",
+      "version": "0.8.2",
       "from": "jss-theme-reactor@>=0.8.0 <0.9.0",
-      "resolved": "https://registry.npmjs.org/jss-theme-reactor/-/jss-theme-reactor-0.8.1.tgz"
+      "resolved": "https://registry.npmjs.org/jss-theme-reactor/-/jss-theme-reactor-0.8.2.tgz"
     },
     "jss-vendor-prefixer": {
       "version": "4.0.0",

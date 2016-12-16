@@ -5,7 +5,7 @@ import cn from 'classnames'
 import {FormattedMessage} from 'react-intl'
 
 import {maxSize} from './constants'
-import {styles, calcHeight} from './notificationTheme'
+import {styles} from './notificationTheme'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
@@ -22,11 +22,7 @@ const truncate = (str, maxLength) => {
 
 const Upload = ({classes, progress, isComplete, name, error}) => (
   <div
-    className={cn(
-      classes.progress,
-      isComplete && classes.progressCompleted,
-      error && classes.progressErrored
-    )}>
+    className={classes.progress}>
     <div
       className={cn(
         classes.name,
@@ -127,10 +123,7 @@ export default class Notification extends PureComponent {
         classes={classes} />
     )
 
-    onNotify({
-      message,
-      height: calcHeight(uploads)
-    })
+    onNotify({message})
 
     // Everything is finished.
     if (handled.length === uploads.length) {

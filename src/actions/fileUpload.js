@@ -65,7 +65,7 @@ export function uploadFiles({files}) {
   }
 }
 
-const key = 'fileUploadsNotification'
+const key = random(1e5)
 
 function showOrUpdateNotification(message, options) {
   return (dispatch, getState) => {
@@ -86,7 +86,7 @@ export function rejectFiles({files}) {
   return {
     type: types.HANDLE_REJECTED_FILES,
     payload: files.map(file => ({
-      id: random(10000),
+      id: random(1e5),
       name: file.name
     }))
   }
