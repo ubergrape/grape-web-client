@@ -41,7 +41,7 @@ export const styles = {
     position: 'fixed',
     right: verticalSpacing,
     top: height,
-    width: 300,
+    width: 275,
     zIndex: zIndex('base')
   },
   bar: barStyles,
