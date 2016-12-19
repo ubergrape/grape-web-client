@@ -22,7 +22,7 @@ export const LinearProgress = {
       backgroundPosition: [0, 0]
     },
     to: {
-      backgroundPosition: ['20px', '20px']
+      backgroundPosition: [20, 20]
     }
   }
 }
