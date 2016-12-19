@@ -471,7 +471,8 @@ export const soundsSelector = createSelector(
 )
 
 export const toastNotificationSelector = createSelector(
-  state => state.toastNotification, state => state
+  [state => state.toastNotification, sidebarSelector],
+  (toastNotification, sidebar) => ({...toastNotification, sidebar: sidebar.show})
 )
 
 export const manageContactsSelector = createSelector(

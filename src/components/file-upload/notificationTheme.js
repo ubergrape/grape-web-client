@@ -26,8 +26,11 @@ export const styles = {
     color: grayLight
   },
   nameText: {
-    flexGrow: 1
+    display: 'flex',
+    overflow: 'hidden',
+    width: '100%'
   },
+  nameTextLeft: ellipsis,
   error: {
     extend: [ellipsis, fonts.normal],
     display: 'flex',

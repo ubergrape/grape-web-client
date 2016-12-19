@@ -1,7 +1,8 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {NotificationStack} from 'react-notification'
-
 import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
+import cn from 'classnames'
+
 import {styles, transitionDuration} from './theme'
 
 const activeBarStyleFactory = (index, style) => ({
@@ -34,7 +35,11 @@ export default class ToastNotification extends PureComponent {
     ]).isRequired,
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    sidebar: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string
+    ]).isRequired
   }
 
   onDismiss = (notification) => {
@@ -43,17 +48,19 @@ export default class ToastNotification extends PureComponent {
     }, transitionDuration)
   }
 
+  styleNotifications = () => this.props.notifications.map(styleNotification)
+
   render() {
     const {
+      sheet: {classes},
       dismissAfter,
-      notifications,
-      sheet: {classes}
+      sidebar
     } = this.props
 
     return (
-      <div className={classes.container}>
+      <div className={cn(classes.container, sidebar && classes.hasSidebar)}>
         <NotificationStack
-          notifications={notifications.map(styleNotification)}
+          notifications={this.styleNotifications()}
           dismissAfter={dismissAfter}
           onDismiss={this.onDismiss}
           activeBarStyleFactory={activeBarStyleFactory}

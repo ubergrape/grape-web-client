@@ -11,17 +11,6 @@ import {styles} from './notificationTheme'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
-/**
- * This function truncates in the middle of a string.
- * It is similar to what OSX does in finder.
- */
-const truncate = (str, maxLength) => {
-  if (str.length <= maxLength) return str
-  const part1 = str.substr(0, maxLength / 2)
-  const part2 = str.substr(str.length - maxLength / 2)
-  return `${part1}…${part2}`
-}
-
 const Upload = ({classes, progress, isComplete, name, error}) => (
   <div className={classes.upload}>
     <div
@@ -30,14 +19,17 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
         isComplete && classes.nameCompleted,
         error && classes.nameErrored
       )}>
-      <span className={classes.nameText}>{truncate(name, 25)}</span>
+      <span className={classes.nameText}>
+        <span className={classes.nameTextLeft}>{name.substr(0, name.length - 7)}</span>
+        <span>{name.substr(name.length - 7)}</span>
+      </span>
       {isComplete && !error && <Icon name="check" color={green} className={classes.icon} />}
       {error && <Icon name="remove" color={grayLight} className={classes.icon} />}
     </div>
     <LinearProgress
       mode="determinate"
-      value={progress}
-      style={error && {background: grayLight}} />
+      value={isComplete ? 0 : progress}
+      style={isComplete ? {background: error ? grayLight : green} : null} />
     {error && <div className={classes.error}>{error}</div>}
   </div>
 )
