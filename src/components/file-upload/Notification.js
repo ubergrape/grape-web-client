@@ -11,6 +11,8 @@ import {styles} from './notificationTheme'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
+const waitBeforeHide = 3000
+
 const Upload = ({classes, progress, isComplete, name, error}) => (
   <div className={classes.upload}>
     <div
@@ -67,7 +69,7 @@ const Message = ({uploads, handled, classes}) => (
           error = (
             <FormattedMessage
               id="fileTooBig"
-              defaultMessage="File exceeds size limit of {limit}Mb."
+              defaultMessage="File exceeds size limit of {limit}mb."
               values={{limit: maxSizeInMb}} />
           )
         }
@@ -123,7 +125,7 @@ export default class Notification extends PureComponent {
 
     // Everything is finished.
     if (handled.length === uploads.length) {
-      setTimeout(onHideNotification, 3000)
+      setTimeout(onHideNotification, waitBeforeHide)
     }
   }
 

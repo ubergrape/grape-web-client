@@ -64,7 +64,6 @@ export default class App extends PureComponent {
       messages
     } = this.props
 
-
     return (
       <IntlProvider locale={locale} messages={messages}>
         <FileUploadProvider>
