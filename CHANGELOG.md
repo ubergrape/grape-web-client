@@ -1,8 +1,13 @@
 ## Next version
 
+### New Features
+
+* File upload rewrite
+
 ### Chore changes
 
 * Manage Contacts / PM dialog rewrite
+* Manage Groups rewrite
 
 ## Release 0.42.4 (2016-12-06)
 
@@ -23,18 +28,18 @@
 
 ## Release 0.42.1 (2016-12-02)
 
-#### New Features
+### New Features
 
 * Activity can now display attachments (#180)
 
 
 ## Release 0.41.0 (2016-11-01)
 
-#### New Features
+### New Features
 
 * Sound notifications (ubergrape/chatgrape#844)
 
-#### Fixes
+### Fixes
 
 * Open Skype contact links with Skype (`callto:sip`)
 
