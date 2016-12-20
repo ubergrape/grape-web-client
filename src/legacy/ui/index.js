@@ -32,7 +32,6 @@ let exports = module.exports = UI
 exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
 exports.Notifications = Notifications
-//exports.Dropzone = Dropzone
 exports.DeleteRoomDialog = DeleteRoomDialog
 
 import reduxEmitter from '../redux-emitter'
