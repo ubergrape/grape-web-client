@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action) {
       return {...state, user: payload}
     case types.GO_TO_CHANNEL:
       // Clicked on the current channel.
-      if (payload === state.channel.slug) return state
+      if (state.channel && payload === state.channel.slug) return state
       return {...state, messages: []}
     case types.SET_CHANNEL:
       return {
