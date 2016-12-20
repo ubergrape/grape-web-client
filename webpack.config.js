@@ -93,17 +93,13 @@ module.exports = exports = {
   resolve: {
     alias: {
       'classes': 'component-classes',
-      'clipboard': 'component-clipboard',
       'closest': 'component-closest',
       'dialog': 'dialog-component',
       'emitter': 'component-emitter',
-      'file': 'component-file',
-      'progress': 'progress-component',
       'query': 'component-query',
-      'resizable': 'jh3y-resizable',
-      'upload': 'component-upload',
       'events': 'component-events',
-
+      'material-ui': '@ubergrape/material-ui',
+      'react-dropzone': '@ubergrape/react-dropzone'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.

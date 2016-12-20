@@ -3,12 +3,12 @@ import random from 'lodash/number/random'
 import * as types from '../constants/actionTypes'
 
 export function showToastNotification(message, options = {}) {
-  const key = random(1000)
+  const key = options.key || random(1e5)
   return {
     type: types.SHOW_TOAST_NOTIFICATION,
     payload: {
-      message,
       key,
+      message,
       ...options
     }
   }
@@ -19,6 +19,17 @@ export function hideToastNotification({key}) {
     type: types.HIDE_TOAST_NOTIFICATION,
     payload: {
       key
+    }
+  }
+}
+
+export function updateToastNotification(key, message, options = {}) {
+  return {
+    type: types.UPDATE_TOAST_NOTIFICATION,
+    payload: {
+      key,
+      message,
+      ...options
     }
   }
 }

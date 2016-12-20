@@ -122,12 +122,7 @@ export const typingChannelsSelector = createSelector(
 
 export const typingNotificationSelector = createSelector(
   [typingChannelsSelector, channelSelector],
-  (typingNotification, channel) => {
-    return {
-      channel,
-      channels: typingNotification
-    }
-  }
+  (channels, channel) => ({channels, channel})
 )
 
 export const setTypingSelector = createSelector(
@@ -463,8 +458,12 @@ export const markdownTipsSelector = createSelector(
 )
 
 export const footerSelector = createSelector(
-  [typingNotificationSelector],
-  state => state
+  state => state.footer, state => state
+)
+
+export const footerComponentSelector = createSelector(
+  [typingNotificationSelector, footerSelector],
+  (typingNotification, footer) => ({...typingNotification, ...footer})
 )
 
 export const soundsSelector = createSelector(
@@ -472,7 +471,8 @@ export const soundsSelector = createSelector(
 )
 
 export const toastNotificationSelector = createSelector(
-  state => state.toastNotification, state => state
+  [state => state.toastNotification, sidebarSelector],
+  (toastNotification, sidebar) => ({...toastNotification, sidebar: sidebar.show})
 )
 
 export const manageContactsSelector = createSelector(
@@ -495,6 +495,10 @@ export const manageContactsSelector = createSelector(
       users
     }
   }
+)
+
+export const fileUploadSelector = createSelector(
+  state => state.fileUpload, state => state
 )
 
 export const manageGroupsSelector = createSelector(

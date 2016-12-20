@@ -6,8 +6,6 @@ import 'dialog-component/dialog.css'
 import 'overlay-component/overlay.css'
 import 'image-zoom/dist/imagezoom.css'
 import 'intro.js/introjs.css'
-import 'drop-anywhere/drop-anywhere.css'
-import 'jh3y-resizable/resizable.css'
 import 'grape-js-emoji/emoji.css'
 
 import Api from './api'
@@ -22,7 +20,6 @@ export default function init() {
   window.ui = new Ui({
     messages: legacyTranslataions[conf.user.languageCode],
     languageCode: conf.user.languageCode,
-    uploadPath: conf.server.uploadPath,
     organizationId: conf.organization.id
   })
 

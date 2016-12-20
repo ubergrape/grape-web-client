@@ -6,8 +6,7 @@ let staticurl = require('staticurl')
 let events = require('events')
 let notify = require('html5-desktop-notifications')
 let Introjs = require("intro.js").introJs
-import Clipboard from 'clipboard';
-import dropAnywhere from 'drop-anywhere';
+
 import timezone from './jstz';
 import focus from './focus';
 import pipeEvents from './pipeEvents';
@@ -18,9 +17,7 @@ import v from 'virtualdom';
 
 import OrganizationPopover from './elements/popovers/organization';
 import GrapeInput from './elements/GrapeInput';
-import FileUploader from './elements/fileuploader';
 import Notifications from './elements/notifications';
-import Dropzone from './elements/dropzone.js';
 import DeleteRoomDialog from './elements/dialogs/deleteroom';
 
 
@@ -34,9 +31,7 @@ let exports = module.exports = UI
 
 exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
-exports.FileUploader = FileUploader
 exports.Notifications = Notifications
-exports.Dropzone = Dropzone
 exports.DeleteRoomDialog = DeleteRoomDialog
 
 import reduxEmitter from '../redux-emitter'
@@ -75,30 +70,7 @@ UI.prototype.init = function UI_init() {
 
   this.reduxEmitter = reduxEmitter
 
-  this.upload = new FileUploader(this.options.uploadPath)
-  let uploadContainer = qs('.uploader', this.grapeInput.el)
-  uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
-
-  this.clipboard = new Clipboard(window)
-
-  // on paste, check if the pasted item is a blob object -image-,
-  // then emit an upload event to the broker to call the uploader
-  this.clipboard.on('paste', function (e) {
-    if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
-  })
-
-  // initialize dragAndDrop
-  // receive the dragged items and emit
-  // an event to the uploader to upload them
   let self = this
-  if (!this.options.detached) {
-    this.dropzone = new Dropzone()
-    this.dragAndDrop = dropAnywhere(function (e) {
-      e.items.forEach(function (item) {
-        self.emit('uploadDragged', item)
-      })
-    }, this.dropzone.el)
-  }
   // initialize notifications
   this.notifications = new Notifications()
   // only show notification info bar in supported browsers and only if the
@@ -123,7 +95,6 @@ UI.prototype.init = function UI_init() {
   this.tz = timezone.determine().name()
   this.notificationSessionSet = false
   this.firstTimeConnect = true
-  this.uploadRoom = null
 }
 
 UI.prototype.bind = function UI_bind() {
@@ -229,20 +200,6 @@ UI.prototype.setUser = function UI_setUser(user) {
 UI.prototype.setSettings = function UI_setSettings(settings) {
   this.settings = settings
 
-  if (this.settings.compact_mode) {
-    classes(document.body).add('client-style-compact')
-    classes(document.body).remove('normal-style')
-    classes(document.body).remove('client-style-normal')
-  } else {
-    classes(document.body).add('normal-style')
-    classes(document.body).remove('client-style-compact')
-    classes(document.body).add('client-style-normal')
-  }
-
-  if (this.settings.dark_mode) {
-    classes(document.body).add('dark')
-  }
-
   this.emit('settingsReady')
 
   // javscript timezone should always override server timezone setting?
@@ -305,15 +262,6 @@ UI.prototype.leftChannel = function UI_leftChannel(room) {
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
   if(this.room != room) return
   page.replace('/chat/' + room.slug)
-}
-
-UI.prototype.onUploading = function () {
-  this.uploadRoom = this.room
-}
-
-UI.prototype.onUploaded = function (attachment) {
-  this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
-  this.upload.hide()
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {

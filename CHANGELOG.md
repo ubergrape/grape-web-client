@@ -3,6 +3,9 @@
 ### Chore changes
 
 * Manage Contacts / PM dialog rewrite
+
+## Release 0.42.4 (2016-12-06)
+
 * Fixed history icons
 
 

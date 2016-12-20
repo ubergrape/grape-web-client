@@ -1,5 +1,8 @@
 import {screenWidth} from 'grape-theme/dist/sizes'
 
+export const sidebarWidthXl = 400
+export const sidebarWidth = 340
+
 export const styles = {
   app: {
     display: 'flex',
@@ -37,14 +40,14 @@ export const styles = {
     alignItems: 'stretch',
     flexDirection: 'column',
     flexBasis: 'auto',
-    width: 400
+    width: sidebarWidthXl
   },
   [`@media (max-width: ${screenWidth.xl}px)`]: {
     aside: {
       width: 230
     },
     sidebar: {
-      width: 340
+      width: sidebarWidth
     }
   }
 }
