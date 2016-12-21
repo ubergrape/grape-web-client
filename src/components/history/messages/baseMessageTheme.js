@@ -53,6 +53,12 @@ export const styles = {
       wordBreak: 'initial',
       transform: 'translateZ(0)',
       maxWidth: '100%'
+    },
+    '& p, & pre': {
+      marginTop: 7
+    },
+    '& p:first-child, & pre:first-child': {
+      marginTop: 0
     }
   }
 }

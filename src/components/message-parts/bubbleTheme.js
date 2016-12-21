@@ -26,6 +26,12 @@ export const styles = {
     background: white,
     borderRadius: 16,
     padding: '5px 13px',
-    wordBreak: 'break-word'
+    wordBreak: 'break-word',
+    '& pre': {
+      lineHeight: 1
+    },
+    '& pre code': {
+      lineHeight: normal.lineHeight
+    }
   }
 }
