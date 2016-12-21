@@ -24,12 +24,10 @@ export function hideToastNotification({key}) {
 }
 
 export function updateToastNotification(key, message, options = {}) {
+  const payload = {key, ...options}
+  if (message) payload.message = message
   return {
     type: types.UPDATE_TOAST_NOTIFICATION,
-    payload: {
-      key,
-      message,
-      ...options
-    }
+    payload
   }
 }

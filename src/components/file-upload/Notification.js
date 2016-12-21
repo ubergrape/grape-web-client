@@ -11,8 +11,6 @@ import {styles} from './notificationTheme'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
-const waitBeforeHide = 3000
-
 const Upload = ({classes, progress, isComplete, name, error}) => (
   <div className={classes.upload}>
     <div
@@ -134,7 +132,7 @@ export default class Notification extends PureComponent {
 
     // Everything is finished.
     if (handled.length === uploads.length) {
-      setTimeout(onHideNotification, waitBeforeHide)
+      onHideNotification()
     }
   }
 

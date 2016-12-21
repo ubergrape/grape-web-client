@@ -6,8 +6,7 @@ import {orgSelector, channelSelector, toastNotificationSelector} from '../select
 import {createMessage} from './history'
 import {
   showToastNotification,
-  updateToastNotification,
-  hideToastNotification
+  updateToastNotification
 } from './toastNotification'
 
 function uploadFile(file) {
@@ -100,7 +99,7 @@ export function showUploadNotification({message, ...options}) {
 
 export function hideUploadNotification() {
   return dispatch => {
-    dispatch(hideToastNotification({key}))
+    dispatch(showOrUpdateNotification(null, {dismissAfter: 3000}))
     dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
   }
 }

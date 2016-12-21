@@ -99,7 +99,8 @@ module.exports = exports = {
       'query': 'component-query',
       'events': 'component-events',
       'material-ui': '@ubergrape/material-ui',
-      'react-dropzone': '@ubergrape/react-dropzone'
+      'react-dropzone': '@ubergrape/react-dropzone',
+      'react-notification': '@ubergrape/react-notification'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
