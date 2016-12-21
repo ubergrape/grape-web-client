@@ -19,7 +19,8 @@ export const styles = {
     extend: buttonPrimary
   },
   header: {
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
   title: {
     flex: 1
