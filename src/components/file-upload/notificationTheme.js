@@ -28,7 +28,8 @@ export const styles = {
   nameText: {
     display: 'flex',
     overflow: 'hidden',
-    width: '100%'
+    width: '100%',
+    whiteSpace: 'nowrap'
   },
   nameTextLeft: ellipsis,
   error: {
