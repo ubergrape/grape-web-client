@@ -1,6 +1,5 @@
 import findLast from 'lodash/collection/findLast'
 import last from 'lodash/array/last'
-import pluck from 'lodash/collection/pluck'
 
 import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
@@ -291,7 +290,7 @@ export function createMessage({channelId, text, attachments = []}) {
 
     const options = {
       clientsideId: id,
-      attachments: pluck(attachments, 'id')
+      attachments
     }
 
     api
