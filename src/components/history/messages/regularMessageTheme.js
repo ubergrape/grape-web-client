@@ -54,20 +54,28 @@ export const styles = {
     height: stateIndicatorSize
   },
   stateIndicatorPending: {
-    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorUnsent: {
-    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorSent: {
-    ...createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorRead: {
-    ...createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorTooltipTrigger: {
     display: 'block',
