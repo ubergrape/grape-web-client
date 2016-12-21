@@ -51,16 +51,25 @@ Upload.defaultProps = {
   isComplete: false
 }
 
-const Message = ({uploads, handled, classes}) => (
+const Message = ({uploads, uploadingAmount, classes}) => (
   <div className={classes.message}>
     <h3 className={classes.title}>
-      <FormattedMessage
-        id="fileUploadTitle"
-        defaultMessage="Uploading {uploading} of {total} Files"
-        values={{
-          uploading: uploads.length - handled.length,
-          total: uploads.length
-        }} />
+      {uploadingAmount > 0 && (
+        <FormattedMessage
+          id="fileUploadTitle"
+          defaultMessage="Uploading {uploading} of {total} files"
+          description="Upload notification title"
+          values={{
+            uploading: uploadingAmount,
+            total: uploads.length
+          }} />
+      )}
+      {!uploadingAmount && (
+        <FormattedMessage
+          id="fileUploadTitleFinished"
+          defaultMessage="Upload finished"
+          description="Upload notification title" />
+      )}
     </h3>
     <div className={classes.list}>
       {uploads.map(upload => {
@@ -82,7 +91,7 @@ const Message = ({uploads, handled, classes}) => (
 Message.propTypes = {
   classes: PropTypes.object.isRequired,
   uploads: PropTypes.array.isRequired,
-  handled: PropTypes.array.isRequired
+  uploadingAmount: PropTypes.number.isRequired
 }
 
 @injectSheet(styles)
@@ -117,7 +126,7 @@ export default class Notification extends PureComponent {
     const message = (
       <Message
         uploads={uploads}
-        handled={handled}
+        uploadingAmount={uploads.length - handled.length}
         classes={classes} />
     )
 
