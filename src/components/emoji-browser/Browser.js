@@ -62,7 +62,8 @@ class Browser extends Component {
     images: {},
     height: 400,
     maxWidth: 292,
-    right: 0,
+    // Temporary hotfix. Emoji browser shouldn't be part of grape-browser at all.
+    right: -90,
     className: '',
     onSelectItem: noop,
     onDidMount: noop,
