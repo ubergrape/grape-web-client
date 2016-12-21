@@ -122,6 +122,11 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.HANDLE_OUTGOING_MESSAGE:
+      // Message was sent to a non-active channel. Happens for e.g. when
+      // uploading files. Avoid a message flash in the wrong channel.
+      if (state.channel && payload.channelId !== state.channel.id) {
+        return state
+      }
       return {
         ...state,
         messages: [
