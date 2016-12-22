@@ -22,7 +22,7 @@ export function renderTag(tag, props, children) {
   if (children && children[0] === grapedownLineBreak) {
     return createElement(
       'p',
-      { role: 'presentation' },
+      {role: 'presentation'},
       ['\u00A0']
     )
   }
