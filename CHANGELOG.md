@@ -1,13 +1,24 @@
 ## Next version
 
+## Release 0.46.0 (2016-12-22)
+
+### Fixes
+
+* Message delivery status icon (#146)
+* Grape viewport not viewable in small sizes if room has a long description in the header bar (#111)
+* Electron: Go to login when lastUrl info loading fails (#244)
+* Wrong user to group invite handling in web client - invites the wrong person (#217)
+* Formatted text and codeblocks are not full width (#218)
+
 ### New Features
 
-* File upload rewrite
+* New file upload (#188)
 
 ### Chore changes
 
-* Manage Contacts / PM dialog rewrite
-* Manage Groups rewrite
+* Manage Contacts / PM dialog rewrite (#111)
+* Manage Groups rewrite (#115)
+* Flexible height of toast notification (#232)
 
 ## Release 0.42.4 (2016-12-06)
 
