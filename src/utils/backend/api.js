@@ -351,6 +351,14 @@ export function removeMessage(channelId, messageId) {
 
 export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
+    if (options.attachments) {
+      // If an id is already given, like for e.g. in case of file uploads,
+      // backend expect an attachment to be the id.
+      // Otherwise it expects an attachment object.
+      options.attachments = options.attachments.map(
+        attachment => attachment.id ? attachment.id : attachment
+      )
+    }
     rpc({
       ns: 'channels',
       action: 'post',

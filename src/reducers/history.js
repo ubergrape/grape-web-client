@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action) {
       return {...state, user: payload}
     case types.GO_TO_CHANNEL:
       // Clicked on the current channel.
-      if (payload === state.channel.slug) return state
+      if (state.channel && payload === state.channel.slug) return state
       return {...state, messages: []}
     case types.SET_CHANNEL:
       return {
@@ -122,6 +122,11 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.HANDLE_OUTGOING_MESSAGE:
+      // Message was sent to a non-active channel. Happens for e.g. when
+      // uploading files. Avoid a message flash in the wrong channel.
+      if (state.channel && payload.channelId !== state.channel.id) {
+        return state
+      }
       return {
         ...state,
         messages: [
