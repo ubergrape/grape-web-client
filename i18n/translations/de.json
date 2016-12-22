@@ -111,7 +111,7 @@
   "_manageGroupsLinkJoined.comment": "Manage Groups Dialog: show \"Groups you belong to\" link",
   "manageGroupsCreateNew": "Neue Gruppe erstellen",
   "_manageGroupsCreateNew.comment": "Manage Groups Dialog: create new group button",
-  "markdownTipsLinkMessage": "Sie können auch folgendes verwenden:",
+  "markdownTipsLinkMessage": "Sie können auch {markdown} verwenden",
   "example": "Beispiel",
   "_example.comment": "Title",
   "result": "Ergebnis",
