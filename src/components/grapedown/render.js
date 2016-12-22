@@ -7,7 +7,8 @@ import {
   renderTag,
   renderEmoji,
   renderCustomEmojis,
-  renderInlineImage
+  renderInlineImage,
+  grapedownLineBreak
 } from './renderers'
 import {nonStandardProps} from './utils'
 
@@ -71,7 +72,11 @@ class Renderer {
 
   render(props) {
     this.props = props
-    return this.renderer(props.text)
+    const text = props.text
+      // workaround to render multiple line breaks
+      .split('\n\n')
+      .join(`\n\n${grapedownLineBreak}\n\n`)
+    return this.renderer(text)
   }
 }
 
