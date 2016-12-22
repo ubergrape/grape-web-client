@@ -15,18 +15,7 @@ import {
 
 import GrapeObject from './GrapeObject'
 
-export const grapedownLineBreak = '%grape-linebreak%'
-
 export function renderTag(tag, props, children) {
-  // workaround to render multiple line breaks
-  if (children && children[0] === grapedownLineBreak) {
-    return createElement(
-      'p',
-      {role: 'presentation'},
-      ['\u00A0']
-    )
-  }
-
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
     if (isGrapeUrl(props.href)) {
