@@ -19,7 +19,8 @@ export const styles = {
   main: {
     flex: 1,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    minWidth: 0
   },
   mainBody: {
     display: 'flex',
