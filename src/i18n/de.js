@@ -90,7 +90,7 @@ export default {
   "manageGroupsLinkJoinable": "Verfügbare Gruppen",
   "manageGroupsLinkJoined": "Meine Gruppen",
   "manageGroupsCreateNew": "Neue Gruppe erstellen",
-  "markdownTipsLinkMessage": "Sie können auch folgendes verwenden:",
+  "markdownTipsLinkMessage": "Sie können auch {markdown} verwenden",
   "example": "Beispiel",
   "result": "Ergebnis",
   "inlineStyles": "Zeilenstile",

@@ -90,7 +90,7 @@ export default {
   "manageGroupsLinkJoinable": "Groups you can join",
   "manageGroupsLinkJoined": "Groups you belong to",
   "manageGroupsCreateNew": "create new group",
-  "markdownTipsLinkMessage": "You can also use",
+  "markdownTipsLinkMessage": "You can also use {markdown}",
   "example": "Example",
   "result": "Result",
   "inlineStyles": "Inline Styles",

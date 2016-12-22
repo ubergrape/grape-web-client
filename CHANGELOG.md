@@ -1,5 +1,9 @@
 ## Next version
 
+### Fixes
+
+* Markdown hint above the input field
+
 ## Release 0.46.0 (2016-12-22)
 
 ### Fixes
