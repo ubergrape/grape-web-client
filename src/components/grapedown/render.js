@@ -73,8 +73,7 @@ class Renderer {
     this.props = props
     const text = props.text
       // Workaround to render multiple line breaks.
-      .split('\n\n')
-      .join('\n\n&nbsp;\n\n')
+      .replace(/\n\n/g, '\n\n&nbsp;\n\n')
     return this.renderer(text)
   }
 }
