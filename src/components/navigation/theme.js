@@ -170,6 +170,7 @@ export const styles = {
     outline: 'none',
     width: '100%',
     '&::-webkit-search-cancel-button': {
+      isolate: false,
       WebkitAppearance: 'searchfield-cancel-button !important'
     }
   }
