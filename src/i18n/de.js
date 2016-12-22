@@ -30,6 +30,7 @@ export default {
   "dropFileToUpload": "Datei hier ablegen, um sie zu teilen!",
   "dropFileToUploadMaxFileSize": "Fast alle Dateien bis zu einer Größe von {limit}mb werden unterstützt.",
   "fileUploadTitle": "Lade {uploading} von {total} Dateien hoch",
+  "fileUploadTitleFinished": "Upload abgeschlossen",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit}mb.",
   "imageWithDescr": "Bild: [{description}]",
   "imageWithoutDescr": "Bild: [Keine Beschreibung]",

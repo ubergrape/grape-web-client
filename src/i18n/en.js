@@ -30,6 +30,7 @@ export default {
   "dropFileToUpload": "Drop your file to upload it!",
   "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
   "fileUploadTitle": "Uploading {uploading} of {total} Files",
+  "fileUploadTitleFinished": "Upload finished",
   "fileTooBig": "File exceeds size limit of {limit}Mb.",
   "imageWithDescr": "Image: [{description}]",
   "imageWithoutDescr": "Image: [No Description]",
