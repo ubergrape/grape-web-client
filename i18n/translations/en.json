@@ -26,7 +26,7 @@
   "_dropFileToUpload.comment": "Hint on the drop overlay screen.",
   "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
   "_dropFileToUploadMaxFileSize.comment": "Hint on the drop overlay screen.",
-  "fileUploadTitle": "Uploading {uploading} of {total} Files",
+  "fileUploadTitle": "Uploading {uploading} of {total} files",
   "_fileUploadTitle.comment": "Upload notification title",
   "fileUploadTitleFinished": "Upload finished",
   "_fileUploadTitleFinished.comment": "Upload notification title",

@@ -29,7 +29,7 @@ export default {
   "usersNotFoundFor": "No one found for",
   "dropFileToUpload": "Drop your file to upload it!",
   "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
-  "fileUploadTitle": "Uploading {uploading} of {total} Files",
+  "fileUploadTitle": "Uploading {uploading} of {total} files",
   "fileUploadTitleFinished": "Upload finished",
   "fileTooBig": "File exceeds size limit of {limit}Mb.",
   "imageWithDescr": "Image: [{description}]",
