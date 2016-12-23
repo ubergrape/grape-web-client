@@ -1,8 +1,11 @@
 ## Next version
 
+## Release 0.47.0 (2016-12-23)
+
 ### Fixes
 
 * Markdown hint above the input field
+* Show newlines in history (#203)
 
 ## Release 0.46.0 (2016-12-22)
 
