@@ -32,6 +32,12 @@ export const styles = {
     },
     '& pre code': {
       lineHeight: normal.lineHeight
+    },
+    '& p, pre': {
+      marginTop: normal.fontSize/2,
+      '&:first-child': {
+        marginTop: 0
+      }
     }
   }
 }
