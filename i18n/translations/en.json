@@ -83,7 +83,7 @@
   "_loadingLink.comment": "used in invite to org link input placeholder, while link is loading",
   "inviteToOrgError": "Enter valid email addresses separated by a space.",
   "sendInvites": "Send invitation emails",
-  "justInvited": "Congratulations! You just invited {first}{others, plural, =0 {} one {and one more people} other {and {others} more people}}.",
+  "justInvited": "Congratulations! You just invited {user} {amount, plural, =0 {} one {and one more people} other {and {amount} more people}}.",
   "personalMessage": "Personal message",
   "manageContactsDialogTitle": "Manage Private Messages",
   "_manageContactsDialogTitle.comment": "Manage Contacts Dialog: dialog title",
