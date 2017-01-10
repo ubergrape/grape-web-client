@@ -34,7 +34,7 @@ export const styles = {
       lineHeight: normal.lineHeight
     },
     '& p, pre': {
-      marginTop: normal.fontSize/2,
+      marginTop: normal.fontSize / 2,
       '&:first-child': {
         marginTop: 0
       }
