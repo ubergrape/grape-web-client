@@ -7,7 +7,8 @@ import {
   renderTag,
   renderEmoji,
   renderCustomEmojis,
-  renderInlineImage
+  renderInlineImage,
+  emptyLine
 } from './renderers'
 import {nonStandardProps} from './utils'
 
@@ -71,7 +72,8 @@ class Renderer {
 
   render(props) {
     this.props = props
-    return this.renderer(props.text)
+    const text = props.text.replace(/\n\n/g, `${emptyLine}\n\n`)
+    return this.renderer(text)
   }
 }
 

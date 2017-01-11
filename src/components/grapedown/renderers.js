@@ -1,6 +1,7 @@
-import {createElement} from 'react'
+import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
+import random from 'lodash/number/random'
 
 import jsEmoji, {
   getEmojiSliceStyle,
@@ -14,12 +15,36 @@ import {
 } from './utils'
 
 import GrapeObject from './GrapeObject'
+import {LineBreak} from '../line-break'
+
+export const emptyLine = `%%${random(1e10)}%%`
+const emptyLineRegexp = new RegExp(emptyLine, 'g')
 
 export function renderTag(tag, props, children) {
+  let cldrn
+  if (children) {
+    cldrn = children.reduce((acc, child, index) => {
+      if (typeof child !== 'string') {
+        acc.push(child)
+      } else if (tag === 'p') {
+        const parts = child.split(emptyLine)
+        acc.push(parts[0])
+        if (parts.length > 1) {
+          acc.push(<LineBreak key={`${index}-0`}/>)
+          acc.push(<LineBreak key={`${index}-1`}/>)
+        }
+      } else {
+        acc.push(child.replace(emptyLineRegexp, ''))
+      }
+
+      return acc
+    }, [])
+  }
+
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
     if (isGrapeUrl(props.href)) {
-      return createElement(GrapeObject, props, children)
+      return createElement(GrapeObject, props, cldrn)
     }
     if (!isChatUrl(props.href)) {
       props.target = '_blank'
@@ -29,7 +54,7 @@ export function renderTag(tag, props, children) {
   return createElement(
     tag,
     omit(props, nonStandardProps),
-    children && children.length ? children : undefined
+    cldrn && cldrn.length ? cldrn : undefined
   )
 }
 
