@@ -14,8 +14,13 @@ import {
 } from './utils'
 
 import GrapeObject from './GrapeObject'
+import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
+  if (tag === 'br' && props.forcebreak) {
+    return createElement(LineBreak, {key: props.key})
+  }
+
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
     if (isGrapeUrl(props.href)) {

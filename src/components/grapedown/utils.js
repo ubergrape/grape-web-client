@@ -17,7 +17,7 @@ export function isChatUrl(url) {
   return parser.host === host && pathname.indexOf(chatPath) === 0
 }
 
-export const nonStandardProps = ['user', 'customEmojis']
+export const nonStandardProps = ['user', 'customEmojis', 'forcebreak']
 
 /**
  * Coverts `:emoji:`-strings that are in `customEmojis` map in to the images.
