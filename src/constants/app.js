@@ -8,3 +8,5 @@ export const userStatusMap = {
   0: 'offline',
   16: 'online'
 }
+
+export const maxLinkPreviews = 5

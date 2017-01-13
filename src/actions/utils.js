@@ -9,7 +9,8 @@ import {defaultAvatar} from '../constants/images'
 import {maxChannelNameLength} from '../constants/app'
 import {
   usersSelector,
-  channelsSelector
+  channelsSelector,
+  maxLinkPreviews
 } from '../selectors'
 
 /**
@@ -133,10 +134,11 @@ export const normalizeMessage = (() => {
     const link = createLinkToMessage(find(channels, {id: channelId}), id)
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
+    const linkPreviews = (msg.linkPreview || []).slice(0, maxLinkPreviews)
 
     return {
       type, id, text, time, userTime, author, link, avatar, attachments,
-      mentions, channelId
+      mentions, channelId, linkPreviews
     }
   }
 

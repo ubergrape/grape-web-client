@@ -17,6 +17,7 @@ import Header from '../../message-parts/Header'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import Tooltip from '../../tooltip/HoverTooltip'
+import {LinkPreview} from '../../link-previews'
 
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
@@ -252,11 +253,30 @@ export default class RegularMessage extends PureComponent {
     return <Attachment {...attachment} key={key} />
   }
 
+  renderLinkPreviews() {
+    const {
+      linkPreviews,
+      sheet: {classes}
+    } = this.props
+
+    return (
+      <div>
+        {linkPreviews.map(meta => (
+          Object.keys(meta).length > 0 &&
+            <div className={classes.linkPreview}>
+              <LinkPreview {...meta} />
+            </div>
+          )
+        )}
+      </div>
+    )
+  }
+
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
       state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates,
-      isPm
+      isPm, linkPreviews
     } = this.props
     const {classes} = sheet
 
@@ -294,22 +314,28 @@ export default class RegularMessage extends PureComponent {
                 onClick={this.onGoToChannel} />
             }
           </div>
-          <Bubble hasArrow={hasBubbleArrow}>
-            <div
-              ref={this.onRefContent}
-              className={[
-                classes.content,
-                state === 'pending' || state === 'unsent' ? classes.disabled : ''
-              ].join(' ')}>
-              <Grapedown
-                text={children}
-                user={user}
-                customEmojis={customEmojis} />
-              {attachments.map(this.renderAttachment)}
-            </div>
-            {this.renderMenu()}
-          </Bubble>
-          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+          <div>
+            <Bubble hasArrow={hasBubbleArrow}>
+              <div
+                ref={this.onRefContent}
+                className={[
+                  classes.content,
+                  state === 'pending' || state === 'unsent' ? classes.disabled : ''
+                ].join(' ')}>
+                <Grapedown
+                  text={children}
+                  user={user}
+                  customEmojis={customEmojis} />
+                {attachments.map(this.renderAttachment)}
+              </div>
+              {this.renderMenu()}
+            </Bubble>
+            {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+            {linkPreviews &&
+              linkPreviews.length > 0 &&
+              this.renderLinkPreviews()
+            }
+          </div>
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
         {state === 'unsent' &&
