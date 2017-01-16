@@ -2,7 +2,7 @@
 
 Releasing a new version is pretty straightforward and similar to how you would do that for any other repo.
 
-# production
+## production
 
 We have two main branches: `master` and `production`.
 
@@ -10,7 +10,7 @@ Some commits can be on `master` but not ready for `production` yet – that's up
 
 Most of the times though `production` and `master` are identic.
 
-# Release checklist
+## Release checklist
 
 To release a new version of the repo make sure to complete the following steps (in order):
 
@@ -26,10 +26,10 @@ Once the PR is merged
 - [ ] Push the tags `git push --tags`
 - [ ] Release on npm `npm publish`
 
-# Use the new release on "chatgrape"
+## Use the new release on "chatgrape"
 
 On the `chatgrape` repo:
 
-- [ ] Update the CHANGELOG
-- [ ] Update the verion of grape-web-client in `client/version.txt` to reflect the one you just published
-- [ ] Create a PR and ask someone to review
+- [ ] Update the CHANGELOG – exclude information about `chore` changes here
+- [ ] Update the version of grape-web-client in `client/version.txt` to reflect the one you just published
+- [ ] Create a PR onto master and ask someone to review
