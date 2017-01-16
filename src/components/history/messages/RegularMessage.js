@@ -263,7 +263,10 @@ export default class RegularMessage extends PureComponent {
       <div>
         {linkPreviews.map(meta => (
           Object.keys(meta).length > 0 &&
-            <div className={classes.linkPreview}>
+            <div
+              className={classes.linkPreview}
+              key={btoa(meta.sourceUrl)}
+              >
               <LinkPreview {...meta} />
             </div>
           )

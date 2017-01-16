@@ -17,6 +17,7 @@ export default useTheme(Bubble, {
       display: 'block'
     },
     content: {
+      display: 'flex',
       backgroundColor: white
     }
   }

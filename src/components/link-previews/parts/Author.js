@@ -1,24 +1,26 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
-// import {styles} from './authorTheme.js'
+import {styles} from './authorTheme.js'
 
-// @injectSheet(styles)
+@injectSheet(styles)
 export default class Author extends PureComponent {
-  renderIcon() {
-    const {icon} = this.props
-    return <img src={icon} alt="" />
+  renderIcon(icon) {
+    const {sheet: {classes}} = this.props
+    return <img className={classes.icon} src={icon} alt="" />
   }
 
   renderAuthor() {
     const {
       icon,
-      name
+      name,
+      sheet: {classes}
     } = this.props
 
     return (
-      <div>
-        {icon && this.renderIcon()}
+      <div className={classes.container}>
+        {icon && this.renderIcon(icon)}
         <span>{name}</span>
       </div>
     )
@@ -26,17 +28,22 @@ export default class Author extends PureComponent {
 
   render() {
     const {
-      link
+      link,
+      sheet: {classes}
     } = this.props
 
+    if (!link) {
+      return this.renderAuthor()
+    }
+
     return (
-      <div>
-        {
-          link ?
-          <a href={link}>{this.renderAuthor()}</a> :
-          this.renderAuthor()
-        }
-      </div>
+      <a
+        className={cn(classes.container, classes.link)}
+        href={link}
+        target="_blank"
+        rel="noreferrer">
+        {this.renderAuthor()}
+      </a>
     )
   }
 }

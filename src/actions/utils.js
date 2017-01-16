@@ -6,11 +6,10 @@ import isEmpty from 'lodash/lang/isEmpty'
 import staticUrl from 'staticurl'
 
 import {defaultAvatar} from '../constants/images'
-import {maxChannelNameLength} from '../constants/app'
+import {maxChannelNameLength, maxLinkPreviews} from '../constants/app'
 import {
   usersSelector,
-  channelsSelector,
-  maxLinkPreviews
+  channelsSelector
 } from '../selectors'
 
 /**
