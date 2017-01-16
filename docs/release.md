@@ -32,3 +32,15 @@ On the `chatgrape` repo:
 - [ ] Update the CHANGELOG – exclude information about `chore` changes here
 - [ ] Update the version of grape-web-client in `client/version.txt` to reflect the one you just published
 - [ ] Create a PR onto master and ask someone to review
+
+## Hotfixes
+
+Sometimes you may need to deploy an hotfix or some commits from `master` but don't want to include all the recent chances that have been made since the last release.
+
+In this case you can:
+
+- [ ] Switch to `production`
+- [ ] Cherry-pick the relevant commits from `master`
+- [ ] Repete the steps from [Release checklist](#release-checklist) but this time from the `production` branch
+
+Once you are done make sure you merge `production` into `master` so that `master` is up to date.
