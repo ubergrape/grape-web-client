@@ -1,4 +1,8 @@
-## Next version
+## Release 0.48.0 (2017-01-17)
+
+### Fixes
+
+* Revert *Show newlines in history* (#253)
 
 ## Release 0.47.0 (2016-12-23)
 
