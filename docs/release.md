@@ -2,7 +2,7 @@
 
 Releasing a new version is pretty straightforward and similar to how you would do that for any other repo.
 
-## production
+## Production
 
 We have two main branches: `master` and `production`.
 
@@ -41,6 +41,6 @@ In this case you can:
 
 - [ ] Switch to `production`
 - [ ] Cherry-pick the relevant commits from `master`
-- [ ] Repete the steps from [Release checklist](#release-checklist) but this time from the `production` branch
+- [ ] Repeat the steps from [Release checklist](#release-checklist) but this time from the `production` branch
 
 Once you are done make sure you merge `production` into `master` so that `master` is up to date.
