@@ -3,7 +3,7 @@ import {grayLight} from 'grape-theme/dist/base-colors'
 export const styles = {
   container: {
     display: 'flex',
-    color: grayLight,
+    color: grayLight
   },
   link: {
     textDecoration: 'none',

@@ -7,7 +7,7 @@ import {styles} from './mediaActionsTheme.js'
 @injectSheet(styles)
 export default class Image extends PureComponent {
   static propTypes = {
-    permalink: ProptTypes.string.isRequired,
+    permalink: PropTypes.string.isRequired,
     onPlay: PropTypes.func,
     sheet: PropTypes.object.isRequired
   }

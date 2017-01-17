@@ -13,7 +13,7 @@ export default class Author extends PureComponent {
     sheet: PropTypes.object.isRequired
   }
 
-  renderIcon(icon) {
+  renderIcon(iconUrl) {
     const {sheet: {classes}} = this.props
     return <img className={classes.icon} src={iconUrl} alt="" />
   }

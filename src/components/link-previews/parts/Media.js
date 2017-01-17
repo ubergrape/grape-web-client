@@ -9,7 +9,7 @@ import {styles} from './mediaTheme.js'
 export default class Media extends PureComponent {
   static propTypes = {
     previewUrl: PropTypes.string,
-    permalink: ProptTypes.string,
+    permalink: PropTypes.string,
     embed: PropTypes.string.isRequired,
     sheet: PropTypes.object.isRequired
   }
