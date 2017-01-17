@@ -1,0 +1,2 @@
+export const GROUPS_JOINABLE = 'GROUPS_JOINABLE'
+export const GROUPS_OWN = 'GROUPS_OWN'

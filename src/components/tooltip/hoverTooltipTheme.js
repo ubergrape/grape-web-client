@@ -35,8 +35,9 @@ export const rightCenter = {
 const wrapper = {
   position: 'relative'
 }
+
 export const styles = {
-  wrapper: wrapper,
+  wrapper,
   wrapperInline: {
     ...wrapper,
     display: 'inline-block'

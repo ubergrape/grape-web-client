@@ -1,12 +1,15 @@
-let Emitter = require('emitter')
-let _ = require('t')
-let markdown = require('../markdown')
-let domify = require('domify')
-let staticurl = require('staticurl')
-let emoji = require('../../../components/emoji/emoji')
+import Emitter from 'emitter';
+import markdown from '../markdown';
+import domify from 'domify';
+import staticurl from 'staticurl';
+import emoji from '../../../components/emoji/emoji';
+import {shouldNotify} from '../../../utils/notifications';
 
 import page from 'page'
 import {createNotification} from 'grape-web/lib/x-platform'
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 module.exports = Notifications
 
@@ -46,14 +49,15 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
   let i, opts, title, content_dom, imgs, img, replacement, filename
   let content = notif.content
   let attachments = notif.attachments
-  let hasExpired  = (new Date() - notif.time)/1000 > 60
 
   const {channel} = notif
+  const notify = shouldNotify({
+    time: notif.time,
+    sourceChannelId: channel.id,
+    currentChannelId: this.room.id
+  })
 
-  // don't notify if:
-  // - message is too old - to prevent old msgs avalanche when server reloads or device resumes from standby
-  // - chat is focused on the room the notification comes from
-  if ((channel.id === this.room.id && document.hasFocus()) || hasExpired) return
+  if (!notify) return
 
   if (channel.type === 'room') {
     title = notif.author.name + ' (' + channel.name + ')'

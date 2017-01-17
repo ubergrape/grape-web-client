@@ -12,6 +12,7 @@ const button = {
   extend: [linkButton, normal],
   display: 'block',
   '&:hover': {
+    isolate: false,
     color: hoverColor,
     textDecoration: 'underline !important'
   }

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {pickHTMLProps} from 'pick-react-known-prop'
 import {
   defineMessages,
@@ -14,7 +14,7 @@ const messages = defineMessages({
 })
 
 @injectIntl
-export default class Filter extends Component {
+export default class Filter extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     filter: PropTypes.string.isRequired,

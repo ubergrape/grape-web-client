@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import moment from 'moment'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
-import {FormattedMessage} from 'react-intl'
-import shallowCompare from 'react-addons-shallow-compare'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
@@ -17,10 +16,8 @@ const ThemedTooltip = useTheme(Tooltip, merge({}, tooltipTheme, {
 }))
 
 function UserTime(props) {
-  const {userTime, format, theme, isOpened} = props
-  const {classes} = theme
+  const {time, isOpened, theme: {classes}} = props
 
-  const time = moment.utc(userTime).utcOffset(userTime).format(format)
   return (
     <div className={classes.userTime}>
       <span className={isOpened ? classes.globeActive : classes.globe}></span>
@@ -34,7 +31,8 @@ function UserTime(props) {
               {': '}
             </span>
             <span className={classes.userTimeTime}>
-              {time}
+              {/* Moment.js is the only too who can properly handle utc offset. */}
+              {moment(time).utcOffset(time).format('LT')}
             </span>
           </div>
         </ThemedTooltip>
@@ -44,10 +42,10 @@ function UserTime(props) {
 }
 
 UserTime.propTypes = {
-  userTime: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired,
-  format: PropTypes.string.isRequired,
-  isOpened: PropTypes.bool.isRequired
+  isOpened: PropTypes.bool.isRequired,
+  formatTime: PropTypes.func.isRequired
 }
 
 /**
@@ -64,17 +62,14 @@ function isReadersTimezone(time) {
   return readersOffset === writersOffset
 }
 
-@useSheet(styles)
-export default class Time extends Component {
+@injectSheet(styles)
+@injectIntl
+export default class Time extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    format: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     userTime: PropTypes.string
-  }
-
-  static defaultProps = {
-    format: 'h:mm a'
   }
 
   constructor(props) {
@@ -83,10 +78,6 @@ export default class Time extends Component {
       isWritersTimeOpened: false,
       isSameTimezone: isReadersTimezone(props.userTime)
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onMouseOver = () => {
@@ -100,9 +91,12 @@ export default class Time extends Component {
   }
 
   render() {
-    const {time, userTime, format, sheet} = this.props
+    const {
+      time, userTime,
+      intl: {formatTime},
+      sheet: {classes}
+    } = this.props
     const {isSameTimezone, isWritersTimeOpened} = this.state
-    const {classes} = sheet
 
     return (
       <div
@@ -110,13 +104,13 @@ export default class Time extends Component {
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}>
         <span className={isSameTimezone ? classes.timeContainer : classes.timeContainerHoverable}>
-          {moment(time).format(format)}
+          {formatTime(time)}
         </span>
         {!isSameTimezone && userTime &&
           <UserTime
             isOpened={isWritersTimeOpened}
-            userTime={userTime}
-            format={format}
+            time={userTime}
+            formatTime={formatTime}
             theme={{classes}} />
         }
       </div>

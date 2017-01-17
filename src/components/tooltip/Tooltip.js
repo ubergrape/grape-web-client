@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {styles} from './tooltipTheme'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
+
 import {
   getPlacementStyles,
   getPointerPlacement,
@@ -55,4 +56,4 @@ Tooltip.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-export default useSheet(Tooltip, styles)
+export default injectSheet(styles)(Tooltip)

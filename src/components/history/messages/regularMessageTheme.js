@@ -1,12 +1,12 @@
 import {small} from 'grape-theme/dist/fonts'
 import {red, gray} from 'grape-theme/dist/base-colors'
 
-import {styles as baseStyles} from './baseMessageTheme'
+import {styles as baseStyles, horizontalMargin} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
 const stateIndicatorIcon = {
-  '&::before': {
+  '&:before': {
     position: 'absolute',
     right: 0,
     top: 0
@@ -18,6 +18,7 @@ export const styles = {
   clickable: {
     cursor: 'pointer',
     '&:hover': {
+      isolate: false,
       opacity: 0.8
     }
   },
@@ -47,26 +48,34 @@ export const styles = {
   },
   stateIndicator: {
     position: 'absolute',
-    right: 0,
+    right: -(stateIndicatorSize + horizontalMargin) / 2,
     bottom: 0,
     width: stateIndicatorSize,
     height: stateIndicatorSize
   },
   stateIndicatorPending: {
-    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorUnsent: {
-    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorSent: {
-    ...createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorRead: {
-    ...createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
-    ...stateIndicatorIcon
+    extend: [
+      createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
+      stateIndicatorIcon
+    ]
   },
   stateIndicatorTooltipTrigger: {
     display: 'block',

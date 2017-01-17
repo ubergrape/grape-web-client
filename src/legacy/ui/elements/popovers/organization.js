@@ -1,7 +1,7 @@
-let template = require('template')
-let render = require('../../rendervdom')
-let Popover = require('./popover')
-let classes = require('classes')
+import template from 'template';
+import render from '../../rendervdom';
+import Popover from './popover';
+import classes from 'classes';
 let constants = require('conf').constants
 
 module.exports = OrganizationPopover
@@ -21,14 +21,13 @@ OrganizationPopover.prototype.bind = function() {
   Popover.prototype.bind.call(this)
   this.events.obj.editView = (e) => {
     e.preventDefault()
-    let newMode = !window.ui.settings.compact_mode
-    this.emit('editView', newMode)
-  }.bind(this)
-  this.events.obj.toggleOrgInvite = () => {
-    this.emit('toggleOrgInvite')
-  }.bind(this)
+    this.emit('editView')
+  }
+  this.events.obj.toggleOrgInvite = () => this.emit('toggleOrgInvite')
+  this.events.obj.onHide = ::this.hide
   this.events.bind('click a.edit-view', 'editView')
   this.events.bind('click .invite-new-members', 'toggleOrgInvite')
+  this.events.bind('click a', 'onHide')
 }
 
 OrganizationPopover.prototype.redraw = function() {
@@ -58,19 +57,5 @@ OrganizationPopover.prototype.onSetUser = function(user) {
 }
 
 OrganizationPopover.prototype.onSettingsReady = function() {
-  this.redraw()
-}
-
-OrganizationPopover.prototype.onViewChanged = function(compactMode) {
-  if (compactMode) {
-    classes(document.body).add('client-style-compact')
-    classes(document.body).remove('normal-style')
-    classes(document.body).remove('client-style-normal')
-  }
-  else {
-    classes(document.body).add('normal-style')
-    classes(document.body).remove('client-style-compact')
-    classes(document.body).add('client-style-normal')
-  }
   this.redraw()
 }

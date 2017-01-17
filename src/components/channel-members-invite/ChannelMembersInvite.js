@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
@@ -7,21 +8,7 @@ import {
 } from 'react-intl'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
-
-function onInviteUsersClick(props) {
-  const {
-    listed, inviteToChannel, createRoomFromPmAndInvite,
-    hideChannelMembersInvite, channelType
-  } = props
-
-  if (!listed.length) return
-  if (channelType === 'room') inviteToChannel(listed.map(user => user.username))
-  if (channelType === 'pm') createRoomFromPmAndInvite(listed)
-
-  hideChannelMembersInvite()
-}
+import {styles} from './theme'
 
 const messages = defineMessages({
   pm: {
@@ -59,74 +46,81 @@ function getFormattedMessage(channelType, mission) {
   return null
 }
 
-function InviteButton(props) {
-  const {listed, channelType, theme} = props
-  const {classes} = theme
-  return (
-    <div className={classes.submit}>
-      <button
-        className={classes.buttonInvite}
-        onClick={() => onInviteUsersClick(props)}
-        disabled={!listed.length}>
-        {getFormattedMessage(channelType, 'button')}
-      </button>
-    </div>
-  )
-}
+const InviteButton = ({listed, channelType, classes, onClick}) => (
+  <div className={classes.submit}>
+    <button
+      className={classes.buttonInvite}
+      onClick={onClick}
+      disabled={!listed.length}>
+      {getFormattedMessage(channelType, 'button')}
+    </button>
+  </div>
+)
 
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
   channelType: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired,
-  inviteToChannel: PropTypes.func.isRequired,
-  createRoomFromPmAndInvite: PropTypes.func.isRequired,
-  hideChannelMembersInvite: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
-function ChannelMembersInvite(props) {
-  const {
-    sheet, channelType, setInviteFilterValue,
-    addToChannelMembersInvite, removeFromChannelMembersInvite,
-    listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
-    ...rest
-  } = props
+@injectSheet(styles)
+@injectIntl
+export default class ChannelMembersInvite extends PureComponent {
+  static propTypes = {
+    intl: intlShape.isRequired,
+    sheet: PropTypes.object.isRequired,
+    addToChannelMembersInvite: PropTypes.func.isRequired,
+    removeFromChannelMembersInvite: PropTypes.func.isRequired,
+    inviteToChannel: PropTypes.func.isRequired,
+    createRoomFromPmAndInvite: PropTypes.func.isRequired,
+    hideChannelMembersInvite: PropTypes.func.isRequired,
+    setInviteFilterValue: PropTypes.func.isRequired,
+    listed: PropTypes.array.isRequired,
+    channelType: PropTypes.string
+  }
 
-  if (!channelType) return null
+  onInvite = () => {
+    const {
+      listed, inviteToChannel, createRoomFromPmAndInvite,
+      hideChannelMembersInvite, channelType
+    } = this.props
 
-  const {formatMessage} = props.intl
-  const {classes} = sheet
-  return (
-    <ChooseUsersDialog
-      {...rest}
-      title={formatMessage(getFormattedMessage(channelType, 'title'))}
-      theme={{classes}}
-      listed={listed}
-      onHide={hideChannelMembersInvite}
-      onChangeFilter={setInviteFilterValue}
-      onSelectUser={addToChannelMembersInvite}
-      onRemoveSelectedUser={removeFromChannelMembersInvite}>
-      <InviteButton
+    if (!listed.length) return
+    if (channelType === 'room') inviteToChannel(listed.map(({email}) => email))
+    if (channelType === 'pm') createRoomFromPmAndInvite(listed)
+
+    hideChannelMembersInvite()
+  }
+
+  render() {
+    const {
+      sheet: {classes},
+      intl: {formatMessage},
+      channelType, setInviteFilterValue,
+      addToChannelMembersInvite, removeFromChannelMembersInvite,
+      listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
+      ...rest
+    } = this.props
+
+    if (!channelType) return null
+
+    return (
+      <ChooseUsersDialog
+        {...rest}
+        title={formatMessage(getFormattedMessage(channelType, 'title'))}
         theme={{classes}}
         listed={listed}
-        channelType={channelType}
-        inviteToChannel={inviteToChannel}
-        createRoomFromPmAndInvite={createRoomFromPmAndInvite}
-        hideChannelMembersInvite={hideChannelMembersInvite} />
-    </ChooseUsersDialog>
-  )
+        onHide={hideChannelMembersInvite}
+        onChangeFilter={setInviteFilterValue}
+        onSelectUser={addToChannelMembersInvite}
+        onRemoveSelectedUser={removeFromChannelMembersInvite}>
+        <InviteButton
+          classes={classes}
+          listed={listed}
+          channelType={channelType}
+          onClick={this.onInvite} />
+      </ChooseUsersDialog>
+    )
+  }
 }
-
-ChannelMembersInvite.propTypes = {
-  intl: intlShape.isRequired,
-  sheet: PropTypes.object.isRequired,
-  addToChannelMembersInvite: PropTypes.func.isRequired,
-  removeFromChannelMembersInvite: PropTypes.func.isRequired,
-  inviteToChannel: PropTypes.func.isRequired,
-  createRoomFromPmAndInvite: PropTypes.func.isRequired,
-  hideChannelMembersInvite: PropTypes.func.isRequired,
-  setInviteFilterValue: PropTypes.func.isRequired,
-  listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string
-}
-
-export default injectIntl(useSheet(ChannelMembersInvite, style))

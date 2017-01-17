@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
 
-@useSheet(style)
-export default class Roomname extends Component {
+@injectSheet(style)
+export default class Roomname extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
@@ -21,17 +21,20 @@ export default class Roomname extends Component {
     statusBorderColor: '#fff',
     mentions: false,
     unread: 0,
-    showPrivateStatus: false
+    showPrivateStatus: false,
+    showRoomInfo: false
   }
 
   render() {
     const {
-      name, sheet, icon, color: backgroundColor,
-      statusBorderColor, isPublic, showPrivateStatus
+      name, icon, color: backgroundColor,
+      creatorUser, users, showRoomInfo,
+      statusBorderColor, isPublic, showPrivateStatus,
+      sheet: {classes}
     } = this.props
-    const {classes} = sheet
+
     return (
-      <span className={classes.avatarName}>
+      <div className={classes.avatarName}>
         <Icon
           name={icon}
           theme={{
@@ -40,10 +43,24 @@ export default class Roomname extends Component {
           }}
           showPrivateStatus={showPrivateStatus}
           isPrivate={!isPublic} />
-        <span className={classes.name}>
-          {name}
-        </span>
-      </span>
+        <div className={classes.name}>
+          <div>{name}</div>
+          {showRoomInfo && (
+            <ul className={classes.info}>
+              <li>
+                <span className={classes.usersCountIcon} />
+                {users.length}
+              </li>
+              {creatorUser && (
+                <li className={classes.creator}>
+                  <span className={classes.creatorIcon} />
+                  {creatorUser.displayName}
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+      </div>
     )
   }
 }

@@ -1,8 +1,10 @@
 import request from 'superagent'
+
 import conf from 'conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
+import {sequenceToSettings, settingsToSequence} from './notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -122,13 +124,13 @@ export function joinChannel(channelId) {
   })
 }
 
-export function inviteToChannel(usernames, channelId) {
+export function inviteToChannel(emailAddresses, channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
         ns: 'channels',
         action: 'invite',
-        args: [channelId, usernames]
+        args: [channelId, emailAddresses]
       },
       err => {
         if (err) return reject(err)
@@ -347,8 +349,16 @@ export function removeMessage(channelId, messageId) {
   })
 }
 
-export function postMessage(channelId, text, options) {
+export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
+    if (options.attachments) {
+      // If an id is already given, like for e.g. in case of file uploads,
+      // backend expect an attachment to be the id.
+      // Otherwise it expects an attachment object.
+      options.attachments = options.attachments.map(
+        attachment => attachment.id ? attachment.id : attachment
+      )
+    }
     rpc({
       ns: 'channels',
       action: 'post',
@@ -375,6 +385,34 @@ export function readMessage(channelId, messageId) {
   })
 }
 
+export function getInviteToOrgLink(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'get_invite_url',
+      args: [orgId]
+    },
+    (err, link) => {
+      if (err) return reject(err)
+      resolve(link)
+    })
+  })
+}
+
+export function inviteToOrg(orgId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'invite',
+      args: [orgId, settings]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
 export function loadConfig() {
   return new Promise((resolve, reject) => {
     const {host, protocol, authToken} = conf.server
@@ -388,4 +426,38 @@ export function loadConfig() {
         resolve(res.body)
       })
   })
+}
+
+export function setNotificationSetting(orgId, channelId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'update_settings',
+      args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
+    }, err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function getNotificationSettings(orgId, channelId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'get_settings',
+      args: [`${orgId}:${channelId}`]
+    }, (err, sequence) => {
+      if (err) return reject(err)
+      resolve(sequenceToSettings(sequence))
+    })
+  })
+}
+
+export function uploadFile(orgId, file) {
+  return request
+    .post(conf.server.uploadPath)
+    .field('organization', orgId)
+    .attach('file', file, file.name)
+    .accept('json')
 }

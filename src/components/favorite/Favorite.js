@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
-@useSheet(style)
-export default class Favorite extends Component {
+import {styles} from './theme'
 
+@injectSheet(styles)
+export default class Favorite extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     id: PropTypes.number,
@@ -13,7 +13,7 @@ export default class Favorite extends Component {
     requestRemoveChannelFromFavorites: PropTypes.func.isRequired
   }
 
-  toggleFavorited() {
+  onToggle = () => {
     const {
       id,
       favorited,
@@ -30,11 +30,14 @@ export default class Favorite extends Component {
   }
 
   render() {
-    const {favorited} = this.props
-    const {classes} = this.props.sheet
+    const {
+      favorited,
+      sheet: {classes}
+    } = this.props
+
     return (
       <button
-        onClick={::this.toggleFavorited}
+        onClick={this.onToggle}
         className={classes[favorited ? 'favorited' : 'favorite']}>
       </button>
     )

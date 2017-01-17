@@ -1,14 +1,22 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
 } from 'react-intl'
 
 import {maxChannelNameLength} from '../../constants/app'
+import {
+  isAllOff,
+  isAllInherit,
+  values as notificationSettingsValues
+} from '../../utils/notification-settings'
 import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
+import Tooltip from '../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
+import {settingsButtonSize} from './roomInfoTheme'
 
 const messages = defineMessages({
   placeholder: {
@@ -17,12 +25,47 @@ const messages = defineMessages({
   }
 })
 
+const NotificationSettingsButton = ({classes, settings, onShow}) => {
+  let state = 'Custom'
+  if (isAllOff(settings)) state = 'Off'
+  if (isAllInherit(settings)) state = 'Inherit'
+
+  return (
+    <Tooltip
+      align="right"
+      placement="top"
+      arrowMargin={Math.round(settingsButtonSize / 2)}
+      message={(
+        <FormattedMessage
+          id="notificationSettingsTooltip"
+          defaultMessage="Edit notification settings" />
+      )}>
+      <button
+        className={`${classes.notificationsButton} ${classes['notificationsButton' + state]}`}
+        onClick={onShow}></button>
+    </Tooltip>
+  )
+}
+
+NotificationSettingsButton.propTypes = {
+  onShow: PropTypes.func.isRequired,
+  channel: PropTypes.object.isRequired,
+  settings: PropTypes.shape({
+    desktop: PropTypes.oneOf(notificationSettingsValues),
+    push: PropTypes.oneOf(notificationSettingsValues)
+  }).isRequired,
+  classes: PropTypes.object.isRequired
+}
+
 @injectIntl
-export default class MainSettings extends Component {
+export default class MainSettings extends PureComponent {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
+    theme: PropTypes.shape({
+      classes: PropTypes.object.isRequired
+    }).isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
+    showNotificationSettings: PropTypes.func.isRequired,
     onChangePrivacy: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
@@ -30,11 +73,17 @@ export default class MainSettings extends Component {
     onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.object.isRequired,
+    notificationSettings: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool
   }
 
   static defaultProps = {
     allowEdit: false
+  }
+
+  onShowNotificationSettings = () => {
+    const {showNotificationSettings, channel} = this.props
+    showNotificationSettings({channel})
   }
 
   getError() {
@@ -47,29 +96,43 @@ export default class MainSettings extends Component {
   }
 
   renderAdditionalActions() {
-    if (!this.props.allowEdit) return null
-    const {classes} = this.props
+    const {
+      allowEdit,
+      theme,
+      theme: {classes},
+      channel,
+      notificationSettings
+    } = this.props
+
     return (
       <div className={classes.additionalActions}>
-        <AdditionalActionsDropdown
-          {...this.props}
-          container={this}
-          theme={{classes}} />
+        <NotificationSettingsButton
+          channel={channel}
+          classes={classes}
+          onShow={this.onShowNotificationSettings}
+          settings={notificationSettings} />
+        {allowEdit && (
+          <AdditionalActionsDropdown
+            {...this.props}
+            container={this}
+            theme={theme} />
+        )}
       </div>
     )
   }
 
   renderRoomName() {
     const {
-      classes,
+      theme: {classes},
+      intl: {formatMessage},
       renameRoom,
       clearRoomRenameError,
       channel,
-      allowEdit,
-      intl: {formatMessage}
+      allowEdit
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
+
     return (
       <div className={classes.roomName}>
         <EditableText
@@ -78,8 +141,7 @@ export default class MainSettings extends Component {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
-          error={this.getError()}
-          />
+          error={this.getError()} />
       </div>
     )
   }
@@ -87,7 +149,7 @@ export default class MainSettings extends Component {
   renderSettings() {
     const {
       allowEdit,
-      classes
+      theme: {classes}
     } = this.props
 
     if (!allowEdit) return null
@@ -101,7 +163,7 @@ export default class MainSettings extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {theme: {classes}} = this.props
     return (
       <div className={classes.mainSettings}>
         {this.renderSettings()}

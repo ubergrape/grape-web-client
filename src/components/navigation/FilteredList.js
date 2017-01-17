@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import List from 'react-finite-list'
 import {FormattedMessage} from 'react-intl'
 
-export default class FilteredList extends Component {
+export default class FilteredList extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,

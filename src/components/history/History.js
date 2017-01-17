@@ -1,7 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+// TODO get rid of the `PureComponent as Component` alias when
+// when ubergrape/grape-web-client/issues/125 is fixed
+import React, {PropTypes, PureComponent as Component} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
@@ -17,7 +19,7 @@ function createState(state, props) {
   return {rows, scrollTo}
 }
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -96,9 +98,11 @@ export default class History extends Component {
     this.setState({rows})
   }
 
-  renderRow = ({index}) => (
+  renderRow = ({index, key, style}) => (
     <Row
       {...this.state.rows[index]}
+      key={key}
+      style={style}
       onToggleExpander={this.onToggleExpander} />
   )
 

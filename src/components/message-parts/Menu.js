@@ -1,10 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
-import Tooltip from '../tooltip/HoverTooltip'
+import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
-import shallowCompare from 'react-addons-shallow-compare'
 
+import Tooltip from '../tooltip/HoverTooltip'
 import {styles} from './menuTheme'
 
 function getClassName(classes, name, i, length) {
@@ -47,8 +46,8 @@ function getMessage(name) {
   }
 }
 
-@useSheet(styles)
-export default class Menu extends Component {
+@injectSheet(styles)
+export default class Menu extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -61,28 +60,22 @@ export default class Menu extends Component {
     className: ''
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  }
-
   render() {
     const {sheet, onSelect, items, className} = this.props
     const {classes} = sheet
     return (
       <div className={`${classes.menu} ${className}`}>
-        {items.map((name, i) => {
-          return (
-            <Tooltip
-              key={name}
-              placement="top"
-              message={getMessage(name)}
-              inline>
-                <span
-                  className={getClassName(classes, name, i, items.length)}
-                  onClick={onSelect.bind(null, {name})} />
-            </Tooltip>
-          )
-        })}
+        {items.map((name, i) => (
+          <Tooltip
+            key={name}
+            placement="top"
+            message={getMessage(name)}
+            inline>
+              <span
+                className={getClassName(classes, name, i, items.length)}
+                onClick={/* TODO #120 */onSelect.bind(null, {name})} />
+          </Tooltip>
+        ))}
       </div>
     )
   }

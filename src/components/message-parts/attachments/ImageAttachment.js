@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
 
@@ -23,8 +23,8 @@ function calcThumbnailSize(options) {
   return {width, height}
 }
 
-@useSheet(styles)
-export default class ImageAttachment extends Component {
+@injectSheet(styles)
+export default class ImageAttachment extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,

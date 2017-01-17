@@ -7,13 +7,6 @@ export const styles = {
     willChange: 'transform',
     overflowY: 'auto',
     outline: 'none',
-    WebkitOverflowScrolling: 'touch',
-    '& .Grid__innerScrollContainer': {
-      boxSizing: 'border-box',
-      overflow: 'hidden'
-    },
-    '& .Grid__cell': {
-      position: 'absolute'
-    }
+    WebkitOverflowScrolling: 'touch'
   }
 }

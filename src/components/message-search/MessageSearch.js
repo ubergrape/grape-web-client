@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, {PureComponent, PropTypes} from 'react'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   intlShape,
@@ -17,9 +16,9 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 import {ShowMore} from '../i18n/i18n'
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
-export default class MessageSearch extends Component {
+export default class MessageSearch extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -54,8 +53,6 @@ export default class MessageSearch extends Component {
       this.load(nextProps)
     }
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onLoadMore = () => {
     this.load()
@@ -161,7 +158,7 @@ export default class MessageSearch extends Component {
     return (
       <div
         className={classes.message}
-        onClick={this.onSelect.bind(this, message)}
+        onClick={/* TODO #120 */this.onSelect.bind(this, message)}
         key={message.id}>
         <Message {...message}>
           <GrapedownWithSearch text={message.text} />

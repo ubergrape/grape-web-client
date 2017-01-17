@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/utility/noop'
 
@@ -79,7 +79,7 @@ Pm.propTypes = {
   channel: PropTypes.object.isRequired
 }
 
-export default class Channel extends Component {
+export default class Channel extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
@@ -114,7 +114,7 @@ export default class Channel extends Component {
     if (focused) channelClass += ` ${classes.channelFocused}`
     return (
       <div>
-        {header && <h2 className={classes.unJoinedTitle}>{header}</h2>}
+        {header && <h2 className={classes.unjoinedTitle}>{header}</h2>}
         <div
           className={channelClass}
           onClick={onClick}>

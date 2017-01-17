@@ -1,5 +1,4 @@
-import {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 
@@ -20,7 +19,7 @@ export function isRangeVisible({
  * This component decorates a virtual component and just-in-time prefetches rows as a user scrolls.
  * It is intended as a convenience component; fork it if you'd like finer-grained control over data-loading.
  */
-export default class InfiniteLoader extends Component {
+export default class InfiniteLoader extends PureComponent {
   static propTypes = {
     /**
      * Function respondible for rendering a virtualized component.
@@ -73,10 +72,6 @@ export default class InfiniteLoader extends Component {
   constructor(props, context) {
     super(props, context)
     this.direction = 0
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onScrollStop = debounce(() => {

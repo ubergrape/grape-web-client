@@ -1,12 +1,12 @@
 import {small} from 'grape-theme/dist/fonts'
+import {gold} from 'grape-theme/dist/base-colors'
 
 export const styles = {
   badge: {
-    ...small,
+    extend: small,
     display: 'inline-block',
     padding: '2px 8px',
-    // FIXME: replace with theme colors.
-    background: '#e6c647',
+    background: gold,
     color: '#fff',
     borderRadius: '1pc',
     marginLeft: 5,

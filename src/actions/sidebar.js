@@ -1,5 +1,4 @@
 import * as types from '../constants/actionTypes'
-import reduxEmitter from '../legacy/redux-emitter'
 import {supportSelector} from '../selectors'
 import * as intercom from '../utils/intercom'
 
@@ -29,7 +28,6 @@ export function hideSidebar() {
       type: types.HIDE_SIDEBAR
     })
     if (type === 'intercom') dispatch(hideIntercom())
-    reduxEmitter.hideSidebar()
   }
 }
 
@@ -39,7 +37,6 @@ export function showInSidebar(panel) {
       type: types.SHOW_SIDEBAR,
       payload: panel
     })
-    reduxEmitter.showSidebar()
     if (panel === 'intercom') {
       dispatch(showIntercom())
       return

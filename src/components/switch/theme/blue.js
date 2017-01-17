@@ -1,3 +1,4 @@
+import {small} from 'grape-theme/dist/fonts'
 import {white, blue, grayBlueDark} from 'grape-theme/dist/base-colors'
 
 const togglerMargin = 2
@@ -18,7 +19,6 @@ export const styles = {
   switch: {
     display: 'inline-flex',
     position: 'relative',
-    lineHeight: '32px',
     borderRadius: 5,
     color: white,
     cursor: 'pointer',
@@ -46,6 +46,8 @@ export const styles = {
     pointerEvents: 'none'
   },
   label: {
+    extend: small,
+    lineHeight: 2.5,
     whiteSpace: 'nowrap',
     padding: '0 10px'
   }

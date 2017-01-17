@@ -1,8 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import Fuse from 'fuse.js'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
+import injectSheet from 'grape-web/lib/jss'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import {
   defineMessages,
@@ -15,8 +16,7 @@ import List from './List'
 import FilteredList from './FilteredList'
 import Channel from './Channel'
 import ManageButtons from './ManageButtons'
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import {styles} from './theme'
 
 const messages = defineMessages({
   channelHeader: {
@@ -33,16 +33,15 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(styles)
 @injectIntl
-export default class Navigation extends Component {
-
+export default class Navigation extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
-    showChannelsManager: PropTypes.func.isRequired,
-    showPmManager: PropTypes.func.isRequired,
+    showManageContacts: PropTypes.func.isRequired,
+    showManageGroups: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
@@ -69,7 +68,7 @@ export default class Navigation extends Component {
       filteredUnJoined: []
     }
 
-    mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
+    mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
   }
 
   componentDidMount() {
@@ -84,7 +83,7 @@ export default class Navigation extends Component {
           {keys: ['name'], threshold: 0.3}
         ),
         fuseUnJoined: new Fuse(
-          nextProps.unJoined,
+          nextProps.unjoined,
           {keys: ['name'], threshold: 0.3}
         )
       })
@@ -106,11 +105,12 @@ export default class Navigation extends Component {
     }
   }
 
-  onShortcut() {
+  onShortcut = (e) => {
+    e.preventDefault()
     this.filter.focus()
   }
 
-  onScroll(e) {
+  onScroll = (e) => {
     const {recent, bottomOffset} = this.props
     if (this.state.shift >= recent.length) return
 
@@ -122,11 +122,11 @@ export default class Navigation extends Component {
     }
   }
 
-  onSelectFiltered(channel) {
+  onSelectFiltered = (channel) => {
     this.goToChannel(channel)
   }
 
-  onChangeFilter({target}) {
+  onChangeFilter = ({target}) => {
     const {value} = target
     const filtered = this.state.fuseJoined.search(value)
     const filteredUnJoined = this.state.fuseUnJoined.search(value)
@@ -139,11 +139,11 @@ export default class Navigation extends Component {
     })
   }
 
-  onFocusFiltered(channel) {
+  onFocusFiltered = (channel) => {
     this.setState({focusedChannel: channel})
   }
 
-  onKeyDownFilter(e) {
+  onKeyDownFilter = (e) => {
     const keyName = keyname(e.keyCode)
 
     if (keyName === 'esc' && !this.filter.value) {
@@ -169,7 +169,9 @@ export default class Navigation extends Component {
     }
   }
 
-  goToChannel(channel) {
+  goToChannel = (channel) => {
+    if (this.props.channel.id === channel.id) return
+
     this.props.goToChannel(channel.slug || channel.mate.slug)
     this.setState({
       filter: '',
@@ -178,7 +180,8 @@ export default class Navigation extends Component {
     })
   }
 
-  renderFilteredChannel({item: channel, focused}) {
+  renderFilteredChannel = (params) => {
+    const {item: channel, focused} = params
     const {classes} = this.props.sheet
     const {formatMessage} = this.props.intl
     const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
@@ -191,7 +194,7 @@ export default class Navigation extends Component {
         channel={channel}
         focused={focused}
         theme={{classes}}
-        onClick={this.goToChannel.bind(this, channel)}/>
+        onClick={this.goToChannel.bind(this, channel)} />
     )
   }
 
@@ -205,10 +208,10 @@ export default class Navigation extends Component {
           {...this.state}
           theme={{classes}}
           ref="filteredList"
-          renderItem={::this.renderFilteredChannel}
-          onSelect={::this.onSelectFiltered}
-          onFocus={::this.onFocusFiltered}
-          onMouseOver={::this.onFocusFiltered} />
+          renderItem={this.renderFilteredChannel}
+          onSelect={this.onSelectFiltered}
+          onFocus={this.onFocusFiltered}
+          onMouseOver={this.onFocusFiltered} />
       )
     }
 
@@ -226,7 +229,7 @@ export default class Navigation extends Component {
           type="favorites"
           theme={{classes}}
           list={this.props.favorited}
-          goToChannel={::this.goToChannel} />
+          goToChannel={this.goToChannel} />
         <List
           {...this.props}
           {...this.state}
@@ -234,7 +237,7 @@ export default class Navigation extends Component {
           type="recent"
           theme={{classes}}
           list={recentList}
-          goToChannel={::this.goToChannel} />
+          goToChannel={this.goToChannel} />
       </div>
     )
   }
@@ -247,8 +250,7 @@ export default class Navigation extends Component {
         <ManageButtons
           {...this.props}
           {...this.state}
-          theme={{classes}}
-          />
+          theme={{classes}} />
         {this.renderList()}
       </div>
     )
@@ -259,24 +261,24 @@ export default class Navigation extends Component {
 
     return (
       <div className={classes.wrapper}>
-          <div
-            ref="navigation"
-            onScroll={::this.onScroll}
-            className={classes.navigation}>
-            <div ref="listsContainer">
-              {this.renderNavigation()}
-            </div>
+        <div
+          ref="navigation"
+          onScroll={this.onScroll}
+          className={classes.navigation}>
+          <div ref="listsContainer">
+            {this.renderNavigation()}
           </div>
-          <div className={classes.filter}>
-            <Filter
-              {...this.props}
-              {...this.state}
-              ref="filter"
-              value={this.state.filter}
-              theme={{classes}}
-              onKeyDown={::this.onKeyDownFilter}
-              onChange={::this.onChangeFilter} />
-          </div>
+        </div>
+        <div className={classes.filter}>
+          <Filter
+            {...this.props}
+            {...this.state}
+            ref="filter"
+            value={this.state.filter}
+            theme={{classes}}
+            onKeyDown={this.onKeyDownFilter}
+            onChange={this.onChangeFilter} />
+        </div>
       </div>
     )
   }

@@ -4,7 +4,8 @@ import {white} from 'grape-theme/dist/base-colors'
 export const styles = {
   bubble: {
     display: 'inline-block',
-    position: 'relative'
+    position: 'relative',
+    minWidth: 0
   },
   bubbleWithArrow: {
     extend: 'bubble',
@@ -16,8 +17,7 @@ export const styles = {
       height: 7,
       content: '""',
       transform: 'rotate(45deg) translateX(-50%)',
-      background: white,
-      zIndex: 1
+      background: white
     }
   },
   content: {
@@ -26,6 +26,18 @@ export const styles = {
     background: white,
     borderRadius: 16,
     padding: '5px 13px',
-    wordBreak: 'break-word'
+    wordBreak: 'break-word',
+    '& pre': {
+      lineHeight: 1
+    },
+    '& pre code': {
+      lineHeight: normal.lineHeight
+    },
+    '& p, pre': {
+      marginTop: normal.fontSize / 2,
+      '&:first-child': {
+        marginTop: 0
+      }
+    }
   }
 }

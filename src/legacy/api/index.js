@@ -155,7 +155,6 @@ API.prototype.subscribe = function API_subscribe() {
       user.status = 0
       user.pm = null
       self.organization.users.push(user)
-      self.emit('newOrgMember', user)
     }
   })
   this.in.on('organization.left', function (data) {
@@ -241,23 +240,23 @@ API.prototype.subscribe = function API_subscribe() {
     self.emit('changeUser', user, changed)
   })
 
-  this.in.on('notification.new', function (notification) {
-    let dispatcher = notification.dispatcher
-    switch (dispatcher) {
-    case 'message':
-    case 'pm':
-    case 'mention':
-    case 'group_mention':
-      notification.channel = models.Room.get(notification.channel_id)
-      self.emit('newMsgNotification', notification)
-      break
-    case 'room_invite':
-      let inviter = models.User.get(notification.inviter_id)
-      let room = models.Room.get(notification.channel_id)
-      if (inviter && room){
-      self.emit('newInviteNotification', {inviter: inviter, room: room})
+  this.in.on('notification.new', (notification) => {
+    switch (notification.dispatcher) {
+      case 'message':
+      case 'pm':
+      case 'mention':
+      case 'group_mention':
+        notification.channel = models.Room.get(notification.channel_id)
+        self.emit('newMsgNotification', notification)
+        break
+      case 'room_invite': {
+        let inviter = models.User.get(notification.inviter_id)
+        let room = models.Room.get(notification.channel_id)
+        if (inviter && room){
+          self.emit('newInviteNotification', {inviter: inviter, room: room})
+        }
+        break
       }
-      break
     }
   })
 }

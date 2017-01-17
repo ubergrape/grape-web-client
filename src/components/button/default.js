@@ -12,6 +12,7 @@ export default {
   padding: '4px 14px',
   transition: 'background 0.3s, color 0.3s, font-size 0.3s',
   '&:hover': {
+    isolate: false,
     background: color(colors.blue).lighten(0.05).rgbaString()
   }
 }

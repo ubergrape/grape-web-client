@@ -1,20 +1,21 @@
-import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
+
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
-import style from './style'
+import {styles, iconSize} from './theme'
 import IconSettings from './IconSettings'
 
 const iconTheme = {
-  size: 60,
+  size: iconSize,
   statusSize: 23,
   statusBorderWidth: 2,
   statusBorderColor: colors.grayBlueLighter
 }
 
-@useSheet(style)
-export default class RoomIconSetting extends Component {
+@injectSheet(styles)
+export default class RoomIconSetting extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired

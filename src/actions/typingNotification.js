@@ -52,8 +52,10 @@ export function cleanupTyping(channels) {
     channels[channelId] = typingUsers
   })
 
+  if (!isModified) return {type: types.NOOP}
+
   return {
     type: types.SET_TYPING_USERS,
-    payload: isModified ? {...channels} : channels
+    payload: {...channels}
   }
 }

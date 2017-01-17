@@ -2,6 +2,7 @@ import color from 'color'
 
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
+import {zIndex} from '../../utils/z-index'
 
 export default {
   alerts: {
@@ -10,14 +11,15 @@ export default {
     left: 0,
     top: 0,
     right: 0,
-    zIndex: 100
+    zIndex: zIndex('alerts')
   },
   alert: {
     padding: '10px 10px 10px 20px',
     borderBottom: '1px solid',
     opacity: 1,
     transform: 'scaleX(1) translate3d(0, 0, 0)',
-    animation: 'hifromthetopNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    animation: 'hifromthetopNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    listStyleType: 'none'
   },
   info: {
     color: color(webColors.alertInfo).darken(0.3).hexString(),

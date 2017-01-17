@@ -7,7 +7,9 @@ var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
 
 var NODE_ENV = process.env.NODE_ENV
+var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
+
 
 var plugins = [
   appExtractText,
@@ -16,17 +18,22 @@ var plugins = [
     from: './src/images',
     to: './images'
   }]),
+  new CopyFilesPlugin([{
+    from: './src/sounds',
+    to: './sounds'
+  }]),
   new webpack.DefinePlugin({
     __DEV__: NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
+    __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   })
 ]
 
 module.exports = exports = {
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   output: {
-    path: './dist',
+    path: './dist/app',
     filename: 'app.js'
   },
   module: {
@@ -41,7 +48,7 @@ module.exports = exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader?stage=0',
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
@@ -86,18 +93,14 @@ module.exports = exports = {
   resolve: {
     alias: {
       'classes': 'component-classes',
-      'clipboard': 'component-clipboard',
       'closest': 'component-closest',
       'dialog': 'dialog-component',
       'emitter': 'component-emitter',
-      'file': 'component-file',
-      'progress': 'progress-component',
       'query': 'component-query',
-      'raf': 'component-raf',
-      'resizable': 'jh3y-resizable',
-      'upload': 'component-upload',
       'events': 'component-events',
-
+      'material-ui': '@ubergrape/material-ui',
+      'react-dropzone': '@ubergrape/react-dropzone',
+      'react-notification': '@ubergrape/react-notification'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
@@ -118,7 +121,7 @@ if (isDevServer) {
     contentBase = './src/components/' + process.env.COMPONENT + '/example/'
   }
 
-  exports.output.publicPath = '/dist/'
+  exports.output.publicPath = '/dist/app/'
   exports.plugins.push(new webpack.HotModuleReplacementPlugin())
   exports.entry = {
     browser: [

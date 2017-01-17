@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
-
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
-@useSheet(style)
-export default class TagsInput extends Component {
+import {styles} from './theme'
+
+@injectSheet(styles)
+export default class TagsInput extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
@@ -40,11 +39,11 @@ export default class TagsInput extends Component {
     filterArea.style.height = filterRuler.offsetHeight
   }
 
-  onBlur() {
+  onBlur = () => {
     if (this.props.focused) this.refs.input.focus()
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     if (keyname(e.keyCode) === 'backspace') {
       this.deleteLastItem()
       return
@@ -52,7 +51,7 @@ export default class TagsInput extends Component {
     this.props.onKeyDown(e)
   }
 
-  onChange() {
+  onChange = () => {
     this.props.onChange(this.refs.input.value)
   }
 
@@ -79,9 +78,10 @@ export default class TagsInput extends Component {
   }
 
   renderInput() {
-    const {classes} = this.props.sheet
-    const {focused, value} = this.props
-    if (!focused) return null
+    const {
+      sheet: {classes},
+      value
+    } = this.props
 
     return (
       <span>
@@ -89,9 +89,9 @@ export default class TagsInput extends Component {
         <input
           ref="input"
           className={classes.input}
-          onBlur={::this.onBlur}
-          onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange}
+          onBlur={this.onBlur}
+          onKeyDown={this.onKeyDown}
+          onChange={this.onChange}
           value={value} />
         <span
           ref="inputRuler"
@@ -111,7 +111,7 @@ export default class TagsInput extends Component {
         <button
           key={i}
           className={sheet.classes.token}
-          onClick={this.onDeleteTag.bind(this, item)}>
+          onClick={/* TODO #120 */this.onDeleteTag.bind(this, item)}>
           {this.props.renderTag(item)}
         </button>
       )

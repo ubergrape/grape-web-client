@@ -1,2 +1,2 @@
-export * as en from './en'
-export * as de from './de'
+export en from './en'
+export de from './de'

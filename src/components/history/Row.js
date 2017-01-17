@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import React, {PureComponent, PropTypes} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import RegularMessage from './messages/RegularMessage'
@@ -28,8 +27,8 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-@useSheet(styles)
-export default class Row extends Component {
+@injectSheet(styles)
+export default class Row extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     user: PropTypes.shape({
@@ -45,7 +44,10 @@ export default class Row extends Component {
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
+    isPm: PropTypes.bool.isRequired,
     duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    style: PropTypes.object,
+    key: PropTypes.string,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
@@ -55,10 +57,6 @@ export default class Row extends Component {
     isLast: false,
     isGroupable: false,
     duplicates: []
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onEdit = () => {
@@ -80,7 +78,8 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, isExpanded
+      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
+      style, key, onCopyLink
     } = this.props
 
     let separator = null
@@ -104,10 +103,12 @@ export default class Row extends Component {
       duplicates: duplicates.length,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
+      isPm,
       hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
-      onResend: this.onResend
+      onResend: this.onResend,
+      onCopyLink
     }
 
     if (message.type === 'activity') {
@@ -121,7 +122,10 @@ export default class Row extends Component {
     }
 
     return (
-      <div className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
+      <div
+        className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}
+        style={style}
+        key={key}>
         {separator}
         <Message {...props}>
           {message.text}

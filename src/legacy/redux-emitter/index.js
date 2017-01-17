@@ -47,6 +47,18 @@ class ReduxEmitter extends Emitter {
     this.emit('editMessage', msg)
   }
 
+  endEditMessage() {
+    getBoundActions().endEditMessage()
+  }
+
+  showEmojiBrowser() {
+    this.emit('showEmojiBrowser')
+  }
+
+  showGrapeBrowser() {
+    this.emit('showGrapeBrowser')
+  }
+
   createMessage({id}, text, options) {
     getBoundActions().createMessage({channelId: id, text, ...options})
   }
@@ -75,8 +87,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideMentions()
   }
 
-  showOrgInvite() {
-    this.emit('toggleOrgInvite')
+  showInviteToOrg() {
+    getBoundActions().showInviteToOrg()
   }
 
   showRoomInvite() {
@@ -103,6 +115,10 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideAlertByType(type)
   }
 
+  showToastNotification(message, options) {
+    getBoundActions().showToastNotification(message, options)
+  }
+
   enableNotifications() {
     this.emit('enableNotifications')
   }
@@ -119,12 +135,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideAlertByType(alerts.LOADING_HISTORY)
   }
 
-  showChannelsManager() {
-    this.emit('triggerRoomManager')
-  }
-
-  showPmManager() {
-    this.emit('triggerPMManager')
+  showManageGroups() {
+    getBoundActions().showManageGroups()
   }
 
   toggleOrgSettings(elem) {

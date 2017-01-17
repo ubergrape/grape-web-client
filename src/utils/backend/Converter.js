@@ -12,12 +12,11 @@ export default class Converter {
   constructor(obj, converter) {
     this.obj = obj
     this.converter = converter
-
     this.cache = []
   }
 
   isCircular(obj) {
-    return this.cache.indexOf(obj) !== -1
+    return this.cache.includes(obj)
   }
 
   convert() {

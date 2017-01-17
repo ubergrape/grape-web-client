@@ -1,8 +1,8 @@
-let Emitter = require('emitter')
-let events = require('events')
-let dialog = require('dialog')
-let v = require('virtualdom')
-let template = require('template')
+import Emitter from 'emitter';
+import events from 'events';
+import dialog from 'dialog';
+import v from 'virtualdom';
+import template from 'template';
 
 module.exports = Dialog
 

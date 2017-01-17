@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
+import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './jumperTheme'
 
-@useSheet(styles)
-export default class Jumper extends Component {
+@injectSheet(styles)
+export default class Jumper extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
@@ -21,10 +20,6 @@ export default class Jumper extends Component {
   constructor(props) {
     super(props)
     this.state = {show: false}
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onRowsRendered = ({startIndex, stopIndex, overscanStopIndex}) => {

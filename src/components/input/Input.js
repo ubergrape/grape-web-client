@@ -1,38 +1,40 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
-import {useSheet} from 'grape-web/lib/jss'
-
+import injectSheet from 'grape-web/lib/jss'
+import listenOutsideClick from 'grape-web/lib/outside-click'
 import {pickHTMLProps} from 'pick-react-known-prop'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
+
 import GrayTooltip from '../tooltip/GrayTooltip'
-import style from './style'
+import {styles} from './theme'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 
 /**
- * This component renders input with error tooltip
- * if `error` props passed.
- * `error` is object with 2 properties:
- * * `message` is `string` to disaplay in Tooltip
- * * `level` is `string`: `error` or `warning`
+ * This component renders input or textarea with error/warning tooltip
+ * if `error` prop passed.
  */
-@useSheet(style)
-export default class Input extends Component {
+// TODO: move this component to grape-ui library
+// https://github.com/ubergrape/chatgrape/issues/4384
+@injectSheet(styles)
+export default class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     clearError: PropTypes.func.isRequired,
     focused: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
-      message: React.PropTypes.string.isRequired,
-      level: React.PropTypes.string.isRequired
+      message: PropTypes.string.isRequired,
+      level: PropTypes.oneOf(['error', 'warning'])
     })
   }
 
   static defaultProps = {
     placement: 'bottom',
+    type: 'input',
     focused: false,
     onChange: noop,
     clearError: noop
@@ -56,16 +58,29 @@ export default class Input extends Component {
     this.props.clearError()
   }
 
+  renderInput() {
+    const {type, error, theme: {classes}, className} = this.props
+    const props = {
+      ...pickHTMLProps(this.props),
+      onChange: this.onChange,
+      ref: 'input',
+      className: `${classes['input' + (error ? capitalize(error.level) : '')]} ${className}`
+    }
+    switch (type) {
+      case 'input':
+        return <input {...props} />
+      case 'textarea':
+        return <textarea {...props} />
+      default:
+    }
+  }
+
   render() {
     const {error, theme, sheet} = this.props
     const {classes, arrowOffset, tooltipOffset, placement} = theme
     return (
       <span className={sheet.classes.wrapper}>
-        <input
-          {...pickHTMLProps(this.props)}
-          onChange={this.onChange}
-          ref="input"
-          className={classes['input' + (error ? capitalize(error.level) : '')]}/>
+        {this.renderInput()}
         {error &&
           <Tooltip
             style={{left: tooltipOffset}}

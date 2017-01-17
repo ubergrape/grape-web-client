@@ -1,12 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
-import {additionalActionsButtonSize} from './roomInfoTheme'
+import {settingsButtonSize} from './roomInfoTheme'
 
-export default class AdditionalActionsDropdown extends Component {
+export default class AdditionalActionsDropdown extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
@@ -38,22 +38,21 @@ export default class AdditionalActionsDropdown extends Component {
     this.props.onShowRoomDeleteDialog(this.props.channel.id)
   }
 
-
   render() {
     const {show} = this.state
     const {theme, channel} = this.props
 
     const {classes} = theme
     return (
-      <div>
+      <div className={classes.additionalActionsDropdown}>
         <Tooltip
           align="right"
           placement="top"
-          arrowMargin={Math.round(additionalActionsButtonSize / 2)}
+          arrowMargin={Math.round(settingsButtonSize / 2)}
           disabled={show}
           message={<FormattedMessage id="editGroup" defaultMessage="Edit Group" />}>
           <button
-            className={classes.additionalActionsButton}
+            className={classes.settingsButton}
             onClick={this.onShowDropdown}
             ref="settings" />
         </Tooltip>

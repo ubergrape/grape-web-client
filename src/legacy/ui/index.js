@@ -1,40 +1,38 @@
 let Emitter = require('emitter')
 let broker = require('broker')
 let qs = require('query')
-let notification = require('notification')
 let classes = require('classes')
 let staticurl = require('staticurl')
 let events = require('events')
 let notify = require('html5-desktop-notifications')
 let Introjs = require("intro.js").introJs
-let Clipboard = require('clipboard')
-let dropAnywhere = require('drop-anywhere')
-let timezone = require('./jstz')
-let focus = require('./focus')
-let pipeEvents = require('./pipeEvents')
-let page = require('page')
-let setUpRouter = require('../init-router')
-let template = require('template')
-let _ = require('t')
-let v = require('virtualdom')
 
-let exports = module.exports = UI
+import timezone from './jstz';
+import focus from './focus';
+import pipeEvents from './pipeEvents';
+import page from 'page';
+import setUpRouter from '../init-router';
+import template from 'template';
+import v from 'virtualdom';
+
+import OrganizationPopover from './elements/popovers/organization';
+import GrapeInput from './elements/GrapeInput';
+import Notifications from './elements/notifications';
+import DeleteRoomDialog from './elements/dialogs/deleteroom';
+
 
 require("startswith")
 require("endswith")
 
-exports.ItemList = require('./utils/itemlist')
-let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
-let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let HistoryView = exports.HistoryView = require('./elements/historyview')
-let FileUploader = exports.FileUploader = require('./elements/fileuploader')
-let Notifications = exports.Notifications = require('./elements/notifications')
-let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
-let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
-let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
-let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
-let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
-let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
+
+let exports = module.exports = UI
+
+exports.OrganizationPopover = OrganizationPopover
+exports.GrapeInput = GrapeInput
+exports.Notifications = Notifications
+exports.DeleteRoomDialog = DeleteRoomDialog
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -65,62 +63,14 @@ UI.prototype.init = function UI_init() {
     name: "Loading"
   }
 
-  this.el = v.toDOM(template('index.jade'))
-
-  this.clientBody = qs('.client-body', this.el)
-
   this.organizationMenu = new OrganizationPopover()
 
   // initialize the input field
   this.grapeInput = new GrapeInput()
-  qs('.footer', this.el).appendChild(this.grapeInput.el)
 
   this.reduxEmitter = reduxEmitter
 
-  // initialize dialogs
-  this.markdownTips = new MarkdownTipsDialog().closable()
-
-  const chatWrapper = qs('.chat-wrapper', this.el)
-
-  const chat = qs('.chat', chatWrapper)
-
-  if (!this.options.detached) {
-    if (this.options.newHistory) {
-      chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
-    } else {
-      this.historyView = new HistoryView()
-      chat.parentNode.replaceChild(this.historyView.el, chat)
-    }
-  }
-
-  chatWrapper.appendChild(document.createElement('grape-typing-notification'))
-
-  chatWrapper.appendChild(document.createElement('grape-alerts'))
-
-  this.upload = new FileUploader(this.options.uploadPath)
-  let uploadContainer = qs('.uploader', this.grapeInput.el)
-  uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
-
-  this.clipboard = new Clipboard(window)
-
-  // on paste, check if the pasted item is a blob object -image-,
-  // then emit an upload event to the broker to call the uploader
-  this.clipboard.on('paste', function (e) {
-    if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
-  })
-
-  // initialize dragAndDrop
-  // receive the dragged items and emit
-  // an event to the uploader to upload them
   let self = this
-  if (!this.options.detached) {
-    this.dropzone = new Dropzone()
-    this.dragAndDrop = dropAnywhere(function (e) {
-      e.items.forEach(function (item) {
-        self.emit('uploadDragged', item)
-      })
-    }, this.dropzone.el)
-  }
   // initialize notifications
   this.notifications = new Notifications()
   // only show notification info bar in supported browsers and only if the
@@ -145,21 +95,10 @@ UI.prototype.init = function UI_init() {
   this.tz = timezone.determine().name()
   this.notificationSessionSet = false
   this.firstTimeConnect = true
-  this.uploadRoom = null
 }
 
 UI.prototype.bind = function UI_bind() {
   pipeEvents(this)
-  let self = this
-
-  this.events = events(this.el, {
-    'closeNotificationsMessage': function() {
-      self.enableNotificationMessage.remove()
-    }
-  })
-
-  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
-
   this.room = null
 }
 
@@ -221,11 +160,11 @@ UI.prototype.renderIntro = function() {
   // intro
   this.intro.oncomplete(function () {
     self.emit('introend')
-    reduxEmitter.showChannelsManager()
+    reduxEmitter.showManageGroups()
   })
   this.intro.onexit(function () {
     self.emit('introend')
-    reduxEmitter.showChannelsManager()
+    reduxEmitter.showManageGroups()
   })
 }
 
@@ -260,20 +199,6 @@ UI.prototype.setUser = function UI_setUser(user) {
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
   this.settings = settings
-
-  if (this.settings.compact_mode) {
-    classes(document.body).add('client-style-compact')
-    classes(document.body).remove('normal-style')
-    classes(document.body).remove('client-style-normal')
-  } else {
-    classes(document.body).add('normal-style')
-    classes(document.body).remove('client-style-compact')
-    classes(document.body).add('client-style-normal')
-  }
-
-  if (this.settings.dark_mode) {
-    classes(document.body).add('dark')
-  }
 
   this.emit('settingsReady')
 
@@ -315,7 +240,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-  notification.error(err.message)
+  this.reduxEmitter.showToastNotification(err.message)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
@@ -329,17 +254,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
   broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
 }
 
-UI.prototype.onToggleOrgInvite = function () {
-  let invite = new OrgInvite().closable().overlay().show()
-  broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
-  broker(this, 'inviteError', invite, 'onInviteError')
-  broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
-}
-
-UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-  this.markdownTips.overlay().show()
-}
-
 UI.prototype.leftChannel = function UI_leftChannel(room) {
   if (this.room != room) return
   page.replace('/chat/')
@@ -348,15 +262,6 @@ UI.prototype.leftChannel = function UI_leftChannel(room) {
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
   if(this.room != room) return
   page.replace('/chat/' + room.slug)
-}
-
-UI.prototype.onUploading = function () {
-  this.uploadRoom = this.room
-}
-
-UI.prototype.onUploaded = function (attachment) {
-  this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
-  this.upload.hide()
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
@@ -394,15 +299,6 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
   broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
   broker(this, 'newRoom', roommanager, 'onNewRoom')
   broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
-}
-
-UI.prototype.onTriggerPMManager = function () {
-  let pmmanager = new PMManager({
-    users: this.org.users.slice()
-  }).closable().overlay().show()
-  broker(this, 'selectchannel', pmmanager, 'end')
-  broker(this, 'changeUser', pmmanager, 'onChangeUser')
-  broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
 }
 
 UI.prototype.onShowSidebar = function () {

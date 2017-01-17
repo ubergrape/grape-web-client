@@ -243,6 +243,9 @@ export function editMessage(message) {
   }
 }
 
+export function endEditMessage() {
+  return {type: types.END_EDIT_MESSAGE}
+}
 
 export function editPreviousMessage() {
   return (dispatch, getState) => {
@@ -281,12 +284,17 @@ export function createMessage({channelId, text, attachments = []}) {
     }, state)
 
     dispatch({
-      type: types.ADD_PENDING_MESSAGE,
+      type: types.HANDLE_OUTGOING_MESSAGE,
       payload: message
     })
 
+    const options = {
+      clientsideId: id,
+      attachments
+    }
+
     api
-      .postMessage(channelId, text, {clientsideId: id, attachments})
+      .postMessage(channelId, text, options)
       .catch(err => dispatch(error(err)))
 
     dispatch(markAsUnsent(message))

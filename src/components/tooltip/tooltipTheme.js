@@ -1,7 +1,9 @@
+import {zIndex} from '../../utils/z-index'
+
 export const styles = {
   tooltip: {
     position: 'absolute',
-    zIndex: 1
+    zIndex: zIndex('tooltip')
   },
   arrow: {
     position: 'absolute',
