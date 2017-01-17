@@ -8,7 +8,7 @@ export const styles = {
     justifyContent: 'center',
     position: 'relative',
     width: 460,
-    height: 340,
+    height: 280,
     maxWidth: '100%',
     maxHeight: '100%',
     background: {
@@ -27,8 +27,8 @@ export const styles = {
     transform: 'translate(-50%, -50%)'
   },
   embed: {
-    maxWidth: '100%',
-    maxHeight: '100%',
+    width: '100%',
+    height: '100%',
     '& iframe': {
       maxWidth: '100%',
       maxHeight: '100%'
