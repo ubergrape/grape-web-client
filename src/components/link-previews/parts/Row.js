@@ -5,6 +5,12 @@ import {styles} from './rowTheme.js'
 
 @injectSheet(styles)
 export default class Row extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    spaced: PropTypes.bool,
+    sheet: PropTypes.object.isRequired
+  }
+
   static defaultProps = {
     spaced: false
   }

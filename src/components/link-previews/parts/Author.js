@@ -6,21 +6,28 @@ import {styles} from './authorTheme.js'
 
 @injectSheet(styles)
 export default class Author extends PureComponent {
+  static propTypes = {
+    iconUrl: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    link: PropTypes.string,
+    sheet: PropTypes.object.isRequired
+  }
+
   renderIcon(icon) {
     const {sheet: {classes}} = this.props
-    return <img className={classes.icon} src={icon} alt="" />
+    return <img className={classes.icon} src={iconUrl} alt="" />
   }
 
   renderAuthor() {
     const {
-      icon,
+      iconUrl,
       name,
       sheet: {classes}
     } = this.props
 
     return (
       <div className={classes.container}>
-        {icon && this.renderIcon(icon)}
+        {iconUrl && this.renderIcon(iconUrl)}
         <span>{name}</span>
       </div>
     )

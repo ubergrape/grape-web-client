@@ -5,6 +5,12 @@ import {styles} from './titleTheme.js'
 
 @injectSheet(styles)
 export default class Title extends PureComponent {
+  static propTypes = {
+    link: PropTypes.string,
+    text: PropTypes.string.isRequired,
+    sheet: PropTypes.object.isRequired
+  }
+
   render() {
     const {
       link,

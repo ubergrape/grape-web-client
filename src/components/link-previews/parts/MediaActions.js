@@ -6,6 +6,12 @@ import {styles} from './mediaActionsTheme.js'
 
 @injectSheet(styles)
 export default class Image extends PureComponent {
+  static propTypes = {
+    permalink: ProptTypes.string.isRequired,
+    onPlay: PropTypes.func,
+    sheet: PropTypes.object.isRequired
+  }
+
   render() {
     const {
       permalink,
@@ -15,16 +21,16 @@ export default class Image extends PureComponent {
 
     return (
       <div className={classes.container}>
-        <button
-          className={cn(classes.action, classes.playIcon)}
-          onClick={onPlay} />
-        {permalink && (
-          <a
-            className={cn(classes.action, classes.externalLinkIcon)}
-            rel="noreferrer"
-            target="_blank"
-            href={permalink} />
-        )}
+        {onPlay &&
+          <button
+            className={cn(classes.action, classes.playIcon)}
+            onClick={onPlay} />
+        }
+        <a
+          className={cn(classes.action, classes.externalLinkIcon)}
+          rel="noreferrer"
+          target="_blank"
+          href={permalink} />
       </div>
     )
   }

@@ -7,6 +7,13 @@ import {styles} from './mediaTheme.js'
 
 @injectSheet(styles)
 export default class Media extends PureComponent {
+  static propTypes = {
+    previewUrl: PropTypes.string,
+    permalink: ProptTypes.string,
+    embed: PropTypes.string.isRequired,
+    sheet: PropTypes.object.isRequired
+  }
+
   state = {
     open: false
   }

@@ -30,6 +30,22 @@ const defaultMediaSize = {
 
 @injectSheet(styles)
 export default class LinkPreview extends PureComponent {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    sourceUrl: PropTypes.string.isRequired,
+    authorName: PropTypes.string,
+    authorLink: PropTypes.string,
+    authorIcon: PropTypes.string,
+    title: PropTypes.string,
+    titleLink: PropTypes.string,
+    text: PropTypes.string,
+    imageUrl: PropTypes.string,
+    mediaWidth: PropTypes.number,
+    mediaHeight: PropTypes.number,
+    embedHtml: PropTypes.string,
+    sheet: PropTypes.object.isRequired
+  }
+
   render() {
     const {
       type,
@@ -42,6 +58,9 @@ export default class LinkPreview extends PureComponent {
       color,
       sheet: {classes}
     } = this.props
+
+    // TODO generate color from sourceUrl's domain e.g. facebook.com
+    // when the server doesn't return it.
 
     const border = {boxShadow: `-3px 0 0 0 ${color || gray}`}
 
@@ -60,7 +79,7 @@ export default class LinkPreview extends PureComponent {
             <Author
               name={authorName}
               link={authorLink}
-              icon={authorIcon} />
+              iconUrl={authorIcon} />
           }
           {title &&
             <Row><Title text={title} link={titleLink} /></Row>

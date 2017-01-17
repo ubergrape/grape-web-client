@@ -5,6 +5,12 @@ import {styles} from './footerTheme.js'
 
 @injectSheet(styles)
 export default class Footer extends PureComponent {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    link: PropTypes.string,
+    sheet: PropTypes.object.isRequired
+  }
+
   render() {
     const {
       link,
