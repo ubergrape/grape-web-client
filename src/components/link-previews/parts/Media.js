@@ -2,7 +2,6 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import MediaActions from './MediaActions'
 import {styles} from './mediaTheme.js'
 
@@ -19,29 +18,29 @@ export default class Media extends PureComponent {
 
   render() {
     const {
-      preview,
+      previewUrl,
       embed,
       permalink,
       sheet: {classes}
     } = this.props
 
     const {open} = this.state
-    const showPreview = !open && preview.url
+    const showPreview = !open && previewUrl
+    const style = {
+      backgroundImage: showPreview ? `url(${previewUrl})` : 'none'
+    }
+
     return (
-      <div className={cn(classes.media)}>
-        {showPreview && <ImageAttachment {...preview} />}
-        {showPreview && (
-          <div className={classes.actionsContainer}>
+      <div className={cn(classes.media)} style={style}>
+        {showPreview ? (
             <div className={classes.actions}>
               <MediaActions
                 permalink={permalink}
                 onPlay={this.onClick} />
             </div>
-          </div>
-        )}
-        {open && (
+          ) :
           <div className={classes.embed} dangerouslySetInnerHTML={{__html: embed}} />
-        )}
+        }
       </div>
     )
   }

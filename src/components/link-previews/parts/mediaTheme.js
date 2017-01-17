@@ -1,18 +1,24 @@
-import {grayLight} from 'grape-theme/dist/base-colors'
+import {black} from 'grape-theme/dist/base-colors'
+import {borderRadius} from 'grape-theme/dist/sizes'
 
 export const styles = {
   media: {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative'
-  },
-  actionsContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    position: 'relative',
+    width: 460,
+    height: 340,
+    maxWidth: '100%',
+    maxHeight: '100%',
+    background: {
+      size: 'contain',
+      color: black,
+      repeat: 'no-repeat',
+      position: 'center center'
+    },
+    borderRadius: borderRadius.bigger,
+    overflow: 'hidden'
   },
   actions: {
     position: 'absolute',

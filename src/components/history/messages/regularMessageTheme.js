@@ -83,6 +83,7 @@ export const styles = {
     height: stateIndicatorSize
   },
   linkPreview: {
-    marginTop: 5
+    marginTop: 5,
+    marginLeft: 3
   }
 }

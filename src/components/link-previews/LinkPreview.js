@@ -6,7 +6,8 @@ import Bubble from './parts/Bubble'
 import {
   Author,
   Title,
-  Media
+  Media,
+  Row
 } from './parts'
 import ImageAttachment from '../message-parts/attachments/ImageAttachment'
 
@@ -62,16 +63,21 @@ export default class LinkPreview extends PureComponent {
               icon={authorIcon} />
           }
           {title &&
-            <Title text={title} link={titleLink} />
+            <Row><Title text={title} link={titleLink} /></Row>
           }
           {text &&
-            <p>{text}</p>
+            <Row><p>{text}</p></Row>
           }
           {type === 'image' && imageUrl && (
-            <ImageAttachment {...mediaInfo} />
+            <Row spaced><ImageAttachment {...mediaInfo} /></Row>
           )}
           {type === 'video' && embedHtml && (
-            <Media preview={mediaInfo} embed={embedHtml} permalink={sourceUrl} />
+            <Row spaced>
+              <Media
+                previewUrl={mediaInfo.url}
+                embed={embedHtml}
+                permalink={sourceUrl || titleLink} />
+            </Row>
           )}
         </div>
         {type === 'image_s' && imageUrl && (
