@@ -22,7 +22,7 @@ const defaultMediaSize = {
     width: 80,
     height: 80
   },
-  video: {
+  media: {
     width: 360,
     height: 360
   }
@@ -31,7 +31,7 @@ const defaultMediaSize = {
 @injectSheet(styles)
 export default class LinkPreview extends PureComponent {
   static propTypes = {
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     sourceUrl: PropTypes.string.isRequired,
     authorName: PropTypes.string,
     authorLink: PropTypes.string,
@@ -61,10 +61,13 @@ export default class LinkPreview extends PureComponent {
 
     // TODO generate color from sourceUrl's domain e.g. facebook.com
     // when the server doesn't return it.
-
     const border = {boxShadow: `-3px 0 0 0 ${color || gray}`}
 
-    const {width, height} = defaultMediaSize[type] || {width: 100, height: 100}
+    const isMedia = ['video', 'audio'].includes(type)
+    const {
+      width,
+      height
+    } = defaultMediaSize[isMedia ? 'media' : type] || {width: 100, height: 100}
     const mediaInfo = {
       url: imageUrl,
       thumbnailUrl: imageUrl,
@@ -90,7 +93,7 @@ export default class LinkPreview extends PureComponent {
           {type === 'image' && imageUrl && (
             <Row spaced><ImageAttachment {...mediaInfo} /></Row>
           )}
-          {type === 'video' && embedHtml && (
+          {isMedia && embedHtml && (
             <Row spaced>
               <Media
                 previewUrl={mediaInfo.url}
@@ -100,7 +103,9 @@ export default class LinkPreview extends PureComponent {
           )}
         </div>
         {type === 'image_s' && imageUrl && (
-          <ImageAttachment {...mediaInfo} />
+          <div className={classes.side}>
+            <ImageAttachment {...mediaInfo} />
+          </div>
         )}
       </Bubble>
     )
