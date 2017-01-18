@@ -142,7 +142,8 @@ export const normalizeMessage = (() => {
 
   const ignoreActivityObjects = ['issue', 'label', 'user']
 
-  function normalizeActivityMessage(msg) {
+  function normalizeActivityMessage(msg, state) {
+    const channels = channelsSelector(state)
     const {id, channel: channelId} = msg
     const type = 'activity'
     const time = new Date(msg.time)
@@ -174,14 +175,15 @@ export const normalizeMessage = (() => {
     }
 
     const attachments = (msg.attachments || []).map(normalizeAttachment)
+    const link = createLinkToMessage(find(channels, {id: channelId}), id)
 
-    return {type, id, channelId, text, time, author, avatar, attachments}
+    return {type, id, channelId, link, text, time, author, avatar, attachments}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
   return (msg, state) => {
     if (msg.author.type === 'service') {
-      return normalizeActivityMessage(msg)
+      return normalizeActivityMessage(msg, state)
     }
 
     return normalizeRegularMessage(msg, state)

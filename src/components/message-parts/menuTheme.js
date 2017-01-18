@@ -58,5 +58,15 @@ export const styles = {
   },
   nextToLastItem: {
     borderRight: border
+  },
+  top: {
+    position: 'absolute',
+    top: -13,
+    right: 15
+  },
+  right: {
+    position: 'absolute',
+    top: 1,
+    left: `calc(100% + ${firstLastPadding}px)`
   }
 }
