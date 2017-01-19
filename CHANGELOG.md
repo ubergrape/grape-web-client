@@ -1,3 +1,8 @@
+
+### New Features
+
+* Activity messages have now a menu with "Copy to clipboard" and are linkeable (#243)
+
 ## Release 0.48.0 (2017-01-17)
 
 ### Fixes
