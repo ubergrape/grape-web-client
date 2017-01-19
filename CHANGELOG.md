@@ -1,3 +1,8 @@
+
+### New Features
+
+* Activity messages have now a menu with "Copy to clipboard" and are linkeable (#243)
+
 ## Release 0.48.0 (2017-01-17)
 
 ### Fixes
@@ -9,7 +14,7 @@
 ### Fixes
 
 * Markdown hint above the input field
-* Show newlines in history (#203)
+* Show consequent newlines in history (#203)
 
 ## Release 0.46.0 (2016-12-22)
 

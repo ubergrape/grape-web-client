@@ -4,19 +4,19 @@ import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
-import {styles} from './menuTheme'
+import {styles, getWidth} from './menuTheme'
 
-function getClassName(classes, name, i, length) {
+function getItemClassName(classes, name, index, total) {
   const classNames = [classes[`${name}Item`], classes.item]
 
-  if (length === 1) {
+  if (total === 1) {
     classNames.push(classes.singleItem)
   } else {
-    if (i === 0) {
+    if (index === 0) {
       classNames.push(classes.firstItem)
-      if (length === 2) classNames.push(classes.nextToLastItem)
+      if (total === 2) classNames.push(classes.nextToLastItem)
     }
-    if (i === length - 1) classNames.push(classes.lastItem)
+    if (index === total - 1) classNames.push(classes.lastItem)
   }
 
   return classNames.join(' ')
@@ -46,35 +46,65 @@ function getMessage(name) {
   }
 }
 
+function getPosition(content, total) {
+  const canFit = content.offsetWidth > getWidth(total)
+  return canFit ? 'top' : 'right'
+}
+
+class MenuItem extends PureComponent {
+  onSelect = () => {
+    const {onSelect, name} = this.props
+    onSelect({name})
+  }
+
+  render() {
+    const {name, classes, index, total} = this.props
+    return (
+      <Tooltip
+        key={name}
+        placement="top"
+        message={getMessage(name)}
+        inline>
+        <span
+          className={getItemClassName(classes, name, index, total)}
+          onClick={this.onSelect} />
+      </Tooltip>
+    )
+  }
+}
+
 @injectSheet(styles)
 export default class Menu extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
-    items: PropTypes.array.isRequired,
-    className: PropTypes.string.isRequired
+    items: PropTypes.array.isRequired
   }
 
   static defaultProps = {
-    onSelect: noop,
-    className: ''
+    onSelect: noop
   }
 
   render() {
-    const {sheet, onSelect, items, className} = this.props
-    const {classes} = sheet
+    const {
+      sheet: {classes},
+      items,
+      onSelect,
+      getContentNode
+    } = this.props
+
+    const position = getPosition(getContentNode(), items.length)
+
     return (
-      <div className={`${classes.menu} ${className}`}>
-        {items.map((name, i) => (
-          <Tooltip
+      <div className={`${classes.menu} ${classes[position]}`}>
+        {items.map((name, index) => (
+          <MenuItem
             key={name}
-            placement="top"
-            message={getMessage(name)}
-            inline>
-              <span
-                className={getClassName(classes, name, i, items.length)}
-                onClick={/* TODO #120 */onSelect.bind(null, {name})} />
-          </Tooltip>
+            name={name}
+            index={index}
+            total={items.length}
+            classes={classes}
+            onSelect={onSelect} />
         ))}
       </div>
     )

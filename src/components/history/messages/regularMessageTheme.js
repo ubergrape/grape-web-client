@@ -36,16 +36,6 @@ export const styles = {
       color: red
     }
   },
-  menuTop: {
-    position: 'absolute',
-    top: -13,
-    right: 15
-  },
-  menuRight: {
-    position: 'absolute',
-    top: 1,
-    left: 'calc(100% + 7px)'
-  },
   stateIndicator: {
     position: 'absolute',
     right: -(stateIndicatorSize + horizontalMargin) / 2,
