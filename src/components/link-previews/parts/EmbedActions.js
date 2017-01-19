@@ -2,20 +2,20 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import {styles} from './mediaActionsTheme.js'
+import {styles} from './embedActionsTheme.js'
 
 @injectSheet(styles)
-export default class MediaActions extends PureComponent {
+export default class EmbedActions extends PureComponent {
   static propTypes = {
     permalink: PropTypes.string.isRequired,
-    onPlay: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
   render() {
     const {
       permalink,
-      onPlay,
+      onClick,
       sheet: {classes}
     } = this.props
 
@@ -23,7 +23,7 @@ export default class MediaActions extends PureComponent {
       <div className={classes.container}>
         <button
           className={cn(classes.action, classes.playIcon)}
-          onClick={onPlay} />
+          onClick={onClick} />
         <a
           className={cn(classes.action, classes.externalLinkIcon)}
           rel="noreferrer"

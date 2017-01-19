@@ -16,7 +16,7 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
-import LinkPreviews from '../../message-parts/LinkPreviews'
+import {LinkPreviews} from '../../message-parts'
 import Tooltip from '../../tooltip/HoverTooltip'
 
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'

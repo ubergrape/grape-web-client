@@ -1,6 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import cn from 'classnames'
 
 import {styles} from './authorTheme.js'
 
@@ -28,7 +27,7 @@ export default class Author extends PureComponent {
     return (
       <div className={classes.container}>
         {iconUrl && this.renderIcon(iconUrl)}
-        <span>{name}</span>
+        <span className={classes.text}>{name}</span>
       </div>
     )
   }
@@ -45,7 +44,7 @@ export default class Author extends PureComponent {
 
     return (
       <a
-        className={cn(classes.container, classes.link)}
+        className={classes.link}
         href={link}
         target="_blank"
         rel="noreferrer">

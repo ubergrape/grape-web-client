@@ -1,3 +1,5 @@
+import {normal} from 'grape-theme/dist/fonts'
+
 export const styles = {
   main: {
     flex: 1,
@@ -5,5 +7,9 @@ export const styles = {
   },
   side: {
     marginLeft: 10
+  },
+  text: {
+    extend: normal,
+    lineHeight: 1.4
   }
 }

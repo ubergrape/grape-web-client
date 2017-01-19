@@ -5,7 +5,8 @@ import {link} from 'grape-theme/dist/web-colors'
 export const styles = {
   container: {
     extend: normal,
-    textTransform: 'uppercase'
+    fontWeight: 'bold',
+    lineHeight: 1.4
   },
   link: {
     color: link,

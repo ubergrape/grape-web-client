@@ -14,11 +14,13 @@ export default useTheme(Bubble, {
         color: borderDefault,
         radius: 16
       },
-      display: 'block'
+      maxWidth: 620,
+      boxShadow: '-3px 0 0 0 #e6e6e6'
     },
     content: {
       display: 'flex',
-      backgroundColor: white
+      backgroundColor: white,
+      padding: [5, 10]
     }
   }
 })

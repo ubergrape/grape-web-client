@@ -2,15 +2,17 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import MediaActions from './MediaActions'
-import {styles} from './mediaTheme.js'
+import EmbedActions from './EmbedActions'
+import {styles} from './embedTheme.js'
 
 @injectSheet(styles)
-export default class Media extends PureComponent {
+export default class Embed extends PureComponent {
   static propTypes = {
-    previewUrl: PropTypes.string,
-    permalink: PropTypes.string,
-    embed: PropTypes.string.isRequired,
+    thumbUrl: PropTypes.string,
+    permalink: PropTypes.string.isRequired,
+    embedUrl: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
@@ -25,28 +27,31 @@ export default class Media extends PureComponent {
 
   render() {
     const {
-      previewUrl,
-      embed,
+      thumbUrl,
+      embedUrl,
+      width, height,
       permalink,
       sheet: {classes}
     } = this.props
 
     const {open} = this.state
-    const showPreview = !open && previewUrl
+    const showPreview = !open && thumbUrl
     const style = {
-      backgroundImage: showPreview ? `url(${previewUrl})` : 'none'
+      backgroundImage: showPreview ? `url(${thumbUrl})` : 'none',
+      width,
+      height
     }
 
     return (
       <div className={cn(classes.media)} style={style}>
         {showPreview ? (
             <div className={classes.actions}>
-              <MediaActions
+              <EmbedActions
                 permalink={permalink}
-                onPlay={this.onClick} />
+                onClick={this.onClick} />
             </div>
           ) :
-          <div className={classes.embed} dangerouslySetInnerHTML={{__html: embed}} />
+          <iframe className={classes.embed} src={embedUrl}></iframe>
         }
       </div>
     )

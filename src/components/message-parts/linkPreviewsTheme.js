@@ -1,6 +1,9 @@
+import {grayBlueDark} from 'grape-theme/dist/base-colors'
+
 export const styles = {
   linkPreview: {
-    marginTop: 5,
-    marginLeft: 3
+    marginTop: 2,
+    marginLeft: 3,
+    color: grayBlueDark
   }
 }

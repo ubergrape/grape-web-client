@@ -1,20 +1,25 @@
-import color from 'color'
-import {small} from 'grape-theme/dist/fonts'
-import {link} from 'grape-theme/dist/web-colors'
+import {normal} from 'grape-theme/dist/fonts'
 
 export const styles = {
   container: {
-    extend: small,
-    textTransform: 'uppercase'
+    display: 'flex',
+    alignItems: 'center',
+    color: '#b1b6be'
   },
   link: {
-    color: link,
+    color: '#b1b6be',
     textDecoration: 'none',
     '&:hover, &:focus': {
-      isolate: false,
-      textDecoration: 'none',
-      color: color(link).lighten(0.2).hexString(),
-      borderBottom: '1px solid'
+      textDecoration: 'underline'
     }
+  },
+  icon: {
+    width: normal.fontSize,
+    height: normal.fontSize,
+    marginRight: 5
+  },
+  text: {
+    lineHeight: 'normal',
+    marginTop: 2
   }
 }
