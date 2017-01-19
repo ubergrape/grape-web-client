@@ -2,7 +2,7 @@ import {white} from 'grape-theme/dist/base-colors'
 import {borderDefault} from 'grape-theme/dist/web-colors'
 
 import useTheme from '../../theme/useTheme'
-import Bubble from '../../message-parts/Bubble'
+import {Bubble, bubbleBorderRadius} from '../../message-parts'
 
 export default useTheme(Bubble, {
   styles: {
@@ -12,7 +12,7 @@ export default useTheme(Bubble, {
         width: 1,
         style: 'solid',
         color: borderDefault,
-        radius: 16
+        radius: bubbleBorderRadius
       },
       maxWidth: 620,
       boxShadow: '-3px 0 0 0 #e6e6e6'

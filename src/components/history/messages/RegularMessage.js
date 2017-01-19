@@ -6,7 +6,6 @@ import copy from 'copy-to-clipboard'
 import moment from 'moment'
 import {
   FormattedMessage,
-  defineMessages,
   intlShape,
   injectIntl
 } from 'react-intl'
@@ -23,6 +22,7 @@ import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
 import Attachment from './Attachment'
 import {styles} from './regularMessageTheme'
+import messages from './translations'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -115,17 +115,6 @@ DeliveryState.propTypes = {
   time: PropTypes.instanceOf(Date).isRequired,
   theme: PropTypes.object.isRequired
 }
-
-const messages = defineMessages({
-  confirm: {
-    id: 'deleteMessagesQuestion',
-    defaultMessage: 'Delete the selected Message?'
-  },
-  copy: {
-    id: 'linkInClipboard',
-    defaultMessage: 'Message link added to clipboard'
-  }
-})
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
@@ -224,8 +213,10 @@ export default class RegularMessage extends PureComponent {
     if (!isPm && !isOwn && author.slug) onGoToChannel(author.slug)
   }
 
+  getContentNode = () => this.content
+
   renderMenu = () => {
-    const {isOwn, attachments, sheet, state} = this.props
+    const {isOwn, attachments, state} = this.props
 
     if (state === 'pending' || state === 'unsent') return null
     if (!this.state.isMenuOpened) return null
@@ -239,13 +230,11 @@ export default class RegularMessage extends PureComponent {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
-    const canFit = this.content.offsetWidth > getMenuWidth(items.length)
-    const className = sheet.classes[`menu${canFit ? 'Top' : 'Right'}`]
 
     return (
       <Menu
         onSelect={this.onSelectMenuItem}
-        className={className}
+        getContentNode={this.getContentNode}
         items={items} />
     )
   }

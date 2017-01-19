@@ -1,6 +1,7 @@
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 
 import button from '../../button/link'
+import {bubbleBorderRadius as borderRadius} from '../../message-parts'
 
 export const maxHeight = 350
 
@@ -11,7 +12,8 @@ const panel = {
   bottom: 0,
   left: 0,
   right: 0,
-  textAlign: 'center'
+  textAlign: 'center',
+  borderRadius
 }
 
 export const styles = {
