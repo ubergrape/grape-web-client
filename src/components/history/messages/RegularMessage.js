@@ -16,8 +16,8 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
+import LinkPreviews from '../../message-parts/LinkPreviews'
 import Tooltip from '../../tooltip/HoverTooltip'
-import {LinkPreview} from '../../link-previews'
 
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
@@ -167,6 +167,7 @@ export default class RegularMessage extends PureComponent {
     isSelected: false,
     attachments: [],
     customEmojis: {},
+    linkPreviews: [],
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -253,28 +254,6 @@ export default class RegularMessage extends PureComponent {
     return <Attachment {...attachment} key={key} />
   }
 
-  renderLinkPreviews() {
-    const {
-      linkPreviews,
-      sheet: {classes}
-    } = this.props
-
-    return (
-      <div>
-        {linkPreviews.map(meta => (
-          Object.keys(meta).length > 0 &&
-            <div
-              className={classes.linkPreview}
-              key={btoa(meta.sourceUrl)}
-              >
-              <LinkPreview {...meta} />
-            </div>
-          )
-        )}
-      </div>
-    )
-  }
-
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
@@ -334,9 +313,8 @@ export default class RegularMessage extends PureComponent {
               {this.renderMenu()}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {linkPreviews &&
-              linkPreviews.length > 0 &&
-              this.renderLinkPreviews()
+            {linkPreviews.length > 0 &&
+              <LinkPreviews previews={linkPreviews} />
             }
           </div>
         </div>

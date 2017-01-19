@@ -14,7 +14,10 @@ export const styles = {
       isolate: false,
       textDecoration: 'none',
       color: color(link).lighten(0.2).hexString(),
-      borderBottom: '1px solid'
+      borderBottom: {
+        width: 1,
+        style: 'solid'
+      }
     }
   }
 }

@@ -1,3 +1,4 @@
+import {translate} from 'css-functions'
 import {black} from 'grape-theme/dist/base-colors'
 import {borderRadius} from 'grape-theme/dist/sizes'
 
@@ -24,7 +25,7 @@ export const styles = {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: translate('-50%', '-50%')
   },
   embed: {
     width: '100%',

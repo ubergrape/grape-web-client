@@ -56,6 +56,7 @@ export default class LinkPreview extends PureComponent {
       imageUrl, mediaWidth, mediaHeight,
       embedHtml,
       color,
+      className,
       sheet: {classes}
     } = this.props
 
@@ -74,9 +75,9 @@ export default class LinkPreview extends PureComponent {
       thumbnailWidth: mediaWidth || width,
       thumbnailHeight: mediaHeight || height
     }
-
+    console.log(this.props)
     return (
-      <Bubble hasArrow={false} style={border}>
+      <Bubble hasArrow={false} className={className} style={border}>
         <div className={classes.main}>
           {authorName &&
             <Author

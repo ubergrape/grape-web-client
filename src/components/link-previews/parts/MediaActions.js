@@ -5,10 +5,10 @@ import cn from 'classnames'
 import {styles} from './mediaActionsTheme.js'
 
 @injectSheet(styles)
-export default class Image extends PureComponent {
+export default class MediaActions extends PureComponent {
   static propTypes = {
     permalink: PropTypes.string.isRequired,
-    onPlay: PropTypes.func,
+    onPlay: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
@@ -21,11 +21,9 @@ export default class Image extends PureComponent {
 
     return (
       <div className={classes.container}>
-        {onPlay &&
-          <button
-            className={cn(classes.action, classes.playIcon)}
-            onClick={onPlay} />
-        }
+        <button
+          className={cn(classes.action, classes.playIcon)}
+          onClick={onPlay} />
         <a
           className={cn(classes.action, classes.externalLinkIcon)}
           rel="noreferrer"

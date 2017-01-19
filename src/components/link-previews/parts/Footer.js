@@ -18,17 +18,23 @@ export default class Footer extends PureComponent {
       sheet: {classes}
     } = this.props
 
+    let children
+    if (link) {
+      children = (
+        <a
+          className={classes.link}
+          target="_blank"
+          rel="noreferrer"
+          href={link}
+          >{text}</a>
+      )
+    } else {
+      children = text
+    }
+
     return (
       <div className={classes.container}>
-        {link ?
-          <a
-            className={classes.link}
-            target="_blank"
-            rel="noreferrer"
-            href={link}
-            >{text}</a> :
-          text
-        }
+        {children}
       </div>
     )
   }

@@ -81,9 +81,5 @@ export const styles = {
     display: 'block',
     width: stateIndicatorSize,
     height: stateIndicatorSize
-  },
-  linkPreview: {
-    marginTop: 5,
-    marginLeft: 3
   }
 }

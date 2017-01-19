@@ -1,3 +1,4 @@
+import {rgba} from 'css-functions'
 import {white} from 'grape-theme/dist/base-colors'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import create from '../../inline-icon/create'
@@ -6,7 +7,7 @@ export const styles = {
   container: {
     padding: 10,
     borderRadius: borderRadius.bigger,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)'
+    backgroundColor: rgba(0, 0, 0, 0.7)
   },
   action: {
     display: 'inline-block',
