@@ -14,7 +14,7 @@ export default class Footer extends PureComponent {
     link: PropTypes.string,
     timestamp: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   }
 
   renderIcon(serviceIcon) {
