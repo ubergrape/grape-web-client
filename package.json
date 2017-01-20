@@ -163,7 +163,7 @@
     "prepublish": "NODE_ENV=production npm run all"
   },
   "lint-staged": {
-    "./src/*.js": [
+    "src/**/*.js": [
       "eslint",
       "git add"
     ]
