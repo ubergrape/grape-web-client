@@ -7,7 +7,7 @@ import {styles} from './rowTheme.js'
 export default class Row extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    spaced: PropTypes.bool,
+    spaced: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired
   }
 

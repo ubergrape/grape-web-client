@@ -41,12 +41,101 @@ export default class LinkPreview extends PureComponent {
     height: 360
   }
 
+  renderAuthor() {
+    const {
+      authorName,
+      authorLink,
+      authorIcon
+    } = this.props
+
+    return (
+      <Author
+        name={authorName}
+        link={authorLink}
+        iconUrl={authorIcon} />
+    )
+  }
+
+  renderTitle() {
+    const {title, titleLink} = this.props
+    return (
+      <Row><Title text={title} link={titleLink} /></Row>
+    )
+  }
+
+  renderText() {
+    const {
+      text,
+      sheet: {classes}
+    } = this.props
+
+    return (
+      <Row><p className={classes.text}>{text}</p></Row>
+    )
+  }
+
+  renderImage() {
+    const {
+      imageUrl,
+      thumbUrl,
+      width,
+      height
+    } = this.props
+
+    return (
+      <Row spaced>
+        <ImageAttachment
+          url={imageUrl}
+          thumbnailUrl={thumbUrl || imageUrl}
+          thumbnailWidth={width}
+          thumbnailHeight={height} />
+      </Row>
+    )
+  }
+
+  renderEmbed() {
+    const {
+      embedUrl,
+      thumbUrl,
+      width,
+      height,
+      sourceUrl
+    } = this.props
+
+    return (
+      <Row spaced>
+        <Embed
+          embedUrl={embedUrl}
+          thumbUrl={thumbUrl}
+          width={width}
+          height={height}
+          permalink={sourceUrl} />
+      </Row>
+    )
+  }
+
+  renderImageLinkPreview() {
+    const {
+      thumbUrl,
+      sourceUrl,
+      sheet: {classes}
+    } = this.props
+
+    return (
+      <div className={classes.side}>
+        <ImagePreviewLink
+          url={thumbUrl}
+          permalink={sourceUrl} />
+      </div>
+    )
+  }
+
   render() {
     const {
       sourceUrl,
       serviceIcon, serviceName, serviceUrl,
-      authorName, authorLink, authorIcon,
-      title, titleLink,
+      authorName,
+      title,
       text,
       imageUrl, thumbUrl,
       width, height,
@@ -60,51 +149,19 @@ export default class LinkPreview extends PureComponent {
       <div>
         <Bubble hasArrow={false} className={className}>
           <div className={classes.main}>
-            {authorName &&
-              <Author
-                name={authorName}
-                link={authorLink}
-                iconUrl={authorIcon} />
-            }
-            {title &&
-              <Row><Title text={title} link={titleLink} /></Row>
-            }
-            {text &&
-              <Row><p className={classes.text}>{text}</p></Row>
-            }
+            {authorName && this.renderAuthor()}
+            {title && this.renderTitle()}
+            {text && this.renderText()}
             <Footer
               serviceName={serviceName}
               serviceIcon={serviceIcon}
               serviceUrl={serviceUrl}
               timestamp={ts}
              />
-            {imageUrl && (
-              <Row spaced>
-                <ImageAttachment
-                  url={imageUrl}
-                  thumbnailUrl={thumbUrl || imageUrl}
-                  thumbnailWidth={width}
-                  thumbnailHeight={height} />
-              </Row>
-            )}
-            {embedUrl && (
-              <Row spaced>
-                <Embed
-                  embedUrl={embedUrl}
-                  thumbUrl={thumbUrl}
-                  width={width}
-                  height={height}
-                  permalink={sourceUrl} />
-              </Row>
-            )}
+            {imageUrl && this.renderImage()}
+            {embedUrl && this.renderEmbed()}
           </div>
-          {thumbUrl && !embedUrl && !imageUrl && (
-            <div className={classes.side}>
-              <ImagePreviewLink
-                url={thumbUrl}
-                permalink={sourceUrl} />
-            </div>
-          )}
+          {thumbUrl && !embedUrl && !imageUrl && this.renderImageLinkPreview()}
         </Bubble>
       </div>
     )

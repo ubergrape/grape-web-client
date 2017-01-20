@@ -17,12 +17,12 @@ export default class Embed extends PureComponent {
   }
 
   state = {
-    open: false
+    isOpen: false
   }
 
   onClick = (e) => {
     e.preventDefault()
-    this.setState({open: true})
+    this.setState({isOpen: true})
   }
 
   render() {
@@ -34,8 +34,8 @@ export default class Embed extends PureComponent {
       sheet: {classes}
     } = this.props
 
-    const {open} = this.state
-    const showPreview = !open && thumbUrl
+    const {isOpen} = this.state
+    const showPreview = !isOpen && thumbUrl
     const style = {
       backgroundImage: showPreview ? `url(${thumbUrl})` : 'none',
       width,

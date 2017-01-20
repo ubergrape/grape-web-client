@@ -125,6 +125,7 @@ export default class RegularMessage extends PureComponent {
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
+    linkPreviews: PropTypes.array.isRequired,
     customEmojis: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
@@ -301,9 +302,7 @@ export default class RegularMessage extends PureComponent {
               {this.renderMenu()}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {linkPreviews.length > 0 &&
-              <LinkPreviews previews={linkPreviews} />
-            }
+            {linkPreviews.length > 0 && <LinkPreviews previews={linkPreviews} />}
           </div>
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
