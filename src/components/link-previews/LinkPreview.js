@@ -132,13 +132,11 @@ export default class LinkPreview extends PureComponent {
 
   render() {
     const {
-      sourceUrl,
       serviceIcon, serviceName, serviceUrl,
       authorName,
       title,
       text,
       imageUrl, thumbUrl,
-      width, height,
       embedUrl,
       ts,
       className,
