@@ -2,11 +2,11 @@ import color from 'color'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {small, normal, bigger} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
-import {borderDefault, borderLight, button} from 'grape-theme/dist/web-colors'
+import {borderLight, button} from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
-import {iconSize, previewIconSize} from '../room-icon-settings/theme'
+import {iconSize} from '../room-icon-settings/theme'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -37,12 +37,6 @@ export const styles = {
   channelInfo: {
     color: grayBlueDark
   },
-  header: {
-    marginBottom,
-    borderBottom: borderDefault
-  },
-  description: divider,
-  descriptionText: normal,
   actions: {
     extend: divider,
     marginBottom,
@@ -89,22 +83,8 @@ export const styles = {
       display: 'block'
     }
   },
-  avatar: {
-    borderRadius: '50%',
-    flexShrink: 0,
-    width: previewIconSize,
-    height: previewIconSize,
-    marginRight: 10
-  },
-  name: {
-    extend: [ellipsis, normal],
-    flex: 1,
-    alignSelf: 'center',
-    color: grayBlueDark,
-    '&:hover': {
-      isolate: false,
-      color: hoverColor
-    }
+  userName: {
+    flex: 1
   },
   roomName: {
     extend: bigger,

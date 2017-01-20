@@ -8,13 +8,15 @@ import {
 } from 'react-intl'
 import {constants} from 'conf'
 import injectSheet from 'grape-web/lib/jss'
+import colors from 'grape-theme/dist/base-colors'
 
-import {maxChannelDescriptionLength} from '../../constants/app'
+import {maxChannelDescriptionLength, userStatusMap} from '../../constants/app'
 import {Description} from '../i18n/i18n'
 import EditableText from '../editable-text/EditableText'
 import {styles} from './roomInfoTheme.js'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
+import {Username} from '../avatar-name'
 
 const messages = defineMessages({
   placeholder: {
@@ -26,6 +28,68 @@ const messages = defineMessages({
     defaultMessage: 'Group Info'
   }
 })
+
+const getRoles = ({channel, user}) => {
+  const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+  const isCreator = channel.creator && user.id === channel.creator
+  return {
+    isAdmin,
+    isCreator,
+    allowEdit: isAdmin || isCreator
+  }
+}
+
+class User extends PureComponent {
+  renderDeleteButton() {
+    const {channel, user, currUser, sheet: {classes}} = this.props
+    const {isAdmin, isCreator} = getRoles({channel, user: currUser})
+    const isSelf = currUser.id === user.id
+    const hasCreated = channel.creator === user.id
+    const isKickMaster = (isAdmin || isCreator) && !isSelf
+
+    if (!isKickMaster || isSelf || hasCreated) return null
+
+    return (
+      <button
+        className={classes.buttonKick}
+        onClick={this.onKickMember}>
+      </button>
+    )
+  }
+
+
+  onKickMember = () => {
+    const {kickMemberFromChannel, channel, user} = this.props
+    kickMemberFromChannel({
+      channelId: channel.id,
+      userId: user.id
+    })
+  }
+
+  onSelectMember = () => {
+    const {user, goToChannel} = this.props
+    goToChannel(user.slug)
+  }
+
+  render() {
+    const {sheet: {classes}, user} = this.props
+
+    return (
+      <div key={user.id} className={classes.row}>
+        <div
+          className={classes.userName}
+          onClick={this.onSelectMember}>
+          <Username
+            statusBorderColor={colors.grayBlueLighter}
+            avatar={user.avatar}
+            status={userStatusMap[user.status]}
+            name={user.displayName} />
+        </div>
+        {this.renderDeleteButton()}
+      </div>
+    )
+  }
+}
 
 @injectSheet(styles)
 @injectIntl
@@ -54,26 +118,14 @@ export default class RoomInfo extends PureComponent {
     notificationSettings: PropTypes.object.isRequired
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      ...this.getRoles(props)
-    }
-  }
-
   componentWillMount() {
     const {load, channel} = this.props
     load({channel})
   }
 
   componentWillReceiveProps(nextProps) {
-    const {user, channel, load} = this.props
-    const userHasChanged = user !== nextProps.user
+    const {channel, load} = this.props
     const channelHasChanged = channel !== nextProps.channel
-    if (userHasChanged || channelHasChanged) {
-      this.setState({...this.state, ...this.getRoles(nextProps)})
-    }
     if (channelHasChanged) load({channel: nextProps.channel})
   }
 
@@ -83,17 +135,6 @@ export default class RoomInfo extends PureComponent {
 
   onAddIntegration = () => {
     this.props.goToAddIntegrations()
-  }
-
-  onKickMember = (user) => {
-    this.props.kickMemberFromChannel({
-      channelId: this.props.channel.id,
-      userId: user.id
-    })
-  }
-
-  onSelectMember = (user) => {
-    this.props.goToChannel(user.slug)
   }
 
   onLeave = () => {
@@ -133,55 +174,12 @@ export default class RoomInfo extends PureComponent {
     renameRoom(channel.id, name)
   }
 
-  getRoles({channel, user}) {
-    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
-    const isCreator = channel.creator && user.id === channel.creator
-    return {
-      isAdmin,
-      isCreator,
-      allowEdit: isAdmin || isCreator
-    }
-  }
-
-  renderUser(user) {
-    const {classes} = this.props.sheet
-    return (
-      <div key={user.id} className={classes.row}>
-        <img
-          className={classes.avatar}
-          src={user.avatar}
-          onClick={/* TODO #120 */this.onSelectMember.bind(this, user)} />
-        <span
-          className={classes.name}
-          onClick={/* TODO #120 */this.onSelectMember.bind(this, user)}>
-          {user.displayName}
-        </span>
-        {this.renderDeleteButton(user)}
-      </div>
-    )
-  }
-
-  renderDeleteButton(user) {
-    const {channel} = this.props
-    const {classes} = this.props.sheet
-    const {isAdmin, isCreator} = this.state
-    const currUser = this.props.user
-    const isSelf = currUser.id === user.id
-    const hasCreated = channel.creator === user.id
-    const isKickMaster = (isAdmin || isCreator) && !isSelf
-
-    if (!isKickMaster || isSelf || hasCreated) return null
-    return (
-      <button
-        className={classes.buttonKick}
-        onClick={/* TODO #120 */this.onKickMember.bind(this, user)}>
-      </button>
-    )
-  }
-
   renderDescriptionEditable() {
-    const {channel, intl: {formatMessage}} = this.props
-    if (!this.state.allowEdit) return <p>{channel.description}</p>
+    const {channel, user, intl: {formatMessage}} = this.props
+    const {allowEdit} = getRoles({channel, user})
+
+    if (!allowEdit) return <p>{channel.description}</p>
+
     return (
       <EditableText
         placeholder={formatMessage(messages.placeholder)}
@@ -194,11 +192,11 @@ export default class RoomInfo extends PureComponent {
   }
 
   renderDescription() {
-    const {channel, sheet} = this.props
+    const {channel, user, sheet: {classes}} = this.props
+    const {allowEdit} = getRoles({channel, user})
 
-    if (!this.state.allowEdit && !channel.description) return null
+    if (!allowEdit && !channel.description) return null
 
-    const {classes} = sheet
     return (
       <article className={classes.roomDescription}>
         <h2 className={classes.title}>
@@ -214,12 +212,14 @@ export default class RoomInfo extends PureComponent {
       channel, renameError, clearRoomRenameError,
       intl: {formatMessage},
       sheet, sheet: {classes},
-      showNotificationSettings, notificationSettings
+      showNotificationSettings, notificationSettings,
+      user: currUser,
+      goToChannel, kickMemberFromChannel
     } = this.props
 
     if (isEmpty(channel)) return null
 
-    const {allowEdit} = this.state
+    const {allowEdit} = getRoles({channel, user: currUser})
 
     return (
       <SidebarPanel
@@ -274,7 +274,16 @@ export default class RoomInfo extends PureComponent {
               </li>
             </ul>
           </article>
-          {channel.users.map(this.renderUser, this)}
+          {channel.users.map(user => (
+            <User
+              key={user.id}
+              user={user}
+              channel={channel}
+              currUser={currUser}
+              sheet={sheet}
+              goToChannel={goToChannel}
+              kickMemberFromChannel={kickMemberFromChannel} />
+          ))}
         </div>
       </SidebarPanel>
     )
