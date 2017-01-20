@@ -6,17 +6,16 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {constants} from 'conf'
 import injectSheet from 'grape-web/lib/jss'
-import colors from 'grape-theme/dist/base-colors'
 
-import {maxChannelDescriptionLength, userStatusMap} from '../../constants/app'
+import {maxChannelDescriptionLength} from '../../constants/app'
 import {Description} from '../i18n/i18n'
 import EditableText from '../editable-text/EditableText'
-import {styles} from './roomInfoTheme.js'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
-import {Username} from '../avatar-name'
+import {styles} from './roomInfoTheme.js'
+import User from './User'
+import {getRoles} from './utils'
 
 const messages = defineMessages({
   placeholder: {
@@ -28,68 +27,6 @@ const messages = defineMessages({
     defaultMessage: 'Group Info'
   }
 })
-
-const getRoles = ({channel, user}) => {
-  const isAdmin = user.role >= constants.roles.ROLE_ADMIN
-  const isCreator = channel.creator && user.id === channel.creator
-  return {
-    isAdmin,
-    isCreator,
-    allowEdit: isAdmin || isCreator
-  }
-}
-
-class User extends PureComponent {
-  renderDeleteButton() {
-    const {channel, user, currUser, sheet: {classes}} = this.props
-    const {isAdmin, isCreator} = getRoles({channel, user: currUser})
-    const isSelf = currUser.id === user.id
-    const hasCreated = channel.creator === user.id
-    const isKickMaster = (isAdmin || isCreator) && !isSelf
-
-    if (!isKickMaster || isSelf || hasCreated) return null
-
-    return (
-      <button
-        className={classes.buttonKick}
-        onClick={this.onKickMember}>
-      </button>
-    )
-  }
-
-
-  onKickMember = () => {
-    const {kickMemberFromChannel, channel, user} = this.props
-    kickMemberFromChannel({
-      channelId: channel.id,
-      userId: user.id
-    })
-  }
-
-  onSelectMember = () => {
-    const {user, goToChannel} = this.props
-    goToChannel(user.slug)
-  }
-
-  render() {
-    const {sheet: {classes}, user} = this.props
-
-    return (
-      <div key={user.id} className={classes.row}>
-        <div
-          className={classes.userName}
-          onClick={this.onSelectMember}>
-          <Username
-            statusBorderColor={colors.grayBlueLighter}
-            avatar={user.avatar}
-            status={userStatusMap[user.status]}
-            name={user.displayName} />
-        </div>
-        {this.renderDeleteButton()}
-      </div>
-    )
-  }
-}
 
 @injectSheet(styles)
 @injectIntl
@@ -280,7 +217,6 @@ export default class RoomInfo extends PureComponent {
               user={user}
               channel={channel}
               currUser={currUser}
-              sheet={sheet}
               goToChannel={goToChannel}
               kickMemberFromChannel={kickMemberFromChannel} />
           ))}

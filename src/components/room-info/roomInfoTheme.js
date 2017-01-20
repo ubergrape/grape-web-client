@@ -67,25 +67,6 @@ export const styles = {
     ],
     color: grayBlueDark
   },
-  buttonKick: {
-    extend: [
-      buttonIcon('close', {color: grayBlueDark, hoverColor, iconOnly: true}),
-      small
-    ],
-    flexShrink: 0,
-    display: 'none'
-  },
-  row: {
-    display: 'flex',
-    marginBottom: 10,
-    cursor: 'pointer',
-    '&:hover button': {
-      display: 'block'
-    }
-  },
-  userName: {
-    flex: 1
-  },
   roomName: {
     extend: bigger,
     width: '100%'
