@@ -1,9 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import Bubble from './parts/Bubble'
 import {
   Author,
+  Bubble,
   Footer,
   Embed,
   ImagePreviewLink,
@@ -11,7 +11,6 @@ import {
   Title
 } from './parts'
 import ImageAttachment from '../message-parts/attachments/ImageAttachment'
-
 import {styles} from './linkPreviewTheme.js'
 
 @injectSheet(styles)

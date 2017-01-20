@@ -10,7 +10,8 @@ export default class Bubble extends PureComponent {
     children: PropTypes.node.isRequired,
     className: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    hasArrow: PropTypes.bool.isRequired
+    hasArrow: PropTypes.bool.isRequired,
+    style: PropTypes.object
   }
 
   static defaultProps = {
