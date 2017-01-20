@@ -37,8 +37,14 @@ export default class UserProfile extends PureComponent {
     phoneNumber: PropTypes.string
   }
 
-  onClose = () => {
-    this.props.hideSidebar()
+  constructor(props) {
+    super(props)
+    const {sheet: {classes}} = props
+    this.userNameTheme = {
+      classes: {
+        name: classes.name
+      }
+    }
   }
 
   render() {
@@ -52,19 +58,21 @@ export default class UserProfile extends PureComponent {
       skypeForBusiness,
       phoneNumber,
       intl: {formatMessage},
-      sheet: {classes}
+      sheet: {classes},
+      hideSidebar
     } = this.props
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={this.onClose}>
-        <div className={classes.userName}>
+        onClose={hideSidebar}>
+        <div className={classes.userNameContainer}>
           <Username
             statusBorderColor={colors.grayBlueLighter}
             avatar={avatar}
             status={userStatusMap[status]}
-            name={displayName} />
+            name={displayName}
+            theme={this.userNameTheme} />
         </div>
         <div>
           {whatIDo && (
@@ -111,17 +119,3 @@ export default class UserProfile extends PureComponent {
     )
   }
 }
-
-/*
-          <div className={classes.leftColumn}>
-            <img
-              className={classes.avatar}
-              src={avatar}
-              alt={username} />
-          </div>
-          <div className={classes.rightColumn}>
-            <div className={classes.fullName}>
-              {displayName}
-            </div>
-          </div>
-*/

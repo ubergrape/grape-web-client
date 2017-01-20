@@ -1,5 +1,5 @@
 import color from 'color'
-import {small} from 'grape-theme/dist/fonts'
+import {small, normal} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark} from 'grape-theme/dist/base-colors'
 
 import buttonIcon from '../button/icon'
@@ -15,9 +15,10 @@ export const styles = {
       display: 'block'
     }
   },
-  userName: {
+  userNameContainer: {
     flex: 1
   },
+  name: normal,
   buttonKick: {
     extend: [
       buttonIcon('close', {color: grayBlueDark, hoverColor, iconOnly: true}),

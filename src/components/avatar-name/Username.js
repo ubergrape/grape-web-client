@@ -1,20 +1,21 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
+import cn from 'classnames'
 
 import style from './userStyle'
 import Avatar from '../avatar/Avatar'
 
-const Status = ({theme, status, borderColor}) => (
+const Status = ({classes, status, borderColor}) => (
   <i
-    className={`${theme.status} ${theme[status]}`}
+    className={`${classes.status} ${classes[status]}`}
     style={{borderColor}}>
   </i>
 )
 
 Status.propTypes = {
   borderColor: PropTypes.string,
-  theme: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired
 }
 
@@ -28,13 +29,15 @@ export default class Username extends PureComponent {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
+    theme: PropTypes.object.isRequired,
     showStatus: PropTypes.bool,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string
   }
 
   static defaultProps = {
-    showStatus: true
+    showStatus: true,
+    theme: {classes: {}}
   }
 
   render() {
@@ -44,22 +47,23 @@ export default class Username extends PureComponent {
       showStatus,
       status,
       statusBorderColor,
-      sheet: {classes}
+      sheet: {classes},
+      theme
     } = this.props
 
     return (
-      <span className={classes.avatarName}>
+      <span className={cn(classes.avatarName, theme.classes.avatarName)}>
         <Avatar
           src={avatar}
-          className={classes.avatar}>
+          className={cn(classes.avatar, theme.classes.avatar)}>
           {showStatus &&
             <Status
-              theme={classes}
+              classes={classes}
               status={status}
               borderColor={statusBorderColor} />
           }
         </Avatar>
-        <span className={classes.name}>
+        <span className={cn(classes.name, theme.classes.name)}>
           {name}
         </span>
       </span>

@@ -18,6 +18,16 @@ export default class User extends PureComponent {
     goToChannel: PropTypes.func.isRequired
   }
 
+  constructor(props) {
+    super(props)
+    const {sheet: {classes}} = props
+    this.userNameTheme = {
+      classes: {
+        name: classes.name
+      }
+    }
+  }
+
   renderDeleteButton() {
     const {channel, user, currUser, sheet: {classes}} = this.props
     const {isAdmin, isCreator} = getRoles({channel, user: currUser})
@@ -54,13 +64,14 @@ export default class User extends PureComponent {
     return (
       <div key={user.id} className={classes.row}>
         <div
-          className={classes.userName}
+          className={classes.userNameContainer}
           onClick={this.onSelectMember}>
           <Username
             statusBorderColor={colors.grayBlueLighter}
             avatar={user.avatar}
             status={userStatusMap[user.status]}
-            name={user.displayName} />
+            name={user.displayName}
+            theme={this.userNameTheme}/>
         </div>
         {this.renderDeleteButton()}
       </div>
