@@ -12,11 +12,12 @@ export const styles = {
     marginBottom: 10,
     cursor: 'pointer',
     '&:hover button': {
-      display: 'block'
+      visibility: 'visible'
     }
   },
   userNameContainer: {
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   },
   name: normal,
   buttonKick: {
@@ -25,6 +26,7 @@ export const styles = {
       small
     ],
     flexShrink: 0,
-    display: 'none'
+    visibility: 'hidden',
+    marginLeft: 10
   }
 }
