@@ -12,6 +12,8 @@ export default {
   gray: '#666666',
   grayDark: '#4d4d4d',
   grayDarker: '#333333',
+  grayBombay: '#b1b6be',
+  grayMercury: '#e6e6e6',
 
   grayBlueLighter: '#ebeef3',
   grayBlueLight: '#e0e5ec',
