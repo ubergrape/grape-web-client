@@ -62,7 +62,7 @@ export default class User extends PureComponent {
     const {sheet: {classes}, user} = this.props
 
     return (
-      <div key={user.id} className={classes.row}>
+      <div className={classes.row}>
         <div
           className={classes.userNameContainer}
           onClick={this.onSelectMember}>
