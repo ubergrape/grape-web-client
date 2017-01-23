@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import colors from 'grape-theme/dist/base-colors'
 import {
   FormattedMessage,
   defineMessages,
@@ -7,7 +8,9 @@ import {
   injectIntl
 } from 'react-intl'
 
+import {userStatusMap} from '../../constants/app'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import {Username} from '../avatar-name'
 import {styles} from './theme'
 
 const messages = defineMessages({
@@ -34,14 +37,20 @@ export default class UserProfile extends PureComponent {
     phoneNumber: PropTypes.string
   }
 
-  onClose = () => {
-    this.props.hideSidebar()
+  constructor(props) {
+    super(props)
+    const {sheet: {classes}} = props
+    this.userNameTheme = {
+      classes: {
+        name: classes.name
+      }
+    }
   }
 
   render() {
     const {
+      status,
       avatar,
-      username,
       displayName,
       whatIDo,
       email,
@@ -49,25 +58,21 @@ export default class UserProfile extends PureComponent {
       skypeForBusiness,
       phoneNumber,
       intl: {formatMessage},
-      sheet: {classes}
+      sheet: {classes},
+      hideSidebar
     } = this.props
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={this.onClose}>
-        <div className={classes.profile}>
-          <div className={classes.leftColumn}>
-            <img
-              className={classes.avatar}
-              src={avatar}
-              alt={username} />
-          </div>
-          <div className={classes.rightColumn}>
-            <div className={classes.fullName}>
-              {displayName}
-            </div>
-          </div>
+        onClose={hideSidebar}>
+        <div className={classes.userNameContainer}>
+          <Username
+            statusBorderColor={colors.grayBlueLighter}
+            avatar={avatar}
+            status={userStatusMap[status]}
+            name={displayName}
+            theme={this.userNameTheme} />
         </div>
         <div>
           {whatIDo && (
