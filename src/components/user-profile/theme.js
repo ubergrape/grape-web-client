@@ -1,7 +1,6 @@
 import color from 'color'
-import mixins from 'grape-web/lib/jss-utils/mixins'
-import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
+import {big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
@@ -9,62 +8,50 @@ import buttonIcon from '../button/icon'
 const marginBottom = 20
 const paddingBottom = 20
 
-const button = {
-  ...linkButton,
-  ...fonts.normal,
-  display: 'block',
-  marginBottom: marginBottom / 2
-}
-
 const divider = {
   marginBottom,
   paddingBottom,
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
 
+const createIcon = (name) => buttonIcon(name, {
+  color: colors.blue,
+  hoverColor: color(colors.blue).lighten(0.05).rgbaString()
+})
+
+const button = {
+  extend: linkButton,
+  marginBottom: marginBottom / 2
+}
+
 export const styles = {
-  profile: {
-    ...divider,
+  userNameContainer: {
+    extend: divider,
     display: 'flex'
   },
-  leftColumn: {
-    flexShrink: 0,
-    width: 60,
-    paddingRight: 20
-  },
-  rightColumn: {
-    flex: 1
-  },
-  avatar: {
-    borderRadius: '50%',
-    width: '100%'
-  },
-  fullName: {
-    ...fonts.big,
-    ...mixins.ellipsis
-  },
+  name: big,
   about: {
-    ...divider,
+    extend: divider,
     marginBottom,
     maxHeight: 200,
     overflowY: 'auto'
   },
-  actions: {
-    ...divider,
-    '& :last-child': {
-      marginBottom: 0
-    }
-  },
   email: {
-    ...button,
-    ...buttonIcon('envelope', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
+    extend: [
+      createIcon('envelope'),
+      button
+    ]
   },
   skype: {
-    ...button,
-    ...buttonIcon('skype', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
+    extend: [
+      createIcon('skype'),
+      button
+    ]
   },
   phone: {
-    ...button,
-    ...buttonIcon('phone', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
+    extend: [
+      createIcon('phone'),
+      button
+    ]
   }
 }

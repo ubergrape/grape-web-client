@@ -33,7 +33,8 @@ export const styles = {
       lineHeight: 1
     },
     '& pre code': {
-      lineHeight: normal.lineHeight
+      lineHeight: normal.lineHeight,
+      verticalAlign: 'middle'
     },
     '& p, pre': {
       marginTop: normal.fontSize / 2,
