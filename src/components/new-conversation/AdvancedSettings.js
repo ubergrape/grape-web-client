@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import keyname from 'keyname'
+import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
   intlShape,
@@ -9,15 +10,16 @@ import {
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInputBigger'
+import {styles} from './advancedSettingsTheme'
 
 class IconSettings extends PureComponent {
   static propTypes = {
-    theme: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   render() {
     return (
-      <div className={this.props.theme.classes.icon}>
+      <div className={this.props.classes.icon}>
         <RoomIconSettings
           {...this.props}
           container={this} />
@@ -49,8 +51,9 @@ const messages = defineMessages({
   }
 })
 
+@injectSheet(styles)
 @injectIntl
-export default class Settings extends PureComponent {
+export default class AdvancedSettings extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     icon: PropTypes.string.isRequired,
@@ -58,7 +61,7 @@ export default class Settings extends PureComponent {
     name: PropTypes.string.isRequired,
     saving: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
-    theme: PropTypes.object.isRequired,
+    sheet: PropTypes.object.isRequired,
     isNameFocused: PropTypes.bool,
     error: PropTypes.string,
     onCreate: PropTypes.func.isRequired,
@@ -79,14 +82,15 @@ export default class Settings extends PureComponent {
   render() {
     const {
       icon, color, name, saving, error,
-      intl: {formatMessage}, theme: {classes}, isPublic,
+      intl: {formatMessage}, sheet: {classes}, isPublic,
       onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName
     } = this.props
 
     return (
-      <div className={classes.settings}>
+      <div className={classes.advancedSettings}>
         <IconSettings
           {...this.props}
+          classes={classes}
           channel={{icon, color, isPublic}} />
         <div className={classes.name}>
           <Input

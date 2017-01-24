@@ -9,16 +9,16 @@ import {
 } from 'react-intl'
 
 import {Create} from '../i18n/i18n'
-import {styles} from './theme'
+import {styles} from './newConversationTheme'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
-import Settings from './Settings'
+import AdvancedSettings from './AdvancedSettings'
 
 const getInitialState = () => ({
   name: '',
   error: '',
   isPublic: true,
   saving: false,
-  focusedInput: 'name',
+  focusedInput: 'users',
   color: sample(colors),
   icon: sample(icons)
 })
@@ -127,14 +127,57 @@ export default class NewConversation extends PureComponent {
     this.setState({focusedInput: 'users'})
   }
 
+  renderSettings = () => {
+    const {sheet: {classes}, clearRoomCreateError} = this.props
+    const {focusedInput, error, isPublic, saving, name, color, icon} = this.state
+
+    return (
+      <div className={classes.advancedSettings}>
+        <AdvancedSettings
+          icon={icon}
+          color={color}
+          name={name}
+          saving={saving}
+          isPublic={isPublic}
+          clearRoomCreateError={clearRoomCreateError}
+          error={error}
+          isNameFocused={focusedInput === 'name'}
+          onClickRoomName={this.onClickRoomName}
+          onCreate={this.onCreate}
+          onChangeRoomName={this.onChangeRoomName}
+          onPrivacyChange={this.onPrivacyChange}
+          onSetRoomColor={this.onSetRoomColor}
+          onSetRoomIcon={this.onSetRoomIcon} />
+      </div>
+    )
+  }
+
+  renderFooter() {
+    const {
+      sheet: {classes},
+      listed
+    } = this.props
+    const {name} = this.state
+
+    return (
+      <div className={classes.footer}>
+        <button
+          onClick={this.onCreate}
+          className={classes.createButton}
+          disabled={!listed.length && !name}>
+          <Create />
+        </button>
+      </div>
+    )
+  }
+
   render() {
     const {
       sheet: {classes}, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
-      organization, intl: {formatMessage},
-      listed
+      organization, intl: {formatMessage}
     } = this.props
-    const {name, focusedInput} = this.state
+    const {focusedInput} = this.state
 
     if (!organization) return null
 
@@ -145,31 +188,12 @@ export default class NewConversation extends PureComponent {
         theme={{classes}}
         onHide={this.onHide}
         onClickList={this.onClickList}
-        beforeList={(
-          <Settings
-            {...this.props}
-            {...this.state}
-            isNameFocused={focusedInput === 'name'}
-            onClickRoomName={this.onClickRoomName}
-            onCreate={this.onCreate}
-            onChangeRoomName={this.onChangeRoomName}
-            onPrivacyChange={this.onPrivacyChange}
-            onSetRoomColor={this.onSetRoomColor}
-            onSetRoomIcon={this.onSetRoomIcon}
-            theme={{classes}} />
-        )}
         isFilterFocused={focusedInput !== 'name'}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}>
-        <div className={classes.footer}>
-          <button
-            onClick={this.onCreate}
-            className={classes.createButton}
-            disabled={!listed.length && !name}>
-            <Create />
-          </button>
-        </div>
+        {this.renderSettings()}
+        {this.renderFooter()}
       </ChooseUsersDialog>
     )
   }

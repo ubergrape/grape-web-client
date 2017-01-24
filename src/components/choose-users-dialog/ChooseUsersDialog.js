@@ -55,16 +55,15 @@ export default class ChooseUsersDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
-    beforeList: PropTypes.node,
     children: PropTypes.node,
     onHide: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
     onSelectUser: PropTypes.func.isRequired,
     onRemoveSelectedUser: PropTypes.func.isRequired,
-    onClickList: PropTypes.func.isRequired,
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
+    onClickList: PropTypes.func,
     title: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element
@@ -131,7 +130,7 @@ export default class ChooseUsersDialog extends Component {
       intl: {formatMessage},
       show, filter, listed, title,
       children, isInviter,
-      beforeList, isFilterFocused, onHide,
+      isFilterFocused, onHide,
       onChangeFilter, onSelectUser,
       onRemoveSelectedUser, onClickList
     } = this.props
@@ -142,7 +141,6 @@ export default class ChooseUsersDialog extends Component {
         onHide={onHide}
         title={title}>
         <div className={classes.wrapper}>
-          {beforeList}
           <FilterableList
             listClassName={classes.list}
             isFilterFocused={isFilterFocused}
