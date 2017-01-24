@@ -126,12 +126,13 @@ export default class FilterableList extends PureComponent {
       filter,
       placeholder,
       onChange,
+      onClick,
       renderSelected,
       onRemoveSelected
     } = this.props
 
     return (
-      <div>
+      <div onClick={onClick}>
         <TagsInput
           onKeyDown={this.onKeyDown}
           onChange={onChange}

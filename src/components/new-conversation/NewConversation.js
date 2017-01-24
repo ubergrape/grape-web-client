@@ -3,7 +3,6 @@ import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
 import {
-  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -14,55 +13,15 @@ import {styles} from './theme'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import Settings from './Settings'
 
-function FooterButtons(props) {
-  const {
-    listed, name, advanced,
-    onClickSettings, onClickCreate, theme
-  } = props
-  const {classes} = theme
-  return (
-    <div className={classes.footer}>
-      <div>
-        {!advanced &&
-          <button
-            className={classes.roomSettingsButton}
-            onClick={onClickSettings}>
-            <FormattedMessage
-              id="advancedOptions"
-              defaultMessage="Advanced Options" />
-          </button>
-        }
-      </div>
-      <button
-        onClick={onClickCreate}
-        className={classes.createButton}
-        disabled={!listed.length && !name}>
-        <Create />
-      </button>
-    </div>
-  )
-}
-
-FooterButtons.propTypes = {
-  listed: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
-  advanced: PropTypes.bool.isRequired,
-  onClickSettings: PropTypes.func.isRequired,
-  onClickCreate: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired
-}
-
-function getInitialState() {
-  return {
-    name: '',
-    error: '',
-    isPublic: true,
-    saving: false,
-    color: sample(colors),
-    icon: sample(icons),
-    roomNameFocused: false
-  }
-}
+const getInitialState = () => ({
+  name: '',
+  error: '',
+  isPublic: true,
+  saving: false,
+  focusedInput: 'name',
+  color: sample(colors),
+  icon: sample(icons)
+})
 
 const messages = defineMessages({
   title: {
@@ -80,7 +39,6 @@ export default class NewConversation extends PureComponent {
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
-    showNewConversationAdvanced: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
@@ -93,7 +51,7 @@ export default class NewConversation extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      ...getInitialState(),
+      ...getInitialState(props),
       error: props.error.message
     }
   }
@@ -108,8 +66,7 @@ export default class NewConversation extends PureComponent {
     if (message !== this.state.error) {
       this.setState({
         error: message,
-        saving: false,
-        roomNameFocused: message ? true : this.state.roomNameFocused
+        saving: false
       })
       return
     }
@@ -125,16 +82,8 @@ export default class NewConversation extends PureComponent {
     this.setState({color})
   }
 
-  onClickRoomName = () => {
-    this.setState({roomNameFocused: true})
-  }
-
-  onBlurRoomName = () => {
-    this.setState({roomNameFocused: false})
-  }
-
-  onChangeRoomName = ({target}) => {
-    this.setState({name: target.value})
+  onChangeRoomName = ({name}) => {
+    this.setState({name})
   }
 
   onPrivacyChange = () => {
@@ -170,45 +119,57 @@ export default class NewConversation extends PureComponent {
     this.props.hideNewConversation()
   }
 
+  onClickRoomName = () => {
+    this.setState({focusedInput: 'name'})
+  }
+
+  onClickList = () => {
+    this.setState({focusedInput: 'users'})
+  }
+
   render() {
     const {
-      sheet, filterNewConversation,
+      sheet: {classes}, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
-      showNewConversationAdvanced, organization, intl: {formatMessage}
+      organization, intl: {formatMessage},
+      listed
     } = this.props
+    const {name, focusedInput} = this.state
 
     if (!organization) return null
 
-    const {classes} = sheet
     return (
       <ChooseUsersDialog
         {...this.props}
         title={formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}
-        isFilterFocused={!this.state.roomNameFocused}
+        onClickList={this.onClickList}
         beforeList={(
           <Settings
             {...this.props}
             {...this.state}
+            isNameFocused={focusedInput === 'name'}
+            onClickRoomName={this.onClickRoomName}
             onCreate={this.onCreate}
             onChangeRoomName={this.onChangeRoomName}
             onPrivacyChange={this.onPrivacyChange}
-            onClickRoomName={this.onClickRoomName}
-            onBlurRoomName={this.onBlurRoomName}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             theme={{classes}} />
         )}
+        isFilterFocused={focusedInput !== 'name'}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}>
-        <FooterButtons
-          {...this.props}
-          {...this.state}
-          onClickCreate={this.onCreate}
-          onClickSettings={showNewConversationAdvanced}
-          theme={{classes}} />
+        <div className={classes.footer}>
+          <button
+            onClick={this.onCreate}
+            className={classes.createButton}
+            disabled={!listed.length && !name}>
+            <Create />
+          </button>
+        </div>
       </ChooseUsersDialog>
     )
   }

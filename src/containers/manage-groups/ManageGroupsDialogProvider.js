@@ -11,7 +11,7 @@ const actionNames = {
   leaveChannel: 'onLeave',
   setManageGroupsFilter: 'onSelectFilter',
   hideManageGroups: 'onHide',
-  showNewConversationAdvanced: 'createNewGroup'
+  showNewConversation: 'createNewGroup'
 }
 
 const ConnectedManageGroupsDialog = connect(

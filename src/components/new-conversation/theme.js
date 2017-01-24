@@ -9,12 +9,6 @@ import color from 'color'
 const {padding} = button
 
 export const styles = {
-  footer: {
-    paddingTop: 15,
-    borderTop: `1px solid ${borderDefault}`,
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
   roomSettingsButton: {
     extend: buttonLink,
     fontSize: small.fontSize,
@@ -61,5 +55,10 @@ export const styles = {
     padding: '1px 10px',
     borderRadius: 5,
     border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`
+  },
+  footer: {
+    paddingTop: 15,
+    borderTop: `1px solid ${borderDefault}`,
+    textAlign: 'right'
   }
 }

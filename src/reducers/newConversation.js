@@ -3,7 +3,6 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   show: false,
   filter: '',
-  advanced: false,
   creatingRoom: false,
   listed: []
 }
@@ -14,12 +13,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...initialState,
         show: true
-      }
-    case types.SHOW_NEW_CONVERSATION_ADVANCED:
-      return {
-        ...state,
-        show: true,
-        advanced: true
       }
     case types.HIDE_NEW_CONVERSATION:
       return {...initialState}

@@ -34,10 +34,6 @@ function getError(message) {
   }
 }
 
-function onInputKeyDown(onCreate, {keyCode}) {
-  if (keyname(keyCode) === 'enter') onCreate()
-}
-
 const messages = defineMessages({
   placeholder: {
     id: 'enterGroupName',
@@ -53,65 +49,66 @@ const messages = defineMessages({
   }
 })
 
-function Settings(props) {
-  const {
-    icon, color, name, advanced, saving, error, roomNameFocused,
-    intl, theme, isPublic, onChangeRoomName, onClickRoomName, onCreate,
-    onBlurRoomName, onPrivacyChange, clearRoomCreateError
-  } = props
+@injectIntl
+export default class Settings extends PureComponent {
+  static propTypes = {
+    intl: intlShape.isRequired,
+    icon: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    saving: PropTypes.bool.isRequired,
+    isPublic: PropTypes.bool.isRequired,
+    theme: PropTypes.object.isRequired,
+    isNameFocused: PropTypes.bool,
+    error: PropTypes.string,
+    onCreate: PropTypes.func.isRequired,
+    clearRoomCreateError: PropTypes.func.isRequired,
+    onChangeRoomName: PropTypes.func.isRequired,
+    onPrivacyChange: PropTypes.func.isRequired,
+    onClickRoomName: PropTypes.func.isRequired
+  }
 
-  if (!advanced) return null
+  onChangeRoomName = ({target}) => {
+    this.props.onChangeRoomName({name: target.value})
+  }
 
-  const {formatMessage} = intl
-  const {classes} = theme
-  return (
-    <div className={classes.settings}>
-      <IconSettings
-        {...props}
-        channel={{icon, color, isPublic}} />
+  onInputKeyDown = ({keyCode}) => {
+    if (keyname(keyCode) === 'enter') this.props.onCreate()
+  }
 
-      <div className={classes.name}>
-        <Input
-          placeholder={formatMessage(messages.placeholder)}
-          value={name}
-          focused={roomNameFocused}
-          error={getError(error)}
-          disabled={saving}
-          clearError={clearRoomCreateError}
-          onKeyDown={onInputKeyDown.bind(null, onCreate)}
-          onChange={onChangeRoomName}
-          onClick={onClickRoomName}
-          onBlur={onBlurRoomName} />
+  render() {
+    const {
+      icon, color, name, saving, error,
+      intl: {formatMessage}, theme: {classes}, isPublic,
+      onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName
+    } = this.props
+
+    return (
+      <div className={classes.settings}>
+        <IconSettings
+          {...this.props}
+          channel={{icon, color, isPublic}} />
+        <div className={classes.name}>
+          <Input
+            placeholder={formatMessage(messages.placeholder)}
+            value={name}
+            error={getError(error)}
+            disabled={saving}
+            focused={isNameFocused}
+            clearError={clearRoomCreateError}
+            onKeyDown={this.onInputKeyDown}
+            onChange={this.onChangeRoomName}
+            onClick={onClickRoomName} />
+        </div>
+        <div className={classes.privacy}>
+          <Switch
+            off={formatMessage(messages.off)}
+            on={formatMessage(messages.on)}
+            disabled={saving}
+            onChange={onPrivacyChange}
+            status={isPublic} />
+        </div>
       </div>
-      <div className={classes.privacy}>
-        <Switch
-          off={formatMessage(messages.off)}
-          on={formatMessage(messages.on)}
-          disabled={saving}
-          onChange={onPrivacyChange}
-          status={isPublic} />
-      </div>
-    </div>
-  )
+    )
+  }
 }
-
-Settings.propTypes = {
-  intl: intlShape.isRequired,
-  icon: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  saving: PropTypes.bool.isRequired,
-  advanced: PropTypes.bool.isRequired,
-  isPublic: PropTypes.bool.isRequired,
-  roomNameFocused: PropTypes.bool.isRequired,
-  theme: PropTypes.object.isRequired,
-  error: PropTypes.string,
-  onCreate: PropTypes.func.isRequired,
-  clearRoomCreateError: PropTypes.func.isRequired,
-  onClickRoomName: PropTypes.func.isRequired,
-  onBlurRoomName: PropTypes.func.isRequired,
-  onChangeRoomName: PropTypes.func.isRequired,
-  onPrivacyChange: PropTypes.func.isRequired
-}
-
-export default injectIntl(Settings)

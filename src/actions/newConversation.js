@@ -6,12 +6,6 @@ export function showNewConversation() {
   }
 }
 
-export function showNewConversationAdvanced() {
-  return {
-    type: types.SHOW_NEW_CONVERSATION_ADVANCED
-  }
-}
-
 export function hideNewConversation() {
   return {
     type: types.HIDE_NEW_CONVERSATION

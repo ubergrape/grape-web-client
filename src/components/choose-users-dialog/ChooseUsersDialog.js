@@ -61,6 +61,7 @@ export default class ChooseUsersDialog extends Component {
     onChangeFilter: PropTypes.func.isRequired,
     onSelectUser: PropTypes.func.isRequired,
     onRemoveSelectedUser: PropTypes.func.isRequired,
+    onClickList: PropTypes.func.isRequired,
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
@@ -132,7 +133,7 @@ export default class ChooseUsersDialog extends Component {
       children, isInviter,
       beforeList, isFilterFocused, onHide,
       onChangeFilter, onSelectUser,
-      onRemoveSelectedUser
+      onRemoveSelectedUser, onClickList
     } = this.props
 
     return (
@@ -149,6 +150,7 @@ export default class ChooseUsersDialog extends Component {
             items={getFilteredUsers(this.props)}
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
+            onClick={onClickList}
             onChange={onChangeFilter}
             onSelect={onSelectUser}
             onRemoveSelected={onRemoveSelectedUser}
