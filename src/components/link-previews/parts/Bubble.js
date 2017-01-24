@@ -1,4 +1,4 @@
-import {white} from 'grape-theme/dist/base-colors'
+import {grayMercury, white} from 'grape-theme/dist/base-colors'
 import {borderDefault} from 'grape-theme/dist/web-colors'
 
 import useTheme from '../../theme/useTheme'
@@ -15,7 +15,7 @@ export default useTheme(Bubble, {
         radius: bubbleBorderRadius
       },
       maxWidth: 620,
-      boxShadow: [-3, 0, 0, 0, '#e6e6e6']
+      boxShadow: [-3, 0, 0, 0, grayMercury]
     },
     content: {
       display: 'flex',
