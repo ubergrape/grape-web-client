@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
-import {styles} from './tooltipTheme'
 import injectSheet from 'grape-web/lib/jss'
 
+import {styles} from './tooltipTheme'
 import {
   getPlacementStyles,
   getPointerPlacement,

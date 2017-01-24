@@ -1,4 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
+import cn from 'classnames'
 
 export default class Switch extends PureComponent {
   static propTypes = {
@@ -25,7 +26,7 @@ export default class Switch extends PureComponent {
         onClick={onChange}
         className={switchClass}>
         <span className={classes.label}>{on}</span>
-        <span className={classes.label}>{off}</span>
+        <span className={cn(classes.label, classes.rightLabel)}>{off}</span>
       </span>
     )
   }

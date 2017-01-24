@@ -1,7 +1,10 @@
 import {small} from 'grape-theme/dist/fonts'
 import {white, blue, grayBlueDark} from 'grape-theme/dist/base-colors'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 const togglerMargin = 2
+
+const transitionTimingFunction = 'ease-out'
 
 const toggler = {
   position: 'absolute',
@@ -10,8 +13,9 @@ const toggler = {
   width: '50%',
   background: white,
   borderRadius: 4,
-  transition: 'left 0.3s ease-in, right 0.3s ease-in',
-  willChange: 'left, top',
+  transition: 'left 0.2s, right 0.2s',
+  transitionTimingFunction,
+  willChange: 'left, right',
   content: '""'
 }
 
@@ -22,7 +26,8 @@ export const styles = {
     borderRadius: 5,
     color: white,
     cursor: 'pointer',
-    transition: 'background 0.3s ease-in',
+    transition: 'background 0.2s',
+    transitionTimingFunction,
     willChange: 'background'
   },
   switchOn: {
@@ -46,9 +51,13 @@ export const styles = {
     pointerEvents: 'none'
   },
   label: {
-    extend: small,
+    extend: [small, ellipsis],
     lineHeight: 2.5,
     whiteSpace: 'nowrap',
-    padding: '0 10px'
+    padding: [0, 7],
+    width: '100%'
+  },
+  rightLabel: {
+    textAlign: 'right'
   }
 }
