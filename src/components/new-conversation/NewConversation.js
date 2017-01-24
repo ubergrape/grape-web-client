@@ -186,7 +186,7 @@ export default class NewConversation extends PureComponent {
         title={formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}
-        filterFocus={!this.state.roomNameFocused}
+        isFilterFocused={!this.state.roomNameFocused}
         beforeList={(
           <Settings
             {...this.props}

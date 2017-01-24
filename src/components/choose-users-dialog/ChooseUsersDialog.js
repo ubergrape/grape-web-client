@@ -70,7 +70,7 @@ export default class ChooseUsersDialog extends Component {
     ]),
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
-    filterFocus: PropTypes.bool,
+    isFilterFocused: PropTypes.bool,
     show: PropTypes.bool.isRequired
   }
 
@@ -130,7 +130,7 @@ export default class ChooseUsersDialog extends Component {
       intl: {formatMessage},
       show, filter, listed, title,
       children, isInviter,
-      beforeList, filterFocus, onHide,
+      beforeList, isFilterFocused, onHide,
       onChangeFilter, onSelectUser,
       onRemoveSelectedUser
     } = this.props
@@ -144,7 +144,7 @@ export default class ChooseUsersDialog extends Component {
           {beforeList}
           <FilterableList
             listClassName={classes.list}
-            filterFocus={filterFocus}
+            isFilterFocused={isFilterFocused}
             filter={filter}
             items={getFilteredUsers(this.props)}
             selected={listed}
