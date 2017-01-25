@@ -24,7 +24,7 @@ export default {
   "createGroup": "Create group",
   "inviteMembers": "Invite members",
   "inviteToTeam": "Invite a new member to your organization…",
-  "typeName": "Add contact...",
+  "typeName": "Add members…",
   "everyoneInvited": "Everyone has been invited to this group",
   "usersNotFoundFor": "No one found for",
   "dropFileToUpload": "Drop your file to upload it!",

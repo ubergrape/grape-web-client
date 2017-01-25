@@ -111,8 +111,8 @@ export default class ManageGroupsDialog extends PureComponent {
         <button className={classes.create} onClick={this.onCreate}>
            <FormattedMessage
               id="manageGroupsCreateNew"
-              defaultMessage="create new group"
-              description="Manage Groups Dialog: create new group button" />
+              defaultMessage="new conversation"
+              description="Manage Groups Dialog: create new conversation button" />
         </button>
       </span>
     )

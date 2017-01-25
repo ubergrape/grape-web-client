@@ -45,7 +45,7 @@ OrgInviteButton.propTypes = {
 const messages = defineMessages({
   placeholder: {
     id: 'typeName',
-    defaultMessage: 'Type name...'
+    defaultMessage: 'Add members…'
   }
 })
 
