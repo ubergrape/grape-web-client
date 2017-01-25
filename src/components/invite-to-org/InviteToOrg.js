@@ -74,12 +74,10 @@ export default class InviteToOrg extends PureComponent {
     onInvite: PropTypes.func.isRequired
   }
 
-  constructor() {
-    super()
-    this.state = {
-      message: '',
-      value: ''
-    }
+  state = {
+    message: '',
+    value: '',
+    isLoading: false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,8 +95,8 @@ export default class InviteToOrg extends PureComponent {
     this.setState({value})
   }
 
-  onMessageChange = ({target: {value}}) => {
-    this.setState({message: value})
+  onMessageChange = ({target}) => {
+    this.setState({message: target.value})
   }
 
   onInvite = e => {
