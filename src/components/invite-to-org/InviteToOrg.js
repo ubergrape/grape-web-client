@@ -10,12 +10,12 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {styles} from './inviteToOrgTheme'
+import {InviteSuccess} from '../i18n/i18n'
 import Dialog from '../dialog/Dialog'
-
 import InviteLink from './InviteLink'
 import EmailsInput from './EmailsInput'
 import PersonalMessageInput from './PersonalMessageInput'
+import {styles} from './inviteToOrgTheme'
 
 const messages = defineMessages({
   title: {
@@ -40,21 +40,6 @@ const messages = defineMessages({
     defaultMessage: 'Enter valid email addresses separated by a space.'
   }
 })
-
-const getSuccessMessage = (options) => (
-  <FormattedMessage
-    id="justInvited"
-    defaultMessage={
-      `Congratulations! You just invited {user} {amount, plural,
-        =0 {}
-        one {and one more people}
-        other {and {amount} more people}}.`
-    }
-    values={{
-      user: options.invited[0],
-      amount: options.invited.length - 1
-    }} />
-)
 
 @injectSheet(styles)
 @injectIntl
@@ -107,10 +92,9 @@ export default class InviteToOrg extends PureComponent {
     this.setState({isLoading: true}, () => {
       onInvite({
         emails: value,
-        message,
-        getSuccessMessage
+        message
       }, ({emails}) => {
-        onSuccess(getSuccessMessage({invited: emails}))
+        onSuccess(<InviteSuccess invited={emails} />)
       })
     })
   }
