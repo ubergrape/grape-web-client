@@ -9,4 +9,4 @@ export const userStatusMap = {
   16: 'online'
 }
 
-export const maxLinkPreviews = 5
+export const maxLinkAttachments = 5

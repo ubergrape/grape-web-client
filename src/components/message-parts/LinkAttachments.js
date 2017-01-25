@@ -1,28 +1,28 @@
 import React, {PropTypes, PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {LinkPreview} from '../link-previews'
-import {styles} from './linkPreviewsTheme'
+import {LinkAttachment} from '../link-attachments'
+import {styles} from './linkAttachmentsTheme'
 
 @injectSheet(styles)
-export default class LinkPreviews extends PureComponent {
+export default class LinkAttachments extends PureComponent {
   static propTypes = {
-    previews: PropTypes.array.isRequired,
+    attachments: PropTypes.array.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
   render() {
     const {
-      previews,
+      attachments,
       sheet: {classes}
     } = this.props
 
     return (
       <div>
-        {previews.map(meta => (
-          <LinkPreview
+        {attachments.map(meta => (
+          <LinkAttachment
             {...meta}
-            className={classes.linkPreview}
+            className={classes.linkAttachment}
             key={meta.sourceUrl} />
         ))}
       </div>

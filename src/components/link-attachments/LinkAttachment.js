@@ -11,15 +11,14 @@ import {
   Title
 } from './parts'
 import ImageAttachment from '../message-parts/attachments/ImageAttachment'
-import {styles} from './linkPreviewTheme.js'
+import {styles} from './linkAttachmentTheme.js'
 
 @injectSheet(styles)
-export default class LinkPreview extends PureComponent {
+export default class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
-    serviceIcon: PropTypes.string.isRequired,
-    serviceName: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired,
+    footerIcon: PropTypes.string,
+    footer: PropTypes.string.isRequired,
     authorName: PropTypes.string,
     authorLink: PropTypes.string,
     authorIcon: PropTypes.string,
@@ -30,7 +29,7 @@ export default class LinkPreview extends PureComponent {
     thumbUrl: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
-    embedUrl: PropTypes.string,
+    embedHtml: PropTypes.string,
     ts: PropTypes.number.isRequired,
     className: PropTypes.string,
     sheet: PropTypes.object.isRequired
@@ -95,7 +94,7 @@ export default class LinkPreview extends PureComponent {
 
   renderEmbed() {
     const {
-      embedUrl,
+      embedHtml,
       thumbUrl,
       width,
       height,
@@ -105,7 +104,7 @@ export default class LinkPreview extends PureComponent {
     return (
       <Row spaced>
         <Embed
-          embedUrl={embedUrl}
+          embedHtml={embedHtml}
           thumbUrl={thumbUrl}
           width={width}
           height={height}
@@ -132,12 +131,12 @@ export default class LinkPreview extends PureComponent {
 
   render() {
     const {
-      serviceIcon, serviceName, serviceUrl,
       authorName,
       title,
       text,
       imageUrl, thumbUrl,
-      embedUrl,
+      embedHtml,
+      footerIcon, footer,
       ts,
       className,
       sheet: {classes}
@@ -151,15 +150,14 @@ export default class LinkPreview extends PureComponent {
             {title && this.renderTitle()}
             {text && this.renderText()}
             <Footer
-              serviceName={serviceName}
-              serviceIcon={serviceIcon}
-              serviceUrl={serviceUrl}
+              text={footer}
+              icon={footerIcon}
               timestamp={ts}
              />
             {imageUrl && this.renderImage()}
-            {embedUrl && this.renderEmbed()}
+            {embedHtml && this.renderEmbed()}
           </div>
-          {thumbUrl && !embedUrl && !imageUrl && this.renderImageLinkPreview()}
+          {thumbUrl && !embedHtml && !imageUrl && this.renderImageLinkPreview()}
         </Bubble>
       </div>
     )

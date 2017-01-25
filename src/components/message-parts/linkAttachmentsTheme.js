@@ -1,7 +1,7 @@
 import {grayBlueDark} from 'grape-theme/dist/base-colors'
 
 export const styles = {
-  linkPreview: {
+  linkAttachment: {
     marginTop: 2,
     marginLeft: 3,
     color: grayBlueDark

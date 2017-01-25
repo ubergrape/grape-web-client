@@ -8,24 +8,23 @@ import {styles} from './footerTheme.js'
 @injectIntl
 export default class Footer extends PureComponent {
   static propTypes = {
-    serviceIcon: PropTypes.string.isRequired,
-    serviceName: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired,
-    link: PropTypes.string,
+    icon: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    url: PropTypes.string,
     timestamp: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired
   }
 
-  renderIcon(serviceIcon) {
+  renderIcon(icon) {
     const {sheet: {classes}} = this.props
-    return <img className={classes.icon} src={serviceIcon} alt="" />
+    return <img className={classes.icon} src={icon} alt="" />
   }
 
   renderInfo() {
     const {
-      serviceIcon,
-      serviceName,
+      icon,
+      text,
       timestamp,
       intl: {formatDate, formatTime},
       sheet: {classes}
@@ -39,26 +38,26 @@ export default class Footer extends PureComponent {
 
     return (
       <div className={classes.container}>
-        {serviceIcon && this.renderIcon(serviceIcon)}
-        <span className={classes.text}>{serviceName} | {when}</span>
+        {icon && this.renderIcon(icon)}
+        <span className={classes.text}>{text} | {when}</span>
       </div>
     )
   }
 
   render() {
     const {
-      serviceUrl,
+      url,
       sheet: {classes}
     } = this.props
 
-    if (!serviceUrl) {
+    if (!url) {
       return this.renderInfo()
     }
 
     return (
       <a
         className={classes.link}
-        href={serviceUrl}
+        href={url}
         target="_blank"
         rel="noreferrer">
         {this.renderInfo()}

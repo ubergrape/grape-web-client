@@ -10,7 +10,7 @@ export default class Embed extends PureComponent {
   static propTypes = {
     thumbUrl: PropTypes.string,
     permalink: PropTypes.string.isRequired,
-    embedUrl: PropTypes.string.isRequired,
+    embedHtml: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired
@@ -25,10 +25,27 @@ export default class Embed extends PureComponent {
     this.setState({isOpen: true})
   }
 
+  getSource() {
+    const {embedHtml} = this.props
+
+    return `
+      <style>
+        html, body, iframe {
+          border: 0;
+          padding: 0;
+          margin: 0;
+          background: transparent;
+          width: 100% !important;
+          height: 100% !important;
+        }
+      </style>
+      ${embedHtml}
+    `
+  }
+
   render() {
     const {
       thumbUrl,
-      embedUrl,
       width, height,
       permalink,
       sheet: {classes}
@@ -51,7 +68,7 @@ export default class Embed extends PureComponent {
                 onClick={this.onClick} />
             </div>
           ) :
-          <iframe className={classes.embed} src={embedUrl}></iframe>
+          <iframe className={classes.embed} srcDoc={this.getSource()}></iframe>
         }
       </div>
     )
