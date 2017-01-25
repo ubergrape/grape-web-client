@@ -8,7 +8,7 @@ import {styles} from './footerTheme.js'
 @injectIntl
 export default class Footer extends PureComponent {
   static propTypes = {
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     text: PropTypes.string.isRequired,
     url: PropTypes.string,
     timestamp: PropTypes.number.isRequired,

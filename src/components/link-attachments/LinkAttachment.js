@@ -18,7 +18,7 @@ export default class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
     footerIcon: PropTypes.string,
-    footer: PropTypes.string.isRequired,
+    footer: PropTypes.string,
     authorName: PropTypes.string,
     authorLink: PropTypes.string,
     authorIcon: PropTypes.string,
@@ -30,7 +30,7 @@ export default class LinkAttachment extends PureComponent {
     width: PropTypes.number,
     height: PropTypes.number,
     embedHtml: PropTypes.string,
-    ts: PropTypes.number.isRequired,
+    ts: PropTypes.number,
     className: PropTypes.string,
     sheet: PropTypes.object.isRequired
   }
@@ -70,6 +70,22 @@ export default class LinkAttachment extends PureComponent {
 
     return (
       <Row><p className={classes.text}>{text}</p></Row>
+    )
+  }
+
+  renderFooter() {
+    const {
+      footer,
+      footerIcon,
+      ts
+    } = this.props
+
+    return (
+      <Footer
+        text={footer}
+        icon={footerIcon}
+        timestamp={ts}
+       />
     )
   }
 
@@ -136,8 +152,7 @@ export default class LinkAttachment extends PureComponent {
       text,
       imageUrl, thumbUrl,
       embedHtml,
-      footerIcon, footer,
-      ts,
+      footer, ts,
       className,
       sheet: {classes}
     } = this.props
@@ -149,12 +164,8 @@ export default class LinkAttachment extends PureComponent {
             {authorName && this.renderAuthor()}
             {title && this.renderTitle()}
             {text && this.renderText()}
-            <Footer
-              text={footer}
-              icon={footerIcon}
-              timestamp={ts}
-             />
-            {imageUrl && this.renderImage()}
+            {footer && ts && this.renderFooter()}
+            {imageUrl && !embedHtml && this.renderImage()}
             {embedHtml && this.renderEmbed()}
           </div>
           {thumbUrl && !embedHtml && !imageUrl && this.renderImageLinkPreview()}
