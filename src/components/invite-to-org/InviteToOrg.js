@@ -71,7 +71,8 @@ export default class InviteToOrg extends PureComponent {
     onHide: PropTypes.func.isRequired,
     getIniviteLink: PropTypes.func.isRequired,
     onHideError: PropTypes.func.isRequired,
-    onInvite: PropTypes.func.isRequired
+    onInvite: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired
   }
 
   state = {
@@ -101,11 +102,15 @@ export default class InviteToOrg extends PureComponent {
 
   onInvite = e => {
     e.preventDefault()
+    const {onInvite, onSuccess} = this.props
+    const {value, message} = this.state
     this.setState({isLoading: true}, () => {
-      this.props.onInvite({
-        emails: this.state.value,
-        message: this.state.message,
+      onInvite({
+        emails: value,
+        message,
         getSuccessMessage
+      }, ({emails}) => {
+        onSuccess(getSuccessMessage({invited: emails}))
       })
     })
   }
