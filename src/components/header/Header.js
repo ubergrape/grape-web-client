@@ -13,7 +13,6 @@ export default class Header extends PureComponent {
     channel: PropTypes.object.isRequired,
     mate: PropTypes.object.isRequired,
     favorite: PropTypes.object.isRequired,
-    support: PropTypes.object.isRequired,
     sidebar: PropTypes.oneOfType([
       PropTypes.string,
       React.PropTypes.bool
@@ -21,15 +20,8 @@ export default class Header extends PureComponent {
     mentions: PropTypes.number,
     showChannelMembersInvite: PropTypes.func,
     updateMessageSearchQuery: PropTypes.func,
-    hideIntercom: PropTypes.func,
     showInSidebar: PropTypes.func,
     hideSidebar: PropTypes.func
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Hide intercom, because it keeps state outside of app.
-    const {support: {type}, hideIntercom} = nextProps
-    if (type !== this.props.support.type && type === 'intercom') hideIntercom()
   }
 
   onFocusMessageSearch = ({target}) => {

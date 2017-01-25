@@ -211,10 +211,6 @@ export const messageSearchWithChannels = createSelector(
   })
 )
 
-export const intercomSelector = createSelector(
-  state => state.intercom, state => state
-)
-
 export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
@@ -391,10 +387,6 @@ export const favoriteSelector = createSelector(
   })
 )
 
-export const supportSelector = createSelector(
-  state => state.support, state => state
-)
-
 export const sidebarSelector = createSelector(
   state => state.sidebar, state => state
 )
@@ -407,10 +399,9 @@ export const sidebarComponentSelector = createSelector(
     sharedFilesSelector,
     messageSearchWithChannels,
     mentionsWithChannels,
-    supportSelector,
     userSelector
   ],
-  ({show}, room, pm, files, search, mentions, support, user) => {
+  ({show}, room, pm, files, search, mentions, user) => {
     const select = {
       show,
       user
@@ -423,7 +414,6 @@ export const sidebarComponentSelector = createSelector(
       pm,
       files,
       search,
-      support,
       mentions: {...mentions, query: user.displayName}
     }
 
@@ -433,11 +423,11 @@ export const sidebarComponentSelector = createSelector(
 
 export const headerSelector = createSelector(
   [
-    favoriteSelector, channelSelector, supportSelector, sidebarSelector,
+    favoriteSelector, channelSelector, sidebarSelector,
     unreadMentionsAmountSelector, userProfileSelector
   ],
-  (favorite, channel, support, {show: sidebar}, mentions, mate) => ({
-    favorite, channel, support, sidebar, mentions, mate
+  (favorite, channel, {show: sidebar}, mentions, mate) => ({
+    favorite, channel, sidebar, mentions, mate
   })
 )
 

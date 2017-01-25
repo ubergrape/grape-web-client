@@ -55,12 +55,6 @@ function getTooltipMessage(name) {
           id="mentions"
           defaultMessage="Mentions" />
       )
-    case 'support':
-      return (
-        <FormattedMessage
-          id="supportInfo"
-          defaultMessage="Support Info" />
-      )
     default:
       return (<span></span>)
   }
@@ -131,7 +125,6 @@ export default function Items(props) {
     showChannelMembersInvite,
     onFocusMessageSearch,
     onChangeMessageSearch,
-    support,
     mate,
     favorite,
     mentions,
@@ -143,13 +136,6 @@ export default function Items(props) {
   const favoriteProps = {...favorite, ...props}
   const {formatMessage} = props.intl
   const {classes} = theme
-
-  const onSupportClick = (e) => {
-    if (support.type === 'intercom') {
-      e.preventDefault()
-      itemClickHandler('intercom', props)()
-    }
-  }
 
   return (
     <ul
@@ -208,17 +194,6 @@ export default function Items(props) {
             theme={theme} />
         </Tooltip>
       </li>
-      <li className={classes.action}>
-        <Tooltip
-          message={getTooltipMessage('support')}
-          align="right">
-          <a
-            href={support.href}
-            className={itemButtonClassName('intercom', props)}
-            onClick={onSupportClick}>
-          </a>
-        </Tooltip>
-      </li>
     </ul>
   )
 }
@@ -234,7 +209,6 @@ Items.propTypes = {
     React.PropTypes.bool
   ]),
   favorite: PropTypes.object.isRequired,
-  support: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired

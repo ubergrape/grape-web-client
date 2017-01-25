@@ -12,8 +12,7 @@ const actionNames = [
   'hideSidebar',
   'requestAddChannelToFavorites',
   'requestRemoveChannelFromFavorites',
-  'updateMessageSearchQuery',
-  'hideIntercom'
+  'updateMessageSearchQuery'
 ]
 
 const ConnectedHeader = connect(
