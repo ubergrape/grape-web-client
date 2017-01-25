@@ -4,6 +4,7 @@ import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/outside-click'
 import {pickHTMLProps} from 'pick-react-known-prop'
+import cn from 'classnames'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
 import {styles} from './theme'
@@ -64,7 +65,7 @@ export default class Input extends PureComponent {
       ...pickHTMLProps(this.props),
       onChange: this.onChange,
       ref: 'input',
-      className: `${classes['input' + (error ? capitalize(error.level) : '')]} ${className}`
+      className: cn(classes['input' + (error ? capitalize(error.level) : '')], className)
     }
     switch (type) {
       case 'input':
@@ -87,8 +88,8 @@ export default class Input extends PureComponent {
             arrowOffsetLeft={arrowOffset}
             onOutsideClick={this.onToolipOutsideClick}
             placement={placement}>
-              <div className={classes.content}>
-                <span className={classes[`${error.level}Message`]}>
+              <div className={cn(classes.content)}>
+                <span className={cn(classes[`${error.level}Message`])}>
                   {error.message}
                 </span>
               </div>

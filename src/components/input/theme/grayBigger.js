@@ -13,8 +13,8 @@ theme.styles.inputError = {
   ...fonts.bigger
 }
 
-theme.styles.InputWarning = {
-  ...theme.styles.InputWarning,
+theme.styles.inputWarning = {
+  ...theme.styles.inputWarning,
   ...fonts.bigger
 }
 
