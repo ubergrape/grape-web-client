@@ -2,6 +2,8 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector} from '../selectors'
 import {error} from './common'
+import {showToastNotification} from './toastNotification'
+
 
 export function showInviteToOrg() {
   return {
@@ -29,12 +31,13 @@ export function getInviteToOrgLink() {
   }
 }
 
-export function inviteToOrg(settings) {
+export function inviteToOrg({getSuccessMessage, ...rest}) {
   return (dispatch, getState) => {
     api
-      .inviteToOrg(orgSelector(getState()).id, settings)
-      .then(() => {
-        dispatch({type: types.HANDLE_INVITE_TO_ORG_SUCCESS})
+      .inviteToOrg(orgSelector(getState()).id, rest)
+      .then(({emails}) => {
+        dispatch(hideInviteToOrg())
+        dispatch(showToastNotification(getSuccessMessage({invited: emails})))
       })
       .catch(err => {
         dispatch({
@@ -48,11 +51,5 @@ export function inviteToOrg(settings) {
 export function clearInviteToOrgError() {
   return {
     type: types.CLEAR_INVITE_TO_ORG_ERROR
-  }
-}
-
-export function hideJustInvited() {
-  return {
-    type: types.HIDE_JUST_INVITED_TO_ORG
   }
 }

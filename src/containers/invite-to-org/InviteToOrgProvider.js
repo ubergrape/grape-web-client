@@ -10,8 +10,7 @@ const actionNames = {
   hideInviteToOrg: 'onHide',
   getInviteToOrgLink: 'getIniviteLink',
   inviteToOrg: 'onInvite',
-  clearInviteToOrgError: 'onHideError',
-  hideJustInvited: 'hideJustInvited'
+  clearInviteToOrgError: 'onHideError'
 }
 
 const ConnectedInviteToOrg = connect(
