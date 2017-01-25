@@ -180,18 +180,5 @@ export const styles = {
     background: alertDanger,
     borderRadius: '50%',
     border: `2px solid ${white}`
-  },
-  intercom: {
-    ...button,
-    backgroundImage: getIcon('help'),
-    '&:hover': {
-      isolate: false,
-      backgroundImage: getIcon('help', 'hover')
-    }
-  },
-  intercomActive: {
-    ...button,
-    backgroundColor: blue,
-    backgroundImage: getIcon('help', 'active')
   }
 }
