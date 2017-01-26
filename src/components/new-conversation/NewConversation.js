@@ -51,7 +51,7 @@ export default class NewConversation extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      ...getInitialState(props),
+      ...getInitialState(),
       error: props.error.message
     }
   }
