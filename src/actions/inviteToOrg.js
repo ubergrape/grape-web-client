@@ -29,12 +29,13 @@ export function getInviteToOrgLink() {
   }
 }
 
-export function inviteToOrg(settings) {
+export function inviteToOrg(options, callback) {
   return (dispatch, getState) => {
     api
-      .inviteToOrg(orgSelector(getState()).id, settings)
-      .then(() => {
-        dispatch({type: types.HANDLE_INVITE_TO_ORG_SUCCESS})
+      .inviteToOrg(orgSelector(getState()).id, options)
+      .then(res => {
+        dispatch(hideInviteToOrg())
+        callback(res)
       })
       .catch(err => {
         dispatch({
@@ -48,11 +49,5 @@ export function inviteToOrg(settings) {
 export function clearInviteToOrgError() {
   return {
     type: types.CLEAR_INVITE_TO_ORG_ERROR
-  }
-}
-
-export function hideJustInvited() {
-  return {
-    type: types.HIDE_JUST_INVITED_TO_ORG
   }
 }

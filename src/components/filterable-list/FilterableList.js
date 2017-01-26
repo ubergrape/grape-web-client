@@ -10,7 +10,7 @@ import TagsInput from '../tags-input/TagsInput'
 export default class FilterableList extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    filterFocus: PropTypes.bool.isRequired,
+    isFilterFocused: PropTypes.bool.isRequired,
     listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
@@ -27,7 +27,7 @@ export default class FilterableList extends PureComponent {
   }
 
   static defaultProps = {
-    filterFocus: true
+    isFilterFocused: true
   }
 
   constructor(props) {
@@ -80,8 +80,8 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldFocusFilter() {
-    const {items, selected, filter, filterFocus} = this.props
-    if (!filterFocus) return false
+    const {items, selected, filter, isFilterFocused} = this.props
+    if (!isFilterFocused) return false
     if (filter) return true
 
     return items.length + selected.length > 0
@@ -126,12 +126,13 @@ export default class FilterableList extends PureComponent {
       filter,
       placeholder,
       onChange,
+      onClick,
       renderSelected,
       onRemoveSelected
     } = this.props
 
     return (
-      <div>
+      <div onClick={onClick}>
         <TagsInput
           onKeyDown={this.onKeyDown}
           onChange={onChange}

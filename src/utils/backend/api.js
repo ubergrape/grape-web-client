@@ -406,9 +406,9 @@ export function inviteToOrg(orgId, settings) {
       action: 'invite',
       args: [orgId, settings]
     },
-    err => {
+    (err, res) => {
       if (err) return reject(err)
-      resolve()
+      resolve(res)
     })
   })
 }

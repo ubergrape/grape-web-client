@@ -13,7 +13,8 @@ const actionNames = [
   'hideChannelMembersInvite',
   'addToChannelMembersInvite',
   'removeFromChannelMembersInvite',
-  'setInviteFilterValue'
+  'setInviteFilterValue',
+  'showToastNotification'
 ]
 
 const ConnectedChannelMembersInvite = connect(
