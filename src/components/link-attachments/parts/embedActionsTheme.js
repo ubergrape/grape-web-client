@@ -7,10 +7,12 @@ export const styles = {
   container: {
     padding: 10,
     borderRadius: borderRadius.bigger,
-    backgroundColor: rgba(0, 0, 0, 0.7)
+    backgroundColor: rgba(0, 0, 0, 0.7),
+    whiteSpace: 'nowrap'
   },
   action: {
     display: 'inline-block',
+    verticalAlign: 'middle',
     border: 0,
     fontSize: 0,
     lineHeight: 0,
