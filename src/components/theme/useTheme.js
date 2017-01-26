@@ -9,8 +9,9 @@ export default function useTheme(Component, options = {}) {
   const theme = omit(options, 'styles', 'jss')
 
   function Theme(props) {
-    theme.classes = props.sheet.classes
-    return <Component theme={theme} {...props} />
+    const {sheet, ...rest} = props
+    theme.classes = sheet.classes
+    return <Component theme={theme} {...rest} />
   }
 
   Theme.propTypes = {

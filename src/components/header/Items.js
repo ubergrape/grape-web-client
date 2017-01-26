@@ -133,7 +133,8 @@ export default function Items(props) {
   } = props
   const {type: channel} = props.channel
 
-  const favoriteProps = {...favorite, ...props}
+  const {sheet, ...rest} = props
+  const favoriteProps = {...favorite, ...rest}
   const {formatMessage} = props.intl
   const {classes} = theme
 
@@ -211,5 +212,6 @@ Items.propTypes = {
   favorite: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
-  onChangeMessageSearch: PropTypes.func.isRequired
+  onChangeMessageSearch: PropTypes.func.isRequired,
+  sheet: PropTypes.object
 }
