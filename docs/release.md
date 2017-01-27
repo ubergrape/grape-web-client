@@ -18,6 +18,7 @@ To release a new version of the repo make sure to complete the following steps (
 - [ ] Add release version and date to [CHANGELOG](../CHANGELOG.md) eg. Release XX.XX.XX (2017-XX-XX)
 - [ ] Create a new tag `npm version <major|minor|patch>`
 - [ ] Make sure that everything is fine: `git log HEAD^.. && git tag -l`
+- [ ] Make sure all strings are translated on [lingvohub](https://translate.lingohub.com/ubergrape-gmbh/web-client/dashboard)
 - [ ] [Create a PR against `production`](https://github.com/ubergrape/grape-web-client/compare/production?expand=1)
 
 Once the PR is merged

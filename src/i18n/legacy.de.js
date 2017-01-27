@@ -29,6 +29,7 @@ export default {
   "Account Settings": "Nutzer-Einstellungen",
   "Notification Settings": "Erreichbarkeit verwalten",
   "Tutorial": "Tutorial",
+  "Support & FAQ": "Suport & FAQ",
   "Switch Organizations": "Organisation wechseln",
   "Log out": "Abmelden",
   "Continue": "Fortfahren",
