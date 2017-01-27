@@ -1,9 +1,11 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
 import {
   Author,
   Bubble,
+  Field,
   Footer,
   Embed,
   ImagePreviewLink,
@@ -12,6 +14,29 @@ import {
 } from './parts'
 import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
+
+const groupFields = fields => {
+  const fieldGroups = []
+  let i = 0
+  let field
+  let nextField
+  const len = fields.length
+
+  for (;i < len;) {
+    field = fields[i]
+    nextField = fields[i + 1]
+
+    if (field.short && nextField.short) {
+      fieldGroups.push([field, nextField])
+      i += 2
+      continue
+    }
+    fieldGroups.push([field])
+    i += 1
+  }
+
+  return fieldGroups
+}
 
 @injectSheet(styles)
 export default class LinkAttachment extends PureComponent {
@@ -31,13 +56,15 @@ export default class LinkAttachment extends PureComponent {
     height: PropTypes.number,
     embedHtml: PropTypes.string,
     ts: PropTypes.number,
+    fields: PropTypes.array.isRequired,
     className: PropTypes.string,
     sheet: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     width: 360,
-    height: 360
+    height: 360,
+    fields: []
   }
 
   renderAuthor() {
@@ -144,6 +171,34 @@ export default class LinkAttachment extends PureComponent {
     )
   }
 
+  renderFields() {
+    const {
+      fields,
+      sheet: {classes}
+    } = this.props
+
+    const fieldGroups = groupFields(fields)
+
+    return (
+      <div className={classes.fields}>
+        {fieldGroups.map((group, key) => (
+          <div
+            className={
+              cn(classes.fieldGroup, group.length === 2 && classes.fieldGroupShort)
+            }
+            key={key}>
+            {group.map(({title, value}, gkey) => (
+              <Field
+                title={title}
+                value={value}
+                key={`${key}-${gkey}`} />
+            ))}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   render() {
     const {
       authorName,
@@ -151,6 +206,7 @@ export default class LinkAttachment extends PureComponent {
       text,
       imageUrl, thumbUrl,
       embedHtml,
+      fields,
       footer, ts,
       className,
       sheet: {classes}
@@ -162,6 +218,7 @@ export default class LinkAttachment extends PureComponent {
           {authorName && this.renderAuthor()}
           {title && this.renderTitle()}
           {text && this.renderText()}
+          {fields.length > 0 && this.renderFields()}
           {footer && ts && this.renderFooter()}
           {imageUrl && !embedHtml && this.renderImage()}
           {embedHtml && this.renderEmbed()}

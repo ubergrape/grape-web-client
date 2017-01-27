@@ -11,5 +11,17 @@ export const styles = {
   text: {
     extend: normal,
     lineHeight: 1.4
+  },
+  fields: {
+    margin: [3, 0]
+  },
+  fieldGroup: {
+    marginTop: 8,
+    '&:first-child': {
+      marginTop: 0
+    }
+  },
+  fieldGroupShort: {
+    display: 'flex'
   }
 }

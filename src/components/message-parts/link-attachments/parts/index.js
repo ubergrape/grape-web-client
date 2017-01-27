@@ -1,6 +1,7 @@
 export Author from './Author'
 export Bubble from './Bubble'
 export Embed from './Embed'
+export Field from './Field'
 export Footer from './Footer'
 export ImagePreviewLink from './ImagePreviewLink'
 export Row from './Row'
