@@ -50,9 +50,7 @@ export default class Footer extends PureComponent {
       sheet: {classes}
     } = this.props
 
-    if (!url) {
-      return this.renderInfo()
-    }
+    if (!url) return this.renderInfo()
 
     return (
       <a

@@ -43,11 +43,33 @@ export default class Embed extends PureComponent {
     `
   }
 
+  renderActions() {
+    const {
+      permalink,
+      sheet: {classes}
+    } = this.props
+
+    return (
+      <div className={classes.actions}>
+        <EmbedActions
+          permalink={permalink}
+          onClick={this.onClick} />
+      </div>
+    )
+  }
+
+  renderIframe() {
+    const {sheet: {classes}} = this.props
+
+    return (
+      <iframe className={classes.embed} srcDoc={this.getSource()}></iframe>
+    )
+  }
+
   render() {
     const {
       thumbUrl,
       width, height,
-      permalink,
       sheet: {classes}
     } = this.props
 
@@ -61,15 +83,7 @@ export default class Embed extends PureComponent {
 
     return (
       <div className={cn(classes.media)} style={style}>
-        {showPreview ? (
-            <div className={classes.actions}>
-              <EmbedActions
-                permalink={permalink}
-                onClick={this.onClick} />
-            </div>
-          ) :
-          <iframe className={classes.embed} srcDoc={this.getSource()}></iframe>
-        }
+        {showPreview ? this.renderActions() : this.renderIframe()}
       </div>
     )
   }

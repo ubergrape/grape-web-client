@@ -84,8 +84,7 @@ export default class LinkAttachment extends PureComponent {
       <Footer
         text={footer}
         icon={footerIcon}
-        timestamp={ts}
-       />
+        timestamp={ts} />
     )
   }
 
