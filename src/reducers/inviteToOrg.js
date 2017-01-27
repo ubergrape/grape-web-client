@@ -31,21 +31,10 @@ export default function reduce(state = initialState, action) {
         ...state,
         showError: true
       }
-    case types.HANDLE_INVITE_TO_ORG_SUCCESS:
-      return {
-        ...state,
-        showJustInvited: true,
-        showError: false
-      }
     case types.CLEAR_INVITE_TO_ORG_ERROR:
       return {
         ...state,
         showError: false
-      }
-    case types.HIDE_JUST_INVITED_TO_ORG:
-      return {
-        ...state,
-        showJustInvited: false
       }
     default:
       return state

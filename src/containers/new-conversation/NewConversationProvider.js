@@ -12,7 +12,6 @@ const actionNames = [
   'showInviteToOrg',
   'showNewConversation',
   'hideNewConversation',
-  'showNewConversationAdvanced',
   'addToNewConversation',
   'removeFromNewConversation',
   'filterNewConversation',

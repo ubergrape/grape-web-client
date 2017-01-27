@@ -1,5 +1,4 @@
 import React, {PureComponent, PropTypes} from 'react'
-import uniq from 'lodash/array/uniq'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {spinner} from '../../constants/images'
@@ -11,13 +10,12 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {styles} from './inviteToOrgTheme'
+import {InviteSuccess} from '../i18n/i18n'
 import Dialog from '../dialog/Dialog'
-
 import InviteLink from './InviteLink'
 import EmailsInput from './EmailsInput'
 import PersonalMessageInput from './PersonalMessageInput'
-import JustInvited from './JustInvited'
+import {styles} from './inviteToOrgTheme'
 
 const messages = defineMessages({
   title: {
@@ -55,57 +53,48 @@ export default class InviteToOrg extends PureComponent {
     inviteLink: PropTypes.string.isRequired,
     orgId: PropTypes.number,
     isInviter: PropTypes.bool.isRequired,
-    showJustInvited: PropTypes.bool.isRequired,
-    hideJustInvited: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
     getIniviteLink: PropTypes.func.isRequired,
     onHideError: PropTypes.func.isRequired,
-    onInvite: PropTypes.func.isRequired
+    onInvite: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired
   }
 
-  constructor() {
-    super()
-    this.state = {
-      invited: [],
-      message: '',
-      value: ''
-    }
+  state = {
+    message: '',
+    value: '',
+    isLoading: false
   }
 
   componentWillReceiveProps(nextProps) {
     const {
-      isInviter, show, orgId, hideJustInvited,
-      inviteLink, getIniviteLink, showJustInvited
+      isInviter, show, orgId,
+      inviteLink, getIniviteLink
     } = nextProps
 
     if (isInviter && show && !inviteLink && orgId) getIniviteLink()
 
-    if (showJustInvited) {
-      this.setState({
-        invited: uniq(this.state.value.split(', ')),
-        isLoading: false,
-        value: ''
-      })
-      return
-    }
-
-    this.setState({invited: [], isLoading: false}, hideJustInvited)
+    this.setState({isLoading: false})
   }
 
   onInviteesChange = ({target: {value}}) => {
-    this.setState({value, invited: []}, this.props.hideJustInvited)
+    this.setState({value})
   }
 
-  onMessageChange = ({target: {value}}) => {
-    this.setState({message: value}, this.props.hideJustInvited)
+  onMessageChange = ({target}) => {
+    this.setState({message: target.value})
   }
 
   onInvite = e => {
     e.preventDefault()
+    const {onInvite, onSuccess} = this.props
+    const {value, message} = this.state
     this.setState({isLoading: true}, () => {
-      this.props.onInvite({
-        emails: this.state.value,
-        message: this.state.message
+      onInvite({
+        emails: value,
+        message
+      }, ({emails}) => {
+        onSuccess(<InviteSuccess invited={emails} />)
       })
     })
   }
@@ -133,7 +122,7 @@ export default class InviteToOrg extends PureComponent {
       showInviteLinkFeature, inviteLink,
       isInviter, onHideError
     } = this.props
-    const {value, invited, isLoading, message} = this.state
+    const {value, isLoading, message} = this.state
 
     if (!isInviter) return null
 
@@ -161,9 +150,6 @@ export default class InviteToOrg extends PureComponent {
               disabled={isLoading}
               onChange={this.onMessageChange}
               placeholder={formatMessage(messages.messagesPlaceholder)} />
-            <JustInvited
-              theme={{classes}}
-              invited={invited} />
             <div className={classes.submit}>
               <button
                 type="submit"

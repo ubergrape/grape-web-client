@@ -47,15 +47,15 @@ class ReduxEmitter extends Emitter {
     this.emit('editMessage', msg)
   }
 
-  endEditMessage() {
+  endEditMessage() {
     getBoundActions().endEditMessage()
   }
 
-  showEmojiBrowser() {
+  showEmojiBrowser() {
     this.emit('showEmojiBrowser')
   }
 
-  showGrapeBrowser() {
+  showGrapeBrowser() {
     this.emit('showGrapeBrowser')
   }
 
@@ -145,10 +145,6 @@ class ReduxEmitter extends Emitter {
 
   focusGrapeInput() {
     this.emit('focusGrapeInput')
-  }
-
-  showNewConversationAdvanced() {
-    getBoundActions().showNewConversationAdvanced()
   }
 
   showIntro() {

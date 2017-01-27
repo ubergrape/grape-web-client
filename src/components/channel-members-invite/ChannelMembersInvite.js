@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import pluck from 'lodash/collection/pluck'
 import {
   FormattedMessage,
   defineMessages,
@@ -8,6 +9,7 @@ import {
 } from 'react-intl'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
+import {InviteSuccess} from '../i18n/i18n'
 import {styles} from './theme'
 
 const messages = defineMessages({
@@ -76,6 +78,7 @@ export default class ChannelMembersInvite extends PureComponent {
     createRoomFromPmAndInvite: PropTypes.func.isRequired,
     hideChannelMembersInvite: PropTypes.func.isRequired,
     setInviteFilterValue: PropTypes.func.isRequired,
+    showToastNotification: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     channelType: PropTypes.string
   }
@@ -83,14 +86,14 @@ export default class ChannelMembersInvite extends PureComponent {
   onInvite = () => {
     const {
       listed, inviteToChannel, createRoomFromPmAndInvite,
-      hideChannelMembersInvite, channelType
+      hideChannelMembersInvite, channelType, showToastNotification
     } = this.props
 
     if (!listed.length) return
-    if (channelType === 'room') inviteToChannel(listed.map(({email}) => email))
+    if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
     if (channelType === 'pm') createRoomFromPmAndInvite(listed)
-
     hideChannelMembersInvite()
+    showToastNotification(<InviteSuccess invited={pluck(listed, 'displayName')} />)
   }
 
   render() {

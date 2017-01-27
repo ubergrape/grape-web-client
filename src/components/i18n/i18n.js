@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 
 export function Close() {
@@ -71,4 +71,23 @@ export function Create() {
       id="create"
       defaultMessage="Create" />
   )
+}
+
+export const InviteSuccess = ({invited}) => (
+  <FormattedMessage
+    id="justInvited"
+    defaultMessage={
+      `Congratulations! You just invited {user} {amount, plural,
+        =0 {}
+        one {and one more people}
+        other {and {amount} more people}}.`
+    }
+    values={{
+      user: invited[0],
+      amount: invited.length - 1
+    }} />
+)
+
+InviteSuccess.propTypes = {
+  invited: PropTypes.arrayOf(PropTypes.string)
 }
