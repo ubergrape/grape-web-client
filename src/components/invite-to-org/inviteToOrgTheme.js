@@ -7,13 +7,13 @@ import {horizontalPadding} from '../input/theme/grayBigger'
 export const styles = {
   wrapper: {
     padding: 15,
-    borderTop: `3px solid ${grayBlueLighter}`
+    borderTop: [3, 'solid', grayBlueLighter]
   },
   form: {
     position: 'relative'
   },
   label: {
-    ...normal,
+    extend: normal,
     marginLeft: horizontalPadding
   },
   line: {
@@ -24,7 +24,7 @@ export const styles = {
     height: '5em'
   },
   note: {
-    ...small,
+    extend: small,
     color: grayBlueDark,
     paddingLeft: horizontalPadding,
     marginTop: 5,
@@ -40,7 +40,7 @@ export const styles = {
     textAlign: 'right'
   },
   submitButton: {
-    ...buttonPrimary,
+    extend: buttonPrimary,
     '&:disabled': {
       isolate: false,
       opacity: 0.5,
@@ -50,10 +50,18 @@ export const styles = {
   inviteLink: {
     marginTop: 20,
     paddingTop: 10,
-    borderTop: `1px solid ${grayBlueLighter}`
+    borderTop: [1, 'solid', grayBlueLighter],
+    display: 'flex'
+  },
+  inviteLinkLabel: {
+    composes: '$label',
+    marginRight: 10
+  },
+  inviteLinkInput: {
+    flex: 1
   },
   success: {
-    ...small,
+    extend: small,
     marginTop: 5,
     paddingLeft: horizontalPadding,
     color: grayBlueDark

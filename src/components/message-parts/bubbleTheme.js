@@ -1,6 +1,8 @@
 import {normal} from 'grape-theme/dist/fonts'
 import {white} from 'grape-theme/dist/base-colors'
 
+export const borderRadius = 16
+
 export const styles = {
   bubble: {
     display: 'inline-block',
@@ -24,14 +26,15 @@ export const styles = {
     extend: normal,
     position: 'relative',
     background: white,
-    borderRadius: 16,
+    borderRadius,
     padding: '5px 13px',
     wordBreak: 'break-word',
     '& pre': {
       lineHeight: 1
     },
     '& pre code': {
-      lineHeight: normal.lineHeight
+      lineHeight: normal.lineHeight,
+      verticalAlign: 'middle'
     },
     '& p, pre': {
       marginTop: normal.fontSize / 2,

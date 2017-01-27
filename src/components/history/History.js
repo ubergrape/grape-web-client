@@ -33,7 +33,7 @@ export default class History extends Component {
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    noContent: PropTypes.bool.isRequired,
+    showNoContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
     }),
@@ -57,7 +57,7 @@ export default class History extends Component {
     onInvite: noop,
     onAddIntegration: noop,
     customEmojis: {},
-    noContent: false
+    showNoContent: false
   }
 
   constructor(props) {
@@ -108,15 +108,18 @@ export default class History extends Component {
 
   render() {
     const {
-      sheet: {classes}, user, minimumBatchSize, channel, noContent,
+      sheet: {classes}, user, minimumBatchSize, channel, showNoContent,
       onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
     } = this.props
     const {rows, scrollTo} = this.state
 
     if (!user || !channel) return null
 
+    // When we switch between channels, we rerender history with empty rows
+    // in order to respond immediately to users action with empty screen and
+    // show messages later.
     if (!rows.length) {
-      if (noContent) {
+      if (showNoContent) {
         return (
           <NoContent
             channel={channel}

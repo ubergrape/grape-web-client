@@ -17,18 +17,20 @@ export default function InviteLink(props) {
   return (
     <div className={classes.inviteLink}>
       <label
-        className={classes.label}
+        className={classes.inviteLinkLabel}
         htmlFor={id}>
         <FormattedMessage
           id="inviteLink"
           defaultMessage="Or use this invite-link" />
       </label>
-      <Input
-        id={id}
-        onClick={onClick}
-        placeholder={placeholder}
-        value={link}
-        readonly />
+      <div className={classes.inviteLinkInput}>
+        <Input
+          id={id}
+          onClick={onClick}
+          placeholder={placeholder}
+          value={link}
+          readonly />
+      </div>
     </div>
   )
 }

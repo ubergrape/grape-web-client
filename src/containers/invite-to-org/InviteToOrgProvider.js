@@ -11,7 +11,7 @@ const actionNames = {
   getInviteToOrgLink: 'getIniviteLink',
   inviteToOrg: 'onInvite',
   clearInviteToOrgError: 'onHideError',
-  hideJustInvited: 'hideJustInvited'
+  showToastNotification: 'onSuccess'
 }
 
 const ConnectedInviteToOrg = connect(

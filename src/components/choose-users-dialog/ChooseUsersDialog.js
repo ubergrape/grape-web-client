@@ -45,7 +45,7 @@ OrgInviteButton.propTypes = {
 const messages = defineMessages({
   placeholder: {
     id: 'typeName',
-    defaultMessage: 'Type name...'
+    defaultMessage: 'Add members…'
   }
 })
 
@@ -55,7 +55,6 @@ export default class ChooseUsersDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
-    beforeList: PropTypes.node,
     children: PropTypes.node,
     onHide: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
@@ -64,13 +63,14 @@ export default class ChooseUsersDialog extends Component {
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
+    onClickList: PropTypes.func,
     title: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element
     ]),
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
-    filterFocus: PropTypes.bool,
+    isFilterFocused: PropTypes.bool,
     show: PropTypes.bool.isRequired
   }
 
@@ -130,9 +130,9 @@ export default class ChooseUsersDialog extends Component {
       intl: {formatMessage},
       show, filter, listed, title,
       children, isInviter,
-      beforeList, filterFocus, onHide,
+      isFilterFocused, onHide,
       onChangeFilter, onSelectUser,
-      onRemoveSelectedUser
+      onRemoveSelectedUser, onClickList
     } = this.props
 
     return (
@@ -141,14 +141,14 @@ export default class ChooseUsersDialog extends Component {
         onHide={onHide}
         title={title}>
         <div className={classes.wrapper}>
-          {beforeList}
           <FilterableList
             listClassName={classes.list}
-            filterFocus={filterFocus}
+            isFilterFocused={isFilterFocused}
             filter={filter}
             items={getFilteredUsers(this.props)}
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
+            onClick={onClickList}
             onChange={onChangeFilter}
             onSelect={onSelectUser}
             onRemoveSelected={onRemoveSelectedUser}

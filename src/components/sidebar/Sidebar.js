@@ -10,7 +10,6 @@ import RoomInfo from '../room-info/RoomInfo'
 import UserProfile from '../user-profile/UserProfile'
 import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
-import Intercom from '../intercom/Intercom'
 
 const messages = defineMessages({
   mentions: {
@@ -102,8 +101,6 @@ export default class Sidebar extends PureComponent {
         }
         return <Search {...searchProps} />
       }
-      case 'intercom':
-        return <Intercom {...this.props} />
       default:
         return null
     }
