@@ -43,8 +43,9 @@ const data = [
 describe('nlp: insertTags', () => {
   it('should detect local links to chat', () => {
     const withTags = insertTags(text, data)
-    expect(withTags).to.be(
-      `can you please call me ${tags[0]}today${tags[0]} under ${tags[1]}0664 1234567${tags[1]}`
-    )
+    expect(withTags[23]).to.be(tags[0])
+    expect(withTags[29]).to.be(tags[0])
+    expect(withTags[37]).to.be(tags[1])
+    expect(withTags[50]).to.be(tags[1])
   })
 })
