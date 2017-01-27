@@ -41,7 +41,6 @@ export default {
   "userProfile": "User Profile",
   "sharedFiles": "Shared Files",
   "mentions": "Mentions",
-  "supportInfo": "Support Info",
   "messageNotSendCheckConnection": "This message wasn't sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
   "pending": "Pending",
