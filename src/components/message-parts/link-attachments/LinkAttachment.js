@@ -15,6 +15,10 @@ import {
 import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
 
+const getThumbUrl = ({imageUrl, width, height}) => (
+  `${imageUrl}/${width}x${height}`
+)
+
 const groupFields = fields => {
   const fieldGroups = []
   let i = 0
@@ -22,7 +26,7 @@ const groupFields = fields => {
   let nextField
   const len = fields.length
 
-  for (;i < len;) {
+  while (i < len) {
     field = fields[i]
     nextField = fields[i + 1]
 
@@ -118,16 +122,21 @@ export default class LinkAttachment extends PureComponent {
   renderImage() {
     const {
       imageUrl,
-      thumbUrl,
       width,
       height
     } = this.props
+
+    const thumbUrl = getThumbUrl({
+      imageUrl,
+      width,
+      height
+    })
 
     return (
       <Row spaced>
         <ImageAttachment
           url={imageUrl}
-          thumbnailUrl={thumbUrl || imageUrl}
+          thumbnailUrl={thumbUrl}
           thumbnailWidth={width}
           thumbnailHeight={height} />
       </Row>
@@ -137,11 +146,17 @@ export default class LinkAttachment extends PureComponent {
   renderEmbed() {
     const {
       embedHtml,
-      thumbUrl,
+      imageUrl,
       width,
       height,
       sourceUrl
     } = this.props
+
+    const thumbUrl = getThumbUrl({
+      imageUrl,
+      width,
+      height
+    })
 
     return (
       <Row spaced>
@@ -223,7 +238,7 @@ export default class LinkAttachment extends PureComponent {
           {imageUrl && !embedHtml && this.renderImage()}
           {embedHtml && this.renderEmbed()}
         </div>
-        {thumbUrl && !embedHtml && !imageUrl && this.renderImageLinkPreview()}
+        {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
       </Bubble>
     )
   }
