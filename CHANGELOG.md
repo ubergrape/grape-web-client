@@ -1,9 +1,18 @@
+## Releases 0.48.0 (2017-01-27)
+
+### Fixes
+
+* Visible scroll bars in code blocks of messages when mouse is connected (#275)
+* Multiple bugs in "invite people to org" dialog (ubergrape/chatgrape#3549, #229)
+* Multiple bugs with wording, styling and UX (#283)
 
 ### New Features
 
 * Activity messages have now a menu with "Copy to clipboard" and are linkeable (#243)
+* User online status in the sidebar (ubergrape/chatgrape#4247)
+* Intercome opens now in a separate window (#221)
 
-## Release 0.48.0 (2017-01-17)
+## Release 0.47.1 (2017-01-17)
 
 ### Fixes
 
