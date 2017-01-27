@@ -29,6 +29,7 @@ export default {
   "Account Settings": "Account Settings",
   "Notification Settings": "Notification Settings",
   "Tutorial": "Tutorial",
+  "Support & FAQ": "Support & FAQ",
   "Switch Organizations": "Switch Organizations",
   "Log out": "Log out",
   "Continue": "Continue",
