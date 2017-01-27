@@ -1,3 +1,3 @@
 export {default as Bubble} from './Bubble'
 export {borderRadius as bubbleBorderRadius} from './bubbleTheme'
-export LinkAttachments from './LinkAttachments'
+export LinkAttachments from './link-attachments/LinkAttachments'

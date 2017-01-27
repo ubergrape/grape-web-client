@@ -10,7 +10,7 @@ import {
   Row,
   Title
 } from './parts'
-import ImageAttachment from '../message-parts/attachments/ImageAttachment'
+import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
 
 @injectSheet(styles)
@@ -157,19 +157,17 @@ export default class LinkAttachment extends PureComponent {
     } = this.props
 
     return (
-      <div>
-        <Bubble hasArrow={false} className={className}>
-          <div className={classes.main}>
-            {authorName && this.renderAuthor()}
-            {title && this.renderTitle()}
-            {text && this.renderText()}
-            {footer && ts && this.renderFooter()}
-            {imageUrl && !embedHtml && this.renderImage()}
-            {embedHtml && this.renderEmbed()}
-          </div>
-          {thumbUrl && !embedHtml && !imageUrl && this.renderImageLinkPreview()}
-        </Bubble>
-      </div>
+      <Bubble hasArrow={false} className={className}>
+        <div className={classes.main}>
+          {authorName && this.renderAuthor()}
+          {title && this.renderTitle()}
+          {text && this.renderText()}
+          {footer && ts && this.renderFooter()}
+          {imageUrl && !embedHtml && this.renderImage()}
+          {embedHtml && this.renderEmbed()}
+        </div>
+        {thumbUrl && !embedHtml && !imageUrl && this.renderImageLinkPreview()}
+      </Bubble>
     )
   }
 }

@@ -1,7 +1,8 @@
 import {rgba} from 'css-functions'
 import {white} from 'grape-theme/dist/base-colors'
 import {borderRadius} from 'grape-theme/dist/sizes'
-import create from '../../inline-icon/create'
+
+import create from '../../../inline-icon/create'
 
 export const styles = {
   container: {

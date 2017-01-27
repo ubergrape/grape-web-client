@@ -1,1 +1,0 @@
-export LinkAttachment from './LinkAttachment'
