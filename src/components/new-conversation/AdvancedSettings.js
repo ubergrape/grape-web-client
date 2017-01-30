@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: [2, { "varsIgnorePattern": "sheet" }] */
 import React, {PureComponent, PropTypes} from 'react'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
@@ -86,10 +87,15 @@ export default class AdvancedSettings extends PureComponent {
       onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName
     } = this.props
 
+    const {
+      sheet,
+      props
+    } = this.props
+
     return (
       <div className={classes.advancedSettings}>
         <IconSettings
-          {...this.props}
+          {...props}
           classes={classes}
           channel={{icon, color, isPublic}} />
         <div className={classes.name}>
