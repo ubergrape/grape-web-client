@@ -108,6 +108,7 @@ export default class LinkAttachment extends PureComponent {
     const {
       footer,
       footerIcon,
+      footerUrl,
       ts
     } = this.props
 
@@ -115,6 +116,7 @@ export default class LinkAttachment extends PureComponent {
       <Footer
         text={footer}
         icon={footerIcon}
+        url={footerUrl}
         timestamp={ts} />
     )
   }
