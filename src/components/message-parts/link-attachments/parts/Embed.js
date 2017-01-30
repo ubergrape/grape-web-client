@@ -74,16 +74,15 @@ export default class Embed extends PureComponent {
     } = this.props
 
     const {isOpen} = this.state
-    const showPreview = !isOpen && thumbUrl
     const style = {
-      backgroundImage: showPreview ? `url(${thumbUrl})` : 'none',
+      backgroundImage: !isOpen && thumbUrl ? `url(${thumbUrl})` : 'none',
       width,
       height
     }
 
     return (
       <div className={cn(classes.media)} style={style}>
-        {showPreview ? this.renderActions() : this.renderIframe()}
+        {!isOpen ? this.renderActions() : this.renderIframe()}
       </div>
     )
   }

@@ -16,7 +16,7 @@ import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
 
 const getThumbUrl = ({imageUrl, width, height}) => (
-  `${imageUrl}/${width}x${height}`
+  `${imageUrl}${width}x${height}`
 )
 
 const groupFields = fields => {
