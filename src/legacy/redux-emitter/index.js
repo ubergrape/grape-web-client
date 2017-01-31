@@ -1,4 +1,4 @@
-import Emitter from 'emitter'
+import Emitter from 'component-emitter'
 
 import {toCamel} from '../../utils/backend/convertCase'
 import getBoundActions from '../../app/boundActions'

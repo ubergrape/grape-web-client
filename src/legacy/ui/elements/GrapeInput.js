@@ -1,7 +1,7 @@
-import Emitter from 'emitter'
+import Emitter from 'component-emitter'
 import template from 'template'
-import events from 'events'
-import qs from 'query'
+import events from 'component-events'
+import qs from 'component-query'
 import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
@@ -12,7 +12,7 @@ import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 import 'grape-browser'
 import {openUrl} from 'grape-web/lib/x-platform'
-import conf from 'conf'
+import conf from '../../../conf'
 import * as images from '../../../constants/images'
 import render from '../rendervdom'
 import getRank from '../utils/getRank'
@@ -28,11 +28,9 @@ function isImage(mime) {
 
 function getImageAttachments(objects) {
   // Find embeddable images.
-  const imageObjects = objects.filter(obj => {
-    return isImage(obj.mimeType) && get(obj, 'detail.preview.embeddable')
-  })
+  const imageObjects = objects.filter(obj => isImage(obj.mimeType) && get(obj, 'detail.preview.embeddable'))
 
-  const attachments = imageObjects.map(obj => {
+  const attachments = imageObjects.map((obj) => {
     const {image} = obj.detail.preview
     return {
       name: obj.name,
@@ -187,7 +185,7 @@ export default class GrapeInput extends Emitter {
     this.setProps({
       browser: 'user',
       focused: true,
-      data: data
+      data
     })
   }
 
@@ -201,12 +199,10 @@ export default class GrapeInput extends Emitter {
   }
 
   showEmojiSuggest({search, emoji}) {
-    const data = emoji.filter(search).map(smile => {
-      return {
-        ...smile,
-        rank: getRank('emoji', search, smile.name)
-      }
-    })
+    const data = emoji.filter(search).map(smile => ({
+      ...smile,
+      rank: getRank('emoji', search, smile.name)
+    }))
 
     this.setProps({
       browser: 'emojiSuggest',
@@ -243,14 +239,14 @@ export default class GrapeInput extends Emitter {
     users = users.filter(user => user.id !== this.user.id)
 
     // Map to a unified data structure.
-    users = users.map(user => {
+    users = users.map((user) => {
       let name
 
       if (user.displayName) {
         name = user.displayName
       } else if (user.firstName) {
         name = user.firstName
-        if (user.lastName) name += ' ' + user.lastName
+        if (user.lastName) name += ` ${user.lastName}`
       } else {
         name = user.username
       }
@@ -259,7 +255,7 @@ export default class GrapeInput extends Emitter {
 
       return {
         id: user.id,
-        name: name,
+        name,
         username: user.username,
         iconURL: user.avatar,
         inRoom: includes(roomUsers, user),
@@ -269,7 +265,7 @@ export default class GrapeInput extends Emitter {
     })
 
     // Do the search.
-    users = users.filter(user => {
+    users = users.filter((user) => {
       if (user.name.toLowerCase().indexOf(search) >= 0 ||
         user.username.toLowerCase().indexOf(search) >= 0) {
         return true
@@ -288,9 +284,7 @@ export default class GrapeInput extends Emitter {
     if (this.room.type === 'room') rooms.push(this.getRoomObject(search))
 
     // Do the search.
-    rooms = rooms.filter(room => {
-      return room.name.toLowerCase().indexOf(search) >= 0
-    })
+    rooms = rooms.filter(room => room.name.toLowerCase().indexOf(search) >= 0)
 
     return rooms
   }
@@ -313,9 +307,7 @@ export default class GrapeInput extends Emitter {
 
   findPreviousMessage() {
     const history = this.room.history.slice().reverse()
-    return find(history, msg => {
-      return msg.author === this.user && !msg.attachments.length
-    })
+    return find(history, msg => msg.author === this.user && !msg.attachments.length)
   }
 
   startTyping() {
@@ -418,16 +410,14 @@ export default class GrapeInput extends Emitter {
     let searches
 
     if (filters.length) {
-      searches = filters.map(filter => {
-        return this.searchPromise(`${filter}:${search}`, {showAll: false})
-      })
+      searches = filters.map(filter => this.searchPromise(`${filter}:${search}`, {showAll: false}))
     } else {
       searches = [this.searchPromise(search)]
     }
 
     Promise
       .all(searches)
-      .then(results => {
+      .then((results) => {
         if (this.browserAborted) return
         this.setProps({
           browser: 'search',
@@ -435,7 +425,7 @@ export default class GrapeInput extends Emitter {
           data: mergeSearchResults(results)
         })
       })
-      .catch(err => {
+      .catch((err) => {
         this.emit('error', err)
       })
   }
@@ -475,7 +465,7 @@ export default class GrapeInput extends Emitter {
       // Separate message to make it separately editable and removable.
       if (sendText) this.emit('input', this.room, data.content)
       if (attachments.length) {
-        this.emit('input', this.room, '', {attachments: attachments})
+        this.emit('input', this.room, '', {attachments})
       }
       this.input.setTextContent('')
       this.clearUnsent()
@@ -522,7 +512,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onAddIntegration() {
-    openUrl(location.origin + '/integrations')
+    openUrl(`${location.origin}/integrations`)
   }
 
   onInsertItem(e) {

@@ -1,4 +1,4 @@
-import conf from 'conf'
+import conf from '../../conf'
 import broker from 'broker'
 
 export default function pipeEvents(ui) {

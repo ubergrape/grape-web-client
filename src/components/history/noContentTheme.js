@@ -1,8 +1,8 @@
 import color from 'color'
 import {biggest, normal} from 'grape-theme/dist/fonts'
 import {blue} from 'grape-theme/dist/base-colors'
-import staticUrl from 'staticurl'
 
+import staticUrl from '../../utils/static-url'
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 

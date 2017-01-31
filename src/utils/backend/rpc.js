@@ -2,7 +2,7 @@ import debug from 'debug'
 import request from 'superagent'
 import assign from 'lodash/object/assign'
 
-import conf from 'conf'
+import conf from '../../conf'
 import {toSnake, toCamel} from './convertCase'
 import client from './client'
 
@@ -23,7 +23,8 @@ if (conf.forceLongpolling) {
             assign(userErr, res.body)
           }
           log('err', userErr || err)
-          return callback(userErr || err)
+          callback(userErr || err)
+          return
         }
         log('res', res.body ? res.body.response : res)
         callback(null, res.body && res.body.response)
@@ -39,7 +40,7 @@ if (conf.forceLongpolling) {
   }
 }
 
-export default function(data, ...args) {
+export default function (data, ...args) {
   let options = args[0]
   let callback = args[1]
   if (typeof options === 'function') {

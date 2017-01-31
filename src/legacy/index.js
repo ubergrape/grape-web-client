@@ -11,7 +11,7 @@ import 'grape-js-emoji/emoji.css'
 import Api from './api'
 import Ui from './ui'
 import initBroker from './init-broker'
-import conf from 'conf'
+import conf from '../conf'
 import rpc from '../utils/backend/rpc'
 import * as legacyTranslataions from '../i18n/legacy'
 

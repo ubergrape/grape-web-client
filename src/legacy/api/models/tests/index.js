@@ -1,9 +1,9 @@
 import expect from 'expect.js'
-import Emitter from 'emitter'
+import Emitter from 'component-emitter'
 import Room from '../room'
 import User from '../user'
 import {room, user, onlyInvitedUser, chatLine, org} from '../../../tests/fixtures/'
-import conf from 'conf'
+import conf from '../../../../conf'
 
 describe('Models', () => {
   describe('Room', () => {

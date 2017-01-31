@@ -1,4 +1,4 @@
-import Emitter from 'emitter'
+import Emitter from 'component-emitter'
 import Wamp from 'wamp1'
 import Backoff from 'backo'
 import debug from 'debug'
@@ -75,7 +75,7 @@ export default class WampClient {
     this.call('ping', (err, res) => {
       this.waitingForPong = false
       if (err) return this.onError(err)
-      log(res)
+      return log(res)
     })
   }
 
@@ -85,8 +85,9 @@ export default class WampClient {
    * Why do we need this again?
    */
   call(...args) {
-    args[0] = prefix + args[0]
-    this.wamp.call.apply(this.wamp, args)
+    const argsClone = [...args]
+    argsClone[0] = prefix + args[0]
+    this.wamp.call(...argsClone)
   }
 
   onOpen({sessionId}) {
@@ -119,9 +120,9 @@ export default class WampClient {
    * we convert it to event name.
    */
   onEvent(name, data) {
-    data.event = name.split('/').pop().replace('#', '.')
-    log('received event "%s"', data.event, data)
-    this.out.emit('data', data)
+    const event = name.split('/').pop().replace('#', '.')
+    log('received event "%s"', event, data)
+    this.out.emit('data', {...data, event})
   }
 
   onError(err) {

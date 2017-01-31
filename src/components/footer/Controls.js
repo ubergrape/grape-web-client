@@ -1,6 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Dropzone from 'react-dropzone'
+import Dropzone from '@ubergrape/react-dropzone'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {styles} from './controlsTheme'
@@ -42,7 +42,8 @@ export default class Controls extends PureComponent {
           className={classes.attachment}
           onDropAccepted={this.onSelectFiles}
           onDropRejected={this.onRejectFiles}
-          maxSize={maxFileSize} />
+          maxSize={maxFileSize}
+        />
         <button className={classes.emoji} onClick={this.onShowEmojiBrowser} />
         <button className={classes.search} onClick={this.onShowGrapeBrowser} />
       </div>

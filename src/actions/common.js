@@ -1,14 +1,14 @@
 import page from 'page'
 import parseUrl from 'grape-web/lib/parse-url'
-import conf from 'conf'
+import omit from 'lodash/object/omit'
 
+import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
   normalizeChannelData,
   removeBrokenPms,
   roomNameFromUsers
 } from './utils'
-import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
@@ -50,7 +50,7 @@ export function setOrg(org) {
 }
 
 export function setInitialData(org) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(setUsers([...org.users]))
     dispatch(setChannels([...org.channels]))
 
@@ -111,7 +111,7 @@ export function setSidebarIsLoading(isLoading) {
 }
 
 export function goToMessage(message) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.GO_TO_MESSAGE,
       payload: message
@@ -121,7 +121,7 @@ export function goToMessage(message) {
 }
 
 export function goToPayment() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.GO_TO_PAYMENT
     })
@@ -137,7 +137,7 @@ export function leaveChannel(channelId) {
 }
 
 export function goToChannel(slug) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.GO_TO_CHANNEL,
       payload: slug
@@ -204,7 +204,7 @@ export function inviteToChannel(emailAddresses, options = {}) {
 }
 
 export function toggleOrgSettings(elem) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.TOGGLE_ORG_SETTINGS
     })
@@ -213,7 +213,7 @@ export function toggleOrgSettings(elem) {
 }
 
 function handleAuthError(err) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.AUTH_ERROR,
       payload: err
@@ -223,7 +223,7 @@ function handleAuthError(err) {
 }
 
 export function handleConnectionError(err) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.CONNECTION_ERROR,
       payload: err
@@ -232,7 +232,7 @@ export function handleConnectionError(err) {
     if (connection === 'ws') {
       api
         .checkAuth()
-        .catch(authErr => {
+        .catch((authErr) => {
           if (authErr.status === 401) {
             dispatch(handleAuthError(authErr))
           }
@@ -247,7 +247,7 @@ export function handleConnectionError(err) {
 }
 
 export function goToAddIntegrations() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.GO_TO_ADD_INTEGRATIONS
     })
@@ -256,7 +256,7 @@ export function goToAddIntegrations() {
 }
 
 export function focusGrapeInput() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.FOCUS_GRAPE_INPUT
     })
@@ -290,6 +290,7 @@ export function createRoomWithUsers(room, users) {
     const user = userSelector(getState())
     const emailAddresses = users.map(({email}) => email)
     let newRoom
+
     return api
       .createRoom({
         ...room,
@@ -299,16 +300,14 @@ export function createRoomWithUsers(room, users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .then(() => {
-        if (newRoom) return api.inviteToChannel(emailAddresses, newRoom.id)
-      })
+      .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
       .then(() => {
         if (newRoom) {
           page(`/chat/${newRoom.slug}`)
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(handleRoomCreateError(err.message))
       })
   }

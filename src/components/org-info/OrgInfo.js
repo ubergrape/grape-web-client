@@ -1,13 +1,58 @@
 import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import Spinner from 'grape-web/lib/spinner/Spinner'
+import BaseSpinner from 'grape-web/lib/spinner/Spinner'
 
-import {styles} from './theme'
+import {styles, logoSize} from './orgInfoTheme'
 import {spinner} from '../../constants/images'
 import Tooltip from '../tooltip/HoverTooltip'
 
-const sizes = {width: 32, height: 32}
+const Spinner = () => <BaseSpinner image={spinner} size={logoSize} />
+
+const LogoImage = ({classes, logo, name}) => (
+  <img
+    className={classes.logoImage}
+    src={logo}
+    alt={name}
+  />
+)
+
+const Logo = ({isLoading, classes, ...rest}) => (
+  <span
+    className={classes.logoContainer}
+  >
+    {isLoading ? <Spinner /> : <LogoImage classes={classes} {...rest} />}
+  </span>
+)
+
+const Header = ({classes, name, username}) => (
+  <div className={classes.headers}>
+    <div>
+      <h1 className={classes.orgName}>
+        {name}
+      </h1>
+      <h2 className={classes.userName}>
+        {username}
+      </h2>
+    </div>
+  </div>
+)
+
+const SettingsButton = ({classes, onClick}) => (
+  <Tooltip
+    message={(
+      <FormattedMessage
+        id="settings"
+        defaultMessage="Settings"
+      />
+    )}
+  >
+    <button
+      className={classes.settingsButton}
+      onClick={onClick}
+    />
+  </Tooltip>
+)
 
 @injectSheet(styles)
 export default class OrgInfo extends PureComponent {
@@ -20,77 +65,29 @@ export default class OrgInfo extends PureComponent {
     username: PropTypes.string
   }
 
-  toggleOrgSettings = (e) => {
+  onToggleSettingsMenu = (e) => {
     this.props.toggleOrgSettings(e.target)
-  }
-
-  renderLogo() {
-    const {
-      sheet: {classes},
-      logo,
-      name
-    } = this.props
-
-    return (
-      <img
-        className={classes.logoImage}
-        src={logo}
-        alt={name}
-        style={sizes} />
-    )
-  }
-
-  renderHeaders() {
-    const {
-      sheet: {classes},
-      name,
-      username,
-      isLoading
-    } = this.props
-
-    if (isLoading) return null
-
-    return (
-      <div className={classes.headers}>
-        <div>
-          <h1 className={classes.orgName}>
-            {name}
-          </h1>
-          <h2 className={classes.userName}>
-            {username}
-          </h2>
-        </div>
-      </div>
-    )
   }
 
   render() {
     const {
       sheet: {classes},
-      isLoading
+      isLoading,
+      name,
+      username,
+      logo
     } = this.props
 
     return (
       <header className={classes.orgInfo}>
-        <span
-          style={sizes}
-          className={classes.logo}>
-          {isLoading ? <Spinner image={spinner} size={sizes.height} /> : this.renderLogo() }
-        </span>
-        {this.renderHeaders()}
-        {!isLoading && (
-          <Tooltip
-            message={(
-              <FormattedMessage
-                id="settings"
-                defaultMessage="Settings" />
-            )}>
-            <button
-              className={classes.settings}
-              onClick={this.toggleOrgSettings}>
-            </button>
-          </Tooltip>
-        )}
+        <Logo
+          classes={classes}
+          isLoading={isLoading}
+          name={name}
+          logo={logo}
+        />
+        {!isLoading && <Header classes={classes} name={name} username={username} />}
+        {!isLoading && <SettingsButton classes={classes} onClick={this.onToggleSettingsMenu} />}
       </header>
     )
   }
