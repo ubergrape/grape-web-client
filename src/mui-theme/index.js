@@ -1,5 +1,5 @@
-import {createMuiTheme} from 'material-ui/styles/theme'
-import {createPalette} from 'material-ui/styles/palette'
+import {createMuiTheme} from '@ubergrape/material-ui/styles/theme'
+import {createPalette} from '@ubergrape/material-ui/styles/palette'
 import {white, green} from 'grape-theme/dist/base-colors'
 
 const palette = createPalette()
