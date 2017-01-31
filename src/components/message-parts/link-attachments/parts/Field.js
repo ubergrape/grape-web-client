@@ -19,7 +19,7 @@ export default class Field extends PureComponent {
     } = this.props
 
     return (
-      <div>
+      <div className={classes.field}>
         <div className={classes.title}>{title}</div>
         <div className={classes.value}>{value}</div>
       </div>

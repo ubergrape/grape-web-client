@@ -10,3 +10,4 @@ export const userStatusMap = {
 }
 
 export const maxLinkAttachments = 5
+export const linkAttachmentsFieldGroupSize = 2

@@ -2,6 +2,9 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
+import {linkAttachmentsFieldGroupSize} from '../../../constants/app'
+import groupConsecutive from '../../../utils/group-consecutive'
+
 import {
   Author,
   Bubble,
@@ -15,32 +18,15 @@ import {
 import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
 
+
 const getThumbUrl = ({imageUrl, width, height}) => (
   `${imageUrl}${width}x${height}`
 )
 
-const groupFields = fields => {
-  const fieldGroups = []
-  let i = 0
-  let field
-  let nextField
-  const len = fields.length
-
-  while (i < len) {
-    field = fields[i]
-    nextField = fields[i + 1]
-
-    if (field.short && nextField.short) {
-      fieldGroups.push([field, nextField])
-      i += 2
-      continue
-    }
-    fieldGroups.push([field])
-    i += 1
-  }
-
-  return fieldGroups
-}
+const groupFields = fields => groupConsecutive(
+  fields, linkAttachmentsFieldGroupSize,
+  (field, nextField) => field.short && nextField.short
+)
 
 @injectSheet(styles)
 export default class LinkAttachment extends PureComponent {
@@ -201,7 +187,7 @@ export default class LinkAttachment extends PureComponent {
         {fieldGroups.map((group, key) => (
           <div
             className={
-              cn(classes.fieldGroup, group.length === 2 && classes.fieldGroupShort)
+              cn(classes.fieldGroup, group.length === linkAttachmentsFieldGroupSize && classes.fieldGroupShort)
             }
             key={key}>
             {group.map(({title, value}, gkey) => (
