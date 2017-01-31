@@ -224,7 +224,7 @@ export default class LinkAttachment extends PureComponent {
       imageUrl, thumbUrl,
       embedHtml,
       fields,
-      footer, ts,
+      footer,
       className,
       sheet: {classes}
     } = this.props
@@ -236,7 +236,7 @@ export default class LinkAttachment extends PureComponent {
           {title && this.renderTitle()}
           {text && this.renderText()}
           {fields.length > 0 && this.renderFields()}
-          {footer && ts && this.renderFooter()}
+          {footer && this.renderFooter()}
           {imageUrl && !embedHtml && this.renderImage()}
           {embedHtml && this.renderEmbed()}
         </div>

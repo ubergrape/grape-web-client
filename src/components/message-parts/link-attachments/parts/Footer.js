@@ -30,16 +30,21 @@ export default class Footer extends PureComponent {
       sheet: {classes}
     } = this.props
 
-    const when = `${formatDate(timestamp, {
+    const when = timestamp && `${formatDate(timestamp, {
       year: '2-digit',
       month: 'short',
       day: '2-digit'
     })} ${formatTime(timestamp)}`
 
+    const content = [
+      text,
+      when
+    ].filter(Boolean).join(' | ')
+
     return (
       <div className={classes.container}>
         {icon && this.renderIcon(icon)}
-        <span className={classes.text}>{text} | {when}</span>
+        <span className={classes.text}>{content}</span>
       </div>
     )
   }
