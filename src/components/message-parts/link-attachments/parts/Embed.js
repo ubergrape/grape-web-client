@@ -3,6 +3,7 @@ import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
 import EmbedActions from './EmbedActions'
+import {Iframe} from '../../../iframe'
 import {styles} from './embedTheme.js'
 
 @injectSheet(styles)
@@ -25,25 +26,6 @@ export default class Embed extends PureComponent {
     this.setState({isOpen: true})
   }
 
-  getSource() {
-    const {embedHtml} = this.props
-
-    return `
-      <style>
-        html, body, iframe {
-          border: 0 !important;
-          padding: 0 !important;
-          margin: 0 !important;
-          background: transparent;
-          width: 100% !important;
-          height: 100% !important;
-        }
-        iframe { display: block !important; }
-      </style>
-      ${embedHtml}
-    `
-  }
-
   renderActions() {
     const {
       permalink,
@@ -60,11 +42,24 @@ export default class Embed extends PureComponent {
   }
 
   renderIframe() {
-    const {sheet: {classes}} = this.props
+    const {embedHtml} = this.props
 
-    return (
-      <iframe className={classes.embed} srcDoc={this.getSource()}></iframe>
-    )
+    const html = `
+      <style>
+        html, body, iframe {
+          border: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent;
+          width: 100% !important;
+          height: 100% !important;
+        }
+        iframe { display: block !important; }
+      </style>
+      ${embedHtml}
+    `
+
+    return <Iframe html={html} />
   }
 
   render() {

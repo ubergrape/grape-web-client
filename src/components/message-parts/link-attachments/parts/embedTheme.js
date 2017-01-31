@@ -26,13 +26,5 @@ export const styles = {
     top: '50%',
     left: '50%',
     transform: translate('-50%', '-50%')
-  },
-  embed: {
-    width: '100%',
-    height: '100%',
-    '& iframe': {
-      maxWidth: '100%',
-      maxHeight: '100%'
-    }
   }
 }

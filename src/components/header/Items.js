@@ -213,5 +213,5 @@ Items.propTypes = {
   showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
-  sheet: PropTypes.object
+  sheet: PropTypes.object.isRequired
 }
