@@ -31,13 +31,14 @@ export default class Embed extends PureComponent {
     return `
       <style>
         html, body, iframe {
-          border: 0;
-          padding: 0;
-          margin: 0;
+          border: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
           background: transparent;
           width: 100% !important;
           height: 100% !important;
         }
+        iframe { display: block !important; }
       </style>
       ${embedHtml}
     `
