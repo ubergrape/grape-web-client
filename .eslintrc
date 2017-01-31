@@ -1,3 +1,6 @@
 {
-  "extends": "eslint-config-ubergrape"
+  "extends": "eslint-config-ubergrape",
+  "globals": {
+    "__STATIC_PATH__": true
+  }
 }

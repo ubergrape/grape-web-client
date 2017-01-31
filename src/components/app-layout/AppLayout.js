@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ThemeProvider from '@ubergrape/material-ui/styles/MuiThemeProvider'
 import injectSheet from 'grape-web/lib/jss'
 import theme from 'grape-web/lib/mui-theme'
 import {styles} from './theme'
@@ -7,7 +7,14 @@ import {styles} from './theme'
 @injectSheet(styles)
 export default class AppLayout extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    Aside: PropTypes.func.isRequired,
+    Header: PropTypes.func.isRequired,
+    Alerts: PropTypes.func.isRequired,
+    History: PropTypes.func.isRequired,
+    Footer: PropTypes.func.isRequired,
+    Sidebar: PropTypes.func.isRequired,
+    Globals: PropTypes.func.isRequired
   }
 
   render() {

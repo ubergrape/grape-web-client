@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import LinearProgress from 'material-ui/Progress/LinearProgress'
+import LinearProgress from '@ubergrape/material-ui/Progress/LinearProgress'
 import injectSheet from 'grape-web/lib/jss'
 import {green, grayLight} from 'grape-theme/dist/base-colors'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -18,7 +18,8 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
         classes.name,
         isComplete && classes.nameCompleted,
         error && classes.nameErrored
-      )}>
+      )}
+    >
       <span className={classes.nameText}>
         <span className={classes.nameTextLeft}>{name.substr(0, name.length - 7)}</span>
         <span>{name.substr(name.length - 7)}</span>
@@ -29,7 +30,8 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
     <LinearProgress
       mode="determinate"
       value={isComplete ? 0 : progress}
-      style={isComplete ? {background: error ? grayLight : green} : null} />
+      style={isComplete ? {background: error ? grayLight : green} : null}
+    />
     {error && <div className={classes.error}>{error}</div>}
   </div>
 )
@@ -46,7 +48,8 @@ Upload.propTypes = {
 }
 
 Upload.defaultProps = {
-  isComplete: false
+  isComplete: false,
+  error: null
 }
 
 const Message = ({uploads, uploadingAmount, classes}) => (
@@ -60,24 +63,27 @@ const Message = ({uploads, uploadingAmount, classes}) => (
           values={{
             uploading: uploadingAmount,
             total: uploads.length
-          }} />
+          }}
+        />
       )}
       {!uploadingAmount && (
         <FormattedMessage
           id="fileUploadTitleFinished"
           defaultMessage="Upload finished"
-          description="Upload notification title" />
+          description="Upload notification title"
+        />
       )}
     </h3>
     <div className={classes.list}>
-      {uploads.map(upload => {
+      {uploads.map((upload) => {
         let {error} = upload
         if (!error && upload.isRejected) {
           error = (
             <FormattedMessage
               id="fileTooBig"
               defaultMessage="File exceeds size limit of {limit}mb."
-              values={{limit: maxSizeInMb}} />
+              values={{limit: maxSizeInMb}}
+            />
           )
         }
         return <Upload {...upload} classes={classes} key={upload.id} error={error} />
@@ -92,6 +98,35 @@ Message.propTypes = {
   uploadingAmount: PropTypes.number.isRequired
 }
 
+
+const notify = (props) => {
+  const {
+    sheet: {classes},
+    uploads,
+    onHideNotification,
+    onNotify
+  } = props
+
+  if (!uploads.length) return
+
+  const handled = uploads.filter(({isComplete, isRejected}) => isComplete || isRejected)
+
+  const message = (
+    <Message
+      uploads={uploads}
+      uploadingAmount={uploads.length - handled.length}
+      classes={classes}
+    />
+  )
+
+  onNotify({message})
+
+  // Everything is finished.
+  if (handled.length === uploads.length) {
+    onHideNotification()
+  }
+}
+
 @injectSheet(styles)
 export default class Notification extends PureComponent {
   static propTypes = {
@@ -102,38 +137,11 @@ export default class Notification extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.notify(props)
+    notify(props)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.notify(nextProps)
-  }
-
-  notify(props) {
-    const {
-      sheet: {classes},
-      uploads,
-      onHideNotification,
-      onNotify
-    } = props
-
-    if (!uploads.length) return
-
-    const handled = uploads.filter(({isComplete, isRejected}) => isComplete || isRejected)
-
-    const message = (
-      <Message
-        uploads={uploads}
-        uploadingAmount={uploads.length - handled.length}
-        classes={classes} />
-    )
-
-    onNotify({message})
-
-    // Everything is finished.
-    if (handled.length === uploads.length) {
-      onHideNotification()
-    }
+    notify(nextProps)
   }
 
   render() {

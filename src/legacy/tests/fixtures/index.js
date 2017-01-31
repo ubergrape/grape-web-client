@@ -2,7 +2,7 @@ import Room from '../../api/models/room'
 import Org from '../../api/models/organization'
 import User from '../../api/models/user'
 import Chatline from '../../api/models/chatline'
-import conf from 'conf'
+import conf from '../../../conf'
 
 conf.setup({
   server: {
@@ -39,8 +39,8 @@ export const anotherRoom = new Room({
 
 export const chatLine = new Chatline({
   author: {
-    'type': 'user',
-    'id': 1
+    type: 'user',
+    id: 1
   },
   channel: 1
 })

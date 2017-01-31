@@ -1,6 +1,6 @@
-import events from 'events';
-import classes from 'classes';
-import Emitter from 'emitter';
+import events from 'component-events'
+import classes from 'component-classes'
+import Emitter from 'component-emitter'
 
 module.exports = Popover
 
@@ -21,24 +21,24 @@ Popover.prototype.init = function Popover_init() {
 }
 
 Popover.prototype.bind = function Popover_bind() {
-  let self = this
+  const self = this
   this.events = events(this.el, {
-    close: function () {
+    close() {
       self.hide()
     }
   })
   this.events.bind('click .close', 'close')
-  document.addEventListener('click', function (ev) {
+  document.addEventListener('click', (ev) => {
     if (self.hidden) return
-    let target = ev.target
+    const target = ev.target
     let parent = target
-        if (classes(target).has('disable-document-click-handler')) return; // TODO: refactor
+    if (classes(target).has('disable-document-click-handler')) return // TODO: refactor
     do {
       if (parent === self.el || parent === self.trigger) return
     } while ((parent = parent.parentNode))
     self.hide()
   })
-  document.addEventListener('keyup', function (ev) {
+  document.addEventListener('keyup', (ev) => {
     if (self.hidden) return
     if (ev.keyCode === 27) self.hide()
   })
@@ -47,9 +47,9 @@ Popover.prototype.bind = function Popover_bind() {
 Popover.prototype.show = function Popover_show(trigger) {
   this.trigger = trigger
   this.classes.remove('hide')
-  let offset = trigger.getBoundingClientRect()
-  this.el.style.top = offset.top + 'px'
-  this.el.style.left = offset.left + offset.width + 'px'
+  const offset = trigger.getBoundingClientRect()
+  this.el.style.top = `${offset.top}px`
+  this.el.style.left = `${offset.left + offset.width}px`
   document.body.appendChild(this.el)
   this.hidden = false
   this.emit('show')

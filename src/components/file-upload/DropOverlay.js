@@ -1,8 +1,8 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import staticUrl from 'staticurl'
 import {FormattedMessage} from 'react-intl'
 
+import staticUrl from '../../utils/static-url'
 import {maxSize} from './constants'
 import {styles} from './dropOverlayTheme'
 
@@ -20,19 +20,25 @@ export default class DropOverlay extends PureComponent {
       <div className={classes.overlay}>
         <div className={classes.body}>
           <div className={classes.content}>
-            <img className={classes.image} src={staticUrl('app/images/drag-and-drop.png')} />
+            <img
+              className={classes.image}
+              src={staticUrl('app/images/drag-and-drop.png')}
+              alt=""
+            />
             <h1 className={classes.headline}>
               <FormattedMessage
                 id="dropFileToUpload"
                 description="Hint on the drop overlay screen."
-                defaultMessage="Drop your file to upload it!" />
+                defaultMessage="Drop your file to upload it!"
+              />
             </h1>
             <p className={classes.descr}>
               <FormattedMessage
                 id="dropFileToUploadMaxFileSize"
                 description="Hint on the drop overlay screen."
                 defaultMessage="We support almost every file type up to a size of {limit}mb."
-                values={{limit: maxSizeInMb}} />
+                values={{limit: maxSizeInMb}}
+              />
             </p>
           </div>
         </div>

@@ -1,17 +1,18 @@
 import Model from 'model'
 import cache from 'model-cache'
 import array from 'model-array'
-import staticurl from 'staticurl'
+
+import staticUrl from '../../../utils/static-url'
 
 export default new Model([
-    'logo',
-    'role',
-    'title', // custom title for the current user in this org
-    'custom_emojis',
-    'has_integrations',
-    'inviter_role',
-    'features'
-  ])
+  'logo',
+  'role',
+  'title', // custom title for the current user in this org
+  'custom_emojis',
+  'has_integrations',
+  'inviter_role',
+  'features'
+])
   .use(cache('id'))
   .use(array)
   .array('rooms')
@@ -21,8 +22,8 @@ export default new Model([
 
 function defaultLogo(url) {
   return function (Model) {
-    Model.on('construct', function (instance, initial) {
-      initial.logo = initial.logo || staticurl(url)
+    Model.on('construct', (instance, initial) => {
+      initial.logo = initial.logo || staticUrl(url)
     })
   }
 }
