@@ -5,8 +5,9 @@ import {grapeProtocol} from './constants'
  * Escape markdown link target or name.
  */
 export function encodeMdLink(link) {
+  // eslint-disable-next-line no-useless-escape
   const regExp = /[\[\]()\s]/g
-  return link.replace(regExp, c => '%' + c.charCodeAt(0).toString(16))
+  return link.replace(regExp, c => `%${c.charCodeAt(0).toString(16)}`)
 }
 
 /**

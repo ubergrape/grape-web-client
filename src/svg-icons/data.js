@@ -6,5 +6,7 @@ import toData from './toData'
  * Data image strings.
  */
 const data = {}
-each(raw, (svg, name) => data[name] = toData(svg))
+each(raw, (svg, name) => {
+  data[name] = toData(svg)
+})
 export default data

@@ -33,7 +33,7 @@ export default function listenOutsideClick(ChildComponent) {
       })
     }
 
-    onClick = e => {
+    onClick = (e) => {
       this.props.onClick(e)
       this.setState({isInsideClick: true})
     }
@@ -43,7 +43,8 @@ export default function listenOutsideClick(ChildComponent) {
         <GlobalEvent event="click" handler={this.onClickWindow}>
           <ChildComponent
             {...omit(this.props, 'onOutsideClick')}
-            onClick={this.onClick} />
+            onClick={this.onClick}
+          />
         </GlobalEvent>
       )
     }

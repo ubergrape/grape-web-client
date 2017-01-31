@@ -10,12 +10,14 @@ export default class GlobalEvent extends Component {
     emitter: PropTypes.object,
     event: PropTypes.string.isRequired,
     debounce: PropTypes.number,
-    handler: PropTypes.func,
+    handler: PropTypes.func.isRequired,
     children: PropTypes.element
   }
 
   static defaultProps = {
-    emitter: window
+    emitter: window,
+    debounce: null,
+    children: null
   }
 
   componentDidMount() {
@@ -29,7 +31,7 @@ export default class GlobalEvent extends Component {
   handler = (e) => {
     const {debounce, handler} = this.props
 
-    if (debounce === undefined) {
+    if (debounce == null) {
       handler(e)
       return
     }

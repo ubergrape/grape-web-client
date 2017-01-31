@@ -6,7 +6,7 @@ import style from './style'
 @injectSheet(style)
 export default class Spinner extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
     active: PropTypes.bool,
     delay: PropTypes.number,
     image: PropTypes.string,
@@ -24,7 +24,7 @@ export default class Spinner extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.createState(this.props)
+    this.state = {active: props.active}
   }
 
   componentDidMount() {
@@ -35,15 +35,11 @@ export default class Spinner extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
+    this.setState({active: props.active})
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId)
-  }
-
-  createState(props) {
-    return {...props}
   }
 
   render() {
@@ -58,13 +54,14 @@ export default class Spinner extends Component {
     const backgroundImage = `url(${image})`
     const {classes} = sheet
     let className = classes.spinner
-    if (this.props.overlay) className += ' ' + classes.overlay
+    if (this.props.overlay) className += ` ${classes.overlay}`
     // TODO use svg.
     return (
       <span className={className}>
         <i
           className={classes.animation}
-          style={{backgroundImage, width, height}} />
+          style={{backgroundImage, width, height}}
+        />
       </span>
     )
   }

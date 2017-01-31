@@ -17,7 +17,8 @@ export default class Room {
 
     // prevent double `@@` in case when room name is `@room`
     const {nameWithoutTrigger} = this
-    this.content = nameWithoutTrigger[0] === trigger ? nameWithoutTrigger : trigger + nameWithoutTrigger
+    if (nameWithoutTrigger[0] === trigger) this.content = nameWithoutTrigger
+    else this.content = trigger + nameWithoutTrigger
 
     this.str = this.toString()
   }

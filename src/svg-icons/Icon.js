@@ -1,18 +1,27 @@
 import React, {PropTypes} from 'react'
 import cn from 'classnames'
+
 import getColored from './getColored'
 import injectSheet from '../jss'
 
-const Icon = ({sheet: {classes}, className, name, color = '#000'}) => (
+const Icon = ({sheet: {classes}, className, name, color}) => (
   <img
     src={getColored({name, color})}
-    className={cn(classes.icon, className)} />
+    className={cn(classes.icon, className)}
+    alt=""
+  />
 )
 
 Icon.propTypes = {
   sheet: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  color: PropTypes.string
+  color: PropTypes.string,
+  className: PropTypes.string
+}
+
+Icon.defaultProps = {
+  color: '#000',
+  className: null
 }
 
 const styles = {

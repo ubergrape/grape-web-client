@@ -13,7 +13,7 @@ export default function getColored({name, color, encoding}) {
     cache[key] = dom(raw[name])
       .find('path')
       .attr('fill', color)
-      .each(node => {
+      .each((node) => {
         if (!node.hasAttribute('stroke')) return
         node.setAttribute('stroke', color)
       })

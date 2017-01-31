@@ -9,7 +9,7 @@ export default function findMatches(text, search) {
   const searchArr = typeof search == 'string' ? [search] : search
   const lowerSearchArr = searchArr.map(value => value.toLowerCase())
   const searchRegExpStr = searchArr.map(searchStr => `(${escapeRegExp(searchStr)})`).join('|')
-  const regExp = new RegExp('\\b' + searchRegExpStr + '\\b', 'gi')
+  const regExp = new RegExp(`\\b${searchRegExpStr}\\b`, 'gi')
 
   return text.split(regExp).reduce((matches, value) => {
     if (!value) return matches
