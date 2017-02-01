@@ -2056,9 +2056,9 @@
       "resolved": "https://registry.npmjs.org/faye-websocket/-/faye-websocket-0.10.0.tgz"
     },
     "fbjs": {
-      "version": "0.8.8",
+      "version": "0.8.9",
       "from": "fbjs@>=0.8.4 <0.9.0",
-      "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.8.8.tgz",
+      "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.8.9.tgz",
       "dependencies": {
         "core-js": {
           "version": "1.2.7",
@@ -4898,9 +4898,9 @@
       "resolved": "https://registry.npmjs.org/react-intl/-/react-intl-2.2.3.tgz"
     },
     "react-jss": {
-      "version": "5.3.0",
-      "from": "react-jss@>=5.0.0 <6.0.0",
-      "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-5.3.0.tgz"
+      "version": "5.1.1",
+      "from": "react-jss@5.1.1",
+      "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-5.1.1.tgz"
     },
     "react-overlays": {
       "version": "0.6.10",
@@ -4938,8 +4938,15 @@
     },
     "react-virtualized": {
       "version": "8.5.3",
-      "from": "react-virtualized@>=8.1.1 <9.0.0",
-      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-8.5.3.tgz"
+      "from": "react-virtualized@8.5.3",
+      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-8.5.3.tgz",
+      "dependencies": {
+        "dom-helpers": {
+          "version": "2.4.0",
+          "from": "dom-helpers@>=2.4.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/dom-helpers/-/dom-helpers-2.4.0.tgz"
+        }
+      }
     },
     "react-visibility-sensor": {
       "version": "3.6.2",
@@ -5214,9 +5221,9 @@
       "resolved": "https://registry.npmjs.org/rx-lite/-/rx-lite-3.1.2.tgz"
     },
     "rxjs": {
-      "version": "5.0.3",
+      "version": "5.1.0",
       "from": "rxjs@>=5.0.0-beta.11 <6.0.0",
-      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.0.3.tgz",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.1.0.tgz",
       "dependencies": {
         "symbol-observable": {
           "version": "1.0.4",

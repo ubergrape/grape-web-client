@@ -226,7 +226,7 @@ API.prototype.subscribe = function API_subscribe() {
   this.in.on('membership.updated', (data) => {
     const user = models.User.get(data.membership.user)
     const changed = []
-    if (user.role != data.membership.role) {
+    if (user.role !== data.membership.role) {
       changed.push('role')
       user.role = data.membership.role
     }
@@ -613,7 +613,7 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgId) {
   })
 }
 
-API.prototype.onSetTyping = function ({channel, typing}) {
+API.prototype.onSetTyping = function({channel, typing}) {
   rpc({
     ns: 'channels',
     action: 'set_typing',
@@ -664,7 +664,7 @@ API.prototype.onKickMember = function API_onKickMember({channelId, userId}) {
   })
 }
 
-API.prototype.onSetDescription = function (room, description) {
+API.prototype.onSetDescription = function(room, description) {
   rpc({
     ns: 'rooms',
     action: 'set_description',
@@ -674,7 +674,7 @@ API.prototype.onSetDescription = function (room, description) {
   })
 }
 
-API.prototype.onInviteToOrg = function (emails) {
+API.prototype.onInviteToOrg = function(emails) {
   rpc({
     ns: 'organizations',
     action: 'invite',
