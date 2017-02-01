@@ -3,18 +3,22 @@ import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
 import EmbedActions from './EmbedActions'
-import {Iframe} from '../../../iframe'
+import {IframeUnsafeHtml} from '../../../iframe-unsafe-html'
 import {styles} from './embedTheme.js'
 
 @injectSheet(styles)
 export default class Embed extends PureComponent {
   static propTypes = {
-    thumbUrl: PropTypes.string,
+    thumbUrl: PropTypes.string.isRequired,
     permalink: PropTypes.string.isRequired,
     embedHtml: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    thumbUrl: null
   }
 
   state = {
@@ -36,7 +40,8 @@ export default class Embed extends PureComponent {
       <div className={classes.actions}>
         <EmbedActions
           permalink={permalink}
-          onClick={this.onClick} />
+          onClick={this.onClick}
+        />
       </div>
     )
   }
@@ -59,7 +64,7 @@ export default class Embed extends PureComponent {
       ${embedHtml}
     `
 
-    return <Iframe html={html} />
+    return <IframeUnsafeHtml html={html} />
   }
 
   render() {

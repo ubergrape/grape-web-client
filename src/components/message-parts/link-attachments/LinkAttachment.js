@@ -2,7 +2,6 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import {linkAttachmentsFieldGroupSize} from '../../../constants/app'
 import groupConsecutive from '../../../utils/group-consecutive'
 
 import {
@@ -18,43 +17,58 @@ import {
 import ImageAttachment from '../attachments/ImageAttachment'
 import {styles} from './linkAttachmentTheme.js'
 
+const fieldsGroupSize = 2
+
+const groupFields = fields => groupConsecutive(
+  fields, fieldsGroupSize,
+  (field, nextField) => field.short && nextField.short
+)
 
 const getThumbUrl = ({imageUrl, width, height}) => (
   `${imageUrl}${width}x${height}`
-)
-
-const groupFields = fields => groupConsecutive(
-  fields, linkAttachmentsFieldGroupSize,
-  (field, nextField) => field.short && nextField.short
 )
 
 @injectSheet(styles)
 export default class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
-    footerIcon: PropTypes.string,
-    footer: PropTypes.string,
-    authorName: PropTypes.string,
-    authorLink: PropTypes.string,
-    authorIcon: PropTypes.string,
+    footerIcon: PropTypes.string.isRequired,
+    footer: PropTypes.string.isRequired,
+    footerUrl: PropTypes.string.isRequired,
+    authorName: PropTypes.string.isRequired,
+    authorLink: PropTypes.string.isRequired,
+    authorIcon: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    titleLink: PropTypes.string,
-    text: PropTypes.string,
-    imageUrl: PropTypes.string,
-    thumbUrl: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    embedHtml: PropTypes.string,
-    ts: PropTypes.number,
+    titleLink: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    thumbUrl: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    embedHtml: PropTypes.string.isRequired,
+    ts: PropTypes.number.isRequired,
     fields: PropTypes.array.isRequired,
-    className: PropTypes.string,
+    className: PropTypes.string.isRequired,
     sheet: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     width: 360,
     height: 360,
-    fields: []
+    fields: [],
+    footerIcon: null,
+    footer: null,
+    footerUrl: null,
+    authorName: null,
+    authorLink: null,
+    authorIcon: null,
+    titleLink: null,
+    text: null,
+    imageUrl: null,
+    thumbUrl: null,
+    embedHtml: null,
+    ts: null,
+    className: ''
   }
 
   renderAuthor() {
@@ -68,7 +82,8 @@ export default class LinkAttachment extends PureComponent {
       <Author
         name={authorName}
         link={authorLink}
-        iconUrl={authorIcon} />
+        iconUrl={authorIcon}
+      />
     )
   }
 
@@ -103,7 +118,8 @@ export default class LinkAttachment extends PureComponent {
         text={footer}
         icon={footerIcon}
         url={footerUrl}
-        timestamp={ts} />
+        timestamp={ts}
+      />
     )
   }
 
@@ -126,7 +142,8 @@ export default class LinkAttachment extends PureComponent {
           url={imageUrl}
           thumbnailUrl={thumbUrl}
           thumbnailWidth={width}
-          thumbnailHeight={height} />
+          thumbnailHeight={height}
+        />
       </Row>
     )
   }
@@ -153,7 +170,8 @@ export default class LinkAttachment extends PureComponent {
           thumbUrl={thumbUrl}
           width={width}
           height={height}
-          permalink={sourceUrl} />
+          permalink={sourceUrl}
+        />
       </Row>
     )
   }
@@ -169,7 +187,8 @@ export default class LinkAttachment extends PureComponent {
       <div className={classes.side}>
         <ImagePreviewLink
           url={thumbUrl}
-          permalink={sourceUrl} />
+          permalink={sourceUrl}
+        />
       </div>
     )
   }
@@ -177,24 +196,28 @@ export default class LinkAttachment extends PureComponent {
   renderFields() {
     const {
       fields,
+      sourceUrl,
       sheet: {classes}
     } = this.props
 
+    let key = 0
     const fieldGroups = groupFields(fields)
 
     return (
       <div className={classes.fields}>
-        {fieldGroups.map((group, key) => (
+        {fieldGroups.map(group => (
           <div
             className={
-              cn(classes.fieldGroup, group.length === linkAttachmentsFieldGroupSize && classes.fieldGroupShort)
+              cn(classes.fieldGroup, group.length === fieldsGroupSize && classes.fieldGroupShort)
             }
-            key={key}>
-            {group.map(({title, value}, gkey) => (
+            key={`${sourceUrl}-${key++}`}
+          >
+            {group.map(({title, value}) => (
               <Field
                 title={title}
                 value={value}
-                key={`${key}-${gkey}`} />
+                key={`${sourceUrl}-${key++}`}
+              />
             ))}
           </div>
         ))}

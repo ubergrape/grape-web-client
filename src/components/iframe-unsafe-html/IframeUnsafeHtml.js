@@ -2,22 +2,16 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import {styles} from './iframeTheme.js'
+import {styles} from './theme.js'
 
 const setIframeContent = (iframe, content) => {
-  if ('srcdoc' in iframe) {
-    iframe.setAttribute('srcdoc', content)
-    return
-  }
-
-  // Fallback for browsers that don't support srcdoc
   const doc = iframe.contentDocument || iframe.contentWindow.document
   doc.write(content)
   doc.close()
 }
 
 @injectSheet(styles)
-export default class Iframe extends PureComponent {
+export default class IframeUnsafeHtml extends PureComponent {
   static propTypes = {
     className: PropTypes.string.isRequired,
     html: PropTypes.string.isRequired,
@@ -38,7 +32,7 @@ export default class Iframe extends PureComponent {
     setIframeContent(this.iframe, html)
   }
 
-  getIframe = iframe => {
+  onRefIframe = (iframe) => {
     this.iframe = iframe
   }
 
@@ -51,7 +45,8 @@ export default class Iframe extends PureComponent {
     return (
       <iframe
         className={cn(classes.iframe, className)}
-        ref={this.getIframe} />
+        ref={this.onRefIframe}
+      />
     )
   }
 }
