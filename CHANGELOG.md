@@ -1,3 +1,9 @@
+## Releases 0.49.0 (2017-02-01)
+
+### New Features
+
+* Link Attachments (ubergrape/chatgrape#4883)
+
 ## Releases 0.48.0 (2017-01-27)
 
 ### Fixes
