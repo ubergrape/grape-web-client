@@ -5,7 +5,7 @@ import 'document-register-element'
 import 'reactive-elements'
 import 'intl'
 
-import conf from 'conf'
+import conf from './conf'
 import {init as initApp, render as renderApp} from './app'
 import initLegacy from './legacy'
 import {loadConfig} from './utils/backend/api'
@@ -19,10 +19,13 @@ function ensureConf() {
     renderApp()
   }
 
-  if (conf.isLoaded) return init()
+  if (conf.isLoaded) {
+    init()
+    return
+  }
 
   loadConfig()
-    .then(res => {
+    .then((res) => {
       conf.setup(res)
       init()
     })

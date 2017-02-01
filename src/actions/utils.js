@@ -3,8 +3,8 @@ import pluck from 'lodash/collection/pluck'
 import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
-import staticUrl from 'staticurl'
 
+import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
 import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
 import {
@@ -57,7 +57,7 @@ export function pinToFavorite(channel) {
 export function reduceChannelUsersToId(channel) {
   return {
     ...channel,
-    users: channel.users.map(user => {
+    users: channel.users.map((user) => {
       if (user.id) return user.id
       return user
     })
@@ -78,8 +78,16 @@ export const normalizeMessage = (() => {
     const type = sourceName ? 'remoteFile' : 'uploadedFile'
 
     return {
-      id, mimeType, name, url, category, thumbnailUrl, thumbnailWidth,
-      thumbnailHeight, time, type
+      id,
+      mimeType,
+      name,
+      url,
+      category,
+      thumbnailUrl,
+      thumbnailWidth,
+      thumbnailHeight,
+      time,
+      type
     }
   }
 
@@ -136,8 +144,18 @@ export const normalizeMessage = (() => {
     const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
 
     return {
-      type, id, text, time, userTime, author, link, avatar, attachments,
-      mentions, channelId, linkAttachments
+      type,
+      id,
+      text,
+      time,
+      userTime,
+      author,
+      link,
+      avatar,
+      attachments,
+      mentions,
+      channelId,
+      linkAttachments
     }
   }
 

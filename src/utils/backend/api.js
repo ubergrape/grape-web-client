@@ -1,6 +1,6 @@
 import request from 'superagent'
 
-import conf from 'conf'
+import conf from '../../conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
@@ -17,7 +17,7 @@ export function createRoom(room) {
       {camelize: true},
       (err, newRoom) => {
         if (err) return reject(err)
-        resolve(newRoom)
+        return resolve(newRoom)
       }
     )
   })
@@ -32,9 +32,9 @@ export function renameRoom(id, name) {
         args: [id, name]
       },
       {camelize: true},
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -49,9 +49,9 @@ export function setRoomDescription(id, description) {
         args: [id, description]
       },
       {camelize: true},
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -66,9 +66,9 @@ export function setRoomPrivacy(id, isPublic) {
         args: [id, isPublic]
       },
       {camelize: true},
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -83,9 +83,9 @@ export function setRoomColor(id, color) {
         args: [id, color]
       },
       {camelize: true},
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -100,9 +100,9 @@ export function setRoomIcon(id, icon) {
         args: [id, icon]
       },
       {camelize: true},
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -116,9 +116,9 @@ export function joinChannel(channelId) {
         action: 'join',
         args: [channelId]
       },
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -132,9 +132,9 @@ export function inviteToChannel(emailAddresses, channelId) {
         action: 'invite',
         args: [channelId, emailAddresses]
       },
-      err => {
+      (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -156,7 +156,7 @@ export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}
       {camelize: true},
       (err, mentions) => {
         if (err) return reject(err)
-        resolve(mentions)
+        return resolve(mentions)
       }
     )
   })
@@ -179,7 +179,7 @@ export function searchMessages({query, id, limit, offsetDate}) {
       {camelize: true},
       (err, messages) => {
         if (err) return reject(err)
-        resolve(messages)
+        return resolve(messages)
       }
     )
   })
@@ -203,7 +203,7 @@ export function searchMessagesInChannel({query, orgId, channelId, limit, offsetD
       {camelize: true},
       (err, messages) => {
         if (err) return reject(err)
-        resolve(messages)
+        return resolve(messages)
       }
     )
   })
@@ -226,7 +226,7 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
       {camelize: true},
       (err, files) => {
         if (err) return reject(err)
-        resolve(files)
+        return resolve(files)
       }
     )
   })
@@ -243,7 +243,7 @@ export function getFavorites(orgId) {
       {camelize: true},
       (err, favorites) => {
         if (err) return reject(err)
-        resolve(favorites)
+        return resolve(favorites)
       }
     )
   })
@@ -260,7 +260,7 @@ export function addToFavorite(channelId) {
       {camelize: true},
       (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -277,7 +277,7 @@ export function removeFromFavorite(channelId) {
       {camelize: true},
       (err) => {
         if (err) return reject(err)
-        resolve()
+        return resolve()
       }
     )
   })
@@ -288,9 +288,9 @@ export function checkAuth() {
     const {host, protocol, authToken} = conf.server
     const req = request.get(`${protocol}//${host}/accounts/session_state/`)
     if (authToken) req.set('Authorization', `Token ${authToken}`)
-    req.end(err => {
+    req.end((err) => {
       if (err) return reject(err)
-      resolve()
+      return resolve()
     })
   })
 }
@@ -305,7 +305,7 @@ export function loadHistory(channelId, options = {}) {
     {camelize: true},
     (err, res) => {
       if (err) return reject(err)
-      resolve(res)
+      return resolve(res)
     })
   })
 }
@@ -330,7 +330,7 @@ export function loadHistoryAt(channelId, messageId, options = {}) {
     {camelize: true},
     (err, res) => {
       if (err) return reject(err)
-      resolve(res)
+      return resolve(res)
     })
   })
 }
@@ -342,31 +342,35 @@ export function removeMessage(channelId, messageId) {
       action: 'delete_message',
       args: [channelId, messageId]
     },
-    err => {
+    (err) => {
       if (err) return reject(err)
-      resolve()
+      return resolve()
     })
   })
 }
 
 export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
-    if (options.attachments) {
+    let optionsArg = options
+
+    if (optionsArg.attachments) {
+      optionsArg = {...optionsArg}
       // If an id is already given, like for e.g. in case of file uploads,
       // backend expect an attachment to be the id.
       // Otherwise it expects an attachment object.
-      options.attachments = options.attachments.map(
-        attachment => attachment.id ? attachment.id : attachment
+      optionsArg.attachments = optionsArg.attachments.map(
+        attachment => (attachment.id ? attachment.id : attachment)
       )
     }
+
     rpc({
       ns: 'channels',
       action: 'post',
-      args: [channelId, text, options]
+      args: [channelId, text, optionsArg]
     },
-    err => {
+    (err) => {
       if (err) return reject(err)
-      resolve()
+      return resolve()
     })
   })
 }
@@ -378,9 +382,9 @@ export function readMessage(channelId, messageId) {
       action: 'read',
       args: [channelId, messageId]
     },
-    err => {
+    (err) => {
       if (err) return reject(err)
-      resolve()
+      return resolve()
     })
   })
 }
@@ -394,7 +398,7 @@ export function getInviteToOrgLink(orgId) {
     },
     (err, link) => {
       if (err) return reject(err)
-      resolve(link)
+      return resolve(link)
     })
   })
 }
@@ -408,7 +412,7 @@ export function inviteToOrg(orgId, settings) {
     },
     (err, res) => {
       if (err) return reject(err)
-      resolve(res)
+      return resolve(res)
     })
   })
 }
@@ -423,7 +427,7 @@ export function loadConfig() {
       .query(toSnake({orgSubdomain}))
       .end((err, res) => {
         if (err) return reject(err)
-        resolve(res.body)
+        return resolve(res.body)
       })
   })
 }
@@ -434,9 +438,9 @@ export function setNotificationSetting(orgId, channelId, settings) {
       ns: 'notifications',
       action: 'update_settings',
       args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
-    }, err => {
+    }, (err) => {
       if (err) return reject(err)
-      resolve()
+      return resolve()
     })
   })
 }
@@ -449,7 +453,7 @@ export function getNotificationSettings(orgId, channelId) {
       args: [`${orgId}:${channelId}`]
     }, (err, sequence) => {
       if (err) return reject(err)
-      resolve(sequenceToSettings(sequence))
+      return resolve(sequenceToSettings(sequence))
     })
   })
 }

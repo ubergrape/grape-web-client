@@ -1,8 +1,8 @@
-import Emitter from 'emitter';
-import events from 'events';
-import dialog from 'dialog';
-import v from 'virtualdom';
-import template from 'template';
+import Emitter from 'component-emitter'
+import events from 'component-events'
+import dialog from 'dialog-component'
+import v from 'virtualdom'
+import template from 'template'
 
 module.exports = Dialog
 
@@ -17,7 +17,7 @@ function Dialog(context) {
 Dialog.prototype = Object.create(Emitter.prototype)
 
 Dialog.prototype.init = function Dialog_init() {
-  let vdom = v.toDOM(template(this.template_path, this.context))
+  const vdom = v.toDOM(template(this.template_path, this.context))
   this.dialog = dialog(vdom)
   this.el = this.dialog.el
 }

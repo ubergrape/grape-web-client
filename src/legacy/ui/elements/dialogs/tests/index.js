@@ -1,16 +1,17 @@
 import expect from 'expect.js'
-import qs from 'query'
-import staticurl from 'staticurl'
+import qs from 'component-query'
+
+import staticUrl from '../../../../../utils/static-url'
 import RoomDelete from '../deleteroom'
 import {room, user} from '../../../../tests/fixtures/'
 import template from 'template'
 import '../../../../templates'
 
 template.locals.user = user
-template.locals.staticurl = staticurl
+template.locals.staticUrl = staticUrl
 
-let roomDelete = new RoomDelete({
-  room: room
+const roomDelete = new RoomDelete({
+  room
 })
 
 describe('Dialog', () => {
@@ -21,7 +22,7 @@ describe('Dialog', () => {
     })
     it('should open', () => {
       roomDelete.show()
-      let el = qs('.delete-room', roomDelete.el)
+      const el = qs('.delete-room', roomDelete.el)
       expect(el).not.to.be(null)
     })
   })

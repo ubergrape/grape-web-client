@@ -3,10 +3,8 @@ import v from 'virtualdom'
 import domify from 'domify'
 
 template.locals._ = require('t')
-template.locals.constants = require('conf').constants
-template.locals.html = (html) => {
-  return v.fromDOM(domify(html))
-}
+template.locals.constants = require('../../conf').constants
+template.locals.html = html => v.fromDOM(domify(html))
 
 template.templates = {
   'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),

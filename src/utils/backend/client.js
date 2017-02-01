@@ -1,5 +1,6 @@
-import conf from 'conf'
 import LpioClient from 'lpio-client'
+
+import conf from '../../conf'
 import WampClient from './WampClient'
 
 export const type = conf.forceLongpolling ? 'lp' : 'ws'

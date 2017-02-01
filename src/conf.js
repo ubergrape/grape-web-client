@@ -1,6 +1,6 @@
-var merge = require('lodash/object/merge')
+const merge = require('lodash/object/merge')
 
-function Config(conf) {
+function Config(conf) {
   this.isLoaded = false
   this.init()
   if (conf) this.setup(conf)
@@ -9,7 +9,7 @@ function Config(conf) {
 /**
  * Setup defaults.
  */
-Config.prototype.init = function() {
+Config.prototype.init = function () {
   if (!this.forceLongpolling && localStorage.forceLongpolling) {
     this.forceLongpolling = true
   }
@@ -32,11 +32,11 @@ Config.prototype.init = function() {
     host: localStorage.host || window.location.host,
     protocol: window.location.protocol
   }
-  var wsProtocol = this.server.protocol === 'http:' ? 'ws:' : 'wss:'
-  this.server.wsUrl = wsProtocol + '//' + this.server.host + '/ws'
+  const wsProtocol = this.server.protocol === 'http:' ? 'ws:' : 'wss:'
+  this.server.wsUrl = `${wsProtocol}//${this.server.host}/ws`
 }
 
-Config.prototype.setup = function(conf) {
+Config.prototype.setup = function (conf) {
   merge(this, conf)
   this.isLoaded = true
 }

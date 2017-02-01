@@ -1,5 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react'
-import {NotificationStack} from 'react-notification'
+import {NotificationStack} from '@ubergrape/react-notification'
 import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
 import cn from 'classnames'
 
@@ -34,7 +34,7 @@ export default class ToastNotification extends PureComponent {
       PropTypes.string
     ]).isRequired,
     notifications: PropTypes.array.isRequired,
-    onDismiss: PropTypes.func,
+    onDismiss: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
     sidebar: PropTypes.oneOfType([
       PropTypes.bool,
@@ -64,7 +64,8 @@ export default class ToastNotification extends PureComponent {
           dismissAfter={dismissAfter}
           onDismiss={this.onDismiss}
           activeBarStyleFactory={activeBarStyleFactory}
-          barStyleFactory={barStyleFactory} />
+          barStyleFactory={barStyleFactory}
+        />
       </div>
     )
   }
