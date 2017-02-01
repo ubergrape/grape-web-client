@@ -16,7 +16,8 @@ export default useTheme(Bubble, {
         radius: borderRadius
       },
       maxWidth: 620,
-      boxShadow: [-3, 0, 0, 0, grayMercury]
+      boxShadow: [-3, 0, 0, 0, grayMercury],
+      width: '100%'
     },
     content: {
       display: 'flex',
