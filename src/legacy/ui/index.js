@@ -208,11 +208,11 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
   }
 }
 
-UI.prototype.showIntro = function UI_showIntro(settings) {
+UI.prototype.showIntro = function UI_showIntro(options = {}) {
   if (!this.settings) return
-  if (this.settings.show_intro && !this.options.detached) {
+  const show = options.force || this.settings.show_intro
+  if (show && !this.options.detached) {
     this.intro.start()
-    if (window.analytics) window.analytics.track('Started Tutorial', {via: 'onboarding'})
   }
 }
 

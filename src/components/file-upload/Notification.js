@@ -24,8 +24,8 @@ const Upload = ({classes, progress, isComplete, name, error}) => (
         <span className={classes.nameTextLeft}>{name.substr(0, name.length - 7)}</span>
         <span>{name.substr(name.length - 7)}</span>
       </span>
-      {isComplete && !error && <Icon name="check" color={green} className={classes.icon} />}
-      {error && <Icon name="remove" color={grayLight} className={classes.icon} />}
+      {isComplete && !error && <Icon name="check" className={classes.iconSuccess} />}
+      {error && <Icon name="remove" className={classes.iconError} />}
     </div>
     <LinearProgress
       mode="determinate"

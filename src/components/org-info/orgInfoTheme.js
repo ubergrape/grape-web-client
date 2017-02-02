@@ -1,10 +1,8 @@
-import color from 'color'
 import {small, normal} from 'grape-theme/dist/fonts'
-import {grayLight, blue, black} from 'grape-theme/dist/base-colors'
+import {grayLight, black} from 'grape-theme/dist/base-colors'
 import {borderDefault} from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
-import buttonIcon from '../button/icon'
 import {height as headerHeight} from '../header'
 
 const header = {
@@ -54,14 +52,5 @@ export const styles = {
   userName: {
     extend: [small, header],
     color: grayLight
-  },
-  settingsButton: {
-    extend: buttonIcon('cog', {
-      color: blue,
-      hoverColor: color(blue).lighten(0.2).rgbaString(),
-      iconOnly: true
-    }),
-    fontSize: 18,
-    lineHeight: 'inherit'
   }
 }

@@ -1,11 +1,10 @@
 import React, {PureComponent, PropTypes} from 'react'
-import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import BaseSpinner from 'grape-web/lib/spinner/Spinner'
 
-import {styles, logoSize} from './orgInfoTheme'
 import {spinner} from '../../constants/images'
-import Tooltip from '../tooltip/HoverTooltip'
+import Settings from './Settings'
+import {styles, logoSize} from './orgInfoTheme'
 
 const Spinner = () => <BaseSpinner image={spinner} size={logoSize} />
 
@@ -38,35 +37,16 @@ const Header = ({classes, name, username}) => (
   </div>
 )
 
-const SettingsButton = ({classes, onClick}) => (
-  <Tooltip
-    message={(
-      <FormattedMessage
-        id="settings"
-        defaultMessage="Settings"
-      />
-    )}
-  >
-    <button
-      className={classes.settingsButton}
-      onClick={onClick}
-    />
-  </Tooltip>
-)
-
 @injectSheet(styles)
 export default class OrgInfo extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    toggleOrgSettings: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    onInvite: PropTypes.func.isRequired,
+    onShowTutorial: PropTypes.func.isRequired,
     logo: PropTypes.string,
     name: PropTypes.string,
     username: PropTypes.string
-  }
-
-  onToggleSettingsMenu = (e) => {
-    this.props.toggleOrgSettings(e.target)
   }
 
   render() {
@@ -75,7 +55,9 @@ export default class OrgInfo extends PureComponent {
       isLoading,
       name,
       username,
-      logo
+      logo,
+      onInvite,
+      onShowTutorial
     } = this.props
 
     return (
@@ -87,7 +69,10 @@ export default class OrgInfo extends PureComponent {
           logo={logo}
         />
         {!isLoading && <Header classes={classes} name={name} username={username} />}
-        {!isLoading && <SettingsButton classes={classes} onClick={this.onToggleSettingsMenu} />}
+        <Settings
+          onInvite={onInvite}
+          onShowTutorial={onShowTutorial}
+        />
       </header>
     )
   }

@@ -6,9 +6,10 @@ import getStore from '../../app/store'
 import {orgInfoSelector as selector} from '../../selectors'
 import OrgInfo from '../../components/org-info/OrgInfo'
 
-const actionNames = [
-  'toggleOrgSettings'
-]
+const actionNames = {
+  showInviteToOrg: 'onInvite',
+  showTutorial: 'onShowTutorial'
+}
 
 const ConnectedOrgInfo = connect(
   selector,

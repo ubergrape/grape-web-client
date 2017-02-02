@@ -14,46 +14,78 @@ function Tooltip(props) {
     theme,
     children,
     onClick,
-    style: position,
-    placement
+    style: containerStyle,
+    placement,
+    arrowOffsetLeft,
+    arrowOffsetTop
   } = props
   const {arrowSize, borderSize} = theme
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
-  const left = props.arrowOffsetLeft || placementStyle.left || theme.arrowOffsetLeft
-  const top = props.arrowOffsetTop || placementStyle.top || theme.arrowOffsetTop
+  const left = arrowOffsetLeft || placementStyle.left || theme.arrowOffsetLeft
+  const top = arrowOffsetTop || placementStyle.top || theme.arrowOffsetTop
+  const pointerStyle = {
+    width: arrowSize,
+    height: arrowSize,
+    ...getPointerPlacement(placement)
+  }
+  const pointerContainerStyle = {...placementStyle, left, top}
+  const bodyStyle = getBodyMargin(arrowSize, placement)
+
   return (
     <div
       onClick={onClick}
       className={`${sheet.classes.tooltip} ${theme.classes.tooltip || ''}`}
-      style={position}>
+      style={containerStyle}
+    >
       <i
         className={`${sheet.classes.arrow} ${theme.classes.arrow || ''}`}
-        style={{...placementStyle, left, top}}>
+        style={pointerContainerStyle}
+      >
         <i
           className={`${sheet.classes.pointer} ${theme.classes.pointer}`}
-          style={{width: arrowSize, height: arrowSize, ...getPointerPlacement(placement)}} />
+          style={pointerStyle}
+        />
       </i>
       <div
         className={`${theme.classes.body}`}
-        style={getBodyMargin(arrowSize, placement)}>
+        style={bodyStyle}
+      >
         {children}
       </div>
     </div>
   )
 }
 
+// Offset may be integer or `int%` string.
+const offsetType = PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+
 Tooltip.propTypes = {
   sheet: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.shape({
+    arrowSize: PropTypes.number,
+    borderSize: PropTypes.number,
+    arrowOffsetLeft: offsetType,
+    arrowOffsetTop: offsetType,
+    classes: PropTypes.shape({
+      tooltip: PropTypes.string,
+      arrow: PropTypes.string,
+      pointer: PropTypes.string,
+      body: PropTypes.string
+    })
+  }).isRequired,
   style: PropTypes.object,
-  arrowSize: PropTypes.number,
-  borderSize: PropTypes.number,
-  placement: PropTypes.string,
-  // Offset may be integer or `int%` string.
-  arrowOffsetLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  arrowOffsetTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  placement: PropTypes.string.isRequired,
+  arrowOffsetLeft: offsetType,
+  arrowOffsetTop: offsetType,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired
+}
+
+Tooltip.defaultProps = {
+  style: null,
+  arrowOffsetLeft: null,
+  arrowOffsetTop: null,
+  onClick: null
 }
 
 export default injectSheet(styles)(Tooltip)

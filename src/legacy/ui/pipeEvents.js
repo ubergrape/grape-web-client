@@ -20,7 +20,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
   broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
   broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
-  broker(ui.reduxEmitter, 'toggleOrgSettings', ui.organizationMenu, 'toggle')
   broker(ui.reduxEmitter, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
   broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
 

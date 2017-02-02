@@ -40,6 +40,15 @@ export const styles = {
   },
   icon: {
     flexShrink: 0,
-    marginLeft: 5
+    marginLeft: 5,
+    width: '1em'
+  },
+  iconSuccess: {
+    composes: '$icon',
+    fill: green
+  },
+  iconError: {
+    composes: '$icon',
+    fill: grayLight
   }
 }
