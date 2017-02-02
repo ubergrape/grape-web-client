@@ -41,7 +41,7 @@ export const initialChannelsSelector = createSelector(
 export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector, userSelector],
   (channels, users, user) => (
-    channels.map(channel => {
+    channels.map((channel) => {
       const channelUsers = channel.users.map(id => find(users, {id}))
       if (channel.type === 'room') {
         return {
@@ -132,19 +132,17 @@ export const setTypingSelector = createSelector(
     channelSelector,
     typingNotificationSelector
   ],
-  (user, users, channel, typingNotification) => {
-    return {
-      user,
-      users,
-      channel,
-      typingNotification
-    }
-  }
+  (user, users, channel, typingNotification) => ({
+    user,
+    users,
+    channel,
+    typingNotification
+  })
 )
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  (pm) => ({...pm.mate})
+  pm => ({...pm.mate})
 )
 
 const notificationSettingsSelector = createSelector(
@@ -240,7 +238,7 @@ export const unreadChannelsSelector = createSelector(
   [joinedRoomsSelector, activePmsSelector, channelSelector],
   (rooms, pms, channel) => ({
     amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
-    channelName: channel.name || channel.users && channel.users[0].displayName
+    channelName: channel.name || (channel.users && channel.users[0].displayName)
   })
 )
 
@@ -261,7 +259,10 @@ export const isInviterSelector = createSelector(
 )
 
 export const newConversationDialog = createSelector(
-  [newConversationSelector, orgSelector, activeUsersWithLastPmSelector, isInviterSelector, createRoomErrorSelector],
+  [
+    newConversationSelector, orgSelector, activeUsersWithLastPmSelector,
+    isInviterSelector, createRoomErrorSelector
+  ],
   (newConversation, {id: organization}, users, isInviter, error) => ({
     ...newConversation,
     isInviter,
@@ -298,10 +299,12 @@ export const inviteToOrgDialog = createSelector(
 
 export const orgInfoSelector = createSelector(
   [orgSelector, initialDataLoadingSelector, userSelector],
-  (org, isLoading, {displayName: username}) => ({
-    ...org,
+  (org, isLoading, user) => ({
+    logo: org.logo,
+    name: org.name,
+    inviterRole: org.inviterRole,
     isLoading,
-    username
+    user
   })
 )
 
@@ -505,7 +508,7 @@ export const manageGroupsSelector = createSelector(
     )
 
     const groups = sortBy(unsorted, 'name')
-      .map(group => {
+      .map((group) => {
         const creatorUser = group.users.filter(
           user => user.id === group.creator
         )[0]

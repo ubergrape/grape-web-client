@@ -35,7 +35,6 @@ export default class Settings extends PureComponent {
     sheet: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
     onShowTutorial: PropTypes.func.isRequired
-
   }
 
   state = {showMenu: false}
@@ -70,7 +69,8 @@ export default class Settings extends PureComponent {
 
   render() {
     const {
-      sheet: {classes}
+      sheet: {classes},
+      ...menuProps
     } = this.props
 
     const {showMenu} = this.state
@@ -90,6 +90,7 @@ export default class Settings extends PureComponent {
             container={this}
           >
             <Menu
+              {...menuProps}
               onInvite={this.onInvite}
               onShowTutorial={this.onShowTutorial}
             />

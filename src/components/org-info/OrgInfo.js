@@ -24,14 +24,14 @@ const Logo = ({isLoading, classes, ...rest}) => (
   </span>
 )
 
-const Header = ({classes, name, username}) => (
+const Header = ({classes, name, user}) => (
   <div className={classes.headers}>
     <div>
       <h1 className={classes.orgName}>
         {name}
       </h1>
       <h2 className={classes.userName}>
-        {username}
+        {user.displayName}
       </h2>
     </div>
   </div>
@@ -42,11 +42,11 @@ export default class OrgInfo extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    onInvite: PropTypes.func.isRequired,
-    onShowTutorial: PropTypes.func.isRequired,
     logo: PropTypes.string,
     name: PropTypes.string,
-    username: PropTypes.string
+    user: PropTypes.shape({
+      displayName: PropTypes.string
+    })
   }
 
   render() {
@@ -54,10 +54,9 @@ export default class OrgInfo extends PureComponent {
       sheet: {classes},
       isLoading,
       name,
-      username,
+      user,
       logo,
-      onInvite,
-      onShowTutorial
+      ...settingsProps
     } = this.props
 
     return (
@@ -68,11 +67,13 @@ export default class OrgInfo extends PureComponent {
           name={name}
           logo={logo}
         />
-        {!isLoading && <Header classes={classes} name={name} username={username} />}
-        <Settings
-          onInvite={onInvite}
-          onShowTutorial={onShowTutorial}
-        />
+        {!isLoading && <Header classes={classes} name={name} user={user} />}
+        {!isLoading &&
+          <Settings
+            {...settingsProps}
+            user={user}
+          />
+        }
       </header>
     )
   }
