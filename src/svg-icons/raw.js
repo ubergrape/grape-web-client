@@ -47,6 +47,9 @@ export smileOpen from './svg/smile-open.svg'
 export hashtag from './svg/hashtag.svg'
 export play from './svg/play.svg'
 export external from './svg/external.svg'
+export lifeSaver from './svg/life-saver.svg'
+export random from './svg/random.svg'
+export signOut from './svg/sign-out.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
