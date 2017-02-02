@@ -1,8 +1,8 @@
-import template from 'template';
-import render from '../../rendervdom';
-import Popover from './popover';
-import classes from 'classes';
-let constants = require('conf').constants
+import template from 'template'
+import render from '../../rendervdom'
+import Popover from './popover'
+import classes from 'component-classes'
+const constants = require('../../../../conf').constants
 
 module.exports = OrganizationPopover
 
@@ -35,7 +35,7 @@ OrganizationPopover.prototype.redraw = function() {
   this.classes.add('orga-po')
   this.classes.add('top')
 
-  let vdom = template('popovers/organization.jade', {
+  const vdom = template('popovers/organization.jade', {
     isInviter: this.user.role >= this.org.inviter_role,
     isOrgManager: this.user.role >= constants.roles.ROLE_ADMIN,
     isMacGap: typeof window.MacGap !== 'undefined'

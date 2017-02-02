@@ -2,24 +2,29 @@ import color from 'color'
 import {small, normal} from 'grape-theme/dist/fonts'
 import {grayLight, blue, black} from 'grape-theme/dist/base-colors'
 import {borderDefault} from 'grape-theme/dist/web-colors'
-import mixins from 'grape-web/lib/jss-utils/mixins'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 import buttonIcon from '../button/icon'
 import {height as headerHeight} from '../header'
 
-const headers = {
-  ...mixins.ellipsis,
+const header = {
+  extend: ellipsis,
   lineHeight: 'initial'
 }
+
+export const logoSize = 32
 
 export const styles = {
   orgInfo: {
     display: 'flex',
     alignItems: 'center',
     boxSizing: 'border-box',
-    padding: '0 10px 0 20px',
+    padding: {
+      right: 10,
+      left: 20
+    },
     height: headerHeight,
-    borderBottom: `1px solid ${borderDefault}`,
+    borderBottom: [1, 'solid', borderDefault],
     flexShrink: 0
   },
   headers: {
@@ -28,23 +33,29 @@ export const styles = {
     marginRight: 10,
     cursor: 'default'
   },
-  logo: {
+  logoContainer: {
     flexShrink: 0,
     position: 'relative',
     overflow: 'hidden',
     marginRight: 10,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    width: logoSize,
+    height: logoSize
+  },
+  logoImage: {
+    widht: '100%',
+    height: '100%'
   },
   orgName: {
-    extend: [normal, headers],
+    extend: [normal, header],
     lineHeight: 1,
     color: black
   },
   userName: {
-    extend: [small, headers],
+    extend: [small, header],
     color: grayLight
   },
-  settings: {
+  settingsButton: {
     extend: buttonIcon('cog', {
       color: blue,
       hoverColor: color(blue).lighten(0.2).rgbaString(),

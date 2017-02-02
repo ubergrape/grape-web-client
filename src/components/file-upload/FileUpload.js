@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import Dropzone from 'react-dropzone'
+import Dropzone from '@ubergrape/react-dropzone'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 import DropOverlay from './DropOverlay'
@@ -11,7 +11,11 @@ export default class FileUpload extends PureComponent {
   static propTypes = {
     dropZoneStyle: PropTypes.object.isRequired,
     onUpload: PropTypes.func.isRequired,
-    uploads: PropTypes.array.isRequired
+    onReject: PropTypes.func.isRequired,
+    onNotify: PropTypes.func.isRequired,
+    onHideNotification: PropTypes.func.isRequired,
+    uploads: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired
   }
 
   static defaultProps = {
@@ -71,14 +75,16 @@ export default class FileUpload extends PureComponent {
         onDragLeave={this.onDragDone}
         onDropAccepted={this.onAccept}
         onDropRejected={this.onReject}
-        maxSize={maxSize}>
+        maxSize={maxSize}
+      >
         {children}
         {isDragging && <DropOverlay />}
         <GlobalEvent event="paste" handler={this.onPaste} />
         <Notification
           uploads={uploads}
           onNotify={onNotify}
-          onHideNotification={onHideNotification} />
+          onHideNotification={onHideNotification}
+        />
       </Dropzone>
     )
   }

@@ -1,33 +1,33 @@
-let Emitter = require('emitter')
-let broker = require('broker')
-let qs = require('query')
-let classes = require('classes')
-let staticurl = require('staticurl')
-let events = require('events')
-let notify = require('html5-desktop-notifications')
-let Introjs = require("intro.js").introJs
+const Emitter = require('component-emitter')
+const broker = require('broker')
+const qs = require('component-query')
+const classes = require('component-classes')
+const events = require('component-events')
+const notify = require('html5-desktop-notifications')
+const Introjs = require('intro.js').introJs
 
-import timezone from './jstz';
-import focus from './focus';
-import pipeEvents from './pipeEvents';
-import page from 'page';
-import setUpRouter from '../init-router';
-import template from 'template';
-import v from 'virtualdom';
+import staticUrl from '../../utils/static-url'
+import timezone from './jstz'
+import focus from './focus'
+import pipeEvents from './pipeEvents'
+import page from 'page'
+import setUpRouter from '../init-router'
+import template from 'template'
+import v from 'virtualdom'
 
-import OrganizationPopover from './elements/popovers/organization';
-import GrapeInput from './elements/GrapeInput';
-import Notifications from './elements/notifications';
-import DeleteRoomDialog from './elements/dialogs/deleteroom';
+import OrganizationPopover from './elements/popovers/organization'
+import GrapeInput from './elements/GrapeInput'
+import Notifications from './elements/notifications'
+import DeleteRoomDialog from './elements/dialogs/deleteroom'
 
 
-require("startswith")
-require("endswith")
+require('startswith')
+require('endswith')
 
 // Legacy translation tool requires a _ variable untouched by webpack.
 const _ = require('t')
 
-let exports = module.exports = UI
+const exports = module.exports = UI
 
 exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
@@ -51,16 +51,16 @@ UI.prototype.init = function UI_init() {
   _[this.options.languageCode] = this.options.messages
   _.lang(this.options.languageCode || 'en')
   template.locals._ = _
-  template.locals.staticurl = staticurl
+  template.locals.staticUrl = staticUrl
   // initialize user and org with dummy image
   template.locals.user = {
-    avatar: staticurl("images/orga-image-load.gif"),
-    username: "Loading",
-    displayName: "Loading"
+    avatar: staticUrl('images/orga-image-load.gif'),
+    username: 'Loading',
+    displayName: 'Loading'
   }
   template.locals.org = {
-    logo: staticurl("images/orga-image-load.gif"),
-    name: "Loading"
+    logo: staticUrl('images/orga-image-load.gif'),
+    name: 'Loading'
   }
 
   this.organizationMenu = new OrganizationPopover()
@@ -70,7 +70,7 @@ UI.prototype.init = function UI_init() {
 
   this.reduxEmitter = reduxEmitter
 
-  let self = this
+  const self = this
   // initialize notifications
   this.notifications = new Notifications()
   // only show notification info bar in supported browsers and only if the
@@ -79,12 +79,12 @@ UI.prototype.init = function UI_init() {
   // there the permission is automatically granted, so no need to ask for it.
   if (notify.isSupported
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
-    && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-      this.reduxEmitter.showAlert({
-        level: 'info',
-        type: alerts.NOTIFICATIONS_REMINDER
-      })
-      classes(qs('body')).add('notifications-disabled')
+    && (typeof window.external === 'undefined' || typeof window.external.msIsSiteMode === 'undefined')) {
+    this.reduxEmitter.showAlert({
+      level: 'info',
+      type: alerts.NOTIFICATIONS_REMINDER
+    })
+    classes(qs('body')).add('notifications-disabled')
   }
 
   if (!this.options.detached) {
@@ -106,9 +106,9 @@ UI.prototype.renderIntro = function() {
   const self = this
   // initialize user guide
   this.intro = new Introjs()
-  this.intro.onchange(function (el) {
+  this.intro.onchange((el) => {
     if (window.analytics && el.dataset.step !== undefined) {
-      window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic})
+      window.analytics.track('Viewed Tutorial Step', {step: el.dataset.step, topic: el.dataset.topic})
     }
   })
   this.intro.setOptions({
@@ -120,56 +120,56 @@ UI.prototype.renderIntro = function() {
     showBullets: false,
     steps: [
       {
-        intro: `<img style="float: right; margin-left: 10px" width="135" height="160" src="${staticurl('images/mascot/mascot.png')}"><div style="overflow: hidden"><h2>${_('Welcome')}</h2><p>${_('Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.')}</p><p>${_('If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.')}</p></div><div style="clear:both"></div>`,
-        tooltipClass: "intro-welcome"
+        intro: `<img style="float: right; margin-left: 10px" width="135" height="160" src="${staticUrl('images/mascot/mascot.png')}"><div style="overflow: hidden"><h2>${_('Welcome')}</h2><p>${_('Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.')}</p><p>${_('If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.')}</p></div><div style="clear:both"></div>`,
+        tooltipClass: 'intro-welcome'
       },
       {
         element: '#intro-step1',
-        intro: `<img style="float: right; margin-top: 10px" width="110" height="130" src="${staticurl('images/mascot/mascot_reading.png')}"><div style="overflow: hidden"><h2>${_('Find your team data')}</h2><p>${_('Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs).')}</p><p>${_('To open')} <strong>${_('Grape Search')}</strong> ${_('click the button or press')} <strong>#</strong></p> </div><div style="clear:both;"></div>`,
-        tooltipClass: "intro-step-1",
+        intro: `<img style="float: right; margin-top: 10px" width="110" height="130" src="${staticUrl('images/mascot/mascot_reading.png')}"><div style="overflow: hidden"><h2>${_('Find your team data')}</h2><p>${_('Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs).')}</p><p>${_('To open')} <strong>${_('Grape Search')}</strong> ${_('click the button or press')} <strong>#</strong></p> </div><div style="clear:both;"></div>`,
+        tooltipClass: 'intro-step-1',
         tooltipPosition: 'right',
         position: 'top'
       },
       {
         element: '#intro-step2',
-        intro: `<img style="float: right;margin-right: 10px" width="110" height="110" src="${staticurl('images/mascot/mascot_lock_closed.png')}"><div style="overflow: hidden"><h2>${_('Manage chat rooms')}</h2><p>${_('Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).')}</p> </div><div style="clear:both;"></div>`,
-        tooltipClass: "intro-step-2",
+        intro: `<img style="float: right;margin-right: 10px" width="110" height="110" src="${staticUrl('images/mascot/mascot_lock_closed.png')}"><div style="overflow: hidden"><h2>${_('Manage chat rooms')}</h2><p>${_('Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).')}</p> </div><div style="clear:both;"></div>`,
+        tooltipClass: 'intro-step-2',
         tooltipPosition: 'top',
         position: 'botom'
       },
       {
         element: '#intro-step3',
-        intro: `<img style="float: right; margin-left: 10px" width="120" height="120" src="${staticurl('images/mascot/mascot_message.png')}"><div style="overflow: hidden"><h2>${_('Communicate 1-to-1')}</h2><p>${_('Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.')}</p></div><div style="clear:both;"></div>`,
-        tooltipClass: "intro-step-3",
+        intro: `<img style="float: right; margin-left: 10px" width="120" height="120" src="${staticUrl('images/mascot/mascot_message.png')}"><div style="overflow: hidden"><h2>${_('Communicate 1-to-1')}</h2><p>${_('Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.')}</p></div><div style="clear:both;"></div>`,
+        tooltipClass: 'intro-step-3',
         tooltipPosition: 'top',
         position: 'bottom'
       },
       {
         element: '#intro-step4',
-        intro: `<img style="float: right; margin-left: 10px" width="102" height="120" src="${staticurl('images/mascot/mascot_playing.png')}"><div style="overflow: hidden"><h2>${_('Stay productive')}</h2><p>${_('Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.')}</p></div><div style="clear:both;"></div>`,
-        tooltipClass: "intro-step-4",
+        intro: `<img style="float: right; margin-left: 10px" width="102" height="120" src="${staticUrl('images/mascot/mascot_playing.png')}"><div style="overflow: hidden"><h2>${_('Stay productive')}</h2><p>${_('Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.')}</p></div><div style="clear:both;"></div>`,
+        tooltipClass: 'intro-step-4',
         tooltipPosition: 'top',
         position: 'bottom'
       },
       {
-        intro: `<img style="float: right; margin-left: 10px; border-radius: 50%; -moz-border-radius: 50%; margin-top: 33px;" width="120" height="120" src="${staticurl('images/mascot/gifs/trauby_space_sml.gif')}"><div style="overflow: hidden"><h2>${_('Well done!')}</h2><p>${_('Don\'t forget to')} <a href="/accounts/organization/settings/members/" target="_blank">${_('add your team members')}</a> ${_('and to')} <a href="/integrations/" target="_blank">${_('connect your services')}</a>.</p><p>${_('If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.')}</p></div><div style="clear:both;height:1px;width:720px"></div>`,
-        tooltipClass: "intro-step-5"
+        intro: `<img style="float: right; margin-left: 10px; border-radius: 50%; -moz-border-radius: 50%; margin-top: 33px;" width="120" height="120" src="${staticUrl('images/mascot/gifs/trauby_space_sml.gif')}"><div style="overflow: hidden"><h2>${_('Well done!')}</h2><p>${_('Don\'t forget to')} <a href="/accounts/organization/settings/members/" target="_blank">${_('add your team members')}</a> ${_('and to')} <a href="/integrations/" target="_blank">${_('connect your services')}</a>.</p><p>${_('If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.')}</p></div><div style="clear:both;height:1px;width:720px"></div>`,
+        tooltipClass: 'intro-step-5'
       }
     ]
   })
   // intro
-  this.intro.oncomplete(function () {
+  this.intro.oncomplete(() => {
     self.emit('introend')
     reduxEmitter.showManageGroups()
   })
-  this.intro.onexit(function () {
+  this.intro.onexit(() => {
     self.emit('introend')
     reduxEmitter.showManageGroups()
   })
 }
 
-UI.prototype.requestPermission = function () {
-  notify.requestPermission(permission => {
+UI.prototype.requestPermission = function() {
+  notify.requestPermission((permission) => {
     if (permission !== 'default') {
       classes(qs('body')).remove('notifications-disabled')
     }
@@ -203,7 +203,7 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
   this.emit('settingsReady')
 
   // javscript timezone should always override server timezone setting?
-  if (!this.settings.timezone || this.settings.timezone != this.tz) {
+  if (!this.settings.timezone || this.settings.timezone !== this.tz) {
     this.emit('timezonechange', this.tz)
   }
 }
@@ -212,29 +212,29 @@ UI.prototype.showIntro = function UI_showIntro(settings) {
   if (!this.settings) return
   if (this.settings.show_intro && !this.options.detached) {
     this.intro.start()
-    if (window.analytics) window.analytics.track("Started Tutorial", {via: "onboarding"})
+    if (window.analytics) window.analytics.track('Started Tutorial', {via: 'onboarding'})
   }
 }
 
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-  let self = this
-  let org = orgs.filter(function (o) {
+  const self = this
+  const org = orgs.filter((o) => {
     if (o.id === self.options.organizationId) return o
   })[0]
   this.emit('selectorganization', org)
 }
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-  if(notify.permissionLevel() === notify.PERMISSION_GRANTED) {
+  if (notify.permissionLevel() === notify.PERMISSION_GRANTED) {
     this.emit('setNotificationsSession', this.org.id)
   }
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-  let self = this
-  self.emit('joinroom', room, function () {
-    page('/chat/' + room.slug)
+  const self = this
+  self.emit('joinroom', room, () => {
+    page(`/chat/${room.slug}`)
     self.emit('endRoomCreation')
   })
 }
@@ -248,27 +248,27 @@ UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-  let deleteRoomDialog = new DeleteRoomDialog({
-    room: room
+  const deleteRoomDialog = new DeleteRoomDialog({
+    room
   }).closable().overlay().show()
   broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
-  if (this.room != room) return
+  if (this.room !== room) return
   page.replace('/chat/')
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-  if(this.room != room) return
-  page.replace('/chat/' + room.slug)
+  if (this.room !== room) return
+  page.replace(`/chat/${room.slug}`)
 }
 
-UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
+UI.prototype.onMessageNotFound = function UI_onMessageNotFound(channel) {
   // TODO: need to be fixed before PR accepted!
-  let redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
+  const redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
 
-  page.redirect('/chat/' + redirectSlug)
+  page.redirect(`/chat/${redirectSlug}`)
   this.reduxEmitter.showAlert({
     level: 'warning',
     type: alerts.MESSAGE_NOT_FOUND,
@@ -276,9 +276,9 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
   })
 }
 
-UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-  let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
-  page('/chat/' + redirectSlug)
+UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode(room) {
+  const redirectSlug = room.type === 'pm' ? `@${room.users[0].username.toLowerCase()}` : room.slug
+  page(`/chat/${redirectSlug}`)
 }
 
 UI.prototype.onInvalidUrl = function(cause) {
@@ -290,8 +290,8 @@ UI.prototype.onInvalidUrl = function(cause) {
   })
 }
 
-UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-  let roommanager = new RoomManager({
+UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager() {
+  const roommanager = new RoomManager({
     rooms: this.org.rooms.slice()
   }).closable().overlay().show()
   broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
@@ -301,10 +301,10 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
   broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
 }
 
-UI.prototype.onShowSidebar = function () {
-    classes(this.clientBody).add('right-sidebar-show')
+UI.prototype.onShowSidebar = function() {
+  classes(this.clientBody).add('right-sidebar-show')
 }
 
-UI.prototype.onHideSidebar = function () {
+UI.prototype.onHideSidebar = function() {
   classes(this.clientBody).remove('right-sidebar-show')
 }

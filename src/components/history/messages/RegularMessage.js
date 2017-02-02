@@ -14,6 +14,7 @@ import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import Menu from '../../message-parts/Menu'
+import {LinkAttachments} from '../../message-parts'
 import Tooltip from '../../tooltip/HoverTooltip'
 
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
@@ -124,6 +125,7 @@ export default class RegularMessage extends PureComponent {
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
+    linkAttachments: PropTypes.array.isRequired,
     customEmojis: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
@@ -154,6 +156,7 @@ export default class RegularMessage extends PureComponent {
     isSelected: false,
     attachments: [],
     customEmojis: {},
+    linkPreviews: [],
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -244,7 +247,7 @@ export default class RegularMessage extends PureComponent {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
       state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates,
-      isPm
+      isPm, linkAttachments
     } = this.props
     const {classes} = sheet
 
@@ -282,22 +285,25 @@ export default class RegularMessage extends PureComponent {
                 onClick={this.onGoToChannel} />
             }
           </div>
-          <Bubble hasArrow={hasBubbleArrow}>
-            <div
-              ref={this.onRefContent}
-              className={[
-                classes.content,
-                state === 'pending' || state === 'unsent' ? classes.disabled : ''
-              ].join(' ')}>
-              <Grapedown
-                text={children}
-                user={user}
-                customEmojis={customEmojis} />
-              {attachments.map(this.renderAttachment)}
-            </div>
-            {this.renderMenu()}
-          </Bubble>
-          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+          <div>
+            <Bubble hasArrow={hasBubbleArrow}>
+              <div
+                ref={this.onRefContent}
+                className={[
+                  classes.content,
+                  state === 'pending' || state === 'unsent' ? classes.disabled : ''
+                ].join(' ')}>
+                <Grapedown
+                  text={children}
+                  user={user}
+                  customEmojis={customEmojis} />
+                {attachments.map(this.renderAttachment)}
+              </div>
+              {this.renderMenu()}
+            </Bubble>
+            {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+            {linkAttachments.length > 0 && <LinkAttachments attachments={linkAttachments} />}
+          </div>
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
         {state === 'unsent' &&

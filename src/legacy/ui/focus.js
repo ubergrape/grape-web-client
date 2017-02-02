@@ -1,18 +1,15 @@
-let exports = module.exports = require('emitter')({})
+const exports = module.exports = require('component-emitter')({})
 
 exports.state = 'focus'
 
-window.addEventListener('blur', function () {
+window.addEventListener('blur', () => {
   exports.state = 'blur'
   exports.emit('change', exports.state)
   exports.emit('blur')
 })
-window.addEventListener('focus', function () {
+window.addEventListener('focus', () => {
   exports.state = 'focus'
   exports.emit('change', exports.state)
   exports.emit('focus')
 })
-
-
-
 

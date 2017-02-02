@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
-import staticUrl from 'staticurl'
+
+import staticUrl from '../../utils/static-url'
 
 const baseUrl = staticUrl('app/sounds')
 
@@ -8,6 +9,10 @@ export default class Sounds extends PureComponent {
     sounds: PropTypes.object.isRequired,
     onEnded: PropTypes.func.isRequired,
     active: PropTypes.string
+  }
+
+  static defaultProps = {
+    active: null
   }
 
   static defaultProps = {
@@ -26,7 +31,8 @@ export default class Sounds extends PureComponent {
       <audio
         src={sounds[active]}
         autoPlay
-        onEnded={onEnded} />
+        onEnded={onEnded}
+      />
     )
   }
 }

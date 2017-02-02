@@ -1,6 +1,6 @@
-import Dialog from './dialog';
-import events from 'events';
-import qs from 'query';
+import Dialog from './dialog'
+import events from 'component-events'
+import qs from 'component-query'
 
 // Legacy translation tool requires a _ variable untouched by webpack.
 const _ = require('t')
@@ -27,16 +27,16 @@ DeleteRoomDialog.prototype.bind = function DeleteRoomDialog_bind() {
 
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
   ev.preventDefault()
-  let self = this
+  const self = this
 
-  let roomName = self.roomNameInput.value.trim()
+  const roomName = self.roomNameInput.value.trim()
   if (!roomName) {
-    self.roomNameInput.setCustomValidity(_("Please enter the name of the room you want to delete."))
+    self.roomNameInput.setCustomValidity(_('Please enter the name of the room you want to delete.'))
     self.button.click()
     return
   }
 
-  self.emit('deleteroom', self.context.room, roomName, function DeleteRoomDialog_submit_callback(err, result){
+  self.emit('deleteroom', self.context.room, roomName, (err, result) => {
     if (err) {
       self.roomNameInput.setCustomValidity(err.message)
       self.button.click()

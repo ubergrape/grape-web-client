@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Raven from 'raven-js'
-import {organization, user, server} from 'conf'
 import {addLocaleData} from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
+import {organization, user, server} from '../conf'
 import * as translations from '../i18n'
 import {create as createClient} from '../utils/backend/client'
 import subscribe from './subscribe'
@@ -21,9 +21,9 @@ export function init() {
 
   Raven.config(server.sentryJsDsn).install()
   Raven.setUser({
-    email: email,
+    email,
     id: userId,
-    username: username,
+    username,
     organization: organization.subdomain,
     organizationID: organization.id
   })

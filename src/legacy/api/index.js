@@ -1,14 +1,14 @@
 import array from 'array'
-import Emitter from 'emitter'
+import Emitter from 'component-emitter'
 import noop from 'lodash/utility/noop'
-import conf from 'conf'
 
+import conf from '../../conf'
 import models from './models'
 import rpc from '../../utils/backend/rpc'
 import client from '../../utils/backend/client'
 import * as convertCase from '../../utils/backend/convertCase'
 
-let exports = module.exports = API
+const exports = module.exports = API
 exports.models = models
 
 function API() {
@@ -29,24 +29,24 @@ function API() {
 API.prototype = Object.create(Emitter.prototype)
 
 API.prototype.connect = function API_connect() {
-  let channel = client().connect()
+  const channel = client().connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
-  channel.on('connected', function () {
+  channel.on('connected', () => {
     // Resync the whole data if we got a new client id, because we might have
     // missed some messages. This is related to the current serverside arch.
-    channel.on('set:id', function () {
+    channel.on('set:id', () => {
       this.sync()
-    }.bind(this))
-  }.bind(this))
-  channel.on('disconnected', function () {
+    })
+  })
+  channel.on('disconnected', () => {
     channel.off('set:id')
     this.emit('disconnected')
-  }.bind(this))
-  channel.on('data', function (data) {
+  })
+  channel.on('data', (data) => {
     this.in.emit(data.event, data)
-  }.bind(this))
-  channel.on('unauthorized', function () {
+  })
+  channel.on('unauthorized', () => {
     location.href = conf.server.loginPath
   })
 }
@@ -55,66 +55,63 @@ API.prototype.sync = function API_sync() {
   rpc({
     ns: 'users',
     action: 'get_profile'
-  }, function (err, data) {
+  }, (err, data) => {
     if (err) return this.emit('error', err)
     this.user = new models.User(data)
     this.user.active = true
     this.settings = this.user.settings
-    this.organizations = array(data.organizations.map(function (org) {
-      return new models.Organization(org)
-    }))
+    this.organizations = array(data.organizations.map(org => new models.Organization(org)))
     this.emit('changeUser', this.user)
     this.emit('change settings', this.settings)
     this.emit('change organizations', this.organizations)
     this.emit('connected')
-  }.bind(this))
+  })
 }
 
 API.prototype.subscribe = function API_subscribe() {
-  let self = this
+  const self = this
   // channel events
-  this.in.on('channel.new', function (data) {
+  this.in.on('channel.new', (data) => {
     self._tryAddRoom(data.channel)
     self.emit('newRoom', data.channel)
   })
-  this.in.on('channel.updated', function (data) {
-    let room = models.Room.get(data.channel.id)
+  this.in.on('channel.updated', (data) => {
+    const room = models.Room.get(data.channel.id)
     room.name = data.channel.name
     room.slug = data.channel.slug
     room.description = data.channel.description
     self.emit('channelupdate', room)
   })
-  this.in.on('channel.removed', function (data) {
-    let room = models.Room.get(data.channel)
-    let index = self.organization.rooms.indexOf(room)
-    if (~index)
-      self.organization.rooms.splice(index, 1)
+  this.in.on('channel.removed', (data) => {
+    const room = models.Room.get(data.channel)
+    const index = self.organization.rooms.indexOf(room)
+    if (~index) { self.organization.rooms.splice(index, 1) }
     self.emit('roomdeleted', room)
   })
-  this.in.on('channel.read', function (data) {
-    let user = models.User.get(data.user)
-    let line = models.Line.get(data.message)
-    if (!line) return; // ignore read notifications for messages we don’t have
-    let room = line.channel
+  this.in.on('channel.read', (data) => {
+    const user = models.User.get(data.user)
+    const line = models.Line.get(data.message)
+    if (!line) return // ignore read notifications for messages we don’t have
+    const room = line.channel
     // ignore this for the current user, we track somewhere else
     if (user === self.user) {
       room.unread = 0
       room.mentioned = 0
       return self.emit('channelRead')
     }
-    let last = room._readingStatus[data.user]
+    const last = room._readingStatus[data.user]
     // remove the user from the last lines readers
     if (last) {
-      let i = last.readers.indexOf(user)
+      const i = last.readers.indexOf(user)
       last.readers.splice(i, 1)
     }
     // and add it to the new line
     room._readingStatus[data.user] = line
     line.readers.push(user)
   })
-  this.in.on('channel.joined', function (data) {
-    let user = models.User.get(data.user)
-    let room = models.Room.get(data.channel)
+  this.in.on('channel.joined', (data) => {
+    const user = models.User.get(data.user)
+    const room = models.Room.get(data.channel)
     if (~room.users.indexOf(user)) return
     // if the user joining the room is the visitor,
     // we need to emit the leftChannel event as well
@@ -126,10 +123,10 @@ API.prototype.subscribe = function API_subscribe() {
     room.users.push(user)
     self.emit('newRoomMember', room, user)
   })
-  this.in.on('channel.left', function (data) {
-    let user = models.User.get(data.user)
-    let room = models.Room.get(data.channel)
-    let index = room.users.indexOf(user)
+  this.in.on('channel.left', (data) => {
+    const user = models.User.get(data.user)
+    const room = models.Room.get(data.channel)
+    const index = room.users.indexOf(user)
     if (!~index) return
     // if the user leaving the room is the visitor,
     // we need to emit the leftChannel event as well
@@ -143,13 +140,13 @@ API.prototype.subscribe = function API_subscribe() {
   })
 
   // organization events
-  this.in.on('organization.joined', function (data) {
+  this.in.on('organization.joined', (data) => {
     // make sure the user doesnt exist yet in the client
     let user = models.User.get(data.user.id)
     if (!user) user = new models.User(data.user)
     // make sure we're joining the right organization
     // and the user isnt in there yet
-    if (data.organization===self.organization.id &&
+    if (data.organization === self.organization.id &&
         !~self.organization.users.indexOf(user)) {
       user.active = true
       user.status = 0
@@ -157,62 +154,62 @@ API.prototype.subscribe = function API_subscribe() {
       self.organization.users.push(user)
     }
   })
-  this.in.on('organization.left', function (data) {
-    let user = models.User.get(data.user)
-    let index = self.organization.users.indexOf(user)
-    if (user && ~index && data.organization===self.organization.id) {
+  this.in.on('organization.left', (data) => {
+    const user = models.User.get(data.user)
+    const index = self.organization.users.indexOf(user)
+    if (user && ~index && data.organization === self.organization.id) {
       user.active = false
       self.emit('deletedUser', user)
     }
   })
 
   // message events
-  this.in.on('message.new', function (data) {
+  this.in.on('message.new', (data) => {
     data.read = false
-    let line = models.Line.get(data['id'])
-    let room = models.Room.get(data.channel)
+    let line = models.Line.get(data.id)
+    const room = models.Room.get(data.channel)
     if (~room.history.indexOf(line)) return
     line = new models.Line(data)
     room.unread++
     room.history.push(line)
-    let messageTime = new Date(line.time).getTime()
+    const messageTime = new Date(line.time).getTime()
     room.latest_message_time = messageTime
     room.first_message_time = room.first_message_time ? room.first_message_time : messageTime
     // users message and everything before that is read
     if (line.author === self.user) self.setRead(room, line.id)
     self.emit('newMessage', line)
   })
-  this.in.on('message.updated', function (data) {
-    let msg = models.Line.get(data['id'])
+  this.in.on('message.updated', (data) => {
+    const msg = models.Line.get(data.id)
     if (!msg) return
     // right now only text can be updated
     msg.text = data.text
-    let ch = models.Room.get(data['channel'])
-    let idx = ch.history.indexOf(msg)
+    const ch = models.Room.get(data.channel)
+    const idx = ch.history.indexOf(msg)
     if (~idx) ch.history.splice(idx, 1, msg)
   })
-  this.in.on('message.removed', function (data) {
-    let msg = models.Line.get(data['id'])
-    let ch = models.Room.get(data['channel'])
-    let idx = ch.history.indexOf(msg)
+  this.in.on('message.removed', (data) => {
+    const msg = models.Line.get(data.id)
+    const ch = models.Room.get(data.channel)
+    const idx = ch.history.indexOf(msg)
     if (~idx) ch.history.splice(idx, 1)
   })
 
   // user events
-  this.in.on('user.status', function (data) {
-    let user = models.User.get(data.user)
+  this.in.on('user.status', (data) => {
+    const user = models.User.get(data.user)
     user.status = data.status
     self.emit('changeUser', user)
   })
-  this.in.on('user.mentioned', function (data) {
+  this.in.on('user.mentioned', (data) => {
     if (data.message.organization !== self.organization.id) return
     let line = models.Line.get(data.message.id)
     if (!line) line = new models.Line(data.message.id)
     line.channel.mentioned++
     self.emit('userMention')
   })
-  this.in.on('user.updated', function (data) {
-    let user = models.User.get(data.user.id)
+  this.in.on('user.updated', (data) => {
+    const user = models.User.get(data.user.id)
     user.username = data.user.username
     user.firstName = data.user.firstName
     user.lastName = data.user.lastName
@@ -226,10 +223,10 @@ API.prototype.subscribe = function API_subscribe() {
     self.emit('changeUser', user)
   })
 
-  this.in.on('membership.updated', function (data) {
-    let user = models.User.get(data.membership.user)
-    let changed = []
-    if (user.role != data.membership.role) {
+  this.in.on('membership.updated', (data) => {
+    const user = models.User.get(data.membership.user)
+    const changed = []
+    if (user.role !== data.membership.role) {
       changed.push('role')
       user.role = data.membership.role
     }
@@ -250,10 +247,10 @@ API.prototype.subscribe = function API_subscribe() {
         self.emit('newMsgNotification', notification)
         break
       case 'room_invite': {
-        let inviter = models.User.get(notification.inviter_id)
-        let room = models.Room.get(notification.channel_id)
-        if (inviter && room){
-          self.emit('newInviteNotification', {inviter: inviter, room: room})
+        const inviter = models.User.get(notification.inviter_id)
+        const room = models.Room.get(notification.channel_id)
+        if (inviter && room) {
+          self.emit('newInviteNotification', {inviter, room})
         }
         break
       }
@@ -261,23 +258,21 @@ API.prototype.subscribe = function API_subscribe() {
   })
 }
 
-let unknownUser = {
+const unknownUser = {
   username: 'unknown',
   firstName: 'unknown',
   lastName: 'User'
 }
 
 API.prototype._newRoom = function API__newRoom(room) {
-  room.users = room.users.map(function (u) {
+  room.users = room.users.map(u =>
     // if the user was not in the models array for some reason
     // create an unknown user so the room loads correctly
-    return models.User.get(u) || new models.User(unknownUser)
-  })
-  let selfindex = room.users.indexOf(this.user)
+     models.User.get(u) || new models.User(unknownUser))
+  const selfindex = room.users.indexOf(this.user)
   room.joined = !!~selfindex
   // the user MUST NOT be the first in the list
-  if (selfindex === 0)
-    room.users.push(room.users.shift())
+  if (selfindex === 0) { room.users.push(room.users.shift()) }
   room = new models.Room(room)
 
   // defaults
@@ -289,7 +284,7 @@ API.prototype._newRoom = function API__newRoom(room) {
 }
 
 API.prototype._tryAddRoom = function API__tryAddRoom(room) {
-  let gotroom = models.Room.get(room.id)
+  const gotroom = models.Room.get(room.id)
   if (gotroom) return gotroom
   room = this._newRoom(room)
   if (room.type === 'room') {
@@ -311,33 +306,33 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
 API.prototype.setOrganization = function API_setOrganization(_org, callback) {
   if (!_org) return
   callback || (callback = noop)
-  let self = this
+  const self = this
   // TODO: this should also leave any old organization
   // first get the details
   rpc({
     ns: 'organizations',
     action: 'get_organization',
     args: [_org.id]
-  }, function (err, res) {
+  }, (err, res) => {
     if (err) return self.emit('error', err)
-    const org  = new models.Organization(res)
+    const org = new models.Organization(res)
     if (org.role == null) org.role = _org.role
-    org.users = res.users.map(function (u) {
-      let user = models.User.get(u.id) || new models.User(u)
+    org.users = res.users.map((u) => {
+      const user = models.User.get(u.id) || new models.User(u)
       user.status = u.status
       return user
     })
 
-    let rooms = res.channels.map(self._newRoom.bind(self))
-    org.rooms = rooms.filter(function (r) { return r.type === 'room'; })
-    org.pms = rooms.filter(function (r) { return r.type === 'pm'; })
+    const rooms = res.channels.map(self._newRoom.bind(self))
+    org.rooms = rooms.filter(r => r.type === 'room')
+    org.pms = rooms.filter(r => r.type === 'pm')
     if (res.logo !== null) org.logo = res.logo
     if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis
     if (res.has_integrations !== null) org.has_integrations = res.has_integrations
 
     org.inviter_role = res.inviter_role
     // connect users and pms
-    org.pms.forEach( function (pm) { pm.users[0].pm = pm; })
+    org.pms.forEach((pm) => { pm.users[0].pm = pm })
 
     // then join
     rpc({
@@ -345,7 +340,7 @@ API.prototype.setOrganization = function API_setOrganization(_org, callback) {
       action: 'join',
       clientId: client().id,
       args: [org.id]
-    }, function (err) {
+    }, (err) => {
       if (err) return self.emit('error', err)
       self.organization = org
       // put role and title in user object for consistency with other user objects
@@ -354,8 +349,8 @@ API.prototype.setOrganization = function API_setOrganization(_org, callback) {
       self.emit('change organization', org)
       this.emit('changeUser', this.user)
       callback()
-    }.bind(this))
-  }.bind(this))
+    })
+  })
 }
 
 API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
@@ -364,10 +359,10 @@ API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
     ns: 'organizations',
     action: 'list_icons',
     args: [org.id]
-  }, function (err, res) {
+  }, (err, res) => {
     if (err) return this.emit('error', err)
     callback()
-  }.bind(this))
+  })
 }
 
 API.prototype.endedIntro = function API_endedIntro() {
@@ -375,9 +370,9 @@ API.prototype.endedIntro = function API_endedIntro() {
     ns: 'users',
     action: 'set_profile',
     args: [{show_intro: false}]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.changedTimezone = function API_changedTimezone(tz) {
@@ -385,9 +380,9 @@ API.prototype.changedTimezone = function API_changedTimezone(tz) {
     ns: 'users',
     action: 'set_profile',
     args: [{timezone: tz}]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.onEditView = function API_onEditView(status) {
@@ -395,11 +390,11 @@ API.prototype.onEditView = function API_onEditView(status) {
     ns: 'users',
     action: 'set_profile',
     args: [{compact_mode: status}]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
     this.user.settings.compact_mode = status
     this.emit('viewChanged', status)
-  }.bind(this))
+  })
 }
 
 API.prototype.openPM = function API_openPM(user, callback) {
@@ -408,14 +403,14 @@ API.prototype.openPM = function API_openPM(user, callback) {
     ns: 'pm',
     action: 'open',
     args: [this.organization.id, user.id]
-  }, function (err, pm) {
+  }, (err, pm) => {
     if (err) return this.emit('error', err)
     pm = this._newRoom(pm)
     this.organization.pms.push(pm)
     user.pm = pm
     this.emit('newPMOpened', pm)
     callback()
-  }.bind(this))
+  })
 }
 
 API.prototype.onCreateRoom = function API_onCreateRoom(room) {
@@ -424,10 +419,10 @@ API.prototype.onCreateRoom = function API_onCreateRoom(room) {
     ns: 'rooms',
     action: 'create',
     args: [room]
-  }, function (err, room) {
+  }, (err, room) => {
     if (err) return this.emit('roomCreationError', err)
     this.emit('roomCreated', this._tryAddRoom(room))
-  }.bind(this))
+  })
 }
 
 API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
@@ -446,25 +441,25 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
     ns: 'channels',
     action: 'join',
     args: [room.id]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
     room.joined = true
     callback()
-  }.bind(this))
+  })
 }
 
 API.prototype.onLeaveRoom = function API_onLeaveRoom(roomId) {
-  let room = models.Room.get(roomId)
+  const room = models.Room.get(roomId)
   if (!room.joined) return
   rpc({
     ns: 'channels',
     action: 'leave',
     args: [room.id]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
     room.joined = false
     room.history = []
-  }.bind(this))
+  })
 }
 
 API.prototype.renameRoom = function API_renameRoom(roomId, newName) {
@@ -472,20 +467,20 @@ API.prototype.renameRoom = function API_renameRoom(roomId, newName) {
     ns: 'rooms',
     action: 'rename',
     args: [roomId, newName]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('roomrenameerror', err)
-  }.bind(this))
+  })
 }
 
-API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession (orgId) {
+API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession(orgId) {
   rpc({
     ns: 'notifications',
     action: 'set_notification_session',
     clientId: client().id,
     args: [orgId]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.autocomplete = function API_autocomplete(text, options = {}, callback) {
@@ -521,19 +516,19 @@ API.prototype.getHistory = function API_getHistory(room, options) {
     ns: 'channels',
     action: 'get_history',
     args: [room.id, options]
-  }, function (err, res) {
+  }, (err, res) => {
     if (err) return this.emit('error', err)
     // so when the first message in history is read, assume the history as read
     // as well
-    let read = !!room.history.length && room.history[0].read
+    const read = !!room.history.length && room.history[0].read
     if (res.length === 0) return this.emit('nohistory')
     // append all to the front of the array
     // TODO: for now the results are sorted in reverse order, will this be
     // consistent?
-    let lines = res.map(function (line) {
+    const lines = res.map((line) => {
       // check if line already exists and only add it to the history
       // if it isnt in the history yet
-      let exists = models.Line.get(line.id)
+      const exists = models.Line.get(line.id)
       if (!exists || !~room.history.indexOf(exists)) {
         line.read = read
         line = new models.Line(line)
@@ -543,41 +538,38 @@ API.prototype.getHistory = function API_getHistory(room, options) {
       }
     })
     this.emit('gotHistory')
-  }.bind(this))
+  })
 }
 
-API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (direction, room, options) {
+API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch(direction, room, options) {
   rpc({
     ns: 'channels',
     action: 'get_history',
     args: [room.id, options]
-  }, function (err, res) {
+  }, (err, res) => {
     if (err) return this.emit('error', err)
-    let lines = res.map(function (line) {
-      let exists = models.Line.get(line.id)
+    const lines = res.map((line) => {
+      const exists = models.Line.get(line.id)
       if (!exists || !~room.searchHistory.indexOf(exists)) {
         line.read = true
         line = new models.Line(line)
-        if (direction === 'old')
-          room.searchHistory.unshift(line)
-        else
-          room.searchHistory.push(line)
+        if (direction === 'old') { room.searchHistory.unshift(line) } else { room.searchHistory.push(line) }
       }
     })
     this.emit('gotHistory', direction)
-  }.bind(this))
+  })
 }
 
 API.prototype.setRead = function API_setRead(room, lineId) {
   // update the unread count
   // iterate the history in reverse order
   // (its more likely the read line is at the end)
-  let line = models.Line.get(lineId)
+  const line = models.Line.get(lineId)
   if (!line) return
   room.mentioned = 0
   let setread = false
   for (let i = room.history.length - 1; i >= 0; i--) {
-    let l = room.history[i]
+    const l = room.history[i]
     if (l.read) break
     if (l === line) {
       setread = true
@@ -606,11 +598,11 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgId) {
     ns: 'channels',
     action: 'focus_message',
     args: [room.id, msgId, 25, 25, true]
-  }, function (err, res ) {
+  }, (err, res) => {
     if (err) return this.emit('messageNotFound', room)
     room.searchHistory.splice(0, room.searchHistory.length)
-    let lines = res.map(function (line) {
-      let exists = models.Line.get(line.id)
+    const lines = res.map((line) => {
+      const exists = models.Line.get(line.id)
       if (!exists || !~room.searchHistory.indexOf(exists)) {
         line = new models.Line(line)
         line.read = true
@@ -618,7 +610,7 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgId) {
       }
     })
     this.emit('focusMessage', msgId)
-  }.bind(this))
+  })
 }
 
 API.prototype.onSetTyping = function({channel, typing}) {
@@ -626,9 +618,9 @@ API.prototype.onSetTyping = function({channel, typing}) {
     ns: 'channels',
     action: 'set_typing',
     args: [channel.id, typing]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.onDeleteMessage = function API_onDeleteMessage(ch, msgId) {
@@ -636,9 +628,9 @@ API.prototype.onDeleteMessage = function API_onDeleteMessage(ch, msgId) {
     ns: 'channels',
     action: 'delete_message',
     args: [ch.id, msgId]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.publish = function API_publish(room, msg, options) {
@@ -647,9 +639,9 @@ API.prototype.publish = function API_publish(room, msg, options) {
     ns: 'channels',
     action: 'post',
     args: [room.id, msg, options]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
 API.prototype.updateMsg = function API_updateMessage(msg, text) {
@@ -657,38 +649,38 @@ API.prototype.updateMsg = function API_updateMessage(msg, text) {
     ns: 'channels',
     action: 'update_message',
     args: [msg.channel.id, msg.id, text]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
-API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
+API.prototype.onKickMember = function API_onKickMember({channelId, userId}) {
   rpc({
     ns: 'channels',
     action: 'kick',
     args: [channelId, Number(userId)]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
-API.prototype.onSetDescription = function (room, description) {
+API.prototype.onSetDescription = function(room, description) {
   rpc({
     ns: 'rooms',
     action: 'set_description',
     args: [room.id, description]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
-  }.bind(this))
+  })
 }
 
-API.prototype.onInviteToOrg = function (emails) {
+API.prototype.onInviteToOrg = function(emails) {
   rpc({
     ns: 'organizations',
     action: 'invite',
-    args: [this.organization.id, {emails: emails}]
-  }, function (err, res) {
+    args: [this.organization.id, {emails}]
+  }, (err, res) => {
     if (err) return this.emit('inviteError')
     this.emit('inviteSuccess')
-  }.bind(this))
-};
+  })
+}

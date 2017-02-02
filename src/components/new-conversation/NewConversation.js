@@ -180,10 +180,10 @@ export default class NewConversation extends PureComponent {
     const {focusedInput} = this.state
 
     if (!organization) return null
-
+    const {sheet, ...props} = this.props
     return (
       <ChooseUsersDialog
-        {...this.props}
+        {...props}
         title={formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}

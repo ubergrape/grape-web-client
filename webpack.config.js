@@ -92,15 +92,7 @@ module.exports = exports = {
   plugins: plugins,
   resolve: {
     alias: {
-      'classes': 'component-classes',
-      'closest': 'component-closest',
-      'dialog': 'dialog-component',
-      'emitter': 'component-emitter',
-      'query': 'component-query',
-      'events': 'component-events',
-      'material-ui': '@ubergrape/material-ui',
-      'react-dropzone': '@ubergrape/react-dropzone',
-      'react-notification': '@ubergrape/react-notification'
+      'emitter': 'component-emitter'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
