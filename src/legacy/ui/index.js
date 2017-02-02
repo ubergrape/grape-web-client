@@ -98,7 +98,7 @@ UI.prototype.bind = function UI_bind() {
   this.room = null
 }
 
-UI.prototype.renderIntro = function () {
+UI.prototype.renderIntro = function() {
   const self = this
   // initialize user guide
   this.intro = new Introjs()
@@ -164,7 +164,7 @@ UI.prototype.renderIntro = function () {
   })
 }
 
-UI.prototype.requestPermission = function () {
+UI.prototype.requestPermission = function() {
   notify.requestPermission((permission) => {
     if (permission !== 'default') {
       classes(qs('body')).remove('notifications-disabled')
@@ -199,7 +199,7 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
   this.emit('settingsReady')
 
   // javscript timezone should always override server timezone setting?
-  if (!this.settings.timezone || this.settings.timezone != this.tz) {
+  if (!this.settings.timezone || this.settings.timezone !== this.tz) {
     this.emit('timezonechange', this.tz)
   }
 }
@@ -251,12 +251,12 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
-  if (this.room != room) return
+  if (this.room !== room) return
   page.replace('/chat/')
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-  if (this.room != room) return
+  if (this.room !== room) return
   page.replace(`/chat/${room.slug}`)
 }
 
@@ -277,7 +277,7 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode(room) {
   page(`/chat/${redirectSlug}`)
 }
 
-UI.prototype.onInvalidUrl = function (cause) {
+UI.prototype.onInvalidUrl = function(cause) {
   page.redirect('/chat/')
   this.reduxEmitter.showAlert({
     level: 'warning',
@@ -297,10 +297,10 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager() {
   broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
 }
 
-UI.prototype.onShowSidebar = function () {
+UI.prototype.onShowSidebar = function() {
   classes(this.clientBody).add('right-sidebar-show')
 }
 
-UI.prototype.onHideSidebar = function () {
+UI.prototype.onHideSidebar = function() {
   classes(this.clientBody).remove('right-sidebar-show')
 }

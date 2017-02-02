@@ -6,7 +6,7 @@ import isEmpty from 'lodash/lang/isEmpty'
 
 import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
-import {maxChannelNameLength} from '../constants/app'
+import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
 import {
   usersSelector,
   channelsSelector
@@ -141,6 +141,7 @@ export const normalizeMessage = (() => {
     const link = createLinkToMessage(find(channels, {id: channelId}), id)
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
+    const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
 
     return {
       type,
@@ -153,7 +154,8 @@ export const normalizeMessage = (() => {
       avatar,
       attachments,
       mentions,
-      channelId
+      channelId,
+      linkAttachments
     }
   }
 

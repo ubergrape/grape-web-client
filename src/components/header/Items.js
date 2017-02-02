@@ -22,41 +22,47 @@ function getTooltipMessage(name) {
         <FormattedMessage
           id="pinToFavorites"
           description="Tooltip text"
-          defaultMessage="Pin to Favorites" />
+          defaultMessage="Pin to Favorites"
+        />
       )
     case 'invite':
       return (
         <FormattedMessage
           id="addUsersToGroup"
           description="Tooltip text"
-          defaultMessage="Add users to Group" />
+          defaultMessage="Add users to Group"
+        />
       )
     case 'room':
       return (
         <FormattedMessage
           id="groupInfo"
-          defaultMessage="Group Info" />
+          defaultMessage="Group Info"
+        />
       )
     case 'pm':
       return (
         <FormattedMessage
           id="userProfile"
-          defaultMessage="User Profile" />
+          defaultMessage="User Profile"
+        />
       )
     case 'files':
       return (
         <FormattedMessage
           id="sharedFiles"
-          defaultMessage="Shared Files" />
+          defaultMessage="Shared Files"
+        />
       )
     case 'mentions':
       return (
         <FormattedMessage
           id="mentions"
-          defaultMessage="Mentions" />
+          defaultMessage="Mentions"
+        />
       )
     default:
-      return (<span></span>)
+      return (<span />)
   }
 }
 
@@ -88,7 +94,8 @@ function Button({onClick, className}) {
   return (
     <button
       className={className}
-      onClick={onClick} />
+      onClick={onClick}
+    />
   )
 }
 
@@ -142,37 +149,42 @@ export default function Items(props) {
       className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
       id="intro-step4"
       data-step="4"
-      data-topic="room header">
+      data-topic="room header"
+    >
       <li className={classes.favorite}>
         <Tooltip message={getTooltipMessage('favorite')}>
-          <Favorite {...favoriteProps}/>
+          <Favorite {...favoriteProps} />
         </Tooltip>
       </li>
       <li className={classes.title}>
         <Title
           channel={props.channel}
           mate={mate}
-          theme={theme} />
+          theme={theme}
+        />
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('invite')}>
           <Button
             className={classes.invite}
-            onClick={showChannelMembersInvite} />
+            onClick={showChannelMembersInvite}
+          />
         </Tooltip>
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage(channel)}>
           <Button
             className={itemButtonClassName(channel || 'room', props)}
-            onClick={itemClickHandler(channel, props)} />
+            onClick={itemClickHandler(channel, props)}
+          />
         </Tooltip>
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('files')}>
           <Button
             className={itemButtonClassName('files', props)}
-            onClick={itemClickHandler('files', props)} />
+            onClick={itemClickHandler('files', props)}
+          />
         </Tooltip>
       </li>
       <li className={classes.searchAction}>
@@ -181,17 +193,20 @@ export default function Items(props) {
           onFocus={onFocusMessageSearch}
           onChange={onChangeMessageSearch}
           placeholder={formatMessage(messages.placeholder)}
-          type="search" />
+          type="search"
+        />
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('mentions')}>
           <Button
             className={itemButtonClassName('mentions', props)}
-            onClick={itemClickHandler('mentions', props)} />
+            onClick={itemClickHandler('mentions', props)}
+          />
           <MentionsBadge
             mentions={mentions}
             sidebar={sidebar}
-            theme={theme} />
+            theme={theme}
+          />
         </Tooltip>
       </li>
     </ul>
