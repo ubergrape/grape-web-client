@@ -56,6 +56,7 @@ const styles = {
     isolate: false,
     display: 'inline-block',
     height: '1em',
+    width: 'auto',
     maxWidth: '100%',
     userSelect: 'none',
     fill: 'currentColor'
