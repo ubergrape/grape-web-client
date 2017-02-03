@@ -15,7 +15,6 @@ import setUpRouter from '../init-router'
 import template from 'template'
 import v from 'virtualdom'
 
-import OrganizationPopover from './elements/popovers/organization'
 import GrapeInput from './elements/GrapeInput'
 import Notifications from './elements/notifications'
 import DeleteRoomDialog from './elements/dialogs/deleteroom'
@@ -29,7 +28,6 @@ const _ = require('t')
 
 const exports = module.exports = UI
 
-exports.OrganizationPopover = OrganizationPopover
 exports.GrapeInput = GrapeInput
 exports.Notifications = Notifications
 exports.DeleteRoomDialog = DeleteRoomDialog
@@ -62,8 +60,6 @@ UI.prototype.init = function UI_init() {
     logo: staticUrl('images/orga-image-load.gif'),
     name: 'Loading'
   }
-
-  this.organizationMenu = new OrganizationPopover()
 
   // initialize the input field
   this.grapeInput = new GrapeInput()
@@ -208,11 +204,11 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
   }
 }
 
-UI.prototype.showIntro = function UI_showIntro(settings) {
+UI.prototype.showIntro = function UI_showIntro(options = {}) {
   if (!this.settings) return
-  if (this.settings.show_intro && !this.options.detached) {
+  const show = options.force || this.settings.show_intro
+  if (show && !this.options.detached) {
     this.intro.start()
-    if (window.analytics) window.analytics.track('Started Tutorial', {via: 'onboarding'})
   }
 }
 

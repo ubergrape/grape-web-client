@@ -12,6 +12,11 @@ export default class Author extends PureComponent {
     sheet: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    iconUrl: null,
+    link: null
+  }
+
   renderIcon(iconUrl) {
     const {sheet: {classes}} = this.props
     return <img className={classes.icon} src={iconUrl} alt="" />
@@ -25,31 +30,36 @@ export default class Author extends PureComponent {
     } = this.props
 
     return (
-      <div className={classes.container}>
+      <span className={classes.container}>
         {iconUrl && this.renderIcon(iconUrl)}
         <span className={classes.text}>{name}</span>
-      </div>
+      </span>
     )
   }
 
-  render() {
+  renderAuthorWithLink() {
     const {
       link,
       sheet: {classes}
     } = this.props
-
-    if (!link) {
-      return this.renderAuthor()
-    }
 
     return (
       <a
         className={classes.link}
         href={link}
         target="_blank"
-        rel="noreferrer">
+        rel="noopener noreferrer"
+      >
         {this.renderAuthor()}
       </a>
     )
+  }
+
+  render() {
+    if (this.props.link) {
+      return this.renderAuthorWithLink()
+    }
+
+    return this.renderAuthor()
   }
 }

@@ -18,7 +18,12 @@ const iconTheme = {
 export default class RoomIconSetting extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    dropdownPlacement: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    dropdownPlacement: 'bottom'
   }
 
   constructor() {
@@ -28,7 +33,7 @@ export default class RoomIconSetting extends PureComponent {
     }
   }
 
-  onShowDropdown = e => {
+  onShowDropdown = (e) => {
     if (!this.state.show) {
       // We need to stop further event propagation because
       // in same time it is outside click for dropdown
@@ -42,8 +47,12 @@ export default class RoomIconSetting extends PureComponent {
     this.setState({show: false})
   }
 
+  onRefButton = (ref) => {
+    this.button = ref
+  }
+
   render() {
-    const {channel, sheet} = this.props
+    const {channel, sheet, dropdownPlacement} = this.props
     const {show} = this.state
 
     const {icon, color: backgroundColor, isPublic} = channel
@@ -53,19 +62,23 @@ export default class RoomIconSetting extends PureComponent {
       <div>
         <button
           onClick={this.onShowDropdown}
-          className={classes['iconSettingsButton' + (show ? 'Active' : '')]}
-          ref="icon">
+          className={classes[`iconSettingsButton${show ? 'Active' : ''}`]}
+          ref={this.onRefButton}
+        >
           <Icon
             name={icon}
             isPrivate={!isPublic}
             theme={{...iconTheme, backgroundColor}}
-            showPrivateStatus />
+            showPrivateStatus
+          />
         </button>
         {show &&
           <Dropdown
             {...this.props}
+            placement={dropdownPlacement}
             onOutsideClick={this.onClickOutsideDropdown}
-            target={this.refs.icon}>
+            target={this.button}
+          >
             <IconSettings {...this.props} theme={{classes}} />
           </Dropdown>
         }

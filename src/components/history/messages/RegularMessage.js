@@ -36,12 +36,14 @@ function UnsentWarning(props) {
       {' '}
       <FormattedMessage
         id="messageNotSendCheckConnection"
-        defaultMessage="This message didn't send. Check your internet connection and" />
+        defaultMessage="This message didn't send. Check your internet connection and"
+      />
       {' '}
       <a href="" onClick={onResend}>
         <FormattedMessage
           id="clickToTryAgain"
-          defaultMessage="click to try again" />
+          defaultMessage="click to try again"
+        />
       </a>.
     </div>
   )
@@ -59,30 +61,35 @@ function getDeliveryStateTooltipMessage(state) {
         <FormattedMessage
           id="pending"
           description="message delivery status in tooltip"
-          defaultMessage="Pending" />
+          defaultMessage="Pending"
+        />
       )
     case 'unsent':
       return (
         <FormattedMessage
           id="unsent"
           description="message delivery status in tooltip"
-          defaultMessage="Unsent" />
+          defaultMessage="Unsent"
+        />
       )
     case 'sent':
       return (
         <FormattedMessage
           id="sent"
           description="message delivery status in tooltip"
-          defaultMessage="Sent" />
+          defaultMessage="Sent"
+        />
       )
     case 'read':
       return (
         <FormattedMessage
           id="read"
           description="message delivery status in tooltip"
-          defaultMessage="Read" />
+          defaultMessage="Read"
+        />
       )
     default:
+      return null
   }
 }
 
@@ -99,12 +106,14 @@ function DeliveryState({time, state, theme}) {
       className={[
         classes.stateIndicator,
         classes[`stateIndicator${capitalize(state)}`]
-      ].join(' ')}>
-        <Tooltip
-          placement="left"
-          message={getDeliveryStateTooltipMessage(state)}>
-            <span className={classes.stateIndicatorTooltipTrigger} />
-        </Tooltip>
+      ].join(' ')}
+    >
+      <Tooltip
+        placement="left"
+        message={getDeliveryStateTooltipMessage(state)}
+      >
+        <span className={classes.stateIndicatorTooltipTrigger} />
+      </Tooltip>
     </span>
   )
 }
@@ -235,13 +244,12 @@ export default class RegularMessage extends PureComponent {
       <Menu
         onSelect={this.onSelectMenuItem}
         getContentNode={this.getContentNode}
-        items={items} />
+        items={items}
+      />
     )
   }
 
-  renderAttachment = (attachment, key) => {
-    return <Attachment {...attachment} key={key} />
-  }
+  renderAttachment = (attachment, key) => <Attachment {...attachment} key={key} />
 
   render() {
     const {
@@ -264,25 +272,28 @@ export default class RegularMessage extends PureComponent {
       <div className={classes.message}>
         {author &&
           <div className={classes.row}>
-            <div className={classes.avatarColumn}></div>
+            <div className={classes.avatarColumn} />
             <Header
               time={time}
               userTime={userTime}
               author={author.name}
               theme={sheet}
-              onClickAuthor={canPm ? this.onGoToChannel : undefined} />
+              onClickAuthor={canPm ? this.onGoToChannel : undefined}
+            />
           </div>
         }
         <div
           className={classes.row}
           onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}>
+          onMouseLeave={this.onMouseLeave}
+        >
           <div className={classes.avatarColumn}>
             {avatar &&
               <Avatar
                 src={avatar}
                 className={classes[canPm ? 'clickable' : '']}
-                onClick={this.onGoToChannel} />
+                onClick={this.onGoToChannel}
+              />
             }
           </div>
           <div>
@@ -292,11 +303,13 @@ export default class RegularMessage extends PureComponent {
                 className={[
                   classes.content,
                   state === 'pending' || state === 'unsent' ? classes.disabled : ''
-                ].join(' ')}>
+                ].join(' ')}
+              >
                 <Grapedown
                   text={children}
                   user={user}
-                  customEmojis={customEmojis} />
+                  customEmojis={customEmojis}
+                />
                 {attachments.map(this.renderAttachment)}
               </div>
               {this.renderMenu()}
@@ -308,7 +321,7 @@ export default class RegularMessage extends PureComponent {
         <DeliveryState state={state} time={time} theme={{classes}} />
         {state === 'unsent' &&
           <div className={classes.row}>
-            <div className={classes.avatarColumn}></div>
+            <div className={classes.avatarColumn} />
             <UnsentWarning theme={{classes}} onResend={onResend} />
           </div>
         }

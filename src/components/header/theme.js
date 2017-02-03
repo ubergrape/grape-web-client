@@ -2,7 +2,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import {gray, grayDarker, blue, white} from 'grape-theme/dist/base-colors'
 import {borderDefault, alertDanger} from 'grape-theme/dist/web-colors'
 import {small, big} from 'grape-theme/dist/fonts'
-import mixins from 'grape-web/lib/jss-utils/mixins'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import color from 'color'
 
 import reset from '../button/reset'
@@ -58,7 +58,7 @@ export const height = 56
 export const styles = {
   header: {
     display: 'flex',
-    height: height,
+    height,
     padding: '0 25px',
     alignItems: 'center',
     borderBottom: `1px solid ${borderDefault}`,
@@ -85,14 +85,14 @@ export const styles = {
     boxSizing: 'border-box'
   },
   name: {
-    ...mixins.ellipsis,
+    ...ellipsis,
     ...big,
     fontWeight: 'bold',
     lineHeight: 1.2,
     color: grayDarker
   },
   description: {
-    ...mixins.ellipsis,
+    ...ellipsis,
     ...small,
     lineHeight: 1.2,
     color: gray

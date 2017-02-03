@@ -49,6 +49,26 @@ export function setOrg(org) {
   }
 }
 
+export function trackAnalytics(name, options) {
+  return (dispatch) => {
+    dispatch({
+      type: types.TRACK_ANALYTICS,
+      payload: {name, options}
+    })
+    if (window.analytics) window.analytics.track(name, options)
+  }
+}
+
+export function showTutorial(options) {
+  return (dispatch) => {
+    dispatch({type: types.SHOW_TUTORIAL})
+    // FIXME: this should be deleted when Intro.js would be refactored
+    // https://github.com/ubergrape/chatgrape/issues/4056
+    reduxEmitter.showIntro(options)
+    dispatch(trackAnalytics('Started Tutorial', options))
+  }
+}
+
 export function setInitialData(org) {
   return (dispatch) => {
     dispatch(setUsers([...org.users]))
@@ -56,12 +76,10 @@ export function setInitialData(org) {
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
-    // FIXME: this should be deleted when Intro.js would be refactored
-    // https://github.com/ubergrape/chatgrape/issues/4056
-    setTimeout(() => reduxEmitter.showIntro())
-    return dispatch({
-      type: types.HANDLE_INITIAL_DATA
-    })
+    setTimeout(() => {
+      dispatch(showTutorial({via: 'onboarding'}))
+    }, 1000)
+    dispatch({type: types.HANDLE_INITIAL_DATA})
   }
 }
 
@@ -120,6 +138,7 @@ export function goToMessage(message) {
   }
 }
 
+// TODO use goTo action creator
 export function goToPayment() {
   return (dispatch) => {
     dispatch({
@@ -203,15 +222,7 @@ export function inviteToChannel(emailAddresses, options = {}) {
   }
 }
 
-export function toggleOrgSettings(elem) {
-  return (dispatch) => {
-    dispatch({
-      type: types.TOGGLE_ORG_SETTINGS
-    })
-    reduxEmitter.toggleOrgSettings(elem)
-  }
-}
-
+// TODO use goTo action creator
 function handleAuthError(err) {
   return (dispatch) => {
     dispatch({
@@ -246,6 +257,7 @@ export function handleConnectionError(err) {
   }
 }
 
+// TODO use goTo action creator
 export function goToAddIntegrations() {
   return (dispatch) => {
     dispatch({
@@ -310,5 +322,17 @@ export function createRoomWithUsers(room, users) {
       .catch((err) => {
         dispatch(handleRoomCreateError(err.message))
       })
+  }
+}
+
+export function goTo(options) {
+  const {path, url, target} = options
+  return (dispatch) => {
+    dispatch({
+      type: types.SET_LOCATION,
+      payload: options
+    })
+    if (path) location.pathname = path
+    if (url) window.open(url, target)
   }
 }

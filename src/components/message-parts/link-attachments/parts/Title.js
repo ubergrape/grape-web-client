@@ -11,10 +11,26 @@ export default class Title extends PureComponent {
     sheet: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    link: null
+  }
+
+  renderText() {
+    const {
+      text,
+      sheet: {classes}
+    } = this.props
+
+    return (
+      <span className={classes.container}>
+        {text}
+      </span>
+    )
+  }
+
   renderWithLink() {
     const {
       link,
-      text,
       sheet: {classes}
     } = this.props
 
@@ -22,24 +38,19 @@ export default class Title extends PureComponent {
       <a
         className={classes.link}
         target="_blank"
-        rel="noreferrer"
-        href={link}>
-        {text}
+        rel="noopener noreferrer"
+        href={link}
+      >
+        {this.renderText()}
       </a>
     )
   }
 
   render() {
-    const {
-      link,
-      text,
-      sheet: {classes}
-    } = this.props
+    if (this.props.link) {
+      return this.renderWithLink()
+    }
 
-    return (
-      <div className={classes.container}>
-        {link ? this.renderWithLink() : text}
-      </div>
-    )
+    return this.renderText()
   }
 }

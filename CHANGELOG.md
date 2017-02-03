@@ -1,3 +1,17 @@
+## Releases 0.50.0 (2017-02-03)
+
+### New Features
+
+* Activities search (#316)
+
+### Fixes
+
+* Links in link previews shouldn't be full width (#317)
+
+### Chore changes
+
+* Org menu rewrite (#311)
+
 ## Releases 0.49.0 (2017-02-01)
 
 ### New Features

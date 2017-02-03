@@ -12,7 +12,8 @@ export default class Row extends PureComponent {
   }
 
   static defaultProps = {
-    spaced: false
+    spaced: false,
+    children: null
   }
 
   render() {

@@ -16,11 +16,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
-  broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady')
-  broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
-  broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
-  broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
-  broker(ui.reduxEmitter, 'toggleOrgSettings', ui.organizationMenu, 'toggle')
   broker(ui.reduxEmitter, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
   broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
 
@@ -39,10 +34,6 @@ export default function pipeEvents(ui) {
   // notifications
   broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')
   broker(ui.reduxEmitter, 'enableNotifications', ui, 'requestPermission')
-
-  // organization popover
-  broker.pass(ui.organizationMenu, 'editView', ui, 'editView')
-  broker(ui.organizationMenu, 'toggleOrgInvite', ui.reduxEmitter, 'showInviteToOrg')
 
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')

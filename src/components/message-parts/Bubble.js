@@ -22,7 +22,8 @@ export default class Bubble extends PureComponent {
         content: ''
       }
     },
-    hasArrow: true
+    hasArrow: true,
+    style: null
   }
 
   render() {
