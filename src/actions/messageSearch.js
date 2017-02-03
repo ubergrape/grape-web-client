@@ -8,7 +8,10 @@ export function updateMessageSearchQuery(nextQuery) {
   return (dispatch, getState) => {
     const prevQuery = messageSearchSelector(getState()).query.join(' ')
 
-    if (nextQuery === prevQuery) return dispatch({type: types.NOOP})
+    if (nextQuery === prevQuery) {
+      dispatch({type: types.NOOP})
+      return
+    }
 
     dispatch({
       type: types.UPDATE_MESSAGE_SEARCH_QUERY,
@@ -23,7 +26,13 @@ export function updateMessageSearchQuery(nextQuery) {
 
 export function toggleSearchOnlyInChannel() {
   return {
-    type: types.TOGGLE_SEARCH_ONLY_IN_CHANNEL
+    type: types.TOGGLE_SEARCH_MESSAGES_IN_CHANNEL_ONLY
+  }
+}
+
+export function toggleSearchActivities() {
+  return {
+    type: types.TOGGLE_SEARCH_ACTIVITIES
   }
 }
 
@@ -34,25 +43,27 @@ export function searchMessages(params) {
     const query = params.query.join(' ')
 
     if (query.length < minQueryLength) {
-      return dispatch({
+      dispatch({
         type: types.FOUND_MESSAGES,
         payload: {
           items: [],
           total: null
         }
       })
+      return
     }
 
     dispatch({type: types.SEARCH_MESSAGES})
     dispatch(setSidebarIsLoading(true))
 
     const state = getState()
-    const {limit, offsetDate, options: {searchOnlyInChannel}} = params
+    const {limit, offsetDate, options: {searchOnlyInChannel, searchActivities}} = params
 
     const searchParams = {
       query,
       limit,
-      offsetDate: offsetDate ? offsetDate.toISOString() : undefined
+      offsetDate: offsetDate ? offsetDate.toISOString() : undefined,
+      types: ['messages', searchActivities && 'activities']
     }
 
     const {id: orgId} = orgSelector(state)
@@ -64,11 +75,11 @@ export function searchMessages(params) {
     }
 
     api[`searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`](searchParams)
-      .then(messages => {
+      .then((messages) => {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
         const prevItems = messageSearch.items
-        const nextItems = messages.results.map(msg =>normalizeMessage(msg, state))
+        const nextItems = messages.results.map(msg => normalizeMessage(msg, state))
         dispatch({
           type: types.FOUND_MESSAGES,
           payload: {
@@ -78,7 +89,7 @@ export function searchMessages(params) {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })

@@ -10,22 +10,34 @@ import styles from './messageStyles'
 export default class Message extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
-    author: PropTypes.shape({
-      name: PropTypes.string.isRequired
+    message: PropTypes.shape({
+      time: PropTypes.instanceOf(Date).isRequired,
+      author: PropTypes.shape({
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      avatar: PropTypes.string
     }).isRequired,
-    avatar: PropTypes.string,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    onSelect: PropTypes.func.isRequired
+  }
+
+  onClick = () => {
+    const {message, onSelect} = this.props
+    onSelect(message)
   }
 
   render() {
-    const {sheet: {classes}, author, time, avatar, children} = this.props
+    const {
+      sheet: {classes},
+      message: {author, time, avatar},
+      children
+    } = this.props
 
     return (
-      <section className={classes.message}>
+      <section className={classes.message} onClick={this.onClick}>
         <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
-          <Avatar src={avatar} className={classes.leftColumn}/>
+          <Avatar src={avatar} className={classes.leftColumn} />
           <Bubble className={classes.rightColumn} theme={{classes}}>
             {children}
           </Bubble>

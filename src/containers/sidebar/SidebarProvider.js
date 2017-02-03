@@ -18,6 +18,7 @@ const actionNames = [
   'goToMessage',
   'searchMessages',
   'toggleSearchOnlyInChannel',
+  'toggleSearchActivities',
   'toggleShowRoomMentions',
   'renameRoom',
   'setRoomDescription',
