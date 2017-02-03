@@ -1,13 +1,14 @@
 import {createMuiTheme} from '@ubergrape/material-ui/styles/theme'
 import {createPalette} from '@ubergrape/material-ui/styles/palette'
-import {white, green} from 'grape-theme/dist/base-colors'
+import {white, green, blue} from 'grape-theme/dist/base-colors'
+import merge from 'lodash/object/merge'
 
 const palette = createPalette()
 
 palette.primary[100] = white
 palette.primary[500] = green
 
-export const LinearProgress = {
+const LinearProgress = {
   root: {
     height: 9,
     borderRadius: 5
@@ -29,9 +30,26 @@ export const LinearProgress = {
   }
 }
 
-export default createMuiTheme({
+const MenuItem = {
+  root: {
+    height: 'auto',
+    '&:hover': {
+      backgroundColor: blue,
+      color: palette.primary[100]
+    },
+    '&:focus': {
+      backgroundColor: blue,
+      color: palette.primary[100]
+    }
+  }
+}
+
+export const create = theme => createMuiTheme(merge({
   palette,
   overrides: {
-    LinearProgress
+    LinearProgress,
+    MenuItem
   }
-})
+}, theme))
+
+export default create()
