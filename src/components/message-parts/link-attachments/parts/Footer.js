@@ -11,14 +11,15 @@ export default class Footer extends PureComponent {
     icon: PropTypes.string,
     text: PropTypes.string.isRequired,
     url: PropTypes.string,
-    timestamp: PropTypes.number.isRequired,
+    timestamp: PropTypes.number,
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired
   }
 
   static defaultProps = {
     icon: null,
-    url: null
+    url: null,
+    timestamp: null
   }
 
   renderIcon(icon) {
@@ -47,20 +48,18 @@ export default class Footer extends PureComponent {
     ].filter(Boolean).join(' | ')
 
     return (
-      <div className={classes.container}>
+      <span className={classes.container}>
         {icon && this.renderIcon(icon)}
         <span className={classes.text}>{content}</span>
-      </div>
+      </span>
     )
   }
 
-  render() {
+  renderInfoWithLink() {
     const {
       url,
       sheet: {classes}
     } = this.props
-
-    if (!url) return this.renderInfo()
 
     return (
       <a
@@ -72,5 +71,13 @@ export default class Footer extends PureComponent {
         {this.renderInfo()}
       </a>
     )
+  }
+
+  render() {
+    if (this.props.url) {
+      return this.renderInfoWithLink()
+    }
+
+    return this.renderInfo()
   }
 }

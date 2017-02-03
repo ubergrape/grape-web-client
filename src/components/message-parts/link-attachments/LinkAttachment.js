@@ -80,11 +80,13 @@ export default class LinkAttachment extends PureComponent {
     } = this.props
 
     return (
-      <Author
-        name={authorName}
-        link={authorLink}
-        iconUrl={authorIcon}
-      />
+      <Row>
+        <Author
+          name={authorName}
+          link={authorLink}
+          iconUrl={authorIcon}
+        />
+      </Row>
     )
   }
 
@@ -115,12 +117,14 @@ export default class LinkAttachment extends PureComponent {
     } = this.props
 
     return (
-      <Footer
-        text={footer}
-        icon={footerIcon}
-        url={footerUrl}
-        timestamp={ts}
-      />
+      <Row>
+        <Footer
+          text={footer}
+          icon={footerIcon}
+          url={footerUrl}
+          timestamp={ts}
+        />
+      </Row>
     )
   }
 

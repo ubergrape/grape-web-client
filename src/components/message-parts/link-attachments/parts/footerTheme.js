@@ -3,7 +3,7 @@ import {normal} from 'grape-theme/dist/fonts'
 
 export const styles = {
   container: {
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     color: grayBombay
   },
