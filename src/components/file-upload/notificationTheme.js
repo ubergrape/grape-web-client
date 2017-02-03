@@ -40,8 +40,7 @@ export const styles = {
   },
   icon: {
     flexShrink: 0,
-    marginLeft: 5,
-    width: '1em'
+    marginLeft: 5
   },
   iconSuccess: {
     composes: '$icon',
