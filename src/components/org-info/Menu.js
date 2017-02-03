@@ -5,9 +5,10 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import MenuList from '@ubergrape/material-ui/Menu/MenuList'
 import MenuItem from '@ubergrape/material-ui/Menu/MenuItem'
 import Divider from '@ubergrape/material-ui/Divider'
+import ThemeProvider from '@ubergrape/material-ui/styles/MuiThemeProvider'
 
 import {constants} from '../../conf'
-import {styles} from './menuTheme'
+import {styles, mui} from './menuTheme'
 
 const Item = ({classes, icon, children, onClick, href, target}) => {
   const item = (
@@ -17,7 +18,19 @@ const Item = ({classes, icon, children, onClick, href, target}) => {
     </MenuItem>
   )
 
-  return href ? <a href={href} target={target}>{item}</a> : item
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={target}
+        className={classes.anchorItem}
+      >
+        {item}
+      </a>
+    )
+  }
+
+  return item
 }
 
 const InviteItem = ({classes, onClick}) => (
@@ -215,9 +228,11 @@ export default class Menu extends PureComponent {
     )
 
     return (
-      <MenuList className={classes.menu}>
-        {items}
-      </MenuList>
+      <ThemeProvider theme={mui}>
+        <MenuList className={classes.menu}>
+          {items}
+        </MenuList>
+      </ThemeProvider>
     )
   }
 }
