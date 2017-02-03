@@ -14,7 +14,8 @@ const linkHover = linkStyles['&:hover']
 
 export default {
   message: {
-    margin: '0 0 15px'
+    cursor: 'pointer',
+    margin: [0, 0, 15]
   },
   body: {
     display: 'flex'

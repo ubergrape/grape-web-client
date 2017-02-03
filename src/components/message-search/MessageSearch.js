@@ -25,6 +25,7 @@ export default class MessageSearch extends PureComponent {
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
+    searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
@@ -41,7 +42,10 @@ export default class MessageSearch extends PureComponent {
     options: [],
     showRoomMentions: false,
     searchOnlyInChannel: false,
-    customEmojis: {}
+    searchActivities: false,
+    customEmojis: {},
+    total: null,
+    user: null
   }
 
   componentDidMount() {
@@ -58,7 +62,7 @@ export default class MessageSearch extends PureComponent {
     this.load()
   }
 
-  onSelect(item) {
+  onSelect = (item) => {
     this.props.select(item)
   }
 
@@ -66,28 +70,31 @@ export default class MessageSearch extends PureComponent {
     this.props.hide()
   }
 
-  onClickOption = e => {
+  onClickOption = (e) => {
     const {query} = this.props
     // Don't close sidebar if click outside is in the options.
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad({query, show, searchOnlyInChannel, showRoomMentions}) {
+  shouldLoad({query, show, searchOnlyInChannel, searchActivities, showRoomMentions}) {
     switch (show) {
       case 'search':
         if (!query) return false
         if (query !== this.props.query) return true
         if (searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+        if (searchActivities !== this.props.searchActivities) return true
         break
       case 'mentions':
-        if (showRoomMentions !== this.props.showRoomMentions) return true
-        break
+        return showRoomMentions !== this.props.showRoomMentions
       default:
     }
+    return false
   }
 
   load(props = this.props) {
-    const {items, limit, query, searchOnlyInChannel, showRoomMentions} = props
+    const {
+      items, limit, query, searchOnlyInChannel, searchActivities, showRoomMentions
+    } = props
     if (!query || !query.length) return
 
     let options
@@ -99,7 +106,7 @@ export default class MessageSearch extends PureComponent {
         }
         break
       case 'search':
-        options = {searchOnlyInChannel}
+        options = {searchOnlyInChannel, searchActivities}
         break
       default:
     }
@@ -128,14 +135,15 @@ export default class MessageSearch extends PureComponent {
           <DateSeparator
             theme={{date: classes.separatorDate}}
             date={message.time}
-            key={message.time + index} />
+            key={`${message.id}-date`}
+          />
         )
       }
 
       // Render channel name.
       if (!prevMessage || prevMessage.channel !== message.channel) {
         elements.push(
-          <div className={classes.channel} key={message.channel + index}>
+          <div className={classes.channel} key={`${message.id}-channel`}>
             {message.channel.name}
           </div>
         )
@@ -147,7 +155,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderMessage(message) {
-    const {query, sheet: {classes}, user, customEmojis, intl} = this.props
+    const {query, user, customEmojis, intl} = this.props
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
       user,
@@ -156,14 +164,9 @@ export default class MessageSearch extends PureComponent {
     })
 
     return (
-      <div
-        className={classes.message}
-        onClick={/* TODO #120 */this.onSelect.bind(this, message)}
-        key={message.id}>
-        <Message {...message}>
-          <GrapedownWithSearch text={message.text} />
-        </Message>
-      </div>
+      <Message message={message} key={message.id} onSelect={this.onSelect}>
+        <GrapedownWithSearch text={message.text} />
+      </Message>
     )
   }
 
@@ -174,7 +177,8 @@ export default class MessageSearch extends PureComponent {
       <div className={classes.loadMoreContainer}>
         <button
           onClick={this.onLoadMore}
-          className={classes.button}>
+          className={classes.button}
+        >
           <ShowMore />
         </button>
       </div>
@@ -188,7 +192,8 @@ export default class MessageSearch extends PureComponent {
       <div className={classes.empty}>
         <FormattedMessage
           id="noMessagesFound"
-          defaultMessage="No messages found" />
+          defaultMessage="No messages found"
+        />
         .
       </div>
     )
@@ -207,9 +212,11 @@ export default class MessageSearch extends PureComponent {
           <Options
             {...this.props}
             onClickOption={this.onClickOption}
-            theme={{classes}} />
+            theme={{classes}}
+          />
         }
-        onClose={this.onClose}>
+        onClose={this.onClose}
+      >
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}

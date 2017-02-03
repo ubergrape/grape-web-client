@@ -162,7 +162,7 @@ export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}
   })
 }
 
-export function searchMessages({query, id, limit, offsetDate}) {
+export function searchMessages({query, id, limit, offsetDate, types}) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -171,7 +171,7 @@ export function searchMessages({query, id, limit, offsetDate}) {
         args: [
           query,
           id,
-          'messages',
+          types.join(','),
           limit,
           offsetDate
         ]
@@ -185,7 +185,7 @@ export function searchMessages({query, id, limit, offsetDate}) {
   })
 }
 
-export function searchMessagesInChannel({query, orgId, channelId, limit, offsetDate}) {
+export function searchMessagesInChannel({query, orgId, channelId, limit, offsetDate, types}) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -195,7 +195,7 @@ export function searchMessagesInChannel({query, orgId, channelId, limit, offsetD
           query,
           orgId,
           channelId,
-          'messages',
+          types.join(','),
           limit,
           offsetDate
         ]

@@ -8,17 +8,22 @@ import {
 import SharedFiles from '../shared-files/SharedFiles'
 import RoomInfo from '../room-info/RoomInfo'
 import UserProfile from '../user-profile/UserProfile'
-import Mentions from '../message-search/MessageSearch'
-import Search from '../message-search/MessageSearch'
+import MessageSearch from '../message-search/MessageSearch'
 
 const messages = defineMessages({
   mentions: {
     id: 'showRoomMentions',
     defaultMessage: 'Show Group mentions'
   },
-  label: {
+  currentConversationOption: {
     id: 'onlyInThisConversation',
-    defaultMessage: 'Only in this conversation'
+    defaultMessage: 'Only in this conversation',
+    description: 'Option in messages search sidebar.'
+  },
+  searchActivitiesOption: {
+    id: 'searchActivities',
+    defaultMessage: 'Include activities',
+    description: 'Option in messages search sidebar.'
   },
   mentionsTitle: {
     id: 'mentionsSidebarTitle',
@@ -42,11 +47,21 @@ export default class Sidebar extends PureComponent {
     loadRoomInfo: PropTypes.func.isRequired,
     searchMessages: PropTypes.func.isRequired,
     showRoomMentions: PropTypes.bool,
+    searchActivities: PropTypes.bool,
     searchOnlyInChannel: PropTypes.bool,
     toggleSearchOnlyInChannel: PropTypes.func.isRequired,
+    toggleSearchActivities: PropTypes.func.isRequired,
     toggleShowRoomMentions: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired,
-    goToMessage: PropTypes.func.isRequired
+    goToMessage: PropTypes.func.isRequired,
+    className: PropTypes.string
+  }
+
+  static defaultProps = {
+    showRoomMentions: false,
+    searchActivities: false,
+    searchOnlyInChannel: false,
+    className: null
   }
 
   renderContent() {
@@ -57,11 +72,13 @@ export default class Sidebar extends PureComponent {
       loadRoomInfo,
       searchMessages,
       toggleSearchOnlyInChannel,
+      toggleSearchActivities,
       toggleShowRoomMentions,
       hideSidebar: hide,
       goToMessage: select,
       showRoomMentions,
-      searchOnlyInChannel
+      searchOnlyInChannel,
+      searchActivities
     } = this.props
 
     switch (show) {
@@ -84,7 +101,7 @@ export default class Sidebar extends PureComponent {
           hide,
           select
         }
-        return <Mentions {...mentionProps} />
+        return <MessageSearch {...mentionProps} />
       }
       case 'search': {
         const searchProps = {
@@ -92,14 +109,18 @@ export default class Sidebar extends PureComponent {
           title: formatMessage(messages.searchTitle),
           load: searchMessages,
           options: [{
-            label: formatMessage(messages.label),
+            label: formatMessage(messages.currentConversationOption),
             handler: toggleSearchOnlyInChannel,
             status: searchOnlyInChannel
+          }, {
+            label: formatMessage(messages.searchActivitiesOption),
+            handler: toggleSearchActivities,
+            status: searchActivities
           }],
           hide,
           select
         }
-        return <Search {...searchProps} />
+        return <MessageSearch {...searchProps} />
       }
       default:
         return null

@@ -1,6 +1,5 @@
 import color from 'color'
-import {grayBlueLighter} from 'grape-theme/dist/base-colors'
-import colors from 'grape-theme/dist/base-colors'
+import {grayBlue, grayBlueLight, grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 
 import button from '../button/default'
@@ -14,14 +13,11 @@ export default {
   },
   channel: {
     extend: small,
-    color: colors.grayBlue,
+    color: grayBlue,
     textTransform: 'uppercase',
     marginTop: 20,
     marginBottom: 5,
     lineHeight: 1
-  },
-  message: {
-    cursor: 'pointer'
   },
   empty: {
     textAlign: 'center'
@@ -30,12 +26,12 @@ export default {
   optionLabel: {
     extend: small,
     display: 'block',
-    padding: '4px 10px 4px 20px',
-    background: colors.grayBlueLight,
+    padding: [4, 10, 4, 20],
+    background: grayBlueLight,
     cursor: 'pointer',
     '&:hover': {
       isolate: false,
-      background: color(colors.grayBlueLight).darken(0.05).hexString()
+      background: color(grayBlueLight).darken(0.05).hexString()
     }
   },
   optionCheckbox: {
