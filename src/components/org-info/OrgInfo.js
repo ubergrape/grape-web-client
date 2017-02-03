@@ -68,12 +68,7 @@ export default class OrgInfo extends PureComponent {
           logo={logo}
         />
         {!isLoading && <Header classes={classes} name={name} user={user} />}
-        {!isLoading &&
-          <Settings
-            {...settingsProps}
-            user={user}
-          />
-        }
+        {!isLoading && <Settings {...settingsProps} user={user} />}
       </header>
     )
   }
