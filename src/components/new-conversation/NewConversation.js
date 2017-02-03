@@ -48,6 +48,10 @@ export default class NewConversation extends PureComponent {
     listed: PropTypes.array.isRequired
   }
 
+  static defaultProps = {
+    organization: null
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -74,11 +78,11 @@ export default class NewConversation extends PureComponent {
     this.setState({saving: false})
   }
 
-  onSetRoomIcon = icon => {
+  onSetRoomIcon = (icon) => {
     this.setState({icon})
   }
 
-  onSetRoomColor = color => {
+  onSetRoomColor = (color) => {
     this.setState({color})
   }
 
@@ -147,7 +151,8 @@ export default class NewConversation extends PureComponent {
           onChangeRoomName={this.onChangeRoomName}
           onPrivacyChange={this.onPrivacyChange}
           onSetRoomColor={this.onSetRoomColor}
-          onSetRoomIcon={this.onSetRoomIcon} />
+          onSetRoomIcon={this.onSetRoomIcon}
+        />
       </div>
     )
   }
@@ -164,7 +169,8 @@ export default class NewConversation extends PureComponent {
         <button
           onClick={this.onCreate}
           className={classes.createButton}
-          disabled={!listed.length && !name}>
+          disabled={!listed.length && !name}
+        >
           <Create />
         </button>
       </div>
@@ -175,15 +181,16 @@ export default class NewConversation extends PureComponent {
     const {
       sheet: {classes}, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
-      organization, intl: {formatMessage}
+      organization, intl: {formatMessage},
+      ...chooseUsersProps
     } = this.props
     const {focusedInput} = this.state
 
     if (!organization) return null
-    const {sheet, ...props} = this.props
+
     return (
       <ChooseUsersDialog
-        {...props}
+        {...chooseUsersProps}
         title={formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}
@@ -191,7 +198,8 @@ export default class NewConversation extends PureComponent {
         isFilterFocused={focusedInput !== 'name'}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
-        onRemoveSelectedUser={user => removeFromNewConversation(user)}>
+        onRemoveSelectedUser={user => removeFromNewConversation(user)}
+      >
         {this.renderSettings()}
         {this.renderFooter()}
       </ChooseUsersDialog>

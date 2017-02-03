@@ -5,10 +5,16 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
  * Creates a mixin which adds an icon to any rule.
  */
 export default function create(name, options = {}) {
-  const icon = options.color ? getColoredIcon({name, color: options.color}) : icons[name]
+  let backgroundImage
+
+  if (name) {
+    const icon = options.color ? getColoredIcon({name, color: options.color}) : icons[name]
+    backgroundImage = `url('${icon}')`
+  }
+
   const style = {
     '&:before': {
-      backgroundImage: `url('${icon}')`,
+      backgroundImage,
       backgroundPosition: '50% 50%',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
@@ -21,7 +27,7 @@ export default function create(name, options = {}) {
     }
   }
 
-  if (options.hoverColor) {
+  if (name && options.hoverColor) {
     const hoverIcon = getColoredIcon({name, color: options.hoverColor})
     style['&:hover:before'] = {
       isolate: false,

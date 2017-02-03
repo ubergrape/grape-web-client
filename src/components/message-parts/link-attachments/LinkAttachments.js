@@ -23,7 +23,8 @@ export default class LinkAttachments extends PureComponent {
           <li key={meta.sourceUrl}>
             <LinkAttachment
               {...meta}
-              className={classes.linkAttachment} />
+              className={classes.linkAttachment}
+            />
           </li>
         ))}
       </ul>

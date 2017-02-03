@@ -11,6 +11,10 @@ export default class Title extends PureComponent {
     sheet: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    link: null
+  }
+
   renderWithLink() {
     const {
       link,
@@ -22,8 +26,9 @@ export default class Title extends PureComponent {
       <a
         className={classes.link}
         target="_blank"
-        rel="noreferrer"
-        href={link}>
+        rel="noopener noreferrer"
+        href={link}
+      >
         {text}
       </a>
     )

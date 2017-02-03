@@ -16,6 +16,11 @@ export default class Footer extends PureComponent {
     intl: intlShape.isRequired
   }
 
+  static defaultProps = {
+    icon: null,
+    url: null
+  }
+
   renderIcon(icon) {
     const {sheet: {classes}} = this.props
     return <img className={classes.icon} src={icon} alt="" />
@@ -62,7 +67,8 @@ export default class Footer extends PureComponent {
         className={classes.link}
         href={url}
         target="_blank"
-        rel="noreferrer">
+        rel="noopener noreferrer"
+      >
         {this.renderInfo()}
       </a>
     )

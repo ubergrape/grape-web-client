@@ -1,11 +1,10 @@
 import React, {PureComponent, PropTypes} from 'react'
-import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import BaseSpinner from 'grape-web/lib/spinner/Spinner'
 
-import {styles, logoSize} from './orgInfoTheme'
 import {spinner} from '../../constants/images'
-import Tooltip from '../tooltip/HoverTooltip'
+import Settings from './Settings'
+import {styles, logoSize} from './orgInfoTheme'
 
 const Spinner = () => <BaseSpinner image={spinner} size={logoSize} />
 
@@ -25,48 +24,29 @@ const Logo = ({isLoading, classes, ...rest}) => (
   </span>
 )
 
-const Header = ({classes, name, username}) => (
+const Header = ({classes, name, user}) => (
   <div className={classes.headers}>
     <div>
       <h1 className={classes.orgName}>
         {name}
       </h1>
       <h2 className={classes.userName}>
-        {username}
+        {user.displayName}
       </h2>
     </div>
   </div>
-)
-
-const SettingsButton = ({classes, onClick}) => (
-  <Tooltip
-    message={(
-      <FormattedMessage
-        id="settings"
-        defaultMessage="Settings"
-      />
-    )}
-  >
-    <button
-      className={classes.settingsButton}
-      onClick={onClick}
-    />
-  </Tooltip>
 )
 
 @injectSheet(styles)
 export default class OrgInfo extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    toggleOrgSettings: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     logo: PropTypes.string,
     name: PropTypes.string,
-    username: PropTypes.string
-  }
-
-  onToggleSettingsMenu = (e) => {
-    this.props.toggleOrgSettings(e.target)
+    user: PropTypes.shape({
+      displayName: PropTypes.string
+    })
   }
 
   render() {
@@ -74,8 +54,9 @@ export default class OrgInfo extends PureComponent {
       sheet: {classes},
       isLoading,
       name,
-      username,
-      logo
+      user,
+      logo,
+      ...settingsProps
     } = this.props
 
     return (
@@ -86,8 +67,8 @@ export default class OrgInfo extends PureComponent {
           name={name}
           logo={logo}
         />
-        {!isLoading && <Header classes={classes} name={name} username={username} />}
-        {!isLoading && <SettingsButton classes={classes} onClick={this.onToggleSettingsMenu} />}
+        {!isLoading && <Header classes={classes} name={name} user={user} />}
+        {!isLoading && <Settings {...settingsProps} user={user} />}
       </header>
     )
   }

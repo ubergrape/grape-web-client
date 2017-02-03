@@ -139,16 +139,12 @@ class ReduxEmitter extends Emitter {
     getBoundActions().showManageGroups()
   }
 
-  toggleOrgSettings(elem) {
-    this.emit('toggleOrgSettings', elem)
-  }
-
   focusGrapeInput() {
     this.emit('focusGrapeInput')
   }
 
-  showIntro() {
-    this.emit('showIntro')
+  showIntro(options) {
+    this.emit('showIntro', options)
   }
 }
 

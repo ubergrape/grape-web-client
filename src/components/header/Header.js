@@ -9,19 +9,12 @@ import Items from './Items'
 @injectIntl
 export default class Header extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     mate: PropTypes.object.isRequired,
     favorite: PropTypes.object.isRequired,
-    sidebar: PropTypes.oneOfType([
-      PropTypes.string,
-      React.PropTypes.bool
-    ]),
-    mentions: PropTypes.number,
-    showChannelMembersInvite: PropTypes.func,
-    updateMessageSearchQuery: PropTypes.func,
-    showInSidebar: PropTypes.func,
-    hideSidebar: PropTypes.func
+    showInSidebar: PropTypes.func.isRequired,
+    updateMessageSearchQuery: PropTypes.func.isRequired
   }
 
   onFocusMessageSearch = ({target}) => {
@@ -34,13 +27,14 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {sheet: {classes}, ...rest} = this.props
     return (
       <Items
-        {...this.props}
+        {...rest}
         onChangeMessageSearch={this.onChangeMessageSearch}
         onFocusMessageSearch={this.onFocusMessageSearch}
-        theme={{classes}} />
+        theme={{classes}}
+      />
     )
   }
 }

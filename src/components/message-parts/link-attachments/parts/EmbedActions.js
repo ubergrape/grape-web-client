@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
@@ -23,12 +24,14 @@ export default class EmbedActions extends PureComponent {
       <div className={classes.container}>
         <button
           className={cn(classes.action, classes.playIcon)}
-          onClick={onClick} />
+          onClick={onClick}
+        />
         <a
           className={cn(classes.action, classes.externalLinkIcon)}
-          rel="noreferrer"
+          rel="noopener noreferrer"
           target="_blank"
-          href={permalink} />
+          href={permalink}
+        />
       </div>
     )
   }

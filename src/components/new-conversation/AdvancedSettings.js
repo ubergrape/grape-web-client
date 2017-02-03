@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: [2, { "varsIgnorePattern": "sheet" }] */
 import React, {PureComponent, PropTypes} from 'react'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
@@ -8,26 +7,10 @@ import {
   injectIntl
 } from 'react-intl'
 
-import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInputBigger'
+import IconSettings from './IconSettings'
 import {styles} from './advancedSettingsTheme'
-
-class IconSettings extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired
-  }
-
-  render() {
-    return (
-      <div className={this.props.classes.icon}>
-        <RoomIconSettings
-          {...this.props}
-          container={this} />
-      </div>
-    )
-  }
-}
 
 function getError(message) {
   if (!message) return undefined
@@ -72,6 +55,11 @@ export default class AdvancedSettings extends PureComponent {
     onClickRoomName: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    isNameFocused: false,
+    error: null
+  }
+
   onChangeRoomName = ({target}) => {
     this.props.onChangeRoomName({name: target.value})
   }
@@ -84,20 +72,18 @@ export default class AdvancedSettings extends PureComponent {
     const {
       icon, color, name, saving, error,
       intl: {formatMessage}, sheet: {classes}, isPublic,
-      onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName
+      onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName,
+      ...iconSettingsProps
     } = this.props
 
-    const {
-      sheet,
-      props
-    } = this.props
 
     return (
       <div className={classes.advancedSettings}>
         <IconSettings
-          {...props}
+          {...iconSettingsProps}
           classes={classes}
-          channel={{icon, color, isPublic}} />
+          channel={{icon, color, isPublic}}
+        />
         <div className={classes.name}>
           <Input
             placeholder={formatMessage(messages.placeholder)}
@@ -108,7 +94,8 @@ export default class AdvancedSettings extends PureComponent {
             clearError={clearRoomCreateError}
             onKeyDown={this.onInputKeyDown}
             onChange={this.onChangeRoomName}
-            onClick={onClickRoomName} />
+            onClick={onClickRoomName}
+          />
         </div>
         <div className={classes.privacy}>
           <Switch
@@ -116,7 +103,8 @@ export default class AdvancedSettings extends PureComponent {
             on={formatMessage(messages.on)}
             disabled={saving}
             onChange={onPrivacyChange}
-            status={isPublic} />
+            status={isPublic}
+          />
         </div>
       </div>
     )

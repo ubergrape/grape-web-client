@@ -12,6 +12,5 @@ template.templates = {
   'dialogs/menu.jade': require('./dialogs/menu.jade'),
   'dialogs/roomlist.jade': require('./dialogs/roomlist.jade'),
   'dialogs/userlist.jade': require('./dialogs/userlist.jade'),
-  'grapeInput.jade': require('./grapeInput.jade'),
-  'popovers/organization.jade': require('./popovers/organization.jade')
+  'grapeInput.jade': require('./grapeInput.jade')
 }

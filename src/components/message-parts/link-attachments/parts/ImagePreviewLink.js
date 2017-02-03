@@ -23,7 +23,8 @@ export default class ImagePreviewLink extends PureComponent {
         className={classes.link}
         href={permalink}
         target="_blank"
-        rel="noreferrer">
+        rel="noopener noreferrer"
+      >
         <img src={url} alt="" />
       </a>
     )
