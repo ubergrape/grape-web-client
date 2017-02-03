@@ -32,9 +32,10 @@ export const styles = {
 
 export const mui = createMuiTheme({
   overrides: {
-    MenuItem: {
-      root: {
-        padding: [10, 16]
+    ListItem: {
+      default: {
+        paddingTop: 10,
+        paddingBottom: 10
       }
     }
   }
