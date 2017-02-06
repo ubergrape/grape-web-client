@@ -15,12 +15,12 @@ const borderSize = 1
 const border = `${borderSize}px solid ${button}`
 
 export function getWidth(itemsQuantity) {
-  const itemWidth = fontSize + borderSize * 2 + padding * 2
+  const itemWidth = fontSize + (borderSize * 2) + (padding * 2)
   if (itemsQuantity === 1) return itemWidth
 
   const itemsWidth = (itemsQuantity - 2) * itemWidth
   const firstLastItemsWidth = fontSize + borderSize + firstLastPadding + padding
-  return firstLastItemsWidth * 2 + (itemsWidth > 0 ? itemsWidth : 0)
+  return (firstLastItemsWidth * 2) + (itemsWidth > 0 ? itemsWidth : 0)
 }
 
 export const styles = {
@@ -31,6 +31,7 @@ export const styles = {
   editItem: buttonIcon('pencil', iconOptions),
   copyLinkItem: buttonIcon('iconLink', iconOptions),
   removeItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
+  quoteItem: buttonIcon('pencil', iconOptions),
   item: {
     padding,
     border,

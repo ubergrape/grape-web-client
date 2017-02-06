@@ -146,6 +146,10 @@ class ReduxEmitter extends Emitter {
   showIntro(options) {
     this.emit('showIntro', options)
   }
+
+  insertQuote(options) {
+    this.emit('insertQuote', options)
+  }
 }
 
 const reduxEmitter = new ReduxEmitter()

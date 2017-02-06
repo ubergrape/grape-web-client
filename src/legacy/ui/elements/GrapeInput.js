@@ -405,6 +405,12 @@ export default class GrapeInput extends Emitter {
     this.stopTypingDebounced()
   }
 
+  onInsertQuote({quote}) {
+    this.setProps({focused: true}, () => {
+      this.input.setTextContent(quote)
+    })
+  }
+
   search(search, filters = []) {
     this.browserAborted = false
     let searches

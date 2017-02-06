@@ -1,8 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
-import copy from 'copy-to-clipboard'
-import {injectIntl} from 'react-intl'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
@@ -14,37 +12,43 @@ import Expander from './Expander'
 import DuplicatesBadge from './DuplicatesBadge'
 import Attachment from './Attachment'
 import {styles} from './baseMessageTheme'
-import messages from './translations'
 
-const menuItems = ['copyLink']
+const menuItems = ['copyLink', 'quote']
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 @injectSheet(styles)
-@injectIntl
 export default class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     title: PropTypes.node.isRequired,
-    link: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     duplicates: PropTypes.number.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
+    onCopyLink: PropTypes.func.isRequired,
+    onQuote: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     author: PropTypes.shape({
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
-    user: PropTypes.object,
-    isExpanded: PropTypes.bool
+    user: PropTypes.object.isRequired,
+    isExpanded: PropTypes.bool.isRequired,
+    isSelected: PropTypes.bool.isRequired,
+    attachments: PropTypes.array.isRequired
   }
 
   static defaultProps = {
     children: '',
     title: '',
     hasBubbleArrow: true,
-    onToggleExpander: noop
+    onToggleExpander: noop,
+    author: null,
+    avatar: null,
+    isExpanded: false,
+    isSelected: false,
+    attachments: []
   }
 
   constructor(props) {
@@ -65,37 +69,29 @@ export default class ActivityMessage extends PureComponent {
     onToggleExpander({id, isExpanded})
   }
 
-  onCopyLink = () => {
-    const {
-      intl: {formatMessage},
-      onCopyLink,
-      link
-    } = this.props
-
-    copy(link)
-    onCopyLink(formatMessage(messages.copy))
-  }
-
   onRefContent = (ref) => {
     this.content = ref
   }
 
-  renderAttachment = (attachment, key) => {
-    return <Attachment {...attachment} key={key} />
+  onSelectMenuItem = ({name}) => {
+    const {onCopyLink, onQuote} = this.props
+    if (name === 'copy') onCopyLink()
+    else onQuote()
   }
 
-  getContentNode = () => {
-    return this.content
-  }
+  getContentNode = () => this.content
+
+  renderAttachment = (attachment, key) => <Attachment {...attachment} key={key} />
 
   renderMenu() {
     if (!this.state.isMenuOpened) return null
 
     return (
       <Menu
-        onSelect={this.onCopyLink}
+        onSelect={this.onSelectMenuItem}
         getContentNode={this.getContentNode}
-        items={menuItems} />
+        items={menuItems}
+      />
     )
   }
 
@@ -111,17 +107,19 @@ export default class ActivityMessage extends PureComponent {
       <div className={classes.message}>
         {author &&
           <div className={classes.row}>
-            <div className={classes.avatarColumn}></div>
+            <div className={classes.avatarColumn} />
             <Header
               time={time}
               author={author.name}
-              className={classes.header} />
+              className={classes.header}
+            />
           </div>
         }
         <div
           className={classes.row}
           onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}>
+          onMouseLeave={this.onMouseLeave}
+        >
           <div className={classes.avatarColumn}>
             {avatar && <Avatar src={avatar} className={classes.avatar} />}
           </div>

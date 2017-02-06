@@ -2,13 +2,8 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
-import copy from 'copy-to-clipboard'
 import moment from 'moment'
-import {
-  FormattedMessage,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
@@ -21,7 +16,6 @@ import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
 import Attachment from './Attachment'
 import {styles} from './regularMessageTheme'
-import messages from './translations'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -124,13 +118,18 @@ DeliveryState.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+const menuHandlerMap = {
+  copyLink: 'onCopyLink',
+  remove: 'onRemove',
+  edit: 'onEdit',
+  quote: 'onQuote'
+}
+
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
-@injectIntl
 export default class RegularMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
@@ -141,9 +140,12 @@ export default class RegularMessage extends PureComponent {
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
     isPm: PropTypes.bool.isRequired,
-    link: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     onEdit: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     onRemove: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    onCopyLink: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -155,8 +157,7 @@ export default class RegularMessage extends PureComponent {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    state: DeliveryState.propTypes.state,
-    onCopyLink: PropTypes.func.isRequired
+    state: DeliveryState.propTypes.state
   }
 
   static defaultProps = {
@@ -187,26 +188,8 @@ export default class RegularMessage extends PureComponent {
   }
 
   onSelectMenuItem = ({name}) => {
-    const {
-      intl: {formatMessage},
-      onCopyLink
-    } = this.props
-    switch (name) {
-      case 'copyLink':
-        copy(this.props.link)
-        onCopyLink(formatMessage(messages.copy))
-        break
-      case 'remove': {
-        if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
-          this.props.onRemove()
-        }
-        break
-      }
-      case 'edit':
-        this.props.onEdit()
-        break
-      default:
-    }
+    const cb = menuHandlerMap[name]
+    this.props[cb]()
   }
 
   onRefContent = (ref) => {
@@ -231,11 +214,14 @@ export default class RegularMessage extends PureComponent {
     if (state === 'pending' || state === 'unsent' || !isMenuOpened) return null
 
     const items = ['copyLink']
+    const hasAttachments = attachments.length !== 0
 
     if (isOwn) {
       // Attachments can't be edited.
-      if (!attachments.length) items.unshift('edit')
+      if (!hasAttachments) items.unshift('edit')
       items.push('remove')
+    } else if (!hasAttachments) {
+      items.push('quote')
     }
 
     return (

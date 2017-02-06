@@ -14,7 +14,7 @@ const initialState = {
 @injectSheet(theme.styles)
 export default class HoverTooltip extends PureComponent {
   static propTypes = {
-    message: PropTypes.node.isRequired,
+    message: PropTypes.node,
     children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired,
     align: PropTypes.oneOf(['left', 'right', 'center']),
@@ -31,7 +31,8 @@ export default class HoverTooltip extends PureComponent {
     inline: false,
     delay: 500,
     disabled: false,
-    arrowMargin: theme.arrowMargin
+    arrowMargin: theme.arrowMargin,
+    message: null
   }
 
   constructor() {
@@ -74,10 +75,12 @@ export default class HoverTooltip extends PureComponent {
     const position = theme[placement + capitalize(align)]
     return (
       <div
-        className={classes[`wrapper${inline ? 'Inline' : ''}`]}>
+        className={classes[`wrapper${inline ? 'Inline' : ''}`]}
+      >
         <span
           onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut}>
+          onMouseOut={this.onMouseOut}
+        >
           {children}
         </span>
         <div className={classes.tooltip}>
@@ -85,7 +88,8 @@ export default class HoverTooltip extends PureComponent {
             <BlackTooltip
               style={position}
               placement={placement}
-              {...getArrowOffset(placement, align, arrowMargin)}>
+              {...getArrowOffset(placement, align, arrowMargin)}
+            >
               {message}
             </BlackTooltip>
           }
