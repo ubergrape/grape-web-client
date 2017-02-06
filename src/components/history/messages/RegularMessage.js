@@ -226,18 +226,16 @@ export default class RegularMessage extends PureComponent {
 
   renderMenu = () => {
     const {isOwn, attachments, state} = this.props
+    const {isMenuOpened} = this.state
 
-    if (state === 'pending' || state === 'unsent') return null
-    if (!this.state.isMenuOpened) return null
+    if (state === 'pending' || state === 'unsent' || !isMenuOpened) return null
 
-    let items
+    const items = ['copyLink']
 
     if (isOwn) {
       // Attachments can't be edited.
-      items = `${attachments.length ? '' : 'edit,'}copyLink,remove`.split(',')
-    } else {
-      // Foreign messages can't be editted or removed.
-      items = ['copyLink']
+      if (!attachments.length) items.unshift('edit')
+      items.push('remove')
     }
 
     return (
