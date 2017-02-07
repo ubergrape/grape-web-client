@@ -1,6 +1,6 @@
 import {createMuiTheme} from '@ubergrape/material-ui/styles/theme'
 import {createPalette} from '@ubergrape/material-ui/styles/palette'
-import {white, green, blue} from 'grape-theme/dist/base-colors'
+import {white, green, grayBlueLighter} from 'grape-theme/dist/base-colors'
 import merge from 'lodash/object/merge'
 
 const palette = createPalette()
@@ -34,12 +34,10 @@ const MenuItem = {
   root: {
     height: 'auto',
     '&:hover': {
-      backgroundColor: blue,
-      color: palette.primary[100]
+      backgroundColor: grayBlueLighter
     },
     '&:focus': {
-      backgroundColor: blue,
-      color: palette.primary[100]
+      backgroundColor: grayBlueLighter
     }
   }
 }
