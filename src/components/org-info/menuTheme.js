@@ -1,4 +1,4 @@
-import {grayDarker, white} from 'grape-theme/dist/base-colors'
+import {grayDarker} from 'grape-theme/dist/base-colors'
 import {small, normal} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {create as createMuiTheme} from 'grape-web/lib/mui-theme'
@@ -13,11 +13,7 @@ export const styles = {
       textDecoration: 'none'
     }
   },
-  item: {
-    '&:hover > $icon': {
-      fill: white
-    }
-  },
+  item: {},
   icon: {
     extend: normal,
     marginRight: 10,

@@ -2886,9 +2886,9 @@
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
     },
     "grape-browser": {
-      "version": "3.5.1",
+      "version": "3.6.0",
       "from": "grape-browser@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.5.1.tgz"
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.6.0.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",
@@ -2901,9 +2901,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.1.0.tgz"
     },
     "grape-web": {
-      "version": "0.47.0",
+      "version": "0.48.1",
       "from": "grape-web@>=0.0.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.47.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.48.1.tgz"
     },
     "growl": {
       "version": "1.9.2",

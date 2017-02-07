@@ -1,11 +1,33 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
+import copy from 'copy-to-clipboard'
+import {
+  intlShape,
+  injectIntl,
+  defineMessages
+} from 'react-intl'
 
 import RegularMessage from './messages/RegularMessage'
 import ActivityMessage from './messages/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
 import {styles} from './rowTheme'
+
+const messages = defineMessages({
+  confirm: {
+    id: 'deleteMessagesQuestion',
+    defaultMessage: 'Delete the selected Message?'
+  },
+  copy: {
+    id: 'linkInClipboard',
+    defaultMessage: 'Message link added to clipboard'
+  },
+  quoteFooter: {
+    id: 'quoteFooter',
+    defaultMessage: '- [Message]({messageUrl}) from {author}',
+    description: 'Quoted message footer text.'
+  }
+})
 
 const messageComponents = {
   regular: RegularMessage,
@@ -28,9 +50,11 @@ const messagePropType = PropTypes.shape({
 })
 
 @injectSheet(styles)
+@injectIntl
 export default class Row extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     user: PropTypes.shape({
       id: idPropType.isRequired
     }).isRequired,
@@ -41,6 +65,8 @@ export default class Row extends PureComponent {
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
+    onQuote: PropTypes.func.isRequired,
+    onCopyLink: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
@@ -48,7 +74,7 @@ export default class Row extends PureComponent {
     duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
     style: PropTypes.object,
     key: PropTypes.string,
-    isExpanded: PropTypes.bool,
+    isExpanded: PropTypes.bool.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
@@ -56,7 +82,12 @@ export default class Row extends PureComponent {
   static defaultProps = {
     isLast: false,
     isGroupable: false,
-    duplicates: []
+    isExpanded: false,
+    duplicates: [],
+    prevMessage: null,
+    style: null,
+    key: null,
+    selectedMessageId: null
   }
 
   onEdit = () => {
@@ -64,9 +95,48 @@ export default class Row extends PureComponent {
     onEdit(message)
   }
 
+  onCopyLink = () => {
+    const {
+      intl: {formatMessage},
+      onCopyLink,
+      message: {link}
+    } = this.props
+    copy(link)
+    onCopyLink(formatMessage(messages.copy))
+  }
+
   onRemove = () => {
-    const {onRemove, duplicates, message} = this.props
-    onRemove([...duplicates, message.id].map(id => ({id})))
+    const {
+      intl: {formatMessage},
+      onRemove,
+      message,
+      duplicates
+    } = this.props
+
+    // eslint-disable-next-line no-alert
+    if (confirm(formatMessage(messages.confirm))) {
+      onRemove([...duplicates, message.id].map(id => ({id})))
+    }
+  }
+
+  onQuote = () => {
+    const {
+      intl: {formatMessage},
+      message: {text, author, link},
+      onQuote
+    } = this.props
+
+    const quote = text
+      .split('\n')
+      .map(part => `> ${part}`)
+      .join('\n')
+
+    const footer = formatMessage(messages.quoteFooter, {
+      messageUrl: link,
+      author: author.slug ? `[${author.name}](/chat/${author.slug})` : author.name
+    })
+
+    onQuote({quote: `\n\n${quote}\n\n${footer}`})
   }
 
   onResend = () => {
@@ -79,7 +149,7 @@ export default class Row extends PureComponent {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
       isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
-      style, key, onCopyLink
+      style, key
     } = this.props
 
     let separator = null
@@ -88,7 +158,8 @@ export default class Row extends PureComponent {
         <DateSeparator
           theme={{date: classes.separator}}
           date={message.time}
-          key={`date-separator-${message.id}`} />
+          key={`date-separator-${message.id}`}
+        />
       )
     }
 
@@ -108,7 +179,8 @@ export default class Row extends PureComponent {
       onEdit: this.onEdit,
       onRemove: this.onRemove,
       onResend: this.onResend,
-      onCopyLink
+      onCopyLink: this.onCopyLink,
+      onQuote: this.onQuote
     }
 
     if (message.type === 'activity') {
@@ -125,7 +197,8 @@ export default class Row extends PureComponent {
       <div
         className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}
         style={style}
-        key={key}>
+        key={key}
+      >
         {separator}
         <Message {...props}>
           {message.text}

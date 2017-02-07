@@ -30,6 +30,7 @@ export default function pipeEvents(ui) {
   broker(ui.reduxEmitter, 'editMessage', ui.grapeInput, 'onEditMessage')
   broker(ui.reduxEmitter, 'showEmojiBrowser', ui.grapeInput, 'onShowEmojiBrowser')
   broker(ui.reduxEmitter, 'showGrapeBrowser', ui.grapeInput, 'onShowGrapeSearch')
+  broker(ui.reduxEmitter, 'insertQuote', ui.grapeInput, 'onInsertQuote')
 
   // notifications
   broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')

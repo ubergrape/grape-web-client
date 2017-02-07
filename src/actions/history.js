@@ -34,7 +34,7 @@ function loadLatest() {
     }))
 
     api.loadHistory(channel.id, {limit})
-      .then(res => {
+      .then((res) => {
         const messages = normalizeMessages(res.reverse(), getState())
         const lastMessage = last(messages)
 
@@ -47,7 +47,7 @@ function loadLatest() {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch(error(err))
       })
@@ -83,11 +83,11 @@ function loadOlder(params) {
     }))
 
     promise
-      .then(res => {
+      .then((res) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         return res
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch(error(err))
       })
@@ -123,7 +123,7 @@ function loadNewer(params) {
     }))
 
     promise
-      .then(res => {
+      .then((res) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
@@ -133,7 +133,7 @@ function loadNewer(params) {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch(error(err))
       })
@@ -157,7 +157,7 @@ function loadFragment() {
 
     api
       .loadHistoryAt(channel.id, selectedMessageId, {limit})
-      .then(res => {
+      .then((res) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
@@ -168,7 +168,7 @@ function loadFragment() {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch(error(err))
       })
@@ -201,7 +201,7 @@ export function loadMoreHistory(params) {
 export function renderOlderHistory() {
   return (dispatch, getState) => {
     const {olderMessages} = historySelector(getState())
-    olderMessages.then(res => {
+    olderMessages.then((res) => {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
@@ -329,5 +329,16 @@ export function readMessage({channelId, messageId}) {
     api
       .readMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))
+  }
+}
+
+export function insertMessageQuote({quote}) {
+  return (dispatch) => {
+    dispatch({
+      type: types.INSERT_MESSAGE_QUOTE,
+      payload: quote
+    })
+
+    reduxEmitter.insertQuote({quote})
   }
 }
