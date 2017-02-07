@@ -406,6 +406,7 @@ export default class GrapeBrowser extends Component {
     if (browser === 'search') {
       return (
         <SearchBrowser
+          className={classes.browser}
           data={data}
           services={this.props.services}
           images={images}
