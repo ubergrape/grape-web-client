@@ -204,3 +204,7 @@ export function scrollLeftToCaret(node) {
   const isVisible = left > scrollLeft && left < (scrollLeft + offsetWidth)
   if (!isVisible) node.scrollLeft = left
 }
+
+export const getCaretAt = ({caretPosition, value}) => (
+  caretPosition === 'end' ? value.length : 0
+)

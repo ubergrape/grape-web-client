@@ -277,9 +277,10 @@ export default class GrapeBrowser extends Component {
   }
 
   setTextContent = (content, options = {}) => {
+    const {caretPosition, silent} = options
     this.query.reset()
-    this.setState({content}, () => {
-      if (!options.silent) this.onChangeInput()
+    this.setState({content, caretPosition}, () => {
+      if (!silent) this.onChangeInput()
     })
   }
 
@@ -465,7 +466,8 @@ export default class GrapeBrowser extends Component {
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.inputFocused}
-            content={this.state.content} />
+            content={this.state.content}
+            caretPosition={this.state.caretPosition} />
         </div>
       </div>
     )

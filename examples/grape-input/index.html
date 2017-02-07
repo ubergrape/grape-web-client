@@ -27,6 +27,7 @@
     <script src="/build/grape-browser.js"></script>
     <script src="./data.js"></script>
     <button onclick="setProps({focused: true}); input.setTextContent('new text content')">Set text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('\nnew text\n content', {caretPosition: 'start'})">Set text and carret at the beginning.</button>
     <button onclick="console.log(input.getTextContent())">Get text content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('new multiline \n text content')">Set multiline text content</button>
