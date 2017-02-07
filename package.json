@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.48.0",
+  "version": "0.48.1",
   "dependencies": {
     "@ubergrape/material-ui": "^0.18.0-alpha",
     "classnames": "^2.2.5",
