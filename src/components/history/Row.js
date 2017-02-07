@@ -133,7 +133,7 @@ export default class Row extends PureComponent {
 
     const footer = formatMessage(messages.quoteFooter, {
       messageUrl: link,
-      author: `[${author.name}](/chat/${author.slug})`
+      author: author.slug ? `[${author.name}](/chat/${author.slug})` : author.name
     })
 
     onQuote({quote: `\n\n${quote}\n\n${footer}`})
