@@ -50,6 +50,7 @@ export external from './svg/external.svg'
 export lifeSaver from './svg/life-saver.svg'
 export random from './svg/random.svg'
 export signOut from './svg/sign-out.svg'
+export quoteLeft from './svg/quote-left.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
