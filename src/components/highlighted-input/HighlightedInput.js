@@ -1,5 +1,5 @@
 import React, {PropTypes, Component} from 'react'
-import ReactDOM from 'react-dom'
+import {findDOMNode} from 'react-dom'
 import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
 import pick from 'lodash/object/pick'
@@ -13,7 +13,8 @@ import {
   splitByTokens,
   ensureSpace,
   setCaretPosition,
-  scrollLeftToCaret
+  scrollLeftToCaret,
+  getCaretAt
 } from './utils'
 import style from './style'
 
@@ -31,7 +32,8 @@ export default class HighlightedInput extends Component {
     disabled: PropTypes.bool,
     theme: PropTypes.object,
     value: PropTypes.string,
-    tokens: PropTypes.arrayOf(PropTypes.string)
+    tokens: PropTypes.arrayOf(PropTypes.string),
+    caretPosition: PropTypes.oneOf(['start', 'end'])
   }
 
   static defaultProps = {
@@ -40,6 +42,7 @@ export default class HighlightedInput extends Component {
     focused: true,
     disabled: false,
     theme: {},
+    caretPosition: 'end',
     onChange: noop,
     onKeyDown: noop,
     onDidMount: noop,
@@ -52,19 +55,20 @@ export default class HighlightedInput extends Component {
     const {value} = props
     this.state = {
       value,
-      caretAt: value.length
+      caretAt: getCaretAt(props)
     }
   }
 
   componentDidMount() {
-    this.editable = ReactDOM.findDOMNode(this.refs.editable)
+    this.editable = findDOMNode(this.refs.editable)
     this.ensureContainerSize()
     this.props.onDidMount(this)
   }
 
-  componentWillReceiveProps({value}) {
+  componentWillReceiveProps(nextProps) {
+    const {value} = nextProps
     if (value !== this.state.value) {
-      this.setState({value, caretAt: value.length})
+      this.setState({value, caretAt: getCaretAt(nextProps)})
     }
   }
 
