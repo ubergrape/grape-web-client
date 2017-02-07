@@ -407,7 +407,7 @@ export default class GrapeInput extends Emitter {
 
   onInsertQuote({quote}) {
     this.setProps({focused: true}, () => {
-      this.input.setTextContent(quote)
+      this.input.setTextContent(quote, {caretPosition: 'start'})
     })
   }
 

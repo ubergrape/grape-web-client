@@ -21,6 +21,11 @@ const messages = defineMessages({
   copy: {
     id: 'linkInClipboard',
     defaultMessage: 'Message link added to clipboard'
+  },
+  quoteFooter: {
+    id: 'quoteFooter',
+    defaultMessage: '- [Message]({messageUrl}) from {author}',
+    description: 'Quoted message footer text.'
   }
 })
 
@@ -116,15 +121,22 @@ export default class Row extends PureComponent {
 
   onQuote = () => {
     const {
-      message: {text},
+      intl: {formatMessage},
+      message: {text, author, link},
       onQuote
     } = this.props
 
-    const quote = `${text
+    const quote = text
       .split('\n')
       .map(part => `> ${part}`)
-      .join('\n')}\n\n`
-    onQuote({quote})
+      .join('\n')
+
+    const footer = formatMessage(messages.quoteFooter, {
+      messageUrl: link,
+      author: `[${author.name}](/chat/${author.slug})`
+    })
+
+    onQuote({quote: `\n\n${quote}\n\n${footer}`})
   }
 
   onResend = () => {

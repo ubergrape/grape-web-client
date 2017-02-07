@@ -31,7 +31,7 @@ export const styles = {
   editItem: buttonIcon('pencil', iconOptions),
   copyLinkItem: buttonIcon('iconLink', iconOptions),
   removeItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
-  quoteItem: buttonIcon('pencil', iconOptions),
+  quoteItem: buttonIcon('quoteLeft', iconOptions),
   item: {
     padding,
     border,
