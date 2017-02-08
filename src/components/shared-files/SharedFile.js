@@ -1,7 +1,7 @@
 import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
-import * as icons from 'grape-web/lib/svg-icons/data'
+import icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
@@ -24,6 +24,11 @@ export default class SharedFile extends PureComponent {
     thumbnailUrl: PropTypes.string
   }
 
+  static defaultProps = {
+    author: null,
+    thumbnailUrl: null
+  }
+
   onOpen = () => {
     openUrl(this.props.url, false)
   }
@@ -32,9 +37,7 @@ export default class SharedFile extends PureComponent {
     this.preview = ref
   }
 
-  getPreviewRef = () => {
-    return this.preview
-  }
+  getPreviewRef = () => this.preview
 
   renderPreview() {
     const {thumbnailUrl, sheet: {classes}, category} = this.props
@@ -54,8 +57,8 @@ export default class SharedFile extends PureComponent {
       <div
         ref={this.setPreviewRef}
         className={className}
-        style={{backgroundImage}}>
-      </div>
+        style={{backgroundImage}}
+      />
     )
   }
 
@@ -77,7 +80,8 @@ export default class SharedFile extends PureComponent {
             id="sharedInRoom"
             defaultMessage="Shared in {channelName}"
             description="*Describe sharedInRoom*, example: 'Shared in Office'"
-            values={{channelName}}/>
+            values={{channelName}}
+          />
         )
         break
       }
@@ -87,7 +91,8 @@ export default class SharedFile extends PureComponent {
             id="sharedInPm"
             defaultMessage="Shared with {channelName}"
             description="*Describe sharedInPm*, example: Shared with Felix'"
-            values={{channelName}}/>
+            values={{channelName}}
+          />
         )
         break
       }
@@ -97,7 +102,8 @@ export default class SharedFile extends PureComponent {
     return (
       <section
         className={classes.sharedFile}
-        onClick={handleClick ? this.onOpen : noop}>
+        onClick={handleClick ? this.onOpen : noop}
+      >
         <div className={classes.leftColumn}>
           {this.renderPreview()}
         </div>
@@ -114,13 +120,14 @@ export default class SharedFile extends PureComponent {
 
   render() {
     const {thumbnailUrl, url} = this.props
-    const section = this.renderSection(!Boolean(thumbnailUrl))
+    const section = this.renderSection(!thumbnailUrl)
 
     if (thumbnailUrl) {
       return (
         <ImageZoom
           getPreviewRef={this.getPreviewRef}
-          url={url}>
+          url={url}
+        >
           {section}
         </ImageZoom>
       )
