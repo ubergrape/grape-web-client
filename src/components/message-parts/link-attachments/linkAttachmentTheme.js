@@ -23,5 +23,8 @@ export const styles = {
   },
   fieldGroupShort: {
     display: 'flex'
+  },
+  embed: {
+    maxWidth: 480
   }
 }
