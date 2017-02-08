@@ -1,4 +1,4 @@
-import * as icons from 'grape-web/lib/svg-icons/data'
+import icons from 'grape-web/lib/svg-icons/data'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 /**

@@ -1,7 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import * as icons from 'grape-web/lib/svg-icons/data'
+import icons from 'grape-web/lib/svg-icons/data'
 
 import {styles, color} from './linkWithIconTheme'
 
@@ -16,7 +16,8 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   static defaultProps = {
-    icon: 'file'
+    icon: 'file',
+    target: null
   }
 
   getSvg() {
@@ -33,7 +34,7 @@ export default class LinkWithIcon extends PureComponent {
 
     return (
       <a href={url} target={target} className={classes.link}>
-        <span className={classes.icon} style={style}></span>
+        <span className={classes.icon} style={style} />
         {` ${name}`}
       </a>
     )
