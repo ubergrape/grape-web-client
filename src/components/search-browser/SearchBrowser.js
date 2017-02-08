@@ -36,6 +36,8 @@ export default class SearchBrowser extends Component {
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
+    onAddIntegration: PropTypes.func,
+    servicesResultsAmounts: PropTypes.object,
     showSearchBrowserResults: PropTypes.func,
     focusSearchBrowserResult: PropTypes.func,
     selectSearchBrowserResult: PropTypes.func,
@@ -164,16 +166,21 @@ export default class SearchBrowser extends Component {
   }
 
   getBody() {
-    const {height, results, search, focusedView, intl} = this.props
+    const {
+      height, results, search, intl: {formatMessage},
+      onAddIntegration, focusedView,
+      currServices, focusedService, focusSearchBrowserService,
+      ...rest
+    } = this.props
 
     if (focusedView === 'services') {
       const element = (
         <ServiceList
-          {...this.props}
-          services={this.props.currServices}
-          focused={this.props.focusedService}
+          {...rest}
+          services={currServices}
+          focused={focusedService}
           onSelect={::this.onAddService}
-          onFocus={this.props.focusSearchBrowserService} />
+          onFocus={focusSearchBrowserService} />
       )
       return {element, height}
     }
@@ -181,7 +188,8 @@ export default class SearchBrowser extends Component {
     if (results.length) {
       const element = (
         <Results
-          {...this.props}
+          {...rest}
+          focusedView={focusedView}
           data={results}
           onFocus={::this.onFocusResult}
           onSelect={::this.onSelectResult} />
@@ -191,38 +199,44 @@ export default class SearchBrowser extends Component {
 
     if (search.trim()) {
       return {
-        element: <Empty text={intl.formatMessage(messages.empty)} />,
+        element: <Empty text={formatMessage(messages.empty)} />,
         height: 'auto'
       }
     }
 
     return {
-      element: <Info {...this.props} />,
+      element: <Info onAddIntegration={onAddIntegration} />,
       height: 'auto'
     }
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {
+      sheet: {classes},
+      height,
+      changeSearchBrowserInput,
+      className,
+      ...rest
+    } = this.props
     const body = this.getBody()
 
     return (
       <div
-        className={`${classes.browser} ${this.props.className}`}
+        className={`${classes.browser} ${className}`}
         // Set a fixed height when we have search results, otherwise height should
         // be auto detected.
         style={{
           height: body.height,
-          maxHeight: this.props.height
+          maxHeight: height
         }}
         onMouseDown={this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">
         <SearchInput
-          {...this.props}
+          {...rest}
           onDidMount={this.onMountInput}
           onKeyDown={this.onKeyDown}
-          onChange={this.props.changeSearchBrowserInput}
+          onChange={changeSearchBrowserInput}
           onBlur={this.onBlur} />
         {body.element}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}

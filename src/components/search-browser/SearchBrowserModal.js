@@ -41,7 +41,7 @@ export default class SearchBrowserModal extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {sheet: {classes}, ...rest} = this.props
     return (
       <Modal
         show={this.state.show}
@@ -49,7 +49,7 @@ export default class SearchBrowserModal extends Component {
         backdropClassName={classes.backdrop}
         onBackdropClick={::this.onHideModal}>
         <SearchBrowser
-          {...this.props}
+          {...rest}
           {...this.callbacks}
           className={classes.browser}
           onAbort={::this.onHideModal} />
