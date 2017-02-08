@@ -167,11 +167,12 @@ export default class GrapeInput extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {sheet: {classes}, ...rest} = this.props
+
     return (
       <div>
         <HighlightedInput
-          {...this.props}
+          {...rest}
           value={this.state.value}
           tokens={Object.keys(this.state.objects)}
           getTokenClass={::this.getTokenClass}

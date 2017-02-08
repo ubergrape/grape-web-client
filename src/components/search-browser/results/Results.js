@@ -71,8 +71,9 @@ export default class Results extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {focusedResult} = this.props
+    const {
+      sheet: {classes}, focusedResult, data, ...rest
+    } = this.props
 
     let details
     if (focusedResult) {
@@ -86,10 +87,10 @@ export default class Results extends Component {
           <List
             className={classes.leftColumn}
             renderItem={this.renderResult}
-            items={this.props.data}
-            focused={this.props.focusedResult} />
+            items={data}
+            focused={focusedResult} />
           <Sidebar className={classes.rightColumn}>
-            <Detail {...this.props} data={details} />
+            <Detail {...rest} data={details} />
           </Sidebar>
         </div>
       </div>

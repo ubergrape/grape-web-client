@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {
   defineMessages,
   intlShape,
-  FormattedMessage
+  FormattedMessage,
+  injectIntl
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-finite-list'
@@ -21,6 +22,7 @@ const messages = defineMessages({
 })
 
 @injectSheet(style)
+@injectIntl
 export default class ServiceList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

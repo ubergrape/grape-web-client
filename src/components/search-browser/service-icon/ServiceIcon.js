@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import * as icons from 'grape-web/lib/svg-icons/data'
+import icons from 'grape-web/lib/svg-icons/data'
 import injectSheet from 'grape-web/lib/jss'
 
 import * as style from './style'
