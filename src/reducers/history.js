@@ -15,7 +15,8 @@ function updateMessage(state, newMessage, opts = {}) {
   if (index === -1) return state
   const message = {...currMessage, ...newMessage}
   messages.splice(index, 1, message)
-  const scrollTo = opts.isOwnMessage ? message.id : null
+  const isLastMessage = index === messages.length - 1
+  const scrollTo = opts.isOwnMessage && isLastMessage ? message.id : null
   return {...state, messages: [...messages], scrollTo}
 }
 
