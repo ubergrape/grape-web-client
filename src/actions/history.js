@@ -303,9 +303,15 @@ export function createMessage({channelId, text, attachments = []}) {
 
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
+    const state = getState()
+    const user = userSelector(getState())
+    const isOwnMessage = user.id === message.author.id
     dispatch({
       type: types.UPDATE_MESSAGE,
-      payload: normalizeMessage(message, getState())
+      payload: {
+        message: normalizeMessage(message, state),
+        isOwnMessage
+      }
     })
   }
 }

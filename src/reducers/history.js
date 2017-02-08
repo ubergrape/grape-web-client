@@ -1,21 +1,22 @@
-import * as types from '../constants/actionTypes'
 import reject from 'lodash/collection/reject'
 import findIndex from 'lodash/array/findIndex'
 import uniq from 'lodash/array/uniq'
+import * as types from '../constants/actionTypes'
 
 const initialState = {
   messages: [],
   minimumBatchSize: 30
 }
 
-function updateMessage(state, newMessage) {
+function updateMessage(state, newMessage, opts = {}) {
   const {messages} = state
   const index = findIndex(messages, {id: newMessage.id})
   const currMessage = messages[index]
   if (index === -1) return state
   const message = {...currMessage, ...newMessage}
   messages.splice(index, 1, message)
-  return {...state, messages: [...messages]}
+  const scrollTo = opts.isOwnMessage ? message.id : null
+  return {...state, messages: [...messages], scrollTo}
 }
 
 /**
@@ -94,7 +95,7 @@ export default function reduce(state = initialState, action) {
     case types.EDIT_MESSAGE:
       return updateMessage(state, {...payload, isSelected: true})
     case types.UPDATE_MESSAGE:
-      return updateMessage(state, payload)
+      return updateMessage(state, {...payload.message}, {isOwnMessage: payload.isOwnMessage})
     case types.MARK_MESSAGE_AS_UNSENT:
       return updateMessage(state, {...payload, state: 'unsent'})
     case types.RESEND_MESSAGE:
