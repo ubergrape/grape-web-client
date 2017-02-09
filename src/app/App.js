@@ -1,5 +1,4 @@
-import React, {PureComponent, PropTypes} from 'react'
-import {IntlProvider} from 'react-intl'
+import React, {PureComponent} from 'react'
 
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
@@ -24,6 +23,7 @@ import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {FileUploadProvider} from '../containers/file-upload'
 
 import {AppLayout} from '../components/app-layout'
+import {IntlProvider} from '../components/i18n'
 
 const Aside = ({className}) => (
   <aside className={className}>
@@ -31,10 +31,6 @@ const Aside = ({className}) => (
     <NavigationProvider />
   </aside>
 )
-
-Aside.propTypes = {
-  className: PropTypes.string
-}
 
 const Globals = () => (
   <section>
@@ -53,19 +49,9 @@ const Globals = () => (
 )
 
 export default class App extends PureComponent {
-  static propTypes = {
-    locale: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired
-  }
-
   render() {
-    const {
-      locale,
-      messages
-    } = this.props
-
     return (
-      <IntlProvider locale={locale} messages={messages}>
+      <IntlProvider>
         <FileUploadProvider>
           <AppLayout
             Aside={Aside}
@@ -74,7 +60,8 @@ export default class App extends PureComponent {
             History={HistoryProvider}
             Footer={FooterProvider}
             Sidebar={SidebarProvider}
-            Globals={Globals} />
+            Globals={Globals}
+          />
         </FileUploadProvider>
       </IntlProvider>
     )

@@ -7,13 +7,11 @@ import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
 import {organization, user, server} from '../conf'
-import * as translations from '../i18n'
 import {create as createClient} from '../utils/backend/client'
 import subscribe from './subscribe'
 import App from './App'
 
 const {languageCode: locale, email, username, id: userId} = user
-const messages = translations[locale]
 
 export function init() {
   addLocaleData([...en, ...de])
@@ -34,5 +32,5 @@ export function render() {
   const container = document.createElement('div')
   container.className = 'grape-web-client'
   document.body.appendChild(container)
-  ReactDom.render(<App locale={locale} messages={messages} />, container)
+  ReactDom.render(<App />, container)
 }
