@@ -1,3 +1,19 @@
+
+
+## Releases XX.XX.XX (2017-02-XX)
+
+### New Features
+
+* Custom icons for Activities (#324)
+
+### Fixes
+
+* Link attachments adjustments (#331)
+
+### Chore changes
+
+* Upgrate to react-virtualized ^8.11.4 (#322)
+
 ## Releases 0.50.0 (2017-02-03)
 
 ### New Features
