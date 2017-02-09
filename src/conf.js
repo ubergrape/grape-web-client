@@ -25,7 +25,9 @@ Config.prototype.init = function () {
     }
   }
 
-  this.user = {}
+  this.user = {
+    languageCode: 'en'
+  }
   this.organization = {}
   this.server = {
     loginPath: '/accounts/login',

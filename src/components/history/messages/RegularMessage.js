@@ -11,6 +11,7 @@ import Header from '../../message-parts/Header'
 import Menu from '../../message-parts/Menu'
 import {LinkAttachments} from '../../message-parts'
 import Tooltip from '../../tooltip/HoverTooltip'
+import {defaultAvatar} from '../../../constants/images'
 
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
@@ -135,7 +136,7 @@ export default class RegularMessage extends PureComponent {
     attachments: PropTypes.array.isRequired,
     linkAttachments: PropTypes.array.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.string.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
@@ -146,6 +147,8 @@ export default class RegularMessage extends PureComponent {
     onRemove: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onCopyLink: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    onQuote: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -161,17 +164,25 @@ export default class RegularMessage extends PureComponent {
   }
 
   static defaultProps = {
+    avatar: defaultAvatar,
     hasBubbleArrow: true,
     isOwn: false,
     isSelected: false,
+    isPm: false,
+    duplicates: 0,
     attachments: [],
+    linkAttachments: [],
     customEmojis: {},
-    linkPreviews: [],
     children: '',
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onGoToChannel: noop
+    onGoToChannel: noop,
+    onCopyLink: noop,
+    onQuote: noop,
+    time: new Date(),
+    userTime: new Date().toISOString(),
+    user: {}
   }
 
   constructor(props) {

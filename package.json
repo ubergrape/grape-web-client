@@ -129,6 +129,7 @@
     "node-static": "^0.7.7",
     "pre-commit": "^1.2.2",
     "raw-loader": "^0.5.1",
+    "react-styleguidist": "^5.0.0-beta.10",
     "require-cwd": "0.0.2",
     "style-loader": "^0.12.3",
     "stylus": "0.42.1",
@@ -164,7 +165,9 @@
     "i18n:export:new": "babel-node i18n/scripts/export.js",
     "i18n:export:legacy": "babel-node i18n/scripts/legacyExport.js",
     "i18n:import": "npm run build && babel-node i18n/scripts/import.js",
-    "prepublish": "NODE_ENV=production npm run all"
+    "prepublish": "NODE_ENV=production npm run all",
+    "sg": "STATIC_PATH=/dist/ styleguidist server",
+    "sg:build": "styleguidist build"
   },
   "lint-staged": {
     "src/**/*.js": [
