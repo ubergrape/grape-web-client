@@ -40,16 +40,16 @@ export default class IframeUnsafeHtml extends PureComponent {
     const {
       className,
       sheet: {classes},
-      ...rest
+      ...iframeHtmlAttrs
     } = this.props
 
-    const {html, ...args} = rest // eslint-disable-line no-unused-vars
+    delete iframeHtmlAttrs.html
 
     return (
       <iframe
         className={cn(classes.iframe, className)}
         ref={this.onRefIframe}
-        {...args}
+        {...iframeHtmlAttrs}
       />
     )
   }
