@@ -5448,11 +5448,6 @@
       "from": "react-intl@>=2.1.3 <3.0.0",
       "resolved": "https://registry.npmjs.org/react-intl/-/react-intl-2.2.3.tgz"
     },
-    "react-jss": {
-      "version": "5.1.1",
-      "from": "react-jss@5.1.1",
-      "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-5.1.1.tgz"
-    },
     "react-overlays": {
       "version": "0.6.10",
       "from": "react-overlays@>=0.6.3 <0.7.0",

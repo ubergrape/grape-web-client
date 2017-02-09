@@ -2,16 +2,16 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
-import Avatar from '../../avatar/Avatar'
-import Grapedown from '../../grapedown/Grapedown'
-import Header from '../../message-parts/Header'
-import Menu from '../../message-parts/Menu'
+import Avatar from '../../../avatar/Avatar'
+import Grapedown from '../../../grapedown/Grapedown'
+import Header from '../../../message-parts/Header'
+import Menu from '../../../message-parts/Menu'
 
-import {ActivityBubble, SelectedBubble} from './Bubble'
+import {ActivityBubble, SelectedBubble} from './Bubbles'
 import Expander from './Expander'
-import DuplicatesBadge from './DuplicatesBadge'
-import Attachment from './Attachment'
-import {styles} from './baseMessageTheme'
+import DuplicatesBadge from '../DuplicatesBadge'
+import Attachment from '../Attachment'
+import {styles} from '../baseMessageTheme'
 
 const menuItems = ['copyLink', 'quote']
 

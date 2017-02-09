@@ -7,7 +7,7 @@ import {
 import injectSheet from 'grape-web/lib/jss'
 
 import Grapedown from '../grapedown/Grapedown'
-import {OwnBubble as Bubble} from '../history/messages/Bubble'
+import {OwnBubble as Bubble} from '../history'
 import {styles} from './markdownTipTheme'
 
 const messages = defineMessages({
@@ -63,7 +63,8 @@ export default class MarkdownTip extends PureComponent {
                 <Grapedown
                   text={formattedExample}
                   user={{}}
-                  customEmojis={{}} />
+                  customEmojis={{}}
+                />
               </div>
             </Bubble>
           </div>
