@@ -39,13 +39,17 @@ export default class IframeUnsafeHtml extends PureComponent {
   render() {
     const {
       className,
-      sheet: {classes}
+      sheet: {classes},
+      ...iframeHtmlAttrs
     } = this.props
+
+    delete iframeHtmlAttrs.html
 
     return (
       <iframe
         className={cn(classes.iframe, className)}
         ref={this.onRefIframe}
+        {...iframeHtmlAttrs}
       />
     )
   }

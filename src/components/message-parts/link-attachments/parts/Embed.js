@@ -47,11 +47,14 @@ export default class Embed extends PureComponent {
   }
 
   renderIframe() {
-    const {embedHtml} = this.props
+    const {
+      embedHtml,
+      sheet: {classes}
+    } = this.props
 
     const html = `
       <style>
-        html, body, iframe {
+        html, body, body > * {
           border: 0 !important;
           padding: 0 !important;
           margin: 0 !important;
@@ -59,12 +62,18 @@ export default class Embed extends PureComponent {
           width: 100% !important;
           height: 100% !important;
         }
-        iframe { display: block !important; }
+        body > * { display: block !important; }
+        style, script { display: none !important; }
       </style>
       ${embedHtml}
     `
 
-    return <IframeUnsafeHtml html={html} />
+    return (
+      <IframeUnsafeHtml
+        className={classes.iframe}
+        html={html}
+      />
+    )
   }
 
   render() {
@@ -77,12 +86,12 @@ export default class Embed extends PureComponent {
     const {isOpen} = this.state
     const style = {
       backgroundImage: !isOpen && thumbUrl ? `url(${thumbUrl})` : 'none',
-      width,
-      height
+      width
     }
 
     return (
       <div className={cn(classes.media)} style={style}>
+        <div style={{width: 1, paddingBottom: `${100 * (height / width)}%`}} />
         {!isOpen ? this.renderActions() : this.renderIframe()}
       </div>
     )

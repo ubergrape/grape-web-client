@@ -135,7 +135,7 @@ export default class LinkAttachment extends PureComponent {
       height
     } = this.props
 
-    const thumbUrl = getThumbUrl({
+    const thumbUrl = imageUrl && getThumbUrl({
       imageUrl,
       width,
       height
@@ -159,17 +159,18 @@ export default class LinkAttachment extends PureComponent {
       imageUrl,
       width,
       height,
-      sourceUrl
+      sourceUrl,
+      sheet: {classes}
     } = this.props
 
-    const thumbUrl = getThumbUrl({
+    const thumbUrl = imageUrl && getThumbUrl({
       imageUrl,
       width,
       height
     })
 
     return (
-      <Row spaced>
+      <Row spaced className={classes.embed}>
         <Embed
           embedHtml={embedHtml}
           thumbUrl={thumbUrl}

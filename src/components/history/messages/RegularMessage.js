@@ -280,7 +280,7 @@ export default class RegularMessage extends PureComponent {
               />
             }
           </div>
-          <div>
+          <div className={classes.contentWrapper}>
             <Bubble hasArrow={hasBubbleArrow}>
               <div
                 ref={this.onRefContent}
