@@ -2,7 +2,7 @@
   "name": "grape-web",
   "version": "0.49.0",
   "dependencies": {
-    "@ubergrape/material-ui": "^0.18.0-alpha",
+    "material-ui": "^1.0.0-alpha.2",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "grape-theme": "2.x",
