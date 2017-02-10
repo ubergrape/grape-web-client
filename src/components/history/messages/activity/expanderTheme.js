@@ -1,7 +1,7 @@
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 
-import button from '../../button/link'
-import {bubbleBorderRadius as borderRadius} from '../../message-parts'
+import button from '../../../button/link'
+import {bubbleBorderRadius as borderRadius} from '../../../message-parts'
 
 export const maxHeight = 350
 

@@ -5449,9 +5449,9 @@
       "resolved": "https://registry.npmjs.org/react-intl/-/react-intl-2.2.3.tgz"
     },
     "react-jss": {
-      "version": "5.1.1",
-      "from": "react-jss@5.1.1",
-      "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-5.1.1.tgz"
+      "version": "5.3.0",
+      "from": "react-jss@>=5.0.0 <6.0.0",
+      "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-5.3.0.tgz"
     },
     "react-overlays": {
       "version": "0.6.10",

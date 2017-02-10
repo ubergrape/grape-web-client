@@ -3,7 +3,7 @@ import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import {styles, maxHeight} from './expanderTheme'
-import {ShowMore, ShowLess} from '../../i18n/i18n'
+import {ShowMore, ShowLess} from '../../../i18n/i18n'
 
 @injectSheet(styles)
 export default class Expander extends PureComponent {
@@ -54,12 +54,14 @@ export default class Expander extends PureComponent {
     return (
       <div
         ref={this.onRef}
-        className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}>
+        className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}
+      >
         {children}
         {isEnabled &&
           <div
             onClick={this.onToggle}
-            className={classes[isExpanded ? 'expandedPanel' : 'collapsedPanel']}>
+            className={classes[isExpanded ? 'expandedPanel' : 'collapsedPanel']}
+          >
             <button className={classes.button}>
               {isExpanded ? <ShowLess /> : <ShowMore />}
             </button>

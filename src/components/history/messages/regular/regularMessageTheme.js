@@ -1,8 +1,8 @@
 import {small} from 'grape-theme/dist/fonts'
 import {red, gray} from 'grape-theme/dist/base-colors'
 
-import {styles as baseStyles, horizontalMargin} from './baseMessageTheme'
-import createInlineIcon from '../../inline-icon/create'
+import {styles as baseStyles, horizontalMargin} from '../baseMessageTheme'
+import createInlineIcon from '../../../inline-icon/create'
 
 const stateIndicatorSize = 12
 const stateIndicatorIcon = {

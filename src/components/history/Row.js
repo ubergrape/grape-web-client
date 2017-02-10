@@ -8,8 +8,8 @@ import {
   defineMessages
 } from 'react-intl'
 
-import RegularMessage from './messages/RegularMessage'
-import ActivityMessage from './messages/ActivityMessage'
+import RegularMessage from './messages/regular/RegularMessage'
+import ActivityMessage from './messages/activity/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
 import {styles} from './rowTheme'
 
