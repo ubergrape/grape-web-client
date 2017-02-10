@@ -1,8 +1,8 @@
 import React from 'react'
-import IconButton from '@ubergrape/material-ui/IconButton/IconButton'
-import ThemeProvider from '@ubergrape/material-ui/styles/MuiThemeProvider'
+import IconButton from 'material-ui/IconButton'
+import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {create as createMuiTheme} from 'grape-web/lib/mui-theme'
-import {grayLight} from 'grape-theme/dist/base-colors'
+import {grayLight, white} from 'grape-theme/dist/base-colors'
 import color from 'color'
 
 export const muiTheme = createMuiTheme({
@@ -14,7 +14,8 @@ export const muiTheme = createMuiTheme({
         fontSize: 11,
         border: [1, 'solid', color(grayLight).alpha(0.5).rgbaString()],
         borderRadius: 4,
-        padding: [3, 5]
+        padding: [3, 5],
+        backgroundColor: white
       }
     }
   }
