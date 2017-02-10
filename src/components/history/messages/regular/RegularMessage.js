@@ -15,6 +15,7 @@ import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
 import Author from './Author'
 import Menu from './Menu'
+import Footer from './footer/Footer'
 
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 
@@ -54,7 +55,8 @@ export default class RegularMessage extends PureComponent {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read'])
+    state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
+    nlp: PropTypes.object
   }
 
   static defaultProps = {
@@ -78,7 +80,8 @@ export default class RegularMessage extends PureComponent {
     time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
-    state: null
+    state: null,
+    nlp: null
   }
 
   constructor(props) {
@@ -118,10 +121,9 @@ export default class RegularMessage extends PureComponent {
 
   render() {
     const {
-      classes,
       author, user, time, avatar, children, hasBubbleArrow,
       state, isOwn, isSelected, attachments, customEmojis, duplicates,
-      linkAttachments
+      classes, linkAttachments, nlp
     } = this.props
 
     const {isMenuOpened} = this.state
@@ -169,6 +171,7 @@ export default class RegularMessage extends PureComponent {
                 {attachments.map(this.renderAttachment)}
               </div>
               {isMenuOpened && <Menu {...this.props} getContentNode={this.getContentNode} />}
+              {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
             {linkAttachments.length > 0 && <LinkAttachments attachments={linkAttachments} />}
