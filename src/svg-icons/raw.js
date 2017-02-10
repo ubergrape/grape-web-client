@@ -51,6 +51,14 @@ export lifeSaver from './svg/life-saver.svg'
 export random from './svg/random.svg'
 export signOut from './svg/sign-out.svg'
 export quoteLeft from './svg/quote-left.svg'
+export waiting from './svg/waiting.svg'
+export laptop from './svg/laptop.svg'
+export mobile from './svg/mobile.svg'
+export check from './svg/check.svg'
+export checkmark from './svg/checkmark.svg'
+export checkmarkFilled from './svg/checkmark-filled.svg'
+export checkCircle from './svg/check-circle.svg'
+export lightningBolt from './svg/lightning-bolt.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
@@ -71,12 +79,7 @@ export trello from './svg/trello.svg'
 export wikipedia from './svg/wikipedia.svg'
 export wordpress from './svg/wordpress.svg'
 export youtube from './svg/youtube.svg'
-export check from './svg/check.svg'
-export checkmark from './svg/checkmark.svg'
-export checkmarkFilled from './svg/checkmark-filled.svg'
-export waiting from './svg/waiting.svg'
-export laptop from './svg/laptop.svg'
-export mobile from './svg/mobile.svg'
+
 
 // Room Icons.
 export roomBasketball from './svg/room-basketball.svg'
