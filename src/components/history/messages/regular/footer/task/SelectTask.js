@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React from 'react'
 
 import Header from './Header'
@@ -17,8 +19,8 @@ export default ({classes, description, tasks, onClose}) => (
       icon="lightningBolt"
       onClose={onClose}
     />
-    {tasks.map(task => (
-      <Body classes={classes}>
+    {tasks.map((task, i) => (
+      <Body classes={classes} key={i}>
         {task.text}
       </Body>
     ))}
