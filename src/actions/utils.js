@@ -170,7 +170,10 @@ export const normalizeMessage = (() => {
       id: msg.author.id,
       name: msg.author.username
     }
-    const avatar = msg.author.icon || staticUrl(`images/service-icons/${author.id}-64.png`)
+    let avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
+    if (msg.author.icon) {
+      avatar = `${msg.author.icon}64x64/`
+    }
     let text = msg.title || msg.text
 
     if (msg.objects) {
