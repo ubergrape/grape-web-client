@@ -50,9 +50,17 @@
 ### Disconnected state
 
 ```
-<div style={{marginBottom: 50}}>
-  <RegularMessage nlp={{amount: 3}}>
-    Hello
+const nlp = {
+  amount: 3,
+  items:[
+    {text: 'Task 1'},
+    {text: 'Task 2'},
+    {text: 'Task 3'}
+  ]
+};
+<div style={{marginTop: 100, marginBottom: 30}}>
+  <RegularMessage nlp={nlp}>
+    With disconnected task button.
   </RegularMessage>
 </div>
 ```
@@ -60,9 +68,18 @@
 ### Connected state
 
 ```
-<div style={{marginBottom: 50}}>
-  <RegularMessage nlp={{amount: 3, isConnected: true}}>
-    Hello
+const nlp = {
+  isConnected: true,
+  amount: 3,
+  items:[
+    {text: 'Task 1'},
+    {text: 'Task 2'},
+    {text: 'Task 3'}  ]
+};
+
+<div style={{marginTop: 150, marginBottom: 30}}>
+  <RegularMessage nlp={nlp}>
+    With connected task button.
   </RegularMessage>
 </div>
 ```

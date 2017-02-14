@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import Task from './Task'
+import Task from './task/Task'
 import {styles} from './footerTheme'
 
 @injectSheet(styles)

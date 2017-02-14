@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import LinearProgress from '@ubergrape/material-ui/Progress/LinearProgress'
+import LinearProgress from 'material-ui/Progress/LinearProgress'
 import injectSheet from 'grape-web/lib/jss'
 import {green, grayLight} from 'grape-theme/dist/base-colors'
 import Icon from 'grape-web/lib/svg-icons/Icon'
