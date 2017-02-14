@@ -47,6 +47,7 @@ export default class RegularMessage extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    onRemoveLinkAttachment: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
     // Author and avatar are optional because we show them only for the first
@@ -57,7 +58,8 @@ export default class RegularMessage extends PureComponent {
     }),
     avatar: PropTypes.string,
     state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
-    nlp: PropTypes.object
+    nlp: PropTypes.object,
+    id: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -78,6 +80,7 @@ export default class RegularMessage extends PureComponent {
     onGoToChannel: noop,
     onCopyLink: noop,
     onQuote: noop,
+    onRemoveLinkAttachment: noop,
     time: new Date(),
     userTime: new Date().toISOString(),
     user: {},

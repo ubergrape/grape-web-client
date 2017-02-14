@@ -8,7 +8,14 @@ import {styles} from './linkAttachmentsTheme'
 export default class LinkAttachments extends PureComponent {
   static propTypes = {
     attachments: PropTypes.array.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    onRemove: PropTypes.func,
+    isAdmin: PropTypes.bool
+  }
+
+  static defaultProps = {
+    onRemove: null,
+    isAdmin: false
   }
 
   makeOnRemove = (id, url) => {
@@ -20,7 +27,7 @@ export default class LinkAttachments extends PureComponent {
     const {
       onRemove,
       attachments,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (

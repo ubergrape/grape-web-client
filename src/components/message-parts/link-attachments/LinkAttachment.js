@@ -1,6 +1,7 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
+import noop from 'lodash/utility/noop'
 
 import groupConsecutive from '../../../utils/group-consecutive'
 
@@ -50,7 +51,8 @@ export default class LinkAttachment extends PureComponent {
     ts: PropTypes.number,
     fields: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    onRemove: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -70,7 +72,8 @@ export default class LinkAttachment extends PureComponent {
     thumbUrl: null,
     embedHtml: null,
     ts: null,
-    className: ''
+    className: '',
+    onRemove: noop
   }
 
   state = {isMenuOpened: false}
@@ -122,7 +125,7 @@ export default class LinkAttachment extends PureComponent {
   renderText() {
     const {
       text,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -182,7 +185,7 @@ export default class LinkAttachment extends PureComponent {
       width,
       height,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     const thumbUrl = imageUrl && getThumbUrl({
@@ -208,7 +211,7 @@ export default class LinkAttachment extends PureComponent {
     const {
       thumbUrl,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -225,7 +228,7 @@ export default class LinkAttachment extends PureComponent {
     const {
       fields,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     let key = 0
@@ -264,7 +267,7 @@ export default class LinkAttachment extends PureComponent {
       footer,
       className,
       onRemove,
-      sheet: {classes}
+      classes
     } = this.props
 
     const {isMenuOpened} = this.state
