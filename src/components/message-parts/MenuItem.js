@@ -26,6 +26,13 @@ function getMessage(name) {
           defaultMessage="Delete message"
         />
       )
+    case 'removeLinkAttachment':
+      return (
+        <FormattedMessage
+          id="deleteLinkAttachment"
+          defaultMessage="Delete attachment"
+        />
+      )
     case 'quote':
       return (
         <FormattedMessage

@@ -342,3 +342,37 @@ export function insertMessageQuote({quote}) {
     reduxEmitter.insertQuote({quote})
   }
 }
+
+export function removeLinkAttchment(message, id) {
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_REMOVE_LINK_ATTACHMENT,
+      payload: {id}
+    })
+    console.log('remove by id', id)
+    // handleMessageUpdate(message)
+  }
+}
+
+export function removeLinkAttchmentForUrl(url) {
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_REMOVE_LINK_ATTACHMENT_URL,
+      payload: {url}
+    })
+    console.log('remove by url', url)
+    // handleMessageUpdate(message)
+  }
+}
+
+export function removeLinkAttachmentsForDomain(domain) {
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_REMOVE_LINK_ATTACHMENT_DOMAIN,
+      payload: {domain}
+    })
+    console.log('remove by domain', domain)
+    // handleMessageUpdate(message)
+  }
+}
+

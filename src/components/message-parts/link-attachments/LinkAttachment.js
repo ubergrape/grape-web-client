@@ -15,6 +15,7 @@ import {
   Title
 } from './parts'
 import ImageAttachment from '../attachments/ImageAttachment'
+import Menu from '../Menu'
 import {styles} from './linkAttachmentTheme.js'
 
 const fieldsGroupSize = 2
@@ -70,6 +71,27 @@ export default class LinkAttachment extends PureComponent {
     embedHtml: null,
     ts: null,
     className: ''
+  }
+
+  state = {isMenuOpened: false}
+
+  onMouseEnter = () => {
+    this.setState({isMenuOpened: true})
+  }
+
+  onMouseLeave = () => {
+    this.setState({isMenuOpened: false})
+  }
+
+  onRefContent = (ref) => {
+    this.content = ref
+  }
+
+  getContentNode = () => this.content
+
+  menuProps = {
+    items: ['removeLinkAttachment'],
+    onSelect: this.props.onRemove
   }
 
   renderAuthor() {
@@ -241,22 +263,33 @@ export default class LinkAttachment extends PureComponent {
       fields,
       footer,
       className,
+      onRemove,
       sheet: {classes}
     } = this.props
 
+    const {isMenuOpened} = this.state
+    const isAllowedToRemove = onRemove && isMenuOpened
+
     return (
-      <Bubble hasArrow={false} className={className}>
-        <div className={classes.main}>
-          {authorName && this.renderAuthor()}
-          {title && this.renderTitle()}
-          {text && this.renderText()}
-          {fields.length > 0 && this.renderFields()}
-          {footer && this.renderFooter()}
-          {imageUrl && !embedHtml && this.renderImage()}
-          {embedHtml && this.renderEmbed()}
-        </div>
-        {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
-      </Bubble>
+      <div
+        onMouseEnter={onRemove && this.onMouseEnter}
+        onMouseLeave={onRemove && this.onMouseLeave}
+        ref={onRemove && this.onRefContent}
+      >
+        <Bubble hasArrow={false} className={className}>
+          {isAllowedToRemove && <Menu {...this.menuProps} getContentNode={this.getContentNode} />}
+          <div className={classes.main}>
+            {authorName && this.renderAuthor()}
+            {title && this.renderTitle()}
+            {text && this.renderText()}
+            {fields.length > 0 && this.renderFields()}
+            {footer && this.renderFooter()}
+            {imageUrl && !embedHtml && this.renderImage()}
+            {embedHtml && this.renderEmbed()}
+          </div>
+          {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
+        </Bubble>
+      </div>
     )
   }
 }
