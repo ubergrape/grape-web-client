@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import Dropdown from '../../../../../dropdown/Dropdown'
 import TaskButton from './TaskButton'
-import SelectTask from './SelectTask'
+import TasksList from './TasksList'
 import {styles} from './taskTheme'
 
 const toggleOpenState = state => ({isOpen: !state.isOpen})
@@ -24,6 +24,14 @@ export default class Task extends PureComponent {
 
   onRefButton = (ref) => {
     this.buttonNode = findDOMNode(ref)
+  }
+
+  onSelectTask = (task) => {
+    console.log('select', task)
+  }
+
+  onRemoveTask = (task) => {
+    console.log('remove', task)
   }
 
   render() {
@@ -53,10 +61,15 @@ export default class Task extends PureComponent {
             placement="top"
             container={this}
           >
-            <SelectTask classes={classes} onClose={this.onHideDropdown} tasks={items} />
+            <TasksList
+              classes={classes}
+              onClose={this.onHideDropdown}
+              onSelectTask={this.onSelectTask}
+              onRemoveTask={this.onRemoveTask}
+              tasks={items}
+            />
           </Dropdown>
         }
-
       </div>
     )
   }

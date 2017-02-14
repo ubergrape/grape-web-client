@@ -19,7 +19,11 @@ export default ({classes, isConnected, amount, onClick, onRefButton}) => (
       onClick={onClick}
       buttonRef={onRefButton}
     >
-      <TaskIcon classes={classes} isConnected={isConnected} />
+      <TaskIcon
+        classes={classes}
+        isConnected={isConnected}
+        className={classes.taskButtonIcon}
+      />
       <span className={classes.taskButtonText}>{amount}</span>
     </ActionButton>
   </Tooltip>

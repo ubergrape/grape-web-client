@@ -51,6 +51,7 @@
 
 ```
 const nlp = {
+  isConnected: false,
   amount: 3,
   items:[
     {text: 'Task 1'},
@@ -73,8 +74,9 @@ const nlp = {
   amount: 3,
   items:[
     {text: 'Task 1'},
-    {text: 'Task 2'},
-    {text: 'Task 3'}  ]
+    {text: 'Task 2, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.', isConnected: true},
+    {text: 'Task 3'}
+  ]
 };
 
 <div style={{marginTop: 150, marginBottom: 30}}>

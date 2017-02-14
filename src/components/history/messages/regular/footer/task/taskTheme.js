@@ -1,7 +1,7 @@
 import {smaller, small, normal} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {
-  grayLight, grayBlueLighter, orange, green, white
+  grayLight, grayLighter, grayBlueLighter, orange, green, white
 } from 'grape-theme/dist/base-colors'
 
 export const styles = {
@@ -13,8 +13,7 @@ export const styles = {
     backgroundColor: white
   },
   taskButtonIcon: {
-    marginRight: 5,
-    fill: grayLight
+    marginRight: 10
   },
   taskButtonText: {
     color: grayLight
@@ -25,9 +24,11 @@ export const styles = {
     paddingTop: 4
   },
   taskIconLightningBolt: {
-    fill: orange,
-    marginRight: 10,
+    fill: grayLight,
     height: '1.2em'
+  },
+  taskIconLightningBoltConnected: {
+    fill: orange
   },
   taskIconCheckCircle: {
     position: 'absolute',
@@ -36,8 +37,8 @@ export const styles = {
     fill: green,
     height: '0.8em'
   },
-  content: {
-    width: 260
+  iconButtonIcon: {
+    fontSize: smaller.fontSize
   },
   header: {
     position: 'relative',
@@ -56,9 +57,6 @@ export const styles = {
     extend: small,
     marginRight: 5
   },
-  headerControlIcon: {
-    fontSize: smaller.fontSize
-  },
   headerControlPrev: {
     marginRight: 10
   },
@@ -72,9 +70,31 @@ export const styles = {
     extend: [small, ellipsis],
     margin: 0
   },
-  body: {
+  section: {
     background: white,
+    borderTop: [2, 'solid', grayBlueLighter],
+    width: 260
+  },
+  tasksList: {
+
+  },
+  tasksListItem: {
+    display: 'flex',
     padding: 10,
-    borderTop: [2, 'solid', grayBlueLighter]
+    cursor: 'pointer',
+    '&:hover': {
+      background: grayLighter
+    }
+  },
+  taskListItemIcon: {
+    cursor: 'pointer'
+  },
+  tasksListItemText: {
+    extend: [small, ellipsis],
+    flex: 1,
+    maxHeight: small.lineHeight * small.fontSize * 2,
+    whiteSpace: 'pre-line',
+    padding: [0, 10],
+    cursor: 'pointer'
   }
 }
