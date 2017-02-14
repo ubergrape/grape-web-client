@@ -5,6 +5,7 @@ import {create as createMuiTheme} from 'grape-web/lib/mui-theme'
 import {grayLight, white} from 'grape-theme/dist/base-colors'
 import color from 'color'
 
+// FIXME ubergrape/grape-web-client#348
 export const muiTheme = createMuiTheme({
   overrides: {
     IconButton: {

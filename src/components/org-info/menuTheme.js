@@ -26,6 +26,7 @@ export const styles = {
   }
 }
 
+// FIXME ubergrape/grape-web-client#348
 export const mui = createMuiTheme({
   overrides: {
     ListItem: {

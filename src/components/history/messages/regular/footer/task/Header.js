@@ -5,6 +5,7 @@ import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {create as createMuiTheme} from 'grape-web/lib/mui-theme'
 import cn from 'classnames'
 
+// FIXME ubergrape/grape-web-client#348
 export const muiTheme = createMuiTheme({
   overrides: {
     IconButton: {
