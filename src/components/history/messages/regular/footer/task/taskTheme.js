@@ -80,7 +80,8 @@ export const styles = {
   },
   tasksListItem: {
     display: 'flex',
-    padding: 10,
+    alignItems: 'center',
+    padding: [7, 10],
     cursor: 'pointer',
     '&:hover': {
       background: grayLighter
@@ -90,9 +91,9 @@ export const styles = {
     cursor: 'pointer'
   },
   tasksListItemText: {
-    extend: [small, ellipsis],
+    extend: [smaller, ellipsis],
     flex: 1,
-    maxHeight: small.lineHeight * small.fontSize * 2,
+    height: smaller.lineHeight * smaller.fontSize * 2,
     whiteSpace: 'pre-line',
     padding: [0, 10],
     cursor: 'pointer'
