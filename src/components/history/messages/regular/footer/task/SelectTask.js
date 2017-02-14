@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react'
+import {FormattedMessage} from 'react-intl'
 
 import Header from './Header'
 
@@ -14,7 +15,13 @@ export default ({classes, description, tasks, onClose}) => (
   <div className={classes.content}>
     <Header
       classes={classes}
-      title="Create Task"
+      title={
+        <FormattedMessage
+          id="createTask"
+          defaultMessage="Create Task"
+          description="NLP create task dialog title."
+        />
+      }
       description={description}
       icon="lightningBolt"
       onClose={onClose}

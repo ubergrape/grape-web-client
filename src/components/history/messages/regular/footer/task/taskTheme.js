@@ -56,9 +56,6 @@ export const styles = {
     extend: small,
     marginRight: 5
   },
-  headerControl: {
-
-  },
   headerControlIcon: {
     fontSize: smaller.fontSize
   },
