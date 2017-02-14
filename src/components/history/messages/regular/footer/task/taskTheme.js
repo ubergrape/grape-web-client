@@ -19,17 +19,22 @@ export const styles = {
   taskButtonText: {
     color: grayLight
   },
-  taskButtonIconConnected: {
-    fill: orange,
-    marginRight: 3
+  taskIconContainer: {
+    position: 'relative',
+    display: 'inline-block',
+    paddingTop: 4
   },
-  taskButtonIconConnectedCheckmark: {
+  taskIconLightningBolt: {
+    fill: orange,
+    marginRight: 10,
+    height: '1.2em'
+  },
+  taskIconCheckCircle: {
+    position: 'absolute',
+    left: '0.45em',
+    top: 0,
     fill: green,
-    height: '0.8em',
-    margin: {
-      top: '-1em',
-      left: '-0.4em'
-    }
+    height: '0.8em'
   },
   content: {
     width: 260
