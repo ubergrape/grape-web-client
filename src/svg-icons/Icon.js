@@ -30,19 +30,22 @@ const getData = (() => {
   }
 })()
 
-const Icon = ({sheet: {classes}, className, name}) => {
+const Icon = ({classes, className, name, ...rest}) => {
   const {html, attrs} = getData(name)
+  // eslint-disable-next-line no-param-reassign
+  delete rest.sheet
   return (
     <svg
       {...attrs}
       dangerouslySetInnerHTML={{__html: html}}
       className={cn(classes.icon, className)}
+      {...rest}
     />
   )
 }
 
 Icon.propTypes = {
-  sheet: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   className: PropTypes.string
 }
