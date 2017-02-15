@@ -127,9 +127,8 @@ export default class RegularMessage extends PureComponent {
       onRemoveLinkAttachment
     } = this.props
 
-    return ({id, url, isAdmin}) => {
+    return ({url, isAdmin}) => {
       onRemoveLinkAttachment({
-        id,
         messageId,
         url,
         isAdmin
