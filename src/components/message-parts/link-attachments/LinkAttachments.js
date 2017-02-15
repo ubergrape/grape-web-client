@@ -18,9 +18,9 @@ export default class LinkAttachments extends PureComponent {
     isAdmin: false
   }
 
-  makeOnRemove = (id, url) => {
+  makeOnRemove = (url) => {
     const {onRemove, isAdmin} = this.props
-    return () => onRemove({id, url, isAdmin})
+    return () => onRemove({url, isAdmin})
   }
 
   render() {
@@ -32,11 +32,11 @@ export default class LinkAttachments extends PureComponent {
 
     return (
       <ul>
-        {attachments.map((meta, idx) => (
+        {attachments.map(meta => (
           <li key={meta.sourceUrl}>
             <LinkAttachment
               {...meta}
-              onRemove={onRemove && this.makeOnRemove(idx, meta.sourceUrl)}
+              onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
               className={classes.linkAttachment}
             />
           </li>

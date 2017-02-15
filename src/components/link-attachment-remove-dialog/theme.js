@@ -1,4 +1,4 @@
-import {grayLight} from 'grape-theme/dist/base-colors'
+import {grayMercury} from 'grape-theme/dist/base-colors'
 import buttonPrimary from '../button/primary'
 import buttonDefault from '../button/default'
 
@@ -8,7 +8,7 @@ export const styles = {
     padding: 0,
     paddingLeft: 20,
     margin: 0,
-    margintTop: 10
+    marginTop: 10
   },
   wrapper: {
     padding: [0, 20, 20]
@@ -28,7 +28,7 @@ export const styles = {
     marginTop: 5,
     backgroundColor: 'transparent',
     '&:disabled': {
-      backgroundColor: grayLight
+      backgroundColor: grayMercury
     }
   },
   buttons: {

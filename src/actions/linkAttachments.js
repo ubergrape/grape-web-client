@@ -13,12 +13,12 @@ export function hideRemoveLinkAttachments() {
   }
 }
 
-export function removeLinkAttachment({id, messageId, type, url}) {
+export function removeLinkAttachment({messageId, type, url}) {
   return (dispatch) => {
     dispatch({
       type: types.REQUEST_REMOVE_LINK_ATTACHMENT,
-      payload: {id, messageId, type, url}
+      payload: {messageId, type, url}
     })
-    console.log('removing ', id, messageId, type, url)
+    // TODO Add rpc call when backend is done
   }
 }
