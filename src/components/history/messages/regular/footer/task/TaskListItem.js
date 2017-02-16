@@ -1,4 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
+import ListItem from 'material-ui/List/ListItem'
 
 import TaskIcon from './TaskIcon'
 import IconButton from './IconButton'
@@ -25,25 +26,28 @@ export default class TaskListItem extends PureComponent {
     const {classes, task: {isConnected, text}} = this.props
 
     return (
-      <div className={classes.tasksListItem}>
+      <ListItem className={classes.tasksListItem}>
         <TaskIcon
           classes={classes}
           isConnected={isConnected}
           onClick={this.onSelect}
-          className={classes.taskListItemIcon}
+          className={classes.tasksListItemIcon}
         />
+
         <div
-          className={classes.tasksListItemText}
+          className={classes.tasksListItemTextContainer}
           onClick={this.onSelect}
         >
-          {text}
+          <span className={classes.tasksListItemText}>
+            {text}
+          </span>
         </div>
         <IconButton
           icon="close"
           classes={classes}
           onClick={this.onRemove}
         />
-      </div>
+      </ListItem>
     )
   }
 }

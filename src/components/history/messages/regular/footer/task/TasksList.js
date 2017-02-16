@@ -2,13 +2,13 @@
 
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
+import List from 'material-ui/List'
 
 import Header from './Header'
-import Section from './Section'
 import Item from './TaskListItem'
 
 export default ({classes, description, tasks, onClose, onSelectTask, onRemoveTask}) => (
-  <div className={classes.tasksList}>
+  <div className={classes.tasksListView}>
     <Header
       classes={classes}
       title={
@@ -22,15 +22,16 @@ export default ({classes, description, tasks, onClose, onSelectTask, onRemoveTas
       icon="lightningBolt"
       onClose={onClose}
     />
-    {tasks.map((task, i) => (
-      <Section classes={classes} key={i}>
+    <List className={classes.tasksList}>
+      {tasks.map((task, i) => (
         <Item
           task={task}
           classes={classes}
           onSelect={onSelectTask}
           onRemove={onRemoveTask}
+          key={i}
         />
-      </Section>
-    ))}
+      ))}
+    </List>
   </div>
 )
