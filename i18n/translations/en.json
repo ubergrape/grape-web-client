@@ -87,6 +87,7 @@
   "sendInvites": "Send invitation emails",
   "personalMessage": "Personal message",
   "linkAttachmentRemoveDialogTitle": "Remove attachment",
+  "_linkAttachmentRemoveDialogTitle.comment": "Link attachment Remove Dialog: modal dialog title",
   "linkAttachmentRemoveDialogAdminDomain": "All links from {domain}",
   "_linkAttachmentRemoveDialogAdminDomain.comment": "Link attachment Remove Dialog: remove all the links from this domain",
   "linkAttachmentRemoveDialogAdminLinkForOrg": "Just the link {url}",

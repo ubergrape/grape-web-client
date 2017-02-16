@@ -16,6 +16,7 @@ import {styles} from './theme'
 const messages = defineMessages({
   title: {
     id: 'linkAttachmentRemoveDialogTitle',
+    description: 'Link attachment Remove Dialog: modal dialog title',
     defaultMessage: 'Remove attachment'
   },
   option1: {
@@ -122,7 +123,6 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
         <label className={classes.container}>
           <input
             type="checkbox"
-            name="attachment_org"
             checked={isChecked}
             onChange={this.onCheck}
           />
