@@ -19,12 +19,14 @@ const jssInline = create({
 
 const inlineStyle = style => jssInline.createRule(style).toJSON()
 
-jss.use(isolate({
-  reset: {
-    'font-family': '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
-    'box-sizing': 'border-box'
-  }
-}))
+jss
+  .setup({insertionPoint: 'grape-jss'})
+  .use(isolate({
+    reset: {
+      'font-family': '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
+      'box-sizing': 'border-box'
+    }
+  }))
 
 export {jss, inlineStyle}
 export default injectSheet
