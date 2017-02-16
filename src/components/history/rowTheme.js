@@ -1,5 +1,6 @@
 import {white} from 'grape-theme/dist/base-colors'
 
+export const lastRowBottomSpace = 35
 export const styles = {
   separator: {
     background: white
@@ -14,7 +15,7 @@ export const styles = {
     '&:after': {
       display: 'block',
       content: '""',
-      height: 35
+      height: lastRowBottomSpace
     }
   }
 }
