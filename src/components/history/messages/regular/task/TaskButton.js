@@ -2,7 +2,7 @@ import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 
-import Tooltip from '../../../../../tooltip/HoverTooltip'
+import Tooltip from '../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
 
 export default ({classes, isConnected, amount, onClick, onRefButton}) => (

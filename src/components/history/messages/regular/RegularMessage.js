@@ -15,7 +15,7 @@ import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
 import Author from './Author'
 import Menu from './Menu'
-import Footer from './footer/Footer'
+import Footer from './Footer'
 
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 

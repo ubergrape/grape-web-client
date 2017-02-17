@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 
-import Dropdown from '../../../../../dropdown/Dropdown'
+import Dropdown from '../../../../dropdown/Dropdown'
 import TaskButton from './TaskButton'
 import TasksList from './TasksList'
 import {styles} from './taskTheme'
