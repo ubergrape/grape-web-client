@@ -11,6 +11,7 @@ export default {
   padding: [4, 14],
   transition: [
     ['background 0.3s'],
+    ['border-color 0.3s'],
     ['color 0.3s'],
     ['font-size 0.3s']
   ],
