@@ -83,9 +83,10 @@ export const styles = {
     flex: 1
   },
   headerControlClose: {
-    margin: {
-      top: -10,
-      left: 10
+    width: 16,
+    height: 16,
+    '& $iconButtonIcon': {
+      fontSize: 8
     }
   },
   headerDescr: {

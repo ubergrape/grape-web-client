@@ -55,8 +55,7 @@ const nlp = {
   amount: 3,
   items:[
     {text: 'Task 1'},
-    {text: 'Task 2'},
-    {text: 'Task 3'}
+    {text: 'Task 2'}
   ]
 };
 <div style={{marginTop: 100, marginBottom: 30}}>
