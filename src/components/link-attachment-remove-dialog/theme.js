@@ -1,5 +1,5 @@
 import {grayMercury} from 'grape-theme/dist/base-colors'
-import buttonPrimary from '../button/primary'
+import buttonDanger from '../button/danger'
 import buttonDefault from '../button/default'
 
 export const styles = {
@@ -37,7 +37,7 @@ export const styles = {
     marginTop: 20
   },
   submitButton: {
-    extend: buttonPrimary,
+    extend: buttonDanger,
     marginLeft: 5
   },
   cancelButton: buttonDefault
