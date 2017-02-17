@@ -26,12 +26,12 @@ export default class Task extends PureComponent {
     this.buttonNode = findDOMNode(ref)
   }
 
-  onSelectTask = (task) => {
-    console.log('select', task)
+  onSelectTask = () => {
+    // TODO implement it
   }
 
-  onRemoveTask = (task) => {
-    console.log('remove', task)
+  onRemoveTask = () => {
+    // TODO implement it
   }
 
   render() {
