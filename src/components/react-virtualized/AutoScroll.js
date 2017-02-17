@@ -10,18 +10,22 @@ export default class AutoScroll extends PureComponent {
     minEndThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
-    scrollToIndex: PropTypes.number
+    // eslint-disable-next-line react/no-unused-prop-types
+    scrollToIndex: PropTypes.number,
+    // eslint-disable-next-line react/no-unused-prop-types
+    scrollToRow: PropTypes.func.isRequired
   }
 
   static defaultProps = {
+    // We use this threshold to make sure that new messages are visible
+    // even when the scroll position is not exactly at the end of the history.
     minEndThreshold: 20,
-    rows: []
+    rows: [],
+    scrollToIndex: undefined
   }
 
-  constructor(props) {
-    super(props)
-    this.direction = 0
-  }
+  // eslint-disable-next-line react/sort-comp
+  direction = 0
 
   componentWillReceiveProps(nextProps) {
     const {rows, height, minEndThreshold} = this.props
@@ -60,9 +64,18 @@ export default class AutoScroll extends PureComponent {
       // message is always in view.
       if (endThreshold < minEndThreshold) {
         this.scrollToIndex = nextProps.rows.length - 1
+        // When we are already at the end of the history
+        // and we update a message the scroll position is not updated.
+        // The condition below makes sure that the scroll position is correct.
+        //
+        // TODO depending of the resolution of
+        // https://github.com/bvaughn/react-virtualized/issues/565
+        // we might need to remove this workaround.
+        if (this.scrollToAlignment === 'end') {
+          nextProps.scrollToRow(this.scrollToIndex)
+        }
         this.scrollToAlignment = 'end'
       }
-      return
     }
   }
 

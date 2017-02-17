@@ -2,10 +2,13 @@ import React, {PureComponent, PropTypes} from 'react'
 import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
 import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
+
+import {lastRowBottomSpace} from './rowTheme'
 import {styles} from './infiniteListTheme'
 
 @injectSheet(styles)
@@ -14,12 +17,18 @@ export default class InfiniteList extends PureComponent {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     onToggleExpander: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func
+  }
+
+  static defaultProps = {
+    scrollTo: null,
+    onRowsRendered: noop
   }
 
   constructor(props) {
@@ -51,6 +60,8 @@ export default class InfiniteList extends PureComponent {
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
+  scrollToRow = (index) => { this.list.scrollToRow(index) }
+
   renderRowForCellMeasurer = ({rowIndex: index}) => this.props.renderRow({index})
 
   render() {
@@ -68,7 +79,8 @@ export default class InfiniteList extends PureComponent {
         loadMoreRows={onLoadMore}
         onTouchTopEdge={onTouchTopEdge}
         threshold={5}
-        minimumBatchSize={minimumBatchSize}>
+        minimumBatchSize={minimumBatchSize}
+      >
         {({
           onRowsRendered: onRowsRenderedInInfiniteLoader,
           onScroll: onScrollInInfiniteLoader
@@ -80,12 +92,16 @@ export default class InfiniteList extends PureComponent {
                 cellRenderer={this.renderRowForCellMeasurer}
                 columnCount={1}
                 rowCount={rows.length}
-                width={width}>
+                width={width}
+              >
                 {({getRowHeight}) => (
                   <AutoScroll
                     rows={rows}
                     height={height}
-                    scrollToIndex={scrollToRow}>
+                    scrollToIndex={scrollToRow}
+                    minEndThreshold={lastRowBottomSpace}
+                    scrollToRow={this.scrollToRow}
+                  >
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollToAlignment,
@@ -96,12 +112,12 @@ export default class InfiniteList extends PureComponent {
                         className={classes.grid}
                         scrollToIndex={scrollToIndex}
                         scrollToAlignment={scrollToAlignment}
-                        onRowsRendered={params => {
+                        onRowsRendered={(params) => {
                           onRowsRenderedInAutoScroll(params)
                           onRowsRenderedInInfiniteLoader(params)
                           onRowsRendered(params)
                         }}
-                        onScroll={params => {
+                        onScroll={(params) => {
                           onScrollInAutoScroll(params)
                           onScrollInInfiniteLoader(params)
                         }}
@@ -111,7 +127,8 @@ export default class InfiniteList extends PureComponent {
                         rowHeight={getRowHeight}
                         rowRenderer={renderRow}
                         overscanRowCount={5}
-                        ref={this.onRefList} />
+                        ref={this.onRefList}
+                      />
                     )}
                   </AutoScroll>
                 )}

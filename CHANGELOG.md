@@ -1,17 +1,24 @@
+## Releases 0.51.1 (2017-02-13)
 
+### Fixes
 
-## Releases XX.XX.XX (2017-02-XX)
+* Use 64x64 icons for activity icons (#346)
+
+## Releases 0.51.0 (2017-02-13)
 
 ### New Features
 
 * Custom icons for Activities (#324)
+* Quote messages (#323)
 
 ### Fixes
 
+* Fix icons
 * Link attachments adjustments (#331)
 
 ### Chore changes
 
+* Add a Styleguide via react styleguidish
 * Upgrate to react-virtualized ^8.11.4 (#322)
 
 ## Releases 0.50.0 (2017-02-03)
