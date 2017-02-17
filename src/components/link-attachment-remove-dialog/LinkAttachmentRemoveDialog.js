@@ -54,6 +54,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     onHide: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
+    channelId: PropTypes.number,
     messageId: PropTypes.string,
     onRemove: PropTypes.func.isRequired,
     isAdmin: PropTypes.bool.isRequired,
@@ -62,6 +63,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
 
   static defaultProps = {
     isAdmin: false,
+    channelId: null,
     messageId: null,
     url: null
   }
@@ -78,6 +80,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     e.preventDefault()
     const {type} = this.state
     const {
+      channelId,
       messageId,
       url,
       onRemove,
@@ -85,6 +88,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     } = this.props
 
     onRemove({
+      channelId,
       messageId,
       type,
       url

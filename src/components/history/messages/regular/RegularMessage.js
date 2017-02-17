@@ -59,7 +59,8 @@ export default class RegularMessage extends PureComponent {
     avatar: PropTypes.string,
     state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
     nlp: PropTypes.object,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    channelId: PropTypes.number.isRequired
   }
 
   static defaultProps = {
@@ -124,11 +125,13 @@ export default class RegularMessage extends PureComponent {
   makeOnRemoveLinkAttachment = () => {
     const {
       id: messageId,
+      channelId,
       onRemoveLinkAttachment
     } = this.props
 
     return ({url, isAdmin}) => {
       onRemoveLinkAttachment({
+        channelId,
         messageId,
         url,
         isAdmin

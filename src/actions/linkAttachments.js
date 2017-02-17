@@ -1,9 +1,10 @@
 import * as types from '../constants/actionTypes'
+import {removeLinkAttachments} from '../utils/backend/api'
 
-export function showRemoveLinkAttachments({id, messageId, url, isAdmin}) {
+export function showRemoveLinkAttachments({channelId, messageId, url, isAdmin}) {
   return {
     type: types.SHOW_REMOVE_LINK_ATTACHMENT,
-    payload: {id, messageId, url, isAdmin}
+    payload: {channelId, messageId, url, isAdmin}
   }
 }
 
@@ -13,12 +14,13 @@ export function hideRemoveLinkAttachments() {
   }
 }
 
-export function removeLinkAttachment({messageId, type, url}) {
+export function removeLinkAttachment({channelId, messageId, url, type}) {
   return (dispatch) => {
     dispatch({
       type: types.REQUEST_REMOVE_LINK_ATTACHMENT,
-      payload: {messageId, type, url}
+      payload: {channelId, messageId, url, type}
     })
-    // TODO Add rpc call when backend is done
+
+    removeLinkAttachments(channelId, messageId, url, type)
   }
 }
