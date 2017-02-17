@@ -1,14 +1,14 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.51.0",
+  "version": "0.51.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
     "node": "5.11.0"
   },
   "dependencies": {
-    "@ubergrape/material-ui": "^0.18.0-alpha",
+    "material-ui": "^1.0.0-alpha.2",
     "@ubergrape/react-dropzone": "3.8.0",
     "@ubergrape/react-notification": "^6.5.3",
     "array": "ubergrape/array",
@@ -102,7 +102,7 @@
     "css-loader": "^0.15.6",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-ubergrape": "^4.0.0",
+    "eslint-config-ubergrape": "^4.1.0",
     "eslint-plugin-babel": "^2.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",

@@ -29,14 +29,14 @@ export const styles = {
     borderRadius,
     padding: '5px 13px',
     wordBreak: 'break-word',
-    '& pre': {
+    '& > pre': {
       lineHeight: 1
     },
-    '& pre code': {
+    '& > pre > code': {
       lineHeight: normal.lineHeight,
       verticalAlign: 'middle'
     },
-    '& p, pre': {
+    '& > p, > pre': {
       marginTop: normal.fontSize / 2,
       '&:first-child': {
         marginTop: 0

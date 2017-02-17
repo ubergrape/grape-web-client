@@ -1,3 +1,9 @@
+## Releases 0.51.1 (2017-02-13)
+
+### Fixes
+
+* Use 64x64 icons for activity icons (#346)
+
 ## Releases 0.51.0 (2017-02-13)
 
 ### New Features
