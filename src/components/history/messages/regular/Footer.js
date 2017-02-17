@@ -2,9 +2,12 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import Task from './task/Task'
-import {styles} from './footerTheme'
 
-@injectSheet(styles)
+@injectSheet({
+  footer: {
+    marginTop: 20
+  }
+})
 export default class Footer extends PureComponent {
   render() {
     const {nlp, classes, ...taskProps} = this.props

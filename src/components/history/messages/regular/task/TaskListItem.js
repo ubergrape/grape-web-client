@@ -1,9 +1,39 @@
 import React, {PureComponent, PropTypes} from 'react'
 import ListItem from 'material-ui/List/ListItem'
+import injectSheet from 'grape-web/lib/jss'
+import {smaller} from 'grape-theme/dist/fonts'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import {grayLighter, grayBlueLighter} from 'grape-theme/dist/base-colors'
 
 import TaskIcon from './TaskIcon'
 import IconButton from './IconButton'
 
+@injectSheet({
+  item: {
+    padding: [5, 10],
+    borderTop: [2, 'solid', grayBlueLighter],
+    '&:hover': {
+      background: grayLighter
+    },
+    '&, *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
+    height: smaller.lineHeight * smaller.fontSize * 2,
+    padding: [0, 10]
+  },
+  text: {
+    extend: [smaller, ellipsis],
+    display: 'inline-block',
+    whiteSpace: 'pre-line'
+  }
+})
 export default class TaskListItem extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -26,25 +56,23 @@ export default class TaskListItem extends PureComponent {
     const {classes, task: {isConnected, text}} = this.props
 
     return (
-      <ListItem className={classes.tasksListItem}>
+      <ListItem className={classes.item}>
         <TaskIcon
-          classes={classes}
           isConnected={isConnected}
           onClick={this.onSelect}
-          className={classes.tasksListItemIcon}
+          className={classes.itemIcon}
         />
 
         <div
-          className={classes.tasksListItemTextContainer}
+          className={classes.textContainer}
           onClick={this.onSelect}
         >
-          <span className={classes.tasksListItemText}>
+          <span className={classes.text}>
             {text}
           </span>
         </div>
         <IconButton
           icon="close"
-          classes={classes}
           onClick={this.onRemove}
         />
       </ListItem>
