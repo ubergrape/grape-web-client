@@ -48,8 +48,10 @@ export default class RegularMessage extends PureComponent {
     onGoToChannel: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
-    // Author and avatar are optional because we show them only for the first
-    // message in the row.
+    /**
+     * Author and avatar are optional because we show them only for the first
+     * message in the row.
+     */
     author: PropTypes.shape({
       name: PropTypes.string.isRequired,
       slug: PropTypes.string
