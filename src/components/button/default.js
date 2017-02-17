@@ -9,7 +9,11 @@ export default {
   border: [1, 'solid', grayBombay],
   borderRadius: sizes.borderRadius.big,
   padding: [4, 14],
-  transition: 'background 0.15s, color 0.15s, font-size 0.15s',
+  transition: [
+    ['background 0.3s'],
+    ['color 0.3s'],
+    ['font-size 0.3s']
+  ],
   '&:hover, &:focus': {
     isolate: false,
     background: grayLighter
