@@ -20,7 +20,8 @@ const actionNames = {
   showChannelMembersInvite: 'onInvite',
   goToAddIntegrations: 'onAddIntegration',
   showToastNotification: 'onCopyLink',
-  insertMessageQuote: 'onQuote'
+  insertMessageQuote: 'onQuote',
+  showRemoveLinkAttachments: 'onRemoveLinkAttachment'
 }
 
 const ConnectedHistory = connect(

@@ -2,6 +2,7 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
+import {constants} from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
 import Grapedown from '../../../grapedown/Grapedown'
 import {LinkAttachments} from '../../../message-parts'
@@ -46,17 +47,22 @@ export default class RegularMessage extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    onRemoveLinkAttachment: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
-    // Author and avatar are optional because we show them only for the first
-    // message in the row.
+    /**
+     * Author and avatar are optional because we show them only for the first
+     * message in the row.
+     */
     author: PropTypes.shape({
       name: PropTypes.string.isRequired,
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
     state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
-    nlp: PropTypes.object
+    nlp: PropTypes.object,
+    id: PropTypes.string.isRequired,
+    channelId: PropTypes.number.isRequired
   }
 
   static defaultProps = {
@@ -77,6 +83,7 @@ export default class RegularMessage extends PureComponent {
     onGoToChannel: noop,
     onCopyLink: noop,
     onQuote: noop,
+    onRemoveLinkAttachment: noop,
     time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
@@ -117,6 +124,23 @@ export default class RegularMessage extends PureComponent {
 
   getContentNode = () => this.content
 
+  makeOnRemoveLinkAttachment = () => {
+    const {
+      id: messageId,
+      channelId,
+      onRemoveLinkAttachment
+    } = this.props
+
+    return ({url, isAdmin}) => {
+      onRemoveLinkAttachment({
+        channelId,
+        messageId,
+        url,
+        isAdmin
+      })
+    }
+  }
+
   renderAttachment = (attachment, key) => <Attachment {...attachment} key={key} />
 
   render() {
@@ -136,6 +160,17 @@ export default class RegularMessage extends PureComponent {
     }
 
     const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
+
+    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+    let onRemoveLinkAttachment = null
+    if (isOwn || isAdmin) {
+      onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
+    }
+    const attachmentsProps = {
+      attachments: linkAttachments,
+      onRemove: onRemoveLinkAttachment,
+      isAdmin
+    }
 
     return (
       <div className={classes.message}>
@@ -174,7 +209,7 @@ export default class RegularMessage extends PureComponent {
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {linkAttachments.length > 0 && <LinkAttachments attachments={linkAttachments} />}
+            {linkAttachments.length > 0 && <LinkAttachments {...attachmentsProps} />}
           </div>
         </div>
         <DeliveryState state={state} time={time} classes={classes} />

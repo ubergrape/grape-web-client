@@ -8,13 +8,26 @@ import {styles} from './linkAttachmentsTheme'
 export default class LinkAttachments extends PureComponent {
   static propTypes = {
     attachments: PropTypes.array.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    onRemove: PropTypes.func,
+    isAdmin: PropTypes.bool
+  }
+
+  static defaultProps = {
+    onRemove: null,
+    isAdmin: false
+  }
+
+  makeOnRemove = (url) => {
+    const {onRemove, isAdmin} = this.props
+    return () => onRemove({url, isAdmin})
   }
 
   render() {
     const {
+      onRemove,
       attachments,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -23,6 +36,7 @@ export default class LinkAttachments extends PureComponent {
           <li key={meta.sourceUrl}>
             <LinkAttachment
               {...meta}
+              onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
               className={classes.linkAttachment}
             />
           </li>

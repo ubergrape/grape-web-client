@@ -28,9 +28,15 @@ export function init() {
   subscribe(createClient().connect())
 }
 
+export function renderSheetsInsertionPoints() {
+  document.head.appendChild(document.createComment('jss-theme-reactor'))
+  document.head.appendChild(document.createComment('grape-jss'))
+}
+
 export function render() {
   const container = document.createElement('div')
   container.className = 'grape-web-client'
   document.body.appendChild(container)
+  renderSheetsInsertionPoints()
   ReactDom.render(<App />, container)
 }

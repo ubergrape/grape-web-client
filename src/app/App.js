@@ -20,6 +20,7 @@ import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
 import {ManageContactsDialogProvider} from '../containers/manage-contacts'
 import {ManageGroupsDialogProvider} from '../containers/manage-groups'
+import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
 import {AppProvider} from '../containers/app'
 
@@ -45,6 +46,7 @@ const Globals = () => (
     <MarkdownTipsDialogProvider />
     <SoundsProvider />
     <ToastNotificationProvider />
+    <LinkAttachmentRemoveDialogProvider />
     <RoomDeleteDialogProvider />
   </section>
 )
