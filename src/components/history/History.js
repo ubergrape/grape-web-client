@@ -42,7 +42,8 @@ export default class History extends Component {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number
+    minimumBatchSize: PropTypes.number,
+    onRemoveLinkAttachment: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -80,6 +81,8 @@ export default class History extends Component {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
+
+    return
   }
 
   onRowsRendered = () => {
@@ -91,7 +94,7 @@ export default class History extends Component {
   }
 
   onToggleExpander = ({id, isExpanded}) => {
-    const rows = this.state.rows.map(row => {
+    const rows = this.state.rows.map((row) => {
       if (row.id !== id) return row
       return {...row, isExpanded}
     })
@@ -103,7 +106,8 @@ export default class History extends Component {
       {...this.state.rows[index]}
       key={key}
       style={style}
-      onToggleExpander={this.onToggleExpander} />
+      onToggleExpander={this.onToggleExpander}
+    />
   )
 
   render() {
@@ -124,7 +128,8 @@ export default class History extends Component {
           <NoContent
             channel={channel}
             onInvite={onInvite}
-            onAddIntegration={onAddIntegration} />
+            onAddIntegration={onAddIntegration}
+          />
         )
       }
 
@@ -136,7 +141,8 @@ export default class History extends Component {
         <ReadRow
           rows={rows}
           channelId={channel.id}
-          onRead={onRead}>
+          onRead={onRead}
+        >
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
             <Jumper onJump={onJump}>
               {({onRowsRendered: onRowsRenderedInJumper}) => (
@@ -153,7 +159,8 @@ export default class History extends Component {
                   onTouchTopEdge={onTouchTopEdge}
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
-                  renderRow={this.renderRow} />
+                  renderRow={this.renderRow}
+                />
               )}
             </Jumper>
           )}

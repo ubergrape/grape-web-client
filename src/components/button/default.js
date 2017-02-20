@@ -1,22 +1,22 @@
-import color from 'color'
-import colors from 'grape-theme/dist/base-colors'
+import {gray, grayLighter, grayBombay, white} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 
 export default {
   ...fonts.normal,
-  background: colors.blue,
-  color: colors.white,
-  border: 'none',
+  background: white,
+  color: gray,
+  border: [1, 'solid', grayBombay],
   borderRadius: sizes.borderRadius.big,
   padding: [4, 14],
   transition: [
-    'background 0.3s',
-    'color 0.3s',
-    'font-size 0.3s'
+    ['background 0.3s'],
+    ['border-color 0.3s'],
+    ['color 0.3s'],
+    ['font-size 0.3s']
   ],
-  '&:hover': {
+  '&:hover, &:focus': {
     isolate: false,
-    background: color(colors.blue).lighten(0.05).rgbaString()
+    background: grayLighter
   }
 }
