@@ -1,6 +1,4 @@
-// TODO get rid of the `PureComponent as Component` alias when
-// when ubergrape/grape-web-client/issues/125 is fixed
-import React, {PropTypes, PureComponent as Component} from 'react'
+import React, {PropTypes, PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
@@ -20,7 +18,7 @@ function createState(state, props) {
 }
 
 @injectSheet(styles)
-export default class History extends Component {
+export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -28,22 +26,19 @@ export default class History extends Component {
     onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
-    onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    customEmojis: PropTypes.object.isRequired,
     showNoContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
-    }),
+    }).isRequired,
     messages: PropTypes.array,
-    user: PropTypes.object,
-    selectedMessageId: PropTypes.string,
+    user: PropTypes.object.isRequired,
+    selectedMessageId: PropTypes.string.isRequired,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number,
-    onRemoveLinkAttachment: PropTypes.func.isRequired
+    minimumBatchSize: PropTypes.number.isRequired
   }
 
   static defaultProps = {
@@ -58,7 +53,8 @@ export default class History extends Component {
     onInvite: noop,
     onAddIntegration: noop,
     customEmojis: {},
-    showNoContent: false
+    showNoContent: false,
+    scrollTo: null
   }
 
   constructor(props) {

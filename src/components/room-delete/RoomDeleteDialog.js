@@ -2,24 +2,39 @@ import React, {PropTypes, PureComponent} from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
 } from 'react-intl'
 
-import TextField from 'material-ui/TextField'
+import {Input, InputLabel} from 'material-ui/Input'
+import {FormControl} from 'material-ui/Form'
 import Dialog from '../dialog/Dialog'
 import {styles} from './roomDeleteDialogTheme'
 
 const messages = defineMessages({
   title: {
     id: 'roomDeleteDialogTitle',
-    defaultMessage: 'Delete "{roomName}"?'
+    defaultMessage: 'Delete "{roomName}"?',
+    description: 'Room Delete Dialog: dialog title'
+  },
+  provideName: {
+    id: 'roomDeleteDialogProvideName',
+    defaultMessage: 'Please enter the name of the room you want to delete.',
+    description: 'Room Delete Dialog: validation message'
+  },
+  notMatchingName: {
+    id: 'roomDeleteDialogNotMatchingName',
+    defaultMessage: 'Room name doesn\'t match',
+    description: 'Room Delete Dialog: validation message'
   }
 })
 
-const getInitialState = () => ({
-  roomName: ''
+const getInitialState = validityMessage => ({
+  roomName: '',
+  invalid: false,
+  customValidity: validityMessage
 })
 
 @injectSheet(styles)
@@ -30,45 +45,90 @@ export default class RoomDeleteDialog extends PureComponent {
     onHide: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    room: PropTypes.object
+    room: PropTypes.object,
+    onDelete: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     room: null
   }
 
-  state = getInitialState()
+  state = getInitialState(this.props.intl.formatMessage(messages.provideName))
+
+  onNextState = (prevState, state) => {
+    this.setCustomValidity(state.customValidity)
+  }
 
   onChange = (e) => {
     const roomName = e.target.value.trim()
-    this.setState({roomName})
+    const {
+      room: {name},
+      intl: {formatMessage}
+    } = this.props
+
+    if (!roomName) {
+      this.setState({
+        roomName,
+        invalid: true,
+        customValidity: formatMessage(messages.provideName)
+      }, this.onNextState)
+      return
+    }
+
+    if (name !== roomName) {
+      this.setState({
+        roomName,
+        invalid: true,
+        customValidity: formatMessage(messages.notMatchingName)
+      }, this.onNextState)
+      return
+    }
+
+    this.setState({
+      roomName,
+      invalid: false,
+      customValidity: ''
+    }, this.onNextState)
   }
 
   onHide = () => {
-    const {onHide} = this.props
+    const {
+      onHide,
+      intl: {formatMessage}
+    } = this.props
+    this.setState(getInitialState(formatMessage(messages.provideName)), this.onNextState)
     onHide()
-    this.setState(getInitialState())
   }
 
-  onRefInput = (el) => { this.input = el }
+  onRefInput = (component) => {
+    if (!component) return
+    this.input = component.input
+    this.setCustomValidity(this.state.customValidity)
+  }
 
   onSubmit = (e) => {
     e.preventDefault()
-    const {onDelete, room: {id: roomId, name}} = this.props
+    const {onDelete, room: {id: roomId}} = this.props
     const {roomName} = this.state
-    if (!roomName) {
-      this.input.setCustomValidity('Please enter the name of the room you want to delete.')
-      return
-    }
-    if (name !== roomName) {
-      this.input.setCustomValidity('Room name doesn\'t match')
-      return
-    }
+    if (!this.checkValidity()) return
     onDelete({
       roomId,
       roomName
     })
     this.onHide()
+  }
+
+  setCustomValidity = (message) => {
+    this.input.setCustomValidity(message)
+  }
+
+  checkValidity = () => {
+    const {customValidity} = this.state
+    if (customValidity) {
+      this.setState({invalid: true})
+      return false
+    }
+    return true
   }
 
   render() {
@@ -78,6 +138,11 @@ export default class RoomDeleteDialog extends PureComponent {
       show,
       room
     } = this.props
+
+    const {
+      roomName,
+      invalid
+    } = this.state
 
     return (
       <Dialog
@@ -89,36 +154,58 @@ export default class RoomDeleteDialog extends PureComponent {
           <div className={classes.messageContainer}>
             <Icon name="warning" className={classes.messageIcon} />
             <div className={classes.message}>
-              <p>Are you sure you want to delete this room?</p>
-              <p className={classes.messageWarning}>Warning: This action can\'t be undone!</p>
+              <p>
+                <FormattedMessage
+                  id="roomDeleteDialogConfirmMessage"
+                  defaultMessage="Are you sure you want to delete this room?"
+                  description="Room Delete Dialog: confirm (info) message"
+                />
+              </p>
+              <p className={classes.messageWarning}>
+                <FormattedMessage
+                  id="roomDeleteDialogConfirmWarning"
+                  defaultMessage="Warning: This action can't be undone!"
+                  description="Room Delete Dialog: confirm (warning) message"
+                />
+              </p>
             </div>
           </div>
           <form onSubmit={this.onSubmit}>
             <div className={classes.inputContainer}>
-              <TextField
-                type="text"
-                id="room-remove-input"
-                label="Please type in the name of the room to confirm"
-                required
-                value={this.state.roomName}
-                inputProps={{
-                  ref: this.onRefInput,
-                  onChange: this.onChange,
-                  placeholder: 'Confirm room name...'
-                }}
-              />
-              {/* <Input
-                type="text"
-                value={this.state.roomName}
-                placeholder="Confirm room name..."
-                onChange={this.onChange}
-                autoComplete="off"
-                ref={this.onRefInput}
-                underline={false}
-              />*/}
+              <InputLabel htmlFor="room-remove-input">
+                <FormattedMessage
+                  id="roomDeleteDialogInputLabel"
+                  defaultMessage="Please type in the name of the room to confirm"
+                  description="Room Delete Dialog: input label"
+                />
+              </InputLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  id="room-remove-input"
+                  required
+                  value={roomName}
+                  underline={false}
+                  ref={this.onRefInput}
+                  onChange={this.onChange}
+                  placeholder="Confirm room name..."
+                  autoComplete="off"
+                  error={invalid}
+                />
+              </FormControl>
             </div>
             <div className={classes.buttonContainer}>
-              <button type="submit" className={classes.deleteButton}>delete</button>
+              <button
+                type="submit"
+                className={classes.deleteButton}
+                onClick={this.checkValidity}
+              >
+                <FormattedMessage
+                  id="roomDeleteDialogDelete"
+                  defaultMessage="delete"
+                  description="Room Delete Dialog: delete button message"
+                />
+              </button>
             </div>
           </form>
         </div>

@@ -35,10 +35,6 @@ class ReduxEmitter extends Emitter {
     this.emit('leaveRoom', channelId)
   }
 
-  showRoomDeteteDialog() {
-    this.emit('toggledeleteroomdialog', window.ui.room)
-  }
-
   kickMemberFromChannel(params) {
     this.emit('kickMember', params)
   }

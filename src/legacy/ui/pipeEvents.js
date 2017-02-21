@@ -16,7 +16,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
-  broker(ui.reduxEmitter, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
   broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
 
   // grape input
