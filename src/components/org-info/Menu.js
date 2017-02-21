@@ -2,17 +2,16 @@ import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import MenuList from 'material-ui/Menu/MenuList'
-import MenuItem from 'material-ui/Menu/MenuItem'
+import {MenuList, MenuItem} from 'material-ui/Menu'
 import Divider from 'material-ui/Divider'
-import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import noop from 'lodash/utility/noop'
 
 import {constants} from '../../conf'
-import {styles, mui} from './menuTheme'
+import {styles} from './menuTheme'
 
 const Item = ({classes, icon, children, onClick, href, target}) => {
   const item = (
-    <MenuItem className={classes.item} onClick={onClick}>
+    <MenuItem className={classes.item} onClick={onClick} dense>
       <Icon name={icon} className={classes.icon} />
       <span className={classes.text}>{children}</span>
     </MenuItem>
@@ -177,18 +176,25 @@ const LogoutItem = ({classes}) => (
 @injectSheet(styles)
 export default class Menu extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
     onShowTutorial: PropTypes.func.isRequired,
     inviterRole: PropTypes.number.isRequired,
     user: PropTypes.shape({
       role: PropTypes.number.isRequired
-    })
+    }).isRequired
+  }
+
+  static defaultProps = {
+    onInvite: noop,
+    onShowTutorial: noop,
+    inviterRole: 2,
+    user: {role: 2}
   }
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       onInvite,
       onShowTutorial,
       user,
@@ -228,11 +234,9 @@ export default class Menu extends PureComponent {
     )
 
     return (
-      <ThemeProvider theme={mui}>
-        <MenuList className={classes.menu}>
-          {items}
-        </MenuList>
-      </ThemeProvider>
+      <MenuList className={classes.menu}>
+        {items}
+      </MenuList>
     )
   }
 }
