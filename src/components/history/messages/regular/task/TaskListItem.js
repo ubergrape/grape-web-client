@@ -3,7 +3,7 @@ import ListItem from 'material-ui/List/ListItem'
 import injectSheet from 'grape-web/lib/jss'
 import {smaller} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import {grayLighter, grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {grayLighter} from 'grape-theme/dist/base-colors'
 
 import TaskIcon from './TaskIcon'
 import IconButton from './IconButton'
@@ -11,7 +11,6 @@ import IconButton from './IconButton'
 @injectSheet({
   item: {
     padding: [5, 10],
-    borderTop: [2, 'solid', grayBlueLighter],
     '&:hover': {
       background: grayLighter
     },

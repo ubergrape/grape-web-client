@@ -7,6 +7,11 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import IconButton from './IconButton'
 
+const iconSize = {
+  width: 16,
+  height: 16
+}
+
 @injectSheet({
   header: {
     position: 'relative',
@@ -19,38 +24,39 @@ import IconButton from './IconButton'
     extend: [normal, ellipsis],
     fontWeight: 'bold',
     margin: 0,
+    marginBottom: 5,
     lineHeight: 1
   },
   headerTitleIcon: {
     extend: small,
     marginRight: 5
   },
-  headerControlPrev: {
-    marginRight: 10
-  },
+  headerControlPrev: iconSize,
   headerContent: {
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   },
   headerControlClose: {
-    width: 16,
-    height: 16,
+    extend: iconSize,
     fontSize: 8
   },
   headerDescr: {
     extend: [small, ellipsis],
-    margin: 0
+    whiteSpace: 'pre-line',
+    margin: 0,
+    maxHeight: small.fontSize * small.lineHeight * 2
   }
 })
 export default class Header extends PureComponent {
   render() {
-    const {classes, title, description, icon, onPrev, onClose} = this.props
+    const {classes, title, description, icon, onGoBack, onClose} = this.props
     return (
       <header className={classes.header}>
-        {onPrev &&
+        {onGoBack &&
           <IconButton
             className={classes.headerControlPrev}
             icon="angleLeft"
-            onClick={onPrev}
+            onClick={onGoBack}
           />
         }
         <div className={classes.headerContent}>

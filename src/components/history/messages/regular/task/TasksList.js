@@ -9,9 +9,6 @@ import Header from './Header'
 import Item from './TaskListItem'
 
 @injectSheet({
-  tasksList: {
-    width: 260
-  },
   list: {
     padding: 0
   }
@@ -19,7 +16,7 @@ import Item from './TaskListItem'
 export default class TasksList extends PureComponent {
   render() {
     const {
-      classes, description, tasks, onClose, onSelectTask, onRemoveTask
+      classes, tasks, onClose, onSelectTask, onRemoveTask
     } = this.props
 
     return (
@@ -27,12 +24,11 @@ export default class TasksList extends PureComponent {
         <Header
           title={
             <FormattedMessage
-              id="createTask"
-              defaultMessage="Create Task"
-              description="NLP create task dialog title."
+              id="tasks"
+              defaultMessage="Tasks"
+              description="NLP tasks list dialog title."
             />
           }
-          description={description}
           icon="lightningBolt"
           onClose={onClose}
         />

@@ -5,6 +5,7 @@ import injectSheet from 'grape-web/lib/jss'
 import Dropdown from '../../../../dropdown/Dropdown'
 import TaskButton from './TaskButton'
 import TasksList from './TasksList'
+import CreateTask from './CreateTask'
 
 const toggleOpenState = state => ({isOpen: !state.isOpen})
 
@@ -12,6 +13,9 @@ const toggleOpenState = state => ({isOpen: !state.isOpen})
   task: {
     position: 'relative',
     display: 'inline-block'
+  },
+  content: {
+    width: 260
   }
 })
 export default class Task extends PureComponent {
@@ -30,12 +34,40 @@ export default class Task extends PureComponent {
     this.buttonNode = findDOMNode(ref)
   }
 
-  onSelectTask = () => {
-    // TODO implement it
+  onSelectTask = (task) => {
+    this.setState({task})
   }
 
   onRemoveTask = () => {
     // TODO implement it
+  }
+
+  onGoBack = () => {
+    this.setState({task: null})
+  }
+
+  renderContent() {
+    const {task} = this.state
+    const {nlp} = this.props
+
+    if (task) {
+      return (
+        <CreateTask
+          onClose={this.onHideDropdown}
+          onGoBack={this.onGoBack}
+          task={task}
+        />
+      )
+    }
+
+    return (
+      <TasksList
+        onClose={this.onHideDropdown}
+        onSelectTask={this.onSelectTask}
+        onRemoveTask={this.onRemoveTask}
+        tasks={nlp.items}
+      />
+    )
   }
 
   render() {
@@ -43,8 +75,7 @@ export default class Task extends PureComponent {
       classes,
       nlp: {
         amount,
-        isConnected,
-        items
+        isConnected
       }
     } = this.props
     const {isOpen} = this.state
@@ -64,12 +95,9 @@ export default class Task extends PureComponent {
             placement="top"
             container={this}
           >
-            <TasksList
-              onClose={this.onHideDropdown}
-              onSelectTask={this.onSelectTask}
-              onRemoveTask={this.onRemoveTask}
-              tasks={items}
-            />
+            <div className={classes.content}>
+              {this.renderContent()}
+            </div>
           </Dropdown>
         }
       </div>
