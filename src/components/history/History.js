@@ -26,19 +26,22 @@ export default class History extends PureComponent {
     onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     showNoContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
-    }).isRequired,
+    }),
     messages: PropTypes.array,
-    user: PropTypes.object.isRequired,
-    selectedMessageId: PropTypes.string.isRequired,
+    user: PropTypes.object,
+    selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number.isRequired
+    minimumBatchSize: PropTypes.number,
+    onRemoveLinkAttachment: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -53,8 +56,7 @@ export default class History extends PureComponent {
     onInvite: noop,
     onAddIntegration: noop,
     customEmojis: {},
-    showNoContent: false,
-    scrollTo: null
+    showNoContent: false
   }
 
   constructor(props) {
@@ -77,8 +79,6 @@ export default class History extends PureComponent {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
-
-    return
   }
 
   onRowsRendered = () => {
