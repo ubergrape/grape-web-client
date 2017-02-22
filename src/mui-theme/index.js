@@ -7,6 +7,7 @@ import {
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import merge from 'lodash/object/merge'
+import color from 'color'
 
 const palette = createPalette()
 
@@ -14,6 +15,7 @@ palette.primary[100] = white
 palette.primary[500] = green
 palette.error[500] = red
 palette.accent.A200 = blue
+palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
 palette.text.divider = grayLighter
 palette.text.lightDivider = grayBlueLighter
@@ -92,6 +94,17 @@ const MuiFormLabel = {
   }
 }
 
+const MuiButton = {
+  root: {
+    height: 'auto',
+    '&:hover': {
+      textDecoration: 'none',
+      backgroundColor: 'transparent',
+      color: palette.accent.A100
+    }
+  }
+}
+
 export const create = theme => createMuiTheme(merge({
   typography,
   palette,
@@ -99,7 +112,8 @@ export const create = theme => createMuiTheme(merge({
     MuiLinearProgress,
     MuiMenuItem,
     MuiInput,
-    MuiFormLabel
+    MuiFormLabel,
+    MuiButton
   }
 }, theme))
 

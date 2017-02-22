@@ -25,7 +25,9 @@ jss
   .use(isolate({
     reset: {
       'font-family': typographyConstants.fontFamily,
-      'box-sizing': 'border-box'
+      'box-sizing': 'border-box',
+      // Can be removed after at v3 of jss-isolate.
+      'word-break': 'normal'
     }
   }))
 
