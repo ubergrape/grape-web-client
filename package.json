@@ -15,7 +15,7 @@
     "jss-theme-reactor": "^0.10.0",
     "jss-vendor-prefixer": "^4.0.0",
     "lodash": "^3.10.0",
-    "material-ui": "^1.0.0-alpha.2",
+    "material-ui": "^1.0.0-alpha",
     "react": "^15.3.0",
     "react-jss": "^5.0.0"
   },
