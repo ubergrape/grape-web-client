@@ -7,7 +7,8 @@ export const styles = {
   bubble: {
     display: 'inline-block',
     position: 'relative',
-    minWidth: 0
+    minWidth: 0,
+    maxWidth: '100%'
   },
   bubbleWithArrow: {
     extend: 'bubble',

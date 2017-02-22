@@ -1,6 +1,7 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
+import noop from 'lodash/utility/noop'
 
 import groupConsecutive from '../../../utils/group-consecutive'
 
@@ -15,6 +16,7 @@ import {
   Title
 } from './parts'
 import ImageAttachment from '../attachments/ImageAttachment'
+import Menu from '../Menu'
 import {styles} from './linkAttachmentTheme.js'
 
 const fieldsGroupSize = 2
@@ -49,7 +51,8 @@ export default class LinkAttachment extends PureComponent {
     ts: PropTypes.number,
     fields: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    onRemove: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -69,7 +72,29 @@ export default class LinkAttachment extends PureComponent {
     thumbUrl: null,
     embedHtml: null,
     ts: null,
-    className: ''
+    className: '',
+    onRemove: noop
+  }
+
+  state = {isMenuOpened: false}
+
+  onMouseEnter = () => {
+    this.setState({isMenuOpened: true})
+  }
+
+  onMouseLeave = () => {
+    this.setState({isMenuOpened: false})
+  }
+
+  onRefContent = (ref) => {
+    this.content = ref
+  }
+
+  getContentNode = () => this.content
+
+  menuProps = {
+    items: ['removeLinkAttachment'],
+    onSelect: this.props.onRemove
   }
 
   renderAuthor() {
@@ -100,7 +125,7 @@ export default class LinkAttachment extends PureComponent {
   renderText() {
     const {
       text,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -160,7 +185,7 @@ export default class LinkAttachment extends PureComponent {
       width,
       height,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     const thumbUrl = imageUrl && getThumbUrl({
@@ -186,7 +211,7 @@ export default class LinkAttachment extends PureComponent {
     const {
       thumbUrl,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -203,7 +228,7 @@ export default class LinkAttachment extends PureComponent {
     const {
       fields,
       sourceUrl,
-      sheet: {classes}
+      classes
     } = this.props
 
     let key = 0
@@ -241,22 +266,33 @@ export default class LinkAttachment extends PureComponent {
       fields,
       footer,
       className,
-      sheet: {classes}
+      onRemove,
+      classes
     } = this.props
 
+    const {isMenuOpened} = this.state
+    const isAllowedToRemove = onRemove && isMenuOpened
+
     return (
-      <Bubble hasArrow={false} className={className}>
-        <div className={classes.main}>
-          {authorName && this.renderAuthor()}
-          {title && this.renderTitle()}
-          {text && this.renderText()}
-          {fields.length > 0 && this.renderFields()}
-          {footer && this.renderFooter()}
-          {imageUrl && !embedHtml && this.renderImage()}
-          {embedHtml && this.renderEmbed()}
-        </div>
-        {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
-      </Bubble>
+      <div
+        onMouseEnter={onRemove && this.onMouseEnter}
+        onMouseLeave={onRemove && this.onMouseLeave}
+        ref={onRemove && this.onRefContent}
+      >
+        <Bubble hasArrow={false} className={className}>
+          {isAllowedToRemove && <Menu {...this.menuProps} getContentNode={this.getContentNode} />}
+          <div className={classes.main}>
+            {authorName && this.renderAuthor()}
+            {title && this.renderTitle()}
+            {text && this.renderText()}
+            {fields.length > 0 && this.renderFields()}
+            {footer && this.renderFooter()}
+            {imageUrl && !embedHtml && this.renderImage()}
+            {embedHtml && this.renderEmbed()}
+          </div>
+          {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
+        </Bubble>
+      </div>
     )
   }
 }

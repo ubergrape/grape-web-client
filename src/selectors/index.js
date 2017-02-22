@@ -525,3 +525,7 @@ export const manageGroupsSelector = createSelector(
     }
   }
 )
+
+export const linkAttachmentsSelector = createSelector(
+  state => state.linkAttachments, state => state
+)

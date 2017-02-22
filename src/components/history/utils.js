@@ -62,7 +62,7 @@ export const createRowsState = (() => {
         isLast: false,
         duplicates: [],
         ...pick(props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
-          'onGoToChannel', 'selectedMessageId', 'onCopyLink', 'onQuote')
+          'onGoToChannel', 'selectedMessageId', 'onCopyLink', 'onQuote', 'onRemoveLinkAttachment')
       })
 
       map[message.id] = message.id

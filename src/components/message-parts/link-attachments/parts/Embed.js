@@ -9,7 +9,7 @@ import {styles} from './embedTheme.js'
 @injectSheet(styles)
 export default class Embed extends PureComponent {
   static propTypes = {
-    thumbUrl: PropTypes.string.isRequired,
+    thumbUrl: PropTypes.string,
     permalink: PropTypes.string.isRequired,
     embedHtml: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,

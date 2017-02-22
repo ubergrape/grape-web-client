@@ -465,3 +465,16 @@ export function uploadFile(orgId, file) {
     .attach('file', file, file.name)
     .accept('json')
 }
+
+export function removeLinkAttachments(channelId, messageId, sourceUrl, type) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'delete_attachment',
+      args: [channelId, messageId, sourceUrl, type]
+    }, (err) => {
+      if (err) return reject(err)
+      return resolve()
+    })
+  })
+}

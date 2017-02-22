@@ -149,7 +149,7 @@ export default class Row extends PureComponent {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
       isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
-      style, key
+      style, key, onRemoveLinkAttachment
     } = this.props
 
     let separator = null
@@ -180,7 +180,8 @@ export default class Row extends PureComponent {
       onRemove: this.onRemove,
       onResend: this.onResend,
       onCopyLink: this.onCopyLink,
-      onQuote: this.onQuote
+      onQuote: this.onQuote,
+      onRemoveLinkAttachment
     }
 
     if (message.type === 'activity') {
