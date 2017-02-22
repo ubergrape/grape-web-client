@@ -8,8 +8,8 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {Input, InputLabel} from 'material-ui/Input'
-import {FormControl} from 'material-ui/Form'
+import {Input} from 'material-ui/Input'
+import {FormControl, FormLabel} from 'material-ui/Form'
 import Dialog from '../dialog/Dialog'
 import {styles} from './roomDeleteDialogTheme'
 
@@ -55,8 +55,8 @@ export default class RoomDeleteDialog extends PureComponent {
 
   state = getInitialState(this.props.intl.formatMessage(messages.provideName))
 
-  onNextState = (prevState, state) => {
-    this.setCustomValidity(state.customValidity)
+  componentDidUpdate() {
+    this.setCustomValidity(this.state.customValidity)
   }
 
   onChange = (e) => {
@@ -71,7 +71,7 @@ export default class RoomDeleteDialog extends PureComponent {
         roomName,
         invalid: true,
         customValidity: formatMessage(messages.provideName)
-      }, this.onNextState)
+      })
       return
     }
 
@@ -80,7 +80,7 @@ export default class RoomDeleteDialog extends PureComponent {
         roomName,
         invalid: true,
         customValidity: formatMessage(messages.notMatchingName)
-      }, this.onNextState)
+      })
       return
     }
 
@@ -88,7 +88,7 @@ export default class RoomDeleteDialog extends PureComponent {
       roomName,
       invalid: false,
       customValidity: ''
-    }, this.onNextState)
+    })
   }
 
   onHide = () => {
@@ -96,7 +96,9 @@ export default class RoomDeleteDialog extends PureComponent {
       onHide,
       intl: {formatMessage}
     } = this.props
-    this.setState(getInitialState(formatMessage(messages.provideName)), this.onNextState)
+    this.setState(
+      getInitialState(formatMessage(messages.provideName))
+    )
     onHide()
   }
 
@@ -172,14 +174,14 @@ export default class RoomDeleteDialog extends PureComponent {
           </div>
           <form onSubmit={this.onSubmit}>
             <div className={classes.inputContainer}>
-              <InputLabel htmlFor="room-remove-input">
-                <FormattedMessage
-                  id="roomDeleteDialogInputLabel"
-                  defaultMessage="Please type in the name of the room to confirm"
-                  description="Room Delete Dialog: input label"
-                />
-              </InputLabel>
-              <FormControl>
+              <FormControl error={invalid}>
+                <FormLabel htmlFor="room-remove-input">
+                  <FormattedMessage
+                    id="roomDeleteDialogInputLabel"
+                    defaultMessage="Please type in the name of the room to confirm"
+                    description="Room Delete Dialog: input label"
+                  />
+                </FormLabel>
                 <Input
                   type="text"
                   id="room-remove-input"
