@@ -115,7 +115,6 @@ export function hideRoomDeteteDialog() {
 export function deleteRoom({roomId, roomName}) {
   return dispatch => api
       .deleteRoom(roomId, roomName)
-      .then(() => {})
       .catch(err => dispatch(error(err)))
 }
 
