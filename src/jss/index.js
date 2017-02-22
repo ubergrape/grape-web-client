@@ -6,6 +6,7 @@ import defaultUnit from 'jss-default-unit'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
 import expand from 'jss-expand'
+import {typographyConstants} from '../mui-theme'
 
 const jssInline = create({
   plugins: [
@@ -23,7 +24,7 @@ jss
   .setup({insertionPoint: 'grape-jss'})
   .use(isolate({
     reset: {
-      'font-family': '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
+      'font-family': typographyConstants.fontFamily,
       'box-sizing': 'border-box'
     }
   }))

@@ -17,7 +17,8 @@ const getData = (() => {
 
   return (name) => {
     if (cache[name]) return cache[name]
-    const data = cache[name] = {}
+    const data = {}
+    cache[name] = data
     div.innerHTML = raw[name]
     const svg = div.firstChild
     data.html = svg.innerHTML
