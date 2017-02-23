@@ -1,8 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false,
-  room: null
+  show: false
 }
 
 export default function reduce(state = initialState, action) {
@@ -14,7 +13,6 @@ export default function reduce(state = initialState, action) {
       }
     case types.HIDE_ROOM_DELETE_DIALOG:
       return {
-        ...state,
         show: false
       }
     default:

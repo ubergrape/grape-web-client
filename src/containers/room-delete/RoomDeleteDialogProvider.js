@@ -7,7 +7,7 @@ import {roomDeleteSelector as selector} from '../../selectors'
 import {RoomDeleteDialog} from '../../components/room-delete'
 
 const actionNames = {
-  hideRoomDeteteDialog: 'onHide',
+  hideRoomDeleteDialog: 'onHide',
   deleteRoom: 'onDelete'
 }
 

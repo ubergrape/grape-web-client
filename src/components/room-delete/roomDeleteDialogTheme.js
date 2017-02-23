@@ -1,8 +1,5 @@
 import {borderDefault} from 'grape-theme/dist/web-colors'
 import {red} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
-
-import deleteButton from '../button/danger'
 
 export const styles = {
   wrapper: {
@@ -28,15 +25,11 @@ export const styles = {
     color: red
   },
   inputContainer: {
-    padding: [20, 0],
-    '& > p': small,
-    'input:invalid': {
-      borderColor: red
-    }
+    padding: [20, 0]
   },
   deleteButton: {
-    extend: deleteButton,
-    padding: 10
+    // FIXME once https://github.com/callemall/material-ui/issues/6227 is soved
+    padding: '12px 16px !important'
   },
   buttonContainer: {
     display: 'flex',

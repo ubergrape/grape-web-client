@@ -836,9 +836,9 @@
       }
     },
     "babylon": {
-      "version": "6.15.0",
+      "version": "6.16.1",
       "from": "babylon@>=6.11.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.15.0.tgz"
+      "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.16.1.tgz"
     },
     "backo": {
       "version": "1.1.0",
@@ -1036,9 +1036,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000624",
+      "version": "1.0.30000626",
       "from": "caniuse-db@>=1.0.30000214 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000624.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000626.tgz"
     },
     "ccount": {
       "version": "1.0.1",
@@ -3075,9 +3075,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.1.0.tgz"
     },
     "grape-web": {
-      "version": "0.53.1",
+      "version": "0.54.0",
       "from": "grape-web@>=0.0.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.53.1.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.54.0.tgz"
     },
     "growl": {
       "version": "1.9.2",
@@ -3196,9 +3196,9 @@
           "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-1.2.1.tgz"
         },
         "clean-css": {
-          "version": "4.0.7",
+          "version": "4.0.8",
           "from": "clean-css@>=4.0.0 <4.1.0",
-          "resolved": "https://registry.npmjs.org/clean-css/-/clean-css-4.0.7.tgz"
+          "resolved": "https://registry.npmjs.org/clean-css/-/clean-css-4.0.8.tgz"
         },
         "html-minifier": {
           "version": "3.3.3",
@@ -4069,7 +4069,7 @@
     },
     "material-ui": {
       "version": "1.0.0-alpha.3",
-      "from": "material-ui@>=1.0.0-alpha.3 <2.0.0 <1.0.0-beta",
+      "from": "material-ui@>=1.0.0-alpha <2.0.0",
       "resolved": "https://registry.npmjs.org/material-ui/-/material-ui-1.0.0-alpha.3.tgz",
       "dependencies": {
         "jss-theme-reactor": {
@@ -4643,9 +4643,9 @@
       "resolved": "https://registry.npmjs.org/pluralize/-/pluralize-1.2.1.tgz"
     },
     "postcss": {
-      "version": "5.2.14",
+      "version": "5.2.15",
       "from": "postcss@>=5.0.3 <6.0.0",
-      "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.2.14.tgz",
+      "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.2.15.tgz",
       "dependencies": {
         "source-map": {
           "version": "0.5.6",

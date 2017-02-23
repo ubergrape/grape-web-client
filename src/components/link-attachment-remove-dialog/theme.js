@@ -1,6 +1,4 @@
 import {grayMercury} from 'grape-theme/dist/base-colors'
-import buttonDanger from '../button/danger'
-import buttonDefault from '../button/default'
 
 export const styles = {
   adminField: {
@@ -37,8 +35,6 @@ export const styles = {
     marginTop: 20
   },
   submitButton: {
-    extend: buttonDanger,
     marginLeft: 5
-  },
-  cancelButton: buttonDefault
+  }
 }

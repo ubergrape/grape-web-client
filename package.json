@@ -8,7 +8,7 @@
     "node": "5.11.0"
   },
   "dependencies": {
-    "material-ui": "^1.0.0-alpha.3 <1.0.0-beta",
+    "material-ui": "^1.0.0-alpha",
     "@ubergrape/react-dropzone": "3.8.0",
     "@ubergrape/react-notification": "^6.5.3",
     "array": "ubergrape/array",

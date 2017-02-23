@@ -96,7 +96,7 @@ export function setRoomIcon(id, icon) {
       .catch(err => dispatch(error(err)))
 }
 
-export function showRoomDeteteDialog(id) {
+export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
     const room = find(joinedRoomsSelector(getState()), {id})
     dispatch({
@@ -106,7 +106,7 @@ export function showRoomDeteteDialog(id) {
   }
 }
 
-export function hideRoomDeteteDialog() {
+export function hideRoomDeleteDialog() {
   return {
     type: types.HIDE_ROOM_DELETE_DIALOG
   }
