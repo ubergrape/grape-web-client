@@ -6,6 +6,7 @@ import {
   white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayMercury
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
+import {borderRadius} from 'grape-theme/dist/sizes'
 import merge from 'lodash/object/merge'
 import color from 'color'
 
@@ -13,7 +14,9 @@ const palette = createPalette()
 
 palette.primary[100] = white
 palette.primary[500] = green
+palette.primary[700] = color(green).lighten(0.2).rgbaString()
 palette.error[500] = red
+palette.error[700] = color(red).lighten(0.2).rgbaString()
 palette.accent.A200 = blue
 palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
@@ -34,7 +37,7 @@ const typography = createTypography(palette, typographyConstants)
 const MuiLinearProgress = {
   root: {
     height: 9,
-    borderRadius: 5
+    borderRadius: borderRadius.big
   },
   determinateBar1: {
     background: {
@@ -67,7 +70,7 @@ const MuiInput = {
       width: 1,
       style: 'solid',
       color: palette.grey[200],
-      radius: 5
+      radius: borderRadius.big
     },
     padding: [0, inputHorizontalSpacing]
   },
@@ -96,11 +99,49 @@ const MuiFormLabel = {
 
 const MuiButton = {
   root: {
+    textTransform: 'none',
     height: 'auto',
-    '&:hover': {
+    padding: [0, 14],
+    '&:hover': {
       textDecoration: 'none',
       backgroundColor: 'transparent',
       color: palette.accent.A100
+    }
+  },
+  raised: {
+    border: {
+      width: 1,
+      style: 'solid',
+      color: palette.grey[300],
+      radius: borderRadius.big
+    },
+    backgroundColor: 'transparent',
+    padding: [4, 14],
+    '&:hover': {
+      backgroundColor: palette.grey[300],
+      color: palette.getContrastText(palette.grey[300])
+    },
+    '&, &$keyboardFocused, &:active, &$disabled': {
+      boxShadow: 'none'
+    }
+  },
+  raisedPrimary: {
+    backgroundColor: palette.primary[500],
+    borderColor: palette.primary[500],
+    color: palette.primary[100],
+    '&:hover': {
+      backgroundColor: palette.primary[700],
+      borderColor: palette.primary[700],
+      color: palette.primary[100]
+    }
+  },
+  raisedAccent: {
+    backgroundColor: palette.error[500],
+    borderColor: palette.error[500],
+    '&:hover': {
+      backgroundColor: palette.error[700],
+      borderColor: palette.error[700],
+      color: palette.primary[100]
     }
   }
 }
