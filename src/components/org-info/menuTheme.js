@@ -8,6 +8,7 @@ export const styles = {
     minWidth: 220
   },
   anchorItem: {
+    display: 'block',
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'none'
@@ -23,6 +24,10 @@ export const styles = {
   text: {
     extend: [small, ellipsis],
     width: '100%'
+  },
+  // FIXME remove `divider` override when https://git.io/vyfxM is release
+  divider: {
+    margin: '0 !important'
   }
 }
 
