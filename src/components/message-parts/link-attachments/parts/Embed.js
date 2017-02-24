@@ -62,6 +62,7 @@ export default class Embed extends PureComponent {
           width: 100% !important;
           height: 100% !important;
         }
+        body { overflow: hidden !important; }
         body > * { display: block !important; }
         style, script { display: none !important; }
       </style>
