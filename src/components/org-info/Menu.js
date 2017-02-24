@@ -204,7 +204,7 @@ export default class Menu extends PureComponent {
     if (canInvite) {
       items.push(
         <InviteItem classes={classes} onClick={onInvite} key={key} />,
-        // FIXME remove className override when https://git.io/vyfxM is release
+        // FIXME remove className override when https://git.io/vyfxM is released
         <Divider className={classes.divider} key={++key} />
       )
     }
@@ -214,7 +214,7 @@ export default class Menu extends PureComponent {
         <OrgSettingsItem classes={classes} key={++key} />,
         <ManageMembersItem classes={classes} key={++key} />,
         <AddServiceItem classes={classes} key={++key} />,
-        // FIXME remove className override when https://git.io/vyfxM is release
+        // FIXME remove className override when https://git.io/vyfxM is released
         <Divider className={classes.divider} key={++key} />
       )
     }
@@ -225,7 +225,7 @@ export default class Menu extends PureComponent {
       <TutorialItem classes={classes} onClick={onShowTutorial} key={++key} />,
       <SupportItem classes={classes} key={++key} />,
       <SwitchOrganizationsItem classes={classes} key={++key} />,
-      // FIXME remove className override when https://git.io/vyfxM is release
+      // FIXME remove className override when https://git.io/vyfxM is released
       <Divider className={classes.divider} key={++key} />,
       <LogoutItem classes={classes} key={++key} />
     )

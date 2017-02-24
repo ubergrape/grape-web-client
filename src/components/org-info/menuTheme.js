@@ -25,7 +25,7 @@ export const styles = {
     extend: [small, ellipsis],
     width: '100%'
   },
-  // FIXME remove `divider` override when https://git.io/vyfxM is release
+  // FIXME remove `divider` override when https://git.io/vyfxM is released
   divider: {
     margin: '0 !important'
   }
