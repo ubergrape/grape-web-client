@@ -37,10 +37,10 @@ const messages = defineMessages({
   }
 })
 
-const getInitialState = validityMessage => ({
+const getInitialState = () => ({
   roomName: '',
   isValid: true,
-  customValidity: validityMessage
+  errorMessage: null
 })
 
 const ConfirmMessage = ({classes}) => (
@@ -71,8 +71,9 @@ const ConfirmForm = ({
   onSubmit,
   onChange,
   onRefInput,
-  checkValidity,
+  onInvalid,
   isValid,
+  errorMessage,
   inputId = uniqueId(),
   inputPlaceholder
 }) => (
@@ -96,8 +97,10 @@ const ConfirmForm = ({
           onChange={onChange}
           placeholder={inputPlaceholder}
           autoComplete="off"
+          onInvalid={onInvalid}
           error={!isValid}
         />
+        {errorMessage && <FormLabel htmlFor={inputId}>{errorMessage}</FormLabel>}
       </FormControl>
     </div>
     <div className={classes.buttonContainer}>
@@ -106,7 +109,6 @@ const ConfirmForm = ({
         raised
         type="submit"
         className={classes.deleteButton}
-        onClick={checkValidity}
       >
         <FormattedMessage
           id="roomDeleteDialogDelete"
@@ -136,40 +138,9 @@ export default class RoomDeleteDialog extends PureComponent {
 
   state = getInitialState(this.props.intl.formatMessage(messages.provideName))
 
-  componentDidUpdate() {
-    this.setCustomValidity(this.state.customValidity)
-  }
-
   onChange = (e) => {
     const roomName = e.target.value.trim()
-    const {
-      room: {name},
-      intl: {formatMessage}
-    } = this.props
-
-    if (!roomName) {
-      this.setState({
-        roomName,
-        isValid: false,
-        customValidity: formatMessage(messages.provideName)
-      })
-      return
-    }
-
-    if (name !== roomName) {
-      this.setState({
-        roomName,
-        isValid: false,
-        customValidity: formatMessage(messages.notMatchingName)
-      })
-      return
-    }
-
-    this.setState({
-      roomName,
-      isValid: true,
-      customValidity: ''
-    })
+    this.setState({roomName})
   }
 
   onHide = () => {
@@ -186,7 +157,6 @@ export default class RoomDeleteDialog extends PureComponent {
   onRefInput = (component) => {
     if (!component) return
     this.input = component.input
-    this.setCustomValidity(this.state.customValidity)
   }
 
   onSubmit = (e) => {
@@ -201,16 +171,39 @@ export default class RoomDeleteDialog extends PureComponent {
     this.onHide()
   }
 
-  setCustomValidity = (message) => {
-    this.input.setCustomValidity(message)
+  onInvalid = (e) => {
+    e.preventDefault()
+    this.checkValidity()
   }
 
-  checkValidity = () => {
-    const {customValidity} = this.state
-    if (customValidity) {
-      this.setState({isValid: false})
+  checkValidity() {
+    const {roomName} = this.state
+    const {
+      room: {name},
+      intl: {formatMessage}
+    } = this.props
+
+    if (!roomName) {
+      this.setState({
+        isValid: false,
+        errorMessage: formatMessage(messages.provideName)
+      })
       return false
     }
+
+    if (name !== roomName) {
+      this.setState({
+        isValid: false,
+        errorMessage: formatMessage(messages.notMatchingName)
+      })
+      return false
+    }
+
+    this.setState({
+      isValid: true,
+      errorMessage: null
+    })
+
     return true
   }
 
@@ -224,9 +217,9 @@ export default class RoomDeleteDialog extends PureComponent {
 
     const {
       roomName,
-      isValid
+      isValid,
+      errorMessage
     } = this.state
-
     return (
       <Dialog
         show={show}
@@ -241,8 +234,9 @@ export default class RoomDeleteDialog extends PureComponent {
             onSubmit={this.onSubmit}
             onChange={this.onChange}
             onRefInput={this.onRefInput}
-            checkValidity={this.checkValidity}
+            onInvalid={this.onInvalid}
             isValid={isValid}
+            errorMessage={errorMessage}
             inputPlaceholder={formatMessage(messages.inputPlaceholder)}
           />
         </div>
