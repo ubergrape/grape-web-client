@@ -40,7 +40,7 @@ const Header = ({classes, name, user}) => (
 @injectSheet(styles)
 export default class OrgInfo extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     logo: PropTypes.string,
     name: PropTypes.string,
@@ -51,7 +51,7 @@ export default class OrgInfo extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       isLoading,
       name,
       user,

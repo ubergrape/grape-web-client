@@ -32,7 +32,7 @@ const toggleMenu = state => ({showMenu: !state.showMenu})
 @injectSheet(styles)
 export default class Settings extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
     onShowTutorial: PropTypes.func.isRequired
   }
@@ -69,7 +69,7 @@ export default class Settings extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       ...menuProps
     } = this.props
 
