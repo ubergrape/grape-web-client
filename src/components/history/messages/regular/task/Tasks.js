@@ -7,10 +7,8 @@ import TaskButton from './TaskButton'
 import TasksList from './TasksList'
 import CreateTask from './CreateTask'
 
-const toggleOpenState = state => ({isOpen: !state.isOpen})
-
 @injectSheet({
-  task: {
+  tasks: {
     position: 'relative',
     display: 'inline-block'
   },
@@ -18,7 +16,7 @@ const toggleOpenState = state => ({isOpen: !state.isOpen})
     width: 260
   }
 })
-export default class Task extends PureComponent {
+export default class Tasks extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     tasks: PropTypes.array,
@@ -36,7 +34,7 @@ export default class Task extends PureComponent {
 
   onToggleDropdown = (e) => {
     e.stopPropagation()
-    this.setState(toggleOpenState)
+    this.setState(state => ({isOpen: !state.isOpen}))
   }
 
   onHideDropdown = () => {
@@ -98,7 +96,7 @@ export default class Task extends PureComponent {
     const {isOpen} = this.state
 
     return (
-      <div className={classes.task}>
+      <div className={classes.tasks}>
         <TaskButton
           onRefButton={this.onRefButton}
           onClick={this.onToggleDropdown}

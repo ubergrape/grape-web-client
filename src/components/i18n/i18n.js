@@ -5,7 +5,8 @@ export function Close() {
   return (
     <FormattedMessage
       id="close"
-      defaultMessage="Close" />
+      defaultMessage="Close"
+    />
   )
 }
 
@@ -13,7 +14,8 @@ export function CloseLower() {
   return (
     <FormattedMessage
       id="closeLower"
-      defaultMessage="close" />
+      defaultMessage="close"
+    />
   )
 }
 
@@ -21,7 +23,8 @@ export function Done() {
   return (
     <FormattedMessage
       id="done"
-      defaultMessage="Done" />
+      defaultMessage="Done"
+    />
   )
 }
 
@@ -29,7 +32,8 @@ export function ShowMore() {
   return (
     <FormattedMessage
       id="showMore"
-      defaultMessage="Show more" />
+      defaultMessage="Show more"
+    />
   )
 }
 
@@ -37,7 +41,8 @@ export function ShowLess() {
   return (
     <FormattedMessage
       id="showLess"
-      defaultMessage="Show less" />
+      defaultMessage="Show less"
+    />
   )
 }
 
@@ -45,7 +50,8 @@ export function Contacts() {
   return (
     <FormattedMessage
       id="contacts"
-      defaultMessage="Contacts" />
+      defaultMessage="Contacts"
+    />
   )
 }
 
@@ -53,7 +59,8 @@ export function Groups() {
   return (
     <FormattedMessage
       id="groups"
-      defaultMessage="Groups" />
+      defaultMessage="Groups"
+    />
   )
 }
 
@@ -61,7 +68,8 @@ export function Description() {
   return (
     <FormattedMessage
       id="description"
-      defaultMessage="Description" />
+      defaultMessage="Description"
+    />
   )
 }
 
@@ -69,7 +77,17 @@ export function Create() {
   return (
     <FormattedMessage
       id="create"
-      defaultMessage="Create" />
+      defaultMessage="Create"
+    />
+  )
+}
+
+export function Enter() {
+  return (
+    <FormattedMessage
+      id="enter"
+      defaultMessage="Enter"
+    />
   )
 }
 
@@ -85,7 +103,8 @@ export const InviteSuccess = ({invited}) => (
     values={{
       user: invited[0],
       amount: invited.length - 1
-    }} />
+    }}
+  />
 )
 
 InviteSuccess.propTypes = {

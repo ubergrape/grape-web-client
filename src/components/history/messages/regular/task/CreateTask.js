@@ -6,13 +6,14 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {Input} from 'material-ui/Input'
 import {FormGroup, FormControl, FormLabel} from 'material-ui/Form'
+import Input from 'material-ui/Input'
 import List from 'material-ui/List'
 import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
 import {small} from 'grape-theme/dist/fonts'
 
+import {Enter} from '../../../../i18n'
 import Header from './Header'
 import ServicesItem from './ServicesItem'
 
@@ -28,6 +29,23 @@ const messages = defineMessages({
     description: 'NLP create task dialog title.'
   }
 })
+
+const styles = {
+  link: {
+    padding: 10
+  },
+  linkLabel: {
+    extend: small,
+    fontWeight: 'bold'
+  },
+  linkInput: {
+    flex: 1,
+    marginRight: 10
+  },
+  linkEnter: {
+    textTransform: 'uppercase'
+  }
+}
 
 const LinkSection = ({classes, onFocus, onBlur, isFocused}) => (
   <FormControl className={classes.link}>
@@ -46,27 +64,16 @@ const LinkSection = ({classes, onFocus, onBlur, isFocused}) => (
         onFocus={onFocus}
         onBlur={onBlur}
       />
-      {isFocused && <Button accent compact className={classes.linkEnter}>enter</Button>}
+      {isFocused && (
+        <Button accent compact className={classes.linkEnter}>
+          <Enter />
+        </Button>
+      )}
     </FormGroup>
   </FormControl>
 )
 
-@injectSheet({
-  link: {
-    padding: 10
-  },
-  linkLabel: {
-    extend: small,
-    fontWeight: 'bold'
-  },
-  linkInput: {
-    width: '100%',
-    marginRight: 10
-  },
-  linkEnter: {
-    textTransform: 'uppercase'
-  }
-})
+@injectSheet(styles)
 @injectIntl
 export default class CreateTask extends PureComponent {
   static propTypes = {

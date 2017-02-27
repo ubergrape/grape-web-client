@@ -14,6 +14,6 @@ const services = [
 ];
 
 <div style={{marginTop: 300, marginBottom: 30}}>
-  <Task tasks={tasks} services={services} isConnected />
+  <Tasks tasks={tasks} services={services} isConnected />
 </div>
 ```

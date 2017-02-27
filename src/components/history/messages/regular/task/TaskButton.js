@@ -55,6 +55,7 @@ export default class TaskButton extends PureComponent {
           <FormattedMessage
             id="tasks"
             defaultMessage="Tasks"
+            description="Message NLP task button tooltip."
           />
         )}
       >
