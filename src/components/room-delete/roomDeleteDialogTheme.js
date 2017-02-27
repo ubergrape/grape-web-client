@@ -28,8 +28,7 @@ export const styles = {
     padding: [20, 0]
   },
   deleteButton: {
-    // FIXME once https://github.com/callemall/material-ui/issues/6227 is soved
-    padding: '12px 16px !important'
+    padding: [12, 16]
   },
   buttonContainer: {
     display: 'flex',
