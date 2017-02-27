@@ -50,7 +50,7 @@ const iconSize = {
 export default class Header extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     description: PropTypes.string,
     icon: PropTypes.string,
     onGoBack: PropTypes.func,
