@@ -6,7 +6,11 @@ import 'reactive-elements'
 import 'intl'
 
 import conf from './conf'
-import {init as initApp, render as renderApp} from './app'
+import {
+  init as initApp,
+  render as renderApp,
+  renderSheetsInsertionPoints
+} from './app'
 import initLegacy from './legacy'
 import {loadConfig} from './utils/backend/api'
 
@@ -15,6 +19,7 @@ const log = console.log.bind(console) // eslint-disable-line no-console
 function ensureConf() {
   function init() {
     initApp()
+    renderSheetsInsertionPoints()
     initLegacy()
     renderApp()
   }

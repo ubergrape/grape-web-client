@@ -37,6 +37,5 @@ export function render() {
   const container = document.createElement('div')
   container.className = 'grape-web-client'
   document.body.appendChild(container)
-  renderSheetsInsertionPoints()
   ReactDom.render(<App />, container)
 }
