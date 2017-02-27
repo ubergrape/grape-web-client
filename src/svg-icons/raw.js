@@ -60,6 +60,7 @@ export checkmarkFilled from './svg/checkmark-filled.svg'
 export checkCircle from './svg/check-circle.svg'
 export lightningBolt from './svg/lightning-bolt.svg'
 export angleLeft from './svg/angle-left.svg'
+export moreOptions from './svg/more-options.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
