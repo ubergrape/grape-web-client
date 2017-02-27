@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import List from 'material-ui/List'
@@ -14,6 +14,21 @@ import Item from './TaskListItem'
   }
 })
 export default class TasksList extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    tasks: PropTypes.array,
+    onClose: PropTypes.func,
+    onSelectTask: PropTypes.func,
+    onRemoveTask: PropTypes.func
+  }
+
+  static defaultProps = {
+    tasks: [],
+    onClose: null,
+    onSelectTask: null,
+    onRemoveTask: null
+  }
+
   render() {
     const {
       classes, tasks, onClose, onSelectTask, onRemoveTask

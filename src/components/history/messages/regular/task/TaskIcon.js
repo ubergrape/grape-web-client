@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import cn from 'classnames'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
@@ -26,6 +26,19 @@ import {grayLight, orange, green} from 'grape-theme/dist/base-colors'
   }
 })
 export default class TaskIcon extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    isConnected: PropTypes.bool,
+    className: PropTypes.string,
+    onClick: PropTypes.func
+  }
+
+  static defaultProps = {
+    isConnected: false,
+    className: null,
+    onClick: null
+  }
+
   render() {
     const {classes, isConnected, className, onClick} = this.props
 

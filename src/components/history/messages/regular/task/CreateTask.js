@@ -1,12 +1,55 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 import {Input} from 'material-ui/Input'
-import {FormControl, FormLabel} from 'material-ui/Form'
+import {FormGroup, FormControl, FormLabel} from 'material-ui/Form'
+import List from 'material-ui/List'
+import Button from 'material-ui/Button'
+import Divider from 'material-ui/Divider'
 import {small} from 'grape-theme/dist/fonts'
 
 import Header from './Header'
-import Divider from './Divider'
+import ServicesItem from './ServicesItem'
+
+const messages = defineMessages({
+  moreServices: {
+    id: 'moreServices',
+    defaultMessage: 'More Services',
+    description: 'More Services button in message nlp create task dialog.'
+  },
+  createTask: {
+    id: 'createTask',
+    defaultMessage: 'Create Task',
+    description: 'NLP create task dialog title.'
+  }
+})
+
+const LinkSection = ({classes, onFocus, onBlur, isFocused}) => (
+  <FormControl className={classes.link}>
+    <FormLabel className={classes.linkLabel}>
+      <FormattedMessage
+        id="linkToAConnectedTask"
+        defaultMessage="Link to a connected Task"
+        description="Nlp create task dialog link label."
+      />
+    </FormLabel>
+    <FormGroup row>
+      <Input
+        placeholder="https://tasks.com/taskid=124…"
+        autoFocus
+        className={classes.linkInput}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+      {isFocused && <Button accent compact className={classes.linkEnter}>enter</Button>}
+    </FormGroup>
+  </FormControl>
+)
 
 @injectSheet({
   link: {
@@ -15,37 +58,88 @@ import Divider from './Divider'
   linkLabel: {
     extend: small,
     fontWeight: 'bold'
+  },
+  linkInput: {
+    width: '100%',
+    marginRight: 10
+  },
+  linkEnter: {
+    textTransform: 'uppercase'
   }
 })
+@injectIntl
 export default class CreateTask extends PureComponent {
+  static propTypes = {
+    intl: intlShape,
+    classes: PropTypes.object.isRequired,
+    onClose: PropTypes.func,
+    onGoBack: PropTypes.func,
+    onSelectService: PropTypes.func,
+    task: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }).isRequired,
+    services: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    )
+  }
+
+  static defaultProps = {
+    services: []
+  }
+
+  state = {linkInputIsFocused: false}
+
+  onFocusLinkInput = () => {
+    this.setState({linkInputIsFocused: true})
+  }
+
+  onBlurLinkInput = () => {
+    this.setState({linkInputIsFocused: false})
+  }
+
   render() {
-    const {classes, onClose, onGoBack, task} = this.props
+    const {
+      classes, onClose, onGoBack, onSelectService, task, services,
+      intl: {formatMessage}
+    } = this.props
+    const {linkInputIsFocused} = this.state
+
     return (
       <div className={classes.createTask}>
         <Header
-          title={
-            <FormattedMessage
-              id="createTask"
-              defaultMessage="Create Task"
-              description="NLP create task dialog title."
-            />
-          }
+          title={formatMessage(messages.createTask)}
           description={task.text}
           icon="lightningBolt"
           onClose={onClose}
           onGoBack={onGoBack}
         />
-        <FormControl className={classes.link}>
-          <FormLabel className={classes.linkLabel}>
-            <FormattedMessage
-              id="linkToAConnectedTask"
-              defaultMessage="Link to a connected Task"
-              description="Nlp create task dialog link label."
+        <LinkSection
+          classes={classes}
+          onFocus={this.onFocusLinkInput}
+          onBlur={this.onBlurLinkInput}
+          isFocused={linkInputIsFocused}
+        />
+        <Divider light />
+        <List className={classes.list}>
+          {services.map(service => (
+            <ServicesItem
+              service={service}
+              onSelect={onSelectService}
+              key={service.id}
             />
-          </FormLabel>
-          <Input placeholder="https://tasks.com/taskid=124…" />
-        </FormControl>
-        <Divider />
+          ))}
+          <ServicesItem
+            service={{
+              id: 'moreServices',
+              name: formatMessage(messages.moreServices)
+            }}
+            onSelect={onSelectService}
+            key="moreServicesButton"
+            icon="moreOptions"
+          />
+        </List>
       </div>
     )
   }

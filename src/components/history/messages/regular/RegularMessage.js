@@ -66,6 +66,8 @@ export default class RegularMessage extends PureComponent {
   }
 
   static defaultProps = {
+    id: '0',
+    channelId: 0,
     avatar: defaultAvatar,
     author: null,
     hasBubbleArrow: true,

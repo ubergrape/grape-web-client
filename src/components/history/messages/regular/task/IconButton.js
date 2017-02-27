@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import BaseIconButton from 'material-ui/IconButton'
 import cn from 'classnames'
@@ -22,6 +22,19 @@ const size = 32
   }
 })
 export default class IconButton extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    className: PropTypes.string,
+    icon: PropTypes.string,
+    onClick: PropTypes.func
+  }
+
+  static defaultProps = {
+    className: null,
+    icon: null,
+    onClick: null
+  }
+
   render() {
     const {classes, icon, onClick, className} = this.props
     return (

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -19,6 +19,19 @@ const toggleOpenState = state => ({isOpen: !state.isOpen})
   }
 })
 export default class Task extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    tasks: PropTypes.array,
+    services: PropTypes.array,
+    isConnected: PropTypes.bool
+  }
+
+  static defaultProps = {
+    tasks: [],
+    services: null,
+    isConnected: false
+  }
+
   state = {isOpen: false}
 
   onToggleDropdown = (e) => {
@@ -46,16 +59,22 @@ export default class Task extends PureComponent {
     this.setState({task: null})
   }
 
+  onSelectService = () => {
+    // TODO implement it
+  }
+
   renderContent() {
     const {task} = this.state
-    const {nlp} = this.props
+    const {tasks, services} = this.props
 
     if (task) {
       return (
         <CreateTask
           onClose={this.onHideDropdown}
           onGoBack={this.onGoBack}
+          onSelectService={this.onSelectService}
           task={task}
+          services={services}
         />
       )
     }
@@ -65,7 +84,7 @@ export default class Task extends PureComponent {
         onClose={this.onHideDropdown}
         onSelectTask={this.onSelectTask}
         onRemoveTask={this.onRemoveTask}
-        tasks={nlp.items}
+        tasks={tasks}
       />
     )
   }
@@ -73,10 +92,8 @@ export default class Task extends PureComponent {
   render() {
     const {
       classes,
-      nlp: {
-        amount,
-        isConnected
-      }
+      tasks,
+      isConnected
     } = this.props
     const {isOpen} = this.state
 
@@ -86,20 +103,21 @@ export default class Task extends PureComponent {
           onRefButton={this.onRefButton}
           onClick={this.onToggleDropdown}
           isConnected={isConnected}
-          amount={amount}
+          amount={tasks.length}
         />
-        {isOpen &&
+        {isOpen && tasks.length && (
           <Dropdown
             target={this.buttonNode}
             onOutsideClick={this.onHideDropdown}
             placement="top"
             container={this}
+            shouldUpdatePosition
           >
             <div className={classes.content}>
               {this.renderContent()}
             </div>
           </Dropdown>
-        }
+        )}
       </div>
     )
   }

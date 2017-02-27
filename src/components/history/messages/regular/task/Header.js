@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {small, normal} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
@@ -48,6 +48,22 @@ const iconSize = {
   }
 })
 export default class Header extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    icon: PropTypes.string,
+    onGoBack: PropTypes.func,
+    onClose: PropTypes.func
+  }
+
+  static defaultProps = {
+    description: null,
+    icon: null,
+    onGoBack: null,
+    onClose: null
+  }
+
   render() {
     const {classes, title, description, icon, onGoBack, onClose} = this.props
     return (

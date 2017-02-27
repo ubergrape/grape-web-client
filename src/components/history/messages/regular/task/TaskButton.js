@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import color from 'color'
@@ -32,6 +32,21 @@ import TaskIcon from './TaskIcon'
   }
 })
 export default class TaskButton extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    isConnected: PropTypes.bool,
+    amount: PropTypes.number,
+    onClick: PropTypes.func,
+    onRefButton: PropTypes.func
+  }
+
+  static defaultProps = {
+    amount: 0,
+    isConnected: false,
+    onClick: null,
+    onRefButton: null
+  }
+
   render() {
     const {classes, isConnected, amount, onClick, onRefButton} = this.props
     return (
