@@ -170,6 +170,7 @@ export default class RoomInfo extends PureComponent {
       >
         <div className={classes.channelInfo}>
           <MainSettings
+            classes={classes}
             channel={channel}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
