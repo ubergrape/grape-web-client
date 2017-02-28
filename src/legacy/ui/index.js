@@ -17,7 +17,6 @@ import v from 'virtualdom'
 
 import GrapeInput from './elements/GrapeInput'
 import Notifications from './elements/notifications'
-import DeleteRoomDialog from './elements/dialogs/deleteroom'
 
 
 require('startswith')
@@ -30,7 +29,6 @@ const exports = module.exports = UI
 
 exports.GrapeInput = GrapeInput
 exports.Notifications = Notifications
-exports.DeleteRoomDialog = DeleteRoomDialog
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -241,13 +239,6 @@ UI.prototype.gotError = function UI_gotError(err) {
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
   this.room = room
-}
-
-UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-  const deleteRoomDialog = new DeleteRoomDialog({
-    room
-  }).closable().overlay().show()
-  broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {

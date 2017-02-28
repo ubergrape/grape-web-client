@@ -48,7 +48,7 @@ export default class RoomInfo extends PureComponent {
     setRoomColor: PropTypes.func.isRequired,
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
-    showRoomDeteteDialog: PropTypes.func.isRequired,
+    showRoomDeleteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
@@ -92,7 +92,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   onShowRoomDeleteDialog = (room) => {
-    this.props.showRoomDeteteDialog(room)
+    this.props.showRoomDeleteDialog(room)
   }
 
   onSetRoomColor = (color) => {
@@ -181,7 +181,6 @@ export default class RoomInfo extends PureComponent {
             renameRoom={this.onRenameRoom}
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
-            classes={classes}
           />
 
           {this.renderDescription()}
@@ -196,6 +195,7 @@ export default class RoomInfo extends PureComponent {
                   <FormattedMessage
                     id="inviteMoreToGroup"
                     defaultMessage="Invite more people to this group"
+                    description="Room Info Panel: link to invite people to the group/room"
                   />
                 </button>
               </li>
@@ -207,6 +207,7 @@ export default class RoomInfo extends PureComponent {
                   <FormattedMessage
                     id="addServiceIntegration"
                     defaultMessage="Add service integration"
+                    description="Room Info Panel: link to add an integration to the current room"
                   />
                 </button>
               </li>
@@ -219,6 +220,7 @@ export default class RoomInfo extends PureComponent {
                     id="leaveChannel"
                     defaultMessage="Leave {channel}"
                     values={{channel: channel.name}}
+                    description="Room Info Panel: leave room link"
                   />
                 </button>
               </li>

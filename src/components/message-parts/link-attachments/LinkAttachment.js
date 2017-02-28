@@ -1,7 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
-import noop from 'lodash/utility/noop'
 
 import groupConsecutive from '../../../utils/group-consecutive'
 
@@ -52,7 +51,7 @@ export default class LinkAttachment extends PureComponent {
     fields: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
-    onRemove: PropTypes.func.isRequired
+    onRemove: PropTypes.func
   }
 
   static defaultProps = {
@@ -73,7 +72,7 @@ export default class LinkAttachment extends PureComponent {
     embedHtml: null,
     ts: null,
     className: '',
-    onRemove: noop
+    onRemove: null
   }
 
   state = {isMenuOpened: false}

@@ -76,7 +76,8 @@ export default class Row extends PureComponent {
     key: PropTypes.string,
     isExpanded: PropTypes.bool.isRequired,
     // Will highlight a message by id.
-    selectedMessageId: PropTypes.string
+    selectedMessageId: PropTypes.string,
+    onRemoveLinkAttachment: PropTypes.func.isRequired
   }
 
   static defaultProps = {
