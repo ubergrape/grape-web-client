@@ -2,7 +2,7 @@ import color from 'color'
 import {small, normal} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark} from 'grape-theme/dist/base-colors'
 
-import buttonIcon from '../button/icon'
+import buttonIcon from '../../button/icon'
 
 const hoverColor = color(blue).lighten(0.05).rgbaString()
 

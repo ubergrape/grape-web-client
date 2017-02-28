@@ -8,19 +8,19 @@ import {
   injectIntl
 } from 'react-intl'
 
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import DateSeparator from '../../message-parts/DateSeparator'
+import {ShowMore} from '../../i18n'
 import style from './messageSearchStyles'
 import Message from './Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 import Options from './Options'
-import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import DateSeparator from '../message-parts/DateSeparator'
-import {ShowMore} from '../i18n/i18n'
 
 @injectSheet(style)
 @injectIntl
 export default class MessageSearch extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
@@ -123,7 +123,7 @@ export default class MessageSearch extends PureComponent {
   renderMessages() {
     const {
       items: messages,
-      sheet: {classes}
+      classes
     } = this.props
 
     return messages.reduce((elements, message, index) => {
@@ -171,7 +171,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderLoadMore() {
-    const {total, items, sheet: {classes}} = this.props
+    const {total, items, classes} = this.props
     if (!total || items.length >= total) return null
     return (
       <div className={classes.loadMoreContainer}>
@@ -186,8 +186,8 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderEmpty() {
-    const {classes} = this.props.sheet
-    if (this.props.total !== 0) return null
+    const {classes, total} = this.props
+    if (total !== 0) return null
     return (
       <div className={classes.empty}>
         <FormattedMessage
@@ -200,7 +200,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   render() {
-    const {user, images, title, isLoading, sheet: {classes}} = this.props
+    const {user, images, title, isLoading, classes} = this.props
 
     if (!user) return null
 

@@ -5,10 +5,10 @@ import {
   injectIntl
 } from 'react-intl'
 
-import SharedFiles from '../shared-files/SharedFiles'
-import RoomInfo from '../room-info/RoomInfo'
-import UserProfile from '../user-profile/UserProfile'
-import MessageSearch from '../message-search/MessageSearch'
+import SharedFiles from './shared-files/SharedFiles'
+import RoomInfo from './room-info/RoomInfo'
+import UserProfile from './user-profile/UserProfile'
+import MessageSearch from './message-search/MessageSearch'
 
 const messages = defineMessages({
   mentions: {

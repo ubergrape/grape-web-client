@@ -6,15 +6,15 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {maxChannelNameLength} from '../../constants/app'
+import {maxChannelNameLength} from '../../../constants/app'
 import {
   isAllOff,
   isAllInherit,
   values as notificationSettingsValues
-} from '../../utils/notification-settings'
-import EditableText from '../editable-text/EditableText'
-import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
-import Tooltip from '../tooltip/HoverTooltip'
+} from '../../../utils/notification-settings'
+import EditableText from '../../editable-text/EditableText'
+import RoomIconSettings from '../../room-icon-settings/RoomIconSettings'
+import Tooltip from '../../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
 import {settingsButtonSize} from './roomInfoTheme'
 
@@ -38,18 +38,20 @@ const NotificationSettingsButton = ({classes, settings, onShow}) => {
       message={(
         <FormattedMessage
           id="notificationSettingsTooltip"
-          defaultMessage="Edit notification settings" />
-      )}>
+          defaultMessage="Edit notification settings"
+        />
+      )}
+    >
       <button
-        className={`${classes.notificationsButton} ${classes['notificationsButton' + state]}`}
-        onClick={onShow}></button>
+        className={`${classes.notificationsButton} ${classes[`notificationsButton${state}`]}`}
+        onClick={onShow}
+      />
     </Tooltip>
   )
 }
 
 NotificationSettingsButton.propTypes = {
   onShow: PropTypes.func.isRequired,
-  channel: PropTypes.object.isRequired,
   settings: PropTypes.shape({
     desktop: PropTypes.oneOf(notificationSettingsValues),
     push: PropTypes.oneOf(notificationSettingsValues)
@@ -60,17 +62,11 @@ NotificationSettingsButton.propTypes = {
 @injectIntl
 export default class MainSettings extends PureComponent {
   static propTypes = {
-    theme: PropTypes.shape({
-      classes: PropTypes.object.isRequired
-    }).isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
-    onChangePrivacy: PropTypes.func.isRequired,
-    onShowRoomDeleteDialog: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
-    onSetRoomColor: PropTypes.func.isRequired,
-    onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.object.isRequired,
     notificationSettings: PropTypes.object.isRequired,
@@ -98,8 +94,7 @@ export default class MainSettings extends PureComponent {
   renderAdditionalActions() {
     const {
       allowEdit,
-      theme,
-      theme: {classes},
+      classes,
       channel,
       notificationSettings
     } = this.props
@@ -110,12 +105,14 @@ export default class MainSettings extends PureComponent {
           channel={channel}
           classes={classes}
           onShow={this.onShowNotificationSettings}
-          settings={notificationSettings} />
+          settings={notificationSettings}
+        />
         {allowEdit && (
           <AdditionalActionsDropdown
             {...this.props}
             container={this}
-            theme={theme} />
+            classes={classes}
+          />
         )}
       </div>
     )
@@ -123,7 +120,7 @@ export default class MainSettings extends PureComponent {
 
   renderRoomName() {
     const {
-      theme: {classes},
+      classes,
       intl: {formatMessage},
       renameRoom,
       clearRoomRenameError,
@@ -141,7 +138,8 @@ export default class MainSettings extends PureComponent {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
-          error={this.getError()} />
+          error={this.getError()}
+        />
       </div>
     )
   }
@@ -149,7 +147,7 @@ export default class MainSettings extends PureComponent {
   renderSettings() {
     const {
       allowEdit,
-      theme: {classes}
+      classes
     } = this.props
 
     if (!allowEdit) return null
@@ -157,13 +155,14 @@ export default class MainSettings extends PureComponent {
       <div className={classes.settingsWrapper}>
         <RoomIconSettings
           {...this.props}
-          container={this} />
+          container={this}
+        />
       </div>
     )
   }
 
   render() {
-    const {theme: {classes}} = this.props
+    const {classes} = this.props
     return (
       <div className={classes.mainSettings}>
         {this.renderSettings()}

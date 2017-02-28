@@ -12,26 +12,25 @@ import {styles} from './theme'
 @injectSheet(styles)
 export default class SidebarPanel extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
     options: PropTypes.node,
-    children: PropTypes.node,
-    onClose: PropTypes.func.isRequired
+    children: PropTypes.node
   }
 
-  onClose() {
-    this.props.onClose()
+  static defaultProps = {
+    options: null,
+    children: null
   }
 
   getClassName(className) {
-    const {options, sheet} = this.props
-    const {classes} = sheet
+    const {options, classes} = this.props
     return classes[`${className}${options ? 'Options' : ''}`]
   }
 
   render() {
-    const {options, title, children, sheet} = this.props
-    const {classes} = sheet
+    const {options, title, children, classes, onClose} = this.props
     return (
       <div className={classes.sidebarPanel}>
         <header className={this.getClassName('header')}>
@@ -40,7 +39,8 @@ export default class SidebarPanel extends PureComponent {
           </h2>
           <button
             className={classes.close}
-            onClick={::this.onClose} />
+            onClick={onClose}
+          />
         </header>
         {options}
         <div className={classes.body}>

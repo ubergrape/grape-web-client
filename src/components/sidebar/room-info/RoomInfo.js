@@ -8,9 +8,9 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {maxChannelDescriptionLength} from '../../constants/app'
-import {Description} from '../i18n/i18n'
-import EditableText from '../editable-text/EditableText'
+import {maxChannelDescriptionLength} from '../../../constants/app'
+import {Description} from '../../i18n'
+import EditableText from '../../editable-text/EditableText'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
 import {styles} from './roomInfoTheme.js'
@@ -32,7 +32,7 @@ const messages = defineMessages({
 @injectIntl
 export default class RoomInfo extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -53,6 +53,10 @@ export default class RoomInfo extends PureComponent {
     hideSidebar: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    renameError: null
   }
 
   componentWillMount() {
@@ -124,12 +128,13 @@ export default class RoomInfo extends PureComponent {
         onSave={this.onSetRoomDescription}
         value={channel.description}
         preserveSpaceForButton
-        multiline />
+        multiline
+      />
     )
   }
 
   renderDescription() {
-    const {channel, user, sheet: {classes}} = this.props
+    const {channel, user, classes} = this.props
     const {allowEdit} = getRoles({channel, user})
 
     if (!allowEdit && !channel.description) return null
@@ -148,7 +153,7 @@ export default class RoomInfo extends PureComponent {
     const {
       channel, renameError, clearRoomRenameError,
       intl: {formatMessage},
-      sheet, sheet: {classes},
+      classes,
       showNotificationSettings, notificationSettings,
       user: currUser,
       goToChannel, kickMemberFromChannel
@@ -161,7 +166,8 @@ export default class RoomInfo extends PureComponent {
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={this.onClose}>
+        onClose={this.onClose}
+      >
         <div className={classes.channelInfo}>
           <MainSettings
             channel={channel}
@@ -175,7 +181,8 @@ export default class RoomInfo extends PureComponent {
             renameRoom={this.onRenameRoom}
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
-            theme={sheet} />
+            classes={classes}
+          />
 
           {this.renderDescription()}
 
@@ -184,29 +191,35 @@ export default class RoomInfo extends PureComponent {
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onInvite}
-                  className={classes.buttonInvite}>
-                    <FormattedMessage
-                      id="inviteMoreToGroup"
-                      defaultMessage="Invite more people to this group" />
+                  className={classes.buttonInvite}
+                >
+                  <FormattedMessage
+                    id="inviteMoreToGroup"
+                    defaultMessage="Invite more people to this group"
+                  />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onAddIntegration}
-                  className={classes.buttonIntegration}>
+                  className={classes.buttonIntegration}
+                >
                   <FormattedMessage
                     id="addServiceIntegration"
-                    defaultMessage="Add service integration" />
+                    defaultMessage="Add service integration"
+                  />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onLeave}
-                  className={classes.buttonLeave}>
+                  className={classes.buttonLeave}
+                >
                   <FormattedMessage
                     id="leaveChannel"
                     defaultMessage="Leave {channel}"
-                    values={{channel: channel.name}} />
+                    values={{channel: channel.name}}
+                  />
                 </button>
               </li>
             </ul>
@@ -218,7 +231,8 @@ export default class RoomInfo extends PureComponent {
               channel={channel}
               currUser={currUser}
               goToChannel={goToChannel}
-              kickMemberFromChannel={kickMemberFromChannel} />
+              kickMemberFromChannel={kickMemberFromChannel}
+            />
           ))}
         </div>
       </SidebarPanel>

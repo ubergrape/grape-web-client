@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react'
+import uniqueId from 'lodash/utility/uniqueId'
 
 export default function Options(props) {
   const {
-    theme: {classes},
+    classes,
     options,
     onClickOption,
     isLoading
@@ -10,29 +11,35 @@ export default function Options(props) {
 
   if (!options.length) return null
 
+  const inputId = uniqueId()
+
   return (
     <ul>
-      {options.map((option, i) =>
-        <li key={i}>
+      {options.map(option => (
+        <li key={option.label}>
           <label
             className={classes.optionLabel}
-            onClick={onClickOption}>
+            onClick={onClickOption}
+            htmlFor={inputId}
+          >
             <input
               className={classes.optionCheckbox}
               type="checkbox"
               checked={option.status}
               onChange={option.handler}
-              disabled={isLoading} />
+              disabled={isLoading}
+              id={inputId}
+            />
             {option.label}
           </label>
         </li>
-      )}
+      ))}
     </ul>
   )
 }
 
 Options.propTypes = {
-  theme: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   onClickOption: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired
