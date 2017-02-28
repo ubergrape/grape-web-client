@@ -1,0 +1,1 @@
+export RoomDeleteDialogProvider from './RoomDeleteDialogProvider'

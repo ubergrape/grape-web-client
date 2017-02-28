@@ -77,6 +77,10 @@ export const joinedRoomsSelector = createSelector(
   roomsSelector, rooms => rooms.filter(room => room.joined)
 )
 
+export const roomDeleteSelector = createSelector(
+  state => state.roomDelete, state => state
+)
+
 export const pmsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'pm')
 )

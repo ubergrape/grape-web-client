@@ -48,7 +48,7 @@ export default class RoomInfo extends PureComponent {
     setRoomColor: PropTypes.func.isRequired,
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
-    showRoomDeteteDialog: PropTypes.func.isRequired,
+    showRoomDeleteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
@@ -88,7 +88,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   onShowRoomDeleteDialog = (room) => {
-    this.props.showRoomDeteteDialog(room)
+    this.props.showRoomDeleteDialog(room)
   }
 
   onSetRoomColor = (color) => {
@@ -124,7 +124,8 @@ export default class RoomInfo extends PureComponent {
         onSave={this.onSetRoomDescription}
         value={channel.description}
         preserveSpaceForButton
-        multiline />
+        multiline
+      />
     )
   }
 
@@ -161,7 +162,8 @@ export default class RoomInfo extends PureComponent {
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={this.onClose}>
+        onClose={this.onClose}
+      >
         <div className={classes.channelInfo}>
           <MainSettings
             channel={channel}
@@ -175,7 +177,8 @@ export default class RoomInfo extends PureComponent {
             renameRoom={this.onRenameRoom}
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
-            theme={sheet} />
+            theme={sheet}
+          />
 
           {this.renderDescription()}
 
@@ -184,29 +187,38 @@ export default class RoomInfo extends PureComponent {
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onInvite}
-                  className={classes.buttonInvite}>
-                    <FormattedMessage
-                      id="inviteMoreToGroup"
-                      defaultMessage="Invite more people to this group" />
+                  className={classes.buttonInvite}
+                >
+                  <FormattedMessage
+                    id="inviteMoreToGroup"
+                    defaultMessage="Invite more people to this group"
+                    description="Room Info Panel: link to invite people to the group/room"
+                  />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onAddIntegration}
-                  className={classes.buttonIntegration}>
+                  className={classes.buttonIntegration}
+                >
                   <FormattedMessage
                     id="addServiceIntegration"
-                    defaultMessage="Add service integration" />
+                    defaultMessage="Add service integration"
+                    description="Room Info Panel: link to add an integration to the current room"
+                  />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={this.onLeave}
-                  className={classes.buttonLeave}>
+                  className={classes.buttonLeave}
+                >
                   <FormattedMessage
                     id="leaveChannel"
                     defaultMessage="Leave {channel}"
-                    values={{channel: channel.name}} />
+                    values={{channel: channel.name}}
+                    description="Room Info Panel: leave room link"
+                  />
                 </button>
               </li>
             </ul>
@@ -218,7 +230,8 @@ export default class RoomInfo extends PureComponent {
               channel={channel}
               currUser={currUser}
               goToChannel={goToChannel}
-              kickMemberFromChannel={kickMemberFromChannel} />
+              kickMemberFromChannel={kickMemberFromChannel}
+            />
           ))}
         </div>
       </SidebarPanel>

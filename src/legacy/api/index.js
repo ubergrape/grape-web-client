@@ -425,15 +425,6 @@ API.prototype.onCreateRoom = function API_onCreateRoom(room) {
   })
 }
 
-API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
-  room.organization = this.organization.id
-  rpc({
-    ns: 'channels',
-    action: 'delete',
-    args: [room.id, roomName]
-  }, callback)
-}
-
 API.prototype.joinRoom = function API_joinRoom(room, callback) {
   if (room.joined) return
   callback || (callback = noop)

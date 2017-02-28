@@ -1,6 +1,4 @@
-// TODO get rid of the `PureComponent as Component` alias when
-// when ubergrape/grape-web-client/issues/125 is fixed
-import React, {PropTypes, PureComponent as Component} from 'react'
+import React, {PropTypes, PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
@@ -20,7 +18,7 @@ function createState(state, props) {
 }
 
 @injectSheet(styles)
-export default class History extends Component {
+export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -81,8 +79,6 @@ export default class History extends Component {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
-
-    return
   }
 
   onRowsRendered = () => {

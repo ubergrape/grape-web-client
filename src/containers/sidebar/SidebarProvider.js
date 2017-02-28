@@ -26,7 +26,7 @@ const actionNames = [
   'setRoomColor',
   'setRoomIcon',
   'clearRoomRenameError',
-  'showRoomDeteteDialog',
+  'showRoomDeleteDialog',
   'goToAddIntegrations',
   'showNotificationSettings'
 ]

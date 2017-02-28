@@ -9,6 +9,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import {Button} from 'material-ui/Button'
 
 import Dialog from '../dialog/Dialog'
 import {styles} from './theme'
@@ -182,18 +183,20 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
           />
           {isAdmin && this.renderAdminForm()}
           <div className={classes.buttons}>
-            <button
-              className={classes.cancelButton}
+            <Button
+              raised
               onClick={this.onCancel}
             >
               {formatMessage(messages.cancel)}
-            </button>
-            <button
+            </Button>
+            <Button
+              raised
+              accent
               className={classes.submitButton}
               type="submit"
             >
               {formatMessage(messages.confirm)}
-            </button>
+            </Button>
           </div>
         </form>
       </Dialog>

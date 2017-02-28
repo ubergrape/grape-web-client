@@ -8,6 +8,7 @@
     "node": "5.11.0"
   },
   "dependencies": {
+    "material-ui": "^1.0.0-alpha",
     "@ubergrape/react-dropzone": "3.8.0",
     "@ubergrape/react-notification": "^6.5.3",
     "array": "ubergrape/array",
@@ -27,7 +28,6 @@
     "css-functions": "^1.0.1",
     "custom-event-polyfill": "^0.2.1",
     "debug": "^2.2.0",
-    "dialog-component": "^0.4.4",
     "document-register-element": "^0.5.4",
     "domify": "component/domify#1.3.2",
     "endswith": "sk7/endswith",
