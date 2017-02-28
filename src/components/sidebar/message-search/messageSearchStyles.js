@@ -2,7 +2,7 @@ import color from 'color'
 import {grayBlue, grayBlueLight, grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 
-import button from '../button/default'
+import button from '../../button/default'
 
 export default {
   separatorDate: {

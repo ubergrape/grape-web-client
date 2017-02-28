@@ -8,9 +8,9 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {userStatusMap} from '../../constants/app'
+import {userStatusMap} from '../../../constants/app'
+import {Username} from '../../avatar-name'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import {Username} from '../avatar-name'
 import {styles} from './theme'
 
 const messages = defineMessages({
@@ -24,11 +24,11 @@ const messages = defineMessages({
 @injectIntl
 export default class UserProfile extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     hideSidebar: PropTypes.func.isRequired,
+    status: PropTypes.number.isRequired,
     avatar: PropTypes.string,
-    username: PropTypes.string,
     displayName: PropTypes.string,
     email: PropTypes.string,
     whatIDo: PropTypes.string,
@@ -37,9 +37,19 @@ export default class UserProfile extends PureComponent {
     phoneNumber: PropTypes.string
   }
 
+  static defaultProps = {
+    avatar: null,
+    displayName: null,
+    email: null,
+    whatIDo: null,
+    skypeUsername: null,
+    skypeForBusiness: null,
+    phoneNumber: null
+  }
+
   constructor(props) {
     super(props)
-    const {sheet: {classes}} = props
+    const {classes} = props
     this.userNameTheme = {
       classes: {
         name: classes.name
@@ -58,21 +68,23 @@ export default class UserProfile extends PureComponent {
       skypeForBusiness,
       phoneNumber,
       intl: {formatMessage},
-      sheet: {classes},
+      classes,
       hideSidebar
     } = this.props
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={hideSidebar}>
+        onClose={hideSidebar}
+      >
         <div className={classes.userNameContainer}>
           <Username
             statusBorderColor={colors.grayBlueLighter}
             avatar={avatar}
             status={userStatusMap[status]}
             name={displayName}
-            theme={this.userNameTheme} />
+            theme={this.userNameTheme}
+          />
         </div>
         <div>
           {whatIDo && (
@@ -80,7 +92,8 @@ export default class UserProfile extends PureComponent {
               <p>
                 <FormattedMessage
                   id="whatIDo"
-                  defaultMessage="What I do" />
+                  defaultMessage="What I do"
+                />
                 :
               </p>
               <p>{whatIDo}</p>

@@ -4,9 +4,9 @@ import {small, normal, bigger} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
 import {borderLight, button} from 'grape-theme/dist/web-colors'
 
-import linkButton from '../button/link'
-import buttonIcon from '../button/icon'
-import {iconSize} from '../room-icon-settings/theme'
+import linkButton from '../../button/link'
+import buttonIcon from '../../button/icon'
+import {iconSize} from '../../room-icon-settings/theme'
 
 const marginBottom = 15
 const paddingBottom = 15

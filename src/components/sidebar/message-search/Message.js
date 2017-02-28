@@ -1,15 +1,15 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import Avatar from '../avatar/Avatar'
-import Header from '../message-parts/Header'
-import Bubble from '../message-parts/Bubble'
+import Avatar from '../../avatar/Avatar'
+import Header from '../../message-parts/Header'
+import Bubble from '../../message-parts/Bubble'
 import styles from './messageStyles'
 
 @injectSheet(styles)
 export default class Message extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     message: PropTypes.shape({
       time: PropTypes.instanceOf(Date).isRequired,
       author: PropTypes.shape({
@@ -28,7 +28,7 @@ export default class Message extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       message: {author, time, avatar},
       children
     } = this.props

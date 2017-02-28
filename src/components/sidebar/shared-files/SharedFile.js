@@ -5,14 +5,14 @@ import icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
-import ImageZoom from '../image-zoom/ImageZoom'
+import ImageZoom from '../../image-zoom/ImageZoom'
 import {styles} from './sharedFileTheme'
 
 @injectSheet(styles)
 @injectIntl
 export default class SharedFile extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     channelName: PropTypes.string.isRequired,
     channelType: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ export default class SharedFile extends PureComponent {
   getPreviewRef = () => this.preview
 
   renderPreview() {
-    const {thumbnailUrl, sheet: {classes}, category} = this.props
+    const {thumbnailUrl, classes, category} = this.props
     let className
     let backgroundImage
 
@@ -65,7 +65,7 @@ export default class SharedFile extends PureComponent {
   renderSection(handleClick) {
     const {
       channelType, channelName, time, author, name,
-      sheet: {classes},
+      classes,
       intl: {formatDate, formatTime}
     } = this.props
     let when = formatDate(time, {year: '2-digit', month: 'short', day: '2-digit'})

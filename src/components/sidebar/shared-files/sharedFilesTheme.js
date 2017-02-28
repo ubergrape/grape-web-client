@@ -1,4 +1,4 @@
-import button from '../button/default'
+import button from '../../button/default'
 
 export const styles = {
   sharedFiles: {},

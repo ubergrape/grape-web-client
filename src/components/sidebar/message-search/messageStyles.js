@@ -1,7 +1,7 @@
 import {gainsboroLight, grayDark} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
 
-import {styles as linkStyles} from '../message-parts/linkTheme'
+import {styles as linkStyles} from '../../message-parts/linkTheme'
 
 const arrowWidth = 7
 const marginRight = 10

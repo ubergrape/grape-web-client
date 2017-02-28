@@ -8,9 +8,9 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {maxChannelDescriptionLength} from '../../constants/app'
-import {Description} from '../i18n/i18n'
-import EditableText from '../editable-text/EditableText'
+import {maxChannelDescriptionLength} from '../../../constants/app'
+import {Description} from '../../i18n'
+import EditableText from '../../editable-text/EditableText'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
 import {styles} from './roomInfoTheme.js'
@@ -32,7 +32,7 @@ const messages = defineMessages({
 @injectIntl
 export default class RoomInfo extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -53,6 +53,10 @@ export default class RoomInfo extends PureComponent {
     hideSidebar: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    renameError: null
   }
 
   componentWillMount() {
@@ -130,7 +134,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   renderDescription() {
-    const {channel, user, sheet: {classes}} = this.props
+    const {channel, user, classes} = this.props
     const {allowEdit} = getRoles({channel, user})
 
     if (!allowEdit && !channel.description) return null
@@ -149,7 +153,7 @@ export default class RoomInfo extends PureComponent {
     const {
       channel, renameError, clearRoomRenameError,
       intl: {formatMessage},
-      sheet, sheet: {classes},
+      classes,
       showNotificationSettings, notificationSettings,
       user: currUser,
       goToChannel, kickMemberFromChannel
@@ -166,6 +170,7 @@ export default class RoomInfo extends PureComponent {
       >
         <div className={classes.channelInfo}>
           <MainSettings
+            classes={classes}
             channel={channel}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
@@ -177,7 +182,6 @@ export default class RoomInfo extends PureComponent {
             renameRoom={this.onRenameRoom}
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
-            theme={sheet}
           />
 
           {this.renderDescription()}

@@ -2,8 +2,8 @@ import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import {big} from 'grape-theme/dist/fonts'
 
-import linkButton from '../button/link'
-import buttonIcon from '../button/icon'
+import linkButton from '../../button/link'
+import buttonIcon from '../../button/icon'
 
 const marginBottom = 20
 const paddingBottom = 20
@@ -14,7 +14,7 @@ const divider = {
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
 
-const createIcon = (name) => buttonIcon(name, {
+const createIcon = name => buttonIcon(name, {
   color: colors.blue,
   hoverColor: color(colors.blue).lighten(0.05).rgbaString()
 })
