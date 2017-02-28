@@ -192,6 +192,7 @@ export default class RoomInfo extends PureComponent {
                   <FormattedMessage
                     id="inviteMoreToGroup"
                     defaultMessage="Invite more people to this group"
+                    description="Room Info Panel: link to invite people to the group/room"
                   />
                 </button>
               </li>
@@ -203,6 +204,7 @@ export default class RoomInfo extends PureComponent {
                   <FormattedMessage
                     id="addServiceIntegration"
                     defaultMessage="Add service integration"
+                    description="Room Info Panel: link to add an integration to the current room"
                   />
                 </button>
               </li>
@@ -215,6 +217,7 @@ export default class RoomInfo extends PureComponent {
                     id="leaveChannel"
                     defaultMessage="Leave {channel}"
                     values={{channel: channel.name}}
+                    description="Room Info Panel: leave room link"
                   />
                 </button>
               </li>
