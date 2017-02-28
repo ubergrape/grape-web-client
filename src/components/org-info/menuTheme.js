@@ -1,7 +1,6 @@
 import {grayDarker} from 'grape-theme/dist/base-colors'
 import {small, normal} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import {create as createMuiTheme} from 'grape-web/lib/mui-theme'
 
 export const styles = {
   menu: {
@@ -13,7 +12,6 @@ export const styles = {
       textDecoration: 'none'
     }
   },
-  item: {},
   icon: {
     extend: normal,
     marginRight: 10,
@@ -25,15 +23,3 @@ export const styles = {
     width: '100%'
   }
 }
-
-// FIXME ubergrape/grape-web-client#348
-export const mui = createMuiTheme({
-  overrides: {
-    ListItem: {
-      default: {
-        paddingTop: 10,
-        paddingBottom: 10
-      }
-    }
-  }
-})

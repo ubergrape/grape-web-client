@@ -10,7 +10,6 @@ import includes from 'lodash/collection/includes'
 import uniq from 'lodash/array/uniq'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
-import 'grape-browser'
 import {openUrl} from 'grape-web/lib/x-platform'
 import conf from '../../../conf'
 import * as images from '../../../constants/images'
@@ -76,6 +75,12 @@ function mergeSearchResults(values) {
 export default class GrapeInput extends Emitter {
   constructor() {
     super()
+
+    // This is placed here because it will render sheets with reactive elements
+    // immediately, but we have no insertion point specified yet.
+    // This will be fixed by design once we refactor this file and use grape-browser
+    // without reactive-elements.
+    require('grape-browser')
     this.room = null
     this.previous = null
     this.org = null
