@@ -17,7 +17,6 @@ export default function doBroker(ui, api) {
   broker(ui, 'joinroom', api, 'joinRoom')
   broker(ui, 'leaveRoom', api, 'onLeaveRoom')
   broker(ui, 'createRoom', api, 'onCreateRoom')
-  broker(ui, 'deleteroom', api, 'deleteRoom')
   broker(ui, 'openpm', api, 'openPM')
   broker(ui, 'send', api, 'publish')
   broker(ui, 'update', api, 'updateMsg')

@@ -1,6 +1,4 @@
-// TODO get rid of the `PureComponent as Component` alias when
-// when ubergrape/grape-web-client/issues/125 is fixed
-import React, {PropTypes, PureComponent as Component} from 'react'
+import React, {PropTypes, PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
@@ -20,7 +18,7 @@ function createState(state, props) {
 }
 
 @injectSheet(styles)
-export default class History extends Component {
+export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -28,11 +26,9 @@ export default class History extends Component {
     onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
-    onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    customEmojis: PropTypes.object.isRequired,
     showNoContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
@@ -42,8 +38,7 @@ export default class History extends Component {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number,
-    onRemoveLinkAttachment: PropTypes.func.isRequired
+    minimumBatchSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -57,8 +52,12 @@ export default class History extends Component {
     onUserScrollAfterScrollTo: noop,
     onInvite: noop,
     onAddIntegration: noop,
-    customEmojis: {},
-    showNoContent: false
+    showNoContent: false,
+    user: null,
+    channel: null,
+    selectedMessageId: null,
+    scrollTo: null,
+    minimumBatchSize: null
   }
 
   constructor(props) {
@@ -75,14 +74,13 @@ export default class History extends Component {
     const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
 
     if (selectedMessageHasChanged || channelHasChanged) {
-      return onLoad()
+      onLoad()
+      return
     }
 
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
-
-    return
   }
 
   onRowsRendered = () => {

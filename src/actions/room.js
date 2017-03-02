@@ -1,17 +1,17 @@
+import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {error} from './common'
 import {loadNotificationSettings} from './notificationSettings'
+import {joinedRoomsSelector} from '../selectors'
 
 export function loadRoomInfo({channel}) {
   return dispatch => dispatch(loadNotificationSettings({channel}))
 }
 
 export function renameRoom(id, name) {
-  return dispatch => {
-    return api
+  return dispatch => api
       .renameRoom(id, name)
       .then(() => {
         dispatch({
@@ -26,11 +26,10 @@ export function renameRoom(id, name) {
         type: types.HANDLE_ROOM_RENAME_ERROR,
         payload: message
       }))
-  }
 }
 
 export function setRoomDescription(id, description) {
-  return dispatch => {
+  return (dispatch) => {
     if (description.length > maxChannelDescriptionLength) {
       return dispatch(error({
         message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
@@ -53,8 +52,7 @@ export function setRoomDescription(id, description) {
 }
 
 export function setRoomPrivacy(id, isPublic) {
-  return dispatch => {
-    return api
+  return dispatch => api
       .setRoomPrivacy(id, isPublic)
       .then(() => {
         dispatch({
@@ -66,12 +64,10 @@ export function setRoomPrivacy(id, isPublic) {
         })
       })
       .catch(err => dispatch(error(err)))
-  }
 }
 
 export function setRoomColor(id, color) {
-  return dispatch => {
-    return api
+  return dispatch => api
       .setRoomColor(id, color)
       .then(() => {
         dispatch({
@@ -83,12 +79,10 @@ export function setRoomColor(id, color) {
         })
       })
       .catch(err => dispatch(error(err)))
-  }
 }
 
 export function setRoomIcon(id, icon) {
-  return dispatch => {
-    return api
+  return dispatch => api
       .setRoomIcon(id, icon)
       .then(() => {
         dispatch({
@@ -100,17 +94,28 @@ export function setRoomIcon(id, icon) {
         })
       })
       .catch(err => dispatch(error(err)))
+}
+
+export function showRoomDeleteDialog(id) {
+  return (dispatch, getState) => {
+    const room = find(joinedRoomsSelector(getState()), {id})
+    dispatch({
+      type: types.SHOW_ROOM_DELETE_DIALOG,
+      payload: room
+    })
   }
 }
 
-export function showRoomDeteteDialog(id) {
-  return dispatch => {
-    dispatch({
-      type: types.SHOW_ROOM_DELETE_DIALOG,
-      payload: id
-    })
-    reduxEmitter.showRoomDeteteDialog()
+export function hideRoomDeleteDialog() {
+  return {
+    type: types.HIDE_ROOM_DELETE_DIALOG
   }
+}
+
+export function deleteRoom({roomId, roomName}) {
+  return dispatch => api
+      .deleteRoom(roomId, roomName)
+      .catch(err => dispatch(error(err)))
 }
 
 export function clearRoomRenameError() {

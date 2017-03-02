@@ -15,20 +15,24 @@ export default function Dropdown(props) {
     target,
     children,
     onOutsideClick,
-    onClick
+    onClick,
+    shouldUpdatePosition
   } = props
 
   return (
     <Position
       container={container}
       placement={placement}
-      target={() => findDOMNode(target)}>
-        <Tooltip
-          onOutsideClick={onOutsideClick}
-          onClick={onClick}
-          placement={placement}>
-          {children}
-        </Tooltip>
+      target={() => findDOMNode(target)}
+      shouldUpdatePosition={shouldUpdatePosition}
+    >
+      <Tooltip
+        onOutsideClick={onOutsideClick}
+        onClick={onClick}
+        placement={placement}
+      >
+        {children}
+      </Tooltip>
     </Position>
   )
 }
@@ -36,14 +40,16 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   container: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  target: PropTypes.instanceOf(Element).isRequired,
   placement: PropTypes.string,
-  target: PropTypes.instanceOf(Element),
   onOutsideClick: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  shouldUpdatePosition: PropTypes.bool
 }
 
 Dropdown.defaultProps = {
   placement: 'bottom',
   onOutsideClick: noop,
-  onClick: noop
+  onClick: noop,
+  shouldUpdatePosition: false
 }

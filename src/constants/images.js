@@ -9,4 +9,8 @@ export const noDetail = `${baseUrl}/no-detail.png`
 export const defaultAvatar = `${baseUrl}/avatar.gif`
 export const invitedAvatar = `${baseUrl}/avatar_invited.gif`
 export const spinner = `${baseUrl}/preloader-onwhite.gif`
+export const defaultServiceIcon = `${baseUrl}/default-service-icon.png`
+
+
+// TODO move this somewhere else, this file is for image paths only.
 export const defaultRoomIconSlug = 'bulb'
