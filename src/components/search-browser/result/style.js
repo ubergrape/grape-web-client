@@ -14,6 +14,14 @@ export const container = {
   borderBottom: '1px solid ' + colors.silverDark
 }
 
+const info = {
+  extend: [
+    fonts.smaller,
+    mixins.ellipsis
+  ],
+  marginTop: 4
+}
+
 const metaItem = {
   ...fonts.small,
   display: 'block',
@@ -56,12 +64,10 @@ export const rules = {
     lineHeight: 1.2
   },
   info: {
-    ...fonts.smaller,
-    ...mixins.ellipsis,
-    color: colors.grayLight,
-    marginTop: 4,
-    opacity: 0.5
+    extend: [info],
+    color: colors.grayLight
   },
+  infoFocused: info,
   metaContainer: {
     display: 'flex',
     alignItems: 'center',

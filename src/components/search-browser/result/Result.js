@@ -34,7 +34,7 @@ export default class Result extends Component {
     onSelect: noop
   }
 
-  onClick() {
+  onClick = () => {
     if (this.props.isFocused) this.props.onSelect()
     else this.props.onFocus()
   }
@@ -82,10 +82,11 @@ export default class Result extends Component {
     if (!this.props.isViewFocused && isFocused) {
       containerClassName = classes.containerFocusedInactive
     }
+    const infoClassName = isFocused ? classes.infoFocused : classes.info
 
     return (
       <div
-        onClick={::this.onClick}
+        onClick={this.onClick}
         className={containerClassName}>
         <div className={classes.iconContainer}>
           <ServiceIcon service={service} />
@@ -94,7 +95,7 @@ export default class Result extends Component {
           <div className={classes.name}>
             {this.renderName()}
           </div>
-          <div className={classes.info}>{info}</div>
+          <div className={infoClassName}>{info}</div>
         </div>
         <div className={classes.metaContainer}>
           {this.renderDate()}
