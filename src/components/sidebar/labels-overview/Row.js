@@ -6,8 +6,9 @@ import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import moment from 'moment'
 
-import Label from './Label'
 import DateSeparator from '../../message-parts/DateSeparator'
+import {spacing} from '../sidebar-panel/theme'
+import Label from './Label'
 
 const messages = defineMessages({
   todo: {
@@ -33,7 +34,7 @@ const labelPropType = PropTypes.shape({
 
 @injectSheet({
   row: {
-    padding: 20
+    padding: spacing
   },
   name: {
     extend: [ellipsis, small],

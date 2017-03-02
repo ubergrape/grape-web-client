@@ -3,8 +3,12 @@ import {grayBlue, grayBlueLight, grayBlueLighter} from 'grape-theme/dist/base-co
 import {small} from 'grape-theme/dist/fonts'
 
 import button from '../../button/default'
+import {spacing} from '../sidebar-panel/theme'
 
 export default {
+  messageSearch: {
+    padding: spacing
+  },
   separatorDate: {
     background: grayBlueLighter
   },

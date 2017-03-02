@@ -7,7 +7,7 @@ import {zIndex} from '../../../utils/z-index'
 
 import buttonIcon from '../../button/icon'
 
-const spacing = 20
+export const spacing = 20
 
 const title = {
   extend: [big, ellipsis],
