@@ -34,7 +34,7 @@ const labelPropType = PropTypes.shape({
 
 @injectSheet({
   row: {
-    padding: spacing
+    padding: [0, spacing]
   },
   name: {
     extend: [ellipsis, small],
