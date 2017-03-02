@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import FifoCache from '../../utils/fifo-cache/FifoCache'
@@ -41,11 +43,11 @@ export default class RowsCache {
     return id
   }
 
-  static hasFixedHeight() {
+  hasFixedHeight() {
     return false
   }
 
-  static hasFixedWidth() {
+  hasFixedWidth() {
     return true
   }
 }
