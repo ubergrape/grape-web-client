@@ -39,8 +39,7 @@ export default class RowsCache {
 
   has(index) {
     const props = this.rows[index]
-    const id = props && cache.has(props.id)
-    return id
+    return props && cache.has(props.id)
   }
 
   hasFixedHeight() {
