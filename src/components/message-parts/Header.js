@@ -14,7 +14,8 @@ export default class Header extends PureComponent {
     onClickAuthor: PropTypes.func,
     userTime: PropTypes.string,
     author: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -23,13 +24,18 @@ export default class Header extends PureComponent {
       classes: {
         header: ''
       }
-    }
+    },
+    children: null,
+    onClickAuthor: null,
+    time: null,
+    userTime: null,
+    author: null
   }
 
   render() {
     const {
       time, userTime, author, onClickAuthor,
-      className, sheet, theme
+      className, sheet, theme, children
     } = this.props
     const {classes} = sheet
     return (
@@ -37,8 +43,10 @@ export default class Header extends PureComponent {
         <Author
           onClick={onClickAuthor}
           author={author}
-          className={theme.classes[onClickAuthor ? 'authorClickable' : 'author']} />
+          className={theme.classes[onClickAuthor ? 'authorClickable' : 'author']}
+        />
         <Time time={time} userTime={userTime} />
+        {children}
       </header>
     )
   }

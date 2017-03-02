@@ -9,6 +9,7 @@ import SharedFiles from './shared-files/SharedFiles'
 import RoomInfo from './room-info/RoomInfo'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
+import LabelsOverview from './labels-overview/LabelsOverview'
 
 const messages = defineMessages({
   mentions: {
@@ -45,6 +46,7 @@ export default class Sidebar extends PureComponent {
     ]).isRequired,
     loadMentions: PropTypes.func.isRequired,
     loadRoomInfo: PropTypes.func.isRequired,
+    loadSharedFiles: PropTypes.func.isRequired,
     searchMessages: PropTypes.func.isRequired,
     showRoomMentions: PropTypes.bool,
     searchActivities: PropTypes.bool,
@@ -70,6 +72,7 @@ export default class Sidebar extends PureComponent {
       intl: {formatMessage},
       loadMentions,
       loadRoomInfo,
+      loadSharedFiles,
       searchMessages,
       toggleSearchOnlyInChannel,
       toggleSearchActivities,
@@ -83,7 +86,7 @@ export default class Sidebar extends PureComponent {
 
     switch (show) {
       case 'files':
-        return <SharedFiles {...this.props} />
+        return <SharedFiles {...this.props} load={loadSharedFiles} />
       case 'room':
         return <RoomInfo {...this.props} load={loadRoomInfo} />
       case 'pm':
@@ -121,6 +124,9 @@ export default class Sidebar extends PureComponent {
           select
         }
         return <MessageSearch {...searchProps} />
+      }
+      case 'labelsOverview': {
+        return <LabelsOverview {...this.props} />
       }
       default:
         return null

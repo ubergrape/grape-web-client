@@ -29,6 +29,8 @@ export default class SharedFiles extends PureComponent {
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    load: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func,
     total: PropTypes.number
   }
@@ -39,7 +41,7 @@ export default class SharedFiles extends PureComponent {
   }
 
   componentDidMount() {
-    this.load(this.props)
+    this.load()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,10 +55,10 @@ export default class SharedFiles extends PureComponent {
     this.load()
   }
 
-  load(props = this.props) {
-    props.loadSharedFiles({
-      offset: props.items.length,
-      limit: props.limit
+  load({items, limit, load} = this.props) {
+    load({
+      offset: items.length,
+      limit
     })
   }
 

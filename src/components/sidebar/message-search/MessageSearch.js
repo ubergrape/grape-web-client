@@ -24,6 +24,8 @@ export default class MessageSearch extends PureComponent {
     intl: intlShape.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    load: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
     searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
@@ -49,7 +51,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   componentDidMount() {
-    this.load(this.props)
+    this.load()
   }
 
   componentWillReceiveProps(nextProps) {

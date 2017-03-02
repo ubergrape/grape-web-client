@@ -170,6 +170,19 @@ export const styles = {
     backgroundColor: blue,
     backgroundImage: getIcon('at', 'active')
   },
+  labeledMessages: {
+    ...button,
+    backgroundImage: getIcon('help'),
+    '&:hover': {
+      isolate: false,
+      backgroundImage: getIcon('help', 'hover')
+    }
+  },
+  labeledMessagesActive: {
+    ...button,
+    backgroundColor: blue,
+    backgroundImage: getIcon('help', 'active')
+  },
   badge: {
     position: 'absolute',
     boxSizing: 'content-box',
