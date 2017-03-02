@@ -24,14 +24,28 @@ export default class RowsCache {
     this.rows = rows
   }
 
-  getRowHeight(index) {
+  rowHeight = ({index}) => {
     const {id} = this.rows[index] || {}
     const {height} = cache.get(id) || {}
-    return height
+    return height || null
   }
 
-  setRowHeight(index, height) {
+  set(index, columnIndex, width, height) {
     const props = this.rows[index]
     cache.put(props.id, {height, props})
+  }
+
+  has(index) {
+    const props = this.rows[index]
+    const id = props && cache.has(props.id)
+    return id
+  }
+
+  static hasFixedHeight() {
+    return false
+  }
+
+  static hasFixedWidth() {
+    return true
   }
 }
