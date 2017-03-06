@@ -4,8 +4,8 @@
 const labels = [
   {
     id: '111111',
-    name: 'todo',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+    type: 'todo',
+    phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#F5A623',
     message: {
       author: {
@@ -19,8 +19,8 @@ const labels = [
   },
   {
     id: '22222',
-    name: 'todo',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+    type: 'todo',
+    phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#F5A623',
     message: {
       author: {
@@ -34,8 +34,8 @@ const labels = [
   },
   {
     id: '333',
-    name: 'question',
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+    type: 'question',
+    phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#6252D5',
     message: {
       author: {

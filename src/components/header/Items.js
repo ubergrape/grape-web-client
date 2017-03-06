@@ -219,8 +219,8 @@ export default function Items(props) {
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('intelligentSummary')}>
           <Button
-            className={itemButtonClassName('labeledMessages', props)}
-            onClick={itemClickHandler('labeledMessages', props)}
+            className={itemButtonClassName('labelsOverview', props)}
+            onClick={itemClickHandler('labelsOverview', props)}
           />
         </Tooltip>
       </li>

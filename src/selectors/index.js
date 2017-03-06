@@ -398,6 +398,10 @@ export const sidebarSelector = createSelector(
   state => state.sidebar, state => state
 )
 
+export const labelsOverviewSelector = createSelector(
+  state => state.labelsOverview, state => state
+)
+
 export const sidebarComponentSelector = createSelector(
   [
     sidebarSelector,
@@ -406,9 +410,10 @@ export const sidebarComponentSelector = createSelector(
     sharedFilesSelector,
     messageSearchWithChannels,
     mentionsWithChannels,
-    userSelector
+    userSelector,
+    labelsOverviewSelector
   ],
-  ({show}, room, pm, files, search, mentions, user) => {
+  ({show}, room, pm, files, search, mentions, user, labelsOverview) => {
     const select = {
       show,
       user
@@ -421,7 +426,8 @@ export const sidebarComponentSelector = createSelector(
       pm,
       files,
       search,
-      mentions: {...mentions, query: user.displayName}
+      mentions: {...mentions, query: user.displayName},
+      labelsOverview
     }
 
     return {...select, ...panels[show]}

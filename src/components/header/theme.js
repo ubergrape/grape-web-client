@@ -170,15 +170,15 @@ export const styles = {
     backgroundColor: blue,
     backgroundImage: getIcon('at', 'active')
   },
-  labeledMessages: {
+  labelsOverview: {
     ...button,
-    backgroundImage: getIcon('help'),
+    backgroundImage: getIcon('clipboardListOpen'),
     '&:hover': {
       isolate: false,
-      backgroundImage: getIcon('help', 'hover')
+      backgroundImage: getIcon('clipboardListOpen', 'hover')
     }
   },
-  labeledMessagesActive: {
+  labelsOverviewActive: {
     ...button,
     backgroundColor: blue,
     backgroundImage: getIcon('help', 'active')

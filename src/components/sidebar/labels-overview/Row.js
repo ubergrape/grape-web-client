@@ -26,7 +26,7 @@ const messages = defineMessages({
 const labelPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  name: PropTypes.oneOf(['todo', 'question']).isRequired,
+  type: PropTypes.oneOf(['todo', 'question']).isRequired,
   message: PropTypes.shape({
     time: PropTypes.instanceOf(Date).isRequired
   })
@@ -36,7 +36,7 @@ const labelPropType = PropTypes.shape({
   row: {
     padding: [0, spacing]
   },
-  name: {
+  type: {
     extend: [ellipsis, small],
     textTransform: 'uppercase',
     margin: [15, 0],
@@ -81,7 +81,7 @@ export default class Row extends PureComponent {
       !prevLabel ||
       !moment(label.message.time).isSame(prevLabel.message.time, 'day')
 
-    const showName = !prevLabel || prevLabel.name !== label.name
+    const showType = !prevLabel || prevLabel.type !== label.type
 
     return (
       <div className={classes.row} style={style}>
@@ -93,13 +93,13 @@ export default class Row extends PureComponent {
           />
         )}
 
-        {showName && (
+        {showType && (
           <h2
-            className={classes.name}
+            className={classes.type}
             style={{color: label.color}}
-            key={`${label.id}-name`}
+            key={`${label.id}-type`}
           >
-            {formatMessage(messages[label.name])}
+            {messages[label.type] ? formatMessage(messages[label.type]) : label.type}
           </h2>
         )}
 

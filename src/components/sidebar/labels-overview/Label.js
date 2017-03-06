@@ -8,9 +8,6 @@ import {grayLight, grayDark} from 'grape-theme/dist/base-colors'
 import Header from '../../message-parts/Header'
 
 @injectSheet({
-  header: {
-
-  },
   channel: {
     extend: small,
     marginLeft: 20,
@@ -25,7 +22,7 @@ export default class Label extends PureComponent {
     classes: PropTypes.object.isRequired,
     className: PropTypes.string,
     label: PropTypes.shape({
-      text: PropTypes.string.isRequired,
+      phrase: PropTypes.string.isRequired,
       message: PropTypes.shape({
         author: PropTypes.shape({
           displayName: PropTypes.string.isRequired
@@ -45,7 +42,7 @@ export default class Label extends PureComponent {
   render() {
     const {
       label: {
-        text,
+        phrase,
         message: {
           author,
           time,
@@ -58,7 +55,7 @@ export default class Label extends PureComponent {
 
     return (
       <section className={className}>
-        <Header time={time} author={author.displayName} className={classes.header}>
+        <Header time={time} author={author.displayName}>
           <FormattedMessage
             id="sidebarLabelInChannel"
             defaultMessage="in {channel}"
@@ -69,7 +66,7 @@ export default class Label extends PureComponent {
           </FormattedMessage>
         </Header>
         <div className={classes.body}>
-          {`… ${text}`}
+          {`… ${phrase}`}
         </div>
       </section>
     )

@@ -47,6 +47,7 @@ export default class Sidebar extends PureComponent {
     loadMentions: PropTypes.func.isRequired,
     loadRoomInfo: PropTypes.func.isRequired,
     loadSharedFiles: PropTypes.func.isRequired,
+    loadLabels: PropTypes.func.isRequired,
     searchMessages: PropTypes.func.isRequired,
     showRoomMentions: PropTypes.bool,
     searchActivities: PropTypes.bool,
@@ -73,6 +74,7 @@ export default class Sidebar extends PureComponent {
       loadMentions,
       loadRoomInfo,
       loadSharedFiles,
+      loadLabels,
       searchMessages,
       toggleSearchOnlyInChannel,
       toggleSearchActivities,
@@ -126,7 +128,7 @@ export default class Sidebar extends PureComponent {
         return <MessageSearch {...searchProps} />
       }
       case 'labelsOverview': {
-        return <LabelsOverview {...this.props} />
+        return <LabelsOverview {...this.props} load={loadLabels} />
       }
       default:
         return null

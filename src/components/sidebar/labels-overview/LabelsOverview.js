@@ -1,5 +1,4 @@
 import React, {PureComponent, PropTypes} from 'react'
-import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
   intlShape,
@@ -18,8 +17,6 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet({
-})
 @injectIntl
 export default class LabelsOverview extends PureComponent {
   static propTypes = {
@@ -34,7 +31,7 @@ export default class LabelsOverview extends PureComponent {
   static defaultProps = {
     load: noop,
     hideSidebar: noop,
-    messages: [],
+    labels: [],
     total: null
   }
 

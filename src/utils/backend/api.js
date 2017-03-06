@@ -492,3 +492,18 @@ export function removeLinkAttachments(channelId, messageId, sourceUrl, type) {
     })
   })
 }
+
+export const loadLabels = (orgId, options = {}) => (
+  new Promise((resolve, reject) => {
+    rpc({
+      ns: 'labels',
+      action: 'get_labels',
+      args: [orgId, options]
+    },
+    {camelize: true},
+    (err, res) => {
+      if (err) return reject(err)
+      return resolve(res)
+    })
+  })
+)
