@@ -1,6 +1,8 @@
 /**
  * Raw svg strings.
  */
+
+// Icons without color.
 export document from './svg/document.svg'
 export pdf from './svg/pdf.svg'
 export presentation from './svg/presentation.svg'
@@ -61,6 +63,10 @@ export checkCircle from './svg/check-circle.svg'
 export lightningBolt from './svg/lightning-bolt.svg'
 export angleLeft from './svg/angle-left.svg'
 export moreOptions from './svg/more-options.svg'
+export tag from './svg/tag.svg'
+
+// Icons with color.
+export magicWand from './svg/magic-wand.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
