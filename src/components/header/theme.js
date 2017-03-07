@@ -172,16 +172,16 @@ export const styles = {
   },
   labelsOverview: {
     ...button,
-    backgroundImage: getIcon('clipboardListOpen'),
+    backgroundImage: getIcon('tag'),
     '&:hover': {
       isolate: false,
-      backgroundImage: getIcon('clipboardListOpen', 'hover')
+      backgroundImage: getIcon('tag', 'hover')
     }
   },
   labelsOverviewActive: {
     ...button,
     backgroundColor: blue,
-    backgroundImage: getIcon('help', 'active')
+    backgroundImage: getIcon('tag', 'active')
   },
   badge: {
     position: 'absolute',
