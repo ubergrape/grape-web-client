@@ -1,4 +1,5 @@
 import indexBy from 'lodash/collection/indexBy'
+import noop from 'lodash/utility/noop'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -22,10 +23,12 @@ const formatLabels = (results, state) => {
   }))
 }
 
-export function loadLabels(options) {
+export function loadLabels(options, callback = noop) {
   return (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
+
+
     api
       .loadLabels(orgId, options)
       .then((response) => {
@@ -33,6 +36,8 @@ export function loadLabels(options) {
           type: types.HANDLE_LOADED_LABELS,
           payload: formatLabels(response.results, state)
         })
+
+        callback()
       })
       .catch(err => dispatch(error(err)))
   }

@@ -128,7 +128,7 @@ export default class Sidebar extends PureComponent {
         return <MessageSearch {...searchProps} />
       }
       case 'labelsOverview': {
-        return <LabelsOverview {...this.props} load={loadLabels} />
+        return <LabelsOverview {...this.props} onLoad={loadLabels} />
       }
       default:
         return null

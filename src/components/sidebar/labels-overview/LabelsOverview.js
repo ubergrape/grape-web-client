@@ -5,7 +5,7 @@ import {
   injectIntl
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
-import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
+import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import Row from './Row'
@@ -21,40 +21,31 @@ const messages = defineMessages({
 export default class LabelsOverview extends PureComponent {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    load: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired,
     labels: PropTypes.array.isRequired,
-    intl: intlShape.isRequired,
-    total: PropTypes.number
+    intl: intlShape.isRequired
   }
 
   static defaultProps = {
-    load: noop,
+    onLoad: noop,
     hideSidebar: noop,
-    labels: [],
-    total: null
+    labels: []
   }
 
   componentDidMount() {
-    const {labels} = this.props
-    if (!labels.length) this.load()
+    const {labels, onLoad} = this.props
+    if (!labels.length) onLoad()
   }
 
-  componentWillReceiveProps(nextProps) {
-    const reset = !nextProps.labels.length &&
-      nextProps.total == null &&
-      this.props.total != null
+  onLoadMore = ({startIndex, stopIndex}) => (
+    new Promise((resolve) => {
+      const options = {startIndex, stopIndex}
+      this.props.onLoad(options, resolve)
+    })
+  )
 
-    if (reset) this.load(nextProps)
-  }
-
-  onLoadMore = () => {
-    this.load()
-  }
-
-  load({load} = this.props) {
-    load()
-  }
+  isRowLoaded = ({index}) => Boolean(this.props.labels[index])
 
   renderRow = ({index, style}) => {
     const {
@@ -89,28 +80,37 @@ export default class LabelsOverview extends PureComponent {
         title={formatMessage(messages.title)}
         onClose={hideSidebar}
       >
-        <AutoSizer>
-          {({width, height}) => (
-            <CellMeasurer
-              cellRenderer={this.renderRowForCellMeasurer}
-              columnCount={1}
-              rowCount={labels.length}
-              width={width}
-            >
-              {({getRowHeight}) => (
-                <List
-                  width={width}
-                  height={height}
+        <InfiniteLoader
+          isRowLoaded={this.isRowLoaded}
+          loadMoreRows={this.onLoadMore}
+          rowCount={labels.length}
+        >
+          {({onRowsRendered, registerChild}) => (
+            <AutoSizer>
+              {({width, height}) => (
+                <CellMeasurer
+                  cellRenderer={this.renderRowForCellMeasurer}
+                  columnCount={1}
                   rowCount={labels.length}
-                  rowHeight={getRowHeight}
-                  rowRenderer={this.renderRow}
-                  overscanRowCount={5}
-                  ref={this.onRefList}
-                />
+                  width={width}
+                >
+                  {({getRowHeight}) => (
+                    <List
+                      ref={registerChild}
+                      width={width}
+                      height={height}
+                      rowCount={labels.length}
+                      rowHeight={getRowHeight}
+                      rowRenderer={this.renderRow}
+                      onRowsRendered={onRowsRendered}
+                      overscanRowCount={5}
+                    />
+                  )}
+                </CellMeasurer>
               )}
-            </CellMeasurer>
+            </AutoSizer>
           )}
-        </AutoSizer>
+        </InfiniteLoader>
       </SidebarPanel>
     )
   }
