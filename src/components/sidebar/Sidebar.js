@@ -67,6 +67,10 @@ export default class Sidebar extends PureComponent {
     className: null
   }
 
+  onSelectLabel = (label) => {
+    this.props.goToMessage(label.message)
+  }
+
   renderContent() {
     const {
       show,
@@ -128,7 +132,13 @@ export default class Sidebar extends PureComponent {
         return <MessageSearch {...searchProps} />
       }
       case 'labelsOverview': {
-        return <LabelsOverview {...this.props} onLoad={loadLabels} />
+        return (
+          <LabelsOverview
+            {...this.props}
+            onLoad={loadLabels}
+            onSelect={this.onSelectLabel}
+          />
+        )
       }
       default:
         return null

@@ -9,6 +9,7 @@ import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import Row from './Row'
+import NoContent from './NoContent'
 
 const messages = defineMessages({
   title: {
@@ -21,16 +22,20 @@ const messages = defineMessages({
 export default class LabelsOverview extends PureComponent {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    onLoad: PropTypes.func.isRequired,
-    hideSidebar: PropTypes.func.isRequired,
-    labels: PropTypes.array.isRequired,
+    onLoad: PropTypes.func,
+    onSelect: PropTypes.func,
+    hideSidebar: PropTypes.func,
+    labels: PropTypes.array,
+    user: PropTypes.object,
     intl: intlShape.isRequired
   }
 
   static defaultProps = {
     onLoad: noop,
     hideSidebar: noop,
-    labels: []
+    onSelect: noop,
+    labels: [],
+    user: null
   }
 
   componentDidMount() {
@@ -50,7 +55,9 @@ export default class LabelsOverview extends PureComponent {
   renderRow = ({index, style}) => {
     const {
       intl,
-      labels
+      labels,
+      user,
+      onSelect
     } = this.props
 
     const label = labels[index]
@@ -62,11 +69,15 @@ export default class LabelsOverview extends PureComponent {
         prevLabel={labels[index - 1]}
         key={`${label.id}-row`}
         style={style}
+        user={user}
+        onSelect={onSelect}
       />
     )
   }
 
   renderRowForCellMeasurer = ({rowIndex: index}) => this.renderRow({index})
+
+  renderNoContent = () => <NoContent />
 
   render() {
     const {
@@ -102,6 +113,7 @@ export default class LabelsOverview extends PureComponent {
                       rowCount={labels.length}
                       rowHeight={getRowHeight}
                       rowRenderer={this.renderRow}
+                      noRowsRenderer={this.renderNoContent}
                       onRowsRendered={onRowsRendered}
                       overscanRowCount={5}
                     />

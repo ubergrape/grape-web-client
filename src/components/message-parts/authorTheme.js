@@ -7,6 +7,7 @@ export const styles = {
     extend: [small, ellipsis],
     color: gray,
     marginRight: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    flexShrink: 0
   }
 }

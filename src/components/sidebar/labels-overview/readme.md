@@ -4,12 +4,13 @@
 const labels = [
   {
     id: '111111',
-    type: 'todo',
+    name: 'todo',
+    nameLocalized: 'Tasks',
     phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#F5A623',
     message: {
       author: {
-        displayName: 'Felix'
+        name: 'Felix'
       },
       channel: {
         name: 'Development'
@@ -19,12 +20,13 @@ const labels = [
   },
   {
     id: '22222',
-    type: 'todo',
+    name: 'todo',
+    nameLocalized: 'Tasks',
     phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#F5A623',
     message: {
       author: {
-        displayName: 'Oleg'
+        name: 'Oleg'
       },
       channel: {
         name: 'Office'
@@ -34,12 +36,13 @@ const labels = [
   },
   {
     id: '333',
-    type: 'question',
+    name: 'question',
+    nameLocalized: 'Question',
     phrase: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
     color: '#6252D5',
     message: {
       author: {
-        displayName: 'Felix'
+        name: 'Felix'
       },
       channel: {
         name: 'Office'
@@ -50,5 +53,13 @@ const labels = [
 ];
 <div style={{height: 300}}>
   <LabelsOverview labels={labels} />
+</div>
+```
+
+## Labels overview empty state
+
+```
+<div style={{height: 300}}>
+  <LabelsOverview />
 </div>
 ```

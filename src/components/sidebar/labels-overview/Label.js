@@ -1,42 +1,67 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  FormattedMessage
-} from 'react-intl'
-import {small} from 'grape-theme/dist/fonts'
-import {grayLight, grayDark} from 'grape-theme/dist/base-colors'
+import {FormattedMessage} from 'react-intl'
+import {small, normal} from 'grape-theme/dist/fonts'
+import {grayBlueLighter, grayLight, grayDark} from 'grape-theme/dist/base-colors'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import cn from 'classnames'
+import color from 'color'
+import noop from 'lodash/utility/noop'
+
+import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
+import {spacing} from '../sidebar-panel/theme'
 
 @injectSheet({
+  label: {
+    padding: [0, spacing],
+    '&:hover': {
+      isolate: false,
+      background: color(grayBlueLighter).darken(0.05).hexString()
+    },
+    '&, & *': {
+      cursor: 'pointer'
+    }
+  },
   channel: {
-    extend: small,
+    extend: [ellipsis, small],
     marginLeft: 20,
     color: grayLight
   },
   body: {
+    extend: normal,
     color: grayDark
   }
 })
 export default class Label extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    className: PropTypes.string,
     label: PropTypes.shape({
       phrase: PropTypes.string.isRequired,
       message: PropTypes.shape({
         author: PropTypes.shape({
-          displayName: PropTypes.string.isRequired
+          name: PropTypes.string.isRequired
         }),
         time: PropTypes.instanceOf(Date).isRequired,
         channel: PropTypes.shape({
           name: PropTypes.string.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    user: PropTypes.object,
+    onSelect: PropTypes.func,
+    className: PropTypes.string
   }
 
   static defaultProps = {
-    className: null
+    className: null,
+    user: null,
+    onSelect: noop
+  }
+
+  onClick = () => {
+    const {label, onSelect} = this.props
+    onSelect(label)
   }
 
   render() {
@@ -50,12 +75,13 @@ export default class Label extends PureComponent {
         }
       },
       classes,
-      className
+      className,
+      user
     } = this.props
 
     return (
-      <section className={className}>
-        <Header time={time} author={author.displayName}>
+      <section className={cn(classes.label, className)} onClick={this.onClick}>
+        <Header time={time} author={author.name}>
           <FormattedMessage
             id="sidebarLabelInChannel"
             defaultMessage="in {channel}"
@@ -66,7 +92,7 @@ export default class Label extends PureComponent {
           </FormattedMessage>
         </Header>
         <div className={classes.body}>
-          {`… ${phrase}`}
+          <Grapedown text={`… ${phrase}`} user={user || {}} />
         </div>
       </section>
     )

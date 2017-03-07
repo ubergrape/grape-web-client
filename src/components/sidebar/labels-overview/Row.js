@@ -1,6 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {defineMessages, intlShape} from 'react-intl'
+import {intlShape} from 'react-intl'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
@@ -10,43 +10,28 @@ import DateSeparator from '../../message-parts/DateSeparator'
 import {spacing} from '../sidebar-panel/theme'
 import Label from './Label'
 
-const messages = defineMessages({
-  todo: {
-    id: 'nlpLabelTodo',
-    defaultMessage: 'Tasks',
-    description: 'Sidebar todo label group headline'
-  },
-  question: {
-    id: 'nlpLabelQuestion',
-    defaultMessage: 'Questions',
-    description: 'Sidebar question label group headline'
-  }
-})
-
 const labelPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['todo', 'question']).isRequired,
+  name: PropTypes.string.isRequired,
+  nameLocalized: PropTypes.string.isRequired,
   message: PropTypes.shape({
     time: PropTypes.instanceOf(Date).isRequired
   })
 })
 
 @injectSheet({
-  row: {
-    padding: [0, spacing]
-  },
-  type: {
+  name: {
     extend: [ellipsis, small],
     textTransform: 'uppercase',
-    margin: [15, 0],
+    margin: [14, 0, 0, spacing],
     fontWeight: 'bold'
   },
   separatorDate: {
     background: grayBlueLighter
   },
   label: {
-    marginBottom: 15
+    padding: [7, spacing]
   }
 })
 export default class Row extends PureComponent {
@@ -55,12 +40,16 @@ export default class Row extends PureComponent {
     intl: intlShape.isRequired,
     label: labelPropType.isRequired,
     prevLabel: labelPropType,
-    style: PropTypes.object
+    style: PropTypes.object,
+    user: PropTypes.object,
+    onSelect: PropTypes.func
   }
 
   static defaultProps = {
     style: null,
-    prevLabel: null
+    prevLabel: null,
+    user: null,
+    onSelect: null
   }
 
   dateSeparatorTheme = {
@@ -73,18 +62,19 @@ export default class Row extends PureComponent {
       label,
       prevLabel,
       intl,
-      intl: {formatMessage},
-      style
+      style,
+      user,
+      onSelect
     } = this.props
 
     const showDateSeparator =
       !prevLabel ||
       !moment(label.message.time).isSame(prevLabel.message.time, 'day')
 
-    const showType = !prevLabel || prevLabel.type !== label.type
+    const showType = !prevLabel || prevLabel.name !== label.name
 
     return (
-      <div className={classes.row} style={style}>
+      <div style={style}>
         {showDateSeparator && (
           <DateSeparator
             theme={this.dateSeparatorTheme}
@@ -95,11 +85,11 @@ export default class Row extends PureComponent {
 
         {showType && (
           <h2
-            className={classes.type}
+            className={classes.name}
             style={{color: label.color}}
-            key={`${label.id}-type`}
+            key={`${label.id}-name`}
           >
-            {messages[label.type] ? formatMessage(messages[label.type]) : label.type}
+            {label.nameLocalized}
           </h2>
         )}
 
@@ -108,6 +98,8 @@ export default class Row extends PureComponent {
           key={`${label.id}-label`}
           intl={intl}
           className={classes.label}
+          onSelect={onSelect}
+          user={user}
         />
       </div>
     )

@@ -1,40 +1,29 @@
-import indexBy from 'lodash/collection/indexBy'
 import noop from 'lodash/utility/noop'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {orgSelector, usersSelector, channelsSelector} from '../selectors'
+import {orgSelector} from '../selectors'
 import {error} from './common'
+import {normalizeMessage} from './utils'
 
-const formatLabels = (results, state) => {
-  const users = usersSelector(state)
-  const channels = channelsSelector(state)
-  const usersMap = indexBy(users, 'id')
-  const channelsMap = indexBy(channels, 'id')
-
-  return results.map(result => ({
+const normalizeLabels = (results, state) => (
+  results.map(result => ({
     ...result,
-    message: {
-      ...result.message,
-      time: new Date(result.message.time),
-      channel: channelsMap[result.message.channel],
-      author: usersMap[result.message.author.id]
-    }
+    message: normalizeMessage(result.message, state)
   }))
-}
+)
 
 export function loadLabels(options, callback = noop) {
   return (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
 
-
     api
       .loadLabels(orgId, options)
       .then((response) => {
         dispatch({
           type: types.HANDLE_LOADED_LABELS,
-          payload: formatLabels(response.results, state)
+          payload: normalizeLabels(response.results, state)
         })
 
         callback()
