@@ -45,7 +45,11 @@ export default class LabelsOverview extends PureComponent {
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const options = {startIndex, stopIndex}
+      const {labels} = this.props
+      const options = {
+        offset: labels[labels.length - 1].message.time,
+        limit: stopIndex - startIndex
+      }
       this.props.onLoad(options, resolve)
     })
   )
@@ -94,7 +98,7 @@ export default class LabelsOverview extends PureComponent {
         <InfiniteLoader
           isRowLoaded={this.isRowLoaded}
           loadMoreRows={this.onLoadMore}
-          rowCount={labels.length}
+          rowCount={Infinity}
         >
           {({onRowsRendered, registerChild}) => (
             <AutoSizer>

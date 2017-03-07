@@ -1,6 +1,8 @@
 import * as types from '../constants/actionTypes'
 
-const initialState = {}
+const initialState = {
+  labels: []
+}
 
 export default function reduce(state = initialState, action) {
   const {payload} = action
@@ -9,7 +11,7 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_LOADED_LABELS:
       return {
         ...state,
-        labels: payload
+        labels: [...state.labels, ...payload]
       }
     case types.HIDE_SIDEBAR:
       return initialState
