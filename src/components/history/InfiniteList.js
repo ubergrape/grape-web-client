@@ -23,7 +23,9 @@ export default class InfiniteList extends PureComponent {
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
-    onRowsRendered: PropTypes.func
+    onRowsRendered: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isEditing: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -35,7 +37,11 @@ export default class InfiniteList extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows !== this.props.rows) {
       this.cache.setRows(nextProps.rows)
-      this.list.recomputeRowHeights()
+
+      // No need to recomputeRowHeights when we enter Edit message mode.
+      if (!nextProps.isEditing) {
+        this.list.recomputeRowHeights()
+      }
     }
   }
 
@@ -56,8 +62,6 @@ export default class InfiniteList extends PureComponent {
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  scrollToRow = (index) => { this.list.scrollToRow(index) }
-
   cache = new RowsCache(this.props.rows)
 
   renderRowForCellMeasurer = ({key, index, parent, style}) => (
@@ -70,7 +74,7 @@ export default class InfiniteList extends PureComponent {
     >
       {this.props.renderRow({index, key, style})}
     </CellMeasurer>
-    )
+  )
 
   render() {
     const {
@@ -126,7 +130,7 @@ export default class InfiniteList extends PureComponent {
                     deferredMeasurementCache={this.cache}
                     rowRenderer={this.renderRowForCellMeasurer}
                     rowHeight={this.cache.rowHeight}
-                    overscanRowCount={5}
+                    overscanRowCount={minimumBatchSize}
                     ref={this.onRefList}
                   />
                 )}

@@ -1,7 +1,7 @@
-import * as types from '../constants/actionTypes'
 import reject from 'lodash/collection/reject'
 import findIndex from 'lodash/array/findIndex'
 import uniq from 'lodash/array/uniq'
+import * as types from '../constants/actionTypes'
 
 const initialState = {
   messages: [],
@@ -92,9 +92,13 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: payload})}
     case types.EDIT_MESSAGE:
-      return updateMessage(state, {...payload, isSelected: true})
-    case types.UPDATE_MESSAGE:
-      return updateMessage(state, payload)
+      return {...updateMessage(state, payload), isEditing: true}
+    case types.END_EDIT_MESSAGE:
+      return {...state, isEditing: false}
+    case types.UPDATE_MESSAGE: {
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
+      return {...updateMessage(state, payload), scrollTo}
+    }
     case types.MARK_MESSAGE_AS_UNSENT:
       return updateMessage(state, {...payload, state: 'unsent'})
     case types.RESEND_MESSAGE:
