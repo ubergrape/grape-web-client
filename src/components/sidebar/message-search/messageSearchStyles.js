@@ -1,5 +1,4 @@
-import color from 'color'
-import {grayBlue, grayBlueLight, grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {grayBlue, grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 
 import button from '../../button/default'
@@ -26,20 +25,5 @@ export default {
   empty: {
     textAlign: 'center'
   },
-  button,
-  optionLabel: {
-    extend: small,
-    display: 'block',
-    padding: [4, 10, 4, 20],
-    background: grayBlueLight,
-    cursor: 'pointer',
-    '&:hover': {
-      isolate: false,
-      background: color(grayBlueLight).darken(0.05).hexString()
-    }
-  },
-  optionCheckbox: {
-    marginRight: 5,
-    cursor: 'pointer'
-  }
+  button
 }

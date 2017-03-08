@@ -125,6 +125,11 @@ const Content = (props) => {
       return (
         <LabelsOverview
           {...rest}
+          options={[{
+            label: formatMessage(messages.currentConversationOption),
+            handler: toggleSearchOnlyInChannel,
+            status: searchOnlyInChannel
+          }]}
           onLoad={loadLabels}
           onSelect={onSelectLabel}
         />

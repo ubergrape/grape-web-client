@@ -14,7 +14,7 @@ import {ShowMore} from '../../i18n'
 import style from './messageSearchStyles'
 import Message from './Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
-import Options from './Options'
+import Options from '../options/Options'
 
 @injectSheet(style)
 @injectIntl
@@ -36,7 +36,8 @@ export default class MessageSearch extends PureComponent {
     isLoading: PropTypes.bool.isRequired,
     total: PropTypes.number,
     user: PropTypes.object,
-    customEmojis: PropTypes.object.isRequired
+    customEmojis: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -203,7 +204,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   render() {
-    const {user, images, title, isLoading, classes} = this.props
+    const {user, images, title, isLoading, classes, options} = this.props
 
     if (!user) return null
 
@@ -213,9 +214,9 @@ export default class MessageSearch extends PureComponent {
         images={images}
         options={
           <Options
-            {...this.props}
+            options={options}
+            isLoading={isLoading}
             onClickOption={this.onClickOption}
-            theme={{classes}}
           />
         }
         onClose={this.onClose}
