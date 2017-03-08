@@ -10,6 +10,7 @@ import noop from 'lodash/utility/noop'
 
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
+import {styles as linkStyles} from '../../message-parts/linkTheme'
 import {spacing} from '../sidebar-panel/theme'
 
 @injectSheet({
@@ -21,7 +22,8 @@ import {spacing} from '../sidebar-panel/theme'
     },
     '&, & *': {
       cursor: 'pointer'
-    }
+    },
+    '& a': linkStyles.link
   },
   channel: {
     extend: [ellipsis, small],
