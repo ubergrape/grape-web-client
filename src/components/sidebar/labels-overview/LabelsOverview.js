@@ -35,7 +35,7 @@ export default class LabelsOverview extends PureComponent {
     hideSidebar: noop,
     onSelect: noop,
     labels: [],
-    user: null
+    user: {}
   }
 
   componentDidMount() {
