@@ -11,29 +11,31 @@ export default function Options(props) {
 
   if (!options.length) return null
 
-  const inputId = uniqueId()
-
   return (
     <ul>
-      {options.map(option => (
-        <li key={option.label}>
-          <label
-            className={classes.optionLabel}
-            onClick={onClickOption}
-            htmlFor={inputId}
-          >
-            <input
-              className={classes.optionCheckbox}
-              type="checkbox"
-              checked={option.status}
-              onChange={option.handler}
-              disabled={isLoading}
-              id={inputId}
-            />
-            {option.label}
-          </label>
-        </li>
-      ))}
+      {options.map((option) => {
+        const inputId = uniqueId()
+
+        return (
+          <li key={option.label}>
+            <label
+              className={classes.optionLabel}
+              onClick={onClickOption}
+              htmlFor={inputId}
+            >
+              <input
+                className={classes.optionCheckbox}
+                type="checkbox"
+                checked={option.status}
+                onChange={option.handler}
+                disabled={isLoading}
+                id={inputId}
+              />
+              {option.label}
+            </label>
+          </li>
+        )
+      })}
     </ul>
   )
 }
