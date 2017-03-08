@@ -19,10 +19,9 @@ export default function reduce(state = initialState, action) {
     case types.FOUND_MESSAGES:
     case types.UPDATE_MESSAGE_SEARCH_QUERY:
       return {...state, ...action.payload}
-    case types.TOGGLE_SEARCH_MESSAGES_IN_CHANNEL_ONLY:
+    case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY:
       return {
         ...state,
-        searchOnlyInChannel: !state.searchOnlyInChannel,
         items: initialState.items,
         limit: initialState.limit,
         total: initialState.total

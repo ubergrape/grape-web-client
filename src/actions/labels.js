@@ -18,6 +18,11 @@ export function loadLabels(options, callback = noop) {
     const state = getState()
     const orgId = orgSelector(state).id
 
+    dispatch({
+      type: types.REQUEST_LABELS,
+      payload: options
+    })
+
     api
       .loadLabels(orgId, options)
       .then((response) => {

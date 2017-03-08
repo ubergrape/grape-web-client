@@ -20,7 +20,8 @@ import {FormattedMessage} from 'react-intl'
     extend: big,
     color: gray,
     width: '50%',
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: [20, 0]
   },
   text: {
     extend: small,

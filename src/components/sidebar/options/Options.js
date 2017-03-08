@@ -25,9 +25,13 @@ import color from 'color'
 export default class Options extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onClickOption: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    onClickOption: PropTypes.func
+  }
+
+  static defaultProps = {
+    onClickOption: null
   }
 
   render() {

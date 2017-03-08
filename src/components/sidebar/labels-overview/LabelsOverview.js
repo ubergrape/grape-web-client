@@ -6,10 +6,13 @@ import {
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
 import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
+import injectSheet from 'grape-web/lib/jss'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import Row from './Row'
 import NoContent from './NoContent'
+import Options from '../options/Options'
+import {spacing} from '../sidebar-panel/theme'
 
 const messages = defineMessages({
   title: {
@@ -18,24 +21,41 @@ const messages = defineMessages({
   }
 })
 
+@injectSheet({
+  overview: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    '& $row': {
+      marginTop: spacing
+    }
+  },
+  row: {}
+})
 @injectIntl
 export default class LabelsOverview extends PureComponent {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
+    classes: PropTypes.object.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
-    hideSidebar: PropTypes.func,
+    onClose: PropTypes.func,
     labels: PropTypes.array,
     user: PropTypes.object,
-    intl: intlShape.isRequired
+    searchOnlyInChannel: PropTypes.bool,
+    intl: intlShape.isRequired,
+    options: PropTypes.array,
+    isLoading: PropTypes.bool
   }
 
   static defaultProps = {
     onLoad: noop,
-    hideSidebar: noop,
+    onClose: noop,
     onSelect: noop,
     labels: [],
-    user: {}
+    user: {},
+    searchOnlyInChannel: false,
+    options: [],
+    isLoading: false
   }
 
   componentDidMount() {
@@ -45,10 +65,12 @@ export default class LabelsOverview extends PureComponent {
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const {labels} = this.props
+      const {labels, searchOnlyInChannel} = this.props
+
       const options = {
         offset: labels[labels.length - 1].message.time,
-        limit: stopIndex - startIndex
+        limit: stopIndex - startIndex,
+        searchOnlyInChannel
       }
       this.props.onLoad(options, resolve)
     })
@@ -61,7 +83,8 @@ export default class LabelsOverview extends PureComponent {
       intl,
       labels,
       user,
-      onSelect
+      onSelect,
+      classes
     } = this.props
 
     const label = labels[index]
@@ -75,6 +98,7 @@ export default class LabelsOverview extends PureComponent {
         style={style}
         user={user}
         onSelect={onSelect}
+        className={classes.row}
       />
     )
   }
@@ -83,50 +107,65 @@ export default class LabelsOverview extends PureComponent {
 
   renderNoContent = () => <NoContent />
 
+  renderOptions = () => {
+    const {options, isLoading} = this.props
+    if (!options) return null
+    return (
+      <Options
+        options={options}
+        isLoading={isLoading}
+      />
+    )
+  }
+
   render() {
     const {
-      hideSidebar,
+      onClose,
       intl: {formatMessage},
-      labels
+      labels,
+      classes
     } = this.props
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={hideSidebar}
+        onClose={onClose}
+        options={this.renderOptions()}
       >
-        <InfiniteLoader
-          isRowLoaded={this.isRowLoaded}
-          loadMoreRows={this.onLoadMore}
-          rowCount={Infinity}
-        >
-          {({onRowsRendered, registerChild}) => (
-            <AutoSizer>
-              {({width, height}) => (
-                <CellMeasurer
-                  cellRenderer={this.renderRowForCellMeasurer}
-                  columnCount={1}
-                  rowCount={labels.length}
-                  width={width}
-                >
-                  {({getRowHeight}) => (
-                    <List
-                      ref={registerChild}
-                      width={width}
-                      height={height}
-                      rowCount={labels.length}
-                      rowHeight={getRowHeight}
-                      rowRenderer={this.renderRow}
-                      noRowsRenderer={this.renderNoContent}
-                      onRowsRendered={onRowsRendered}
-                      overscanRowCount={5}
-                    />
-                  )}
-                </CellMeasurer>
-              )}
-            </AutoSizer>
-          )}
-        </InfiniteLoader>
+        <div className={classes.overview}>
+          <InfiniteLoader
+            isRowLoaded={this.isRowLoaded}
+            loadMoreRows={this.onLoadMore}
+            rowCount={Infinity}
+          >
+            {({onRowsRendered, registerChild}) => (
+              <AutoSizer>
+                {({width, height}) => (
+                  <CellMeasurer
+                    cellRenderer={this.renderRowForCellMeasurer}
+                    columnCount={1}
+                    rowCount={labels.length}
+                    width={width}
+                  >
+                    {({getRowHeight}) => (
+                      <List
+                        ref={registerChild}
+                        width={width}
+                        height={height}
+                        rowCount={labels.length}
+                        rowHeight={getRowHeight}
+                        rowRenderer={this.renderRow}
+                        noRowsRenderer={this.renderNoContent}
+                        onRowsRendered={onRowsRendered}
+                        overscanRowCount={5}
+                      />
+                    )}
+                  </CellMeasurer>
+                )}
+              </AutoSizer>
+            )}
+          </InfiniteLoader>
+        </div>
       </SidebarPanel>
     )
   }

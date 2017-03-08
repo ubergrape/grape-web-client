@@ -24,18 +24,6 @@ export function updateMessageSearchQuery(nextQuery) {
   }
 }
 
-export function toggleSearchOnlyInChannel() {
-  return {
-    type: types.TOGGLE_SEARCH_MESSAGES_IN_CHANNEL_ONLY
-  }
-}
-
-export function toggleSearchActivities() {
-  return {
-    type: types.TOGGLE_SEARCH_ACTIVITIES
-  }
-}
-
 const minQueryLength = 2
 
 export function searchMessages(params) {

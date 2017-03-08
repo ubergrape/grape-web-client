@@ -130,6 +130,8 @@ const Content = (props) => {
             handler: toggleSearchOnlyInChannel,
             status: searchOnlyInChannel
           }]}
+          searchOnlyInChannel={searchOnlyInChannel}
+          onClose={hideSidebar}
           onLoad={loadLabels}
           onSelect={onSelectLabel}
         />

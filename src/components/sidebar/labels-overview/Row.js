@@ -42,14 +42,16 @@ export default class Row extends PureComponent {
     prevLabel: labelPropType,
     style: PropTypes.object,
     user: PropTypes.object,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    className: PropTypes.string
   }
 
   static defaultProps = {
     style: null,
     prevLabel: null,
     user: null,
-    onSelect: null
+    onSelect: null,
+    className: null
   }
 
   dateSeparatorTheme = {
@@ -64,7 +66,8 @@ export default class Row extends PureComponent {
       intl,
       style,
       user,
-      onSelect
+      onSelect,
+      className
     } = this.props
 
     const showDateSeparator =
@@ -74,7 +77,7 @@ export default class Row extends PureComponent {
     const showType = !prevLabel || prevLabel.name !== label.name
 
     return (
-      <div style={style}>
+      <div style={style} className={className}>
         {showDateSeparator && (
           <DateSeparator
             theme={this.dateSeparatorTheme}
