@@ -80,7 +80,10 @@ export default class History extends PureComponent {
       return
     }
 
-    if (messages !== this.props.messages) {
+    if (
+      messages !== this.props.messages ||
+      nextProps.scrollTo !== this.state.scrollTo
+    ) {
       this.setState(createState(this.state, nextProps))
     }
   }

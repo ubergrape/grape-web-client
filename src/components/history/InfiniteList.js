@@ -37,11 +37,7 @@ export default class InfiniteList extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows !== this.props.rows) {
       this.cache.setRows(nextProps.rows)
-
-      // No need to recomputeRowHeights when we enter Edit message mode.
-      if (!nextProps.isEditing) {
-        this.list.recomputeRowHeights()
-      }
+      this.list.recomputeRowHeights()
     }
   }
 

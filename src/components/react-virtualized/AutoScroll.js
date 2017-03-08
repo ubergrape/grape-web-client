@@ -81,6 +81,10 @@ export default class AutoScroll extends PureComponent {
     this.startIndex = startIndex
   }
 
+  shouldComponentUpdate() {
+    return !!this.scrollToIndex
+  }
+
   render() {
     return this.props.children({
       onScroll: this.onScroll,
