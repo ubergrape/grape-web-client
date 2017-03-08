@@ -4,6 +4,7 @@ import {big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
+import {spacing} from '../sidebar-panel/theme'
 
 const marginBottom = 20
 const paddingBottom = 20
@@ -27,7 +28,11 @@ const button = {
 export const styles = {
   userNameContainer: {
     extend: divider,
-    display: 'flex'
+    display: 'flex',
+    padding: spacing
+  },
+  details: {
+    padding: spacing
   },
   name: big,
   about: {

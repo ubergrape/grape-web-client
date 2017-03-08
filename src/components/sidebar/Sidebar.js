@@ -36,113 +36,149 @@ const messages = defineMessages({
   }
 })
 
+const Content = (props) => {
+  const {
+    show,
+    intl: {formatMessage},
+    loadMentions,
+    loadRoomInfo,
+    loadSharedFiles,
+    loadLabels,
+    searchMessages,
+    toggleSearchOnlyInChannel,
+    toggleSearchActivities,
+    toggleShowRoomMentions,
+    hideSidebar,
+    goToMessage,
+    showRoomMentions,
+    searchOnlyInChannel,
+    searchActivities,
+    onSelectLabel,
+    ...rest
+  } = props
+
+  switch (show) {
+    case 'files':
+      return (
+        <SharedFiles
+          {...rest}
+          onLoad={loadSharedFiles}
+          onClose={hideSidebar}
+        />
+      )
+    case 'room':
+      return (
+        <RoomInfo
+          {...rest}
+          onLoad={loadRoomInfo}
+          onClose={hideSidebar}
+        />
+      )
+    case 'pm':
+      return <UserProfile {...rest} onClose={hideSidebar} />
+    case 'mentions':
+      return (
+        <MessageSearch
+          {...rest}
+          title={formatMessage(messages.mentionsTitle)}
+          options={[{
+            label: formatMessage(messages.mentions),
+            handler: toggleShowRoomMentions,
+            status: showRoomMentions
+          }]}
+          searchOnlyInChannel={searchOnlyInChannel}
+          searchActivities={searchActivities}
+          showRoomMentions={showRoomMentions}
+          show={show}
+          onLoad={loadMentions}
+          onClose={hideSidebar}
+          onSelect={goToMessage}
+        />
+      )
+    case 'search':
+      return (
+        <MessageSearch
+          {...rest}
+          title={formatMessage(messages.searchTitle)}
+          options={[
+            {
+              label: formatMessage(messages.currentConversationOption),
+              handler: toggleSearchOnlyInChannel,
+              status: searchOnlyInChannel
+            },
+            {
+              label: formatMessage(messages.searchActivitiesOption),
+              handler: toggleSearchActivities,
+              status: searchActivities
+            }
+          ]}
+          searchOnlyInChannel={searchOnlyInChannel}
+          searchActivities={searchActivities}
+          showRoomMentions={showRoomMentions}
+          show={show}
+          onLoad={searchMessages}
+          onClose={hideSidebar}
+          onSelect={goToMessage}
+        />
+      )
+    case 'labelsOverview':
+      return (
+        <LabelsOverview
+          {...rest}
+          onLoad={loadLabels}
+          onSelect={onSelectLabel}
+        />
+      )
+    default:
+      return null
+  }
+}
+
+Content.propTypes = {
+  intl: intlShape.isRequired,
+  loadMentions: PropTypes.func.isRequired,
+  loadRoomInfo: PropTypes.func.isRequired,
+  loadSharedFiles: PropTypes.func.isRequired,
+  loadLabels: PropTypes.func.isRequired,
+  searchMessages: PropTypes.func.isRequired,
+  showRoomMentions: PropTypes.bool,
+  show: PropTypes.oneOfType([
+    PropTypes.string,
+    React.PropTypes.bool
+  ]).isRequired,
+  searchActivities: PropTypes.bool,
+  searchOnlyInChannel: PropTypes.bool,
+  toggleSearchOnlyInChannel: PropTypes.func.isRequired,
+  toggleSearchActivities: PropTypes.func.isRequired,
+  toggleShowRoomMentions: PropTypes.func.isRequired,
+  hideSidebar: PropTypes.func.isRequired,
+  goToMessage: PropTypes.func.isRequired,
+  onSelectLabel: PropTypes.func.isRequired
+}
+
+Content.defaultProps = {
+  showRoomMentions: false,
+  searchActivities: false,
+  searchOnlyInChannel: false
+}
+
 @injectIntl
 export default class Sidebar extends PureComponent {
   static propTypes = {
-    intl: intlShape.isRequired,
     show: PropTypes.oneOfType([
       PropTypes.string,
       React.PropTypes.bool
     ]).isRequired,
-    loadMentions: PropTypes.func.isRequired,
-    loadRoomInfo: PropTypes.func.isRequired,
-    loadSharedFiles: PropTypes.func.isRequired,
-    loadLabels: PropTypes.func.isRequired,
-    searchMessages: PropTypes.func.isRequired,
-    showRoomMentions: PropTypes.bool,
-    searchActivities: PropTypes.bool,
-    searchOnlyInChannel: PropTypes.bool,
-    toggleSearchOnlyInChannel: PropTypes.func.isRequired,
-    toggleSearchActivities: PropTypes.func.isRequired,
-    toggleShowRoomMentions: PropTypes.func.isRequired,
-    hideSidebar: PropTypes.func.isRequired,
-    goToMessage: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    goToMessage: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    showRoomMentions: false,
-    searchActivities: false,
-    searchOnlyInChannel: false,
     className: null
   }
 
   onSelectLabel = (label) => {
     this.props.goToMessage(label.message)
-  }
-
-  renderContent() {
-    const {
-      show,
-      intl: {formatMessage},
-      loadMentions,
-      loadRoomInfo,
-      loadSharedFiles,
-      loadLabels,
-      searchMessages,
-      toggleSearchOnlyInChannel,
-      toggleSearchActivities,
-      toggleShowRoomMentions,
-      hideSidebar: hide,
-      goToMessage: select,
-      showRoomMentions,
-      searchOnlyInChannel,
-      searchActivities
-    } = this.props
-
-    switch (show) {
-      case 'files':
-        return <SharedFiles {...this.props} load={loadSharedFiles} />
-      case 'room':
-        return <RoomInfo {...this.props} load={loadRoomInfo} />
-      case 'pm':
-        return <UserProfile {...this.props} />
-      case 'mentions': {
-        const mentionProps = {
-          ...this.props,
-          title: formatMessage(messages.mentionsTitle),
-          load: loadMentions,
-          options: [{
-            label: formatMessage(messages.mentions),
-            handler: toggleShowRoomMentions,
-            status: showRoomMentions
-          }],
-          hide,
-          select
-        }
-        return <MessageSearch {...mentionProps} />
-      }
-      case 'search': {
-        const searchProps = {
-          ...this.props,
-          title: formatMessage(messages.searchTitle),
-          load: searchMessages,
-          options: [{
-            label: formatMessage(messages.currentConversationOption),
-            handler: toggleSearchOnlyInChannel,
-            status: searchOnlyInChannel
-          }, {
-            label: formatMessage(messages.searchActivitiesOption),
-            handler: toggleSearchActivities,
-            status: searchActivities
-          }],
-          hide,
-          select
-        }
-        return <MessageSearch {...searchProps} />
-      }
-      case 'labelsOverview': {
-        return (
-          <LabelsOverview
-            {...this.props}
-            onLoad={loadLabels}
-            onSelect={this.onSelectLabel}
-          />
-        )
-      }
-      default:
-        return null
-    }
   }
 
   render() {
@@ -155,7 +191,7 @@ export default class Sidebar extends PureComponent {
 
     return (
       <div className={className}>
-        {this.renderContent()}
+        <Content {...this.props} onSelectLabel={this.onSelectLabel} />
       </div>
     )
   }

@@ -22,10 +22,10 @@ export default class MessageSearch extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    select: PropTypes.func.isRequired,
-    hide: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    load: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
     searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
@@ -65,11 +65,11 @@ export default class MessageSearch extends PureComponent {
   }
 
   onSelect = (item) => {
-    this.props.select(item)
+    this.props.onSelect(item)
   }
 
   onClose = () => {
-    this.props.hide()
+    this.props.onClose()
   }
 
   onClickOption = (e) => {
@@ -95,7 +95,8 @@ export default class MessageSearch extends PureComponent {
 
   load(props = this.props) {
     const {
-      items, limit, query, searchOnlyInChannel, searchActivities, showRoomMentions
+      items, limit, query, searchOnlyInChannel, searchActivities, showRoomMentions,
+      onLoad
     } = props
     if (!query || !query.length) return
 
@@ -113,7 +114,7 @@ export default class MessageSearch extends PureComponent {
       default:
     }
 
-    props.load({
+    onLoad({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit,

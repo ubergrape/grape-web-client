@@ -30,14 +30,15 @@ export default class SharedFiles extends PureComponent {
     items: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    load: PropTypes.func.isRequired,
-    hideSidebar: PropTypes.func,
+    onLoad: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
     total: PropTypes.number
   }
 
   static defaultProps = {
     hideSidebar: null,
-    total: null
+    total: null,
+    onClose: null
   }
 
   componentDidMount() {
@@ -55,8 +56,8 @@ export default class SharedFiles extends PureComponent {
     this.load()
   }
 
-  load({items, limit, load} = this.props) {
-    load({
+  load({items, limit, onLoad} = this.props) {
+    onLoad({
       offset: items.length,
       limit
     })
@@ -97,7 +98,7 @@ export default class SharedFiles extends PureComponent {
 
   render() {
     const {
-      hideSidebar,
+      onClose,
       intl: {formatMessage},
       classes,
       images
@@ -107,7 +108,7 @@ export default class SharedFiles extends PureComponent {
       <SidebarPanel
         title={formatMessage(messages.title)}
         images={images}
-        onClose={hideSidebar}
+        onClose={onClose}
       >
         <div className={classes.sharedFiles}>
           {this.renderFiles()}
