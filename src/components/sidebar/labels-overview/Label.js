@@ -94,7 +94,7 @@ export default class Label extends PureComponent {
           </FormattedMessage>
         </Header>
         <div className={classes.body}>
-          <Grapedown text={`… ${phrase}`} user={user} />
+          <Grapedown text={phrase} user={user} />
         </div>
       </section>
     )
