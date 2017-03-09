@@ -74,7 +74,7 @@ export default class Row extends PureComponent {
       !prevLabel ||
       !moment(label.message.time).isSame(prevLabel.message.time, 'day')
 
-    const showType = !prevLabel || prevLabel.name !== label.name
+    const showName = !prevLabel || prevLabel.name !== label.name
 
     return (
       <div style={style} className={className}>
@@ -86,7 +86,7 @@ export default class Row extends PureComponent {
           />
         )}
 
-        {showType && (
+        {(showName || showDateSeparator) && (
           <h2
             className={classes.name}
             style={{color: label.color}}
