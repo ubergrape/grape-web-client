@@ -8,10 +8,10 @@ import {FormattedMessage} from 'react-intl'
 @injectSheet({
   noContent: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
+    marginTop: '30%'
   },
   magicWand: {
     height: '2em'
@@ -27,7 +27,8 @@ import {FormattedMessage} from 'react-intl'
     extend: small,
     color: gray,
     width: '50%',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: small.fontSize
   }
 })
 export default class NoContent extends PureComponent {
