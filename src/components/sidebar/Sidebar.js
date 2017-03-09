@@ -51,7 +51,7 @@ const Content = (props) => {
     hideSidebar,
     goToMessage,
     showRoomMentions,
-    searchOnlyInChannel,
+    currentChannelOnly,
     searchActivities,
     onSelectLabel,
     ...rest
@@ -86,7 +86,7 @@ const Content = (props) => {
             handler: toggleShowRoomMentions,
             status: showRoomMentions
           }]}
-          searchOnlyInChannel={searchOnlyInChannel}
+          currentChannelOnly={currentChannelOnly}
           searchActivities={searchActivities}
           showRoomMentions={showRoomMentions}
           show={show}
@@ -104,7 +104,7 @@ const Content = (props) => {
             {
               label: formatMessage(messages.currentConversationOption),
               handler: toggleSearchOnlyInChannel,
-              status: searchOnlyInChannel
+              status: currentChannelOnly
             },
             {
               label: formatMessage(messages.searchActivitiesOption),
@@ -112,7 +112,7 @@ const Content = (props) => {
               status: searchActivities
             }
           ]}
-          searchOnlyInChannel={searchOnlyInChannel}
+          currentChannelOnly={currentChannelOnly}
           searchActivities={searchActivities}
           showRoomMentions={showRoomMentions}
           show={show}
@@ -128,9 +128,9 @@ const Content = (props) => {
           options={[{
             label: formatMessage(messages.currentConversationOption),
             handler: toggleSearchOnlyInChannel,
-            status: searchOnlyInChannel
+            status: currentChannelOnly
           }]}
-          searchOnlyInChannel={searchOnlyInChannel}
+          currentChannelOnly={currentChannelOnly}
           onClose={hideSidebar}
           onLoad={loadLabels}
           onSelect={onSelectLabel}
@@ -154,7 +154,7 @@ Content.propTypes = {
     React.PropTypes.bool
   ]).isRequired,
   searchActivities: PropTypes.bool,
-  searchOnlyInChannel: PropTypes.bool,
+  currentChannelOnly: PropTypes.bool,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   toggleSearchActivities: PropTypes.func.isRequired,
   toggleShowRoomMentions: PropTypes.func.isRequired,
@@ -166,7 +166,7 @@ Content.propTypes = {
 Content.defaultProps = {
   showRoomMentions: false,
   searchActivities: false,
-  searchOnlyInChannel: false
+  currentChannelOnly: false
 }
 
 @injectIntl

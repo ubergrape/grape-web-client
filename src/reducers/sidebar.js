@@ -1,8 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false,
-  searchOnlyInChannel: false
+  show: false
 }
 
 const channelTypes = ['pm', 'room']
@@ -21,11 +20,6 @@ export default function reduce(state = initialState, action) {
       }
       return state
     }
-    case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY:
-      return {
-        ...state,
-        searchOnlyInChannel: !state.searchOnlyInChannel
-      }
     default:
       return state
   }

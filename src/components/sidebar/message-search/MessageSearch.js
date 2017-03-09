@@ -26,7 +26,7 @@ export default class MessageSearch extends PureComponent {
     onClose: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
-    searchOnlyInChannel: PropTypes.bool.isRequired,
+    currentChannelOnly: PropTypes.bool.isRequired,
     searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
@@ -44,7 +44,7 @@ export default class MessageSearch extends PureComponent {
     query: '',
     options: [],
     showRoomMentions: false,
-    searchOnlyInChannel: false,
+    currentChannelOnly: false,
     searchActivities: false,
     customEmojis: {},
     total: null,
@@ -79,12 +79,12 @@ export default class MessageSearch extends PureComponent {
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad({query, show, searchOnlyInChannel, searchActivities, showRoomMentions}) {
+  shouldLoad({query, show, currentChannelOnly, searchActivities, showRoomMentions}) {
     switch (show) {
       case 'search':
         if (!query) return false
         if (query !== this.props.query) return true
-        if (searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+        if (currentChannelOnly !== this.props.currentChannelOnly) return true
         if (searchActivities !== this.props.searchActivities) return true
         break
       case 'mentions':
@@ -96,7 +96,7 @@ export default class MessageSearch extends PureComponent {
 
   load(props = this.props) {
     const {
-      items, limit, query, searchOnlyInChannel, searchActivities, showRoomMentions,
+      items, limit, query, currentChannelOnly, searchActivities, showRoomMentions,
       onLoad
     } = props
     if (!query || !query.length) return
@@ -110,7 +110,7 @@ export default class MessageSearch extends PureComponent {
         }
         break
       case 'search':
-        options = {searchOnlyInChannel, searchActivities}
+        options = {currentChannelOnly, searchActivities}
         break
       default:
     }

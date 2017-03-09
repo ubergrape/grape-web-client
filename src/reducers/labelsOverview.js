@@ -2,7 +2,8 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   labels: [],
-  isLoading: false
+  isLoading: false,
+  currentChannelOnly: false
 }
 
 export default function reduce(state = initialState, action) {
@@ -26,6 +27,7 @@ export default function reduce(state = initialState, action) {
     case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY:
       return {
         ...state,
+        currentChannelOnly: !state.currentChannelOnly,
         labels: initialState.labels
       }
     default:

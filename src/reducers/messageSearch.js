@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   limit: 20,
-  searchOnlyInChannel: false,
+  currentChannelOnly: false,
   searchActivities: false,
   isLoading: false,
   items: [],
@@ -22,6 +22,7 @@ export default function reduce(state = initialState, action) {
     case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY:
       return {
         ...state,
+        currentChannelOnly: !state.currentChannelOnly,
         items: initialState.items,
         limit: initialState.limit,
         total: initialState.total
