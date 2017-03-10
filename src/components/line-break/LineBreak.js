@@ -10,6 +10,6 @@ export default class LineBreak extends PureComponent {
   }
   render() {
     const {sheet: {classes}} = this.props
-    return <span className={classes.lineBreak} role="presentation" />
+    return <span className={classes.lineBreak} role="presentation"><br /></span>
   }
 }
