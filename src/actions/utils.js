@@ -57,6 +57,15 @@ export function pinToFavorite(channel) {
 export function reduceChannelUsersToId(channel) {
   return {
     ...channel,
+    readingStatus: null, // we don't use it atm. (and contains circular references)
+    creator: channel.creator && typeof channel.creator === 'object'
+      ? channel.creator.id : channel.creator,
+    history: channel.history
+      ? channel.history.map((history) => {
+        if (history.id) return history.id
+        return history
+      })
+      : [],
     users: channel.users.map((user) => {
       if (user.id) return user.id
       return user
@@ -66,6 +75,15 @@ export function reduceChannelUsersToId(channel) {
 
 export function normalizeChannelData(channel) {
   return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
+}
+
+/**
+ * TODO: remove this function when legacy models are no longer used
+ */
+export function normalizeUserData(user) {
+  return user.pm && typeof user.pm === 'object'
+    ? {...user, pm: normalizeChannelData(user.pm)}
+    : user
 }
 
 export const normalizeMessage = (() => {
