@@ -1,69 +1,30 @@
 /* eslint-disable */
 
 /**
- * This plugin overrides the original 'paragraph' block parser
- * to preserve new lines.
- *
- * It adds a custom token `forcebreak` for every new line.
+ * This plugin finds two consecutive paragraphs and adds
+ * a custom token `forcebreak` for every new line between
+ * the two parapgrahs.
  */
 
 module.exports = function (md) {
-  md.block.ruler.at('paragraph', plugin)
+  md.core.ruler.after('block', 'forcebreak', plugin)
 
-  function plugin(state, startLine) {
-    var content, terminate, i, l, token, oldParentType,
-      nextLine = startLine + 1,
-      terminatorRules = state.md.block.ruler.getRules('paragraph'),
-      endLine = state.lineMax;
-
-    oldParentType = state.parentType;
-    state.parentType = 'paragraph';
-
-    // jump line-by-line until empty one or EOF
-    for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
-      // this would be a code block normally, but after paragraph
-      // it's considered a lazy continuation regardless of what's there
-      if (state.tShift[nextLine] - state.blkIndent > 3) { continue; }
-
-      // quirk for blockquotes, this line should already be checked by that rule
-      if (state.tShift[nextLine] < 0) { continue; }
-
-      // Some tags can terminate paragraph without empty line.
-      terminate = false;
-      for (i = 0, l = terminatorRules.length; i < l; i++) {
-        if (terminatorRules[i](state, nextLine, endLine, true)) {
-          terminate = true;
-          break;
-        }
+  function plugin(state) {
+    for (let i=0; i < state.tokens.length - 3; i++) {
+      const current = state.tokens[i]
+      if (current.type !== 'paragraph_open') continue
+      // skip 'inline' and 'paragraph_close'
+      const next = state.tokens[i+3]
+      if (next.type === 'paragraph_open') {
+        const lineEndCurrent = current.map[1]
+        const lineBeginNext = next.map[0]
+        const diff = lineBeginNext - lineEndCurrent
+        const token = new state.Token('forcebreak', 'br', 0);
+        token.attrs = [ [ 'forcebreak', true ] ]
+        state.tokens.splice(i + 3, 0, ...Array(diff).fill(token))
+        // next run i will point to next 'paragraph_open' token.
+        i += 2 + diff
       }
-      if (terminate) { break; }
     }
-
-    content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
-
-    state.line = nextLine;
-
-    token          = state.push('paragraph_open', 'p', 1);
-    token.map      = [ startLine, state.line ];
-
-    token          = state.push('inline', '', 0);
-    token.content  = content;
-    token.map      = [ startLine, state.line ];
-    token.children = [];
-
-    token          = state.push('paragraph_close', 'p', -1);
-
-    /* Force new lines */
-
-    while(nextLine < endLine && state.isEmpty(nextLine++)) {
-      token = state.push('forcebreak', 'br', 0)
-      token.attrs = [ [ 'forcebreak', true ] ]
-    }
-
-    /* End of Force new lines */
-
-    state.parentType = oldParentType;
-
-    return true;
   }
 }
