@@ -26,8 +26,6 @@ export default class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
     linkAttachments: PropTypes.array.isRequired,
     customEmojis: PropTypes.object.isRequired,
@@ -35,16 +33,14 @@ export default class RegularMessage extends PureComponent {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
+    /* eslint-disable react/no-unused-prop-types */
+    userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     onEdit: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     onRemove: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     onCopyLink: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     onQuote: PropTypes.func.isRequired,
+    /* eslint-enable react/no-unused-prop-types */
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
