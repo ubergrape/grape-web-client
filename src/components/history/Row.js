@@ -58,6 +58,7 @@ export default class Row extends PureComponent {
     user: PropTypes.shape({
       id: idPropType.isRequired
     }).isRequired,
+    channel: PropTypes.object.isRequired,
     message: messagePropType.isRequired,
     prevMessage: messagePropType,
     onEdit: PropTypes.func.isRequired,
@@ -150,7 +151,7 @@ export default class Row extends PureComponent {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
       isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
-      style, key, onRemoveLinkAttachment
+      style, key, onRemoveLinkAttachment, channel
     } = this.props
 
     let separator = null
@@ -169,6 +170,7 @@ export default class Row extends PureComponent {
       ...message,
       key: `row-${message.id}`,
       user,
+      channel,
       onGoToChannel,
       onToggleExpander,
       customEmojis,
