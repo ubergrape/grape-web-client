@@ -32,7 +32,7 @@ function plugin(state) {
       token.attrs = [['forcebreak', true]]
       state.tokens.splice(j, 0, ...Array(diff).fill(token))
 
-      // next run i will point to next block token.
+      // On the next iteration `i` will point at the next `block` token.
       i = (j + diff) - 1
     }
   }

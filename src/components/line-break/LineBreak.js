@@ -11,7 +11,7 @@ const styles = {
     cursor: 'text',
     userSelect: 'none'
   },
-  // hides text, but visible in clipboard.
+  // This class hides the content, but the text will still be visible in the clipboard.
   copyOnly: {
     display: 'inline-block',
     verticalAlign: 'baseline',
