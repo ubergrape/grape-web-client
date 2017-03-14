@@ -38,7 +38,7 @@ function plugin(state) {
   }
 }
 
-module.exports = (md) => {
+export default (md) => {
   // Run plugin after blocks have been tokenized.
   md.core.ruler.after('block', 'forcebreak', plugin)
 }
