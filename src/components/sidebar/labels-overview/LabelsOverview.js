@@ -41,7 +41,6 @@ export default class LabelsOverview extends PureComponent {
     onClose: PropTypes.func,
     labels: PropTypes.array,
     user: PropTypes.object,
-    currentChannelOnly: PropTypes.bool,
     intl: intlShape.isRequired,
     options: PropTypes.array,
     isLoading: PropTypes.bool
@@ -53,30 +52,26 @@ export default class LabelsOverview extends PureComponent {
     onSelect: noop,
     labels: [],
     user: {},
-    currentChannelOnly: false,
     options: [],
     isLoading: false
   }
 
   componentDidMount() {
-    const {labels, onLoad, currentChannelOnly} = this.props
-    if (!labels.length) onLoad({currentChannelOnly})
+    const {labels, onLoad} = this.props
+    if (!labels.length) onLoad()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {currentChannelOnly, onLoad} = nextProps
-    if (currentChannelOnly !== this.props.currentChannelOnly) {
-      onLoad({currentChannelOnly})
-    }
+    const {onLoad, labels} = nextProps
+    if (!labels.length) onLoad()
   }
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const {labels, currentChannelOnly, onLoad} = this.props
+      const {labels, onLoad} = this.props
       const options = {
         offset: labels[labels.length - 1].message.time,
-        limit: stopIndex - startIndex,
-        currentChannelOnly
+        limit: stopIndex - startIndex
       }
       onLoad(options, resolve)
     })

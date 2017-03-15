@@ -30,6 +30,14 @@ export default function reduce(state = initialState, action) {
         labels: initialState.labels,
         isLoading: true
       }
+    case types.SET_CHANNEL:
+      if (payload.channel !== state.channel) {
+        return {
+          ...state,
+          labels: []
+        }
+      }
+      return state
     default:
       return state
   }
