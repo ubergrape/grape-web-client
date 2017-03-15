@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.52.0-rc.3",
+  "version": "0.52.0",
   "dependencies": {
     "@ubergrape/react-dropzone": {
       "version": "3.8.0",
@@ -3060,9 +3060,9 @@
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
     },
     "grape-browser": {
-      "version": "3.6.2",
+      "version": "3.6.4",
       "from": "grape-browser@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.6.2.tgz"
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.6.4.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",

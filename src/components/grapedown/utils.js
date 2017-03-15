@@ -17,7 +17,7 @@ export function isChatUrl(url) {
   return parser.host === host && pathname.indexOf(chatPath) === 0
 }
 
-export const nonStandardProps = ['user', 'customEmojis']
+export const nonStandardProps = ['user', 'customEmojis', 'forcebreak']
 
 /**
  * Coverts `:emoji:`-strings that are in `customEmojis` map in to the images.
@@ -29,6 +29,7 @@ export function replaceCustomEmojis(node, customEmojis) {
   const replaceMap = emojis.reduce((map, emoji) => {
     const name = emoji.trim().replace(/:/g, '')
     if (!customEmojis[name]) return map
+    // eslint-disable-next-line no-param-reassign
     map[`:${name}:`] = [
       'img',
       {
@@ -45,9 +46,7 @@ export function replaceCustomEmojis(node, customEmojis) {
 
   if (isEmpty(replaceMap)) return node
 
-  const replaced = node.split(' ').map(word => {
-    return replaceMap[word] ? replaceMap[word] : word
-  })
+  const replaced = node.split(' ').map(word => (replaceMap[word] ? replaceMap[word] : word))
 
   return joinStrings(replaced)
 }

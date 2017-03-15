@@ -14,21 +14,28 @@ import {
 } from './utils'
 
 import GrapeObject from './GrapeObject'
+import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
+  let nextProps = props
+
+  if (tag === 'br' && nextProps.forcebreak) {
+    return createElement(LineBreak, {key: nextProps.key})
+  }
+
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
-    if (isGrapeUrl(props.href)) {
-      return createElement(GrapeObject, props, children)
+    if (isGrapeUrl(nextProps.href)) {
+      return createElement(GrapeObject, nextProps, children)
     }
-    if (!isChatUrl(props.href)) {
-      props.target = '_blank'
+    if (!isChatUrl(nextProps.href)) {
+      nextProps = {...nextProps, target: '_blank'}
     }
   }
 
   return createElement(
     tag,
-    omit(props, nonStandardProps),
+    omit(nextProps, nonStandardProps),
     children && children.length ? children : undefined
   )
 }

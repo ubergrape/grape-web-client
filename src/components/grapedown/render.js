@@ -2,6 +2,7 @@ import {mdReact} from 'markdown-react-js'
 import emoji from 'markdown-it-emoji'
 import pick from 'lodash/object/pick'
 import {defineMessages} from 'react-intl'
+import newlines from './markdown-it-newlines'
 
 import {
   renderTag,
@@ -43,7 +44,7 @@ class Renderer {
         inline: this.renderInline,
         image: this.renderInlineImage
       },
-      plugins: [emoji]
+      plugins: [emoji, newlines]
     })
   }
 
@@ -54,9 +55,7 @@ class Renderer {
 
   renderEmoji = ({markup}) => renderEmoji(markup)
 
-  renderInline = (token, attrs, children) => {
-    return renderCustomEmojis(children, this.props.customEmojis)
-  }
+  renderInline = (token, attrs, children) => renderCustomEmojis(children, this.props.customEmojis)
 
   renderInlineImage = (token, attrs, children) => {
     const {formatMessage} = this.props.intl

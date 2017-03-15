@@ -5,15 +5,13 @@ import noop from 'lodash/utility/noop'
 import Avatar from '../../../avatar/Avatar'
 import Grapedown from '../../../grapedown/Grapedown'
 import Header from '../../../message-parts/Header'
-import Menu from '../../../message-parts/Menu'
 
-import {ActivityBubble, SelectedBubble} from './Bubbles'
-import Expander from './Expander'
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
 import {styles} from '../baseMessageTheme'
-
-const menuItems = ['copyLink', 'quote']
+import {ActivityBubble, SelectedBubble} from './Bubbles'
+import Expander from './Expander'
+import Menu from './Menu'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 @injectSheet(styles)
@@ -27,6 +25,7 @@ export default class ActivityMessage extends PureComponent {
     onToggleExpander: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     author: PropTypes.shape({
@@ -34,6 +33,7 @@ export default class ActivityMessage extends PureComponent {
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
+    channel: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
     attachments: PropTypes.array.isRequired
@@ -51,10 +51,7 @@ export default class ActivityMessage extends PureComponent {
     attachments: []
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {isMenuOpened: false}
-  }
+  state = {isMenuOpened: false}
 
   onMouseEnter = () => {
     this.setState({isMenuOpened: true})
@@ -73,24 +70,22 @@ export default class ActivityMessage extends PureComponent {
     this.content = ref
   }
 
-  onSelectMenuItem = ({name}) => {
-    const {onCopyLink, onQuote} = this.props
-    if (name === 'copy') onCopyLink()
-    else onQuote()
-  }
-
   getContentNode = () => this.content
 
   renderAttachment = (attachment, key) => <Attachment {...attachment} key={key} />
 
   renderMenu() {
     if (!this.state.isMenuOpened) return null
+    const {user, channel, onCopyLink, onQuote, onRemove} = this.props
 
     return (
       <Menu
-        onSelect={this.onSelectMenuItem}
         getContentNode={this.getContentNode}
-        items={menuItems}
+        user={user}
+        channel={channel}
+        onCopyLink={onCopyLink}
+        onQuote={onQuote}
+        onRemove={onRemove}
       />
     )
   }

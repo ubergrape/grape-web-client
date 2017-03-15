@@ -1,10 +1,32 @@
-## Releases 0.51.1 (2017-02-13)
+## Release 0.52.0 (2017-03-14)
+
+### Fixes
+
+* Menu uses wrong font (#343)
+* AutoScroll history to the bottom when modifying messages (#302)
+* Remove scrollbars from the org menu (#349)
+* Grape Search: path more readable (#223)
+
+### New Features
+
+* Link Attachments removal (#321)
+* Show multiple consequent newlines in the history (#203)
+* Deleatable activities (#377)
+
+### Chore changes
+
+* Theme for MUI button (#362)
+* Rewrite Delete Room Dialog (#355)
+* Overrides for MUI (#348)
+* Integrate redux-devtools-extension (#373)
+
+## Release 0.51.1 (2017-02-13)
 
 ### Fixes
 
 * Use 64x64 icons for activity icons (#346)
 
-## Releases 0.51.0 (2017-02-13)
+## Release 0.51.0 (2017-02-13)
 
 ### New Features
 
@@ -14,14 +36,14 @@
 ### Fixes
 
 * Fix icons
-* Link attachments adjustments (#331)
+* Link attachments adjustments (#330)
 
 ### Chore changes
 
 * Add a Styleguide via react styleguidish
 * Upgrate to react-virtualized ^8.11.4 (#322)
 
-## Releases 0.50.0 (2017-02-03)
+## Release 0.50.0 (2017-02-03)
 
 ### New Features
 
@@ -35,13 +57,13 @@
 
 * Org menu rewrite (#311)
 
-## Releases 0.49.0 (2017-02-01)
+## Release 0.49.0 (2017-02-01)
 
 ### New Features
 
 * Link Attachments (ubergrape/chatgrape#4883)
 
-## Releases 0.48.0 (2017-01-27)
+## Release 0.48.0 (2017-01-27)
 
 ### Fixes
 

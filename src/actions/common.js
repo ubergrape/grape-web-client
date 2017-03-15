@@ -6,6 +6,7 @@ import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
   normalizeChannelData,
+  normalizeUserData,
   removeBrokenPms,
   roomNameFromUsers
 } from './utils'
@@ -36,7 +37,7 @@ export function setChannels(channels) {
 export function setUsers(users) {
   return {
     type: types.SET_USERS,
-    payload: users
+    payload: users.map(normalizeUserData)
   }
 }
 
@@ -104,7 +105,7 @@ export function setChannel(channel, messageId) {
   return {
     type: types.SET_CHANNEL,
     payload: {
-      channel,
+      channel: normalizeChannelData(channel),
       messageId
     }
   }
