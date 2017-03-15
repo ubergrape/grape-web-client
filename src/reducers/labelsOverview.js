@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   labels: [],
-  isLoading: false,
+  isLoading: true,
   currentChannelOnly: false
 }
 
@@ -13,8 +13,7 @@ export default function reduce(state = initialState, action) {
     case types.LOAD_LABELS:
       return {
         ...state,
-        // Only show indicator for the entire sidebar on the first load.
-        isLoading: !state.labels.length
+        isLoading: true
       }
     case types.HANDLE_LOADED_LABELS:
       return {
@@ -28,7 +27,8 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         currentChannelOnly: !state.currentChannelOnly,
-        labels: initialState.labels
+        labels: initialState.labels,
+        isLoading: true
       }
     default:
       return state

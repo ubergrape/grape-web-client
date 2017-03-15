@@ -111,7 +111,7 @@ export default class LabelsOverview extends PureComponent {
 
   renderRowForCellMeasurer = ({rowIndex: index}) => this.renderRow({index})
 
-  renderNoContent = () => <NoContent />
+  renderNoContent = () => (this.props.isLoading ? null : <NoContent />)
 
   renderOptions = () => {
     const {options, isLoading} = this.props
@@ -125,7 +125,7 @@ export default class LabelsOverview extends PureComponent {
   }
 
   renderList = ({onRowsRendered, registerChild}) => {
-    const {labels} = this.props
+    const {labels, isLoading} = this.props
 
     return (
       <AutoSizer>
@@ -147,6 +147,8 @@ export default class LabelsOverview extends PureComponent {
                 noRowsRenderer={this.renderNoContent}
                 onRowsRendered={onRowsRendered}
                 overscanRowCount={5}
+                // Forcing rerender.
+                isLoading={isLoading}
               />
             )}
           </CellMeasurer>
@@ -174,8 +176,7 @@ export default class LabelsOverview extends PureComponent {
             isRowLoaded={this.isRowLoaded}
             loadMoreRows={this.onLoadMore}
             rowCount={Infinity}
-            // Using labels here to make it rerender the children once labels
-            // has changed.
+            // Forcing rerender.
             labels={labels}
           >
             {this.renderList}
