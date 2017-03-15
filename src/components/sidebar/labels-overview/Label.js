@@ -32,7 +32,8 @@ import {spacing} from '../sidebar-panel/theme'
   },
   body: {
     extend: normal,
-    color: grayDark
+    color: grayDark,
+    wordWrap: 'break-word'
   }
 })
 export default class Label extends PureComponent {
