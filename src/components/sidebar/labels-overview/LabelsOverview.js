@@ -124,6 +124,37 @@ export default class LabelsOverview extends PureComponent {
     )
   }
 
+  renderList = ({onRowsRendered, registerChild}) => {
+    const {labels} = this.props
+
+    return (
+      <AutoSizer>
+        {({width, height}) => (
+          <CellMeasurer
+            cellRenderer={this.renderRowForCellMeasurer}
+            columnCount={1}
+            rowCount={labels.length}
+            width={width}
+          >
+            {({getRowHeight}) => (
+              <List
+                ref={registerChild}
+                width={width}
+                height={height}
+                rowCount={labels.length}
+                rowHeight={getRowHeight}
+                rowRenderer={this.renderRow}
+                noRowsRenderer={this.renderNoContent}
+                onRowsRendered={onRowsRendered}
+                overscanRowCount={5}
+              />
+            )}
+          </CellMeasurer>
+        )}
+      </AutoSizer>
+    )
+  }
+
   render() {
     const {
       onClose,
@@ -143,33 +174,11 @@ export default class LabelsOverview extends PureComponent {
             isRowLoaded={this.isRowLoaded}
             loadMoreRows={this.onLoadMore}
             rowCount={Infinity}
+            // Using labels here to make it rerender the children once labels
+            // has changed.
+            labels={labels}
           >
-            {({onRowsRendered, registerChild}) => (
-              <AutoSizer>
-                {({width, height}) => (
-                  <CellMeasurer
-                    cellRenderer={this.renderRowForCellMeasurer}
-                    columnCount={1}
-                    rowCount={labels.length}
-                    width={width}
-                  >
-                    {({getRowHeight}) => (
-                      <List
-                        ref={registerChild}
-                        width={width}
-                        height={height}
-                        rowCount={labels.length}
-                        rowHeight={getRowHeight}
-                        rowRenderer={this.renderRow}
-                        noRowsRenderer={this.renderNoContent}
-                        onRowsRendered={onRowsRendered}
-                        overscanRowCount={5}
-                      />
-                    )}
-                  </CellMeasurer>
-                )}
-              </AutoSizer>
-            )}
+            {this.renderList}
           </InfiniteLoader>
         </div>
       </SidebarPanel>
