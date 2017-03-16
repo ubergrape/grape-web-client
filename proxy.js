@@ -53,7 +53,7 @@ function download(url, dest) {
       })
     }).on('error', (err) => {
       fs.unlink(dest)
-      reject(err.message)
+      reject(err)
     })
   })
 }
