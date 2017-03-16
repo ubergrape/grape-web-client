@@ -143,6 +143,7 @@
   "scripts": {
     "all": "npm run test && npm run build",
     "start:dev": "webpack-dev-server --host 0.0.0.0",
+    "start:proxy": "node ./proxy.js",
     "build": "npm run build:dist && npm run build:lib",
     "build:watch": "npm run build:dist:watch && npm run build:lib:watch",
     "build:lib": "npm run clear:lib && npm run build:lib:jade && babel src --out-dir lib",
