@@ -23,7 +23,9 @@ export default class InfiniteList extends PureComponent {
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
-    onRowsRendered: PropTypes.func
+    onRowsRendered: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isEditing: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -31,10 +33,6 @@ export default class InfiniteList extends PureComponent {
     onRowsRendered: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.cache = new RowsCache(props.rows)
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows !== this.props.rows) {
@@ -60,13 +58,23 @@ export default class InfiniteList extends PureComponent {
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  scrollToRow = (index) => { this.list.scrollToRow(index) }
+  cache = new RowsCache(this.props.rows)
 
-  renderRowForCellMeasurer = ({rowIndex: index}) => this.props.renderRow({index})
+  renderRowForCellMeasurer = ({key, index, parent, style}) => (
+    <CellMeasurer
+      key={key}
+      parent={parent}
+      columnIndex={0}
+      rowIndex={index}
+      cache={this.cache}
+    >
+      {this.props.renderRow({index, key, style})}
+    </CellMeasurer>
+  )
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge, renderRow,
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
       rows, minimumBatchSize
     } = this.props
 
@@ -87,52 +95,42 @@ export default class InfiniteList extends PureComponent {
         }) => (
           <AutoSizer onResize={this.onResizeViewport}>
             {({width, height}) => (
-              <CellMeasurer
-                cellSizeCache={this.cache}
-                cellRenderer={this.renderRowForCellMeasurer}
-                columnCount={1}
-                rowCount={rows.length}
-                width={width}
+              <AutoScroll
+                rows={rows}
+                height={height}
+                scrollToIndex={scrollToRow}
+                minEndThreshold={lastRowBottomSpace}
               >
-                {({getRowHeight}) => (
-                  <AutoScroll
-                    rows={rows}
+                {({
+                  onScroll: onScrollInAutoScroll,
+                  scrollToAlignment,
+                  scrollToIndex,
+                  onRowsRendered: onRowsRenderedInAutoScroll
+                }) => (
+                  <List
+                    className={classes.grid}
+                    scrollToIndex={scrollToIndex}
+                    scrollToAlignment={scrollToAlignment}
+                    onRowsRendered={(params) => {
+                      onRowsRenderedInAutoScroll(params)
+                      onRowsRenderedInInfiniteLoader(params)
+                      onRowsRendered(params)
+                    }}
+                    onScroll={(params) => {
+                      onScrollInAutoScroll(params)
+                      onScrollInInfiniteLoader(params)
+                    }}
+                    width={width}
                     height={height}
-                    scrollToIndex={scrollToRow}
-                    minEndThreshold={lastRowBottomSpace}
-                    scrollToRow={this.scrollToRow}
-                  >
-                    {({
-                      onScroll: onScrollInAutoScroll,
-                      scrollToAlignment,
-                      scrollToIndex,
-                      onRowsRendered: onRowsRenderedInAutoScroll
-                    }) => (
-                      <List
-                        className={classes.grid}
-                        scrollToIndex={scrollToIndex}
-                        scrollToAlignment={scrollToAlignment}
-                        onRowsRendered={(params) => {
-                          onRowsRenderedInAutoScroll(params)
-                          onRowsRenderedInInfiniteLoader(params)
-                          onRowsRendered(params)
-                        }}
-                        onScroll={(params) => {
-                          onScrollInAutoScroll(params)
-                          onScrollInInfiniteLoader(params)
-                        }}
-                        width={width}
-                        height={height}
-                        rowCount={rows.length}
-                        rowHeight={getRowHeight}
-                        rowRenderer={renderRow}
-                        overscanRowCount={5}
-                        ref={this.onRefList}
-                      />
-                    )}
-                  </AutoScroll>
+                    rowCount={rows.length}
+                    deferredMeasurementCache={this.cache}
+                    rowRenderer={this.renderRowForCellMeasurer}
+                    rowHeight={this.cache.rowHeight}
+                    overscanRowCount={minimumBatchSize}
+                    ref={this.onRefList}
+                  />
                 )}
-              </CellMeasurer>
+              </AutoScroll>
             )}
           </AutoSizer>
         )}

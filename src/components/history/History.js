@@ -38,7 +38,8 @@ export default class History extends PureComponent {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number
+    minimumBatchSize: PropTypes.number,
+    isEditing: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -57,7 +58,8 @@ export default class History extends PureComponent {
     channel: null,
     selectedMessageId: null,
     scrollTo: null,
-    minimumBatchSize: null
+    minimumBatchSize: null,
+    isEditing: false
   }
 
   constructor(props) {
@@ -78,7 +80,10 @@ export default class History extends PureComponent {
       return
     }
 
-    if (messages !== this.props.messages) {
+    if (
+      messages !== this.props.messages ||
+      nextProps.scrollTo !== this.state.scrollTo
+    ) {
       this.setState(createState(this.state, nextProps))
     }
   }
@@ -111,7 +116,7 @@ export default class History extends PureComponent {
   render() {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, showNoContent,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead, isEditing
     } = this.props
     const {rows, scrollTo} = this.state
 
@@ -158,6 +163,7 @@ export default class History extends PureComponent {
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
                   renderRow={this.renderRow}
+                  isEditing={isEditing}
                 />
               )}
             </Jumper>
