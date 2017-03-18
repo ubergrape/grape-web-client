@@ -59,3 +59,9 @@ the web proxy for both http and https.
 npm run build
 ```
 
+#### Manage Dependencies
+
+To add a dependency just call `npm install package --save ` or `npm install package --save-dev`.
+A shrinkwrap hook will be automatically called.
+
+When changing or adding dependencies directly in `package.json` you need to call `npm shrinkwrap` afterwards.
