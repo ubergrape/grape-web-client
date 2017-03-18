@@ -117,6 +117,7 @@ if (isDevServer) {
   exports.plugins.push(new webpack.HotModuleReplacementPlugin())
   exports.entry = {
     browser: [
+      'babel-polyfill',
       'webpack/hot/dev-server',
       contentBase + '/index.js'
     ]
