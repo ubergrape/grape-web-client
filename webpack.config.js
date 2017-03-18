@@ -105,24 +105,9 @@ module.exports = exports = {
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
 
-
 if (isDevServer) {
-  var contentBase = './src'
-
-  if (process.env.COMPONENT) {
-    contentBase = './src/components/' + process.env.COMPONENT + '/example/'
-  }
-
   exports.output.publicPath = '/dist/app/'
-  exports.plugins.push(new webpack.HotModuleReplacementPlugin())
-  exports.entry = {
-    browser: [
-      'babel-polyfill',
-      'webpack/hot/dev-server',
-      contentBase + '/index.js'
-    ]
-  }
-  exports.devServer = {contentBase: contentBase}
+  // TODO: hotloading.
 }
 
 if (NODE_ENV === 'production') {
