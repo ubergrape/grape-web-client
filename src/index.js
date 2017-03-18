@@ -10,8 +10,8 @@ export {SearchBrowser as SearchBrowser}
 import EmojiBrowser from './components/emoji-browser/Browser'
 export {EmojiBrowser as EmojiBrowser}
 
-import GrapeBrowser from './components/app/GrapeBrowser'
-export {GrapeBrowser as GrapeBrowser}
+import {GrapeBrowserReactive} from './components/grape-browser'
+export {GrapeBrowserReactive as GrapeBrowser} from './components/grape-browser'
 
 // Register reactive elements.
 import 'reactive-elements'
@@ -32,7 +32,7 @@ class App extends Component {
 
     return (
       <IntlProvider locale={locale} messages={translations[locale]}>
-        <GrapeBrowser {...this.props} />
+        <GrapeBrowserReactive {...this.props} />
       </IntlProvider>
     )
   }
