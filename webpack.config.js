@@ -23,7 +23,7 @@ var plugins = [
     to: './sounds'
   }]),
   new webpack.DefinePlugin({
-    __DEV__: NODE_ENV === 'development',
+    __DEV__: !NODE_ENV || NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
@@ -105,24 +105,9 @@ module.exports = exports = {
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
 
-
 if (isDevServer) {
-  var contentBase = './src'
-
-  if (process.env.COMPONENT) {
-    contentBase = './src/components/' + process.env.COMPONENT + '/example/'
-  }
-
   exports.output.publicPath = '/dist/app/'
-  exports.plugins.push(new webpack.HotModuleReplacementPlugin())
-  exports.entry = {
-    browser: [
-      'babel-polyfill',
-      'webpack/hot/dev-server',
-      contentBase + '/index.js'
-    ]
-  }
-  exports.devServer = {contentBase: contentBase}
+  // TODO: hotloading.
 }
 
 if (NODE_ENV === 'production') {

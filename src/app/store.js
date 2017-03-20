@@ -9,7 +9,7 @@ const composition = [
 ]
 
 /* eslint-disable no-underscore-dangle */
-if (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION__) {
+if (__DEV__ && window && window.__REDUX_DEVTOOLS_EXTENSION__) {
   composition.push(window.__REDUX_DEVTOOLS_EXTENSION__())
 }
 /* eslint-enable no-underscore-dangle */
