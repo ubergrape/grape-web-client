@@ -15,7 +15,6 @@ import setUpRouter from '../init-router'
 import template from 'template'
 import v from 'virtualdom'
 
-import GrapeInput from './elements/GrapeInput'
 import Notifications from './elements/notifications'
 
 
@@ -27,7 +26,6 @@ const _ = require('t')
 
 const exports = module.exports = UI
 
-exports.GrapeInput = GrapeInput
 exports.Notifications = Notifications
 
 import reduxEmitter from '../redux-emitter'
@@ -58,9 +56,6 @@ UI.prototype.init = function UI_init() {
     logo: staticUrl('images/orga-image-load.gif'),
     name: 'Loading'
   }
-
-  // initialize the input field
-  this.grapeInput = new GrapeInput()
 
   this.reduxEmitter = reduxEmitter
 

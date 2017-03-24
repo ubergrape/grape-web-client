@@ -8,28 +8,11 @@ export default function pipeEvents(ui) {
   broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
   broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'selectchannel', ui, 'setRoomContext')
-  broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
-  broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
-  broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
-  broker(ui, 'emptyOrg', ui.grapeInput, 'onEmptyOrg')
   broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
   broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
-
-  // grape input
-  broker.pass(ui.grapeInput, 'update', ui, 'update')
-  broker.pass(ui.grapeInput, 'setTyping', ui, 'setTyping')
-  broker.pass(ui.grapeInput, 'autocomplete', ui, 'autocomplete')
-  broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate')
-  broker(ui.grapeInput, 'editPreviousMessage', ui.reduxEmitter, 'onEditPreviousMessage')
-  broker(ui.grapeInput, 'input', ui.reduxEmitter, 'createMessage')
-  broker(ui.grapeInput, 'endEditMessage', ui.reduxEmitter, 'endEditMessage')
-  broker(ui.reduxEmitter, 'editMessage', ui.grapeInput, 'onEditMessage')
-  broker(ui.reduxEmitter, 'showEmojiBrowser', ui.grapeInput, 'onShowEmojiBrowser')
-  broker(ui.reduxEmitter, 'showGrapeBrowser', ui.grapeInput, 'onShowGrapeSearch')
-  broker(ui.reduxEmitter, 'insertQuote', ui.grapeInput, 'onInsertQuote')
 
   // notifications
   broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')
