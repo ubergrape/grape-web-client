@@ -1,13 +1,10 @@
 import React, {PropTypes, Component} from 'react'
-import ReactDOM from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
-import capitalize from 'lodash/string/capitalize'
 import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
-import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shallowEqual} from 'react-pure-render'
 
@@ -40,7 +37,6 @@ const browserWithInput = {
 @injectSheet(style)
 export default class GrapeBrowser extends Component {
   static propTypes = {
-    onDidMount: PropTypes.func,
     container: PropTypes.object,
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
@@ -52,7 +48,20 @@ export default class GrapeBrowser extends Component {
     images: PropTypes.object,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     externalServicesInputDelay: PropTypes.number,
-    services: PropTypes.array
+    services: PropTypes.array,
+
+    onDidMount: PropTypes.func,
+    onEditPrevious: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onAbort: PropTypes.func,
+    onAddIntegration: PropTypes.func,
+    onInsertItem: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+    onComplete: PropTypes.func,
+    onChange: PropTypes.func,
+    onResize: PropTypes.func,
+    onLoadServices: PropTypes.func
   }
 
   static defaultProps = {
@@ -75,22 +84,28 @@ export default class GrapeBrowser extends Component {
     isLoading: false,
     onAbort: undefined,
     onEditPrevious: undefined,
-    onSubmit: undefined,
-    onAddSearchBrowserIntegration: noop,
-    onInsertItem: noop,
-    onDidMount: noop
+    onSubmit: undefined
   }
 
   constructor(props) {
     super(props)
     this.query = new QueryModel({onChange: this.onChangeQuery})
     this.exposePublicMethods()
+
+    const emojiSheet = get(props, 'images.emojiSheet')
+    if (emojiSheet) {
+      EmojiBrowser.init({
+        emojiSheet: emojiSheet,
+        customEmojis: props.customEmojis
+      })
+    }
+
     this.state = this.createState(props)
   }
 
   componentDidMount() {
     this.setTrigger(this.state.browser)
-    this.props.onDidMount(this)
+    if (this.props.onDidMount) this.props.onDidMount(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,19 +135,19 @@ export default class GrapeBrowser extends Component {
   }
 
   onEditPrevious = () => {
-    this.emit('editPrevious')
+    if (this.props.onEditPrevious) this.props.onEditPrevious()
   }
 
   onSubmit = (data) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
-    this.emit('submit', data)
+    if (this.props.onSubmit) this.props.onSubmit(data)
   }
 
   onAbort = (data = {}) => {
     const {browser} = this.state
     this.closeBrowser({inputFocused: true}, () => {
-      this.emit('abort', {...data, browser})
+      if (this.props.onAbort) this.props.onAbort({...data, browser})
     })
   }
 
@@ -151,7 +166,7 @@ export default class GrapeBrowser extends Component {
 
   onAddSearchBrowserIntegration = () => {
     this.closeBrowser(null, () => {
-      this.emit('addIntegration')
+      if (this.props.onAddIntegration) this.props.onAddIntegration()
     })
   }
 
@@ -168,7 +183,7 @@ export default class GrapeBrowser extends Component {
     }
 
     clearTimeout(this.searchBrowserInputTimeoutId)
-    this.emit('insertItem', {query, type, service, rank})
+    if (this.props.onInsertItem) this.props.onInsertItem({query, type, service, rank})
   }
 
   onDidMountBrowser = (ref) => {
@@ -195,26 +210,28 @@ export default class GrapeBrowser extends Component {
     setTimeout(() => {
       const {browser} = this.state
       if (!browser || browserWithInput[browser] === false) {
-        this.emit('blur')
+        if (this.props.onBlur) this.props.onBlur()
       }
     }, 100)
   }
 
   onFocusInput = () => {
-    this.emit('focus')
+    if (this.props.onFocus) this.props.onFocus()
   }
 
   onEmojiBrowserOutsideClick = () => {
     this.closeBrowser(null, () => {
       const {browser} = this.state
-      this.emit('abort', {reason: 'esc', browser})
+      if (this.props.onAbort) this.props.onAbort({reason: 'esc', browser})
     })
   }
 
   onChangeSearchBrowser = (data) => {
     const complete = () => {
-      this.emit('complete', {...data, trigger: this.query.get('trigger')})
-      this.emit('change')
+      if (this.props.onComplete) {
+        this.props.onComplete({...data, trigger: this.query.get('trigger')})
+      }
+      if (this.props.onChange) this.props.onChange()
     }
 
     if (!utils.isExternalSearch(this.state.data)) return complete()
@@ -227,15 +244,11 @@ export default class GrapeBrowser extends Component {
   }
 
   onInputResize = () => {
-    this.emit('resize')
+    if (this.props.onResize) this.props.onResize()
   }
 
   onLoadServices = () => {
-    this.emit('loadServices')
-  }
-
-  onLoadServicesResultsAmounts = (search, callback) => {
-    this.emit('loadServicesResultsAmounts', {search, callback})
+    if (this.props.onLoadServices) this.props.onLoadServices()
   }
 
   onChangeInput = ({query, content} = {}) => {
@@ -249,7 +262,7 @@ export default class GrapeBrowser extends Component {
 
     if (hasTrigger && contentHasChanged) {
       this.query.set(query, {silent: true})
-      this.emit('complete', {...this.query.toJSON(), emoji})
+      if (this.props.onComplete) this.props.onComplete({...this.query.toJSON(), emoji})
     }
 
     // Query has been removed or caret position changed, for datalist only.
@@ -258,8 +271,12 @@ export default class GrapeBrowser extends Component {
       if (isBrowserOpened) this.onAbort({reason: 'deleteTrigger'})
     }
 
-    if (content === undefined) this.emit('change')
-    else this.setState({content}, () => this.emit('change'))
+    if (this.props.onChange) {
+      if (content === undefined) this.props.onChange()
+      else this.setState({content}, () => this.props.onChange())
+    } else {
+      this.setState({content})
+    }
   }
 
   onChangeQuery = (str) => {
@@ -376,23 +393,6 @@ export default class GrapeBrowser extends Component {
     this.query.reset()
   }
 
-  /**
-   * Emit DOM event.
-   */
-  emit(type, data) {
-    const capType = capitalize(type)
-    let name = `grape${capType}`
-    const event = new CustomEvent(name, {
-      bubbles: true,
-      cancelable: true,
-      detail: data
-    })
-    ReactDOM.findDOMNode(this).dispatchEvent(event)
-    name = `on${capType}`
-    const callback = this.props[name]
-    if (callback) callback(data)
-  }
-
   renderBrowser() {
     const {browser, browserOpened, data} = this.state
 
@@ -417,7 +417,6 @@ export default class GrapeBrowser extends Component {
           onAddIntegration={this.onAddSearchBrowserIntegration}
           onChange={this.onChangeSearchBrowser}
           onLoadServices={this.onLoadServices}
-          onLoadResultsAmounts={this.onLoadServicesResultsAmounts}
           onDidMount={this.onDidMountBrowser} />
       )
     }

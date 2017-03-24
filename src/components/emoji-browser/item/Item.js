@@ -18,7 +18,7 @@ export default class Item extends Component {
     onDidMount: PropTypes.func,
     onWillUnmount: PropTypes.func,
     onInvisible: PropTypes.func,
-    visibilityContainment: PropTypes.element
+    visibilityContainment: PropTypes.object
   }
 
   static defaultProps = {
