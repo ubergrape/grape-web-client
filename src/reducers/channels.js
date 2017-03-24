@@ -1,6 +1,6 @@
-import * as types from '../constants/actionTypes'
 import findIndex from 'lodash/array/findIndex'
 import includes from 'lodash/collection/includes'
+import * as types from '../constants/actionTypes'
 
 const initialState = []
 
@@ -129,12 +129,25 @@ export default function reduce(state = initialState, action) {
       const newState = [...state]
       action.payload.forEach(({channelId: id, favorited}) => {
         const index = findIndex(newState, {id})
-        if (index === -1) return state
+        if (index === -1) return
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
           favorited
         })
+      })
+      return newState
+    }
+
+    case types.SET_UNSENT_MESSAGE: {
+      const {id, msg} = action.payload
+      const newState = [...state]
+      const index = findIndex(newState, {id})
+      if (index === -1) return state
+      const channel = newState[index]
+      newState.splice(index, 1, {
+        ...channel,
+        unsent: msg
       })
       return newState
     }
