@@ -14,8 +14,7 @@ const eventTypes = [
   'complete',
   'change',
   'resize',
-  'loadServices',
-  'onLoadServicesResultsAmounts'
+  'loadServices'
 ]
 
 /**

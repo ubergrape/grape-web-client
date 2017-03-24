@@ -61,8 +61,7 @@ export default class GrapeBrowser extends Component {
     onComplete: PropTypes.func,
     onChange: PropTypes.func,
     onResize: PropTypes.func,
-    onLoadServices: PropTypes.func,
-    onLoadServicesResultsAmounts: PropTypes.func
+    onLoadServices: PropTypes.func
   }
 
   static defaultProps = {
@@ -92,6 +91,7 @@ export default class GrapeBrowser extends Component {
     super(props)
     this.query = new QueryModel({onChange: this.onChangeQuery})
     this.exposePublicMethods()
+
     this.state = this.createState(props)
   }
 
@@ -241,12 +241,6 @@ export default class GrapeBrowser extends Component {
 
   onLoadServices = () => {
     if (this.props.onLoadServices) this.props.onLoadServices()
-  }
-
-  onLoadServicesResultsAmounts = (search, callback) => {
-    if (this.props.onLoadServicesResultsAmounts) {
-      this.props.onLoadServicesResultsAmounts({search, callback})
-    }
   }
 
   onChangeInput = ({query, content} = {}) => {
@@ -415,7 +409,6 @@ export default class GrapeBrowser extends Component {
           onAddIntegration={this.onAddSearchBrowserIntegration}
           onChange={this.onChangeSearchBrowser}
           onLoadServices={this.onLoadServices}
-          onLoadResultsAmounts={this.onLoadServicesResultsAmounts}
           onDidMount={this.onDidMountBrowser} />
       )
     }
