@@ -40,13 +40,11 @@ export default class Navigation extends PureComponent {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
-    showManageContacts: PropTypes.func.isRequired,
-    showManageGroups: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
-    focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     joined: PropTypes.array.isRequired,
+    unjoined: PropTypes.array.isRequired, // eslint-disable-line react/no-unused-prop-types
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number.isRequired,
@@ -56,7 +54,8 @@ export default class Navigation extends PureComponent {
   static defaultProps = {
     step: 10,
     bottomOffset: 5,
-    shortcuts: ['mod+k']
+    shortcuts: ['mod+k'],
+    isLoading: false
   }
 
   constructor(props) {
@@ -67,12 +66,12 @@ export default class Navigation extends PureComponent {
       filtered: [],
       filteredUnJoined: []
     }
+    this.filter = null
+    this.filteredList = null
+    this.listsContainer = null
+    this.navigation = null
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
-  }
-
-  componentDidMount() {
-    this.filter = findDOMNode(this.refs.filter)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,20 +89,24 @@ export default class Navigation extends PureComponent {
     }
 
     const {shift, filter} = this.state
-    const {listsContainer, navigation} = this.refs
     const {recent, step} = nextProps
     if (filter || recent.length < shift) return
 
     if (
-      listsContainer &&
-      listsContainer.offsetHeight &&
-      listsContainer.offsetHeight < navigation.offsetHeight
+      this.listsContainer &&
+      this.listsContainer.offsetHeight &&
+      this.listsContainer.offsetHeight < this.navigation.offsetHeight
     ) {
       this.setState({
         shift: shift + step
       })
     }
   }
+
+  onNavigationRef = (ref) => { this.navigation = ref }
+  onListsContainerRef = (ref) => { this.listsContainer = ref }
+  onFilterRef = (ref) => { this.filter = findDOMNode(ref) }
+  onFilteredListRef = (ref) => { this.filteredList = ref }
 
   onShortcut = (e) => {
     e.preventDefault()
@@ -148,17 +151,15 @@ export default class Navigation extends PureComponent {
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
-      this.props.focusGrapeInput()
     }
-    const {filteredList} = this.refs
-    if (!filteredList) return
+    if (!this.filteredList) return
     switch (keyName) {
       case 'up':
-        filteredList.focus('prev')
+        this.filteredList.focus('prev')
         e.preventDefault()
         break
       case 'down':
-        filteredList.focus('next')
+        this.filteredList.focus('next')
         e.preventDefault()
         break
       case 'enter':
@@ -194,7 +195,8 @@ export default class Navigation extends PureComponent {
         channel={channel}
         focused={focused}
         theme={{classes}}
-        onClick={this.goToChannel.bind(this, channel)} />
+        onClick={() => this.goToChannel(channel)}
+      />
     )
   }
 
@@ -207,11 +209,12 @@ export default class Navigation extends PureComponent {
           {...this.props}
           {...this.state}
           theme={{classes}}
-          ref="filteredList"
+          ref={this.onFilteredListRef}
           renderItem={this.renderFilteredChannel}
           onSelect={this.onSelectFiltered}
           onFocus={this.onFocusFiltered}
-          onMouseOver={this.onFocusFiltered} />
+          onMouseOver={this.onFocusFiltered}
+        />
       )
     }
 
@@ -229,7 +232,8 @@ export default class Navigation extends PureComponent {
           type="favorites"
           theme={{classes}}
           list={this.props.favorited}
-          goToChannel={this.goToChannel} />
+          goToChannel={this.goToChannel}
+        />
         <List
           {...this.props}
           {...this.state}
@@ -237,7 +241,8 @@ export default class Navigation extends PureComponent {
           type="recent"
           theme={{classes}}
           list={recentList}
-          goToChannel={this.goToChannel} />
+          goToChannel={this.goToChannel}
+        />
       </div>
     )
   }
@@ -250,7 +255,8 @@ export default class Navigation extends PureComponent {
         <ManageButtons
           {...this.props}
           {...this.state}
-          theme={{classes}} />
+          theme={{classes}}
+        />
         {this.renderList()}
       </div>
     )
@@ -262,10 +268,11 @@ export default class Navigation extends PureComponent {
     return (
       <div className={classes.wrapper}>
         <div
-          ref="navigation"
+          ref={this.onNavigationRef}
           onScroll={this.onScroll}
-          className={classes.navigation}>
-          <div ref="listsContainer">
+          className={classes.navigation}
+        >
+          <div ref={this.onListsContainerRef}>
             {this.renderNavigation()}
           </div>
         </div>
@@ -273,11 +280,12 @@ export default class Navigation extends PureComponent {
           <Filter
             {...this.props}
             {...this.state}
-            ref="filter"
+            ref={this.onFilterRef}
             value={this.state.filter}
             theme={{classes}}
             onKeyDown={this.onKeyDownFilter}
-            onChange={this.onChangeFilter} />
+            onChange={this.onChangeFilter}
+          />
         </div>
       </div>
     )
