@@ -92,6 +92,14 @@ export default class GrapeBrowser extends Component {
     this.query = new QueryModel({onChange: this.onChangeQuery})
     this.exposePublicMethods()
 
+    const emojiSheet = get(props, 'images.emojiSheet')
+    if (emojiSheet) {
+      EmojiBrowser.init({
+        emojiSheet: emojiSheet,
+        customEmojis: props.customEmojis
+      })
+    }
+
     this.state = this.createState(props)
   }
 
