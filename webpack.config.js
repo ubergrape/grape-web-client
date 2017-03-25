@@ -106,7 +106,7 @@ module.exports = exports = {
 }
 
 if (isDevServer) {
-  exports.output.publicPath = '/dist/app/'
+  exports.output.publicPath = '/static/app/'
   // TODO: hotloading.
 }
 
