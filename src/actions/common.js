@@ -268,15 +268,6 @@ export function goToAddIntegrations() {
   }
 }
 
-export function focusGrapeInput() {
-  return (dispatch) => {
-    dispatch({
-      type: types.FOCUS_GRAPE_INPUT
-    })
-    reduxEmitter.focusGrapeInput()
-  }
-}
-
 export function requestRoomCreate() {
   return {
     type: types.REQUEST_ROOM_CREATE

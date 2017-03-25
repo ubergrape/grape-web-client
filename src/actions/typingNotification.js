@@ -5,7 +5,7 @@ import * as types from '../constants/actionTypes'
 
 const typingLifetime = 5000
 
-export function setTyping({user, users, channel, typingNotification}, data) {
+export function handleTypingNotification({user, users, channel, typingNotification}, data) {
   // Its a notification from myself.
   // We call that action directly from subscription sometimes.
   if (data.user === user.id) return {type: types.NOOP}
@@ -49,7 +49,8 @@ export function cleanupTyping(channels) {
   each(channels, (users, channelId) => {
     const typingUsers = users.filter(user => user.expires > now)
     if (channels[channelId].length !== typingUsers.length) isModified = true
-    channels[channelId] = typingUsers
+    // TODO: This modifies the origin parameter and current consumers seems to depend on it!
+    channels[channelId] = typingUsers // eslint-disable-line no-param-reassign
   })
 
   if (!isModified) return {type: types.NOOP}

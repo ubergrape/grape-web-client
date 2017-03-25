@@ -8,11 +8,18 @@ import {styles} from './controlsTheme'
 @injectSheet(styles)
 export default class Controls extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    classes: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
     onUpload: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
-    onShowGrapeBrowser: PropTypes.func.isRequired,
+    onShowSearchBrowser: PropTypes.func.isRequired,
+    onHideBrowser: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    disabled: false
   }
 
   onSelectFiles = (files) => {
@@ -23,19 +30,20 @@ export default class Controls extends PureComponent {
     this.props.onRejectFiles({files})
   }
 
-  onShowEmojiBrowser = (e) => {
+  onToggleEmojiBrowser = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.onShowEmojiBrowser()
+    if (this.props.showBrowser !== 'emoji') this.props.onShowEmojiBrowser()
+    else this.props.onHideBrowser()
   }
 
-  onShowGrapeBrowser = (e) => {
+  onShowSearchBrowser = (e) => {
     e.preventDefault()
-    this.props.onShowGrapeBrowser()
+    this.props.onShowSearchBrowser()
   }
 
   render() {
-    const {sheet: {classes}} = this.props
+    const {classes, disabled} = this.props
     return (
       <div className={classes.controls}>
         <Dropzone
@@ -43,9 +51,10 @@ export default class Controls extends PureComponent {
           onDropAccepted={this.onSelectFiles}
           onDropRejected={this.onRejectFiles}
           maxSize={maxFileSize}
+          disableClick={disabled}
         />
-        <button className={classes.emoji} onClick={this.onShowEmojiBrowser} />
-        <button className={classes.search} onClick={this.onShowGrapeBrowser} />
+        <button className={classes.emoji} onClick={this.onToggleEmojiBrowser} disabled={disabled} />
+        <button className={classes.search} onClick={this.onShowSearchBrowser} disabled={disabled} />
       </div>
     )
   }

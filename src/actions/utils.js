@@ -71,6 +71,8 @@ export function reduceChannelUsersToId(channel) {
     ...channel,
     // we don't use it atm. (and contains circular references)
     readingStatus: null,
+    // @cvle: why we have this? I guess it's legacy stuff..
+    _readingStatus: null,
     creator,
     history,
     users

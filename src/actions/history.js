@@ -239,12 +239,24 @@ export function editMessage(message) {
       type: types.EDIT_MESSAGE,
       payload: message
     })
-    reduxEmitter.editMessage(message)
   }
 }
 
-export function endEditMessage() {
-  return {type: types.END_EDIT_MESSAGE}
+export function editMessageSend({channelId, messageId, text}) {
+  return (dispatch) => {
+    api
+      .updateMessage(channelId, messageId, text)
+      .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.EDIT_MESSAGE_SEND,
+      payload: {channelId, messageId, text}
+    })
+  }
+}
+
+export function editMessageAbort() {
+  return {type: types.EDIT_MESSAGE_ABORT}
 }
 
 export function editPreviousMessage() {
