@@ -7,12 +7,18 @@ const moment = require('moment')
 const http = require('http')
 const https = require('https')
 const fs = require('fs')
+const crypto = require('crypto')
 
 const caFolder = './ca'
 const chatgrapeCACertsFileName = 'chatgrape-labs.pem'
 const mozillaCACertsURL = 'https://curl.haxx.se/ca/cacert.pem'
 const mozillaCACertsFileName = 'mozilla-root-certs.pem'
 const updateAfter = [7, 'days']
+/* eslint-disable no-bitwise */
+// Disable insecure SSL protocols. Also for some reasons
+// Safari won't connect when SSLv3 is enabled.
+const secureOptions = crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP_NO_SSLv2
+/* eslint-enable no-bitwise */
 
 // Parse argv params.
 const argv = parseArgs(process.argv.slice(2))
@@ -84,7 +90,8 @@ function getHttpsAgent() {
     `${caFolder}/${mozillaCACertsFileName}`,
     `${caFolder}/${chatgrapeCACertsFileName}`
   ].map(f => fs.readFileSync(f))
-  return new https.Agent({keepAlive, ca})
+  // Disable SSLv3
+  return new https.Agent({keepAlive, ca, secureOptions})
 }
 
 function onError(ctx, err) {
