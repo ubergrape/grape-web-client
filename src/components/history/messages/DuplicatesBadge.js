@@ -1,9 +1,17 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import {gold, white} from 'grape-theme/dist/base-colors'
 
-import {styles} from './duplicatesBadgeTheme'
+import Badge from '../../badge'
 
-@injectSheet(styles)
+@injectSheet({
+  badge: {
+    background: gold,
+    color: white,
+    marginLeft: 5,
+    alignSelf: 'flex-start'
+  }
+})
 export default class DuplicatesBadge extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -13,9 +21,9 @@ export default class DuplicatesBadge extends PureComponent {
   render() {
     const {sheet: {classes}, value} = this.props
     return (
-      <span className={classes.badge}>
+      <Badge className={classes.badge}>
         {`x${value + 1}`}
-      </span>
+      </Badge>
     )
   }
 }

@@ -1,9 +1,7 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {intlShape} from 'react-intl'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
 import moment from 'moment'
 
 import DateSeparator from '../../message-parts/DateSeparator'
@@ -21,12 +19,6 @@ const labelPropType = PropTypes.shape({
 })
 
 @injectSheet({
-  name: {
-    extend: [ellipsis, small],
-    textTransform: 'uppercase',
-    margin: [14, 0, 0, spacing],
-    fontWeight: 'bold'
-  },
   separatorDate: {
     background: grayBlueLighter
   },
@@ -74,8 +66,6 @@ export default class Row extends PureComponent {
       !prevLabel ||
       !moment(label.message.time).isSame(prevLabel.message.time, 'day')
 
-    const showName = !prevLabel || prevLabel.name !== label.name
-
     return (
       <div style={style} className={className}>
         {showDateSeparator && (
@@ -85,17 +75,6 @@ export default class Row extends PureComponent {
             key={`${label.id}-date`}
           />
         )}
-
-        {(showName || showDateSeparator) && (
-          <h2
-            className={classes.name}
-            style={{color: label.color}}
-            key={`${label.id}-name`}
-          >
-            {label.nameLocalized}
-          </h2>
-        )}
-
         <Label
           label={label}
           key={`${label.id}-label`}

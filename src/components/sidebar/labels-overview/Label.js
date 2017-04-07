@@ -10,6 +10,7 @@ import noop from 'lodash/utility/noop'
 
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
+import Badge from '../../badge'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 import {spacing} from '../sidebar-panel/theme'
 
@@ -34,6 +35,12 @@ import {spacing} from '../sidebar-panel/theme'
     extend: normal,
     color: grayDark,
     wordWrap: 'break-word'
+  },
+  footer: {
+    marginTop: 7
+  },
+  badge: {
+    marginRight: 5
   }
 })
 export default class Label extends PureComponent {
@@ -75,7 +82,9 @@ export default class Label extends PureComponent {
           author,
           time,
           channel
-        }
+        },
+        nameLocalized,
+        color: labelColor
       },
       classes,
       className,
@@ -96,6 +105,11 @@ export default class Label extends PureComponent {
         </Header>
         <div className={classes.body}>
           <Grapedown text={phrase} user={user} />
+        </div>
+        <div>
+          <Badge style={{color: labelColor}} className={classes.badge}>
+            {nameLocalized}
+          </Badge>
         </div>
       </section>
     )

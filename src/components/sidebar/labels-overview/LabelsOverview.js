@@ -29,8 +29,7 @@ const messages = defineMessages({
     '& $row': {
       marginTop: spacing
     }
-  },
-  row: {}
+  }
 })
 @injectIntl
 export default class LabelsOverview extends PureComponent {
@@ -84,8 +83,7 @@ export default class LabelsOverview extends PureComponent {
       intl,
       labels,
       user,
-      onSelect,
-      classes
+      onSelect
     } = this.props
 
     const label = labels[index]
@@ -99,7 +97,6 @@ export default class LabelsOverview extends PureComponent {
         style={style}
         user={user}
         onSelect={onSelect}
-        className={classes.row}
       />
     )
   }
