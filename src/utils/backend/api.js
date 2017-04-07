@@ -363,6 +363,20 @@ export function removeMessage(channelId, messageId) {
   })
 }
 
+export function updateMessage(channelId, messageId, text) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'update_message',
+      args: [channelId, messageId, text]
+    },
+    (err) => {
+      if (err) return reject(err)
+      return resolve()
+    })
+  })
+}
+
 export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
     let optionsArg = options
@@ -507,3 +521,44 @@ export const loadLabels = (orgId, options = {}) => (
     })
   })
 )
+
+export function autocomplete(orgId, text, options = {}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'search',
+        action: 'autocomplete',
+        args: [
+          text,
+          orgId,
+          options.showAll || false,
+          // Amount of results per section.
+          15,
+          // Return external services too.
+          true
+        ]
+      },
+      {camelize: true},
+      (err, res) => {
+        if (err) return reject(err)
+        return resolve(res)
+      }
+    )
+  })
+}
+
+export function setTyping({channel, typing}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'channels',
+        action: 'set_typing',
+        args: [channel.id, typing]
+      },
+      (err) => {
+        if (err) return reject(err)
+        return resolve()
+      }
+    )
+  })
+}

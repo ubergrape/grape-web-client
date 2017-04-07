@@ -7,12 +7,23 @@ import {footerComponentSelector as selector} from '../../selectors'
 import {Footer} from '../../components/footer'
 
 const actionNames = {
-  cleanupTyping: 'cleanupTyping',
+  cleanupTyping: 'onCleanupTyping',
   showMarkdownTips: 'onShowMarkdownTips',
-  uploadFiles: 'onUpload',
+  uploadFiles: 'onUploadFiles',
   rejectFiles: 'onRejectFiles',
-  showGrapeBrowser: 'onShowGrapeBrowser',
-  showEmojiBrowser: 'onShowEmojiBrowser'
+  showSearchBrowser: 'onShowSearchBrowser',
+  showEmojiBrowser: 'onShowEmojiBrowser',
+  showUsersAndRoomsBrowser: 'onShowUsersAndRoomsBrowser',
+  showEmojiSuggestBrowser: 'onShowEmojiSuggestBrowser',
+  hideBrowser: 'onHideBrowser',
+  createMessage: 'onCreateMessage',
+  setUnsentMessage: 'onSetUnsentMessage',
+  editMessageSend: 'onEditMessageSend',
+  editMessageAbort: 'onEditMessageAbort',
+  editPreviousMessage: 'onEditPreviousMessage',
+  requestAutocomplete: 'onRequestAutocomplete',
+  requestAutocompleteServices: 'onRequestAutocompleteServices',
+  setTyping: 'onSetTyping'
 }
 
 const ConnectedFooter = connect(

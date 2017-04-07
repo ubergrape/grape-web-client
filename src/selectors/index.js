@@ -5,6 +5,7 @@ import omit from 'lodash/object/omit'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 import sortBy from 'lodash/collection/sortBy'
+import * as images from '../constants/images'
 
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
@@ -32,6 +33,10 @@ export const userSelector = createSelector(
 
 export const initialChannelsSelector = createSelector(
   state => state.channels, state => state
+)
+
+export const otherActiveUsersSelector = createSelector(
+  activeUsersSelector, users => users.filter(user => !user.current)
 )
 
 /**
@@ -460,13 +465,36 @@ export const markdownTipsSelector = createSelector(
   state => state.markdownTips, state => state
 )
 
+export const isChannelDisabledSelector = createSelector(
+  [channelSelector, channelsSelector],
+  (channel, channels) => channels.length === 0 ||
+    !channel || (channel.type === 'pm' && !channel.users[0].active)
+)
+
 export const footerSelector = createSelector(
   state => state.footer, state => state
 )
 
 export const footerComponentSelector = createSelector(
-  [typingNotificationSelector, footerSelector],
-  (typingNotification, footer) => ({...typingNotification, ...footer})
+  [
+    typingNotificationSelector,
+    footerSelector,
+    orgSelector,
+    historySelector,
+    otherActiveUsersSelector,
+    roomsSelector,
+    isChannelDisabledSelector
+  ],
+  (typingNotification, footer, org, history, users, rooms, isChannelDisabled) => ({
+    ...typingNotification,
+    ...footer,
+    targetMessage: find(history.messages, {id: footer.targetMessage}),
+    customEmojis: org.customEmojis,
+    images: {...images, orgLogo: org.logo},
+    users,
+    rooms,
+    disabled: isChannelDisabled
+  })
 )
 
 export const soundsSelector = createSelector(
@@ -539,3 +567,4 @@ export const manageGroupsSelector = createSelector(
 export const linkAttachmentsSelector = createSelector(
   state => state.linkAttachments, state => state
 )
+

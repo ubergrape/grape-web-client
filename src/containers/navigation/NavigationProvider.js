@@ -10,8 +10,7 @@ const actionNames = [
   'showNewConversation',
   'showManageContacts',
   'showManageGroups',
-  'goToChannel',
-  'focusGrapeInput'
+  'goToChannel'
 ]
 
 const ConnectedNavigation = connect(

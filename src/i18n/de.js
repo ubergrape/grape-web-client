@@ -6,6 +6,9 @@
  */
 export default {
   "lostConnectionAlert": "Verbindung zum Server verloren - versuche wieder zu verbinden. Sie können auch {action}.",
+  "enterMessagePlaceholder": "Nachricht eingeben …",
+  "hitKeyToCancelEditing": "Drücken Sie {key} um die Bearbeitung zu beenden.",
+  "keyESC": "ESC",
   "reload": "neu laden",
   "reconnectAlert": "Verbindung wiederhergestellt.",
   "noRoomFound": "Wir können leider nicht finden, wonach Sie suchen – die Gruppe wurde eventuell gelöscht, umbenannt oder verschoben.",

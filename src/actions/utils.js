@@ -23,6 +23,16 @@ export function removeBrokenPms(channel) {
 }
 
 /**
+ * Checks if the channel where message has been posted exists.
+ * This should only happen when db is inconsistent.
+ */
+export function doesMessageChannelExist(msg, state) {
+  const channels = channelsSelector(state)
+  const channel = find(channels, {id: msg.channel})
+  return Boolean(channel)
+}
+
+/**
  * Change `null` value in `icon` property to `undefined`.
  *
  * TODO: remove this function when we
@@ -71,6 +81,8 @@ export function reduceChannelUsersToId(channel) {
     ...channel,
     // we don't use it atm. (and contains circular references)
     readingStatus: null,
+    // @cvle: why we have this? I guess it's legacy stuff..
+    _readingStatus: null,
     creator,
     history,
     users

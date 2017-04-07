@@ -33,9 +33,20 @@ export function renderSheetsInsertionPoints() {
   document.head.appendChild(document.createComment('grape-jss'))
 }
 
-export function render() {
+function internalRender() {
   const container = document.createElement('div')
   container.className = 'grape-web-client'
   document.body.appendChild(container)
   ReactDom.render(<App />, container)
+}
+
+export function render() {
+  if (__DEV__ && 'performance' in window && 'now' in window.performance) {
+    const before = performance.now()
+    internalRender()
+    const diff = performance.now() - before
+    console.log(`Initial render took ${diff}ms`) // eslint-disable-line no-console
+  } else {
+    internalRender()
+  }
 }

@@ -51,6 +51,8 @@ export default function (data, ...args) {
   log('req', cData)
   rpc(cData, (err, res) => {
     if (!callback) return
+    // eslint-disable-next-line no-param-reassign
+    if (err && !err.message) err.message = 'Unexpected Server Error'
     callback(err, options.camelize && res ? toCamel(res) : res)
   })
 }

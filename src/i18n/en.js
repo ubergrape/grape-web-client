@@ -6,6 +6,9 @@
  */
 export default {
   "lostConnectionAlert": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
+  "enterMessagePlaceholder": "Enter a message …",
+  "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
+  "keyESC": "ESC",
   "reload": "reload",
   "reconnectAlert": "Reconnected successfully.",
   "noRoomFound": "We could not find what you were looking for – the group might have been deleted, renamed or moved.",

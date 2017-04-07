@@ -27,7 +27,7 @@ export default function subscribe(channel) {
     })
   })
 
-  channel.on('data', data => {
+  channel.on('data', (data) => {
     const cData = toCamel(data)
     switch (cData.event) {
 
@@ -44,7 +44,8 @@ export default function subscribe(channel) {
         boundActions.handleMessageUpdate(cData)
         break
       case 'channel.typing':
-        boundActions.setTyping(selectors.setTypingSelector(getStore().getState()), cData)
+        boundActions.handleTypingNotification(
+            selectors.setTypingSelector(getStore().getState()), cData)
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
