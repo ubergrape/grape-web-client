@@ -59,6 +59,7 @@ export default class Message extends PureComponent {
         name: PropTypes.string.isRequired
       }).isRequired,
       labels: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
         color: PropTypes.string.isRequired,
         nameLocalized: PropTypes.string.isRequired
       })).isRequired
@@ -113,7 +114,7 @@ export default class Message extends PureComponent {
             <Tag
               style={{color: label.color}}
               className={classes.tag}
-              key={label.nameLocalized}
+              key={label.id}
             >
               {label.nameLocalized}
             </Tag>

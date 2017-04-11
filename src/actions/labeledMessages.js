@@ -8,13 +8,17 @@ import {normalizeMessage} from './utils'
 
 const normalizeMessageLabels = (labels, labelConfigs) => (
   labels
-    .map(label => labelConfigs[label.name])
-    // Just a precaution.
-    .filter(label => !!label)
-    .map(label => ({
-      color: label.color,
-      nameLocalized: label.name
-    }))
+    // Just a precaution in case the config doesn't have all labels.
+    .filter(label => !!labelConfigs[label.name])
+    .map((label) => {
+      const conf = labelConfigs[label.name]
+
+      return {
+        id: label.id,
+        color: conf.color,
+        nameLocalized: conf.name
+      }
+    })
 )
 
 const normalizeMessages = (messages, labelConfigs, state) => (
