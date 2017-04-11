@@ -3,7 +3,8 @@ import {createPalette} from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
 import {Input} from 'material-ui/Input'
 import {
-  white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayMercury
+  white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayMercury,
+  grayBombay
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
@@ -22,7 +23,9 @@ palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
 palette.text.divider = grayLighter
 palette.text.lightDivider = grayBlueLighter
+palette.grey.A100 = grayLighter
 palette.grey[200] = grayMercury
+palette.grey[300] = grayBombay
 
 export const typographyConstants = {
   fontFamily: '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
@@ -101,12 +104,7 @@ const MuiButton = {
   root: {
     textTransform: 'none',
     height: 'auto',
-    padding: [0, 14],
-    '&:hover': {
-      textDecoration: 'none',
-      backgroundColor: 'transparent',
-      color: palette.accent.A100
-    }
+    padding: [0, 14]
   },
   raised: {
     border: {
@@ -115,11 +113,14 @@ const MuiButton = {
       color: palette.grey[300],
       radius: borderRadius.big
     },
-    backgroundColor: 'transparent',
+    backgroundColor: white,
     padding: [4, 14],
+    boxShadow: 'none',
     '&:hover': {
-      backgroundColor: palette.grey[300],
-      color: palette.getContrastText(palette.grey[300])
+      backgroundColor: palette.grey.A100,
+      '&$disabled': {
+        backgroundColor: palette.text.divider
+      }
     },
     '&, &$keyboardFocused, &:active, &$disabled': {
       boxShadow: 'none'
