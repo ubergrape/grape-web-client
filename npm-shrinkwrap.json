@@ -6067,15 +6067,21 @@
       }
     },
     "react-styleguidist": {
-      "version": "5.0.0-rc.1",
-      "from": "react-styleguidist@>=5.0.0-beta.10 <6.0.0",
-      "resolved": "https://registry.npmjs.org/react-styleguidist/-/react-styleguidist-5.0.0-rc.1.tgz",
+      "version": "5.0.6",
+      "from": "react-styleguidist@>=5.0.6 <6.0.0",
+      "resolved": "https://registry.npmjs.org/react-styleguidist/-/react-styleguidist-5.0.6.tgz",
       "dev": true,
       "dependencies": {
+        "ast-types": {
+          "version": "0.9.11",
+          "from": "ast-types@>=0.9.10 <0.10.0",
+          "resolved": "https://registry.npmjs.org/ast-types/-/ast-types-0.9.11.tgz",
+          "dev": true
+        },
         "css-loader": {
-          "version": "0.26.4",
-          "from": "css-loader@>=0.26.4 <0.27.0",
-          "resolved": "https://registry.npmjs.org/css-loader/-/css-loader-0.26.4.tgz",
+          "version": "0.28.0",
+          "from": "css-loader@>=0.28.0 <0.29.0",
+          "resolved": "https://registry.npmjs.org/css-loader/-/css-loader-0.28.0.tgz",
           "dev": true
         },
         "css-selector-tokenizer": {
@@ -6091,9 +6097,9 @@
           "dev": true
         },
         "loader-utils": {
-          "version": "1.0.4",
-          "from": "loader-utils@>=1.0.3 <2.0.0",
-          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.0.4.tgz",
+          "version": "1.1.0",
+          "from": "loader-utils@>=1.1.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.1.0.tgz",
           "dev": true
         },
         "lodash": {
@@ -6143,9 +6149,9 @@
           "dev": true
         },
         "style-loader": {
-          "version": "0.13.2",
-          "from": "style-loader@>=0.13.2 <0.14.0",
-          "resolved": "https://registry.npmjs.org/style-loader/-/style-loader-0.13.2.tgz",
+          "version": "0.16.1",
+          "from": "style-loader@>=0.16.1 <0.17.0",
+          "resolved": "https://registry.npmjs.org/style-loader/-/style-loader-0.16.1.tgz",
           "dev": true
         }
       }

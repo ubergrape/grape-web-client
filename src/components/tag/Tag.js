@@ -5,7 +5,7 @@ import {white, blue} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
 @injectSheet({
-  badge: {
+  tag: {
     extend: small,
     display: 'inline-block',
     padding: [2, 8],
@@ -14,7 +14,7 @@ import cn from 'classnames'
     borderRadius: '1pc'
   }
 })
-export default class Badge extends PureComponent {
+export default class Tag extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
@@ -30,7 +30,7 @@ export default class Badge extends PureComponent {
   render() {
     const {classes, children, className, style} = this.props
     return (
-      <span className={cn(classes.badge, className)} style={style}>
+      <span className={cn(classes.tag, className)} style={style}>
         {children}
       </span>
     )

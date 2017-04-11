@@ -6,23 +6,18 @@ import moment from 'moment'
 
 import DateSeparator from '../../message-parts/DateSeparator'
 import {spacing} from '../sidebar-panel/theme'
-import Label from './Label'
+import Message from './Message'
 
-const labelPropType = PropTypes.shape({
+const messagePropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  nameLocalized: PropTypes.string.isRequired,
-  message: PropTypes.shape({
-    time: PropTypes.instanceOf(Date).isRequired
-  })
+  time: PropTypes.instanceOf(Date).isRequired
 })
 
 @injectSheet({
   separatorDate: {
     background: grayBlueLighter
   },
-  label: {
+  message: {
     padding: [7, spacing]
   }
 })
@@ -30,8 +25,8 @@ export default class Row extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    label: labelPropType.isRequired,
-    prevLabel: labelPropType,
+    message: messagePropType.isRequired,
+    prevMessage: messagePropType,
     style: PropTypes.object,
     user: PropTypes.object,
     onSelect: PropTypes.func,
@@ -40,7 +35,7 @@ export default class Row extends PureComponent {
 
   static defaultProps = {
     style: null,
-    prevLabel: null,
+    prevMessage: null,
     user: null,
     onSelect: null,
     className: null
@@ -53,8 +48,8 @@ export default class Row extends PureComponent {
   render() {
     const {
       classes,
-      label,
-      prevLabel,
+      message,
+      prevMessage,
       intl,
       style,
       user,
@@ -63,23 +58,23 @@ export default class Row extends PureComponent {
     } = this.props
 
     const showDateSeparator =
-      !prevLabel ||
-      !moment(label.message.time).isSame(prevLabel.message.time, 'day')
+      !prevMessage ||
+      !moment(message.time).isSame(prevMessage.time, 'day')
 
     return (
       <div style={style} className={className}>
         {showDateSeparator && (
           <DateSeparator
             theme={this.dateSeparatorTheme}
-            date={label.message.time}
-            key={`${label.id}-date`}
+            date={message.time}
+            key={`${message.id}-date`}
           />
         )}
-        <Label
-          label={label}
-          key={`${label.id}-label`}
+        <Message
+          message={message}
+          key={`${message.id}-message`}
           intl={intl}
-          className={classes.label}
+          className={classes.message}
           onSelect={onSelect}
           user={user}
         />

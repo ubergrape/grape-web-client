@@ -14,7 +14,7 @@ import NoContent from './NoContent'
 import Options from '../options/Options'
 import {spacing} from '../sidebar-panel/theme'
 
-const messages = defineMessages({
+const translations = defineMessages({
   title: {
     id: 'intelligentSummarySidebarTitle',
     defaultMessage: 'Intelligent Summary'
@@ -29,16 +29,17 @@ const messages = defineMessages({
     '& $row': {
       marginTop: spacing
     }
-  }
+  },
+  row: {}
 })
 @injectIntl
-export default class LabelsOverview extends PureComponent {
+export default class LabeledMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
     onClose: PropTypes.func,
-    labels: PropTypes.array,
+    messages: PropTypes.array,
     user: PropTypes.object,
     intl: intlShape.isRequired,
     options: PropTypes.array,
@@ -49,54 +50,56 @@ export default class LabelsOverview extends PureComponent {
     onLoad: noop,
     onClose: noop,
     onSelect: noop,
-    labels: [],
+    messages: [],
     user: {},
     options: [],
     isLoading: false
   }
 
   componentDidMount() {
-    const {labels, onLoad} = this.props
-    if (!labels.length) onLoad()
+    const {messages, onLoad} = this.props
+    if (!messages.length) onLoad()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {onLoad, labels} = nextProps
-    if (!labels.length) onLoad()
+    const {onLoad, messages} = nextProps
+    if (!messages.length) onLoad()
   }
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const {labels, onLoad} = this.props
+      const {messages, onLoad} = this.props
       const options = {
-        offset: labels[labels.length - 1].message.time,
+        offset: messages[messages.length - 1].time,
         limit: stopIndex - startIndex
       }
       onLoad(options, resolve)
     })
   )
 
-  isRowLoaded = ({index}) => Boolean(this.props.labels[index])
+  isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
   renderRow = ({index, style}) => {
     const {
       intl,
-      labels,
+      messages,
       user,
-      onSelect
+      onSelect,
+      classes
     } = this.props
 
-    const label = labels[index]
+    const message = messages[index]
 
     return (
       <Row
         intl={intl}
-        label={label}
-        prevLabel={labels[index - 1]}
-        key={`${label.id}-row`}
+        message={message}
+        prevMessage={messages[index - 1]}
+        key={`${message.id}-row`}
         style={style}
         user={user}
         onSelect={onSelect}
+        className={classes.row}
       />
     )
   }
@@ -117,7 +120,7 @@ export default class LabelsOverview extends PureComponent {
   }
 
   renderList = ({onRowsRendered, registerChild}) => {
-    const {labels, isLoading} = this.props
+    const {messages, isLoading} = this.props
 
     return (
       <AutoSizer>
@@ -125,7 +128,7 @@ export default class LabelsOverview extends PureComponent {
           <CellMeasurer
             cellRenderer={this.renderRowForCellMeasurer}
             columnCount={1}
-            rowCount={labels.length}
+            rowCount={messages.length}
             width={width}
           >
             {({getRowHeight}) => (
@@ -133,7 +136,7 @@ export default class LabelsOverview extends PureComponent {
                 ref={registerChild}
                 width={width}
                 height={height}
-                rowCount={labels.length}
+                rowCount={messages.length}
                 rowHeight={getRowHeight}
                 rowRenderer={this.renderRow}
                 noRowsRenderer={this.renderNoContent}
@@ -153,13 +156,13 @@ export default class LabelsOverview extends PureComponent {
     const {
       onClose,
       intl: {formatMessage},
-      labels,
+      messages,
       classes
     } = this.props
 
     return (
       <SidebarPanel
-        title={formatMessage(messages.title)}
+        title={formatMessage(translations.title)}
         onClose={onClose}
         options={this.renderOptions()}
       >
@@ -169,7 +172,7 @@ export default class LabelsOverview extends PureComponent {
             loadMoreRows={this.onLoadMore}
             rowCount={Infinity}
             // Forcing rerender.
-            labels={labels}
+            messages={messages}
           >
             {this.renderList}
           </InfiniteLoader>

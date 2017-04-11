@@ -2,7 +2,7 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {gold, white} from 'grape-theme/dist/base-colors'
 
-import Badge from '../../badge'
+import Tag from '../../tag'
 
 @injectSheet({
   badge: {
@@ -21,9 +21,9 @@ export default class DuplicatesBadge extends PureComponent {
   render() {
     const {sheet: {classes}, value} = this.props
     return (
-      <Badge className={classes.badge}>
+      <Tag className={classes.badge}>
         {`x${value + 1}`}
-      </Badge>
+      </Tag>
     )
   }
 }

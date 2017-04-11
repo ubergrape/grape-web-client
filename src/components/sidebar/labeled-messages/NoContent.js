@@ -43,19 +43,19 @@ export default class NoContent extends PureComponent {
         <Icon name="magicWand" className={classes.magicWand} />
         <h2 className={classes.title}>
           <FormattedMessage
-            id="labelsOverviewNoContentTitle"
+            id="labeledMessagesNoContentTitle"
             defaultMessage="This is where the magic happens."
           />
         </h2>
         <p className={classes.text}>
           <FormattedMessage
-            id="labelsOverviewNoContentText1"
+            id="labeledMessagesNoContentText1"
             defaultMessage="Grape automatically summarizes your conversations, so you can browse and find them based on context - we call it “amplified intelligence”."
           />
         </p>
         <p className={classes.text}>
           <FormattedMessage
-            id="labelsOverviewNoContentText2"
+            id="labeledMessagesNoContentText2"
             defaultMessage="Write a few Tasks or Questions to see them appear here!"
           />
         </p>

@@ -9,7 +9,7 @@ import SharedFiles from './shared-files/SharedFiles'
 import RoomInfo from './room-info/RoomInfo'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
-import LabelsOverview from './labels-overview/LabelsOverview'
+import LabeledMessages from './labeled-messages/LabeledMessages'
 
 const messages = defineMessages({
   mentions: {
@@ -43,7 +43,7 @@ const Content = (props) => {
     loadMentions,
     loadRoomInfo,
     loadSharedFiles,
-    loadLabels,
+    loadLabeledMessages,
     searchMessages,
     toggleSearchOnlyInChannel,
     toggleSearchActivities,
@@ -121,9 +121,9 @@ const Content = (props) => {
           onSelect={goToMessage}
         />
       )
-    case 'labelsOverview':
+    case 'labeledMessages':
       return (
-        <LabelsOverview
+        <LabeledMessages
           {...rest}
           options={[{
             label: formatMessage(messages.currentConversationOption),
@@ -131,7 +131,7 @@ const Content = (props) => {
             status: currentChannelOnly
           }]}
           onClose={hideSidebar}
-          onLoad={loadLabels}
+          onLoad={loadLabeledMessages}
           onSelect={onSelectLabel}
         />
       )
@@ -145,7 +145,7 @@ Content.propTypes = {
   loadMentions: PropTypes.func.isRequired,
   loadRoomInfo: PropTypes.func.isRequired,
   loadSharedFiles: PropTypes.func.isRequired,
-  loadLabels: PropTypes.func.isRequired,
+  loadLabeledMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOfType([

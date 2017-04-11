@@ -10,12 +10,12 @@ import noop from 'lodash/utility/noop'
 
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import Badge from '../../badge'
+import Tag from '../../tag'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 import {spacing} from '../sidebar-panel/theme'
 
 @injectSheet({
-  label: {
+  message: {
     padding: [0, spacing],
     '&:hover': {
       isolate: false,
@@ -37,26 +37,31 @@ import {spacing} from '../sidebar-panel/theme'
     wordWrap: 'break-word'
   },
   footer: {
-    marginTop: 7
+    marginTop: 10
   },
-  badge: {
-    marginRight: 5
+  tag: {
+    margin: {
+      right: 5,
+      bottom: 5
+    }
   }
 })
-export default class Label extends PureComponent {
+export default class Message extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    label: PropTypes.shape({
-      phrase: PropTypes.string.isRequired,
-      message: PropTypes.shape({
-        author: PropTypes.shape({
-          name: PropTypes.string.isRequired
-        }),
-        time: PropTypes.instanceOf(Date).isRequired,
-        channel: PropTypes.shape({
-          name: PropTypes.string.isRequired
-        }).isRequired
-      }).isRequired
+    message: PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      author: PropTypes.shape({
+        name: PropTypes.string.isRequired
+      }),
+      time: PropTypes.instanceOf(Date).isRequired,
+      channel: PropTypes.shape({
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      labels: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string.isRequired,
+        nameLocalized: PropTypes.string.isRequired
+      })).isRequired
     }).isRequired,
     user: PropTypes.object,
     onSelect: PropTypes.func,
@@ -70,21 +75,18 @@ export default class Label extends PureComponent {
   }
 
   onClick = () => {
-    const {label, onSelect} = this.props
-    onSelect(label)
+    const {message, onSelect} = this.props
+    onSelect(message)
   }
 
   render() {
     const {
-      label: {
-        phrase,
-        message: {
-          author,
-          time,
-          channel
-        },
-        nameLocalized,
-        color: labelColor
+      message: {
+        text,
+        author,
+        time,
+        channel,
+        labels
       },
       classes,
       className,
@@ -92,7 +94,7 @@ export default class Label extends PureComponent {
     } = this.props
 
     return (
-      <section className={cn(classes.label, className)} onClick={this.onClick}>
+      <section className={cn(classes.message, className)} onClick={this.onClick}>
         <Header time={time} author={author.name}>
           <FormattedMessage
             id="sidebarLabelInChannel"
@@ -104,12 +106,18 @@ export default class Label extends PureComponent {
           </FormattedMessage>
         </Header>
         <div className={classes.body}>
-          <Grapedown text={phrase} user={user} />
+          <Grapedown text={text} user={user} />
         </div>
         <div>
-          <Badge style={{color: labelColor}} className={classes.badge}>
-            {nameLocalized}
-          </Badge>
+          {labels.map(label => (
+            <Tag
+              style={{color: label.color}}
+              className={classes.tag}
+              key={label.nameLocalized}
+            >
+              {label.nameLocalized}
+            </Tag>
+          ))}
         </div>
       </section>
     )

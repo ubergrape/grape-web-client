@@ -170,7 +170,7 @@ export const styles = {
     backgroundColor: blue,
     backgroundImage: getIcon('at', 'active')
   },
-  labelsOverview: {
+  labeledMessages: {
     ...button,
     backgroundImage: getIcon('tag'),
     '&:hover': {
@@ -178,7 +178,7 @@ export const styles = {
       backgroundImage: getIcon('tag', 'hover')
     }
   },
-  labelsOverviewActive: {
+  labeledMessagesActive: {
     ...button,
     backgroundColor: blue,
     backgroundImage: getIcon('tag', 'active')

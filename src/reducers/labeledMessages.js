@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  labels: [],
+  messages: [],
   isLoading: true,
   currentChannelOnly: false
 }
@@ -19,7 +19,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        labels: [...state.labels, ...payload]
+        messages: [...state.messages, ...payload]
       }
     case types.HIDE_SIDEBAR:
       return initialState
@@ -27,14 +27,14 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         currentChannelOnly: !state.currentChannelOnly,
-        labels: initialState.labels,
+        messages: initialState.messages,
         isLoading: true
       }
     case types.SET_CHANNEL:
       if (payload.channel !== state.channel) {
         return {
           ...state,
-          labels: []
+          messages: []
         }
       }
       return state
