@@ -91,7 +91,7 @@ const messages = [
 </div>
 ```
 
-## Labels overview empty state
+## Labeled messages empty state
 
 ```
 <div style={{height: 300}} >

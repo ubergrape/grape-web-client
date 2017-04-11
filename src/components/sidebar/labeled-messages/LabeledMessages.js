@@ -16,8 +16,8 @@ import {spacing} from '../sidebar-panel/theme'
 
 const translations = defineMessages({
   title: {
-    id: 'intelligentSummarySidebarTitle',
-    defaultMessage: 'Intelligent Summary'
+    id: 'labeledMessagesSidebarTitle',
+    defaultMessage: 'Important Messages'
   }
 })
 

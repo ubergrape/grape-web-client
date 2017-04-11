@@ -61,11 +61,11 @@ function getTooltipMessage(name) {
           defaultMessage="Mentions"
         />
       )
-    case 'intelligentSummary':
+    case 'labeledMessages':
       return (
         <FormattedMessage
-          id="intelligentSummaryTooltip"
-          defaultMessage="Intelligent Summary"
+          id="labeledMessagesTooltip"
+          defaultMessage="Important Messages"
         />
       )
     default:
@@ -217,7 +217,7 @@ export default function Items(props) {
         </Tooltip>
       </li>
       <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('intelligentSummary')} align="right">
+        <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
           <Button
             className={itemButtonClassName('labeledMessages', props)}
             onClick={itemClickHandler('labeledMessages', props)}
