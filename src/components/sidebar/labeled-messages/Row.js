@@ -1,8 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {intlShape} from 'react-intl'
+import {intlShape, FormattedMessage} from 'react-intl'
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 import moment from 'moment'
+import Button from 'material-ui/Button'
 
 import DateSeparator from '../../message-parts/DateSeparator'
 import {spacing} from '../sidebar-panel/theme'
@@ -14,6 +15,12 @@ const messagePropType = PropTypes.shape({
 })
 
 @injectSheet({
+  refresh: {
+    margin: [0, spacing]
+  },
+  refreshButton: {
+    width: '100%'
+  },
   separatorDate: {
     background: grayBlueLighter
   },
@@ -30,7 +37,9 @@ export default class Row extends PureComponent {
     style: PropTypes.object,
     user: PropTypes.object,
     onSelect: PropTypes.func,
-    className: PropTypes.string
+    onRefresh: PropTypes.func,
+    className: PropTypes.string,
+    newMessagesAmount: PropTypes.number
   }
 
   static defaultProps = {
@@ -38,7 +47,9 @@ export default class Row extends PureComponent {
     prevMessage: null,
     user: null,
     onSelect: null,
-    className: null
+    onRefresh: null,
+    className: null,
+    newMessagesAmount: 0
   }
 
   dateSeparatorTheme = {
@@ -54,7 +65,9 @@ export default class Row extends PureComponent {
       style,
       user,
       onSelect,
-      className
+      onRefresh,
+      className,
+      newMessagesAmount
     } = this.props
 
     const showDateSeparator =
@@ -63,6 +76,30 @@ export default class Row extends PureComponent {
 
     return (
       <div style={style} className={className}>
+        {newMessagesAmount > 0 && (
+          <div className={classes.refresh}>
+            <FormattedMessage
+              id="newImportantMessages"
+              defaultMessage={
+                `{amount} {amount, plural,
+                  one {new important message}
+                  other {new important messages}}`
+              }
+              desctiption="Labeled messages sidebar button text."
+              values={{amount: newMessagesAmount}}
+            >
+              {(...nodes) => (
+                <Button
+                  raised
+                  className={classes.refreshButton}
+                  onClick={onRefresh}
+                >
+                  {nodes}
+                </Button>
+              )}
+            </FormattedMessage>
+          </div>
+        )}
         {showDateSeparator && (
           <DateSeparator
             theme={this.dateSeparatorTheme}

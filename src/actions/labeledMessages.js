@@ -28,8 +28,8 @@ const normalizeMessages = (messages, labelConfigs, state) => (
   }))
 )
 
-export function loadLabeledMessages(options, callback = noop) {
-  return (dispatch, getState) => {
+export const loadLabeledMessages = (options = {}, callback = noop) => (
+  (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
     const {currentChannelOnly} = labeledMessagesSelector(state)
@@ -50,7 +50,7 @@ export function loadLabeledMessages(options, callback = noop) {
     ])
       .then(([{results}, {labels}]) => {
         dispatch({
-          type: types.HANDLE_LOADED_LABELS,
+          type: options.offset ? types.HANDLE_MORE_LOADED_LABELS : types.HANDLE_LOADED_LABELS,
           payload: normalizeMessages(results, labels, state)
         })
 
@@ -58,4 +58,13 @@ export function loadLabeledMessages(options, callback = noop) {
       })
       .catch(err => dispatch(error(err)))
   }
-}
+)
+
+export const handleMessageLabeled = payload => (
+  (dispatch) => {
+    dispatch({
+      type: types.HANDLE_MESSAGE_LABELED,
+      payload
+    })
+  }
+)

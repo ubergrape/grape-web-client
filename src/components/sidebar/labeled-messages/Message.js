@@ -12,11 +12,9 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import Tag from '../../tag'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
-import {spacing} from '../sidebar-panel/theme'
 
 @injectSheet({
   message: {
-    padding: [0, spacing],
     '&:hover': {
       isolate: false,
       background: color(grayBlueLighter).darken(0.05).hexString()
@@ -100,7 +98,7 @@ export default class Message extends PureComponent {
           <FormattedMessage
             id="sidebarLabelInChannel"
             defaultMessage="in {channel}"
-            desctiption="Labels overview sidebar channel headline."
+            desctiption="Labeled messages sidebar channel headline."
             values={{channel: channel.name}}
           >
             {(...nodes) => <span className={classes.channel}>{nodes}</span>}

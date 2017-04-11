@@ -43,7 +43,8 @@ export default class LabeledMessages extends PureComponent {
     user: PropTypes.object,
     intl: intlShape.isRequired,
     options: PropTypes.array,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    newMessagesAmount: PropTypes.number
   }
 
   static defaultProps = {
@@ -53,7 +54,8 @@ export default class LabeledMessages extends PureComponent {
     messages: [],
     user: {},
     options: [],
-    isLoading: false
+    isLoading: false,
+    newMessagesAmount: 0
   }
 
   componentDidMount() {
@@ -64,6 +66,20 @@ export default class LabeledMessages extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {onLoad, messages} = nextProps
     if (!messages.length) onLoad()
+  }
+
+  componentDidUpdate(prevProps) {
+    const {messages, newMessagesAmount} = prevProps
+
+    if (messages !== this.props.messages) {
+      this.infiniteLoader.forceUpdate()
+    }
+
+    if (newMessagesAmount !== this.props.newMessagesAmount) {
+      // First row will change the output.
+      this.cellMeasurer.resetMeasurements()
+      this.list.recomputeRowHeights(0)
+    }
   }
 
   onLoadMore = ({startIndex, stopIndex}) => (
@@ -77,6 +93,19 @@ export default class LabeledMessages extends PureComponent {
     })
   )
 
+  onRefresh = () => {
+    const {onLoad} = this.props
+    onLoad()
+  }
+
+  onRefInfiniteLoader = (ref) => {
+    this.infiniteLoader = ref
+  }
+
+  onRefCellMeasurer = (ref) => {
+    this.cellMeasurer = ref
+  }
+
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
   renderRow = ({index, style}) => {
@@ -85,7 +114,8 @@ export default class LabeledMessages extends PureComponent {
       messages,
       user,
       onSelect,
-      classes
+      classes,
+      newMessagesAmount
     } = this.props
 
     const message = messages[index]
@@ -95,10 +125,12 @@ export default class LabeledMessages extends PureComponent {
         intl={intl}
         message={message}
         prevMessage={messages[index - 1]}
+        newMessagesAmount={index === 0 ? newMessagesAmount : 0}
         key={`${message.id}-row`}
         style={style}
         user={user}
         onSelect={onSelect}
+        onRefresh={this.onRefresh}
         className={classes.row}
       />
     )
@@ -120,7 +152,7 @@ export default class LabeledMessages extends PureComponent {
   }
 
   renderList = ({onRowsRendered, registerChild}) => {
-    const {messages, isLoading} = this.props
+    const {isLoading, messages} = this.props
 
     return (
       <AutoSizer>
@@ -130,10 +162,14 @@ export default class LabeledMessages extends PureComponent {
             columnCount={1}
             rowCount={messages.length}
             width={width}
+            ref={this.onRefCellMeasurer}
           >
             {({getRowHeight}) => (
               <List
-                ref={registerChild}
+                ref={(ref) => {
+                  registerChild(ref)
+                  this.list = ref
+                }}
                 width={width}
                 height={height}
                 rowCount={messages.length}
@@ -142,7 +178,6 @@ export default class LabeledMessages extends PureComponent {
                 noRowsRenderer={this.renderNoContent}
                 onRowsRendered={onRowsRendered}
                 overscanRowCount={5}
-                // Forcing rerender.
                 isLoading={isLoading}
               />
             )}
@@ -156,7 +191,6 @@ export default class LabeledMessages extends PureComponent {
     const {
       onClose,
       intl: {formatMessage},
-      messages,
       classes
     } = this.props
 
@@ -171,8 +205,7 @@ export default class LabeledMessages extends PureComponent {
             isRowLoaded={this.isRowLoaded}
             loadMoreRows={this.onLoadMore}
             rowCount={Infinity}
-            // Forcing rerender.
-            messages={messages}
+            ref={this.onRefInfiniteLoader}
           >
             {this.renderList}
           </InfiniteLoader>

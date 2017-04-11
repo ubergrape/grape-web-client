@@ -3,19 +3,27 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   messages: [],
   isLoading: true,
-  currentChannelOnly: false
+  currentChannelOnly: false,
+  newMessagesAmount: 0
 }
 
 export default function reduce(state = initialState, action) {
   const {payload} = action
 
   switch (action.type) {
-    case types.LOAD_LABELS:
+    case types.REQUEST_LABELS:
       return {
         ...state,
         isLoading: true
       }
     case types.HANDLE_LOADED_LABELS:
+      return {
+        ...state,
+        isLoading: false,
+        newMessagesAmount: 0,
+        messages: payload
+      }
+    case types.HANDLE_MORE_LOADED_LABELS:
       return {
         ...state,
         isLoading: false,
@@ -38,6 +46,17 @@ export default function reduce(state = initialState, action) {
         }
       }
       return state
+    case types.HANDLE_MESSAGE_LABELED:
+      // User doesn't need to see a new message from a different channel
+      // when this option is turned on.
+      if (state.currentChannelOnly && payload.channel !== state.channel.id) {
+        return state
+      }
+
+      return {
+        ...state,
+        newMessagesAmount: state.newMessagesAmount + 1
+      }
     default:
       return state
   }
