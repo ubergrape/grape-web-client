@@ -42,6 +42,7 @@ export default function reduce(state = initialState, action) {
       if (payload.channel !== state.channel) {
         return {
           ...state,
+          channel: payload.channel,
           messages: []
         }
       }
