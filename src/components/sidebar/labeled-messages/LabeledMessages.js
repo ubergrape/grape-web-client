@@ -63,11 +63,6 @@ export default class LabeledMessages extends PureComponent {
     if (!messages.length) onLoad()
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {onLoad, messages} = nextProps
-    if (!messages.length) onLoad()
-  }
-
   componentDidUpdate(prevProps) {
     const {messages, newMessagesAmount} = prevProps
 
