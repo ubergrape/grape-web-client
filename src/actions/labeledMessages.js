@@ -1,4 +1,5 @@
 import noop from 'lodash/utility/noop'
+import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -10,6 +11,13 @@ const normalizeMessageLabels = (labels, labelConfigs) => (
   labels
     // Just a precaution in case the config doesn't have all labels.
     .filter(label => !!labelConfigs[label.name])
+    // Deduplicate labels. There might the same label at different position.
+    .reduce((uniqLabels, label) => {
+      if (!find(uniqLabels, {name: label.name})) {
+        uniqLabels.push(label)
+      }
+      return uniqLabels
+    }, [])
     .map((label) => {
       const conf = labelConfigs[label.name]
 
