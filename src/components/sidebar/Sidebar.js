@@ -125,6 +125,7 @@ const Content = (props) => {
       return (
         <LabeledMessages
           {...rest}
+          currentChannelOnly={currentChannelOnly}
           options={[{
             label: formatMessage(messages.currentConversationOption),
             handler: toggleSearchOnlyInChannel,

@@ -44,7 +44,8 @@ export default class LabeledMessages extends PureComponent {
     intl: intlShape.isRequired,
     options: PropTypes.array,
     isLoading: PropTypes.bool,
-    newMessagesAmount: PropTypes.number
+    newMessagesAmount: PropTypes.number,
+    currentChannelOnly: PropTypes.bool
   }
 
   static defaultProps = {
@@ -55,12 +56,26 @@ export default class LabeledMessages extends PureComponent {
     user: {},
     options: [],
     isLoading: false,
+    currentChannelOnly: false,
     newMessagesAmount: 0
   }
 
   componentDidMount() {
     const {messages, onLoad} = this.props
     if (!messages.length) onLoad()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {messages, currentChannelOnly, onLoad} = this.props
+    if (
+      // We need to refresh when this option changes.
+      nextProps.currentChannelOnly !== currentChannelOnly ||
+      // When there was no messages and now `newMessagesAmount` got increased
+      // we can load the list, there is no need to show "refresh" button.
+      (!messages.length && nextProps.newMessagesAmount > 0)
+    ) {
+      onLoad()
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -70,6 +85,7 @@ export default class LabeledMessages extends PureComponent {
       this.infiniteLoader.forceUpdate()
     }
 
+    // We need to rerender the first row to show "refresh" button.
     if (newMessagesAmount !== this.props.newMessagesAmount) {
       // First row will change the output.
       this.cellMeasurer.resetMeasurements()
