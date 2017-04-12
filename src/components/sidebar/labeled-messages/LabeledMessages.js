@@ -36,16 +36,23 @@ const translations = defineMessages({
 export default class LabeledMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
     onClose: PropTypes.func,
-    messages: PropTypes.array,
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        time: PropTypes.instanceOf(Date).isRequired
+      })
+    ),
     user: PropTypes.object,
-    intl: intlShape.isRequired,
     options: PropTypes.array,
     isLoading: PropTypes.bool,
     newMessagesAmount: PropTypes.number,
-    currentChannelOnly: PropTypes.bool
+    currentChannelOnly: PropTypes.bool,
+    channel: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    })
   }
 
   static defaultProps = {
@@ -54,6 +61,7 @@ export default class LabeledMessages extends PureComponent {
     onSelect: noop,
     messages: [],
     user: {},
+    channel: {},
     options: [],
     isLoading: false,
     currentChannelOnly: false,
@@ -66,13 +74,16 @@ export default class LabeledMessages extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {messages, currentChannelOnly, onLoad} = this.props
+    const {messages, currentChannelOnly, channel, onLoad} = this.props
     if (
       // We need to refresh when this option changes.
       nextProps.currentChannelOnly !== currentChannelOnly ||
       // When there was no messages and now `newMessagesAmount` got increased
       // we can load the list, there is no need to show "refresh" button.
-      (!messages.length && nextProps.newMessagesAmount > 0)
+      (!messages.length && nextProps.newMessagesAmount > 0) ||
+      // When channel was changed and we search in the current channel only,
+      // we need to reload.
+      (currentChannelOnly && channel.id !== nextProps.channel.id)
     ) {
       onLoad()
     }

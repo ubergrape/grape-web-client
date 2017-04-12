@@ -38,15 +38,23 @@ export default function reduce(state = initialState, action) {
         messages: initialState.messages,
         isLoading: true
       }
-    case types.SET_CHANNEL:
-      if (payload.channel !== state.channel) {
-        return {
-          ...state,
-          channel: payload.channel,
-          messages: []
-        }
+    case types.SET_CHANNEL: {
+      if (state.channel && payload.channel.id === state.channel.id) {
+        return state
       }
-      return state
+
+      const newState = {
+        ...state,
+        channel: payload.channel
+      }
+
+      if (state.currentChannelOnly) {
+        newState.isLoading = true
+        newState.messages = []
+      }
+
+      return newState
+    }
     case types.HANDLE_MESSAGE_LABELED:
       // User doesn't need to see a new message from a different channel
       // when this option is turned on.
