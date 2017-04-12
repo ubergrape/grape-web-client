@@ -5,7 +5,7 @@ import {jss} from 'grape-web/lib/jss'
 import Icon from '../icon/Icon'
 import style from './style'
 
-const sheet = jss.createStyleSheet(style).attach()
+let sheet
 
 function getIcon(item) {
   if (item.currentRoom) return 'bell'
@@ -32,6 +32,10 @@ function getRoomNote(item) {
     </span>
 
   )
+}
+
+export function init() {
+  sheet = jss.createStyleSheet(style).attach()
 }
 
 /**

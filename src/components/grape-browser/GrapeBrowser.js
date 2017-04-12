@@ -100,6 +100,8 @@ export default class GrapeBrowser extends Component {
       })
     }
 
+    mentions.init()
+
     this.state = this.createState(props)
   }
 
