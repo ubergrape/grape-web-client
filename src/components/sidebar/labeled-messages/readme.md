@@ -12,6 +12,7 @@ const messages = [
     id: '111111',
     labels: [
       {
+        id: '111',
         color: 'red',
         nameLocalized: 'Question'
       }
@@ -29,38 +30,47 @@ const messages = [
     id: '222',
     labels: [
       {
+        id: '111',
         color: 'red',
         nameLocalized: 'Task'
       },
       {
+        id: '222',
         color: 'green',
         nameLocalized: 'Question'
       },
       {
+        id: '333',
         color: 'green',
         nameLocalized: 'Question1'
       },
       {
+        id: '444',
         color: 'green',
         nameLocalized: 'Question2'
       },
       {
+        id: '555',
         color: 'green',
         nameLocalized: 'Question3'
       },
       {
+        id: '666',
         color: 'green',
         nameLocalized: 'Question4'
       },
       {
+        id: '777',
         color: 'green',
         nameLocalized: 'Question5'
       },
       {
+        id: '888',
         color: 'green',
         nameLocalized: 'Question6'
       },
       {
+        id: '999',
         color: 'green',
         nameLocalized: 'Question7'
       }
@@ -78,6 +88,7 @@ const messages = [
     id: '3333',
     labels: [
       {
+        id: '111',
         color: 'red',
         nameLocalized: 'Question'
       }

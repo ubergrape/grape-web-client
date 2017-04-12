@@ -10,8 +10,8 @@ import {FormattedMessage} from 'react-intl'
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    height: '100%',
-    marginTop: '30%'
+    justifyContent: 'center',
+    height: '100%'
   },
   magicWand: {
     height: '2em'

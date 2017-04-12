@@ -51,7 +51,7 @@ export default class LabeledMessages extends PureComponent {
     newMessagesAmount: PropTypes.number,
     currentChannelOnly: PropTypes.bool,
     channel: PropTypes.shape({
-      id: PropTypes.number.isRequired
+      id: PropTypes.number
     })
   }
 
@@ -115,11 +115,6 @@ export default class LabeledMessages extends PureComponent {
     })
   )
 
-  onRefresh = () => {
-    const {onLoad} = this.props
-    onLoad()
-  }
-
   onRefInfiniteLoader = (ref) => {
     this.infiniteLoader = ref
   }
@@ -136,6 +131,7 @@ export default class LabeledMessages extends PureComponent {
       messages,
       user,
       onSelect,
+      onLoad,
       classes,
       newMessagesAmount
     } = this.props
@@ -152,7 +148,7 @@ export default class LabeledMessages extends PureComponent {
         style={style}
         user={user}
         onSelect={onSelect}
-        onRefresh={this.onRefresh}
+        onRefresh={onLoad}
         className={classes.row}
       />
     )
