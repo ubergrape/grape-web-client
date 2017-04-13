@@ -1,5 +1,6 @@
 import noop from 'lodash/utility/noop'
 import find from 'lodash/collection/find'
+import map from 'lodash/collection/map'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -36,6 +37,12 @@ const normalizeMessages = (messages, labelConfigs, state) => (
   }))
 )
 
+const normalizeLabelConfigs = configs => map(configs, (conf, name) => ({
+  name,
+  nameLocalized: conf.name,
+  color: conf.color
+}))
+
 export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
     const state = getState()
@@ -48,7 +55,7 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
     }
 
     dispatch({
-      type: types.REQUEST_LABELS,
+      type: types.REQUEST_LABELED_MESSAGES,
       payload: reqOptions
     })
 
@@ -56,10 +63,16 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
       api.loadLabeledMessages(orgId, reqOptions),
       api.loadLabelsConfig(orgId)
     ])
-      .then(([{results}, {labels}]) => {
+      .then(([{results: messages}, {labels: labelConfigs}]) => {
+        let type = types.HANDLE_LOADED_LABELED_MESSAGES
+        if (options.offset) type = types.HANDLE_MORE_LOADED_LABELED_MESSAGES
+
         dispatch({
-          type: options.offset ? types.HANDLE_MORE_LOADED_LABELS : types.HANDLE_LOADED_LABELS,
-          payload: normalizeMessages(results, labels, state)
+          type,
+          payload: {
+            messages: normalizeMessages(messages, labelConfigs, state),
+            labelConfigs: normalizeLabelConfigs(labelConfigs)
+          }
         })
 
         callback()

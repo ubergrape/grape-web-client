@@ -18,19 +18,18 @@ export default class Tag extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    style: PropTypes.object
+    className: PropTypes.string
   }
 
   static defaultProps = {
-    className: null,
-    style: null
+    className: null
   }
 
   render() {
-    const {classes, children, className, style} = this.props
+    const {classes, children, className, ...rest} = this.props
+    delete rest.sheet
     return (
-      <span className={cn(classes.tag, className)} style={style}>
+      <span className={cn(classes.tag, className)} {...rest}>
         {children}
       </span>
     )

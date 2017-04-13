@@ -9,10 +9,10 @@ import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
 import injectSheet from 'grape-web/lib/jss'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import Options from '../options/Options'
 import Row from './Row'
 import NoContent from './NoContent'
-import Options from '../options/Options'
-import {spacing} from '../sidebar-panel/theme'
+import Filter from './Filter'
 
 const translations = defineMessages({
   title: {
@@ -22,15 +22,15 @@ const translations = defineMessages({
 })
 
 @injectSheet({
-  overview: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    '& $row': {
-      marginTop: spacing
-    }
+  body: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
   },
-  row: {}
+  messages: {
+    position: 'relative',
+    flex: 1
+  }
 })
 @injectIntl
 export default class LabeledMessages extends PureComponent {
@@ -52,7 +52,8 @@ export default class LabeledMessages extends PureComponent {
     currentChannelOnly: PropTypes.bool,
     channel: PropTypes.shape({
       id: PropTypes.number
-    })
+    }),
+    labelConfigs: PropTypes.array
   }
 
   static defaultProps = {
@@ -63,18 +64,21 @@ export default class LabeledMessages extends PureComponent {
     user: {},
     channel: {},
     options: [],
+    labelConfigs: [],
     isLoading: false,
     currentChannelOnly: false,
     newMessagesAmount: 0
   }
 
+  state = {filter: 'all'}
+
   componentDidMount() {
-    const {messages, onLoad} = this.props
-    if (!messages.length) onLoad()
+    const {messages} = this.props
+    if (!messages.length) this.load()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {messages, currentChannelOnly, channel, onLoad} = this.props
+    const {messages, currentChannelOnly, channel} = this.props
     if (
       // We need to refresh when this option changes.
       nextProps.currentChannelOnly !== currentChannelOnly ||
@@ -85,35 +89,43 @@ export default class LabeledMessages extends PureComponent {
       // we need to reload.
       (currentChannelOnly && channel.id !== nextProps.channel.id)
     ) {
-      onLoad()
+      this.load()
     }
   }
 
   componentDidUpdate(prevProps) {
     const {messages, newMessagesAmount} = prevProps
 
-    if (messages !== this.props.messages) {
-      this.infiniteLoader.forceUpdate()
-    }
-
-    // We need to rerender the first row to show "refresh" button.
-    if (newMessagesAmount !== this.props.newMessagesAmount) {
+    // Cases:
+    // - Update the first row to show "refresh" button.
+    // - Update all messages on filter change.
+    if (
+      messages !== this.props.messages ||
+      newMessagesAmount !== this.props.newMessagesAmount
+    ) {
       // First row will change the output.
       this.cellMeasurer.resetMeasurements()
       this.list.recomputeRowHeights(0)
+      this.infiniteLoader.forceUpdate()
     }
   }
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const {messages, onLoad} = this.props
+      const {messages} = this.props
       const options = {
         offset: messages[messages.length - 1].time,
         limit: stopIndex - startIndex
       }
-      onLoad(options, resolve)
+      this.load(options, resolve)
     })
   )
+
+  onSelectFilter = ({name}) => {
+    this.setState({filter: name}, () => {
+      this.load()
+    })
+  }
 
   onRefInfiniteLoader = (ref) => {
     this.infiniteLoader = ref
@@ -125,6 +137,15 @@ export default class LabeledMessages extends PureComponent {
 
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
+  load(options, callback) {
+    const {onLoad} = this.props
+    const {filter} = this.state
+    onLoad({
+      ...options,
+      labels: filter === 'all' ? null : [filter]
+    }, callback)
+  }
+
   renderRow = ({index, style}) => {
     const {
       intl,
@@ -132,7 +153,6 @@ export default class LabeledMessages extends PureComponent {
       user,
       onSelect,
       onLoad,
-      classes,
       newMessagesAmount
     } = this.props
 
@@ -149,7 +169,6 @@ export default class LabeledMessages extends PureComponent {
         user={user}
         onSelect={onSelect}
         onRefresh={onLoad}
-        className={classes.row}
       />
     )
   }
@@ -209,24 +228,34 @@ export default class LabeledMessages extends PureComponent {
     const {
       onClose,
       intl: {formatMessage},
-      classes
+      classes,
+      labelConfigs
     } = this.props
+    const {filter} = this.state
 
     return (
       <SidebarPanel
         title={formatMessage(translations.title)}
         onClose={onClose}
         options={this.renderOptions()}
+        className={classes.sidebar}
       >
-        <div className={classes.overview}>
-          <InfiniteLoader
-            isRowLoaded={this.isRowLoaded}
-            loadMoreRows={this.onLoadMore}
-            rowCount={Infinity}
-            ref={this.onRefInfiniteLoader}
-          >
-            {this.renderList}
-          </InfiniteLoader>
+        <div className={classes.body}>
+          <Filter
+            items={labelConfigs}
+            onSelect={this.onSelectFilter}
+            selected={filter}
+          />
+          <div className={classes.messages}>
+            <InfiniteLoader
+              isRowLoaded={this.isRowLoaded}
+              loadMoreRows={this.onLoadMore}
+              rowCount={Infinity}
+              ref={this.onRefInfiniteLoader}
+            >
+              {this.renderList}
+            </InfiniteLoader>
+          </div>
         </div>
       </SidebarPanel>
     )

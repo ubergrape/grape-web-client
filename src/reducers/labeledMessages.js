@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   messages: [],
+  labelConfigs: [],
   isLoading: true,
   currentChannelOnly: false,
   newMessagesAmount: 0
@@ -11,23 +12,25 @@ export default function reduce(state = initialState, action) {
   const {payload} = action
 
   switch (action.type) {
-    case types.REQUEST_LABELS:
+    case types.REQUEST_LABELED_MESSAGES:
       return {
         ...state,
         isLoading: true
       }
-    case types.HANDLE_LOADED_LABELS:
+    case types.HANDLE_LOADED_LABELED_MESSAGES:
       return {
         ...state,
         isLoading: false,
         newMessagesAmount: 0,
-        messages: payload
+        messages: payload.messages,
+        labelConfigs: payload.labelConfigs
       }
-    case types.HANDLE_MORE_LOADED_LABELS:
+    case types.HANDLE_MORE_LOADED_LABELED_MESSAGES:
       return {
         ...state,
         isLoading: false,
-        messages: [...state.messages, ...payload]
+        messages: [...state.messages, ...payload.messages],
+        labelConfigs: payload.labelConfigs
       }
     case types.HIDE_SIDEBAR:
       return initialState
@@ -36,6 +39,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         currentChannelOnly: !state.currentChannelOnly,
         messages: initialState.messages,
+        labelConfigs: initialState.labelConfigs,
         isLoading: true
       }
     case types.SET_CHANNEL: {
