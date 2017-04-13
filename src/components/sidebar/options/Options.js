@@ -3,6 +3,7 @@ import injectSheet from 'grape-web/lib/jss'
 import uniqueId from 'lodash/utility/uniqueId'
 import {grayBlueLight} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
+import webColors from 'grape-theme/dist/web-colors'
 import color from 'color'
 
 @injectSheet({
@@ -12,6 +13,7 @@ import color from 'color'
     padding: [4, 10, 4, 20],
     background: grayBlueLight,
     cursor: 'pointer',
+    borderBottom: [1, 'solid', webColors.borderDefault],
     '&:hover': {
       isolate: false,
       background: color(grayBlueLight).darken(0.05).hexString()

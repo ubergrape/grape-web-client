@@ -14,9 +14,32 @@ const messagePropType = PropTypes.shape({
   time: PropTypes.instanceOf(Date).isRequired
 })
 
+const RefreshButton = ({className, amount, onClick}) => (
+  <FormattedMessage
+    id="newImportantMessages"
+    defaultMessage={
+      `{amount} {amount, plural,
+        one {new important message}
+        other {new important messages}}`
+    }
+    desctiption="Labeled messages sidebar button text."
+    values={{amount}}
+  >
+    {(...nodes) => (
+      <Button
+        raised
+        className={className}
+        onClick={onClick}
+      >
+        {nodes}
+      </Button>
+    )}
+  </FormattedMessage>
+)
+
 @injectSheet({
   refresh: {
-    margin: [0, spacing]
+    margin: spacing
   },
   refreshButton: {
     width: '100%'
@@ -52,6 +75,10 @@ export default class Row extends PureComponent {
     newMessagesAmount: 0
   }
 
+  onRefresh = () => {
+    this.props.onRefresh()
+  }
+
   dateSeparatorTheme = {
     date: this.props.classes.separatorDate
   }
@@ -65,7 +92,6 @@ export default class Row extends PureComponent {
       style,
       user,
       onSelect,
-      onRefresh,
       className,
       newMessagesAmount
     } = this.props
@@ -78,26 +104,11 @@ export default class Row extends PureComponent {
       <div style={style} className={className}>
         {newMessagesAmount > 0 && (
           <div className={classes.refresh}>
-            <FormattedMessage
-              id="newImportantMessages"
-              defaultMessage={
-                `{amount} {amount, plural,
-                  one {new important message}
-                  other {new important messages}}`
-              }
-              desctiption="Labeled messages sidebar button text."
-              values={{amount: newMessagesAmount}}
-            >
-              {(...nodes) => (
-                <Button
-                  raised
-                  className={classes.refreshButton}
-                  onClick={onRefresh}
-                >
-                  {nodes}
-                </Button>
-              )}
-            </FormattedMessage>
+            <RefreshButton
+              className={classes.refreshButton}
+              amount={newMessagesAmount}
+              onClick={this.onRefresh}
+            />
           </div>
         )}
         {showDateSeparator && (
