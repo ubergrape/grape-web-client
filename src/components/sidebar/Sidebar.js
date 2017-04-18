@@ -53,7 +53,7 @@ const Content = (props) => {
     showRoomMentions,
     currentChannelOnly,
     searchActivities,
-    onSelectLabeledMessage,
+    selectLabeledMessagesFilter,
     ...rest
   } = props
 
@@ -133,7 +133,8 @@ const Content = (props) => {
           }]}
           onClose={hideSidebar}
           onLoad={loadLabeledMessages}
-          onSelect={onSelectLabeledMessage}
+          onSelect={goToMessage}
+          onSelectFilter={selectLabeledMessagesFilter}
         />
       )
     default:
@@ -160,7 +161,7 @@ Content.propTypes = {
   toggleShowRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired,
-  onSelectLabeledMessage: PropTypes.func.isRequired
+  selectLabeledMessagesFilter: PropTypes.func.isRequired
 }
 
 Content.defaultProps = {
@@ -176,17 +177,13 @@ export default class Sidebar extends PureComponent {
       PropTypes.string,
       React.PropTypes.bool
     ]).isRequired,
-    className: PropTypes.string,
-    goToMessage: PropTypes.func.isRequired
+    className: PropTypes.string
   }
 
   static defaultProps = {
     className: null
   }
 
-  onSelectLabeledMessage = (message) => {
-    this.props.goToMessage(message)
-  }
 
   render() {
     const {
@@ -198,7 +195,7 @@ export default class Sidebar extends PureComponent {
 
     return (
       <div className={className}>
-        <Content {...this.props} onSelectLabeledMessage={this.onSelectLabeledMessage} />
+        <Content {...this.props} />
       </div>
     )
   }

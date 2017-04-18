@@ -16,6 +16,7 @@ const actionNames = [
   'loadMentions',
   'loadRoomInfo',
   'loadLabeledMessages',
+  'selectLabeledMessagesFilter',
   'goToMessage',
   'searchMessages',
   'toggleSearchOnlyInChannel',

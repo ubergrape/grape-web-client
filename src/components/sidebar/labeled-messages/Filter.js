@@ -31,17 +31,6 @@ export default class Filter extends PureComponent {
 
     return (
       <div className={classes.filter}>
-        {items.length > 0 && (
-          <FilterButton
-            name="all"
-            nameLocalized="All"
-            key="all"
-            color="red"
-            isSelected={selected === 'all'}
-            onClick={onSelect}
-          />
-        )}
-
         {items.map(item => (
           <FilterButton
             {...item}

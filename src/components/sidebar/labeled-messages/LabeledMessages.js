@@ -40,6 +40,7 @@ export default class LabeledMessages extends PureComponent {
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
     onClose: PropTypes.func,
+    onSelectFilter: PropTypes.func,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         time: PropTypes.instanceOf(Date).isRequired
@@ -53,13 +54,15 @@ export default class LabeledMessages extends PureComponent {
     channel: PropTypes.shape({
       id: PropTypes.number
     }),
-    labelConfigs: PropTypes.array
+    labelConfigs: PropTypes.array,
+    filter: PropTypes.string
   }
 
   static defaultProps = {
     onLoad: noop,
     onClose: noop,
     onSelect: noop,
+    onSelectFilter: noop,
     messages: [],
     user: {},
     channel: {},
@@ -67,18 +70,17 @@ export default class LabeledMessages extends PureComponent {
     labelConfigs: [],
     isLoading: false,
     currentChannelOnly: false,
-    newMessagesAmount: 0
+    newMessagesAmount: 0,
+    filter: 'all'
   }
 
-  state = {filter: 'all'}
-
   componentDidMount() {
-    const {messages} = this.props
-    if (!messages.length) this.load()
+    const {messages, onLoad} = this.props
+    if (!messages.length) onLoad()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {messages, currentChannelOnly, channel} = this.props
+    const {messages, currentChannelOnly, channel, filter, onLoad} = this.props
     if (
       // We need to refresh when this option changes.
       nextProps.currentChannelOnly !== currentChannelOnly ||
@@ -87,9 +89,10 @@ export default class LabeledMessages extends PureComponent {
       (!messages.length && nextProps.newMessagesAmount > 0) ||
       // When channel was changed and we search in the current channel only,
       // we need to reload.
-      (currentChannelOnly && channel.id !== nextProps.channel.id)
+      (currentChannelOnly && channel.id !== nextProps.channel.id) ||
+      nextProps.filter !== filter
     ) {
-      this.load()
+      onLoad()
     }
   }
 
@@ -112,20 +115,14 @@ export default class LabeledMessages extends PureComponent {
 
   onLoadMore = ({startIndex, stopIndex}) => (
     new Promise((resolve) => {
-      const {messages} = this.props
+      const {messages, onLoad} = this.props
       const options = {
         offset: messages[messages.length - 1].time,
         limit: stopIndex - startIndex
       }
-      this.load(options, resolve)
+      onLoad(options, resolve)
     })
   )
-
-  onSelectFilter = ({name}) => {
-    this.setState({filter: name}, () => {
-      this.load()
-    })
-  }
 
   onRefInfiniteLoader = (ref) => {
     this.infiniteLoader = ref
@@ -136,15 +133,6 @@ export default class LabeledMessages extends PureComponent {
   }
 
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
-
-  load(options, callback) {
-    const {onLoad} = this.props
-    const {filter} = this.state
-    onLoad({
-      ...options,
-      labels: filter === 'all' ? null : [filter]
-    }, callback)
-  }
 
   renderRow = ({index, style}) => {
     const {
@@ -227,11 +215,12 @@ export default class LabeledMessages extends PureComponent {
   render() {
     const {
       onClose,
+      onSelectFilter,
       intl: {formatMessage},
       classes,
-      labelConfigs
+      labelConfigs,
+      filter
     } = this.props
-    const {filter} = this.state
 
     return (
       <SidebarPanel
@@ -243,7 +232,7 @@ export default class LabeledMessages extends PureComponent {
         <div className={classes.body}>
           <Filter
             items={labelConfigs}
-            onSelect={this.onSelectFilter}
+            onSelect={onSelectFilter}
             selected={filter}
           />
           <div className={classes.messages}>

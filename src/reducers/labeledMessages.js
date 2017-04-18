@@ -5,7 +5,8 @@ const initialState = {
   labelConfigs: [],
   isLoading: true,
   currentChannelOnly: false,
-  newMessagesAmount: 0
+  newMessagesAmount: 0,
+  filter: 'all'
 }
 
 export default function reduce(state = initialState, action) {
@@ -59,6 +60,11 @@ export default function reduce(state = initialState, action) {
 
       return newState
     }
+    case types.SELECT_LABELED_MESSAGE_FILTER:
+      return {
+        ...state,
+        filter: payload
+      }
     case types.HANDLE_MESSAGE_LABELED:
       // User doesn't need to see a new message from a different channel
       // when this option is turned on.

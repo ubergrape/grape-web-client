@@ -1,6 +1,6 @@
 import noop from 'lodash/utility/noop'
 import find from 'lodash/collection/find'
-import map from 'lodash/collection/map'
+import indexBy from 'lodash/collection/indexBy'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -8,10 +8,12 @@ import {orgSelector, channelSelector, labeledMessagesSelector} from '../selector
 import {error} from './common'
 import {normalizeMessage} from './utils'
 
-const normalizeMessageLabels = (labels, labelConfigs) => (
-  labels
+const normalizeMessageLabels = (labels, labelConfigs) => {
+  const configsMap = indexBy(labelConfigs, 'name')
+
+  return labels
     // Just a precaution in case the config doesn't have all labels.
-    .filter(label => !!labelConfigs[label.name])
+    .filter(label => !!configsMap[label.name])
     // Deduplicate labels. There might the same label at different position.
     .reduce((uniqLabels, label) => {
       if (!find(uniqLabels, {name: label.name})) {
@@ -20,15 +22,16 @@ const normalizeMessageLabels = (labels, labelConfigs) => (
       return uniqLabels
     }, [])
     .map((label) => {
-      const conf = labelConfigs[label.name]
+      const conf = configsMap[label.name]
 
       return {
         id: label.id,
         color: conf.color,
-        nameLocalized: conf.name
+        name: conf.name,
+        nameLocalized: conf.localized
       }
     })
-)
+}
 
 const normalizeMessages = (messages, labelConfigs, state) => (
   messages.map(message => ({
@@ -37,9 +40,9 @@ const normalizeMessages = (messages, labelConfigs, state) => (
   }))
 )
 
-const normalizeLabelConfigs = configs => map(configs, (conf, name) => ({
-  name,
-  nameLocalized: conf.name,
+const normalizeLabelConfigs = configs => configs.map(conf => ({
+  name: conf.name,
+  nameLocalized: conf.localized,
   color: conf.color
 }))
 
@@ -47,11 +50,11 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
-    const {currentChannelOnly} = labeledMessagesSelector(state)
-    let reqOptions = options
+    const {currentChannelOnly, filter} = labeledMessagesSelector(state)
+    let reqOptions = {...options, labels: filter === 'all' ? null : [filter]}
 
     if (currentChannelOnly) {
-      reqOptions = {...options, channel: channelSelector(state).id}
+      reqOptions = {...reqOptions, channel: channelSelector(state).id}
     }
 
     dispatch({
@@ -81,11 +84,28 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
   }
 )
 
-export const handleMessageLabeled = payload => (
-  (dispatch) => {
+export const handleMessageLabeled = message => (
+  (dispatch, getState) => {
+    const {filter} = labeledMessagesSelector(getState())
+
+    // Ignore messages which don't pass the filter.
+    if (filter !== 'all' && message.labels.indexOf(filter) === -1) {
+      return
+    }
+
     dispatch({
       type: types.HANDLE_MESSAGE_LABELED,
-      payload
+      payload: message
     })
   }
 )
+
+export const selectLabeledMessagesFilter = ({name}) => (
+  (dispatch) => {
+    dispatch({
+      type: types.SELECT_LABELED_MESSAGE_FILTER,
+      payload: name
+    })
+  }
+)
+
