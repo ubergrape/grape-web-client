@@ -46,6 +46,20 @@ const normalizeLabelConfigs = configs => configs.map(conf => ({
   color: conf.color
 }))
 
+// Load a config and caches a promise based on org id.
+const loadLabelsConfigCached = (() => {
+  let promise
+  let prevOrgId
+
+  return (orgId) => {
+    if (prevOrgId !== orgId) {
+      prevOrgId = orgId
+      promise = api.loadLabelsConfig(orgId)
+    }
+    return promise
+  }
+})()
+
 export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
     const state = getState()
@@ -64,7 +78,7 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
 
     Promise.all([
       api.loadLabeledMessages(orgId, reqOptions),
-      api.loadLabelsConfig(orgId)
+      loadLabelsConfigCached(orgId)
     ])
       .then(([{results: messages}, {labels: labelConfigs}]) => {
         let type = types.HANDLE_LOADED_LABELED_MESSAGES
