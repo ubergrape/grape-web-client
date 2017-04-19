@@ -30,6 +30,9 @@ const translations = defineMessages({
   messages: {
     position: 'relative',
     flex: 1
+  },
+  list: {
+    outline: 0
   }
 })
 @injectIntl
@@ -177,7 +180,7 @@ export default class LabeledMessages extends PureComponent {
   }
 
   renderList = ({onRowsRendered, registerChild}) => {
-    const {isLoading, messages} = this.props
+    const {isLoading, messages, classes} = this.props
 
     return (
       <AutoSizer>
@@ -204,6 +207,7 @@ export default class LabeledMessages extends PureComponent {
                 onRowsRendered={onRowsRendered}
                 overscanRowCount={5}
                 isLoading={isLoading}
+                className={classes.list}
               />
             )}
           </CellMeasurer>
