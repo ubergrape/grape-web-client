@@ -7,7 +7,7 @@ import {
 import noop from 'lodash/utility/noop'
 import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
 import injectSheet from 'grape-web/lib/jss'
-import {white} from 'grape-theme/dist/base-colors'
+import {white, indigo} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
@@ -42,7 +42,7 @@ const translations = defineMessages({
   hint: {
     extend: [small, ellipsis],
     display: 'flex',
-    background: '#6257D2',
+    background: indigo,
     color: white,
     padding: [5, spacing]
   },
