@@ -1,9 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Icon from 'grape-web/lib/svg-icons/Icon'
 import {gray} from 'grape-theme/dist/base-colors'
 import {big, small} from 'grape-theme/dist/fonts'
 import {FormattedMessage} from 'react-intl'
+import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
 
 @injectSheet({
   noContent: {
@@ -40,7 +40,7 @@ export default class NoContent extends PureComponent {
     const {classes} = this.props
     return (
       <div className={classes.noContent}>
-        <Icon name="magicWand" className={classes.magicWand} />
+        <MagicWand className={classes.magicWand} />
         <h2 className={classes.title}>
           <FormattedMessage
             id="labeledMessagesNoContentTitle"
