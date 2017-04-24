@@ -23,6 +23,8 @@ export default {
   black: '#000000',
   white: '#ffffff',
 
+  indigo: '6257d2',
+
   // XXX Old Colors - Needs clean up
   grapeDark: '#542f59',
   grapeLight: '#7b477b',
