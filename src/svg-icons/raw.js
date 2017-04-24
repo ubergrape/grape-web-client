@@ -65,9 +65,6 @@ export angleLeft from './svg/angle-left.svg'
 export moreOptions from './svg/more-options.svg'
 export tag from './svg/tag.svg'
 
-// Icons with color.
-export magicWand from './svg/magic-wand.svg'
-
 // Products.
 export bitbucket from './svg/bitbucket.svg'
 export box from './svg/box.svg'
