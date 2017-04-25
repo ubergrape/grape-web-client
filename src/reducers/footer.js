@@ -2,7 +2,8 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   showBrowser: false,
-  editMessage: null
+  editMessage: null,
+  quoteMessage: null
 }
 
 export default function reduce(state = initialState, action) {
@@ -15,6 +16,8 @@ export default function reduce(state = initialState, action) {
       return {...state, targetMessage: null}
     case types.EDIT_MESSAGE_SEND:
       return {...state, targetMessage: null}
+    case types.INSERT_MESSAGE_QUOTE:
+      return {...state, quoteMessage: action.payload}
     case types.SHOW_EMOJI_BROWSER:
       return {...state, showBrowser: 'emoji'}
     case types.SHOW_EMOJI_SUGGEST_BROWSER:

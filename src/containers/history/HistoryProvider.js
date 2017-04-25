@@ -20,7 +20,7 @@ const actionNames = {
   showChannelMembersInvite: 'onInvite',
   goToAddIntegrations: 'onAddIntegration',
   showToastNotification: 'onCopyLink',
-  insertMessageQuote: 'onQuote',
+  quoteMessage: 'onQuote',
   showRemoveLinkAttachments: 'onRemoveLinkAttachment'
 }
 

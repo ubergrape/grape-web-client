@@ -13,7 +13,8 @@ import {
   getEmojiSearchData,
   getUserSearchData,
   getRoomsSearchData,
-  getImageAttachments
+  getImageAttachments,
+  formatQuote
 } from './utils'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
@@ -76,6 +77,7 @@ export default class GrapeInput extends PureComponent {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     targetMessage: PropTypes.object,
+    quoteMessage: PropTypes.object,
     channel: PropTypes.object.isRequired,
     rooms: PropTypes.array.isRequired,
     classes: PropTypes.object.isRequired,
@@ -104,6 +106,7 @@ export default class GrapeInput extends PureComponent {
   static defaultProps = {
     disabled: false,
     targetMessage: null,
+    quoteMessage: null,
     search: '',
     services: [],
     customEmojis: {},
@@ -121,15 +124,36 @@ export default class GrapeInput extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel: curChannel, targetMessage: curMessage} = this.props
-    const {channel: nextChannel, targetMessage: nextMessage} = nextProps
+    const {
+      channel: curChannel,
+      targetMessage: currTargetMessage,
+      quoteMessage: currQuoteMessage,
+      intl
+    } = this.props
+
+    const {
+      channel: nextChannel,
+      targetMessage: nextTargetMessage,
+      quoteMessage: nextQuoteMessage
+    } = nextProps
 
     if (curChannel.id !== nextChannel.id) {
       this.onSelectChannel(curChannel, nextChannel)
     }
 
-    if (nextMessage && (!curMessage || curMessage.id !== nextMessage.id)) {
-      this.onEditMessage(nextMessage)
+    if (
+      nextTargetMessage &&
+      (!currTargetMessage || currTargetMessage.id !== nextTargetMessage.id)
+    ) {
+      this.onEditMessage(nextTargetMessage)
+    }
+
+    if (nextQuoteMessage && nextQuoteMessage !== currQuoteMessage) {
+      const quote = formatQuote({
+        intl,
+        message: nextQuoteMessage
+      })
+      this.input.setTextContent(quote, {silent: true, caretPosition: 'start'})
     }
   }
 

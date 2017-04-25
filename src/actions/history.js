@@ -1,7 +1,6 @@
 import findLast from 'lodash/collection/findLast'
 import last from 'lodash/array/last'
 
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
@@ -344,13 +343,11 @@ export function readMessage({channelId, messageId}) {
   }
 }
 
-export function insertMessageQuote({quote}) {
+export function quoteMessage({message}) {
   return (dispatch) => {
     dispatch({
       type: types.INSERT_MESSAGE_QUOTE,
-      payload: quote
+      payload: message
     })
-
-    reduxEmitter.insertQuote({quote})
   }
 }

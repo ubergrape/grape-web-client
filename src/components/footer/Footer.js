@@ -16,6 +16,7 @@ export default class Footer extends PureComponent {
     channel: PropTypes.object.isRequired,
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
     targetMessage: PropTypes.object,
+    quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     rooms: PropTypes.array.isRequired,
@@ -45,6 +46,7 @@ export default class Footer extends PureComponent {
   static defaultProps = {
     disabled: false,
     targetMessage: null,
+    quoteMessage: null,
     search: '',
     services: [],
     customEmojis: {},
@@ -61,6 +63,7 @@ export default class Footer extends PureComponent {
       channels,
       channel,
       targetMessage,
+      quoteMessage,
       showBrowser,
       customEmojis,
       images,
@@ -110,13 +113,13 @@ export default class Footer extends PureComponent {
             rooms={rooms}
             channel={channel}
             targetMessage={targetMessage}
+            quoteMessage={quoteMessage}
             disabled={disabled}
             showBrowser={showBrowser}
             search={search}
             users={users}
             autocomplete={autocomplete}
             services={services}
-
             onShowEmojiBrowser={onShowEmojiBrowser}
             onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
             onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
