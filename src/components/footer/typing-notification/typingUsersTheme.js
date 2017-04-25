@@ -10,7 +10,7 @@ export const styles = {
   notification: {
     extend: small,
     position: 'absolute',
-    top: -Math.round(small.fontSize * small.lineHeight + paddingBottom),
+    top: -Math.round((small.fontSize * small.lineHeight) + paddingBottom),
     color: grayLight,
     padding: '0 20px',
     paddingBottom,

@@ -1,11 +1,11 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
+import {Link as MarkdownTipsLink} from '../markdown-tips'
 import Controls from './Controls'
 import {styles} from './footerTheme'
-import {Link as MarkdownTipsLink} from '../markdown-tips'
-import {TypingNotification} from '../typing-notification'
-import {GrapeInput} from '../grape-input'
+import GrapeInput from './grape-input/GrapeInput'
+import TypingNotification from './typing-notification/TypingNotification'
 
 @injectSheet(styles)
 export default class Footer extends PureComponent {
