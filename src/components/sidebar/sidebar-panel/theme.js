@@ -7,20 +7,21 @@ import {zIndex} from '../../../utils/z-index'
 
 import buttonIcon from '../../button/icon'
 
-const gap = 20
+export const spacing = 20
 
 const title = {
   extend: [big, ellipsis],
   flex: 2,
   alignSelf: 'center',
   color: colors.gray,
-  padding: `14px ${gap}px 14px 0`
+  padding: [14, spacing, 14, 0],
+  margin: 0
 }
 
 const commonHeader = {
   display: 'flex',
   flexShrink: 0,
-  borderBottom: `1px solid ${webColors.borderDefault}`,
+  borderBottom: [1, 'solid', webColors.borderDefault],
   // Used to overlap absolutely positioned content e.g. loading indicator.
   position: 'relative',
   zIndex: zIndex('base')
@@ -32,20 +33,20 @@ export const styles = {
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    background: colors.grayBlueLighter
+    background: colors.grayBlueLighter,
+    height: '100%'
   },
   header: {
     ...commonHeader,
-    marginLeft: gap
+    marginLeft: spacing
   },
   headerOptions: commonHeader,
   title,
   titleOptions: {
     ...title,
-    paddingLeft: gap
+    paddingLeft: spacing
   },
   body: {
-    padding: gap,
     background: colors.grayBlueLighter,
     flex: 1,
     overflowY: 'auto',
@@ -54,8 +55,13 @@ export const styles = {
   close: {
     extend: [
       small,
-      buttonIcon('close', {color: colors.grayBlue, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true})
+      buttonIcon('close', {
+        color: colors.grayBlue,
+        hoverColor: color(colors.blue).lighten(0.05).rgbaString(),
+        iconOnly: true
+      })
     ],
-    padding: `0 ${gap}px`
+    padding: [0, spacing],
+    background: 'none'
   }
 }

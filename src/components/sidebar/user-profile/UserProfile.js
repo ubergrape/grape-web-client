@@ -26,7 +26,7 @@ export default class UserProfile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    hideSidebar: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     status: PropTypes.number.isRequired,
     avatar: PropTypes.string,
     displayName: PropTypes.string,
@@ -69,13 +69,13 @@ export default class UserProfile extends PureComponent {
       phoneNumber,
       intl: {formatMessage},
       classes,
-      hideSidebar
+      onClose
     } = this.props
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={hideSidebar}
+        onClose={onClose}
       >
         <div className={classes.userNameContainer}>
           <Username
@@ -86,7 +86,7 @@ export default class UserProfile extends PureComponent {
             theme={this.userNameTheme}
           />
         </div>
-        <div>
+        <div className={classes.details}>
           {whatIDo && (
             <div className={classes.about}>
               <p>

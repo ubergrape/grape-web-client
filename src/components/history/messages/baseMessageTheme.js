@@ -4,7 +4,7 @@ import omit from 'lodash/object/omit'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
 const link = omit(linkStyles.link, '&:hover')
-const linkHover = linkStyles['&:hover']
+const linkHover = linkStyles.link['&:hover']
 
 export const horizontalMargin = 20
 

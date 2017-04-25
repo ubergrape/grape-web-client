@@ -17,6 +17,7 @@ export const styles = {
       margin: 0
     },
     '&:first-child': {
+      isolate: false,
       marginTop: 0
     }
   },
@@ -24,6 +25,6 @@ export const styles = {
     extend: small,
     position: 'relative',
     fontWeight: 'bold',
-    padding: `3px ${normal.fontSize}px`
+    padding: [3, normal.fontSize]
   }
 }

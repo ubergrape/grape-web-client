@@ -1,38 +1,40 @@
 import color from 'color'
-import colors from 'grape-theme/dist/base-colors'
+import {blue, grayBlueLight} from 'grape-theme/dist/base-colors'
 import {big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-
-const marginBottom = 20
-const paddingBottom = 20
+import {spacing} from '../sidebar-panel/theme'
 
 const divider = {
-  marginBottom,
-  paddingBottom,
-  borderBottom: `1px solid ${colors.grayBlueLight}`
+  marginBottom: spacing,
+  paddingBottom: spacing,
+  borderBottom: [1, 'solid', grayBlueLight]
 }
 
 const createIcon = name => buttonIcon(name, {
-  color: colors.blue,
-  hoverColor: color(colors.blue).lighten(0.05).rgbaString()
+  color: blue,
+  hoverColor: color(blue).lighten(0.05).rgbaString()
 })
 
 const button = {
   extend: linkButton,
-  marginBottom: marginBottom / 2
+  marginBottom: spacing / 2
 }
 
 export const styles = {
   userNameContainer: {
     extend: divider,
-    display: 'flex'
+    display: 'flex',
+    padding: spacing
+  },
+  details: {
+    padding: spacing
   },
   name: big,
   about: {
     extend: divider,
-    marginBottom,
+    marginBottom: spacing,
     maxHeight: 200,
     overflowY: 'auto'
   },

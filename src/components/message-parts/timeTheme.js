@@ -31,7 +31,6 @@ export const styles = {
   },
   timeContainer: {
     extend: [small],
-    lineHeight: 1.7,
     textTransform: 'uppercase',
     whiteSpace: 'nowrap'
   },

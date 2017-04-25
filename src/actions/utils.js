@@ -173,7 +173,8 @@ export const normalizeMessage = (() => {
       avatar = defaultAvatar
     }
 
-    const link = createLinkToMessage(find(channels, {id: channelId}), id)
+    const channel = find(channels, {id: channelId})
+    const link = createLinkToMessage(channel, id)
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
     const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
@@ -190,6 +191,7 @@ export const normalizeMessage = (() => {
       attachments,
       mentions,
       channelId,
+      channel,
       linkAttachments
     }
   }
@@ -232,9 +234,10 @@ export const normalizeMessage = (() => {
     }
 
     const attachments = (msg.attachments || []).map(normalizeAttachment)
-    const link = createLinkToMessage(find(channels, {id: channelId}), id)
+    const channel = find(channels, {id: channelId})
+    const link = createLinkToMessage(channel, id)
 
-    return {type, id, channelId, link, text, time, author, avatar, attachments}
+    return {type, id, channelId, channel, link, text, time, author, avatar, attachments}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2

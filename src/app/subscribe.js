@@ -43,6 +43,9 @@ export default function subscribe(channel) {
       case 'message.updated':
         boundActions.handleMessageUpdate(cData)
         break
+      case 'message.labeled':
+        boundActions.handleMessageLabeled(cData)
+        break
       case 'channel.typing':
         boundActions.handleTypingNotification(
             selectors.setTypingSelector(getStore().getState()), cData)

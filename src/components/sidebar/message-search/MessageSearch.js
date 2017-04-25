@@ -14,7 +14,7 @@ import {ShowMore} from '../../i18n'
 import style from './messageSearchStyles'
 import Message from './Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
-import Options from './Options'
+import Options from '../options/Options'
 
 @injectSheet(style)
 @injectIntl
@@ -22,9 +22,11 @@ export default class MessageSearch extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    select: PropTypes.func.isRequired,
-    hide: PropTypes.func.isRequired,
-    searchOnlyInChannel: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    onLoad: PropTypes.func.isRequired,
+    currentChannelOnly: PropTypes.bool.isRequired,
     searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
@@ -34,14 +36,15 @@ export default class MessageSearch extends PureComponent {
     isLoading: PropTypes.bool.isRequired,
     total: PropTypes.number,
     user: PropTypes.object,
-    customEmojis: PropTypes.object.isRequired
+    customEmojis: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired
   }
 
   static defaultProps = {
     query: '',
     options: [],
     showRoomMentions: false,
-    searchOnlyInChannel: false,
+    currentChannelOnly: false,
     searchActivities: false,
     customEmojis: {},
     total: null,
@@ -49,7 +52,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   componentDidMount() {
-    this.load(this.props)
+    this.load()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,11 +66,11 @@ export default class MessageSearch extends PureComponent {
   }
 
   onSelect = (item) => {
-    this.props.select(item)
+    this.props.onSelect(item)
   }
 
   onClose = () => {
-    this.props.hide()
+    this.props.onClose()
   }
 
   onClickOption = (e) => {
@@ -76,12 +79,12 @@ export default class MessageSearch extends PureComponent {
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad({query, show, searchOnlyInChannel, searchActivities, showRoomMentions}) {
+  shouldLoad({query, show, currentChannelOnly, searchActivities, showRoomMentions}) {
     switch (show) {
       case 'search':
         if (!query) return false
         if (query !== this.props.query) return true
-        if (searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+        if (currentChannelOnly !== this.props.currentChannelOnly) return true
         if (searchActivities !== this.props.searchActivities) return true
         break
       case 'mentions':
@@ -93,7 +96,8 @@ export default class MessageSearch extends PureComponent {
 
   load(props = this.props) {
     const {
-      items, limit, query, searchOnlyInChannel, searchActivities, showRoomMentions
+      items, limit, query, currentChannelOnly, searchActivities, showRoomMentions,
+      onLoad
     } = props
     if (!query || !query.length) return
 
@@ -106,12 +110,12 @@ export default class MessageSearch extends PureComponent {
         }
         break
       case 'search':
-        options = {searchOnlyInChannel, searchActivities}
+        options = {currentChannelOnly, searchActivities}
         break
       default:
     }
 
-    props.load({
+    onLoad({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit,
@@ -200,7 +204,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   render() {
-    const {user, images, title, isLoading, classes} = this.props
+    const {user, images, title, isLoading, classes, options} = this.props
 
     if (!user) return null
 
@@ -210,9 +214,9 @@ export default class MessageSearch extends PureComponent {
         images={images}
         options={
           <Options
-            {...this.props}
+            options={options}
+            isLoading={isLoading}
             onClickOption={this.onClickOption}
-            theme={{classes}}
           />
         }
         onClose={this.onClose}

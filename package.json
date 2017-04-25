@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.52.0",
+  "version": "0.53.0-pre.3",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -129,7 +129,7 @@
     "mocha": "^2.2.5",
     "pre-commit": "^1.2.2",
     "raw-loader": "^0.5.1",
-    "react-styleguidist": "^5.0.0-beta.10",
+    "react-styleguidist": "^5.0.6",
     "require-cwd": "0.0.2",
     "style-loader": "^0.12.3",
     "stylus": "0.42.1",

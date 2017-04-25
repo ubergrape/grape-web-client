@@ -61,6 +61,13 @@ function getTooltipMessage(name) {
           defaultMessage="Mentions"
         />
       )
+    case 'labeledMessages':
+      return (
+        <FormattedMessage
+          id="labeledMessagesTooltip"
+          defaultMessage="Important Messages"
+        />
+      )
     default:
       return (<span />)
   }
@@ -206,6 +213,14 @@ export default function Items(props) {
             mentions={mentions}
             sidebar={sidebar}
             theme={theme}
+          />
+        </Tooltip>
+      </li>
+      <li className={classes.action}>
+        <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
+          <Button
+            className={itemButtonClassName('labeledMessages', props)}
+            onClick={itemClickHandler('labeledMessages', props)}
           />
         </Tooltip>
       </li>
