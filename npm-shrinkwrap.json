@@ -3204,14 +3204,14 @@
       "resolved": "https://registry.npmjs.org/grape-js-emoji/-/grape-js-emoji-0.0.1.tgz"
     },
     "grape-theme": {
-      "version": "2.2.0",
+      "version": "2.2.1",
       "from": "grape-theme@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.2.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.2.1.tgz"
     },
     "grape-web": {
-      "version": "0.59.0",
+      "version": "0.60.0",
       "from": "grape-web@>=0.0.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.59.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.60.0.tgz"
     },
     "growl": {
       "version": "1.9.2",

@@ -1,22 +1,23 @@
 import React, {PropTypes, PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {blue, white} from 'grape-theme/dist/base-colors'
-import cn from 'classnames'
 import noop from 'lodash/utility/noop'
-
-import Tag from '../../tag'
+import Chip from 'material-ui/Chip'
 
 @injectSheet({
-  tag: {
-    cursor: 'pointer',
+  chip: {
+    display: 'inline-block',
+    background: ({isSelected}) => (isSelected ? blue : white),
+    color: ({isSelected, color}) => (isSelected ? white : color),
     margin: {
       right: 5,
       bottom: 5
-    }
-  },
-  tagSelected: {
-    background: blue,
-    color: white
+    },
+    '&:hover, &:focus': {
+      color: white,
+      background: blue
+    },
+    padding: [2, 0]
   }
 })
 export default class FilterButton extends PureComponent {
@@ -24,9 +25,11 @@ export default class FilterButton extends PureComponent {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     nameLocalized: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
     onClick: PropTypes.func,
+    /* eslint-disable react/no-unused-prop-types */
+    color: PropTypes.string.isRequired,
     isSelected: PropTypes.bool
+    /* eslint-enable react/no-unused-prop-types */
   }
 
   static defaultProps = {
@@ -42,19 +45,15 @@ export default class FilterButton extends PureComponent {
   render() {
     const {
       classes,
-      isSelected,
-      color,
       nameLocalized
     } = this.props
 
     return (
-      <Tag
-        style={isSelected ? null : {color}}
-        className={cn(classes.tag, isSelected && classes.tagSelected)}
+      <Chip
+        className={classes.chip}
         onClick={this.onClick}
-      >
-        {nameLocalized}
-      </Tag>
+        label={nameLocalized}
+      />
     )
   }
 }

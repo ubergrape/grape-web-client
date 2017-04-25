@@ -2,15 +2,15 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import {small, normal} from 'grape-theme/dist/fonts'
-import {grayBlueLighter, grayLight, grayDark} from 'grape-theme/dist/base-colors'
+import {white, grayBlueLighter, grayLight, grayDark} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import cn from 'classnames'
 import color from 'color'
 import noop from 'lodash/utility/noop'
+import Chip from 'material-ui/Chip'
 
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import Tag from '../../tag'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
 @injectSheet({
@@ -37,11 +37,14 @@ import {styles as linkStyles} from '../../message-parts/linkTheme'
   footer: {
     marginTop: 10
   },
-  tag: {
+  chip: {
+    display: 'inline-block',
+    background: white,
     margin: {
       right: 5,
       bottom: 5
-    }
+    },
+    padding: [2, 0]
   }
 })
 export default class Message extends PureComponent {
@@ -109,13 +112,12 @@ export default class Message extends PureComponent {
         </div>
         <div>
           {labels.map(label => (
-            <Tag
+            <Chip
               style={{color: label.color}}
-              className={classes.tag}
+              className={classes.chip}
               key={label.id}
-            >
-              {label.nameLocalized}
-            </Tag>
+              label={label.nameLocalized}
+            />
           ))}
         </div>
       </section>

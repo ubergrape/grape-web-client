@@ -1,11 +1,11 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {gold, white} from 'grape-theme/dist/base-colors'
-
-import Tag from '../../tag'
+import Chip from 'material-ui/Chip'
 
 @injectSheet({
   badge: {
+    display: 'inline-block',
     background: gold,
     color: white,
     marginLeft: 5,
@@ -14,16 +14,12 @@ import Tag from '../../tag'
 })
 export default class DuplicatesBadge extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     value: PropTypes.number.isRequired
   }
 
   render() {
-    const {sheet: {classes}, value} = this.props
-    return (
-      <Tag className={classes.badge}>
-        {`x${value + 1}`}
-      </Tag>
-    )
+    const {classes, value} = this.props
+    return <Chip className={classes.badge} label={`x${value + 1}`} />
   }
 }
