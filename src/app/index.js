@@ -45,7 +45,8 @@ export function render() {
     const before = performance.now()
     internalRender()
     const diff = performance.now() - before
-    console.log(`Initial render took ${diff}ms`) // eslint-disable-line no-console
+    // eslint-disable-next-line no-console
+    console.log(`Initial render took ${diff}ms`)
   } else {
     internalRender()
   }

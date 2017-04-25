@@ -55,9 +55,7 @@ class Renderer {
 
   renderEmoji = ({markup}) => renderEmoji(markup)
 
-  renderInline = (token, attrs, children) => {
-    return renderCustomEmojis(children, this.props.customEmojis)
-  }
+  renderInline = (token, attrs, children) => renderCustomEmojis(children, this.props.customEmojis)
 
   renderInlineImage = (token, attrs, children) => {
     const {formatMessage} = this.props.intl

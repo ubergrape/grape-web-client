@@ -1,7 +1,10 @@
 import button from '../../button/default'
+import {spacing} from '../sidebar-panel/theme'
 
 export const styles = {
-  sharedFiles: {},
+  sharedFiles: {
+    padding: spacing
+  },
   loadMoreContainer: {
     textAlign: 'center'
   },

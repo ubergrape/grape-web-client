@@ -4,9 +4,10 @@ import {small, normal, bigger} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
 import {borderLight, button} from 'grape-theme/dist/web-colors'
 
+import {iconSize} from '../../room-icon-settings/theme'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {iconSize} from '../../room-icon-settings/theme'
+import {spacing} from '../sidebar-panel/theme'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -35,7 +36,8 @@ export const settingsButtonSize = normal.fontSize
 
 export const styles = {
   channelInfo: {
-    color: grayBlueDark
+    color: grayBlueDark,
+    padding: spacing
   },
   actions: {
     extend: divider,

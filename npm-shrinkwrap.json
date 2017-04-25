@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.52.0",
+  "version": "0.53.0-pre.3",
   "dependencies": {
     "@ubergrape/react-dropzone": {
       "version": "3.8.0",
@@ -3194,9 +3194,9 @@
       "dev": true
     },
     "grape-browser": {
-      "version": "3.7.0",
+      "version": "3.8.0",
       "from": "grape-browser@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.7.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.0.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",
@@ -3204,14 +3204,14 @@
       "resolved": "https://registry.npmjs.org/grape-js-emoji/-/grape-js-emoji-0.0.1.tgz"
     },
     "grape-theme": {
-      "version": "2.1.0",
+      "version": "2.2.1",
       "from": "grape-theme@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.1.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.2.1.tgz"
     },
     "grape-web": {
-      "version": "0.57.0",
+      "version": "0.60.0",
       "from": "grape-web@>=0.0.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.57.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.60.0.tgz"
     },
     "growl": {
       "version": "1.9.2",
@@ -6067,15 +6067,21 @@
       }
     },
     "react-styleguidist": {
-      "version": "5.0.0-rc.1",
-      "from": "react-styleguidist@>=5.0.0-beta.10 <6.0.0",
-      "resolved": "https://registry.npmjs.org/react-styleguidist/-/react-styleguidist-5.0.0-rc.1.tgz",
+      "version": "5.0.6",
+      "from": "react-styleguidist@>=5.0.6 <6.0.0",
+      "resolved": "https://registry.npmjs.org/react-styleguidist/-/react-styleguidist-5.0.6.tgz",
       "dev": true,
       "dependencies": {
+        "ast-types": {
+          "version": "0.9.11",
+          "from": "ast-types@>=0.9.10 <0.10.0",
+          "resolved": "https://registry.npmjs.org/ast-types/-/ast-types-0.9.11.tgz",
+          "dev": true
+        },
         "css-loader": {
-          "version": "0.26.4",
-          "from": "css-loader@>=0.26.4 <0.27.0",
-          "resolved": "https://registry.npmjs.org/css-loader/-/css-loader-0.26.4.tgz",
+          "version": "0.28.0",
+          "from": "css-loader@>=0.28.0 <0.29.0",
+          "resolved": "https://registry.npmjs.org/css-loader/-/css-loader-0.28.0.tgz",
           "dev": true
         },
         "css-selector-tokenizer": {
@@ -6091,9 +6097,9 @@
           "dev": true
         },
         "loader-utils": {
-          "version": "1.0.4",
-          "from": "loader-utils@>=1.0.3 <2.0.0",
-          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.0.4.tgz",
+          "version": "1.1.0",
+          "from": "loader-utils@>=1.1.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.1.0.tgz",
           "dev": true
         },
         "lodash": {
@@ -6143,9 +6149,9 @@
           "dev": true
         },
         "style-loader": {
-          "version": "0.13.2",
-          "from": "style-loader@>=0.13.2 <0.14.0",
-          "resolved": "https://registry.npmjs.org/style-loader/-/style-loader-0.13.2.tgz",
+          "version": "0.16.1",
+          "from": "style-loader@>=0.16.1 <0.17.0",
+          "resolved": "https://registry.npmjs.org/style-loader/-/style-loader-0.16.1.tgz",
           "dev": true
         }
       }

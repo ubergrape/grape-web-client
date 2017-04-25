@@ -50,8 +50,8 @@ export default class RoomInfo extends PureComponent {
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeleteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
-    hideSidebar: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired
   }
 
@@ -60,14 +60,14 @@ export default class RoomInfo extends PureComponent {
   }
 
   componentWillMount() {
-    const {load, channel} = this.props
-    load({channel})
+    const {onLoad, channel} = this.props
+    onLoad({channel})
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, load} = this.props
+    const {channel, onLoad} = this.props
     const channelHasChanged = channel !== nextProps.channel
-    if (channelHasChanged) load({channel: nextProps.channel})
+    if (channelHasChanged) onLoad({channel: nextProps.channel})
   }
 
   onInvite = () => {
@@ -83,7 +83,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   onClose = () => {
-    this.props.hideSidebar()
+    this.props.onClose()
   }
 
   onChangePrivacy = () => {

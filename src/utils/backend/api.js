@@ -507,6 +507,35 @@ export function removeLinkAttachments(channelId, messageId, sourceUrl, type) {
   })
 }
 
+export const loadLabeledMessages = (orgId, options = {}) => (
+  new Promise((resolve, reject) => {
+    rpc({
+      ns: 'labels',
+      action: 'get_labeled_messages',
+      args: [orgId, options]
+    },
+    {camelize: true},
+    (err, res) => {
+      if (err) return reject(err)
+      return resolve(res)
+    })
+  })
+)
+
+export const loadLabelsConfig = orgId => (
+  new Promise((resolve, reject) => {
+    rpc({
+      ns: 'labels',
+      action: 'get_label_configuration',
+      args: [orgId]
+    },
+    (err, res) => {
+      if (err) return reject(err)
+      return resolve(res)
+    })
+  })
+)
+
 export function autocomplete(orgId, text, options = {}) {
   return new Promise((resolve, reject) => {
     rpc(
