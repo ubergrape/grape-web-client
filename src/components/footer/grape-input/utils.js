@@ -2,6 +2,7 @@ import startsWith from 'lodash/string/startsWith'
 import includes from 'lodash/collection/includes'
 import find from 'lodash/collection/find'
 import get from 'lodash/object/get'
+import {defineMessages} from 'react-intl'
 
 /**
  * Returns rank based on match `key sub-string` and each `value string`.
@@ -113,4 +114,26 @@ export function getImageAttachments(objects) {
   })
 
   return attachments
+}
+
+const messages = defineMessages({
+  quoteFooter: {
+    id: 'quoteFooter',
+    defaultMessage: '- [Message]({messageUrl}) from {author}',
+    description: 'Quoted message footer text.'
+  }
+})
+
+export const formatQuote = ({intl: {formatMessage}, message: {text, author, link}}) => {
+  const quote = text
+    .split('\n')
+    .map(part => `> ${part}`)
+    .join('\n')
+
+  const footer = formatMessage(messages.quoteFooter, {
+    messageUrl: link,
+    author: author.slug ? `[${author.name}](/chat/${author.slug})` : author.name
+  })
+
+  return `\n\n${quote}\n\n${footer}`
 }

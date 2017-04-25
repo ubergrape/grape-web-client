@@ -38,7 +38,8 @@ export default class TypingUsers extends PureComponent {
         <FormattedMessage
           id="userIsTyping"
           values={{user: names[0]}}
-          defaultMessage="{user} is typing"/>
+          defaultMessage="{user} is typing"
+        />
       )
     } else if (names.length <= max) {
       const last = names.pop()
@@ -49,7 +50,8 @@ export default class TypingUsers extends PureComponent {
             users: names.join(', '),
             user: last
           }}
-          defaultMessage="{users} and {user} are typing"/>
+          defaultMessage="{users} and {user} are typing"
+        />
       )
     } else {
       text = (
@@ -59,7 +61,8 @@ export default class TypingUsers extends PureComponent {
             users: names.slice(0, max).join(', '),
             othersAmount: names.length - max
           }}
-          defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"/>
+          defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
+        />
       )
     }
 

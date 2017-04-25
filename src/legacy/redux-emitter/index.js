@@ -135,16 +135,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().showManageGroups()
   }
 
-  focusGrapeInput() {
-    this.emit('focusGrapeInput')
-  }
-
   showIntro(options) {
     this.emit('showIntro', options)
-  }
-
-  insertQuote(options) {
-    this.emit('insertQuote', options)
   }
 }
 

@@ -1,11 +1,11 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
+import {Link as MarkdownTipsLink} from '../markdown-tips'
 import Controls from './Controls'
 import {styles} from './footerTheme'
-import {Link as MarkdownTipsLink} from '../markdown-tips'
-import {TypingNotification} from '../typing-notification'
-import {GrapeInput} from '../grape-input'
+import GrapeInput from './grape-input/GrapeInput'
+import TypingNotification from './typing-notification/TypingNotification'
 
 @injectSheet(styles)
 export default class Footer extends PureComponent {
@@ -16,6 +16,7 @@ export default class Footer extends PureComponent {
     channel: PropTypes.object.isRequired,
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
     targetMessage: PropTypes.object,
+    quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     rooms: PropTypes.array.isRequired,
@@ -45,6 +46,7 @@ export default class Footer extends PureComponent {
   static defaultProps = {
     disabled: false,
     targetMessage: null,
+    quoteMessage: null,
     search: '',
     services: [],
     customEmojis: {},
@@ -61,6 +63,7 @@ export default class Footer extends PureComponent {
       channels,
       channel,
       targetMessage,
+      quoteMessage,
       showBrowser,
       customEmojis,
       images,
@@ -110,13 +113,13 @@ export default class Footer extends PureComponent {
             rooms={rooms}
             channel={channel}
             targetMessage={targetMessage}
+            quoteMessage={quoteMessage}
             disabled={disabled}
             showBrowser={showBrowser}
             search={search}
             users={users}
             autocomplete={autocomplete}
             services={services}
-
             onShowEmojiBrowser={onShowEmojiBrowser}
             onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
             onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
