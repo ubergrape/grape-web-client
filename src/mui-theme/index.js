@@ -147,6 +147,13 @@ const MuiButton = {
   }
 }
 
+const MuiChip = {
+  root: {
+    height: 'auto',
+    padding: [5, 0]
+  }
+}
+
 export const create = theme => createMuiTheme(merge({
   typography,
   palette,
@@ -155,7 +162,8 @@ export const create = theme => createMuiTheme(merge({
     MuiMenuItem,
     MuiInput,
     MuiFormLabel,
-    MuiButton
+    MuiButton,
+    MuiChip
   }
 }, theme))
 
