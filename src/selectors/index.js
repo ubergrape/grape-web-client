@@ -441,11 +441,11 @@ export const sidebarComponentSelector = createSelector(
 
 export const headerSelector = createSelector(
   [
-    favoriteSelector, channelSelector, sidebarSelector,
+    orgSelector, favoriteSelector, channelSelector, sidebarSelector,
     unreadMentionsAmountSelector, userProfileSelector
   ],
-  (favorite, channel, {show: sidebar}, mentions, mate) => ({
-    favorite, channel, sidebar, mentions, mate
+  ({features}, favorite, channel, {show: sidebar}, mentions, mate) => ({
+    favorite, channel, sidebar, mentions, mate, features
   })
 )
 

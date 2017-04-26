@@ -143,7 +143,8 @@ export default function Items(props) {
     favorite,
     mentions,
     sidebar,
-    theme
+    theme,
+    features
   } = props
   const {type: channel} = props.channel
 
@@ -216,14 +217,16 @@ export default function Items(props) {
           />
         </Tooltip>
       </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
-          <Button
-            className={itemButtonClassName('labeledMessages', props)}
-            onClick={itemClickHandler('labeledMessages', props)}
-          />
-        </Tooltip>
-      </li>
+      {features.labeledMessagesList && (
+        <li className={classes.action}>
+          <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
+            <Button
+              className={itemButtonClassName('labeledMessages', props)}
+              onClick={itemClickHandler('labeledMessages', props)}
+            />
+          </Tooltip>
+        </li>
+      )}
     </ul>
   )
 }
@@ -241,5 +244,12 @@ Items.propTypes = {
   favorite: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
-  onChangeMessageSearch: PropTypes.func.isRequired
+  onChangeMessageSearch: PropTypes.func.isRequired,
+  features: PropTypes.shape({
+    labeledMessagesList: PropTypes.bool
+  })
+}
+
+Items.defaultProps = {
+  features: {}
 }
