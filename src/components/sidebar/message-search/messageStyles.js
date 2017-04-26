@@ -10,7 +10,7 @@ const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
 
 const link = omit(linkStyles.link, '&:hover')
-const linkHover = linkStyles['&:hover']
+const linkHover = linkStyles.link['&:hover']
 
 export default {
   message: {
