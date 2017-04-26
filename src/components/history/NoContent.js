@@ -2,13 +2,14 @@ import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
+import find from 'lodash/collection/find'
 
 import {styles} from './noContentTheme'
 
 function Illustration({type, theme: {classes}}) {
   return (
     <div className={classes.illustration}>
-      <div className={classes[`${type}ChannelImage`]}></div>
+      <div className={classes[`${type}ChannelImage`]} />
     </div>
   )
 }
@@ -33,13 +34,15 @@ function RoomContent(props) {
     text = (
       <FormattedMessage
         id="roomIsPublic"
-        defaultMessage="This group is public. Every member can join and read the history." />
+        defaultMessage="This group is public. Every member can join and read the history."
+      />
     )
   } else {
     text = (
       <FormattedMessage
         id="roomIsPrivate"
-        defaultMessage="This group is private. Only invited members can see and join this group." />
+        defaultMessage="This group is private. Only invited members can see and join this group."
+      />
     )
   }
 
@@ -51,24 +54,29 @@ function RoomContent(props) {
           <FormattedMessage
             id="welcomeToRoom"
             defaultMessage="Welcome to {channel}"
-            values={{channel: name}} />
+            values={{channel: name}}
+          />
         </h2>
         <p className={classes.text}>
           {text}
         </p>
         <button
           onClick={onInvite}
-          className={classes.buttonInvite}>
+          className={classes.buttonInvite}
+        >
           <FormattedMessage
             id="inviteMoreToGroup"
-            defaultMessage="Invite more people to this group" />
+            defaultMessage="Invite more people to this group"
+          />
         </button>
         <button
           onClick={onAddIntegration}
-          className={classes.buttonIntegration}>
+          className={classes.buttonIntegration}
+        >
           <FormattedMessage
             id="addServiceIntegration"
-            defaultMessage="Add service integration" />
+            defaultMessage="Add service integration"
+          />
         </button>
       </div>
     </div>
@@ -85,8 +93,8 @@ RoomContent.propTypes = {
 
 function PmContent(props) {
   const {
-    users,
-    theme: {classes}
+    mate,
+    classes
   } = props
 
   return (
@@ -97,16 +105,18 @@ function PmContent(props) {
           <FormattedMessage
             id="welcomeToPm"
             defaultMessage="Private messages with {mate}"
-            values={{mate: users[0].displayName}} />
+            values={{mate: mate.displayName}}
+          />
         </h2>
         <p className={classes.text}>
           <FormattedMessage
             id="pmIntro"
             defaultMessage="This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
             values={{
-              mate: users[0].displayName,
+              mate: mate.displayName,
               br: <br />
-            }} />
+            }}
+          />
         </p>
       </div>
     </div>
@@ -114,21 +124,25 @@ function PmContent(props) {
 }
 
 PmContent.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
+  mate: PropTypes.shape({
     displayName: PropTypes.string.isRequired
-  })).isRequired,
-  theme: PropTypes.object.isRequired
+  }).isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 @injectSheet(styles)
 export default class NoContent extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     channel: PropTypes.shape({
-      type: PropTypes.oneOf(['pm', 'room']).isRequired
-    }).isRequired
+      type: PropTypes.oneOf(['pm', 'room']).isRequired,
+      name: PropTypes.string,
+      isPublic: PropTypes.bool,
+      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
+    }).isRequired,
+    users: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -142,22 +156,26 @@ export default class NoContent extends PureComponent {
 
   render() {
     const {
-      channel: {type, name, isPublic, users},
-      sheet: {classes},
+      channel,
+      users,
+      classes,
       onAddIntegration
     } = this.props
 
-    if (type === 'room') {
+    if (channel.type === 'room') {
       return (
         <RoomContent
-          name={name}
-          isPublic={isPublic}
+          name={channel.name}
+          isPublic={channel.isPublic}
           theme={{classes}}
           onAddIntegration={onAddIntegration}
-          onInvite={this.onInvite} />
+          onInvite={this.onInvite}
+        />
       )
     }
 
-    return <PmContent theme={{classes}} users={users} />
+    const mate = find(users, {id: channel.users[0]})
+
+    return <PmContent classes={classes} mate={mate} />
   }
 }

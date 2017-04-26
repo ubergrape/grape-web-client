@@ -33,6 +33,7 @@ export default class History extends PureComponent {
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
     }),
+    users: PropTypes.array,
     messages: PropTypes.array,
     user: PropTypes.object,
     selectedMessageId: PropTypes.string,
@@ -55,6 +56,7 @@ export default class History extends PureComponent {
     showNoContent: false,
     user: null,
     channel: null,
+    users: [],
     selectedMessageId: null,
     scrollTo: null,
     minimumBatchSize: null
@@ -110,7 +112,7 @@ export default class History extends PureComponent {
 
   render() {
     const {
-      sheet: {classes}, user, minimumBatchSize, channel, showNoContent,
+      sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
       onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
     } = this.props
     const {rows, scrollTo} = this.state
@@ -125,6 +127,7 @@ export default class History extends PureComponent {
         return (
           <NoContent
             channel={channel}
+            users={users}
             onInvite={onInvite}
             onAddIntegration={onAddIntegration}
           />

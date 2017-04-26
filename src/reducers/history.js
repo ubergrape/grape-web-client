@@ -1,7 +1,8 @@
-import * as types from '../constants/actionTypes'
 import reject from 'lodash/collection/reject'
 import findIndex from 'lodash/array/findIndex'
 import uniq from 'lodash/array/uniq'
+
+import * as types from '../constants/actionTypes'
 
 const initialState = {
   messages: [],
@@ -49,6 +50,8 @@ export default function reduce(state = initialState, action) {
         olderMessages: undefined,
         newerMessages: undefined
       }
+    case types.SET_USERS:
+      return {...state, users: payload}
     case types.HANDLE_INITIAL_HISTORY:
       return {
         ...state,
