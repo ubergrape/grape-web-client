@@ -44,7 +44,7 @@ import {styles as linkStyles} from '../../message-parts/linkTheme'
       right: 5,
       bottom: 5
     },
-    padding: [2, 0]
+    padding: [3, 0]
   }
 })
 export default class Message extends PureComponent {

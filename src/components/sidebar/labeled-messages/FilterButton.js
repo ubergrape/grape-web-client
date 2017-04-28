@@ -17,7 +17,7 @@ import Chip from 'material-ui/Chip'
       color: white,
       background: blue
     },
-    padding: [2, 0]
+    padding: [3, 0]
   }
 })
 export default class FilterButton extends PureComponent {
