@@ -24,7 +24,10 @@ export const styles = {
   },
   mainBody: {
     display: 'flex',
-    flex: 1
+    flex: 1,
+    // Flexbox fix, otherwise it stretches full height and you can't scroll
+    // anywhere inside in Firefox at least.
+    maxHeight: '100%'
   },
   mainLeft: {
     display: 'flex',

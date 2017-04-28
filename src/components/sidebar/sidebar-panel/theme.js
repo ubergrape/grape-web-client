@@ -34,7 +34,7 @@ export const styles = {
     flexDirection: 'column',
     flex: 1,
     background: colors.grayBlueLighter,
-    height: '100%'
+    maxHeight: '100%'
   },
   header: {
     ...commonHeader,
@@ -50,7 +50,8 @@ export const styles = {
     background: colors.grayBlueLighter,
     flex: 1,
     overflowY: 'auto',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    height: '100%'
   },
   close: {
     extend: [
