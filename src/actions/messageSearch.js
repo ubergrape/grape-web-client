@@ -8,10 +8,7 @@ export function updateMessageSearchQuery(nextQuery) {
   return (dispatch, getState) => {
     const prevQuery = messageSearchSelector(getState()).query.join(' ')
 
-    if (nextQuery === prevQuery) {
-      dispatch({type: types.NOOP})
-      return
-    }
+    if (nextQuery === prevQuery) return
 
     dispatch({
       type: types.UPDATE_MESSAGE_SEARCH_QUERY,

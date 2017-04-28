@@ -32,7 +32,7 @@ export function loadMentions(params) {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })
@@ -66,9 +66,7 @@ export function removeMention(messageId) {
     const cleanedItems = items.filter(({id}) => id !== messageId)
 
     // Nothing to remove.
-    if (cleanedItems.length === items.length) {
-      return dispatch({type: types.NOOP})
-    }
+    if (cleanedItems.length === items.length) return
 
     dispatch({
       type: types.REMOVE_MENTION,

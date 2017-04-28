@@ -1,5 +1,3 @@
-export const NOOP = 'NOOP'
-
 export const SET_LOCATION = 'SET_LOCATION'
 export const SET_ORG = 'SET_ORG'
 export const SET_USERS = 'SET_USERS'

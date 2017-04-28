@@ -1,5 +1,6 @@
 import page from 'page'
 import pick from 'lodash/object/pick'
+import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
@@ -9,7 +10,6 @@ import {
   pinToFavorite,
   nullChannelIconToUndefined
 } from './utils'
-import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {createChannel} from './common'
@@ -21,8 +21,6 @@ import {
   channelSelector,
   joinedRoomsSelector
 } from '../selectors'
-
-const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
@@ -70,7 +68,7 @@ export function handleNewMessage(message) {
 }
 
 export function handleRemovedMessage({id}) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
@@ -101,10 +99,8 @@ export function handleJoinOrg({user, organization: orgId}) {
     const users = usersSelector(state)
     const org = orgSelector(state)
 
-    const _user = find(users, ({id}) => id === user.id)
-    if (_user || org.id !== orgId) {
-      return dispatch(noopAction)
-    }
+    const userInUsers = find(users, ({id}) => id === user.id)
+    if (userInUsers || org.id !== orgId) return
 
     const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
 
@@ -126,7 +122,7 @@ export function handleLeftOrg({user: userId, organization: orgId}) {
   return (dispatch, getState) => {
     const org = orgSelector(getState())
 
-    if (org.id !== orgId) return dispatch(noopAction)
+    if (org.id !== orgId) return
 
     dispatch({
       type: types.REMOVE_USER_FROM_ORG,
@@ -145,7 +141,7 @@ export function handleMembershipUpdate({membership}) {
     } = membership
 
     const {id} = orgSelector(getState())
-    if (id !== organization) return noopAction
+    if (id !== organization) return
 
 
     dispatch({

@@ -41,13 +41,11 @@ export function loadSharedFiles(params) {
         channelId: channel.id,
         ...params
       })
-      .then(files => {
+      .then((files) => {
         dispatch(setSidebarIsLoading(false))
         const prevItems = sharedFilesSelector(state).items
         const users = usersSelector(state)
-        const nextItems = files.results.map(file => {
-          return formatFile(file, channel, users)
-        })
+        const nextItems = files.results.map(file => formatFile(file, channel, users))
         dispatch({
           type: types.LOADED_SHARED_FILES,
           payload: {
@@ -56,7 +54,7 @@ export function loadSharedFiles(params) {
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })
@@ -70,7 +68,7 @@ export function addSharedFiles(message) {
     const users = usersSelector(state)
     const sharedFiles = sharedFilesSelector(state)
     const prevItems = sharedFiles.items
-    const nextItems = message.attachments.map(attachment => {
+    const nextItems = message.attachments.map((attachment) => {
       const file = {
         ...attachment,
         author: message.author,
@@ -95,9 +93,7 @@ export function removeSharedFiles(messageId) {
     const cleanedItems = items.filter(item => item.messageId !== messageId)
 
     // Nothing to remove.
-    if (cleanedItems.length === items.length) {
-      return dispatch({type: types.NOOP})
-    }
+    if (cleanedItems.length === items.length) return
 
     dispatch({
       type: types.REMOVE_SHARED_FILE,
