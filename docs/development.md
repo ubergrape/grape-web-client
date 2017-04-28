@@ -53,6 +53,12 @@ the web proxy for both http and https.
 
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
 
+## Trusting certificate on Firefox
+
+Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
+
+![Firefox authorities dialog](./authorities.png)
+
 #### Build once:
 
 ```bash
