@@ -531,7 +531,7 @@ export const loadLabelsConfig = orgId => (
     },
     (err, res) => {
       if (err) return reject(err)
-      return resolve(res)
+      return resolve(res.labels)
     })
   })
 )

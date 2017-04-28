@@ -4,12 +4,12 @@ import last from 'lodash/array/last'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
-  userSelector, channelSelector, historySelector
+  userSelector, channelSelector, historySelector, orgSelector
 } from '../selectors'
 import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
-import {normalizeMessage, filterEmptyMessage} from './utils'
+import {normalizeMessage, filterEmptyMessage, loadLabelsConfigCached} from './utils'
 
 function normalizeMessages(messages, state) {
   return messages
@@ -314,9 +314,14 @@ export function createMessage({channelId, text, attachments = []}) {
 
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
-    dispatch({
-      type: types.UPDATE_MESSAGE,
-      payload: normalizeMessage(message, getState())
+    const state = getState()
+    const orgId = orgSelector(state).id
+
+    loadLabelsConfigCached(orgId).then((labelsConfig) => {
+      dispatch({
+        type: types.UPDATE_MESSAGE,
+        payload: normalizeMessage(message, state, labelsConfig)
+      })
     })
   }
 }

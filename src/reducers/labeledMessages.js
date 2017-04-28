@@ -65,17 +65,28 @@ export default function reduce(state = initialState, action) {
         ...state,
         filter: payload
       }
-    case types.HANDLE_MESSAGE_LABELED:
+    case types.UPDATE_MESSAGE: {
+      const messages = state.messages.map(message => (
+        message.id === payload.id ? payload : message
+      ))
+
+      return {...state, messages}
+    }
+    case types.HANDLE_MESSAGE_LABELED: {
+      const {filter, currentChannelOnly, channel, newMessagesAmount} = state
+      // Ignore messages which don't pass the filter.
+      const isFiltered = filter !== 'all' && payload.labels.indexOf(filter) === -1
       // User doesn't need to see a new message from a different channel
       // when this option is turned on.
-      if (state.currentChannelOnly && payload.channel !== state.channel.id) {
-        return state
-      }
+      const isWrongChannel = currentChannelOnly && payload.channel !== channel.id
+
+      if (isFiltered || isWrongChannel) return state
 
       return {
         ...state,
-        newMessagesAmount: state.newMessagesAmount + 1
+        newMessagesAmount: newMessagesAmount + 1
       }
+    }
     default:
       return state
   }

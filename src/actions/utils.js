@@ -3,6 +3,7 @@ import pluck from 'lodash/collection/pluck'
 import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
+import indexBy from 'lodash/collection/indexBy'
 
 import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
@@ -11,6 +12,7 @@ import {
   usersSelector,
   channelsSelector
 } from '../selectors'
+import * as api from '../utils/backend/api'
 
 /**
  * Fix data inconsistencies at the backend.
@@ -103,7 +105,50 @@ export function normalizeUserData(user) {
   return user
 }
 
+// Load a config and caches a promise based on org id.
+export const loadLabelsConfigCached = (() => {
+  let promise
+  let prevOrgId
+
+  const normalizeLabelConfigs = configs => configs.map(conf => ({
+    name: conf.name,
+    nameLocalized: conf.localized,
+    color: conf.color
+  }))
+
+  return (orgId) => {
+    if (prevOrgId !== orgId) {
+      prevOrgId = orgId
+      promise = api
+        .loadLabelsConfig(orgId)
+        .then(normalizeLabelConfigs)
+    }
+    return promise
+  }
+})()
+
 export const normalizeMessage = (() => {
+  function normalizeLabels(labels, labelConfigs) {
+    const configsMap = indexBy(labelConfigs, 'name')
+    return labels
+      // Just a precaution in case the config doesn't have all labels.
+      .filter(label => !!configsMap[label.name])
+      // Deduplicate labels. There might the same label at different position.
+      .reduce((uniqLabels, label) => {
+        if (!find(uniqLabels, {name: label.name})) {
+          uniqLabels.push(label)
+        }
+        return uniqLabels
+      }, [])
+      .map((label) => {
+        const conf = configsMap[label.name]
+        return {
+          id: label.id,
+          ...conf
+        }
+      })
+  }
+
   function normalizeAttachment(attachment) {
     const {id, mimeType, name, thumbnailUrl, url, category} = attachment
     const thumbnailHeight = Number(attachment.thumbnailHeight)
@@ -146,7 +191,7 @@ export const normalizeMessage = (() => {
     return nMentions
   }
 
-  function normalizeRegularMessage(msg, state) {
+  function normalizeRegularMessage(msg, state, labelConfigs) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
@@ -178,6 +223,7 @@ export const normalizeMessage = (() => {
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
     const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
+    const labels = normalizeLabels(msg.labels || [], labelConfigs)
 
     return {
       type,
@@ -192,7 +238,8 @@ export const normalizeMessage = (() => {
       mentions,
       channelId,
       channel,
-      linkAttachments
+      linkAttachments,
+      labels
     }
   }
 
@@ -241,12 +288,12 @@ export const normalizeMessage = (() => {
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
-  return (msg, state) => {
+  return (msg, state, labelConfigs) => {
     if (msg.author.type === 'service') {
       return normalizeActivityMessage(msg, state)
     }
 
-    return normalizeRegularMessage(msg, state)
+    return normalizeRegularMessage(msg, state, labelConfigs)
   }
 })()
 
