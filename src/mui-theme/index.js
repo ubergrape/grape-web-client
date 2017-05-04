@@ -11,7 +11,7 @@ import {borderRadius} from 'grape-theme/dist/sizes'
 import merge from 'lodash/object/merge'
 import color from 'color'
 
-const palette = createPalette()
+export const palette = createPalette()
 
 palette.primary[100] = white
 palette.primary[500] = green

@@ -6,7 +6,7 @@ import defaultUnit from 'jss-default-unit'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
 import expand from 'jss-expand'
-import {typographyConstants} from '../mui-theme'
+import {typographyConstants, palette} from '../mui-theme'
 
 const jssInline = create({
   plugins: [
@@ -27,7 +27,8 @@ jss
       'font-family': typographyConstants.fontFamily,
       'box-sizing': 'border-box',
       // Can be removed after at v3 of jss-isolate.
-      'word-break': 'normal'
+      'word-break': 'normal',
+      color: palette.text.primary
     }
   }))
 
