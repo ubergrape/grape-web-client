@@ -3209,9 +3209,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.2.1.tgz"
     },
     "grape-web": {
-      "version": "0.60.0",
+      "version": "0.60.1",
       "from": "grape-web@>=0.0.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.60.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.60.1.tgz"
     },
     "growl": {
       "version": "1.9.2",
