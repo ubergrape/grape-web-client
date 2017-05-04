@@ -72,6 +72,13 @@ export default function reduce(state = initialState, action) {
 
       return {...state, messages}
     }
+    case types.REMOVE_MESSAGE: {
+      const messages = state.messages.filter(
+        message => message.id !== payload
+      )
+
+      return {...state, messages}
+    }
     case types.HANDLE_MESSAGE_LABELED: {
       const {filter, currentChannelOnly, channel, newMessagesAmount} = state
       // Ignore messages which don't pass the filter.
