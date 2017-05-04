@@ -1,3 +1,5 @@
+import find from 'lodash/collection/find'
+
 import * as types from '../constants/actionTypes'
 
 const initialState = {
@@ -80,7 +82,10 @@ export default function reduce(state = initialState, action) {
       return {...state, messages}
     }
     case types.HANDLE_MESSAGE_LABELED: {
-      const {filter, currentChannelOnly, channel, newMessagesAmount} = state
+      const {
+        filter, currentChannelOnly, channel, newMessagesAmount, messages
+      } = state
+
       // Ignore messages which don't pass the filter.
       const isFiltered = filter !== 'all' && payload.labels.indexOf(filter) === -1
       // User doesn't need to see a new message from a different channel
@@ -88,6 +93,10 @@ export default function reduce(state = initialState, action) {
       const isWrongChannel = currentChannelOnly && payload.channel !== channel.id
 
       if (isFiltered || isWrongChannel) return state
+
+      const hasMessage = Boolean(find(messages, {id: payload.id}))
+
+      if (hasMessage) return state
 
       return {
         ...state,
