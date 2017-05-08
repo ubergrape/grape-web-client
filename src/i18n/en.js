@@ -52,7 +52,6 @@ export default {
   "createTask": "Create Task",
   "moreServices": "More Services",
   "linkToAConnectedTask": "Link to a connected Task",
-  "messageNotSendCheckConnection": "This message wasn't sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
   "roomIsPublic": "This group is public. Every member can join and read the history.",
   "roomIsPrivate": "This group is private. Only invited members can see and join this group.",

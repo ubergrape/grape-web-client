@@ -52,7 +52,6 @@ export default {
   "createTask": "Aufgabe anlegen",
   "moreServices": "Mehr Services",
   "linkToAConnectedTask": "Link zu einer verknüpfen Aufgabe",
-  "messageNotSendCheckConnection": "Die Nachricht wurde nicht gesendet. Stellen Sie Ihre Internetverbindung sicher und",
   "clickToTryAgain": "klicken Sie hier, um es erneut zu versuchen",
   "roomIsPublic": "Diese Gruppe ist öffentlich, alle Mitarbeiter können ihr beitreten und den Konversationsverlauf lesen.",
   "roomIsPrivate": "Diese Gruppe ist privat. Nur eingeladene Mitarbeiter können sie sehen oder ihr beitreten.",
