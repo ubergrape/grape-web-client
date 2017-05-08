@@ -7,18 +7,13 @@ import {
 import noop from 'lodash/utility/noop'
 import {List, AutoSizer, CellMeasurer, InfiniteLoader} from 'react-virtualized'
 import injectSheet from 'grape-web/lib/jss'
-import {grayBlueLight} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
-import webColors from 'grape-theme/dist/web-colors'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import {spacing} from '../sidebar-panel/theme'
 import Options from '../options/Options'
 import Row from './Row'
 import NoContent from './NoContent'
 import Filter from './Filter'
+import TrainingModeHint from './TrainingModeHint'
 
 const translations = defineMessages({
   title: {
@@ -39,17 +34,6 @@ const translations = defineMessages({
   },
   list: {
     outline: 0
-  },
-  hint: {
-    extend: [small, ellipsis],
-    display: 'flex',
-    background: grayBlueLight,
-    borderTop: [1, 'solid', webColors.borderDefault],
-    padding: [5, spacing]
-  },
-  magicWand: {
-    height: '1.2em',
-    marginRight: 5
   }
 })
 @injectIntl
@@ -266,10 +250,7 @@ export default class LabeledMessages extends PureComponent {
               {this.renderList}
             </InfiniteLoader>
           </div>
-          <div className={classes.hint}>
-            <MagicWand variant="light" className={classes.magicWand} />
-            IA: This system is in training mode
-          </div>
+          <TrainingModeHint />
         </div>
       </SidebarPanel>
     )
