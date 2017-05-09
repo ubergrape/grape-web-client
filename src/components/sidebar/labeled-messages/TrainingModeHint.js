@@ -7,6 +7,7 @@ import webColors from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
 
+import linkButton from '../../button/link'
 import {spacing} from '../sidebar-panel/theme'
 
 const TrainingModeHint = ({classes}) => (
@@ -14,7 +15,27 @@ const TrainingModeHint = ({classes}) => (
     <MagicWand className={classes.magicWand} />
     <FormattedMessage
       id="trainingModeHint"
-      defaultMessage="IA: This system is in training mode"
+      defaultMessage="IA: This system is in training mode ({learnMoreLink})"
+      values={{
+        learnMoreLink: (
+          <FormattedMessage
+            id="learnMoreLink"
+            description="learn more link"
+            defaultMessage="learn more"
+          >
+            {(...nodes) => (
+              <a
+                href="https://www.chatgrape.com/ia-labels/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.linkButton}
+              >
+                {nodes}
+              </a>
+            )}
+          </FormattedMessage>
+        )
+      }}
     />
   </div>
 )
@@ -30,6 +51,9 @@ const styles = {
   magicWand: {
     height: '1.2em',
     marginRight: 5
+  },
+  linkButton: {
+    extend: [linkButton, small]
   }
 }
 
