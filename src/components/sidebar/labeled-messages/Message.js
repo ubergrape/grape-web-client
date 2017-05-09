@@ -76,8 +76,9 @@ export default class Message extends PureComponent {
     onSelect: noop
   }
 
-  onClick = () => {
+  onClick = ({target}) => {
     const {message, onSelect} = this.props
+    if (target.href) return
     onSelect(message)
   }
 
