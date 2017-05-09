@@ -14,7 +14,7 @@ const TrainingModeHint = ({classes}) => (
   <div className={classes.hint}>
     <MagicWand className={classes.magicWand} />
     <FormattedMessage
-      id="trainingModeHint"
+      id="trainingModeHintWithLink"
       defaultMessage="IA: This system is in training mode ({learnMoreLink})"
       values={{
         learnMoreLink: (
