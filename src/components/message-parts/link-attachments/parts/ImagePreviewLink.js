@@ -1,21 +1,38 @@
 import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import {white} from 'grape-theme/dist/base-colors'
+import {borderRadius} from 'grape-theme/dist/sizes'
 
-import {styles} from './imagePreviewLinkTheme.js'
+const size = 80
 
-@injectSheet(styles)
+@injectSheet({
+  link: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: size,
+    height: size,
+    backgroundColor: white,
+    borderRadius: borderRadius.bigger,
+    overflow: 'hidden'
+  },
+  img: {
+    maxWidth: '100%',
+    maxHeight: '100%'
+  }
+})
 export default class ImagePreviewLink extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     permalink: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   render() {
     const {
       url,
       permalink,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -25,7 +42,7 @@ export default class ImagePreviewLink extends PureComponent {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={url} alt="" />
+        <img src={`${url}${size}x${size}`} alt="" className={classes.img} />
       </a>
     )
   }
