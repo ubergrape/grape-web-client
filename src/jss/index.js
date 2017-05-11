@@ -6,6 +6,8 @@ import defaultUnit from 'jss-default-unit'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
 import expand from 'jss-expand'
+import createStyled from 'styled-jss/createStyled'
+
 import {typographyConstants, palette} from '../mui-theme'
 
 const jssInline = create({
@@ -18,7 +20,7 @@ const jssInline = create({
   ]
 })
 
-const inlineStyle = style => jssInline.createRule(style).toJSON()
+export const inlineStyle = style => jssInline.createRule(style).toJSON()
 
 jss
   .setup({insertionPoint: 'grape-jss'})
@@ -32,5 +34,8 @@ jss
     }
   }))
 
-export {jss, inlineStyle}
+export const Styled = createStyled(jss)
+export const styled = Styled()
+
+export {jss}
 export default injectSheet

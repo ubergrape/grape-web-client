@@ -1,7 +1,7 @@
-import {createMuiTheme} from 'material-ui/styles/theme'
-import {createPalette} from 'material-ui/styles/palette'
+import createMuiTheme from 'material-ui/styles/theme'
+import createPalette from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
-import {Input} from 'material-ui/Input'
+import Input from 'material-ui/Input'
 import {
   white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayMercury,
   grayBombay
