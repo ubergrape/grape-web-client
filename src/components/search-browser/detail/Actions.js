@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {Component} from 'react'
 import List from 'react-finite-list'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import injectSheet from 'grape-web/lib/jss'

@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {Component} from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import injectSheet from 'grape-web/lib/jss'

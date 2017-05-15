@@ -1,4 +1,5 @@
-import {PropTypes, Component, cloneElement} from 'react'
+import PropTypes from 'prop-types'
+import {Component, cloneElement} from 'react'
 import noop from 'lodash/utility/noop'
 
 /**

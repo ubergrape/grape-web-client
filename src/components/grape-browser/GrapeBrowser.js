@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import PropTypes from 'prop-types'
+import React, {Component} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
