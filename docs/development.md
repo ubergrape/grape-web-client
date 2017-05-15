@@ -46,6 +46,8 @@ local assets. This is currently hard coded to support `staging` and `dev` instan
 On your first run the certificate `.http-mitm-proxy/ca.pem` is created. You have to
 install and trust this certifiate using your standard OS tools.
 
+Also install the `ca/chatgrape-labs.pem` certificate.
+
 ![A dialog showing current trust settings](./ca-trust.jpg)
 
 In order to use the web proxy you have to change your network settings to use
@@ -59,13 +61,22 @@ Firefox doesn't trust the trusted system certificate, you need to add it as an a
 
 ![Firefox authorities dialog](./authorities.png)
 
-#### Build once:
+## Trusting certificate on Windows
+
+1. Open shell as an admin (right click in start menu).
+1. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
+
+## Parallels
+
+You can use your Mac's public IP address and default bridged network adapter to configure the proxy instead of 0.0.0.0.
+
+## Build once
 
 ```bash
 npm run build
 ```
 
-#### Manage Dependencies
+## Manage Dependencies
 
 To add a dependency just call `npm install package --save ` or `npm install package --save-dev`.
 A shrinkwrap hook will be automatically called.
