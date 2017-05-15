@@ -16,7 +16,6 @@ export default {
   },
   editable: {
     extend: editableAndHighliter,
-    color: colors.black,
     outline: 'none',
     border: 'none',
     resize: 'none'
