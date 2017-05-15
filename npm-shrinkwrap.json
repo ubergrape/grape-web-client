@@ -345,9 +345,9 @@
       "resolved": "https://registry.npmjs.org/global/-/global-4.3.2.tgz"
     },
     "grape-browser": {
-      "version": "3.8.0",
-      "from": "grape-browser@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.0.tgz"
+      "version": "3.8.2",
+      "from": "grape-browser@latest",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.2.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",
