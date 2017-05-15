@@ -16,10 +16,15 @@ export const styles = {
     extend: normal,
     marginRight: 10,
     fill: grayDarker,
-    cursor: 'inherit'
+    cursor: 'inherit',
+    flex: {
+      grow: 0,
+      basis: '10%'
+    }
   },
   text: {
     extend: [small, ellipsis],
-    width: '100%'
+    width: '100%',
+    flex: 1
   }
 }
