@@ -110,7 +110,7 @@ export const loadLabelsConfigCached = (() => {
   let promise
   let prevOrgId
 
-  const normalizeLabelConfigs = configs => configs.map(conf => ({
+  const normalize = configs => configs.map(conf => ({
     name: conf.name,
     nameLocalized: conf.localized,
     color: conf.color
@@ -121,7 +121,7 @@ export const loadLabelsConfigCached = (() => {
       prevOrgId = orgId
       promise = api
         .loadLabelsConfig(orgId)
-        .then(normalizeLabelConfigs)
+        .then(configs => (configs ? normalize(configs) : null))
     }
     return promise
   }
@@ -223,7 +223,7 @@ export const normalizeMessage = (() => {
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
     const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
-    const labels = normalizeLabels(msg.labels || [], labelConfigs)
+    const labels = msg.labels && labelConfigs ? normalizeLabels(msg.labels, labelConfigs) : []
 
     return {
       type,
