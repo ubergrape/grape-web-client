@@ -41,12 +41,16 @@ const Header = ({classes, name, user}) => (
 export default class OrgInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
     logo: PropTypes.string,
     name: PropTypes.string,
     user: PropTypes.shape({
       displayName: PropTypes.string
     })
+  }
+
+  static defaultProps = {
+    isLoading: false
   }
 
   render() {
@@ -67,8 +71,8 @@ export default class OrgInfo extends PureComponent {
           name={name}
           logo={logo}
         />
-        {!isLoading && <Header classes={classes} name={name} user={user} />}
-        {!isLoading && <Settings {...settingsProps} user={user} />}
+        {!isLoading && user && <Header classes={classes} name={name} user={user} />}
+        {!isLoading && user && <Settings {...settingsProps} user={user} />}
       </header>
     )
   }

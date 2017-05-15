@@ -5,11 +5,13 @@ import buttonReset from '../button/reset'
 
 export const styles = {
   settings: {
-    position: 'relative'
+    position: 'relative',
+    flex: 1
   },
   settingsButton: {
     extend: buttonReset,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    maxWidth: '100%'
   },
   settingsButtonIcon: {
     isolate: false,

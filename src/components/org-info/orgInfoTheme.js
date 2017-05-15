@@ -26,7 +26,10 @@ export const styles = {
     flexShrink: 0
   },
   headers: {
-    flexGrow: 1,
+    flex: {
+      grow: 1,
+      shrink: 0
+    },
     overflow: 'hidden',
     marginRight: 10,
     cursor: 'default'
