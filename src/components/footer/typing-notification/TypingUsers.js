@@ -1,8 +1,53 @@
 import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import random from 'lodash/number/random'
+import {small} from 'grape-theme/dist/fonts'
+import {grayLight} from 'grape-theme/dist/base-colors'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
-import {styles} from './typingUsersTheme'
+const dotAnimation = `dot-${random(1000000)}`
+
+const getText = (users, max) => {
+  if (!users.length) return null
+
+  const names = users.map(user => user.name)
+
+  if (names.length === 1) {
+    return (
+      <FormattedMessage
+        id="userIsTyping"
+        values={{user: names[0]}}
+        defaultMessage="{user} is typing"
+      />
+    )
+  }
+
+  if (names.length <= max) {
+    const last = names.pop()
+    return (
+      <FormattedMessage
+        id="userAndUsersAreTyping"
+        values={{
+          users: names.join(', '),
+          user: last
+        }}
+        defaultMessage="{users} and {user} are typing"
+      />
+    )
+  }
+
+  return (
+    <FormattedMessage
+      id="usersAreTyping"
+      values={{
+        users: names.slice(0, max).join(', '),
+        othersAmount: names.length - max
+      }}
+      defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
+    />
+  )
+}
 
 /**
  * Render users list.
@@ -12,63 +57,44 @@ import {styles} from './typingUsersTheme'
  * - Val, Oleg and Leo are typing.
  * - Val, Oleg, Leo and 3 others are typing.
  */
-@injectSheet(styles)
+@injectSheet({
+  typingUsers: {
+    extend: [small, ellipsis],
+    color: grayLight,
+    '&:after': {
+      content: '"…"',
+      overflow: 'hidden',
+      display: 'inline-block',
+      verticalAlign: 'bottom',
+      width: 0,
+      animation: `${dotAnimation} steps(4, end) 1s infinite`
+    }
+  },
+  [`@keyframes ${dotAnimation}`]: {
+    to: {
+      width: '1em'
+    }
+  }
+})
 export default class TypingUsers extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired,
+    classes: PropTypes.object.isRequired,
+    users: PropTypes.array,
     max: PropTypes.number
   }
 
   static defaultProps = {
-    max: 3
+    max: 3,
+    className: null,
+    users: []
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {max, users} = this.props
-
-    if (!users.length) return null
-
-    const names = users.map(user => user.name)
-    let text
-
-    if (names.length === 1) {
-      text = (
-        <FormattedMessage
-          id="userIsTyping"
-          values={{user: names[0]}}
-          defaultMessage="{user} is typing"
-        />
-      )
-    } else if (names.length <= max) {
-      const last = names.pop()
-      text = (
-        <FormattedMessage
-          id="userAndUsersAreTyping"
-          values={{
-            users: names.join(', '),
-            user: last
-          }}
-          defaultMessage="{users} and {user} are typing"
-        />
-      )
-    } else {
-      text = (
-        <FormattedMessage
-          id="usersAreTyping"
-          values={{
-            users: names.slice(0, max).join(', '),
-            othersAmount: names.length - max
-          }}
-          defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
-        />
-      )
-    }
+    const {classes, max, users} = this.props
 
     return (
-      <div className={classes.notification}>
-        {text}
+      <div className={classes.typingUsers}>
+        {getText(users, max)}
       </div>
     )
   }

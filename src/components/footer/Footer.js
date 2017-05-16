@@ -98,13 +98,19 @@ export default class Footer extends PureComponent {
         data-step="1"
         data-topic="grape input"
       >
-        <TypingNotification
-          channels={channels}
-          channel={channel}
-          cleanupTyping={onCleanupTyping}
-        />
-        <div className={classes.markdownTips}>
-          <MarkdownTipsLink onClick={onShowMarkdownTips} />
+        <div className={classes.above}>
+          <div className={classes.typingNotificationContainer}>
+            <TypingNotification
+              channels={channels}
+              channel={channel}
+              cleanupTyping={onCleanupTyping}
+              className={classes.typingNotification}
+            />
+          </div>
+          <MarkdownTipsLink
+            onClick={onShowMarkdownTips}
+            className={classes.markdownTipsLink}
+          />
         </div>
         <div className={classes.inputWithControls} ref={this.onRef}>
           <GrapeInput

@@ -355,13 +355,13 @@
       "resolved": "https://registry.npmjs.org/grape-js-emoji/-/grape-js-emoji-0.0.1.tgz"
     },
     "grape-theme": {
-      "version": "2.2.1",
-      "from": "grape-theme@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.2.1.tgz"
+      "version": "2.3.0",
+      "from": "grape-theme@latest",
+      "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.3.0.tgz"
     },
     "grape-web": {
       "version": "0.61.0",
-      "from": "grape-web@>=0.0.0 <1.0.0",
+      "from": "grape-web@latest",
       "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.61.0.tgz"
     },
     "has-transitions": {
@@ -1016,6 +1016,11 @@
       "version": "2.0.0",
       "from": "scroll@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/scroll/-/scroll-2.0.0.tgz"
+    },
+    "scrollbar-size": {
+      "version": "1.0.4",
+      "from": "scrollbar-size@latest",
+      "resolved": "https://registry.npmjs.org/scrollbar-size/-/scrollbar-size-1.0.4.tgz"
     },
     "setimmediate": {
       "version": "1.0.5",
