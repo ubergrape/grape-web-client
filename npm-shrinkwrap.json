@@ -360,9 +360,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.3.0.tgz"
     },
     "grape-web": {
-      "version": "0.61.0",
+      "version": "0.61.3",
       "from": "grape-web@latest",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.61.0.tgz"
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.61.3.tgz"
     },
     "has-transitions": {
       "version": "0.3.0",
