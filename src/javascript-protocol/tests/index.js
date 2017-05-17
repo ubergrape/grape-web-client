@@ -1,3 +1,5 @@
+/* eslint-disable no-script-url */
+
 import expect from 'expect.js'
 import hasJsProtocol from '..'
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 const parser = document.createElement('a')
 
 export default (url) => {
