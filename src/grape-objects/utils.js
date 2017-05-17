@@ -1,4 +1,5 @@
 import parseUrl from '../parse-url'
+import hasJsProtocol from '../javascript-protocol'
 import {grapeProtocol} from './constants'
 
 /**
@@ -37,13 +38,15 @@ export function isGrapeUrl(url) {
 export function getOptions(text, grapeUrl) {
   if (!isGrapeUrl(grapeUrl)) return false
   const [service, type, id, url] = grapeUrl.slice(5).split('|')
+  const validUrl = hasJsProtocol(url) ? '' : url
+
   return {
     id,
     service,
     type,
-    url,
+    url: validUrl,
     name: text,
-    slug: url.replace('/chat/', ''),
+    slug: validUrl.replace('/chat/', ''),
     nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text
   }
 }
