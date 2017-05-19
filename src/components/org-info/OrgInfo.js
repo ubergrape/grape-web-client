@@ -24,8 +24,8 @@ const Logo = ({isLoading, classes, ...rest}) => (
   </span>
 )
 
-const Header = ({classes, name, user}) => (
-  <div className={classes.headers}>
+const Info = ({classes, name, user}) => (
+  <div className={classes.info}>
     <div>
       <h1 className={classes.orgName}>
         {name}
@@ -71,7 +71,7 @@ export default class OrgInfo extends PureComponent {
           name={name}
           logo={logo}
         />
-        {!isLoading && user && <Header classes={classes} name={name} user={user} />}
+        {!isLoading && user && <Info classes={classes} name={name} user={user} />}
         {!isLoading && user && <Settings {...settingsProps} user={user} />}
       </header>
     )

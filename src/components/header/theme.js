@@ -6,16 +6,17 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import color from 'color'
 
 import reset from '../button/reset'
+import {iconSize, height} from './constants'
 
 const button = {
   ...reset,
-  fontSize: 22,
+  fontSize: iconSize,
   display: 'inline-block',
   width: 34,
   height: 34,
   borderRadius: '100%',
   background: 'no-repeat 50% 50%',
-  backgroundSize: 'auto 22px',
+  backgroundSize: ['auto', iconSize],
   cursor: 'pointer'
 }
 
@@ -52,8 +53,6 @@ const infoActive = {
 const action = {
   listStyle: 'none'
 }
-
-export const height = 56
 
 export const styles = {
   header: {

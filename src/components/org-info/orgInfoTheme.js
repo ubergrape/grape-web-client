@@ -25,11 +25,9 @@ export const styles = {
     borderBottom: [1, 'solid', borderDefault],
     flexShrink: 0
   },
-  headers: {
-    flex: {
-      grow: 1,
-      shrink: 0
-    },
+  info: {
+    flex: 1,
+    flexBasis: 'auto',
     overflow: 'hidden',
     marginRight: 10,
     cursor: 'default'

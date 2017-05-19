@@ -6,7 +6,7 @@ import {
 } from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
-import Favorite from '../favorite/Favorite'
+import Favorite from './Favorite'
 
 const messages = defineMessages({
   placeholder: {

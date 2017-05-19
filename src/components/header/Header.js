@@ -9,7 +9,7 @@ import Items from './Items'
 @injectIntl
 export default class Header extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     mate: PropTypes.object.isRequired,
     favorite: PropTypes.object.isRequired,
@@ -27,7 +27,7 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const {sheet: {classes}, ...rest} = this.props
+    const {classes, ...rest} = this.props
     return (
       <Items
         {...rest}
