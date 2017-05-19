@@ -1,5 +1,7 @@
-import buttonIcon from '../button/icon'
 import {grayLight, blue} from 'grape-theme/dist/base-colors'
+import {bigger} from 'grape-theme/dist/fonts'
+
+import buttonIcon from '../button/icon'
 
 const iconOptions = {
   color: grayLight,
@@ -11,6 +13,7 @@ export const padding = 8
 
 export const styles = {
   controls: {
+    extend: bigger,
     flexShrink: 0
   },
   attachment: {
