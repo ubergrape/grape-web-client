@@ -19,6 +19,7 @@ export const styles = {
   messageIcon: {
     marginRight: 20,
     height: 40,
+    width: 40,
     fill: red
   },
   messageWarning: {

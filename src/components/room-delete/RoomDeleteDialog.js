@@ -92,7 +92,6 @@ const ConfirmForm = ({
           id={inputId}
           required
           value={value}
-          underline={false}
           ref={onRefInput}
           onChange={onChange}
           placeholder={inputPlaceholder}

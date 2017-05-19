@@ -17,7 +17,8 @@ export const styles = {
   settingsButtonIcon: {
     isolate: false,
     fill: blue,
-    fontSize: iconSize,
+    width: iconSize,
+    height: iconSize,
     '&:hover': {
       isolate: false,
       fill: color(blue).lighten(0.2).rgbaString()
