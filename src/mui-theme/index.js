@@ -89,7 +89,7 @@ const MuiInput = {
   }
 }
 
-Input.defaultProps.underline = false
+Input.defaultProps.disableUnderline = true
 
 const MuiFormLabel = {
   root: {
