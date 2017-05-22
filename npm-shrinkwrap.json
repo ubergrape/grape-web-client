@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.53.5",
+  "version": "0.53.6",
   "dependencies": {
     "@ubergrape/react-dropzone": {
       "version": "3.8.0",
