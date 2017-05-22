@@ -9,7 +9,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {Button} from 'material-ui/Button'
+import Button from 'material-ui/Button'
 
 import Dialog from '../dialog/Dialog'
 import {styles} from './theme'
