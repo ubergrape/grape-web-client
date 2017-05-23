@@ -1,3 +1,10 @@
+## Release next (2017-xx-xx)
+
+### Fixes
+
+- Fix file upload from buffer in Chrome #446
+
+
 ## Release 0.53.0 - 0.53.6 (2017-05-22)
 
 ### Security Fixes

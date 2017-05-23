@@ -59,6 +59,8 @@ the web proxy for both http and https.
 
 Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
 
+Add all certificates here manually.
+
 ![Firefox authorities dialog](./authorities.png)
 
 ## Trusting certificate on Windows
