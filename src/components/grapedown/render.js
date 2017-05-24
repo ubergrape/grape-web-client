@@ -32,7 +32,7 @@ class Renderer {
   constructor() {
     this.renderer = mdReact({
       presetName: 'commonmark',
-      disableRules: ['list'],
+      disableRules: ['list', 'heading'],
       markdownOptions: {
         linkify: true,
         html: false,
