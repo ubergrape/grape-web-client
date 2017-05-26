@@ -1,30 +1,33 @@
 import React, {PropTypes} from 'react'
 import markdownIt from 'markdown-it'
-import {create as createObject, getOptions} from 'grape-web/lib/grape-objects'
+import {getOptions} from 'grape-web/lib/grape-objects'
 
 import LinkWithIcon from '../message-parts/LinkWithIcon'
 import Highlight from '../highlight/YellowHighlight'
+
 const {normalizeLinkText} = markdownIt()
 
-export default function GrapeObject(props) {
-  const {children, href, user} = props
-  const options = getOptions(children[0], normalizeLinkText(href))
-  const {url, name, content, service, type} = createObject(options.type, options)
+export default function GrapeObject({children, href, user}) {
+  const {type, service, url} = getOptions(children[0], normalizeLinkText(href))
 
-  if (type === 'chatgrapeuser') {
+  if (type === 'user') {
     const isSelf = `/chat/${user.slug}` === url
-    return isSelf ? <Highlight>{content}</Highlight> : <a href={url}>{content}</a>
+    return isSelf ? <Highlight>{children}</Highlight> : <a href={url}>{children}</a>
   }
 
   let icon = service
   let target = '_blank'
 
-  if (type === 'chatgraperoom') {
+  if (type === 'room') {
     target = undefined
     icon = 'bell'
   }
 
-  return <LinkWithIcon url={url} name={name} icon={icon} target={target} />
+  return (
+    <LinkWithIcon url={url} icon={icon} target={target}>
+      {children}
+    </LinkWithIcon>
+  )
 }
 
 GrapeObject.propTypes = {

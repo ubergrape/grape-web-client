@@ -2,14 +2,17 @@ import React, {PropTypes} from 'react'
 
 import LinkWithIcon from '../LinkWithIcon'
 
-export default function LinkAttachment(props) {
+export default function LinkAttachment({category, children, ...rest}) {
   return (
-    <LinkWithIcon {...props} icon={props.category} target="_blank" />
+    <LinkWithIcon {...rest} icon={category} target="_blank">
+      {children}
+    </LinkWithIcon>
   )
 }
 
 LinkAttachment.propTypes = {
-  category: PropTypes.string.isRequired
+  category: PropTypes.string,
+  children: PropTypes.node.isRequired
 }
 
 LinkAttachment.defaultProps = {

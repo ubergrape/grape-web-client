@@ -40,7 +40,7 @@ class Renderer {
       },
       onIterate: this.renderTag,
       convertRules: {
-        emoji: this.renderEmoji,
+        // emoji: this.renderEmoji,
         inline: this.renderInline,
         image: this.renderInlineImage
       },

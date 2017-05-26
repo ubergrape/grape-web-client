@@ -3,6 +3,8 @@
 ### Fixes
 
 - Fix file upload from buffer in Chrome #446
+- Markdown headlines should not be supported #440
+- Emojis in a markdown link lead to a broken link text in grape objects #459
 
 
 ## Release 0.53.0 - 0.53.6 (2017-05-22)
