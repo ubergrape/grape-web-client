@@ -16,6 +16,7 @@
     "jss-vendor-prefixer": "^5.1.0",
     "lodash": "^3.10.0",
     "material-ui": "1.0.0-alpha.14",
+    "prop-types": "^15.5.10",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-jss": "^6.1.1",

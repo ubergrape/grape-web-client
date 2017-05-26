@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types'
 /* eslint-disable react/no-danger */
-import React, {PropTypes} from 'react'
+import React from 'react'
 import cn from 'classnames'
 
 import * as raw from './raw'
