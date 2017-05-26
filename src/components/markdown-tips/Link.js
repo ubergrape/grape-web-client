@@ -38,7 +38,7 @@ export default class Link extends PureComponent {
   render() {
     const {classes, className, onClick} = this.props
     const Button = (
-      <button className={classes.button} onClick={onClick}>
+      <button className={classes.button} onClick={onClick} key="button">
         markdown
       </button>
     )
@@ -52,7 +52,7 @@ export default class Link extends PureComponent {
           <span className={cn(classes.link, className)}>
             {nodes}
           </span>
-      )}
+        )}
       </FormattedMessage>
     )
   }
