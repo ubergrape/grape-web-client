@@ -38,7 +38,9 @@ export function isGrapeUrl(url) {
 export function getOptions(text, grapeUrl) {
   if (!isGrapeUrl(grapeUrl)) return false
   const [service, type, id, url] = grapeUrl.slice(5).split('|')
-  const validUrl = hasJsProtocol(url) ? '' : url
+  let validUrl = url
+  // Checking javascript:// is an XSS protection.
+  if (!url || hasJsProtocol(url)) validUrl = ''
 
   return {
     id,
