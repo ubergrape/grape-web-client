@@ -89,13 +89,13 @@ export default class UserProfile extends PureComponent {
         <div className={classes.details}>
           {whatIDo && (
             <div className={classes.about}>
-              <p>
+              <h2 className={classes.whatIDo}>
                 <FormattedMessage
                   id="whatIDo"
                   defaultMessage="What I do"
                 />
                 :
-              </p>
+              </h2>
               <p>{whatIDo}</p>
             </div>
           )}

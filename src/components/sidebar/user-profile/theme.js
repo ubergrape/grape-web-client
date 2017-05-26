@@ -1,6 +1,6 @@
 import color from 'color'
-import {blue, grayBlueLight} from 'grape-theme/dist/base-colors'
-import {big} from 'grape-theme/dist/fonts'
+import {blue, grayBlueLight, grayBlue, grayBlueDark} from 'grape-theme/dist/base-colors'
+import {small, normal, big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
@@ -33,10 +33,17 @@ export const styles = {
   },
   name: big,
   about: {
-    extend: divider,
+    extend: [normal, divider],
     marginBottom: spacing,
     maxHeight: 200,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    color: grayBlueDark
+  },
+  whatIDo: {
+    extend: small,
+    textTransform: 'uppercase',
+    background: '0 0 no-repeat',
+    color: grayBlue
   },
   email: {
     extend: [
