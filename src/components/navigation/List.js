@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import Channel from './Channel'
 
@@ -22,7 +23,8 @@ export default function List(props) {
             {...props}
             key={channel.type + channel.id}
             onClick={() => goToChannel(channel)}
-            channel={channel} />
+            channel={channel}
+          />
 
         ))}
       </div>

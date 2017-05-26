@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {
   defineMessages,
   intlShape,
@@ -152,7 +153,7 @@ Content.propTypes = {
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOfType([
     PropTypes.string,
-    React.PropTypes.bool
+    PropTypes.bool
   ]).isRequired,
   searchActivities: PropTypes.bool,
   currentChannelOnly: PropTypes.bool,
@@ -175,7 +176,7 @@ export default class Sidebar extends PureComponent {
   static propTypes = {
     show: PropTypes.oneOfType([
       PropTypes.string,
-      React.PropTypes.bool
+      PropTypes.bool
     ]).isRequired,
     className: PropTypes.string
   }

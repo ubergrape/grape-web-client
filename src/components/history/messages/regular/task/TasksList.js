@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 /* eslint-disable react/no-array-index-key */
 
-import React, {PureComponent, PropTypes} from 'react'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import List from 'material-ui/List'

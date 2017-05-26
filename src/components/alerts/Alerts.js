@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 
 import Alert from './Alert'
 import TextAlert from './TextAlert'
@@ -27,7 +28,8 @@ export default class Alerts extends PureComponent {
           <NotificationsAlert
             alert={alert}
             enableNotifications={this.props.enableNotifications}
-            hideAlert={this.props.hideAlert} />
+            hideAlert={this.props.hideAlert}
+          />
         )
       case types.CONNECTION_LOST:
         return <ConnectionLostAlert />
@@ -51,11 +53,13 @@ export default class Alerts extends PureComponent {
         {alerts.map((alert, i) => (
           <li
             className={`${classes.alert} ${classes[alert.level]}`}
-            key={i}>
+            key={i}
+          >
             <Alert
               key={i}
               closeAfter={alert.closeAfter}
-              onCloseAfter={/* TODO #120 */hideAlert.bind(null, alert)}>
+              onCloseAfter={/* TODO #120 */hideAlert.bind(null, alert)}
+            >
               {this.renderAlertContent(alert)}
             </Alert>
           </li>

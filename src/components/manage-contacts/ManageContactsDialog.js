@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {
   defineMessages,
   intlShape,
@@ -87,7 +88,8 @@ export default class ManageContactsDialog extends PureComponent {
           <li key={user.id}>
             <Contact
               user={user}
-              onSelect={this.onSelectContact} />
+              onSelect={this.onSelectContact}
+            />
           </li>
         ))}
       </ul>
@@ -122,7 +124,8 @@ export default class ManageContactsDialog extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={formatMessage(messages.dialogTitle)}>
+        title={formatMessage(messages.dialogTitle)}
+      >
         <TabsNav>
           {this.renderFilterLink({filter: 'active'})}
           {this.renderFilterLink({filter: 'invited'})}

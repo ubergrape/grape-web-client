@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -120,7 +121,7 @@ MentionsBadge.propTypes = {
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([
     PropTypes.string,
-    React.PropTypes.bool
+    PropTypes.bool
   ]),
   theme: PropTypes.object.isRequired
 }
@@ -239,7 +240,7 @@ Items.propTypes = {
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([
     PropTypes.string,
-    React.PropTypes.bool
+    PropTypes.bool
   ]),
   favorite: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,

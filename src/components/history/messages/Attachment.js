@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'

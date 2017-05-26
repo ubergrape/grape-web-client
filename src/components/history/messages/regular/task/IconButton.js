@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import BaseIconButton from 'material-ui/IconButton'
 import cn from 'classnames'

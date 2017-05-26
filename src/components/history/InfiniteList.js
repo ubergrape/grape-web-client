@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
 import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'

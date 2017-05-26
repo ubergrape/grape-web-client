@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -44,7 +45,8 @@ export default class Jumper extends PureComponent {
         {this.state.show &&
           <button
             className={classes.jumperButton}
-            onClick={this.onJump}></button>}
+            onClick={this.onJump}
+          />}
       </div>
     )
   }

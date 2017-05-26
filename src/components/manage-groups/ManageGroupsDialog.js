@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {
   defineMessages,
   FormattedMessage,
@@ -68,7 +69,8 @@ export default class ManageGroupsDialog extends PureComponent {
             <Group
               group={group}
               onSelect={onSelect}
-              type={activeFilter} />
+              type={activeFilter}
+            />
           </li>
         ))}
       </ul>
@@ -109,10 +111,11 @@ export default class ManageGroupsDialog extends PureComponent {
       <span className={classes.header}>
         <span className={classes.title}>{formatMessage(messages.dialogTitle)}</span>
         <button className={classes.create} onClick={this.onCreate}>
-           <FormattedMessage
-              id="manageGroupsCreateNew"
-              defaultMessage="new conversation"
-              description="Manage Groups Dialog: create new conversation button" />
+          <FormattedMessage
+            id="manageGroupsCreateNew"
+            defaultMessage="new conversation"
+            description="Manage Groups Dialog: create new conversation button"
+          />
         </button>
       </span>
     )
@@ -130,7 +133,8 @@ export default class ManageGroupsDialog extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={this.renderTitle()}>
+        title={this.renderTitle()}
+      >
         <TabsNav>
           {this.renderFilterLink({filter: 'joinable'})}
           {this.renderFilterLink({filter: 'joined'})}

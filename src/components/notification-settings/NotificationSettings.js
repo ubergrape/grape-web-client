@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
 import capitalize from 'lodash/string/capitalize'
@@ -51,14 +52,15 @@ const messages = defineMessages({
 
 const Title = ({classes, children, setting, status}) => (
   <div className={classes.titleContainer}>
-    <span className={`${classes['titleIcon' + capitalize(setting)]} ${classes.iconColumn}`} />
+    <span className={`${classes[`titleIcon${capitalize(setting)}`]} ${classes.iconColumn}`} />
     <h3 className={classes.titleHeadline}>
       {children}
     </h3>
     <span className={`${classes.status} ${!status ? classes.statusHidden : ''}`}>
       <FormattedMessage
         id="notificationSettingStatusComplete"
-        defaultMessage="saved" />
+        defaultMessage="saved"
+      />
     </span>
   </div>
 )
@@ -75,18 +77,21 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
     <Title classes={classes} setting="muteAll" status={status}>
       <FormattedMessage
         id="muteGroupTitle"
-        defaultMessage="Mute this Group" />
+        defaultMessage="Mute this Group"
+      />
     </Title>
     <label className={classes.label}>
       <span className={classes.iconColumn}>
         <input
           type="checkbox"
           checked={value}
-          onChange={onChange} />
+          onChange={onChange}
+        />
       </span>
       <FormattedMessage
         id="muteAllNotifications"
-        defaultMessage="Block all notifications for this group on all your devices" />
+        defaultMessage="Block all notifications for this group on all your devices"
+      />
     </label>
     {value && (
       <p className={classes.allMutedHint}>
@@ -102,10 +107,12 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
                 <FormattedMessage
                   id="clickHereInlineLink"
                   defaultMessage="click here"
-                  description={"Link used inline in the middle of a sentence."} />
+                  description={'Link used inline in the middle of a sentence.'}
+                />
               </button>
             )
-          }} />
+          }}
+        />
       </p>
     )}
   </div>
@@ -145,7 +152,8 @@ const DesktopSetting = ({classes, status, ...rest}) => (
     <Title classes={classes} setting="desktop" status={status}>
       <FormattedMessage
         id="desktopNotificationsTitle"
-        defaultMessage="Desktop Notifications" />
+        defaultMessage="Desktop Notifications"
+      />
     </Title>
     <Select {...rest} classes={classes} />
   </div>
@@ -163,7 +171,8 @@ const PushSetting = ({classes, status, ...rest}) => (
     <Title classes={classes} setting="push" status={status}>
       <FormattedMessage
         id="mobileNotificationsTitle"
-        defaultMessage="Mobile Push Notifications" />
+        defaultMessage="Mobile Push Notifications"
+      />
     </Title>
     <Select {...rest} classes={classes} />
   </div>
@@ -188,12 +197,14 @@ const Footer = ({classes, onClose}) => (
               <FormattedMessage
                 id="notificationSettingsHintLink"
                 defaultMessage="notification settings"
-                description="An inline link in channel notification settings." />
+                description="An inline link in channel notification settings."
+              />
             </a>
           )
-        }} />
-      </div>
-      <button className={classes.done} onClick={onClose}><Done /></button>
+        }}
+      />
+    </div>
+    <button className={classes.done} onClick={onClose}><Done /></button>
   </div>
 )
 
@@ -278,7 +289,8 @@ export default class NotificationSettings extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={formatMessage(messages.title, {group: channel.name})}>
+        title={formatMessage(messages.title, {group: channel.name})}
+      >
         <div className={classes.notificationSettings}>
           <section className={classes.section}>
             <MuteAllSetting
@@ -287,7 +299,8 @@ export default class NotificationSettings extends PureComponent {
               channel={channel}
               onChange={this.onToggleMuteAll}
               onLeave={this.onLeave}
-              status={this.state.muteAllStatus} />
+              status={this.state.muteAllStatus}
+            />
           </section>
           {!allMuted && (
             <section className={classes.section}>
@@ -297,14 +310,16 @@ export default class NotificationSettings extends PureComponent {
                 onChange={this.onChangeDesktop}
                 formatMessage={formatMessage}
                 user={user}
-                status={this.state.desktopStatus} />
+                status={this.state.desktopStatus}
+              />
               <PushSetting
                 value={push}
                 classes={classes}
                 onChange={this.onChangePush}
                 formatMessage={formatMessage}
                 user={user}
-                status={this.state.pushStatus} />
+                status={this.state.pushStatus}
+              />
             </section>
           )}
           <Footer classes={classes} onClose={onHide} />

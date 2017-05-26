@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 

@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
@@ -92,11 +93,13 @@ export default class TagsInput extends PureComponent {
           onBlur={this.onBlur}
           onKeyDown={this.onKeyDown}
           onChange={this.onChange}
-          value={value} />
+          value={value}
+        />
         <span
           ref="inputRuler"
           className={classes.inputRuler}
-          aria-hidden>
+          aria-hidden
+        >
           {value}
         </span>
       </span>
@@ -106,16 +109,15 @@ export default class TagsInput extends PureComponent {
   renderTags() {
     const {list, sheet} = this.props
     if (!list.length) return null
-    return list.map((item, i) => {
-      return (
-        <button
-          key={i}
-          className={sheet.classes.token}
-          onClick={/* TODO #120 */this.onDeleteTag.bind(this, item)}>
-          {this.props.renderTag(item)}
-        </button>
-      )
-    })
+    return list.map((item, i) => (
+      <button
+        key={i}
+        className={sheet.classes.token}
+        onClick={/* TODO #120 */this.onDeleteTag.bind(this, item)}
+      >
+        {this.props.renderTag(item)}
+      </button>
+      ))
   }
 
   render() {

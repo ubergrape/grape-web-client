@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import {small, normal} from 'grape-theme/dist/fonts'

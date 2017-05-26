@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -34,11 +35,12 @@ export default class Dialog extends PureComponent {
         show={show}
         className={classes.modal}
         backdropClassName={classes.backdrop}
-        onHide={onHide}>
+        onHide={onHide}
+      >
         <div className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{title}</h2>
-            <button className={classes.close} onClick={onHide}></button>
+            <button className={classes.close} onClick={onHide} />
           </header>
           <div className={classes.body}>
             {children}

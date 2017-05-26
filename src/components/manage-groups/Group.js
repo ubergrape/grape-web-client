@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
@@ -57,7 +58,8 @@ export default class Group extends PureComponent {
           <Roomname
             {...group}
             showPrivateStatus
-            showRoomInfo />
+            showRoomInfo
+          />
         </div>
         <button className={classes[type]} onClick={this.onClick}>
           {formatMessage(messages[type])}

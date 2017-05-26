@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 /* eslint-disable jsx-a11y/label-has-for */
 
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import parseUrl from 'grape-web/lib/parse-url'
 import injectSheet from 'grape-web/lib/jss'
 import {

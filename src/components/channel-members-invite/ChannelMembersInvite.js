@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import pluck from 'lodash/collection/pluck'
 import {
@@ -32,13 +33,15 @@ function getFormattedMessage(channelType, mission) {
         return (
           <FormattedMessage
             id="createGroup"
-            defaultMessage="Create group" />
+            defaultMessage="Create group"
+          />
         )
       case 'room':
         return (
           <FormattedMessage
             id="inviteMembers"
-            defaultMessage="Invite members" />
+            defaultMessage="Invite members"
+          />
         )
       default:
         return null
@@ -53,7 +56,8 @@ const InviteButton = ({listed, channelType, classes, onClick}) => (
     <button
       className={classes.buttonInvite}
       onClick={onClick}
-      disabled={!listed.length}>
+      disabled={!listed.length}
+    >
       {getFormattedMessage(channelType, 'button')}
     </button>
   </div>
@@ -117,12 +121,14 @@ export default class ChannelMembersInvite extends PureComponent {
         onHide={hideChannelMembersInvite}
         onChangeFilter={setInviteFilterValue}
         onSelectUser={addToChannelMembersInvite}
-        onRemoveSelectedUser={removeFromChannelMembersInvite}>
+        onRemoveSelectedUser={removeFromChannelMembersInvite}
+      >
         <InviteButton
           classes={classes}
           listed={listed}
           channelType={channelType}
-          onClick={this.onInvite} />
+          onClick={this.onInvite}
+        />
       </ChooseUsersDialog>
     )
   }

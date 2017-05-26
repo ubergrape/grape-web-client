@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import colors from 'grape-theme/dist/base-colors'
 import {icons, colors as roomColors} from 'grape-theme/dist/room-settings'
@@ -13,19 +14,22 @@ function RenderColors({theme, channel, onSetRoomColor}) {
       <h1 className={classes.iconSettingsTitle}>
         <FormattedMessage
           id="roomColor"
-          defaultMessage="Room Color" />
+          defaultMessage="Room Color"
+        />
       </h1>
       <ul className={classes.iconSettingsList}>
-        {roomColors.map(color => {
+        {roomColors.map((color) => {
           const isCurrent = channel.color === color
           return (
             <li
               className={classes.iconSettingsItem}
-              key={color}>
+              key={color}
+            >
               <button
                 onClick={() => onSetRoomColor(color)}
-                className={classes['chooserButton' + (isCurrent ? 'Active' : '')]}
-                style={{backgroundColor: color}} />
+                className={classes[`chooserButton${isCurrent ? 'Active' : ''}`]}
+                style={{backgroundColor: color}}
+              />
             </li>
           )
         })}
@@ -47,10 +51,11 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
       <h1 className={classes.iconSettingsTitle}>
         <FormattedMessage
           id="roomIcon"
-          defaultMessage="Room Icon" />
+          defaultMessage="Room Icon"
+        />
       </h1>
       <ul className={classes.iconSettingsList}>
-        {icons.map(slug => {
+        {icons.map((slug) => {
           const {icon} = channel
           const isCurrent = icon ? icon === slug : slug === defaultRoomIconSlug
           const iconTheme = {
@@ -60,14 +65,17 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
           return (
             <li
               className={classes.iconSettingsItem}
-              key={slug}>
+              key={slug}
+            >
               <button
-                onClick={() => {onSetRoomIcon(slug)}}
-                className={classes['chooserButton' + (isCurrent ? 'Active' : '')]}>
-                  <Icon
-                    className={classes.icon}
-                    name={slug}
-                    theme={iconTheme} />
+                onClick={() => { onSetRoomIcon(slug) }}
+                className={classes[`chooserButton${isCurrent ? 'Active' : ''}`]}
+              >
+                <Icon
+                  className={classes.icon}
+                  name={slug}
+                  theme={iconTheme}
+                />
               </button>
             </li>
           )

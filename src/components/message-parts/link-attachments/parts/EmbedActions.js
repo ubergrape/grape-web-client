@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types'
 /* eslint-disable jsx-a11y/anchor-has-content */
-import React, {PureComponent, PropTypes} from 'react'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 

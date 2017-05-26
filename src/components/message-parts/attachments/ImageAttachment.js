@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
@@ -60,7 +61,8 @@ export default class ImageAttachment extends PureComponent {
         url={url}
         className={classes.thumbnail}
         ref={this.setThumbnailRef}
-        style={{backgroundImage, ...calcThumbnailSize(this.props)}} />
+        style={{backgroundImage, ...calcThumbnailSize(this.props)}}
+      />
     )
   }
 }

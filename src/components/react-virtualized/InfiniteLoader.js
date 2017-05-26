@@ -1,4 +1,5 @@
-import {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 

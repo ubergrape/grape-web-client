@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 
 import useTheme from '../theme/useTheme'
 import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
@@ -45,7 +46,8 @@ export default class Editable extends PureComponent {
       <Renderable
         {...this.props}
         focused={isEditing}
-        onFocus={this.onFocusEditable} />
+        onFocus={this.onFocusEditable}
+      />
     )
   }
 }

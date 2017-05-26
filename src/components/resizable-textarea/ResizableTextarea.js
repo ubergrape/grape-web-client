@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {pickHTMLProps} from 'pick-react-known-prop'
 
 export default class Editable extends PureComponent {
@@ -39,7 +40,8 @@ export default class Editable extends PureComponent {
       <textarea
         {...pickHTMLProps(this.props)}
         className={classes.input}
-        ref="textarea" />
+        ref="textarea"
+      />
     )
   }
 }

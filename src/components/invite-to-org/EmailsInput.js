@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import random from 'lodash/number/random'
 
@@ -19,10 +20,12 @@ export default function EmailsInput(props) {
     <div className={classes.line}>
       <label
         className={classes.label}
-        htmlFor={id}>
+        htmlFor={id}
+      >
         <FormattedMessage
           id="emailAddresses"
-          defaultMessage="Email addresses" />
+          defaultMessage="Email addresses"
+        />
       </label>
       <Input
         type="textarea"
@@ -34,7 +37,8 @@ export default function EmailsInput(props) {
         className={classes.textarea}
         id={id}
         disabled={disabled}
-        placeholder={placeholder} />
+        placeholder={placeholder}
+      />
       <div className={noteClassNames}>
         {placeholder}
       </div>

@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 
 import {constants} from '../../../../conf'
 import BaseMenu from '../../../message-parts/Menu'

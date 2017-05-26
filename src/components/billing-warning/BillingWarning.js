@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
@@ -57,23 +58,28 @@ export default class BillingWarning extends PureComponent {
       <Dialog
         title={formatMessage(messages.title)}
         show={this.props.show}
-        onHide={this.onHide}>
+        onHide={this.onHide}
+      >
         <div className={classes.content}>
           <div className={classes.text}>{this.props.text}</div>
           <div className={classes.actions}>
             <button
               onClick={this.onHide}
-              className={classes.continueTrial}>
+              className={classes.continueTrial}
+            >
               <FormattedMessage
                 id="continueTrial"
-                defaultMessage="Continue Trial" />
+                defaultMessage="Continue Trial"
+              />
             </button>
             <button
               onClick={this.onGoToPayment}
-              className={classes.enterDetails}>
+              className={classes.enterDetails}
+            >
               <FormattedMessage
                 id="enterDetails"
-                defaultMessage="Enter Details" />
+                defaultMessage="Enter Details"
+              />
             </button>
           </div>
         </div>

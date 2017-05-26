@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
@@ -49,7 +50,7 @@ export default class Input extends PureComponent {
     if (this.props.focused && !prevProps.focused) this.refs.input.focus()
   }
 
-  onChange = e => {
+  onChange = (e) => {
     const {error, clearError, onChange} = this.props
     if (error) clearError()
     onChange(e)
@@ -65,7 +66,7 @@ export default class Input extends PureComponent {
       ...pickHTMLProps(this.props),
       onChange: this.onChange,
       ref: 'input',
-      className: cn(classes['input' + (error ? capitalize(error.level) : '')], className)
+      className: cn(classes[`input${error ? capitalize(error.level) : ''}`], className)
     }
     switch (type) {
       case 'input':
@@ -87,12 +88,13 @@ export default class Input extends PureComponent {
             style={{left: tooltipOffset}}
             arrowOffsetLeft={arrowOffset}
             onOutsideClick={this.onToolipOutsideClick}
-            placement={placement}>
-              <div className={cn(classes.content)}>
-                <span className={cn(classes[`${error.level}Message`])}>
-                  {error.message}
-                </span>
-              </div>
+            placement={placement}
+          >
+            <div className={cn(classes.content)}>
+              <span className={cn(classes[`${error.level}Message`])}>
+                {error.message}
+              </span>
+            </div>
           </Tooltip>
         }
       </span>

@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -36,7 +37,8 @@ export default class Contact extends PureComponent {
           name={displayName}
           avatar={avatar}
           statusBorderColor={colors.white}
-          status={userStatusMap[status]} />
+          status={userStatusMap[status]}
+        />
       </div>
     )
   }

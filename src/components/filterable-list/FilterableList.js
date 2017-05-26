@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
@@ -114,7 +115,8 @@ export default class FilterableList extends PureComponent {
         onFocus={this.onFocusItem}
         onMouseOver={this.onFocusItem}
         onSelect={this.onSelectItem}
-        focused={focusedItem} />
+        focused={focusedItem}
+      />
     )
   }
 
@@ -142,10 +144,12 @@ export default class FilterableList extends PureComponent {
           placeholder={placeholder}
           focused={this.shouldFocusFilter()}
           renderTag={renderSelected}
-          className={classes.filterArea} />
+          className={classes.filterArea}
+        />
         {children}
         <div
-          className={classes.list}>
+          className={classes.list}
+        >
           {this.renderList()}
         </div>
       </div>

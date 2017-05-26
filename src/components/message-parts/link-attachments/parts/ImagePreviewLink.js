@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 import {borderRadius} from 'grape-theme/dist/sizes'

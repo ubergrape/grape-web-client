@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -25,14 +26,17 @@ export default class ConnectionLostAlert extends PureComponent {
             action: (
               <button
                 className={classes.buttonLink}
-                onClick={this.onReload}>
+                onClick={this.onReload}
+              >
                 <FormattedMessage
                   id="reload"
-                  defaultMessage="reload" />
+                  defaultMessage="reload"
+                />
               </button>
             )
           }}
-          defaultMessage="Lost connection to the server — trying to reconnect. You can also try to {action}." />
+          defaultMessage="Lost connection to the server — trying to reconnect. You can also try to {action}."
+        />
       </span>
     )
   }

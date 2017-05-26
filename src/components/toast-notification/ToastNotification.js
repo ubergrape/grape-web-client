@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {NotificationStack} from '@ubergrape/react-notification'
 import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
 import cn from 'classnames'

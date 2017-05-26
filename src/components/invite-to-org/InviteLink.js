@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import random from 'lodash/number/random'
 
@@ -18,10 +19,12 @@ export default function InviteLink(props) {
     <div className={classes.inviteLink}>
       <label
         className={classes.inviteLinkLabel}
-        htmlFor={id}>
+        htmlFor={id}
+      >
         <FormattedMessage
           id="inviteLink"
-          defaultMessage="Or use this invite-link" />
+          defaultMessage="Or use this invite-link"
+        />
       </label>
       <div className={classes.inviteLinkInput}>
         <Input
@@ -29,7 +32,8 @@ export default function InviteLink(props) {
           onClick={onClick}
           placeholder={placeholder}
           value={link}
-          readonly />
+          readonly
+        />
       </div>
     </div>
   )

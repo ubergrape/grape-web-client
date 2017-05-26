@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import random from 'lodash/number/random'

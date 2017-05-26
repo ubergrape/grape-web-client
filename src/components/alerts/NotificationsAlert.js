@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -25,41 +26,52 @@ export default class NotificationsAlert extends PureComponent {
     const onEnableNotifications = this.onEnableNotifications.bind(this, alert) // TODO #120
     return (
       <span
-        className={classes.layout}>
+        className={classes.layout}
+      >
         <span
-          className={classes.mainCol}>
+          className={classes.mainCol}
+        >
           <FormattedMessage
             id="initialGreeting"
-            defaultMessage="Hey there!" />
+            defaultMessage="Hey there!"
+          />
           {' '}
           <button
             className={classes.buttonLink}
-            onClick={onEnableNotifications}>
+            onClick={onEnableNotifications}
+          >
             <FormattedMessage
               id="enableNotificationsRequest"
-              defaultMessage="Please enable desktop notifications" />
+              defaultMessage="Please enable desktop notifications"
+            />
           </button>
           {' '}
           <FormattedMessage
             id="notificationsExplanation"
-            defaultMessage="so your team members can reach you on Grape." />
+            defaultMessage="so your team members can reach you on Grape."
+          />
         </span>
         <span
-          className={classes.secondaryCol}>
+          className={classes.secondaryCol}
+        >
           <button
-            className={`${classes.actionButton} ${classes[alert.level + 'Button']}`}
-            onClick={onEnableNotifications}>
+            className={`${classes.actionButton} ${classes[`${alert.level}Button`]}`}
+            onClick={onEnableNotifications}
+          >
             <FormattedMessage
               id="enableNotifications"
-              defaultMessage="Enable notifications" />
+              defaultMessage="Enable notifications"
+            />
           </button>
         </span>
         <span
-          className={classes.secondaryCol}>
+          className={classes.secondaryCol}
+        >
           <button
             className={classes.buttonLink}
-            onClick={/* TODO #120 */this.props.hideAlert.bind(null, alert)}>
-              <Close />
+            onClick={/* TODO #120 */this.props.hideAlert.bind(null, alert)}
+          >
+            <Close />
           </button>
         </span>
       </span>

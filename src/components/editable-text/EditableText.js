@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
@@ -30,8 +31,8 @@ export default class EditableText extends PureComponent {
     maxLength: PropTypes.number.isRequired,
     value: PropTypes.string.isRequired,
     error: PropTypes.shape({
-      message: React.PropTypes.string.isRequired,
-      level: React.PropTypes.string.isRequired
+      message: PropTypes.string.isRequired,
+      level: PropTypes.string.isRequired
     }),
     clearError: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
@@ -94,7 +95,7 @@ export default class EditableText extends PureComponent {
     this.setState({value: target.value})
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     switch (keyname(e.keyCode)) {
       case 'esc':
         this.restoreState()
@@ -165,12 +166,14 @@ export default class EditableText extends PureComponent {
       <Wrapper
         className={classes[className]}
         onOutsideClick={this.restoreState}
-        onClick={this.onClick}>
+        onClick={this.onClick}
+      >
         <Editable {...editableProps} />
         <button
           onClick={this.onClickSave}
           className={`${classes.submit} ${classes[isEditing ? '' : hiddenButtonClassName]}`}
-          disabled={this.state.saving}>
+          disabled={this.state.saving}
+        >
           <Done />
         </button>
       </Wrapper>

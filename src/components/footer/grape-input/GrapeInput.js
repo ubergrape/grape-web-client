@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {injectIntl, FormattedMessage, defineMessages} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'

@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {pickHTMLProps} from 'pick-react-known-prop'
 import {
   defineMessages,
@@ -31,7 +32,8 @@ export default class Filter extends PureComponent {
         {...pickHTMLProps(this.props)}
         type="search"
         placeholder={formatMessage(messages.placeholder)}
-        className={classes.filterInput} />
+        className={classes.filterInput}
+      />
     )
   }
 }

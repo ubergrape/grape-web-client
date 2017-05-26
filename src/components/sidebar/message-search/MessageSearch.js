@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import injectSheet from 'grape-web/lib/jss'

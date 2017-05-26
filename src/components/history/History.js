@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'

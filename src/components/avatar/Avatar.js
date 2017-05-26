@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
@@ -32,7 +33,8 @@ export default class Avatar extends PureComponent {
       <span
         className={`${classes.avatar} ${className}`}
         style={style}
-        onClick={onClick}>
+        onClick={onClick}
+      >
         {children}
       </span>
     )

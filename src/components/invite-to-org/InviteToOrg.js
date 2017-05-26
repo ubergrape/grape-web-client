@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {spinner} from '../../constants/images'
@@ -85,7 +86,7 @@ export default class InviteToOrg extends PureComponent {
     this.setState({message: target.value})
   }
 
-  onInvite = e => {
+  onInvite = (e) => {
     e.preventDefault()
     const {onInvite, onSuccess} = this.props
     const {value, message} = this.state
@@ -130,11 +131,13 @@ export default class InviteToOrg extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={formatMessage(messages.title)}>
+        title={formatMessage(messages.title)}
+      >
         <div className={classes.wrapper}>
           <form
             className={classes.form}
-            onSubmit={this.onInvite}>
+            onSubmit={this.onInvite}
+          >
             <EmailsInput
               theme={{classes}}
               focused
@@ -143,21 +146,25 @@ export default class InviteToOrg extends PureComponent {
               error={this.getError()}
               onChange={this.onInviteesChange}
               clearError={onHideError}
-              placeholder={formatMessage(messages.invitePlaceholder)} />
+              placeholder={formatMessage(messages.invitePlaceholder)}
+            />
             <PersonalMessageInput
               theme={{classes}}
               value={message}
               disabled={isLoading}
               onChange={this.onMessageChange}
-              placeholder={formatMessage(messages.messagesPlaceholder)} />
+              placeholder={formatMessage(messages.messagesPlaceholder)}
+            />
             <div className={classes.submit}>
               <button
                 type="submit"
                 className={classes.submitButton}
-                disabled={!value || isLoading}>
+                disabled={!value || isLoading}
+              >
                 <FormattedMessage
                   id="sendInvites"
-                  defaultMessage="Send invitation emails" />
+                  defaultMessage="Send invitation emails"
+                />
               </button>
             </div>
             {isLoading && <Spinner image={spinner} size={32} />}
@@ -167,7 +174,8 @@ export default class InviteToOrg extends PureComponent {
             link={inviteLink}
             theme={{classes}}
             placeholder={formatMessage(messages.loadingLinkPlaceholder)}
-            onClick={this.onClickInviteLink} />
+            onClick={this.onClickInviteLink}
+          />
         </div>
       </Dialog>
     )

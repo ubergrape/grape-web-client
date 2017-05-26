@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
@@ -39,7 +40,8 @@ export default class MarkdownTipsDialog extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={formatMessage(messages.title)}>
+        title={formatMessage(messages.title)}
+      >
         <div className={classes.wrapper}>
           <MarkdownTips />
         </div>

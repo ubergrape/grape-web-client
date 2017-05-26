@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './tooltipTheme'

@@ -1,6 +1,5 @@
-// TODO get rid of the `PureComponent as Component` alias when
-// when ubergrape/grape-web-client/issues/125 is fixed
-import React, {PropTypes, PureComponent as Component} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -27,10 +26,12 @@ function OrgInviteButton({isInviter, onClick, classes}) {
     <div className={classes.orgInvite}>
       <button
         className={classes.orgInviteButton}
-        onClick={onClick}>
+        onClick={onClick}
+      >
         <FormattedMessage
           id="inviteToTeam"
-          defaultMessage="Invite a new person to your team…" />
+          defaultMessage="Invite a new person to your team…"
+        />
       </button>
     </div>
   )
@@ -51,7 +52,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class ChooseUsersDialog extends Component {
+export default class ChooseUsersDialog extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -93,7 +94,8 @@ export default class ChooseUsersDialog extends Component {
           name={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
-          status={userStatusMap[status]} />
+          status={userStatusMap[status]}
+        />
       </div>
     )
   }
@@ -105,7 +107,8 @@ export default class ChooseUsersDialog extends Component {
       <div className={classes.note}>
         <FormattedMessage
           id="everyoneInvited"
-          defaultMessage="Everyone has been invited to this group" />
+          defaultMessage="Everyone has been invited to this group"
+        />
       </div>
     )
   }
@@ -117,7 +120,8 @@ export default class ChooseUsersDialog extends Component {
       <div className={classes.note}>
         <FormattedMessage
           id="usersNotFoundFor"
-          defaultMessage="No one found for" />
+          defaultMessage="No one found for"
+        />
         {' '}
         <strong>{filter}</strong>
       </div>
@@ -139,7 +143,8 @@ export default class ChooseUsersDialog extends Component {
       <Dialog
         show={show}
         onHide={onHide}
-        title={title}>
+        title={title}
+      >
         <div className={classes.wrapper}>
           <FilterableList
             listClassName={classes.list}
@@ -155,11 +160,13 @@ export default class ChooseUsersDialog extends Component {
             renderItem={this.renderItem}
             renderSelected={SelectedUser}
             renderNotFound={this.renderNotFound}
-            renderEmptyItems={this.renderEmptyItems}>
+            renderEmptyItems={this.renderEmptyItems}
+          >
             <OrgInviteButton
               isInviter={isInviter}
               onClick={this.onInvite}
-              classes={classes} />
+              classes={classes}
+            />
           </FilterableList>
           {children}
         </div>

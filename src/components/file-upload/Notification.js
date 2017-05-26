@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
 import injectSheet from 'grape-web/lib/jss'
 import {green, grayLight} from 'grape-theme/dist/base-colors'

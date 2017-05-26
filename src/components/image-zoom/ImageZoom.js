@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
 import ImageZoom from 'image-zoom'
 
@@ -27,7 +28,8 @@ export default class ImageZoomComponent extends PureComponent {
       <div
         onClick={this.onZoom}
         className={className}
-        style={style}>
+        style={style}
+      >
         {children}
       </div>
     )

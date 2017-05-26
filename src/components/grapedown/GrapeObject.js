@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import markdownIt from 'markdown-it'
 import {getOptions} from 'grape-web/lib/grape-objects'
 

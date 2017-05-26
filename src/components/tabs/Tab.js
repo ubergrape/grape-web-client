@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './tabTheme'
@@ -38,7 +39,8 @@ export default class Tab extends PureComponent {
       <button
         className={classes.tab}
         type="button"
-        onClick={this.onClick}>
+        onClick={this.onClick}
+      >
         {children}
       </button>
     )

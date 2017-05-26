@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import ListItem from 'material-ui/List/ListItem'
 import injectSheet from 'grape-web/lib/jss'
 import {smaller} from 'grape-theme/dist/fonts'

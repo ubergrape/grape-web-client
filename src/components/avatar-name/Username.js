@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
@@ -9,8 +10,8 @@ import Avatar from '../avatar/Avatar'
 const Status = ({classes, status, borderColor}) => (
   <i
     className={`${classes.status} ${classes[status]}`}
-    style={{borderColor}}>
-  </i>
+    style={{borderColor}}
+  />
 )
 
 Status.propTypes = {
@@ -55,12 +56,14 @@ export default class Username extends PureComponent {
       <span className={cn(classes.avatarName, theme.classes.avatarName)}>
         <Avatar
           src={avatar}
-          className={cn(classes.avatar, theme.classes.avatar)}>
+          className={cn(classes.avatar, theme.classes.avatar)}
+        >
           {showStatus &&
             <Status
               classes={classes}
               status={status}
-              borderColor={statusBorderColor} />
+              borderColor={statusBorderColor}
+            />
           }
         </Avatar>
         <span className={cn(classes.name, theme.classes.name)}>

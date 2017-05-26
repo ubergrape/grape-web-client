@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
@@ -29,7 +30,8 @@ function Private({theme}) {
         height,
         right: -right,
         bottom: -bottom
-      }} />
+      }}
+    />
   )
 }
 
@@ -72,11 +74,13 @@ function RoomIcon(props) {
         backgroundColor,
         width: roomIconTheme.size,
         height: roomIconTheme.size
-      }}>
+      }}
+    >
       {isPrivate && showPrivateStatus &&
         <Private
           {...props}
-          theme={privateTheme} />
+          theme={privateTheme}
+        />
       }
     </Avatar>
   )

@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
@@ -20,14 +21,15 @@ function UserTime(props) {
 
   return (
     <div className={classes.userTime}>
-      <span className={isOpened ? classes.globeActive : classes.globe}></span>
+      <span className={isOpened ? classes.globeActive : classes.globe} />
       {isOpened &&
         <ThemedTooltip placement="bottom">
           <div className={classes.userTimeContainer}>
             <span className={classes.userTimeText}>
               <FormattedMessage
                 id="localTime"
-                defaultMessage="Local time" />
+                defaultMessage="Local time"
+              />
               {': '}
             </span>
             <span className={classes.userTimeTime}>
@@ -102,7 +104,8 @@ export default class Time extends PureComponent {
       <div
         className={classes.time}
         onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}>
+        onMouseOut={this.onMouseOut}
+      >
         <span className={isSameTimezone ? classes.timeContainer : classes.timeContainerHoverable}>
           {formatTime(time)}
         </span>
@@ -111,7 +114,8 @@ export default class Time extends PureComponent {
             isOpened={isWritersTimeOpened}
             time={userTime}
             formatTime={formatTime}
-            theme={{classes}} />
+            theme={{classes}}
+          />
         }
       </div>
     )

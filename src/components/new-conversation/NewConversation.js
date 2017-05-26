@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'

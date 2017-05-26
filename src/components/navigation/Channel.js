@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react'
+import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/utility/noop'
 
@@ -51,7 +52,8 @@ function Room(props) {
       <Roomname
         {...props.channel}
         statusBorderColor={colors.grayBlueLighter}
-        showPrivateStatus />
+        showPrivateStatus
+      />
       <Unread {...props} />
     </div>
   )
@@ -69,7 +71,8 @@ function Pm(props) {
         statusBorderColor={colors.grayBlueLighter}
         avatar={mate.avatar}
         status={userStatusMap[mate.status]}
-        name={mate.displayName} />
+        name={mate.displayName}
+      />
       <Unread {...props} />
     </div>
   )
@@ -117,7 +120,8 @@ export default class Channel extends PureComponent {
         {header && <h2 className={classes.unjoinedTitle}>{header}</h2>}
         <div
           className={channelClass}
-          onClick={onClick}>
+          onClick={onClick}
+        >
           <ChannelPicker {...this.props} />
         </div>
       </div>
