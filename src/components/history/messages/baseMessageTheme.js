@@ -26,6 +26,7 @@ export const styles = {
   },
   // TODO #149 use standard typography styles
   content: {
+    minHeight: '1em',
     '& a': link,
     '& a:hover': linkHover,
     '& em': {
