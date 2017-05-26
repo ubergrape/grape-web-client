@@ -4114,16 +4114,9 @@
       "dev": true
     },
     "grape-browser": {
-      "version": "3.8.2",
-      "from": "grape-browser@>=3.8.2 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.2.tgz",
-      "dependencies": {
-        "react-overlays": {
-          "version": "0.6.12",
-          "from": "react-overlays@>=0.6.3 <0.7.0",
-          "resolved": "https://registry.npmjs.org/react-overlays/-/react-overlays-0.6.12.tgz"
-        }
-      }
+      "version": "3.8.3",
+      "from": "grape-browser@latest",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.3.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",
@@ -4136,9 +4129,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-2.3.0.tgz"
     },
     "grape-web": {
-      "version": "0.61.7",
-      "from": "grape-web@>=0.61.7 <0.62.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.61.7.tgz"
+      "version": "0.61.9",
+      "from": "grape-web@latest",
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.61.9.tgz"
     },
     "growl": {
       "version": "1.9.2",
@@ -7115,9 +7108,9 @@
       "resolved": "https://registry.npmjs.org/react-event-listener/-/react-event-listener-0.4.5.tgz"
     },
     "react-finite-list": {
-      "version": "1.0.5",
-      "from": "react-finite-list@>=1.0.5 <2.0.0",
-      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.5.tgz"
+      "version": "1.0.6",
+      "from": "react-finite-list@latest",
+      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.6.tgz"
     },
     "react-group": {
       "version": "1.0.4",
