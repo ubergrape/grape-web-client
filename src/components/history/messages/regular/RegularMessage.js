@@ -197,11 +197,13 @@ export default class RegularMessage extends PureComponent {
                   state === 'pending' || state === 'unsent' ? classes.disabled : ''
                 ].join(' ')}
               >
-                <Grapedown
-                  text={children}
-                  user={user}
-                  customEmojis={customEmojis}
-                />
+                {children && (
+                  <Grapedown
+                    text={children}
+                    user={user}
+                    customEmojis={customEmojis}
+                  />
+                )}
                 {attachments.map(this.renderAttachment)}
               </div>
               {isMenuOpened && <Menu {...this.props} getContentNode={this.getContentNode} />}

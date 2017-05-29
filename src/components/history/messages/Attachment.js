@@ -7,16 +7,22 @@ import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#attachments
 export default class Attachment extends PureComponent {
   static propTypes = {
-    thumbnailUrl: PropTypes.string
+    thumbnailUrl: PropTypes.string,
+    name: PropTypes.string
+  }
+
+  static defaultProps = {
+    thumbnailUrl: null,
+    name: null
   }
 
   render() {
-    const {thumbnailUrl} = this.props
+    const {thumbnailUrl, name, ...rest} = this.props
 
     if (thumbnailUrl) {
-      return <ImageAttachment {...this.props} />
+      return <ImageAttachment {...rest} thumbnailUrl={thumbnailUrl} />
     }
 
-    return <LinkAttachment {...this.props} />
+    return <LinkAttachment {...rest}>{name}</LinkAttachment>
   }
 }
