@@ -1,5 +1,5 @@
 var webpack = require('webpack')
-var webpackConfig = require('./webpack.config.testing')
+var webpackConfig = require('./webpack.config')
 var assign = require('lodash/object/assign')
 
 module.exports = function (config) {

@@ -1,3 +1,4 @@
+import noop from 'lodash/utility/noop'
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import keyname from 'keyname'
@@ -14,8 +15,8 @@ import Results from './results/Results'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
-import Empty from '../empty/Empty'
 import {listTypes} from './constants'
+import Empty from '../empty/Empty'
 
 const messages = defineMessages({
   empty: {
@@ -23,7 +24,6 @@ const messages = defineMessages({
     defaultMessage: 'No Results.'
   }
 })
-
 
 /**
  * Main search browser component.
@@ -62,10 +62,16 @@ export default class SearchBrowser extends Component {
     focusedService: PropTypes.object
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {}
+  static defaultProps = {
+    results: [],
+    value: '',
+    search: '',
+    onDidMount: noop,
+    onBlur: noop,
+    changeSearchBrowserInput: noop
   }
+
+  state = {}
 
   componentDidMount() {
     this.props.onDidMount(this)

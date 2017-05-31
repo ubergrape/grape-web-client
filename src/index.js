@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
-import {IntlProvider, addLocaleData} from 'react-intl'
+import {addLocaleData} from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 
@@ -14,29 +14,17 @@ export {EmojiBrowser as EmojiBrowser}
 import {GrapeBrowserReactive} from './components/grape-browser'
 export {GrapeBrowserReactive as GrapeBrowser} from './components/grape-browser'
 
+import AppProvider from './containers/app'
+
 // Register reactive elements.
 import 'reactive-elements'
 
 addLocaleData([...en, ...de])
 
-class App extends Component {
-  static propTypes = {
-    locale: PropTypes.string.isRequired
-  }
-
-  static defaultProps = {
-    locale: 'en'
-  }
-
-  render() {
-    const {locale} = this.props
-
-    return (
-      <IntlProvider locale={locale} messages={translations[locale]}>
-        <GrapeBrowserReactive {...this.props} />
-      </IntlProvider>
-    )
-  }
-}
+const App = (props) = (
+  <AppProvider>
+    <GrapeBrowserReactive {...props} />
+  </AppProvider>
+)
 
 document.registerReact('grape-input', App)

@@ -43,8 +43,8 @@ export default class AccentMode extends Component {
     this.props.onChange(false)
   }
 
-  onBlur = () => {
-    this.props.children.props.onBlur()
+  onBlur = (e) => {
+    this.props.children.props.onBlur(e)
     this.onExit()
   }
 

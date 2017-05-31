@@ -1,4 +1,4 @@
-import {$, render} from '../../test'
+import {$, render} from '../../../test'
 import expect from 'expect.js'
 import React from 'react'
 import times from 'lodash/utility/times'

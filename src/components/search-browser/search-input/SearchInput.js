@@ -37,6 +37,10 @@ export default class Browser extends Component {
     onDidMount: PropTypes.func
   }
 
+  static defaultProps = {
+    tokens: {}
+  }
+
   constructor(props) {
     super(props)
     // We use state value to have update synced input first.
