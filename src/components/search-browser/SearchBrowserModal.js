@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import Modal from 'react-overlays/lib/Modal'
-
+import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
+
 import SearchBrowser from './SearchBrowser'
 import style from './searchBrowserModalStyle'
 
@@ -11,7 +12,7 @@ import style from './searchBrowserModalStyle'
 const proxiMethodsToHideModal = [
   'onHide',
   'onAbort',
-  'onSelectItem',
+  'onSelectResult',
   'onAddIntegration'
 ]
 
@@ -22,16 +23,21 @@ export default class SearchBrowserModal extends Component {
     onAbort: PropTypes.func
   }
 
+  static defaultProps = {
+    onAbort: noop
+  }
+
   constructor(props) {
     super(props)
     this.state = {show: true}
     this.callbacks = proxiMethodsToHideModal.reduce((map, method) => {
+      // eslint-disable-next-line no-param-reassign
       map[method] = this.hideAndCallMethod.bind(this, method)
       return map
     }, {})
   }
 
-  onHideModal() {
+  onHideModal = () => {
     this.hideAndCallMethod('onAbort', {reason: 'esc'})
   }
 
@@ -48,12 +54,14 @@ export default class SearchBrowserModal extends Component {
         show={this.state.show}
         className={classes.modal}
         backdropClassName={classes.backdrop}
-        onBackdropClick={::this.onHideModal}>
+        onBackdropClick={this.onHideModal}
+      >
         <SearchBrowser
           {...rest}
           {...this.callbacks}
           className={classes.browser}
-          onAbort={::this.onHideModal} />
+          onAbort={this.onHideModal}
+        />
       </Modal>
     )
   }

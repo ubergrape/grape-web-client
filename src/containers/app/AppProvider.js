@@ -4,13 +4,15 @@ import {IntlProvider} from 'react-intl'
 
 import * as translations from '../../i18n'
 
-export default class App extends Component {
+export default class AppProvider extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired
+    locale: PropTypes.string.isRequired,
+    children: PropTypes.node
   }
 
   static defaultProps = {
-    locale: 'en'
+    locale: 'en',
+    children: null
   }
 
   render() {

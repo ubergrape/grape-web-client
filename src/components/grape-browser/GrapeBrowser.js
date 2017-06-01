@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
@@ -9,7 +10,7 @@ import pick from 'lodash/object/pick'
 import keyname from 'keyname'
 import {shallowEqual} from 'react-pure-render'
 
-import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
+import SearchBrowser from '../../containers/search-browser/SearchBrowserProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
 import GrapeInput from '../grape-input/GrapeInput'
 import Datalist from '../datalist/Datalist'
@@ -41,13 +42,15 @@ export default class GrapeBrowser extends Component {
     container: PropTypes.object,
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
+    /* eslint-disable react/no-unused-prop-types */
     setTrigger: PropTypes.bool,
-    disabled: PropTypes.bool,
+    browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     focused: PropTypes.bool,
+    /* eslint-enable react/no-unused-prop-types */
+    disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     externalServicesInputDelay: PropTypes.number,
     services: PropTypes.array,
 
@@ -70,6 +73,7 @@ export default class GrapeBrowser extends Component {
     // We need to set it to null to enable shallowEqual comparance in
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
+    container: null,
     maxSuggestions: 12,
     externalServicesInputDelay: 150,
     browser: undefined,
@@ -83,9 +87,18 @@ export default class GrapeBrowser extends Component {
     disabled: false,
     setTrigger: false,
     isLoading: false,
-    onAbort: undefined,
-    onEditPrevious: undefined,
-    onSubmit: undefined
+    onDidMount: noop,
+    onEditPrevious: noop,
+    onSubmit: noop,
+    onAbort: noop,
+    onAddIntegration: noop,
+    onInsertItem: noop,
+    onBlur: noop,
+    onFocus: noop,
+    onComplete: noop,
+    onChange: noop,
+    onResize: noop,
+    onLoadServices: noop
   }
 
   constructor(props) {
@@ -96,7 +109,7 @@ export default class GrapeBrowser extends Component {
     const emojiSheet = get(props, 'images.emojiSheet')
     if (emojiSheet) {
       EmojiBrowser.init({
-        emojiSheet: emojiSheet,
+        emojiSheet,
         customEmojis: props.customEmojis
       })
     }
@@ -108,7 +121,7 @@ export default class GrapeBrowser extends Component {
 
   componentDidMount() {
     this.setTrigger(this.state.browser)
-    if (this.props.onDidMount) this.props.onDidMount(this)
+    this.props.onDidMount(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -237,7 +250,10 @@ export default class GrapeBrowser extends Component {
       if (this.props.onChange) this.props.onChange()
     }
 
-    if (!utils.isExternalSearch(this.state.data)) return complete()
+    if (!utils.isExternalSearch(this.state.data)) {
+      complete()
+      return
+    }
 
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.searchBrowserInputTimeoutId = setTimeout(
@@ -292,9 +308,7 @@ export default class GrapeBrowser extends Component {
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
-  getTextContent = () => {
-    return this.state.content
-  }
+  getTextContent = () => this.state.content
 
   setTextContent = (content, options = {}) => {
     const {caretPosition, silent} = options
@@ -307,7 +321,7 @@ export default class GrapeBrowser extends Component {
   exposePublicMethods() {
     const {container} = this.props
     if (!container) return
-    publicMethods.forEach(method => {
+    publicMethods.forEach((method) => {
       container[method] = this[method]
     })
   }
@@ -420,7 +434,8 @@ export default class GrapeBrowser extends Component {
           onAddIntegration={this.onAddSearchBrowserIntegration}
           onChange={this.onChangeSearchBrowser}
           onLoadServices={this.onLoadServices}
-          onDidMount={this.onDidMountBrowser} />
+          onDidMount={this.onDidMountBrowser}
+        />
       )
     }
 
@@ -433,7 +448,8 @@ export default class GrapeBrowser extends Component {
           onAbort={this.onAbort}
           onSelectItem={this.onSelectEmojiBrowserItem}
           onOutsideClick={this.onEmojiBrowserOutsideClick}
-          onDidMount={this.onDidMountBrowser} />
+          onDidMount={this.onDidMountBrowser}
+        />
       )
     }
 
@@ -443,7 +459,8 @@ export default class GrapeBrowser extends Component {
         images={images}
         data={data}
         onSelect={this.onSelectDatalistItem}
-        onDidMount={this.onDidMountDatalist} />
+        onDidMount={this.onDidMountDatalist}
+      />
     )
   }
 
@@ -453,7 +470,8 @@ export default class GrapeBrowser extends Component {
     return (
       <div
         className={classes.grapeBrowser}
-        data-test="grape-browser">
+        data-test="grape-browser"
+      >
         {this.renderBrowser()}
         <div className={classes.scroll}>
           <GrapeInput
@@ -470,7 +488,8 @@ export default class GrapeBrowser extends Component {
             disabled={this.props.disabled}
             focused={this.state.inputFocused}
             content={this.state.content}
-            caretPosition={this.state.caretPosition} />
+            caretPosition={this.state.caretPosition}
+          />
         </div>
       </div>
     )

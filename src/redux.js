@@ -1,14 +1,21 @@
 import boundActions from './boundActions'
 
-export function mapActionsToProps(actionsNames, actionsPropsMap = {}) {
-  return () => {
-    return actionsNames.reduce(
+export function mapActionsToProps(actionsNamesOrNamesMap) {
+  let actionsNames = actionsNamesOrNamesMap
+  let namesMap = {}
+
+  if (!Array.isArray(actionsNamesOrNamesMap)) {
+    namesMap = actionsNamesOrNamesMap
+    actionsNames = Object.keys(actionsNamesOrNamesMap)
+  }
+
+  return () => actionsNames.reduce(
       (selectedActions, actionName) => {
         const action = boundActions[actionName]
-        if (action) selectedActions[actionsPropsMap[actionName] || actionName] = action
+        // eslint-disable-next-line no-param-reassign
+        if (action) selectedActions[namesMap[actionName] || actionName] = action
         return selectedActions
       },
       {}
     )
-  }
 }

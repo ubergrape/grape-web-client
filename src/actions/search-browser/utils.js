@@ -33,19 +33,17 @@ export function formatGroupedResults({results, services, search}) {
     })
 
     // Build new result items.
-    const newGroupResults = groupResults.map(result => {
-      return {
-        id: result.id,
-        type: result.type,
-        name: result.name,
-        info: result.container,
-        date: result.start,
-        focused: false,
-        service: result.service,
-        detail: result.detail || {},
-        search: search.text
-      }
-    })
+    const newGroupResults = groupResults.map(result => ({
+      id: result.id,
+      type: result.type,
+      name: result.name,
+      info: result.container,
+      date: result.start,
+      focused: false,
+      service: result.service,
+      detail: result.detail || {},
+      search: search.text
+    }))
 
     return newResults.concat(newGroupResults)
   }, [])
@@ -75,4 +73,17 @@ export function findIndexBySelector(selector, list, validation) {
  */
 export function mapServiceIdsToKeys(ids, services) {
   return ids.map(id => find(services, {id}).key)
+}
+
+export function selectResult(selector, {results, focusedResult}) {
+  if (typeof selector !== 'string') return selector
+
+  const dataResults = results.filter(({type}) => type !== 'header')
+  const nextIndex = findIndexBySelector(
+    selector,
+    dataResults,
+    result => result === focusedResult
+  )
+
+  return dataResults[nextIndex]
 }

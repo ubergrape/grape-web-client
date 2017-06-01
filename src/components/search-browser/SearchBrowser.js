@@ -1,9 +1,9 @@
-import noop from 'lodash/utility/noop'
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 import {
   defineMessages,
   intlShape,
@@ -34,23 +34,9 @@ export default class SearchBrowser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    onDidMount: PropTypes.func,
-    onAbort: PropTypes.func,
-    onBlur: PropTypes.func,
-    onAddIntegration: PropTypes.func,
-    servicesResultsAmounts: PropTypes.object,
-    showSearchBrowserResults: PropTypes.func,
-    focusSearchBrowserResult: PropTypes.func,
-    selectSearchBrowserResult: PropTypes.func,
-    changeSearchBrowserInput: PropTypes.func,
-    focusSearchBrowserService: PropTypes.func,
-    addSearchBrowserService: PropTypes.func,
-    clearSearchBrowserInput: PropTypes.func,
-    focusSearchBrowserActions: PropTypes.func,
-    focusSearchBrowserAction: PropTypes.func,
-    execSearchBrowserAction: PropTypes.func,
     results: PropTypes.array,
     currServices: PropTypes.array,
+    filters: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
@@ -59,22 +45,59 @@ export default class SearchBrowser extends Component {
     search: PropTypes.string,
     focusedView: PropTypes.oneOf(listTypes),
     focusedResult: PropTypes.object,
-    focusedService: PropTypes.object
+    focusedService: PropTypes.object,
+    onDidMount: PropTypes.func,
+    onAbort: PropTypes.func,
+    onBlur: PropTypes.func,
+    onAddIntegration: PropTypes.func,
+    onLoadServices: PropTypes.func,
+    onShowResults: PropTypes.func,
+    onFocusResult: PropTypes.func,
+    onSelectResult: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onFocusService: PropTypes.func,
+    onAddService: PropTypes.func,
+    onClearInput: PropTypes.func,
+    onFocusActions: PropTypes.func,
+    onFocusAction: PropTypes.func,
+    onExecAction: PropTypes.func
   }
 
   static defaultProps = {
     results: [],
+    currServices: [],
+    filters: [],
+    focusedView: 'results',
+    focusedResult: null,
+    focusedService: null,
+    isLoading: false,
     value: '',
     search: '',
+    className: '',
+    height: 400,
+    images: {},
     onDidMount: noop,
+    onAbort: noop,
     onBlur: noop,
-    changeSearchBrowserInput: noop
+    onAddIntegration: noop,
+    onLoadServices: noop,
+    onShowResults: noop,
+    onFocusResult: noop,
+    onSelectResult: noop,
+    onChangeInput: noop,
+    onFocusService: noop,
+    onAddService: noop,
+    onClearInput: noop,
+    onFocusActions: noop,
+    onFocusAction: noop,
+    onExecAction: noop
   }
 
   state = {}
 
   componentDidMount() {
     this.props.onDidMount(this)
+    this.props.onLoadServices()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -87,11 +110,11 @@ export default class SearchBrowser extends Component {
 
   onFocusResult = (result) => {
     if (this.props.focusedResult === result) return
-    this.props.focusSearchBrowserResult(result)
+    this.props.onFocusResult(result)
   }
 
   onSelectResult = (result) => {
-    this.props.selectSearchBrowserResult(result)
+    this.props.onSelectResult(result)
   }
 
   onKeyDown = (e) => {
@@ -101,36 +124,36 @@ export default class SearchBrowser extends Component {
       case 'esc':
         // Actions are focused - focus results.
         if (focusedView !== 'results') {
-          this.props.showSearchBrowserResults()
+          this.props.onShowResults()
         // Reset the search if there is one.
         } else if (this.props.value.trim()) {
-          this.props.clearSearchBrowserInput()
+          this.props.onClearInput()
         } else {
           this.props.onAbort()
         }
         e.preventDefault()
         break
       case 'down':
-        if (focusedView === 'services') this.props.focusSearchBrowserService('next')
-        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('next')
-        else this.props.focusSearchBrowserResult('next')
+        if (focusedView === 'services') this.props.onFocusService('next')
+        else if (focusedView === 'actions') this.props.onFocusAction('next')
+        else this.props.onFocusResult('next')
         e.preventDefault()
         break
       case 'up':
-        if (focusedView === 'services') this.props.focusSearchBrowserService('prev')
-        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('prev')
-        else this.props.focusSearchBrowserResult('prev')
+        if (focusedView === 'services') this.props.onFocusService('prev')
+        else if (focusedView === 'actions') this.props.onFocusAction('prev')
+        else this.props.onFocusResult('prev')
         e.preventDefault()
         break
       case 'enter':
         if (focusedView === 'services') this.onAddService(this.props.focusedService)
-        else if (focusedView === 'actions') this.props.execSearchBrowserAction()
-        else this.props.focusSearchBrowserActions()
+        else if (focusedView === 'actions') this.props.onExecAction()
+        else this.props.onFocusActions()
         e.preventDefault()
         break
       case 'backspace':
         if (focusedView === 'actions') {
-          this.props.showSearchBrowserResults()
+          this.props.onShowResults()
           e.preventDefault()
         }
         break
@@ -168,7 +191,7 @@ export default class SearchBrowser extends Component {
     // into the input, change event will trigger the search and before this,
     // state needs to have all the data in place.
     this.setState({lastAddedService: service}, () => {
-      this.props.addSearchBrowserService(service)
+      this.props.onAddService(service)
     })
   }
 
@@ -176,7 +199,7 @@ export default class SearchBrowser extends Component {
     const {
       height, results, search, intl: {formatMessage},
       onAddIntegration, focusedView,
-      currServices, focusedService, focusSearchBrowserService,
+      currServices, focusedService, onFocusService,
       ...rest
     } = this.props
 
@@ -186,8 +209,9 @@ export default class SearchBrowser extends Component {
           {...rest}
           services={currServices}
           focused={focusedService}
-          onSelect={::this.onAddService}
-          onFocus={focusSearchBrowserService} />
+          onSelect={this.onAddService}
+          onFocus={onFocusService}
+        />
       )
       return {element, height}
     }
@@ -196,10 +220,12 @@ export default class SearchBrowser extends Component {
       const element = (
         <Results
           {...rest}
+          search={search}
           focusedView={focusedView}
           data={results}
-          onFocus={::this.onFocusResult}
-          onSelect={::this.onSelectResult} />
+          onFocus={this.onFocusResult}
+          onSelect={this.onSelectResult}
+        />
       )
       return {element, height}
     }
@@ -221,7 +247,7 @@ export default class SearchBrowser extends Component {
     const {
       sheet: {classes},
       height,
-      changeSearchBrowserInput,
+      onChangeInput,
       className,
       ...rest
     } = this.props
@@ -238,13 +264,15 @@ export default class SearchBrowser extends Component {
         }}
         onMouseDown={this.onMouseDown}
         data-test="search-browser"
-        tabIndex="-1">
+        tabIndex="-1"
+      >
         <SearchInput
           {...rest}
           onDidMount={this.onMountInput}
           onKeyDown={this.onKeyDown}
-          onChange={changeSearchBrowserInput}
-          onBlur={this.onBlur} />
+          onChange={onChangeInput}
+          onBlur={this.onBlur}
+        />
         {body.element}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>

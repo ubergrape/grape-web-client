@@ -16,7 +16,6 @@ const actions = [
 ]
 
 const initialState = {
-  height: 400,
   className: '',
   isExternal: false,
   isLoading: false,
@@ -78,7 +77,6 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_SEARCH_BROWSER_RESULTS:
       return {...state, focusedView: 'results'}
     case types.FOCUS_SEARCH_BROWSER_RESULT:
-      return {...state, ...action.payload}
     case types.SELECT_SEARCH_BROWSER_RESULT:
       return {...state, focusedResult: action.payload}
     case types.FOCUS_SEARCH_BROWSER_ACTIONS:

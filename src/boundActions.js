@@ -1,4 +1,5 @@
 import {bindActionCreators} from 'redux'
-import {dispatch} from './store'
+import getStore from './store'
 import * as actions from './actions'
-export default bindActionCreators(actions, dispatch)
+
+export default bindActionCreators(actions, getStore().dispatch)

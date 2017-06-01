@@ -15,24 +15,29 @@ import ServiceIcon from '../service-icon/ServiceIcon'
 @injectSheet(style.rules)
 export default class Result extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
+    data: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      info: PropTypes.string,
+      detail: PropTypes.object,
+      date: PropTypes.string,
+      service: PropTypes.string
+    }),
     isFocused: PropTypes.bool,
     isViewFocused: PropTypes.bool,
-    id: PropTypes.string,
-    name: PropTypes.string,
     search: PropTypes.string,
-    info: PropTypes.string,
-    detail: PropTypes.object,
-    date: PropTypes.string,
-    service: PropTypes.string,
     onFocus: PropTypes.func,
     onSelect: PropTypes.func
   }
 
   static defaultProps = {
     isFocused: false,
+    isViewFocused: false,
+    search: '',
     onFocus: noop,
-    onSelect: noop
+    onSelect: noop,
+    data: {}
   }
 
   onClick = () => {
@@ -41,7 +46,7 @@ export default class Result extends Component {
   }
 
   renderName() {
-    let {name} = this.props
+    let {name} = this.props.data
     const matches = findMatches(name, this.props.search)
 
     if (matches.length) {
@@ -58,7 +63,7 @@ export default class Result extends Component {
   }
 
   renderDate() {
-    const {date, isFocused} = this.props
+    const {data: {date}, isFocused} = this.props
     if (!date) return null
     const {classes} = this.props.sheet
     return (
@@ -69,7 +74,7 @@ export default class Result extends Component {
   }
 
   renderState() {
-    const state = utils.getLabel(this.props.detail)
+    const state = utils.getLabel(this.props.data.detail)
     if (!state) return null
     const {classes} = this.props.sheet
     const className = this.props.isFocused ? classes.metaItemFocused : classes.metaItem
@@ -78,7 +83,7 @@ export default class Result extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {isFocused, service, info} = this.props
+    const {isFocused, data: {info, service}} = this.props
     let containerClassName = isFocused ? classes.containerFocused : classes.container
     if (!this.props.isViewFocused && isFocused) {
       containerClassName = classes.containerFocusedInactive
@@ -88,7 +93,8 @@ export default class Result extends Component {
     return (
       <div
         onClick={this.onClick}
-        className={containerClassName}>
+        className={containerClassName}
+      >
         <div className={classes.iconContainer}>
           <ServiceIcon service={service} />
         </div>

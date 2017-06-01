@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
+import noop from 'lodash/utility/noop'
 
 import injectSheet from 'grape-web/lib/jss'
 import Preview from './Preview'
@@ -25,15 +26,21 @@ export default class Detail extends Component {
     actions: PropTypes.array,
     focusedAction: PropTypes.object,
     hoveredAction: PropTypes.object,
+    onExecAction: PropTypes.func,
     onFocusAction: PropTypes.func,
-    execSearchBrowserAction: PropTypes.func,
-    focusSearchBrowserAction: PropTypes.func,
-    blurSearchBrowserAction: PropTypes.func
+    onBlurAction: PropTypes.func
   }
 
   static defaultProps = {
     data: {},
-    images: {}
+    images: {},
+    focusedView: 'results',
+    actions: [],
+    focusedAction: null,
+    hoveredAction: null,
+    onExecAction: noop,
+    onFocusAction: noop,
+    onBlurAction: noop
   }
 
   renderPreview() {
@@ -47,7 +54,8 @@ export default class Detail extends Component {
       <div className={classes.previewContainer}>
         <Preview
           image={previewUrl}
-          spinner={images.spinner} />
+          spinner={images.spinner}
+        />
       </div>
     )
   }
@@ -78,18 +86,16 @@ export default class Detail extends Component {
 
     return (
       <div className={classes.metaContainer}>
-        {data.meta.map((item, i) => {
-          return (
-            <div className={classes.metaRow} key={i}>
-              <div className={classes.metaLabel}>
-                {item.label}
-              </div>
-              <div className={classes.metaValue}>
-                {utils.formatDateMaybe(item.label, item.value)}
-              </div>
+        {data.meta.map(item => (
+          <div className={classes.metaRow} key={item.label}>
+            <div className={classes.metaLabel}>
+              {item.label}
             </div>
-          )
-        })}
+            <div className={classes.metaValue}>
+              {utils.formatDateMaybe(item.label, item.value)}
+            </div>
+          </div>
+          ))}
       </div>
     )
   }
@@ -110,9 +116,10 @@ export default class Detail extends Component {
           items={this.props.actions}
           focusedAction={this.props.focusedAction}
           hoveredAction={this.props.hoveredAction}
-          onSelect={this.props.execSearchBrowserAction}
-          onFocus={this.props.focusSearchBrowserAction}
-          onBlur={this.props.blurSearchBrowserAction} />
+          onSelect={this.props.onExecAction}
+          onFocus={this.props.onFocusAction}
+          onBlur={this.props.onBlurAction}
+        />
       </div>
     )
   }

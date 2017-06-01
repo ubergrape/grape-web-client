@@ -34,6 +34,7 @@ export default class Results extends Component {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     focusedResult: PropTypes.object,
+    search: PropTypes.string,
     focusedView: PropTypes.oneOf(listTypes),
     data: PropTypes.array,
     onSelect: PropTypes.func,
@@ -41,6 +42,10 @@ export default class Results extends Component {
   }
 
   static defaultProps = {
+    focusedResult: null,
+    search: '',
+    data: [],
+    focusedView: 'results',
     onSelect: noop,
     onFocus: noop
   }
@@ -49,25 +54,29 @@ export default class Results extends Component {
     const {
       intl: {formatMessage},
       focusedView,
-      onFocus, onSelect
+      onFocus, onSelect,
+      search
     } = this.props
 
     if (item.type === 'header') {
       return (
         <SectionHeader
           text={item.label}
-          hint={formatMessage(messages.hint, {amount: item.resultsAmount})} />
+          hint={formatMessage(messages.hint, {amount: item.resultsAmount})}
+        />
       )
     }
 
     return (
       <Result
-        {...item}
-        onSelect={onSelect.bind(null, item)}
-        onFocus={onFocus.bind(null, item)}
+        data={item}
+        onSelect={onSelect}
+        onFocus={onFocus}
         isViewFocused={focusedView === 'results'}
         isFocused={focused}
-        key={item.id} />
+        search={search}
+        key={item.id}
+      />
     )
   }
 
@@ -89,7 +98,8 @@ export default class Results extends Component {
             className={classes.leftColumn}
             renderItem={this.renderResult}
             items={data}
-            focused={focusedResult} />
+            focused={focusedResult}
+          />
           <Sidebar className={classes.rightColumn}>
             <Detail {...rest} data={details} />
           </Sidebar>

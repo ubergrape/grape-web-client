@@ -4,8 +4,9 @@ import {openUrl} from 'grape-web/lib/x-platform'
 import {
   formatGroupedResults,
   findIndexBySelector,
-  mapServiceIdsToKeys
-} from './data'
+  mapServiceIdsToKeys,
+  selectResult
+} from './utils'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
 import {SERVICES_TRIGGER} from '../../components/query/constants'
@@ -40,27 +41,12 @@ export function showSearchBrowserResults() {
 
 export function focusSearchBrowserResult(selector) {
   return (dispatch, getState) => {
-    const {results, focusedResult: currFocusedResult} = searchBrowserSelector(getState())
-    let focusedResult
-
-    if (typeof selector === 'string') {
-      const pureResults = results.filter(({type}) => type !== 'header')
-      const newResultIndex = findIndexBySelector(
-        selector,
-        pureResults,
-        result => result === currFocusedResult
-      )
-      focusedResult = pureResults[newResultIndex]
-    } else {
-      focusedResult = selector
-    }
+    const searchBrowserState = searchBrowserSelector(getState())
+    const focusedResult = selectResult(selector, searchBrowserState)
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_RESULT,
-      payload: {
-        results,
-        focusedResult
-      }
+      payload: focusedResult
     })
   }
 }
@@ -138,8 +124,9 @@ export function loadSearchBrowserServicesResultsAmounts() {
     const {onLoadResultsAmounts, search} = searchBrowserSelector(getState())
 
     dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS})
-    onLoadResultsAmounts(search, services => {
+    onLoadResultsAmounts(search, (services) => {
       const payload = services.reduce((data, service) => {
+        // eslint-disable-next-line no-param-reassign
         data[service.id] = service.count
         return data
       }, {})
@@ -152,7 +139,7 @@ export function loadSearchBrowserServicesResultsAmounts() {
 }
 
 export function showSearchBrowserServices(query) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
@@ -169,7 +156,11 @@ export function focusSearchBrowserService(item) {
     // It's a selector.
     if (typeof item === 'string') {
       const {currServices, focusedService} = searchBrowserSelector(getState())
-      const newIndex = findIndexBySelector(item, currServices, service => service === focusedService)
+      const newIndex = findIndexBySelector(
+        item,
+        currServices,
+        service => service === focusedService
+      )
       payload = currServices[newIndex]
     }
 
@@ -181,7 +172,7 @@ export function focusSearchBrowserService(item) {
 }
 
 export function addSearchBrowserService(service) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.ADD_SEARCH_BROWSER_SERVICE,
       payload: service
