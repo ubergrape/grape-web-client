@@ -3,7 +3,6 @@ var webpackConfig = require('./webpack.config')
 
 module.exports = function (config) {
   config.set({
-    basePath: '.',
     browsers: ['Chrome'],
     singleRun: process.env.SINGLE_RUN,
     files: [
@@ -22,6 +21,9 @@ module.exports = function (config) {
     },
     webpackMiddleware: {
       noInfo: true
-    }
+    },
+    node: {
+      fs: 'empty'
+    }    
   })
 }
