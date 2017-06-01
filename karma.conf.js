@@ -21,9 +21,6 @@ module.exports = function (config) {
     },
     webpackMiddleware: {
       noInfo: true
-    },
-    node: {
-      fs: 'empty'
     }    
   })
 }
