@@ -1,9 +1,10 @@
-import {$, render} from '../../../test'
 import expect from 'expect.js'
 import React from 'react'
 import times from 'lodash/utility/times'
-import {Simulate} from 'react-addons-test-utils'
+import {Simulate} from 'react-dom/test-utils'
 import {IntlProvider} from 'react-intl'
+
+import {$, render} from '../../../test'
 import GrapeBrowser from '../GrapeBrowser'
 import data0 from './mocks/data0.json'
 import data1 from './mocks/data1.json'
@@ -38,13 +39,14 @@ describe('app:', () => {
             browser="search"
             data={data}
             onDidMount={onDidMount}
-            focused />
+            focused
+          />
         </IntlProvider>
       )
       render(input, onRender)
     }
 
-    it('shound render "nothing found"', done => {
+    it('shound render "nothing found"', (done) => {
       create(undefined, () => {
         const node = $('search-browser editable', document.body)
         node.value = 'asdef'
@@ -55,7 +57,7 @@ describe('app:', () => {
     })
 
     it('should stay opened when space is not at the end', (done) => {
-      create(component => {
+      create((component) => {
         component.query.set('search', 'something else', {silent: true})
         create(undefined, () => {
           const browser = $('search-browser', document.body)
@@ -104,7 +106,8 @@ describe('app:', () => {
             browser="search"
             data={data}
             focused
-            {...props} />
+            {...props}
+          />
         </IntlProvider>
       )
       render(input)
@@ -119,7 +122,7 @@ describe('app:', () => {
 
     it('should call onInsertItem with correct argument', (done) => {
       insert({
-        onInsertItem: param => {
+        onInsertItem: (param) => {
           expect(param.type).to.be('file')
           expect(param.service).to.be('googledrive')
           expect(param.rank).to.be(1)
@@ -133,7 +136,7 @@ describe('app:', () => {
       let changeCounter = 0
 
       insert({
-        onDidMount: _input => {
+        onDidMount: (_input) => {
           input = _input
         },
         onChange: () => {
