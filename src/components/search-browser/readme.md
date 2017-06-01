@@ -1,7 +1,7 @@
 ## Basic
 
 ```
-  const data = require('../../mocks/search').default
+  const data = require('../../../mocks/search').default
   const SearchBrowserProvider = require('../../containers/search-browser/SearchBrowserProvider').default
 
   const onChange = () => {

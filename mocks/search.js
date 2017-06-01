@@ -170,7 +170,7 @@ export default {
         ],
         'preview': {
           'image': {
-            'url': '../images/1.jpg',
+            'url': '/mocks/images/1.jpg',
             'width': 1024,
             'height': 768
           }
