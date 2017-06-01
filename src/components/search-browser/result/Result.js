@@ -41,8 +41,9 @@ export default class Result extends Component {
   }
 
   onClick = () => {
-    if (this.props.isFocused) this.props.onSelect()
-    else this.props.onFocus()
+    const {isFocused, onSelect, onFocus, data} = this.props
+    if (isFocused) onSelect(data)
+    else onFocus(data)
   }
 
   renderName() {
