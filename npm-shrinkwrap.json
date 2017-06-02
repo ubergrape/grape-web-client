@@ -4114,9 +4114,16 @@
       "dev": true
     },
     "grape-browser": {
-      "version": "3.8.3",
+      "version": "3.8.5",
       "from": "grape-browser@latest",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.3.tgz"
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.5.tgz",
+      "dependencies": {
+        "react-finite-list": {
+          "version": "1.0.7",
+          "from": "react-finite-list@>=1.0.7 <2.0.0",
+          "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.7.tgz"
+        }
+      }
     },
     "grape-js-emoji": {
       "version": "0.0.1",
