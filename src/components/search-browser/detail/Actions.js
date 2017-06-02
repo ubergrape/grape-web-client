@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import List from 'react-finite-list'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import injectSheet from 'grape-web/lib/jss'
@@ -9,6 +9,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import noop from 'lodash/utility/noop'
 
 import style from './actionsStyle'
 
@@ -28,7 +29,7 @@ const messages = defineMessages({
  */
 @injectSheet(style)
 @injectIntl
-export default class Actions extends Component {
+export default class Actions extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -42,13 +43,20 @@ export default class Actions extends Component {
   }
 
   static defaultProps = {
-    focused: false
+    focused: false,
+    items: [],
+    focusedAction: null,
+    hoveredAction: null,
+    onFocus: noop,
+    onBlur: noop,
+    onSelect: noop
   }
 
-  renderItem({item, focused}) {
+  renderItem = ({item, focused}) => {
     const {sheet: {classes}, intl: {formatMessage}} = this.props
     let focusedClass = ''
     let iconColor = colors.grayBlueDark
+
     if (focused) {
       focusedClass = this.props.focused ? classes.actionFocused : classes.actionFocusedInactive
       if (this.props.focused) iconColor = colors.white
@@ -66,8 +74,12 @@ export default class Actions extends Component {
     return (
       <div
         className={`${classes.action} ${focusedClass}`}
+        /* eslint-disable react/jsx-no-bind */
         onMouseEnter={this.props.onFocus.bind(null, item)}
-        onMouseLeave={this.props.onBlur.bind(null, item)}>
+        onMouseLeave={this.props.onBlur.bind(null, item)}
+        /* eslint-enable react/jsx-no-bind */
+        key={`action-${item.type}`}
+      >
         <span style={{backgroundImage}} className={classes.icon} />
         <span className={classes.text}>{formatMessage(messages[item.type])}</span>
       </div>
@@ -79,10 +91,12 @@ export default class Actions extends Component {
     return (
       <List
         className={classes.actions}
-        renderItem={::this.renderItem}
+        renderItem={this.renderItem}
         items={this.props.items}
         onSelect={this.props.onSelect}
-        focused={this.props.focusedAction} />
+        focused={this.props.focusedAction}
+        forceRerender={this.props.focused}
+      />
     )
   }
 }

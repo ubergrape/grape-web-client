@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
@@ -17,7 +17,7 @@ const proxiMethodsToHideModal = [
 ]
 
 @injectSheet(style)
-export default class SearchBrowserModal extends Component {
+export default class SearchBrowserModal extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onAbort: PropTypes.func

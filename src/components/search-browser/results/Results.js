@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
@@ -29,7 +29,7 @@ const messages = defineMessages({
  */
 @injectSheet(style)
 @injectIntl
-export default class Results extends Component {
+export default class Results extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -63,6 +63,7 @@ export default class Results extends Component {
         <SectionHeader
           text={item.label}
           hint={formatMessage(messages.hint, {amount: item.resultsAmount})}
+          key={`header-${item.label}`}
         />
       )
     }

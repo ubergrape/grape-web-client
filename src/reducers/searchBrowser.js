@@ -78,7 +78,7 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedView: 'results'}
     case types.FOCUS_SEARCH_BROWSER_RESULT:
     case types.SELECT_SEARCH_BROWSER_RESULT:
-      return {...state, focusedResult: action.payload}
+      return {...state, focusedResult: action.payload, focusedView: 'results'}
     case types.FOCUS_SEARCH_BROWSER_ACTIONS:
       return {...state, focusedView: 'actions'}
     case types.FOCUS_SEARCH_BROWSER_ACTION:

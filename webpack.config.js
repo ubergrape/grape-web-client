@@ -2,9 +2,7 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-  entry: {
-    browser: ['webpack/hot/dev-server', './src/index.js']
-  },
+  entry: ['webpack/hot/dev-server', './src/index.js'],
   output: {
     path: './examples/build',
     publicPath: '/build/',
@@ -17,10 +15,10 @@ module.exports = {
       __TEST__: process.env.NODE_ENV === 'testing'
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
-    loaders: [
+    rules: [
       {
         loader: 'babel-loader',
         test: /\.js$/,
@@ -43,6 +41,6 @@ module.exports = {
     ]
   },
   resolve: {
-    fallback: path.join(__dirname, 'node_modules')
+    modules: [path.resolve(__dirname, 'node_modules')]
   }
 }
