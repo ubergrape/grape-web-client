@@ -12,7 +12,7 @@ import style from './searchBrowserModalStyle'
 const proxiMethodsToHideModal = [
   'onHide',
   'onAbort',
-  'onSelectResult',
+  'onSelectItem',
   'onAddIntegration'
 ]
 
