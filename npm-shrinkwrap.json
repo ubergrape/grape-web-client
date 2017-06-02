@@ -4114,9 +4114,9 @@
       "dev": true
     },
     "grape-browser": {
-      "version": "3.8.5",
+      "version": "3.8.6",
       "from": "grape-browser@latest",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.5.tgz",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.8.6.tgz",
       "dependencies": {
         "react-finite-list": {
           "version": "1.0.7",
