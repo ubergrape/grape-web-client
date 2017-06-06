@@ -3,9 +3,17 @@ import React, {Component} from 'react'
 import icons from 'grape-web/lib/svg-icons/data'
 import injectSheet from 'grape-web/lib/jss'
 
-import * as style from './style'
+const size = 22
 
-@injectSheet(style)
+@injectSheet({
+  icon: {
+    display: 'inline-block',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    height: size,
+    width: size
+  }
+})
 export default class ServiceIcon extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -27,7 +35,8 @@ export default class ServiceIcon extends Component {
     return (
       <span
         className={classes.icon}
-        style={{backgroundImage}} />
+        style={{backgroundImage}}
+      />
     )
   }
 }
