@@ -3,7 +3,7 @@
  */
 
 import toArray from 'lodash/lang/toArray'
-import toData from './toData'
+import svg2base64 from '../jss-utils/svg2base64'
 
 class List {
   constructor(dom, list) {
@@ -22,7 +22,7 @@ class List {
   }
 
   data(encoding) {
-    return toData(this.svg(), encoding)
+    return svg2base64(this.svg(), encoding)
   }
 
   svg() {

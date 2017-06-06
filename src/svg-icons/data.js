@@ -1,12 +1,12 @@
 import each from 'lodash/collection/each'
 import * as raw from './raw'
-import toData from './toData'
+import svg2base64 from '../jss-utils/svg2base64'
 
 /**
  * Data image strings.
  */
 const data = {}
 each(raw, (svg, name) => {
-  data[name] = toData(svg)
+  data[name] = svg2base64(svg)
 })
 export default data
