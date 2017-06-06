@@ -1,11 +1,25 @@
 ## Release next (2017-xx-xx)
 
+## Release 0.53.7 - 0.53.8 (2017-06-06)
+
 ### Fixes
 
+- Smilies rendering inside of grape search objects #459
+- Grape search keyboard and mouse navigation #451
 - Fix file upload from buffer in Chrome #446
 - Markdown headlines should not be supported #440
 - Emojis in a markdown link lead to a broken link text in grape objects #459
 - Added min height for the message bubble #439
+
+### Chore changes
+
+- Fix react warnings #454
+- Dependencies update, styleguidist intro #451
+
+### Enhancements
+
+- Profile headline style #450
+
 
 ## Release 0.53.0 - 0.53.6 (2017-05-22)
 
