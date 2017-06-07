@@ -23,13 +23,14 @@ const sizesMap = {
 
 const animationName = (() => {
   const id = random(10000)
-  return (size) => `grape-logo-${size}-${id}`
+  return size => `grape-logo-${size}-${id}`
 })()
 
 const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
+  // eslint-disable-next-line no-param-reassign
   styles[`@keyframes ${animationName(size)}`] = {
     to: {
-      backgroundPositionX: -sizesMap[size] * steps + 'px'
+      backgroundPositionX: -sizesMap[size] * steps
     }
   }
   return styles
@@ -63,7 +64,7 @@ const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
       timingFunction: `steps(${steps})`,
       iterationCount: 'infinite'
     },
-    animationName: ({size}) => animationName(size),
+    animationName: ({size}) => animationName(size)
   },
   overlay: {
     background: color(white).alpha(0.7).rgbaString()
@@ -75,7 +76,8 @@ export default class Spinner extends PureComponent {
     active: PropTypes.bool,
     delay: PropTypes.number,
     overlay: PropTypes.bool,
-    size: PropTypes.oneOf(['s','m'])
+    // eslint-disable-next-line react/no-unused-prop-types
+    size: PropTypes.oneOf(['s', 'm'])
   }
 
   static defaultProps = {
