@@ -15,9 +15,28 @@ import svg from './grape.svg'
  */
 
 const steps = 101
-const animationName = `grape-logo-${random(10000)}`
+
+const sizesMap = {
+  s: 32,
+  m: 64
+}
+
+const animationName = (() => {
+  const id = random(10000)
+  return (size) => `grape-logo-${size}-${id}`
+})()
+
+const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
+  styles[`@keyframes ${animationName(size)}`] = {
+    to: {
+      backgroundPositionX: -sizesMap[size] * steps + 'px'
+    }
+  }
+  return styles
+}, {})
 
 @injectSheet({
+  ...keyframes,
   spinner: {
     position: 'absolute',
     zIndex: 1,
@@ -27,8 +46,8 @@ const animationName = `grape-logo-${random(10000)}`
     width: '100%'
   },
   animation: {
-    width: ({size}) => size,
-    height: ({size}) => size,
+    width: ({size}) => sizesMap[size],
+    height: ({size}) => sizesMap[size],
     position: 'absolute',
     left: '50%',
     top: '50%',
@@ -37,22 +56,17 @@ const animationName = `grape-logo-${random(10000)}`
       image: `url(${svg2base64(svg)})`,
       repeat: 'no-repeat',
       position: [0, 0],
-      size: ({size}) => `auto ${size}px`
+      size: 'auto 100%'
     },
     animation: {
-      name: animationName,
       duration: '3s',
       timingFunction: `steps(${steps})`,
       iterationCount: 'infinite'
-    }
+    },
+    animationName: ({size}) => animationName(size),
   },
   overlay: {
     background: color(white).alpha(0.7).rgbaString()
-  },
-  [`@keyframes ${animationName}`]: {
-    to: {
-      backgroundPosition: ({size}) => `${-size * steps}px 0`
-    }
   }
 })
 export default class Spinner extends PureComponent {
@@ -61,15 +75,14 @@ export default class Spinner extends PureComponent {
     active: PropTypes.bool,
     delay: PropTypes.number,
     overlay: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    size: PropTypes.number
+    size: PropTypes.oneOf(['s','m'])
   }
 
   static defaultProps = {
     active: false,
     delay: 1000,
     overlay: false,
-    size: 60
+    size: 'm'
   }
 
   constructor(props) {

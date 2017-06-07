@@ -1,0 +1,1 @@
+export GlobalEvent from './GlobalEvent'
