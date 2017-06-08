@@ -75,14 +75,16 @@ export default class Spinner extends PureComponent {
     delay: PropTypes.number,
     overlay: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
-    size: PropTypes.oneOf(['s', 'm'])
+    size: PropTypes.oneOf(['s', 'm']),
+    className: PropTypes.string
   }
 
   static defaultProps = {
     active: false,
     delay: 1000,
     overlay: false,
-    size: 'm'
+    size: 'm',
+    className: null
   }
 
   constructor(props) {
@@ -110,11 +112,12 @@ export default class Spinner extends PureComponent {
 
     const {
       classes,
-      overlay
+      overlay,
+      className
     } = this.props
 
     return (
-      <span className={cn(classes.spinner, overlay && classes.overlay)}>
+      <span className={cn(classes.spinner, overlay && classes.overlay, className)}>
         <i className={classes.animation} />
       </span>
     )
