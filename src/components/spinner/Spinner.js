@@ -4,7 +4,6 @@ import {white} from 'grape-theme/dist/base-colors'
 import color from 'color'
 import cn from 'classnames'
 import random from 'lodash/number/random'
-import {translate} from 'css-functions'
 
 import injectSheet from '../../jss'
 import svg2base64 from '../../jss-utils/svg2base64'
