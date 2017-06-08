@@ -5,11 +5,11 @@ import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 import {create as createObject} from 'grape-web/lib/grape-objects'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 import parseQuery from '../query/parse'
-import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
 
 import {
@@ -72,7 +72,7 @@ export default class GrapeInput extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault()
 
     const {objects, content, apiObjects} = this.state
@@ -99,11 +99,11 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onInputDidMount(ref) {
+  onInputDidMount = (ref) => {
     this.input = ref
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     this.props.onKeyDown(e)
     if (e.defaultPrevented) return
 
@@ -123,7 +123,7 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onChange({value}) {
+  onChange = ({value}) => {
     const emojiObjects = getEmojiObjects(value)
     const objects = {...this.state.objects, ...emojiObjects}
     const content = toMarkdown(this.input.splitByTokens(), objects)
@@ -139,7 +139,7 @@ export default class GrapeInput extends Component {
    * Returns a class name that will be applied to the token element for custom
    * styling.
    */
-  getTokenClass(token) {
+  getTokenClass = (token) => {
     const {tokenType} = this.state.objects[token]
     return this.props.sheet.classes[tokenType]
   }
@@ -176,13 +176,14 @@ export default class GrapeInput extends Component {
           {...rest}
           value={this.state.value}
           tokens={Object.keys(this.state.objects)}
-          getTokenClass={::this.getTokenClass}
+          getTokenClass={this.getTokenClass}
           theme={classes}
-          onDidMount={::this.onInputDidMount}
-          onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange}
-          onSubmit={::this.onSubmit} />
-        <GlobalEvent event="resize" handler={::this.onResizeWindow} />
+          onDidMount={this.onInputDidMount}
+          onKeyDown={this.onKeyDown}
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}
+        />
+        <GlobalEvent event="resize" handler={this.onResizeWindow} />
       </div>
     )
   }

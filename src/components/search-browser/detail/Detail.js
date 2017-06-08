@@ -45,17 +45,14 @@ export default class Detail extends Component {
 
   renderPreview() {
     const {classes} = this.props.sheet
-    const {data, images} = this.props
+    const {data} = this.props
     const previewUrl = get(data, 'preview.image.url')
 
     if (!previewUrl) return null
 
     return (
       <div className={classes.previewContainer}>
-        <Preview
-          image={previewUrl}
-          spinner={images.spinner}
-        />
+        <Preview image={previewUrl} />
       </div>
     )
   }
@@ -95,7 +92,7 @@ export default class Detail extends Component {
               {utils.formatDateMaybe(item.label, item.value)}
             </div>
           </div>
-          ))}
+        ))}
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import keyname from 'keyname'
-import Spinner from 'grape-web/lib/spinner/Spinner'
+import Spinner from 'grape-web/lib/components/spinner'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import {
@@ -274,7 +274,7 @@ export default class SearchBrowser extends PureComponent {
           onBlur={this.onBlur}
         />
         {body.element}
-        {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+        {this.props.isLoading && <Spinner overlay />}
       </div>
     )
   }

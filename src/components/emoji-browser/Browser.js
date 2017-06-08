@@ -9,7 +9,8 @@ import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import injectSheet from 'grape-web/lib/jss'
-import wrapWithOutsideClickListener from 'grape-web/lib/outside-click'
+import wrapWithOutsideClickListener from 'grape-web/lib/components/outside-click'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 import {
   defineMessages,
   intlShape,
@@ -24,7 +25,6 @@ import * as dataUtils from './dataUtils'
 import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
-import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
 
@@ -60,6 +60,8 @@ class Browser extends Component {
   }
 
   static defaultProps = {
+    focused: false,
+    container: null,
     images: {},
     height: 400,
     maxWidth: 292,
@@ -115,7 +117,7 @@ class Browser extends Component {
 
   onInput = ({search}) => {
     this.setState({
-      search: search,
+      search,
       facet: search ? 'search' : undefined
     })
   }
@@ -128,9 +130,7 @@ class Browser extends Component {
     this.cacheItemsPerRow()
   }
 
-  getFocusedItem = () => {
-    return dataUtils.getFocusedItem(this.state.sections)
-  }
+  getFocusedItem = () => dataUtils.getFocusedItem(this.state.sections)
 
   createState(nextProps, nextState) {
     const currEmojiSheet = get(this.props, 'images.emojiSheet')
@@ -160,7 +160,9 @@ class Browser extends Component {
   exposePublicMethods() {
     const {container} = this.props
     if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = this[method])
+    PUBLIC_METHODS.forEach((method) => {
+      container[method] = this[method]
+    })
   }
 
   cacheItemsPerRow() {
@@ -170,6 +172,7 @@ class Browser extends Component {
 
     const sectionComponent = this.grid.getSectionComponent(sections[0].id)
     const contentComponent = sectionComponent.getContentComponent()
+    // eslint-disable-next-line react/no-find-dom-node
     const {width: gridWidth} = ReactDOM.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
@@ -180,6 +183,7 @@ class Browser extends Component {
     if (!id) return
 
     const component = this.grid.getItemComponent(id)
+    // eslint-disable-next-line react/no-find-dom-node
     const itemWidth = ReactDOM.findDOMNode(component).offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
   }
@@ -259,7 +263,7 @@ class Browser extends Component {
       case 'esc':
         this.props.onAbort({
           reason: 'esc',
-          query: query
+          query
         })
         e.preventDefault()
         break
@@ -286,17 +290,20 @@ class Browser extends Component {
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth', 'right')}
-        onClick={this.props.onClick}>
+        onClick={this.props.onClick}
+      >
         <GlobalEvent
           event="resize"
           handler={this.onResize}
-          debounce={500} />
+          debounce={500}
+        />
         <Input
           onInput={this.onInput}
           onKeyDown={this.onKeyDown}
           focused={this.props.focused}
           className={classes.input}
-          type="emoji" />
+          type="emoji"
+        />
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         {!sections.length && <Empty text={formatMessage(messages.empty)} />}
         {sections.length > 0 &&
@@ -311,7 +318,8 @@ class Browser extends Component {
                 section={{contentClassName: classes.sectionContent}}
                 onFocus={this.onFocusItem}
                 onSelect={this.onSelectItem}
-                onDidMount={this.onGridDidMount} />
+                onDidMount={this.onGridDidMount}
+              />
             </div>
           </div>
         }

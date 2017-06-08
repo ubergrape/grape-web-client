@@ -31,12 +31,8 @@ module.exports = {
       {
         test: /.svg$/,
         loaders: [
-          'raw-loader',
-          'svgo-loader?' + JSON.stringify({
-            plugins: [{removeTitle: true}]
-          })
-        ],
-        include: /node_modules/
+          'raw-loader'
+        ]
       }
     ]
   },

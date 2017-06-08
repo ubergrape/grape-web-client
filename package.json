@@ -11,7 +11,7 @@
     "emojione": "^1.4.0",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "2.x",
-    "grape-web": "0.x",
+    "grape-web": "^0.62.1",
     "images-loader": "^0.1.2",
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
@@ -69,7 +69,6 @@
     "react-styleguidist": "^5.0.6",
     "reactive-elements": "^0.6.5",
     "svgo": "^0.6.1",
-    "svgo-loader": "^1.1.0",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^1.14.0"
   },
@@ -88,7 +87,7 @@
     "clear:i18n": "rimraf './i18n/{src,export}'",
     "i18n-export": "babel-node i18n/scripts/export.js",
     "i18n-import": "npm run build && babel-node i18n/scripts/import.js",
-    "prepublish": "npm run all",
+    "prepublishOnly": "npm run all",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },

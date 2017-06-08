@@ -20,6 +20,7 @@ export default {
     overflow: 'auto'
   },
   previewContainer: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

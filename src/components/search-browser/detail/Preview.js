@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import ImagesLoader from 'images-loader'
 import pick from 'lodash/object/pick'
 
-import Spinner from 'grape-web/lib/spinner/Spinner'
+import Spinner from 'grape-web/lib/components/spinner'
 
 const loader = new ImagesLoader()
 
@@ -17,12 +17,13 @@ const stringOrNumber = PropTypes.oneOfType([
  */
 export default class Preview extends Component {
   static propTypes = {
-    spinner: PropTypes.string,
-    image: PropTypes.string,
+    image: PropTypes.string.isRequired,
+    /* eslint-disable react/no-unused-prop-types */
     maxWidth: stringOrNumber,
     maxHeight: stringOrNumber,
     height: stringOrNumber,
     width: stringOrNumber
+    /* eslint-enable react/no-unused-prop-types */
   }
 
   static defaultProps = {
@@ -53,7 +54,7 @@ export default class Preview extends Component {
   }
 
   load(image) {
-    loader.load(image, err => {
+    loader.load(image, (err) => {
       this.setState({
         loading: false,
         error: err
@@ -65,12 +66,12 @@ export default class Preview extends Component {
     const {error} = this.state
 
     if (this.state.loading && !error) {
-      return <Spinner image={this.props.spinner} />
+      return <Spinner />
     }
 
     // TODO maybe show an error image.
     const image = error ? ImagesLoader.emptyGif : this.props.image
     const style = pick(this.props, 'width', 'height', 'maxWidth', 'maxHeight')
-    return <img src={image} style={style} />
+    return <img src={image} style={style} alt="" />
   }
 }
