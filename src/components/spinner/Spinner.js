@@ -39,20 +39,19 @@ const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
 @injectSheet({
   ...keyframes,
   spinner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     position: 'absolute',
     zIndex: 1,
     top: 0,
     left: 0,
-    height: '100%',
-    width: '100%'
+    right: 0,
+    bottom: 0
   },
   animation: {
     width: ({size}) => sizesMap[size],
     height: ({size}) => sizesMap[size],
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: translate('-50%', '-50%'),
     background: {
       image: `url(${svg2base64(svg)})`,
       repeat: 'no-repeat',

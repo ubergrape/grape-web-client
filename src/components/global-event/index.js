@@ -1,1 +1,1 @@
-export GlobalEvent from './GlobalEvent'
+export {default} from './GlobalEvent'
