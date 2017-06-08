@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
-import listenOutsideClick from 'grape-web/lib/outside-click'
+import listenOutsideClick from 'grape-web/lib/components/outside-click'
 
 import * as themes from './themes'
 import {Done} from '../i18n/i18n'
@@ -43,6 +43,7 @@ export default class EditableText extends PureComponent {
     value: '',
     multiline: false,
     placeholder: '',
+    error: null,
     clearError: noop,
     preserveSpaceForButton: false
   }

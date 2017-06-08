@@ -25,5 +25,9 @@ export default {
   empty: {
     textAlign: 'center'
   },
-  button
+  button,
+  spinner: {
+    position: 'static',
+    marginTop: ({total}) => (total ? 0 : '50%')
+  }
 }

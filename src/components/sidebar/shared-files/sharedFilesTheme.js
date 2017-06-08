@@ -11,5 +11,9 @@ export const styles = {
   button,
   empty: {
     textAlign: 'center'
+  },
+  spinner: {
+    position: 'static',
+    marginTop: ({total}) => (total ? 0 : '50%')
   }
 }

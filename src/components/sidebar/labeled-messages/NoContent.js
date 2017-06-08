@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import {gray} from 'grape-theme/dist/base-colors'
 import {big, small} from 'grape-theme/dist/fonts'
 import {FormattedMessage} from 'react-intl'
-import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
+import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
 
 @injectSheet({
   noContent: {

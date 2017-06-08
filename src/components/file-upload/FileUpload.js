@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import Dropzone from '@ubergrape/react-dropzone'
-import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import DropOverlay from './DropOverlay'
 import Notification from './Notification'

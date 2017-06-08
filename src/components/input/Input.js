@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
-import listenOutsideClick from 'grape-web/lib/outside-click'
+import listenOutsideClick from 'grape-web/lib/components/outside-click'
 import {pickHTMLProps} from 'pick-react-known-prop'
 import cn from 'classnames'
 
@@ -38,16 +38,18 @@ export default class Input extends PureComponent {
     placement: 'bottom',
     type: 'input',
     focused: false,
+    className: null,
+    error: null,
     onChange: noop,
     clearError: noop
   }
 
   componentDidMount() {
-    if (this.props.focused) this.refs.input.focus()
+    if (this.props.focused) this.input.focus()
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.focused && !prevProps.focused) this.refs.input.focus()
+    if (this.props.focused && !prevProps.focused) this.input.focus()
   }
 
   onChange = (e) => {
@@ -60,12 +62,16 @@ export default class Input extends PureComponent {
     this.props.clearError()
   }
 
+  onRefInput = (ref) => {
+    this.input = ref
+  }
+
   renderInput() {
     const {type, error, theme: {classes}, className} = this.props
     const props = {
       ...pickHTMLProps(this.props),
       onChange: this.onChange,
-      ref: 'input',
+      ref: this.onRefInput,
       className: cn(classes[`input${error ? capitalize(error.level) : ''}`], className)
     }
     switch (type) {
@@ -75,6 +81,8 @@ export default class Input extends PureComponent {
         return <textarea {...props} />
       default:
     }
+
+    return null
   }
 
   render() {

@@ -1,4 +1,3 @@
-import './templates'
 import './stylus/app.styl'
 import 'meyer-reset/index.css'
 import 'normalize.css/normalize.css'

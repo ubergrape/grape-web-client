@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {injectIntl, FormattedMessage, defineMessages} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 import GrapeBrowser from 'grape-browser/lib/components/grape-browser/GrapeBrowser'
 import * as emoji from 'grape-browser/lib/components/emoji'
 import debounce from 'lodash/function/debounce'
@@ -397,4 +397,3 @@ export default class GrapeInput extends PureComponent {
     )
   }
 }
-

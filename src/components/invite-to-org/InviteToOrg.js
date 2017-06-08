@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Spinner from 'grape-web/lib/spinner/Spinner'
-import {spinner} from '../../constants/images'
+import Spinner from 'grape-web/lib/components/spinner'
 
 import {
   FormattedMessage,
@@ -61,6 +60,10 @@ export default class InviteToOrg extends PureComponent {
     onSuccess: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    orgId: null
+  }
+
   state = {
     message: '',
     value: '',
@@ -101,8 +104,10 @@ export default class InviteToOrg extends PureComponent {
   }
 
   onClickInviteLink = ({target}) => {
+    /* eslint-disable no-param-reassign */
     target.selectionStart = 0
     target.selectionEnd = target.value.length
+    /* eslint-enable no-param-reassign */
   }
 
   getError() {
@@ -167,7 +172,7 @@ export default class InviteToOrg extends PureComponent {
                 />
               </button>
             </div>
-            {isLoading && <Spinner image={spinner} size={32} />}
+            {!isLoading && <Spinner overlay />}
           </form>
           <InviteLink
             show={showInviteLinkFeature}

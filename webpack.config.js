@@ -37,23 +37,24 @@ module.exports = exports = {
     filename: 'app.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loader: componentsExtractText.extract('style-loader', 'css-loader')
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       },
       {
         test: /\.styl$/,
-        loader: appExtractText.extract('css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/')
+        loader: ExtractTextPlugin.extract({
+          use: 'css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/'
+        })
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -67,13 +68,7 @@ module.exports = exports = {
       },
       {
         test: /.svg$/,
-        loaders: [
-          'raw-loader',
-          'svgo-loader?' + JSON.stringify({
-            plugins: [{removeTitle: true}]
-          })
-        ],
-        include: /node_modules/
+        loader: 'raw-loader'
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -94,13 +89,12 @@ module.exports = exports = {
     alias: {
       'emitter': 'component-emitter'
     },
-    subDirectories: true,
     // Workaround for simlinked dependencies.
     // This will help to find dependency in the parent package if missing in a
     // symlinked one.
     // http://webpack.github.io/docs/troubleshooting.html
     // https://github.com/webpack/webpack/issues/784
-    fallback: path.join(__dirname, 'node_modules')
+    modules: [path.resolve(__dirname, 'node_modules'), 'web_modules', 'node_modules']
   },
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
@@ -121,4 +115,3 @@ if (NODE_ENV === 'production') {
     })
   )
 }
-

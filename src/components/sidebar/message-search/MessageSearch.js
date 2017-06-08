@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import moment from 'moment'
-import Spinner from 'grape-web/lib/spinner/Spinner'
+import Spinner from 'grape-web/lib/components/spinner'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
@@ -226,7 +226,7 @@ export default class MessageSearch extends PureComponent {
           {this.renderMessages()}
           {this.renderLoadMore()}
           {this.renderEmpty()}
-          {isLoading && <Spinner image={images.spinner} />}
+          {isLoading && <Spinner className={classes.spinner} />}
         </div>
       </SidebarPanel>
     )

@@ -5,7 +5,7 @@ import {grayBlueLight} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import MagicWand from 'grape-web/lib/svg-icons/components/MagicWand'
+import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
 
 import linkButton from '../../button/link'
 import {spacing} from '../sidebar-panel/theme'
@@ -58,4 +58,3 @@ const styles = {
 }
 
 export default injectSheet(styles)(TrainingModeHint)
-

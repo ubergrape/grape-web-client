@@ -7,7 +7,7 @@ import {
   injectIntl
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import Spinner from 'grape-web/lib/spinner/Spinner'
+import Spinner from 'grape-web/lib/components/spinner'
 
 import {ShowMore} from '../../i18n'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -115,7 +115,7 @@ export default class SharedFiles extends PureComponent {
           {this.renderFiles()}
           {this.renderEmpty()}
           {this.renderLoadMore()}
-          {this.props.isLoading && <Spinner image={images.spinner} />}
+          {this.props.isLoading && <Spinner className={classes.spinner} />}
         </div>
       </SidebarPanel>
     )

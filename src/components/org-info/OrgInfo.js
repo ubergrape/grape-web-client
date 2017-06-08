@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import BaseSpinner from 'grape-web/lib/spinner/Spinner'
+import Spinner from 'grape-web/lib/components/spinner'
 
-import {spinner} from '../../constants/images'
 import Settings from './Settings'
-import {styles, logoSize} from './orgInfoTheme'
-
-const Spinner = () => <BaseSpinner image={spinner} size={logoSize} />
+import {styles} from './orgInfoTheme'
 
 const LogoImage = ({classes, logo, name}) => (
   <img
@@ -21,7 +18,7 @@ const Logo = ({isLoading, classes, ...rest}) => (
   <span
     className={classes.logoContainer}
   >
-    {isLoading ? <Spinner /> : <LogoImage classes={classes} {...rest} />}
+    {isLoading ? <Spinner size="s" /> : <LogoImage classes={classes} {...rest} />}
   </span>
 )
 

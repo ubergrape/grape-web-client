@@ -3,7 +3,7 @@ import React from 'react'
 import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
-import listenOutsideClick from 'grape-web/lib/outside-click'
+import listenOutsideClick from 'grape-web/lib/components/outside-click'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
 

@@ -47,6 +47,7 @@ export const styles = {
     paddingLeft: spacing
   },
   body: {
+    position: 'relative',
     background: colors.grayBlueLighter,
     flex: 1,
     overflowY: 'auto',
