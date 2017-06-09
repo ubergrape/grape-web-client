@@ -35,7 +35,7 @@
     "es6-promise": "^3.0.2",
     "fbjs": "^0.8.9",
     "fuse.js": "^2.2.0",
-    "grape-browser": "^3.9.0",
+    "grape-browser": "^3.9.1",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "2.x",
     "grape-web": "^0.62.2",
@@ -148,7 +148,7 @@
     "svgo-loader": "^1.1.0",
     "url-loader": "^0.5.6",
     "webpack": "^2.6.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
     "all": "npm run test && npm run build",
@@ -156,8 +156,7 @@
     "start:proxy": "node ./proxy.js",
     "build": "npm run build:dist && npm run build:lib",
     "build:watch": "npm run build:dist:watch && npm run build:lib:watch",
-    "build:lib": "npm run clear:lib && npm run build:lib:jade && babel src --out-dir lib",
-    "build:lib:jade": "cpy legacy/templates/**/*.jade ../lib --cwd=src --parents",
+    "build:lib": "npm run clear:lib && babel src --out-dir lib",
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",

@@ -33,21 +33,21 @@ var plugins = [
 module.exports = exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
-    path: './dist/app',
+    path: path.resolve(__dirname, 'dist/app'),
     filename: 'app.js'
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
+        loader: componentsExtractText.extract({
           fallback: 'style-loader',
           use: 'css-loader'
         })
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract({
+        loader: appExtractText.extract({
           use: 'css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/'
         })
       },
