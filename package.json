@@ -11,7 +11,7 @@
     "emojione": "^1.4.0",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "2.x",
-    "grape-web": "^0.62.1",
+    "grape-web": "^0.62.3",
     "images-loader": "^0.1.2",
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
