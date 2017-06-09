@@ -93,7 +93,7 @@ export default class GrapeInput extends Component {
     })
   }
 
-  onResizeWindow() {
+  onResizeWindow = () => {
     if (this.state.value.trim()) {
       this.forceUpdate()
     }
