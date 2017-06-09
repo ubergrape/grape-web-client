@@ -71,7 +71,6 @@ const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
 export default class Spinner extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    active: PropTypes.bool,
     delay: PropTypes.number,
     overlay: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -80,7 +79,6 @@ export default class Spinner extends PureComponent {
   }
 
   static defaultProps = {
-    active: false,
     delay: 1000,
     overlay: false,
     size: 'm',
@@ -89,7 +87,7 @@ export default class Spinner extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state = {active: props.active}
+    this.state = {active: !Boolean(props.delay)}
   }
 
   componentDidMount() {
@@ -100,7 +98,7 @@ export default class Spinner extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({active: props.active})
+    this.setState({active: !Boolean(props.delay)})
   }
 
   componentWillUnmount() {
