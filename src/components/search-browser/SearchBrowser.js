@@ -32,15 +32,18 @@ const messages = defineMessages({
 @injectIntl
 export default class SearchBrowser extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     results: PropTypes.array,
+    servicesResultsAmounts: PropTypes.object,
     currServices: PropTypes.array,
+    /* eslint-disable react/no-unused-prop-types */
     filters: PropTypes.array,
+    /* eslint-enable react/no-unused-prop-types */
     isLoading: PropTypes.bool,
-    images: PropTypes.object,
     height: PropTypes.number,
     className: PropTypes.string,
+    tokens: PropTypes.object,
     value: PropTypes.string,
     search: PropTypes.string,
     focusedView: PropTypes.oneOf(listTypes),
@@ -65,8 +68,10 @@ export default class SearchBrowser extends PureComponent {
 
   static defaultProps = {
     results: [],
+    servicesResultsAmounts: null,
     currServices: [],
     filters: [],
+    tokens: null,
     focusedView: 'results',
     focusedResult: null,
     focusedService: null,
@@ -75,7 +80,6 @@ export default class SearchBrowser extends PureComponent {
     search: '',
     className: '',
     height: 400,
-    images: {},
     onDidMount: noop,
     onAbort: noop,
     onBlur: noop,
@@ -198,15 +202,15 @@ export default class SearchBrowser extends PureComponent {
   getBody() {
     const {
       height, results, search, intl: {formatMessage},
-      onAddIntegration, focusedView,
+      onAddIntegration, focusedView, focusedResult,
       currServices, focusedService, onFocusService,
-      ...rest
+      servicesResultsAmounts
     } = this.props
 
     if (focusedView === 'services') {
       const element = (
         <ServiceList
-          {...rest}
+          resultsAmountMap={servicesResultsAmounts}
           services={currServices}
           focused={focusedService}
           onSelect={this.onAddService}
@@ -219,7 +223,7 @@ export default class SearchBrowser extends PureComponent {
     if (results.length) {
       const element = (
         <Results
-          {...rest}
+          focusedResult={focusedResult}
           search={search}
           focusedView={focusedView}
           data={results}
@@ -245,11 +249,11 @@ export default class SearchBrowser extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       height,
       onChangeInput,
       className,
-      ...rest
+      tokens, value
     } = this.props
     const body = this.getBody()
 
@@ -267,7 +271,8 @@ export default class SearchBrowser extends PureComponent {
         tabIndex="-1"
       >
         <SearchInput
-          {...rest}
+          value={value}
+          tokens={tokens}
           onDidMount={this.onMountInput}
           onKeyDown={this.onKeyDown}
           onChange={onChangeInput}

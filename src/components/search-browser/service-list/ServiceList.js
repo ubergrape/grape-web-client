@@ -26,35 +26,36 @@ const messages = defineMessages({
 @injectIntl
 export default class ServiceList extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     services: PropTypes.array,
-    servicesResultsAmounts: PropTypes.object,
+    resultsAmountMap: PropTypes.object,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
     focused: PropTypes.object
   }
 
   static defaultProps = {
+    resultsAmountMap: {},
     services: [],
     onSelect: noop,
-    onFocus: noop
+    onFocus: noop,
+    focused: null
   }
 
-  renderService(props) {
-    return (
-      <Service
-        {...props}
-        resultsAmount={this.props.servicesResultsAmounts[props.item.id]}
-        onSelect={this.props.onSelect}
-        onFocus={this.props.onFocus} />
-    )
-  }
+  renderService = props => (
+    <Service
+      {...props}
+      resultsAmount={this.props.resultsAmountMap[props.item.id]}
+      onSelect={this.props.onSelect}
+      onFocus={this.props.onFocus}
+    />
+  )
 
   renderBody() {
     const {
       services, focused,
-      sheet: {classes},
+      classes,
       intl: {formatMessage}
     } = this.props
 
@@ -63,7 +64,8 @@ export default class ServiceList extends Component {
         <p className={classes.empty}>
           <FormattedMessage
             id="noServicesFound"
-            defaultMessage="No services found." />
+            defaultMessage="No services found."
+          />
         </p>
       )
     }
@@ -72,15 +74,16 @@ export default class ServiceList extends Component {
       <SectionHeader text={formatMessage(messages.services)} key="header" />,
       <List
         className={classes.services}
-        renderItem={::this.renderService}
+        renderItem={this.renderService}
         items={services}
         focused={focused}
-        key="list" />
+        key="list"
+      />
     ]
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {classes} = this.props
 
     return (
       <div className={classes.serviceList}>
