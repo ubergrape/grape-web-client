@@ -43,12 +43,14 @@ export default class ServiceList extends Component {
     focused: null
   }
 
-  renderService = props => (
+  renderService = ({focused, item}) => (
     <Service
-      {...props}
-      resultsAmount={this.props.resultsAmountMap[props.item.id]}
+      item={item}
+      focused={focused}
+      resultsAmount={this.props.resultsAmountMap[item.id]}
       onSelect={this.props.onSelect}
       onFocus={this.props.onFocus}
+      key={item.id}
     />
   )
 
