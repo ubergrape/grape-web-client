@@ -15,7 +15,8 @@ import {styles} from './infiniteListTheme'
 @injectSheet(styles)
 export default class InfiniteList extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    onScroll: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -67,11 +68,11 @@ export default class InfiniteList extends PureComponent {
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge, renderRow,
-      rows, minimumBatchSize
+      onRowsRendered, onLoadMore, onTouchTopEdge, onScroll,
+      scrollTo, renderRow, rows, minimumBatchSize,
+      classes
     } = this.props
 
-    const {classes} = sheet
     const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
 
     return (
@@ -119,6 +120,7 @@ export default class InfiniteList extends PureComponent {
                           onRowsRendered(params)
                         }}
                         onScroll={(params) => {
+                          onScroll(params)
                           onScrollInAutoScroll(params)
                           onScrollInInfiniteLoader(params)
                         }}

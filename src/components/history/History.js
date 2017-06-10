@@ -147,13 +147,13 @@ export default class History extends PureComponent {
         >
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
             <Jumper onJump={onJump}>
-              {({onRowsRendered: onRowsRenderedInJumper}) => (
+              {({onScroll}) => (
                 <InfiniteList
                   onRowsRendered={(params) => {
-                    onRowsRenderedInJumper(params)
                     onRowsRenderedInReadMessageDispatcher(params)
                     this.onRowsRendered(params)
                   }}
+                  onScroll={onScroll}
                   scrollTo={scrollTo}
                   rows={rows}
                   minimumBatchSize={minimumBatchSize}
