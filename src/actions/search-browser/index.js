@@ -132,13 +132,13 @@ export function loadSearchBrowserServicesStats(query) {
   }
 }
 
-export function showSearchBrowserServices(query) {
+export function showSearchBrowserServices({query, search}) {
   return (dispatch) => {
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
     })
-    dispatch(loadSearchBrowserServicesStats(query))
+    dispatch(loadSearchBrowserServicesStats({search}))
   }
 }
 
@@ -190,6 +190,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
 
     if (query.trigger === SERVICES_TRIGGER) {
       dispatch(showSearchBrowserServices({
+        query,
         search: search.replace(QUERY_REGEX, '')
       }))
     } else {
