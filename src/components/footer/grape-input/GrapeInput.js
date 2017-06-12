@@ -89,6 +89,7 @@ export default class GrapeInput extends PureComponent {
     search: PropTypes.string,
     autocomplete: PropTypes.object,
     services: PropTypes.array,
+    servicesStats: PropTypes.object,
     onCreateMessage: PropTypes.func.isRequired,
     onUpdateMessage: PropTypes.func.isRequired,
     onSetTyping: PropTypes.func.isRequired,
@@ -101,7 +102,8 @@ export default class GrapeInput extends PureComponent {
     onShowUsersAndRoomsBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
     onRequestAutocomplete: PropTypes.func.isRequired,
-    onRequestAutocompleteServices: PropTypes.func.isRequired
+    onRequestAutocompleteServices: PropTypes.func.isRequired,
+    onRequestAutocompleteServicesStats: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -110,6 +112,7 @@ export default class GrapeInput extends PureComponent {
     quoteMessage: null,
     search: '',
     services: [],
+    servicesStats: {},
     customEmojis: {},
     autocomplete: {}
   }
@@ -281,6 +284,7 @@ export default class GrapeInput extends PureComponent {
       search,
       autocomplete,
       services,
+      servicesStats,
       onRequestAutocompleteServices
     } = this.props
 
@@ -317,6 +321,7 @@ export default class GrapeInput extends PureComponent {
           data: autocomplete,
           onLoadServices: onRequestAutocompleteServices,
           services,
+          servicesStats,
           isLoading: search !== '' && get(autocomplete, 'search.text') !== search
         }
       }
@@ -355,7 +360,9 @@ export default class GrapeInput extends PureComponent {
   render() {
     const {
       classes, customEmojis, images, showBrowser, targetMessage,
-      disabled, onEditPreviousMessage, onHideBrowser, intl: {formatMessage}
+      disabled, onEditPreviousMessage, onHideBrowser,
+      onRequestAutocompleteServicesStats,
+      intl: {formatMessage}
     } = this.props
     let browserProps = {}
     if (showBrowser) {
@@ -390,6 +397,7 @@ export default class GrapeInput extends PureComponent {
             onSubmit={this.onSubmit}
             onDidMount={this.onGrapeBrowserRef}
             onChange={this.onChange}
+            onLoadServicesStats={onRequestAutocompleteServicesStats}
             {...browserProps}
           />
         </div>

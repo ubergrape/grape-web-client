@@ -23,6 +23,7 @@ const actionNames = {
   editPreviousMessage: 'onEditPreviousMessage',
   requestAutocomplete: 'onRequestAutocomplete',
   requestAutocompleteServices: 'onRequestAutocompleteServices',
+  requestAutocompleteServicesStats: 'onRequestAutocompleteServicesStats',
   setTyping: 'onSetTyping'
 }
 

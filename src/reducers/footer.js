@@ -32,6 +32,8 @@ export default function reduce(state = initialState, action) {
       return {...state, autocomplete: action.payload}
     case types.HANDLE_AUTOCOMPLETE_SERVICES:
       return {...state, services: action.payload}
+    case types.HANDLE_AUTOCOMPLETE_SERVICES_STATS:
+      return {...state, servicesStats: action.payload}
     default:
       return state
   }

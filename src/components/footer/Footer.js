@@ -25,6 +25,7 @@ export default class Footer extends PureComponent {
     search: PropTypes.string,
     autocomplete: PropTypes.object,
     services: PropTypes.array,
+    servicesStats: PropTypes.object,
     onShowMarkdownTips: PropTypes.func.isRequired,
     onCleanupTyping: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ export default class Footer extends PureComponent {
     onShowSearchBrowser: PropTypes.func.isRequired,
     onRequestAutocomplete: PropTypes.func.isRequired,
     onRequestAutocompleteServices: PropTypes.func.isRequired,
+    onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onUploadFiles: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired,
     onEditMessageSend: PropTypes.func.isRequired,
@@ -50,6 +52,7 @@ export default class Footer extends PureComponent {
     quoteMessage: null,
     search: '',
     services: [],
+    servicesStats: {},
     customEmojis: {},
     autocomplete: {}
   }
@@ -74,6 +77,7 @@ export default class Footer extends PureComponent {
       users,
       rooms,
       services,
+      servicesStats,
       onCleanupTyping,
       onShowMarkdownTips,
       onUploadFiles,
@@ -90,6 +94,7 @@ export default class Footer extends PureComponent {
       onEditPreviousMessage,
       onRequestAutocomplete,
       onRequestAutocompleteServices,
+      onRequestAutocompleteServicesStats,
       onSetTyping
     } = this.props
     return (
@@ -127,6 +132,7 @@ export default class Footer extends PureComponent {
             users={users}
             autocomplete={autocomplete}
             services={services}
+            servicesStats={servicesStats}
             onShowEmojiBrowser={onShowEmojiBrowser}
             onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
             onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
@@ -139,6 +145,7 @@ export default class Footer extends PureComponent {
             onEditPreviousMessage={onEditPreviousMessage}
             onRequestAutocomplete={onRequestAutocomplete}
             onRequestAutocompleteServices={onRequestAutocompleteServices}
+            onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
             onSetTyping={onSetTyping}
           />
           <Controls

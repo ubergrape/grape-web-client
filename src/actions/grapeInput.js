@@ -41,17 +41,42 @@ export function setUnsentMessage(channelId, msg) {
 
 export function requestAutocompleteServices() {
   return (dispatch, getState) => {
+    dispatch({type: types.REQUEST_AUTOCOMPLETE_SERVICES})
+
+    // TODO
+    // Services list is mostly static, we need a separate API for this.
     api
       .autocomplete(getState().org.id, '', {show: 'all'})
-      .then(res => dispatch({
-        type: types.HANDLE_AUTOCOMPLETE_SERVICES,
-        payload: res.services
-      }))
+      .then((res) => {
+        dispatch({
+          type: types.HANDLE_AUTOCOMPLETE_SERVICES,
+          payload: res.services
+        })
+      })
       .catch(err => dispatch(error(err)))
+  }
+}
 
-    dispatch({
-      type: types.REQUEST_AUTOCOMPLETE_SERVICES
-    })
+export function requestAutocompleteServicesStats({search}) {
+  return (dispatch, getState) => {
+    dispatch({type: types.REQUEST_AUTOCOMPLETE_SERVICES_STATS})
+
+    // TODO we need a separate API for this.
+    api
+      .autocomplete(getState().org.id, search, {show: 'all'})
+      .then((res) => {
+        const servicesStats = res.services.reduce((stats, service) => {
+          // eslint-disable-next-line no-param-reassign
+          stats[service.id] = service.count
+          return stats
+        }, {})
+
+        dispatch({
+          type: types.HANDLE_AUTOCOMPLETE_SERVICES_STATS,
+          payload: servicesStats
+        })
+      })
+      .catch(err => dispatch(error(err)))
   }
 }
 
@@ -121,4 +146,3 @@ export function setTyping({channel, typing}) {
     })
   }
 }
-
