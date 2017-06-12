@@ -9,7 +9,7 @@ import {
 } from './utils'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
-import {SERVICES_TRIGGER} from '../../components/query/constants'
+import {SERVICES_TRIGGER, QUERY_REGEX} from '../../components/query/constants'
 
 export function createSearchBrowserState(props) {
   const {data} = props
@@ -119,22 +119,16 @@ export function execSearchBrowserAction() {
   }
 }
 
-export function loadSearchBrowserServicesResultsAmounts() {
+export function loadSearchBrowserServicesStats(query) {
   return (dispatch, getState) => {
-    const {onLoadResultsAmounts, search} = searchBrowserSelector(getState())
-
-    dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS})
-    onLoadResultsAmounts(search, (services) => {
-      const payload = services.reduce((data, service) => {
-        // eslint-disable-next-line no-param-reassign
-        data[service.id] = service.count
-        return data
-      }, {})
-      dispatch({
-        type: types.UPDATE_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS,
-        payload
-      })
+    dispatch({
+      type: types.LOAD_SEARCH_BROWSER_SERVICES_STATS,
+      payload: query
     })
+
+    const {onLoadServicesStats} = searchBrowserSelector(getState())
+
+    onLoadServicesStats(query)
   }
 }
 
@@ -144,8 +138,7 @@ export function showSearchBrowserServices(query) {
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
     })
-
-    dispatch(loadSearchBrowserServicesResultsAmounts())
+    dispatch(loadSearchBrowserServicesStats(query))
   }
 }
 
@@ -196,7 +189,9 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
     })
 
     if (query.trigger === SERVICES_TRIGGER) {
-      dispatch(showSearchBrowserServices(query))
+      dispatch(showSearchBrowserServices({
+        search: search.replace(QUERY_REGEX, '')
+      }))
     } else {
       dispatch(showSearchBrowserResults())
       // TODO move this when we port the whole client to redux.

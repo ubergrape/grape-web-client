@@ -48,11 +48,12 @@ export default class GrapeBrowser extends Component {
     focused: PropTypes.bool,
     /* eslint-enable react/no-unused-prop-types */
     disabled: PropTypes.bool,
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
     externalServicesInputDelay: PropTypes.number,
     services: PropTypes.array,
+    servicesStats: PropTypes.object,
 
     onDidMount: PropTypes.func,
     onEditPrevious: PropTypes.func,
@@ -65,7 +66,8 @@ export default class GrapeBrowser extends Component {
     onComplete: PropTypes.func,
     onChange: PropTypes.func,
     onResize: PropTypes.func,
-    onLoadServices: PropTypes.func
+    onLoadServices: PropTypes.func,
+    onLoadServicesStats: PropTypes.func
   }
 
   static defaultProps = {
@@ -81,6 +83,7 @@ export default class GrapeBrowser extends Component {
     images: {},
     contentObjects: [],
     services: [],
+    servicesStats: {},
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
@@ -98,7 +101,8 @@ export default class GrapeBrowser extends Component {
     onComplete: noop,
     onChange: noop,
     onResize: noop,
-    onLoadServices: noop
+    onLoadServices: noop,
+    onLoadServicesStats: noop
   }
 
   constructor(props) {
@@ -148,10 +152,6 @@ export default class GrapeBrowser extends Component {
     if (nextState.browser !== this.state.browser && nextProps.setTrigger) {
       this.setTrigger(nextState.browser)
     }
-  }
-
-  onEditPrevious = () => {
-    if (this.props.onEditPrevious) this.props.onEditPrevious()
   }
 
   onSubmit = (data) => {
@@ -231,10 +231,6 @@ export default class GrapeBrowser extends Component {
     }, 100)
   }
 
-  onFocusInput = () => {
-    if (this.props.onFocus) this.props.onFocus()
-  }
-
   onEmojiBrowserOutsideClick = () => {
     this.closeBrowser(null, () => {
       const {browser} = this.state
@@ -260,14 +256,6 @@ export default class GrapeBrowser extends Component {
       complete,
       this.props.externalServicesInputDelay
     )
-  }
-
-  onInputResize = () => {
-    if (this.props.onResize) this.props.onResize()
-  }
-
-  onLoadServices = () => {
-    if (this.props.onLoadServices) this.props.onLoadServices()
   }
 
   onChangeInput = ({query, content} = {}) => {
@@ -416,8 +404,13 @@ export default class GrapeBrowser extends Component {
     if (!browser || !browserOpened) return null
 
     const {
-      sheet: {classes},
-      images
+      classes,
+      images,
+      servicesStats,
+      services,
+      isLoading,
+      onLoadServices,
+      onLoadServicesStats
     } = this.props
 
     if (browser === 'search') {
@@ -425,15 +418,17 @@ export default class GrapeBrowser extends Component {
         <SearchBrowser
           className={classes.browser}
           data={data}
-          services={this.props.services}
+          services={services}
+          servicesStats={servicesStats}
           images={images}
           isExternal={utils.isExternalSearch(data)}
-          isLoading={this.props.isLoading}
+          isLoading={isLoading}
           onAbort={this.onAbort}
           onSelectItem={this.onSelectSearchBrowserItem}
           onAddIntegration={this.onAddSearchBrowserIntegration}
           onChange={this.onChangeSearchBrowser}
-          onLoadServices={this.onLoadServices}
+          onLoadServices={onLoadServices}
+          onLoadServicesStats={onLoadServicesStats}
           onDidMount={this.onDidMountBrowser}
         />
       )
@@ -465,7 +460,7 @@ export default class GrapeBrowser extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {classes, onFocus, onEditPrevious, onResize} = this.props
 
     return (
       <div
@@ -477,12 +472,12 @@ export default class GrapeBrowser extends Component {
           <GrapeInput
             onKeyDown={this.onKeyDown}
             onAbort={this.onAbort}
-            onResize={this.onInputResize}
+            onResize={onResize}
             onChange={this.onChangeInput}
             onBlur={this.onBlurInput}
-            onFocus={this.onFocusInput}
+            onFocus={onFocus}
             onSubmit={this.onSubmit}
-            onEditPrevious={this.onEditPrevious}
+            onEditPrevious={onEditPrevious}
             onDidMount={this.onDidMountEditable}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}

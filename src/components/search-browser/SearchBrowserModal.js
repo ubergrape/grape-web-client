@@ -19,7 +19,7 @@ const proxiMethodsToHideModal = [
 @injectSheet(style)
 export default class SearchBrowserModal extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     onAbort: PropTypes.func
   }
 
@@ -48,7 +48,7 @@ export default class SearchBrowserModal extends PureComponent {
   }
 
   render() {
-    const {sheet: {classes}, ...rest} = this.props
+    const {classes, ...rest} = this.props
     return (
       <Modal
         show={this.state.show}

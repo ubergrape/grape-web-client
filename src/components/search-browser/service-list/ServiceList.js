@@ -29,14 +29,14 @@ export default class ServiceList extends Component {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     services: PropTypes.array,
-    resultsAmountMap: PropTypes.object,
+    servicesStats: PropTypes.object,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
     focused: PropTypes.object
   }
 
   static defaultProps = {
-    resultsAmountMap: {},
+    servicesStats: {},
     services: [],
     onSelect: noop,
     onFocus: noop,
@@ -47,7 +47,7 @@ export default class ServiceList extends Component {
     <Service
       item={item}
       focused={focused}
-      resultsAmount={this.props.resultsAmountMap[item.id]}
+      resultsAmount={this.props.servicesStats[item.id]}
       onSelect={this.props.onSelect}
       onFocus={this.props.onFocus}
       key={item.id}

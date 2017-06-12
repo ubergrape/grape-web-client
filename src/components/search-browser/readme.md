@@ -16,11 +16,18 @@
     setState({services: data.services})
   }
 
+  const onLoadServicesStats = (query) => {
+    console.log(query)
+    setState({servicesStats: data.servicesStats})
+  }
+
   ;<SearchBrowserProvider
     modal={false}
     onChange={onChange}
     onLoadServices={onLoadServices}
+    onLoadServicesStats={onLoadServicesStats}
     data={state.data}
     services={state.services}
+    servicesStats={state.servicesStats}
   />
 ```

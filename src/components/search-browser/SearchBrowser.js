@@ -35,7 +35,7 @@ export default class SearchBrowser extends PureComponent {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     results: PropTypes.array,
-    servicesResultsAmounts: PropTypes.object,
+    servicesStats: PropTypes.object,
     currServices: PropTypes.array,
     /* eslint-disable react/no-unused-prop-types */
     filters: PropTypes.array,
@@ -68,7 +68,7 @@ export default class SearchBrowser extends PureComponent {
 
   static defaultProps = {
     results: [],
-    servicesResultsAmounts: null,
+    servicesStats: null,
     currServices: [],
     filters: [],
     tokens: null,
@@ -204,13 +204,13 @@ export default class SearchBrowser extends PureComponent {
       height, results, search, intl: {formatMessage},
       onAddIntegration, focusedView, focusedResult,
       currServices, focusedService, onFocusService,
-      servicesResultsAmounts
+      servicesStats
     } = this.props
 
     if (focusedView === 'services') {
       const element = (
         <ServiceList
-          resultsAmountMap={servicesResultsAmounts}
+          servicesStats={servicesStats}
           services={currServices}
           focused={focusedService}
           onSelect={this.onAddService}
