@@ -1,5 +1,18 @@
 ## Release next (2017-xx-xx)
 
+## Release 0.54.0 - 0.54.2 (2017-06-13)
+
+### Fixes
+
+- Grape Filters broken #469
+- Wrong history messages after a deep link #468
+- History jumper button broken #467
+- Results amount in services list in grape-search is missing #470
+
+### Enhancements
+
+- Use the new animated logo #325
+
 ## Release 0.53.7 - 0.53.8 (2017-06-06)
 
 ### Fixes
