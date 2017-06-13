@@ -107,7 +107,8 @@ function loadNewer(params) {
 
     const promise = api.loadHistory(channel.id, {
       limit: stopIndex - startIndex,
-      timeFrom: last(messages).time
+      timeFrom: last(messages).time,
+      sort: 'time:asc'
     })
 
     dispatch({
