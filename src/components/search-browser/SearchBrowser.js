@@ -49,6 +49,10 @@ export default class SearchBrowser extends PureComponent {
     focusedView: PropTypes.oneOf(listTypes),
     focusedResult: PropTypes.object,
     focusedService: PropTypes.object,
+    actions: PropTypes.array,
+    focusedAction: PropTypes.object,
+    hoveredAction: PropTypes.object,
+    onBlurAction: PropTypes.func,
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
@@ -67,6 +71,9 @@ export default class SearchBrowser extends PureComponent {
   }
 
   static defaultProps = {
+    actions: [],
+    focusedAction: null,
+    hoveredAction: null,
     results: [],
     servicesStats: null,
     currServices: [],
@@ -80,6 +87,7 @@ export default class SearchBrowser extends PureComponent {
     search: '',
     className: '',
     height: 400,
+    onBlurAction: noop,
     onDidMount: noop,
     onAbort: noop,
     onBlur: noop,
@@ -204,7 +212,9 @@ export default class SearchBrowser extends PureComponent {
       height, results, search, intl: {formatMessage},
       onAddIntegration, focusedView, focusedResult,
       currServices, focusedService, onFocusService,
-      servicesStats
+      servicesStats,
+      actions, focusedAction, hoveredAction,
+      onExecAction, onFocusAction, onBlurAction
     } = this.props
 
     if (focusedView === 'services') {
@@ -227,6 +237,12 @@ export default class SearchBrowser extends PureComponent {
           search={search}
           focusedView={focusedView}
           data={results}
+          actions={actions}
+          focusedAction={focusedAction}
+          hoveredAction={hoveredAction}
+          onExecAction={onExecAction}
+          onFocusAction={onFocusAction}
+          onBlurAction={onBlurAction}
           onFocus={this.onFocusResult}
           onSelect={this.onSelectResult}
         />
