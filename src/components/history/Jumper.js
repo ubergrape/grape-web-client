@@ -57,7 +57,12 @@ export default class Jumper extends PureComponent {
   }
 
   onScroll = ({scrollHeight, scrollTop, clientHeight}) => {
-    const show = scrollHeight - scrollTop > clientHeight * (this.props.pagesBeforeShow * 2)
+    const show =
+      // When messages height is smaller than the container, for some reason
+      // clientHeight is 0.
+      clientHeight > 0 &&
+      scrollHeight - scrollTop > clientHeight * (this.props.pagesBeforeShow * 2)
+
     if (this.state.show !== show) this.setState({show})
   }
 
