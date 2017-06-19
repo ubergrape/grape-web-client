@@ -8,6 +8,7 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
+import noop from 'lodash/utility/noop'
 
 import {styles} from './theme'
 import {getFilteredUsers} from './utils'
@@ -56,14 +57,13 @@ export default class ChooseUsersDialog extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     onHide: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
     onSelectUser: PropTypes.func.isRequired,
     onRemoveSelectedUser: PropTypes.func.isRequired,
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
-    users: PropTypes.array.isRequired,
     onClickList: PropTypes.func,
     title: PropTypes.oneOfType([
       PropTypes.string,
@@ -75,6 +75,12 @@ export default class ChooseUsersDialog extends PureComponent {
     show: PropTypes.bool.isRequired
   }
 
+  static defaultProps = {
+    onClickList: noop,
+    title: null,
+    isFilterFocused: true
+  }
+
   onInvite = () => {
     const {onHide, showInviteToOrg} = this.props
     onHide()
@@ -83,13 +89,13 @@ export default class ChooseUsersDialog extends PureComponent {
 
   renderItem = ({item, focused}) => {
     const {sheet: {classes}} = this.props
-    const {displayName, avatar, status} = item
+    const {displayName, avatar, status, id} = item
 
     let className = classes.user
     if (focused) className += ` ${classes.focusedUser}`
 
     return (
-      <div className={className}>
+      <div className={className} key={id}>
         <Username
           name={displayName}
           avatar={avatar}
