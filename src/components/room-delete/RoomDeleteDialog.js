@@ -139,8 +139,7 @@ export default class RoomDeleteDialog extends PureComponent {
   state = getInitialState(this.props.intl.formatMessage(messages.provideName))
 
   onChange = (e) => {
-    const roomName = e.target.value.trim()
-    this.setState({roomName})
+    this.setState({roomName: e.target.value})
   }
 
   onHide = () => {
