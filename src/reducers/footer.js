@@ -27,7 +27,7 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_SEARCH_BROWSER:
       return {...state, showBrowser: 'search', search: action.payload}
     case types.HIDE_BROWSER:
-      return {...state, showBrowser: false}
+      return {...state, showBrowser: false, autocomplete: null}
     case types.HANDLE_AUTOCOMPLETE:
       return {...state, autocomplete: action.payload}
     case types.HANDLE_AUTOCOMPLETE_SERVICES:

@@ -35,7 +35,7 @@
     "es6-promise": "^3.0.2",
     "fbjs": "^0.8.9",
     "fuse.js": "^2.2.0",
-    "grape-browser": "^3.10.2",
+    "grape-browser": "^3.11.1",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "2.x",
     "grape-web": "^0.62.3",

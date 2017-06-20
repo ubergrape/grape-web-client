@@ -43,7 +43,8 @@ export default class Footer extends PureComponent {
     onUploadFiles: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired,
     onEditMessageSend: PropTypes.func.isRequired,
-    onEditMessageAbort: PropTypes.func.isRequired
+    onEditMessageAbort: PropTypes.func.isRequired,
+    onAddIntegration: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -95,7 +96,8 @@ export default class Footer extends PureComponent {
       onRequestAutocomplete,
       onRequestAutocompleteServices,
       onRequestAutocompleteServicesStats,
-      onSetTyping
+      onSetTyping,
+      onAddIntegration
     } = this.props
     return (
       <footer
@@ -147,6 +149,7 @@ export default class Footer extends PureComponent {
             onRequestAutocompleteServices={onRequestAutocompleteServices}
             onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
             onSetTyping={onSetTyping}
+            onAddIntegration={onAddIntegration}
           />
           <Controls
             disabled={disabled}

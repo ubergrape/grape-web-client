@@ -103,7 +103,8 @@ export default class GrapeInput extends PureComponent {
     onShowSearchBrowser: PropTypes.func.isRequired,
     onRequestAutocomplete: PropTypes.func.isRequired,
     onRequestAutocompleteServices: PropTypes.func.isRequired,
-    onRequestAutocompleteServicesStats: PropTypes.func.isRequired
+    onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
+    onAddIntegration: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -285,7 +286,8 @@ export default class GrapeInput extends PureComponent {
       autocomplete,
       services,
       servicesStats,
-      onRequestAutocompleteServices
+      onRequestAutocompleteServices,
+      onAddIntegration
     } = this.props
 
     switch (showBrowser) {
@@ -320,6 +322,7 @@ export default class GrapeInput extends PureComponent {
           setTrigger: true,
           data: autocomplete,
           onLoadServices: onRequestAutocompleteServices,
+          onAddIntegration,
           services,
           servicesStats,
           isLoading: search !== '' && get(autocomplete, 'search.text') !== search
