@@ -42,7 +42,8 @@ export function formatGroupedResults({results, services, search}) {
       focused: false,
       service: result.service,
       detail: result.detail || {},
-      search: search.text
+      search: search.text,
+      url: result.url
     }))
 
     return newResults.concat(newGroupResults)
@@ -66,13 +67,6 @@ export function findIndexBySelector(selector, list, validation) {
   }
 
   return index
-}
-
-/**
- * Finds service key corresponding each service id and returns array of keys.
- */
-export function mapServiceIdsToKeys(ids, services) {
-  return ids.map(id => find(services, {id}).key)
 }
 
 export function selectResult(selector, {results, focusedResult}) {

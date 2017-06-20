@@ -5,62 +5,67 @@ import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
 import SearchBrowser from './SearchBrowser'
-import style from './searchBrowserModalStyle'
 
-// Those methods will lead to ModalBrowser being removed from tree,
-// however the Modal component needs to get show: false
-const proxiMethodsToHideModal = [
-  'onHide',
-  'onAbort',
-  'onSelectItem',
-  'onAddIntegration'
-]
-
-@injectSheet(style)
+@injectSheet({
+  modal: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    zIndex: 1000,
+    top: 0,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  backdrop: {
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 'auto',
+    backgroundColor: '#000',
+    opacity: 0.5
+  },
+  browser: {
+    position: 'relative',
+    width: '80%',
+    top: '10%',
+    alignSelf: 'center',
+    maxWidth: 800,
+    minWidth: 200
+  }
+})
 export default class SearchBrowserModal extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onAbort: PropTypes.func
+    onAbort: PropTypes.func,
+    onReset: PropTypes.func
   }
 
   static defaultProps = {
-    onAbort: noop
+    onAbort: noop,
+    onReset: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {show: true}
-    this.callbacks = proxiMethodsToHideModal.reduce((map, method) => {
-      // eslint-disable-next-line no-param-reassign
-      map[method] = this.hideAndCallMethod.bind(this, method)
-      return map
-    }, {})
-  }
-
-  onHideModal = () => {
-    this.hideAndCallMethod('onAbort', {reason: 'esc'})
-  }
-
-  hideAndCallMethod(method, ...args) {
-    this.setState({show: false}, () => {
-      this.props[method](...args)
-    })
+  onAbort = () => {
+    const {onAbort, onReset} = this.props
+    onAbort({reason: 'esc'})
+    onReset()
   }
 
   render() {
     const {classes, ...rest} = this.props
     return (
       <Modal
-        show={this.state.show}
+        show
         className={classes.modal}
         backdropClassName={classes.backdrop}
-        onBackdropClick={this.onHideModal}
+        onBackdropClick={this.onAbort}
       >
         <SearchBrowser
           {...rest}
-          {...this.callbacks}
           className={classes.browser}
-          onAbort={this.onHideModal}
+          onAbort={this.onAbort}
         />
       </Modal>
     )

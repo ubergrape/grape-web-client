@@ -45,8 +45,8 @@ export default class Actions extends PureComponent {
   static defaultProps = {
     focused: false,
     items: [],
-    focusedAction: null,
-    hoveredAction: null,
+    focusedAction: undefined,
+    hoveredAction: undefined,
     onFocus: noop,
     onBlur: noop,
     onSelect: noop

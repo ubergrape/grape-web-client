@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import isEmpty from 'lodash/lang/isEmpty'
@@ -37,7 +37,7 @@ const browserWithInput = {
  * Uses all types of auto completes to provide end component.
  */
 @injectSheet(style)
-export default class GrapeBrowser extends Component {
+export default class GrapeBrowser extends PureComponent {
   static propTypes = {
     container: PropTypes.object,
     isLoading: PropTypes.bool,
@@ -46,6 +46,7 @@ export default class GrapeBrowser extends Component {
     setTrigger: PropTypes.bool,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     focused: PropTypes.bool,
+    data: PropTypes.object,
     /* eslint-enable react/no-unused-prop-types */
     disabled: PropTypes.bool,
     classes: PropTypes.object.isRequired,
@@ -54,7 +55,6 @@ export default class GrapeBrowser extends Component {
     externalServicesInputDelay: PropTypes.number,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
-
     onDidMount: PropTypes.func,
     onEditPrevious: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -157,19 +157,21 @@ export default class GrapeBrowser extends Component {
   onSubmit = (data) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
-    if (this.props.onSubmit) this.props.onSubmit(data)
+    this.props.onSubmit(data)
   }
 
   onAbort = (data = {}) => {
     const {browser} = this.state
     this.closeBrowser({inputFocused: true}, () => {
-      if (this.props.onAbort) this.props.onAbort({...data, browser})
+      this.props.onAbort({...data, browser})
     })
   }
 
   onSelectSearchBrowserItem = ({item, query}) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
-    this.insertItem(item, query)
+    this.closeBrowser(null, () => {
+      this.insertItem(item, query)
+    })
   }
 
   onSelectEmojiBrowserItem = ({item, query}) => {
@@ -178,12 +180,6 @@ export default class GrapeBrowser extends Component {
 
   onSelectDatalistItem = (item) => {
     this.insertItem(item, this.query.toJSON())
-  }
-
-  onAddSearchBrowserIntegration = () => {
-    this.closeBrowser(null, () => {
-      if (this.props.onAddIntegration) this.props.onAddIntegration()
-    })
   }
 
   onInsertItem = (item, query) => {
@@ -199,7 +195,7 @@ export default class GrapeBrowser extends Component {
     }
 
     clearTimeout(this.searchBrowserInputTimeoutId)
-    if (this.props.onInsertItem) this.props.onInsertItem({query, type, service, rank})
+    this.props.onInsertItem({query, type, service, rank})
   }
 
   onDidMountBrowser = (ref) => {
@@ -226,7 +222,7 @@ export default class GrapeBrowser extends Component {
     setTimeout(() => {
       const {browser} = this.state
       if (!browser || browserWithInput[browser] === false) {
-        if (this.props.onBlur) this.props.onBlur()
+        this.props.onBlur()
       }
     }, 100)
   }
@@ -234,16 +230,14 @@ export default class GrapeBrowser extends Component {
   onEmojiBrowserOutsideClick = () => {
     this.closeBrowser(null, () => {
       const {browser} = this.state
-      if (this.props.onAbort) this.props.onAbort({reason: 'esc', browser})
+      this.props.onAbort({reason: 'esc', browser})
     })
   }
 
   onChangeSearchBrowser = (data) => {
     const complete = () => {
-      if (this.props.onComplete) {
-        this.props.onComplete({...data, trigger: this.query.get('trigger')})
-      }
-      if (this.props.onChange) this.props.onChange()
+      this.props.onComplete({...data, trigger: this.query.get('trigger')})
+      this.props.onChange()
     }
 
     if (!utils.isExternalSearch(this.state.data)) {
@@ -269,7 +263,7 @@ export default class GrapeBrowser extends Component {
 
     if (hasTrigger && contentHasChanged) {
       this.query.set(query, {silent: true})
-      if (this.props.onComplete) this.props.onComplete({...this.query.toJSON(), emoji})
+      this.props.onComplete({...this.query.toJSON(), emoji})
     }
 
     // Query has been removed or caret position changed, for datalist only.
@@ -278,12 +272,8 @@ export default class GrapeBrowser extends Component {
       if (isBrowserOpened) this.onAbort({reason: 'deleteTrigger'})
     }
 
-    if (this.props.onChange) {
-      if (content === undefined) this.props.onChange()
-      else this.setState({content}, () => this.props.onChange())
-    } else {
-      this.setState({content})
-    }
+    if (content === undefined) this.props.onChange()
+    else this.setState({content}, this.props.onChange)
   }
 
   onChangeQuery = (str) => {
@@ -410,7 +400,8 @@ export default class GrapeBrowser extends Component {
       services,
       isLoading,
       onLoadServices,
-      onLoadServicesStats
+      onLoadServicesStats,
+      onAddIntegration
     } = this.props
 
     if (browser === 'search') {
@@ -421,11 +412,10 @@ export default class GrapeBrowser extends Component {
           services={services}
           servicesStats={servicesStats}
           images={images}
-          isExternal={utils.isExternalSearch(data)}
           isLoading={isLoading}
           onAbort={this.onAbort}
           onSelectItem={this.onSelectSearchBrowserItem}
-          onAddIntegration={this.onAddSearchBrowserIntegration}
+          onAddIntegration={onAddIntegration}
           onChange={this.onChangeSearchBrowser}
           onLoadServices={onLoadServices}
           onLoadServicesStats={onLoadServicesStats}

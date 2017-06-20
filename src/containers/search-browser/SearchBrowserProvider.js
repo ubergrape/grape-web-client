@@ -1,34 +1,32 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
-import omit from 'lodash/object/omit'
 
 import {mapActionsToProps} from '../../redux'
 import {searchBrowserSelector} from '../../selectors'
 import getStore from '../../store'
-import actions from '../../boundActions'
 import SearchBrowser from '../../components/search-browser/SearchBrowser'
 import SearchBrowserModal from '../../components/search-browser/SearchBrowserModal'
 
-const {createSearchBrowserState, resetSearchBrowserState} = actions
-
-const propsMap = mapActionsToProps({
+const getProps = mapActionsToProps({
   focusSearchBrowserResult: 'onFocusResult',
   selectSearchBrowserResult: 'onSelectResult',
   focusSearchBrowserAction: 'onFocusAction',
   blurSearchBrowserAction: 'onBlurAction',
   execSearchBrowserAction: 'onExecAction',
   focusSearchBrowserActions: 'onFocusActions',
-  changeSearchBrowserInput: 'onChangeInput',
-  clearSearchBrowserInput: 'onClearInput',
+  updateSearchBrowserInput: 'onUpdateInput',
+  showSearchBrowserServices: 'onShowServices',
   focusSearchBrowserService: 'onFocusService',
-  addSearchBrowserService: 'onAddService',
-  showSearchBrowserResults: 'onShowResults'
+  addSearchBrowserFilter: 'onAddFilter',
+  showSearchBrowserResults: 'onShowResults',
+  resetSearchBrowserState: 'onReset',
+  updateSearchBrowserResults: 'onUpdateResults'
 })
 
-const ConnectedSearchBrowser = connect(searchBrowserSelector, propsMap)(SearchBrowser)
+const ConnectedSearchBrowser = connect(searchBrowserSelector, getProps)(SearchBrowser)
 
-const ConnectedSearchBrowserModal = connect(searchBrowserSelector, propsMap)(SearchBrowserModal)
+const ConnectedSearchBrowserModal = connect(searchBrowserSelector, getProps)(SearchBrowserModal)
 
 export default class SearchBrowserProvider extends Component {
   static propTypes = {
@@ -39,23 +37,12 @@ export default class SearchBrowserProvider extends Component {
     modal: true
   }
 
-  constructor(props) {
-    super(props)
-    createSearchBrowserState(omit(props, 'modal'))
-  }
-
-  componentWillReceiveProps(nextProps) {
-    createSearchBrowserState(omit(nextProps, 'modal'))
-  }
-
-  componentWillUnmount() {
-    resetSearchBrowserState()
-  }
-
   render() {
+    const {modal, ...rest} = this.props
+    const Browser = modal ? ConnectedSearchBrowserModal : ConnectedSearchBrowser
     return (
       <Provider store={getStore()}>
-        {this.props.modal ? <ConnectedSearchBrowserModal /> : <ConnectedSearchBrowser />}
+        <Browser {...rest} />
       </Provider>
     )
   }

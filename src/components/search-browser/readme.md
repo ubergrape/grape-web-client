@@ -17,7 +17,6 @@
   }
 
   const onLoadServicesStats = (query) => {
-    console.log(query)
     setState({servicesStats: data.servicesStats})
   }
 

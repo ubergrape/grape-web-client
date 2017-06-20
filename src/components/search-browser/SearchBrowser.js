@@ -4,6 +4,7 @@ import keyname from 'keyname'
 import Spinner from 'grape-web/lib/components/spinner'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import find from 'lodash/collection/find'
 import {
   defineMessages,
   intlShape,
@@ -17,6 +18,7 @@ import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
 import {listTypes} from './constants'
 import Empty from '../empty/Empty'
+import {SERVICES_TRIGGER, QUERY_REGEX} from '../../components/query/constants'
 
 const messages = defineMessages({
   empty: {
@@ -36,6 +38,9 @@ export default class SearchBrowser extends PureComponent {
     intl: intlShape.isRequired,
     results: PropTypes.array,
     servicesStats: PropTypes.object,
+    // List of service id's.
+    services: PropTypes.array,
+    // Filtered services.
     currServices: PropTypes.array,
     /* eslint-disable react/no-unused-prop-types */
     filters: PropTypes.array,
@@ -44,7 +49,9 @@ export default class SearchBrowser extends PureComponent {
     height: PropTypes.number,
     className: PropTypes.string,
     tokens: PropTypes.object,
+    // Entire input value including filters.
     value: PropTypes.string,
+    // Only user input without filters.
     search: PropTypes.string,
     focusedView: PropTypes.oneOf(listTypes),
     focusedResult: PropTypes.object,
@@ -52,41 +59,50 @@ export default class SearchBrowser extends PureComponent {
     actions: PropTypes.array,
     focusedAction: PropTypes.object,
     hoveredAction: PropTypes.object,
+    data: PropTypes.object,
+    onUpdateResults: PropTypes.func,
     onBlurAction: PropTypes.func,
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
     onAddIntegration: PropTypes.func,
     onLoadServices: PropTypes.func,
+    onLoadServicesStats: PropTypes.func,
     onShowResults: PropTypes.func,
     onFocusResult: PropTypes.func,
     onSelectResult: PropTypes.func,
-    onChangeInput: PropTypes.func,
     onFocusService: PropTypes.func,
-    onAddService: PropTypes.func,
-    onClearInput: PropTypes.func,
+    onAddFilter: PropTypes.func,
+    onReset: PropTypes.func,
     onFocusActions: PropTypes.func,
     onFocusAction: PropTypes.func,
-    onExecAction: PropTypes.func
+    onExecAction: PropTypes.func,
+    onChange: PropTypes.func,
+    onShowServices: PropTypes.func,
+    onUpdateInput: PropTypes.func,
+    onSelectItem: PropTypes.func
   }
 
   static defaultProps = {
-    actions: [],
-    focusedAction: null,
-    hoveredAction: null,
+    actions: undefined,
+    focusedAction: undefined,
+    hoveredAction: undefined,
     results: [],
-    servicesStats: null,
+    servicesStats: undefined,
+    services: [],
     currServices: [],
     filters: [],
-    tokens: null,
+    tokens: undefined,
     focusedView: 'results',
-    focusedResult: null,
-    focusedService: null,
-    isLoading: false,
+    focusedResult: undefined,
+    focusedService: undefined,
+    isLoading: undefined,
     value: '',
     search: '',
     className: '',
     height: 400,
+    data: undefined,
+    onUpdateResults: noop,
     onBlurAction: noop,
     onDidMount: noop,
     onAbort: noop,
@@ -96,27 +112,53 @@ export default class SearchBrowser extends PureComponent {
     onShowResults: noop,
     onFocusResult: noop,
     onSelectResult: noop,
-    onChangeInput: noop,
     onFocusService: noop,
-    onAddService: noop,
-    onClearInput: noop,
+    onAddFilter: noop,
+    onReset: noop,
     onFocusActions: noop,
     onFocusAction: noop,
-    onExecAction: noop
+    onExecAction: noop,
+    onChange: noop,
+    onShowServices: noop,
+    onUpdateInput: noop,
+    onLoadServicesStats: noop,
+    onSelectItem: noop
   }
 
   state = {}
 
   componentDidMount() {
-    this.props.onDidMount(this)
-    this.props.onLoadServices()
+    const {data, onDidMount, onLoadServices} = this.props
+    onDidMount(this)
+    onLoadServices()
+    this.onUpdateResults(data)
   }
 
   componentWillReceiveProps(nextProps) {
+    const {data} = nextProps
+    if (data && data !== this.props.data) this.onUpdateResults(data)
+
     const service = this.state.lastAddedService
     if (service && nextProps.filters.indexOf(service.id) >= 0) {
       this.setState({lastAddedService: null})
       this.input.replace(service.label)
+    }
+  }
+
+  onUpdateResults(data) {
+    const {onUpdateResults, search} = this.props
+
+    if (
+      data &&
+      search &&
+      // Only update results when the results have been returned for the
+      // current search state.
+      // This will avoid unneded rerendering when:
+      // 1. Input has been modified faster that we received results
+      // 2. Results for a previous search came in later the for the current.
+      data.search.text === search
+    ) {
+      onUpdateResults(data)
     }
   }
 
@@ -139,7 +181,7 @@ export default class SearchBrowser extends PureComponent {
           this.props.onShowResults()
         // Reset the search if there is one.
         } else if (this.props.value.trim()) {
-          this.props.onClearInput()
+          this.props.onReset()
         } else {
           this.props.onAbort()
         }
@@ -158,8 +200,8 @@ export default class SearchBrowser extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        if (focusedView === 'services') this.onAddService(this.props.focusedService)
-        else if (focusedView === 'actions') this.props.onExecAction()
+        if (focusedView === 'services') this.onAddFilter(this.props.focusedService)
+        else if (focusedView === 'actions') this.onExecAction()
         else this.props.onFocusActions()
         e.preventDefault()
         break
@@ -196,15 +238,55 @@ export default class SearchBrowser extends PureComponent {
     this.input = ref
   }
 
-  onAddService = (service) => {
+  onAddFilter = (service) => {
     if (!service) return
     // We need to schedule the filter insertion into input until the action is
     // created and applied to the state, because as soon as we insert the filter
     // into the input, change event will trigger the search and before this,
     // state needs to have all the data in place.
     this.setState({lastAddedService: service}, () => {
-      this.props.onAddService(service)
+      this.props.onAddFilter(service)
     })
+  }
+
+  onChangeInput = ({value, search, filters, query}) => {
+    const {
+      onReset, onChange, onShowServices, onShowResults, onUpdateInput,
+      onLoadServicesStats,
+      services
+    } = this.props
+
+    if (!value) {
+      onReset()
+      return
+    }
+
+    onUpdateInput({value, search, filters})
+
+    if (query.trigger === SERVICES_TRIGGER) {
+      onShowServices({query, services})
+      onLoadServicesStats({search: search.replace(QUERY_REGEX, '')})
+    } else if (search) {
+      onShowResults()
+      onChange({
+        search,
+        filters: filters.map(filter => find(services, {id: filter}).key)
+      })
+    }
+  }
+
+  onExecAction = () => {
+    const {
+      onExecAction, onReset, onSelectItem,
+      focusedResult: result, focusedAction: action
+    } = this.props
+
+    onExecAction({result, action})
+
+    if (action.type === 'insert') {
+      onReset()
+      onSelectItem({item: result})
+    }
   }
 
   getBody() {
@@ -213,8 +295,9 @@ export default class SearchBrowser extends PureComponent {
       onAddIntegration, focusedView, focusedResult,
       currServices, focusedService, onFocusService,
       servicesStats,
+      isLoading,
       actions, focusedAction, hoveredAction,
-      onExecAction, onFocusAction, onBlurAction
+      onFocusAction, onBlurAction
     } = this.props
 
     if (focusedView === 'services') {
@@ -223,7 +306,7 @@ export default class SearchBrowser extends PureComponent {
           servicesStats={servicesStats}
           services={currServices}
           focused={focusedService}
-          onSelect={this.onAddService}
+          onSelect={this.onAddFilter}
           onFocus={onFocusService}
         />
       )
@@ -240,7 +323,7 @@ export default class SearchBrowser extends PureComponent {
           actions={actions}
           focusedAction={focusedAction}
           hoveredAction={hoveredAction}
-          onExecAction={onExecAction}
+          onExecAction={this.onExecAction}
           onFocusAction={onFocusAction}
           onBlurAction={onBlurAction}
           onFocus={this.onFocusResult}
@@ -250,7 +333,7 @@ export default class SearchBrowser extends PureComponent {
       return {element, height}
     }
 
-    if (search.trim()) {
+    if (!isLoading && search.trim()) {
       return {
         element: <Empty text={formatMessage(messages.empty)} />,
         height: 'auto'
@@ -267,7 +350,6 @@ export default class SearchBrowser extends PureComponent {
     const {
       classes,
       height,
-      onChangeInput,
       className,
       tokens, value
     } = this.props
@@ -291,7 +373,7 @@ export default class SearchBrowser extends PureComponent {
           tokens={tokens}
           onDidMount={this.onMountInput}
           onKeyDown={this.onKeyDown}
-          onChange={onChangeInput}
+          onChange={this.onChangeInput}
           onBlur={this.onBlur}
         />
         {body.element}

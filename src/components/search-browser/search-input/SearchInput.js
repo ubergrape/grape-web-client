@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import pick from 'lodash/object/pick'
+import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
@@ -27,7 +28,7 @@ const messages = defineMessages({
 
 @injectSheet(style)
 @injectIntl
-export default class Browser extends Component {
+export default class SearchInput extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -38,7 +39,10 @@ export default class Browser extends Component {
   }
 
   static defaultProps = {
-    tokens: {}
+    tokens: {},
+    value: undefined,
+    onChange: noop,
+    onDidMount: noop
   }
 
   constructor(props) {
@@ -47,6 +51,11 @@ export default class Browser extends Component {
     // IE has unexpected timing issues somewhere otherwise when external service
     // with timeouts is used.
     this.state = {value: props.value}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {value} = nextProps
+    if (value !== this.state.value) this.setState({value})
   }
 
   onChange = ({value}) => {
@@ -69,9 +78,7 @@ export default class Browser extends Component {
     this.input.insert(SERVICES_TRIGGER)
   }
 
-  getTokenClass = () => {
-    return this.props.sheet.classes.token
-  }
+  getTokenClass = () => this.props.sheet.classes.token
 
   render() {
     const {
@@ -81,23 +88,25 @@ export default class Browser extends Component {
     const {value} = this.state
 
     return (
-        <div className={classes.searchInput}>
-          <span className={classes.magnifierIcon} />
-          <HighlightedInput
-            {...pick(this.props, 'onBlur', 'onChange', 'onDidMount', 'onKeyDown',
+      <div className={classes.searchInput}>
+        <span className={classes.magnifierIcon} />
+        <HighlightedInput
+          {...pick(this.props, 'onBlur', 'onChange', 'onDidMount', 'onKeyDown',
               'onKeyPress')}
-            value={value}
-            Editable={Input}
-            theme={classes}
-            getTokenClass={this.getTokenClass}
-            placeholder={formatMessage(messages.placeholder)}
-            tokens={Object.keys(this.props.tokens)}
-            onChange={this.onChange}
-            onDidMount={this.onMountInput} />
-          <button
-            onClick={this.onShowServices}
-            className={classes.plusButton}></button>
-        </div>
+          value={value}
+          Editable={Input}
+          theme={classes}
+          getTokenClass={this.getTokenClass}
+          placeholder={formatMessage(messages.placeholder)}
+          tokens={Object.keys(this.props.tokens)}
+          onChange={this.onChange}
+          onDidMount={this.onMountInput}
+        />
+        <button
+          onClick={this.onShowServices}
+          className={classes.plusButton}
+        />
+      </div>
     )
   }
 }

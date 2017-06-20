@@ -1,49 +1,26 @@
-import noop from 'lodash/utility/noop'
-
 import * as types from '../constants/actionTypes'
 
 const actions = [
   {
     type: 'insert',
-    text: 'Insert into message',
     icon: 'comment'
   },
   {
     type: 'open',
-    text: 'Open',
     icon: 'iconLink'
   }
 ]
 
-const initialState = {
-  className: '',
-  isExternal: false,
-  isLoading: false,
-  focusedView: 'results',
-  // Entire input value including filters.
-  value: '',
-  // Only user input without filters.
-  search: '',
-  filters: [],
-  results: [],
+const initialActionsState = {
   actions,
-  focusedAction: actions[0],
-  tokens: {},
-  // List of service id's.
-  services: [],
-  currServices: [],
-  servicesStats: {},
-  onAddIntegration: noop,
-  onSelectItem: noop,
-  onDidMount: noop,
-  onChange: noop,
-  onAbort: noop,
-  onBlur: noop,
-  onLoadServices: noop,
-  onLoadServicesStats: noop
+  focusedAction: actions[0]
 }
 
-function getCurrServices({services, filters}, search) {
+const initialState = {
+  ...initialActionsState
+}
+
+function getCurrServices(services, filters, search) {
   let curr = services.filter(({id}) => filters.indexOf(id) === -1)
 
   if (search) {
@@ -59,26 +36,17 @@ function getCurrServices({services, filters}, search) {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.CREATE_SEARCH_BROWSER_STATE: {
-      const newState = {
-        ...state,
-        ...action.payload
-      }
-      // In case we receive update after input has been cleaned, ignore the new
-      // results data.
-      if (!state.value) newState.results = []
-      if (!newState.services.length) newState.services = state.services
-      newState.currServices = getCurrServices(newState)
-      newState.focusedService = newState.currServices[0]
-      return newState
-    }
-    case types.RESET_SEARCH_BROWSER_STATE:
-      return initialState
+    case types.UPDATE_SEARCH_BROWSER_RESULTS:
+      return {...state, ...action.payload}
     case types.SHOW_SEARCH_BROWSER_RESULTS:
-      return {...state, focusedView: 'results'}
+      return {...state, ...initialActionsState, focusedView: 'results'}
     case types.FOCUS_SEARCH_BROWSER_RESULT:
     case types.SELECT_SEARCH_BROWSER_RESULT:
-      return {...state, focusedResult: action.payload, focusedView: 'results'}
+      return {
+        ...state,
+        focusedResult: action.payload,
+        focusedView: 'results'
+      }
     case types.FOCUS_SEARCH_BROWSER_ACTIONS:
       return {...state, focusedView: 'actions'}
     case types.FOCUS_SEARCH_BROWSER_ACTION:
@@ -90,7 +58,12 @@ export default function reduce(state = initialState, action) {
     case types.BLUR_SEARCH_BROWSER_ACTION:
       return {...state, hoveredAction: null}
     case types.SHOW_SEARCH_BROWSER_SERVICES: {
-      const currServices = getCurrServices(state, action.payload)
+      const {payload} = action
+      const currServices = getCurrServices(
+        payload.services,
+        state.filters,
+        payload.query.search
+      )
       return {
         ...state,
         focusedView: 'services',
@@ -98,12 +71,9 @@ export default function reduce(state = initialState, action) {
         focusedService: currServices[0]
       }
     }
-    case types.LOAD_SEARCH_BROWSER_SERVICES_STATS:
-      // Reset current map.
-      return {...state, servicesStats: {}}
     case types.FOCUS_SEARCH_BROWSER_SERVICE:
       return {...state, focusedService: action.payload}
-    case types.ADD_SEARCH_BROWSER_SERVICE:
+    case types.ADD_SEARCH_BROWSER_FILTER:
       return {
         ...state,
         tokens: {...state.tokens, [action.payload.label]: action.payload},
@@ -111,8 +81,8 @@ export default function reduce(state = initialState, action) {
       }
     case types.UPDATE_SEARCH_BROWSER_INPUT:
       return {...state, ...action.payload}
-    case types.CLEAR_SEARCH_BROWSER_INPUT:
-      return {...state, value: '', search: '', filters: [], results: []}
+    case types.RESET_SEARCH_BROWSER_STATE:
+      return initialState
     default:
       return state
   }

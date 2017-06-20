@@ -1,42 +1,24 @@
-import find from 'lodash/collection/find'
 import {openUrl} from 'grape-web/lib/x-platform'
 
 import {
   formatGroupedResults,
   findIndexBySelector,
-  mapServiceIdsToKeys,
   selectResult
 } from './utils'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
-import {SERVICES_TRIGGER, QUERY_REGEX} from '../../components/query/constants'
 
-export function createSearchBrowserState(props) {
-  const {data} = props
-  let results = []
-  let focusedResult
-
-  if (data) {
-    results = formatGroupedResults(data)
-    focusedResult = results[1]
-  }
+export function updateSearchBrowserResults(data) {
+  const results = formatGroupedResults(data)
+  const focusedResult = results[1]
 
   return {
-    type: types.CREATE_SEARCH_BROWSER_STATE,
+    type: types.UPDATE_SEARCH_BROWSER_RESULTS,
     payload: {
-      ...props,
       results,
       focusedResult
     }
   }
-}
-
-export function resetSearchBrowserState() {
-  return {type: types.RESET_SEARCH_BROWSER_STATE}
-}
-
-export function showSearchBrowserResults() {
-  return {type: types.SHOW_SEARCH_BROWSER_RESULTS}
 }
 
 export function focusSearchBrowserResult(selector) {
@@ -62,10 +44,12 @@ export function selectSearchBrowserResult() {
   }
 }
 
-export function clearSearchBrowserInput() {
-  return {
-    type: types.CLEAR_SEARCH_BROWSER_INPUT
-  }
+export function showSearchBrowserResults() {
+  return {type: types.SHOW_SEARCH_BROWSER_RESULTS}
+}
+
+export function resetSearchBrowserState() {
+  return {type: types.RESET_SEARCH_BROWSER_STATE}
 }
 
 export function focusSearchBrowserActions() {
@@ -95,50 +79,23 @@ export function blurSearchBrowserAction() {
   }
 }
 
-export function execSearchBrowserAction() {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    const action = state.focusedAction
-    const item = state.focusedResult
-
+export function execSearchBrowserAction({result, action}) {
+  return (dispatch) => {
     dispatch({
       type: types.EXEC_SEARCH_BROWSER_ACTION,
-      payload: action
+      payload: {result, action}
     })
 
-    if (action.type === 'insert') {
-      dispatch(clearSearchBrowserInput())
-      // TODO move this when we port the whole client to redux.
-      state.onSelectItem({item})
-    }
-
-    if (action.type === 'open') {
-      const res = find(state.data.results, ({id}) => id === item.id)
-      openUrl(res.url)
-    }
+    if (action.type === 'open') openUrl(result.url)
   }
 }
 
-export function loadSearchBrowserServicesStats(query) {
-  return (dispatch, getState) => {
-    dispatch({
-      type: types.LOAD_SEARCH_BROWSER_SERVICES_STATS,
-      payload: query
-    })
-
-    const {onLoadServicesStats} = searchBrowserSelector(getState())
-
-    onLoadServicesStats(query)
-  }
-}
-
-export function showSearchBrowserServices({query, search}) {
+export function showSearchBrowserServices(payload) {
   return (dispatch) => {
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
-      payload: query.search
+      payload
     })
-    dispatch(loadSearchBrowserServicesStats({search}))
   }
 }
 
@@ -164,39 +121,19 @@ export function focusSearchBrowserService(item) {
   }
 }
 
-export function addSearchBrowserService(service) {
+export function addSearchBrowserFilter(service) {
   return (dispatch) => {
     dispatch({
-      type: types.ADD_SEARCH_BROWSER_SERVICE,
+      type: types.ADD_SEARCH_BROWSER_FILTER,
       payload: service
     })
     dispatch(showSearchBrowserResults())
   }
 }
 
-export function changeSearchBrowserInput({value, search, filters, query}) {
-  return (dispatch, getState) => {
-    if (!value) {
-      dispatch(clearSearchBrowserInput())
-      return
-    }
-
-    const {onChange, services} = searchBrowserSelector(getState())
-
-    dispatch({
-      type: types.UPDATE_SEARCH_BROWSER_INPUT,
-      payload: {value, search, filters}
-    })
-
-    if (query.trigger === SERVICES_TRIGGER) {
-      dispatch(showSearchBrowserServices({
-        query,
-        search: search.replace(QUERY_REGEX, '')
-      }))
-    } else {
-      dispatch(showSearchBrowserResults())
-      // TODO move this when we port the whole client to redux.
-      onChange({search, filters: mapServiceIdsToKeys(filters, services)})
-    }
+export function updateSearchBrowserInput(payload) {
+  return {
+    type: types.UPDATE_SEARCH_BROWSER_INPUT,
+    payload
   }
 }

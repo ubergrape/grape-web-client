@@ -35,9 +35,9 @@ export default class Detail extends Component {
     data: {},
     images: {},
     focusedView: 'results',
-    actions: [],
-    focusedAction: null,
-    hoveredAction: null,
+    actions: undefined,
+    focusedAction: undefined,
+    hoveredAction: undefined,
     onExecAction: noop,
     onFocusAction: noop,
     onBlurAction: noop
