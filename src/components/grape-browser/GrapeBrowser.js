@@ -46,7 +46,7 @@ export default class GrapeBrowser extends PureComponent {
     setTrigger: PropTypes.bool,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     focused: PropTypes.bool,
-    data: PropTypes.object,
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     /* eslint-enable react/no-unused-prop-types */
     disabled: PropTypes.bool,
     classes: PropTypes.object.isRequired,
@@ -182,20 +182,16 @@ export default class GrapeBrowser extends PureComponent {
     this.insertItem(item, this.query.toJSON())
   }
 
-  onInsertItem = (item, query) => {
-    const {type} = item
-    let {service} = item
+  onInsertItem = (item) => {
     let rank = 0
-
     const results = get(this.state, 'data.results')
     if (!isEmpty(results)) {
       const index = findIndex(results, res => res.id === item.id)
       rank = index + 1
-      service = results[index].service
     }
 
     clearTimeout(this.searchBrowserInputTimeoutId)
-    this.props.onInsertItem({query, type, service, rank})
+    this.props.onInsertItem({item, rank})
   }
 
   onDidMountBrowser = (ref) => {
