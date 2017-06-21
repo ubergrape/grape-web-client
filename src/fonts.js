@@ -5,6 +5,8 @@ function get(fontSize) {
   }
 }
 
+// TODO
+// Move it to sizes.js
 export default {
   smaller: get(11),
   small: get(13),

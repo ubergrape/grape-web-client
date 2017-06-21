@@ -5,11 +5,28 @@ export default {
     bigger: 6
   },
   screenWidth: {
-    xxl: 1800,
-    xl: 1280,
-    l: 1024,
-    m: 768,
+    xs: 320,
     s: 480,
-    xs: 320
+    m: 768,
+    l: 1024,
+    xl: 1280,
+    xxl: 1800
+  },
+  // TODO
+  // Calculate them based on font face sizes.
+  spacer: {
+    xs: 5,
+    s: 10,
+    m: 15,
+    l: 20,
+    xl: 25,
+    xxl: 30
+  },
+  // TODO
+  // Calculate them based on font face sizes.
+  icon: {
+    s: 16,
+    m: 22,
+    l: 32
   }
 }
