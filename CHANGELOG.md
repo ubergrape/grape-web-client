@@ -1,5 +1,27 @@
 ## Release next (2017-xx-xx)
 
+## Release 0.55.1 (2017-06-21)
+
+### Fixes
+
+- Infinite loading indicator in "Invite to org dialog" #486
+
+### Chore changes
+
+- Avatar cleanup
+- Use icon sizes from grape-theme
+
+## Release 0.55.0 (2017-06-20)
+
+### Fixes
+
+- Various grape-browser bugs
+- Enable spaces when deleting room #472
+- At-symbol before the name #476
+- Reenable non-native emojis #471
+- Don't show jumper when there is no scroller #474
+- Add key to finite-list items #478
+
 ## Release 0.54.0 - 0.54.2 (2017-06-13)
 
 ### Fixes
