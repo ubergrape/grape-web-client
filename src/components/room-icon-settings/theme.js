@@ -4,7 +4,7 @@ import {
   link as linkColor,
   borderDefault as borderColor
 } from 'grape-theme/dist/web-colors'
-import {iconSize} from './constants'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 import buttonReset from '../button/reset'
 
 const buttonBorderWidth = 1
@@ -23,8 +23,8 @@ const chooserButton = {
   display: 'block',
   overflow: 'hidden',
   boxSizing: 'border-box',
-  width: iconSize,
-  height: iconSize,
+  width: iconSize.l,
+  height: iconSize.l,
   borderRadius: '50%',
   backgroundClip: 'content-box',
   border: '1px solid transparent',

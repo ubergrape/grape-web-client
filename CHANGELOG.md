@@ -1,5 +1,9 @@
 ## Release next (2017-xx-xx)
 
+## Release 0.55.2 (2017-06-21)
+
+- Fix room icon size in room icon picker.
+
 ## Release 0.55.1 (2017-06-21)
 
 ### Fixes

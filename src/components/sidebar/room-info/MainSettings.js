@@ -14,7 +14,7 @@ import {
   values as notificationSettingsValues
 } from '../../../utils/notification-settings'
 import EditableText from '../../editable-text/EditableText'
-import RoomIconSettings from '../../room-icon-settings/RoomIconSettings'
+import {RoomIconSettings} from '../../room-icon-settings'
 import Tooltip from '../../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
 import {settingsButtonSize} from './constants'

@@ -14,8 +14,11 @@ import {defaultAvatar} from '../../constants/images'
     height: iconSize.l,
     flexShrink: 0,
     borderRadius: '50%',
-    background: 'no-repeat center',
-    backgroundSize: '100%'
+    background: {
+      repeat: 'no-repeat',
+      position: 'center',
+      size: '100%'
+    }
   }
 })
 export default class Avatar extends PureComponent {
