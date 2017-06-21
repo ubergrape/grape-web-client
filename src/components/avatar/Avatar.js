@@ -20,8 +20,8 @@ import {defaultAvatar} from '../../constants/images'
 })
 export default class Avatar extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
     src: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -37,9 +37,9 @@ export default class Avatar extends PureComponent {
   }
 
   render() {
-    const {className, src, onClick, sheet: {classes}, children} = this.props
-    const style = {...this.props.style}
-    if (src) style.backgroundImage = `url(${src})`
+    const {className, src, onClick, classes, children} = this.props
+    let {style} = this.props
+    if (src) style = {...style, backgroundImage: `url(${src})`}
 
     return (
       <span

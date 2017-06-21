@@ -3,42 +3,26 @@ import React from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import {white} from 'grape-theme/dist/base-colors'
+import {white, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {defaultRoomIconSlug} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
-import style from './style'
 
-function Private({theme}) {
-  const {
-    classes,
-    borderWidth,
-    borderColor,
-    borderWidth: right,
-    borderWidth: bottom,
-    size: width, size: height
-  } = theme
-
-  return (
-    <i
-      className={classes.lock}
-      style={{
-        borderColor,
-        borderWidth,
-        width,
-        height,
-        right: -right,
-        bottom: -bottom
-      }}
-    />
-  )
-}
-
-Private.propTypes = {
-  theme: PropTypes.object.isRequired
-}
+const StatusIcon = ({classes, borderWidth, borderColor, size}) => (
+  <i
+    className={classes.lock}
+    style={{
+      borderColor,
+      borderWidth,
+      width: size,
+      height: size,
+      right: -borderWidth,
+      bottom: -borderWidth
+    }}
+  />
+)
 
 const defaultRoomIconTheme = {
   statusSize: 14,
@@ -51,21 +35,17 @@ const defaultRoomIconTheme = {
 
 function RoomIcon(props) {
   const {
-    name, sheet, theme, className,
+    name, classes, theme: userTheme, className,
     isPrivate, showPrivateStatus
   } = props
 
-  const roomIconTheme = {...defaultRoomIconTheme, ...theme}
-  const {color, backgroundColor} = roomIconTheme
+  const {
+    color, backgroundColor,
+    size,
+    statusSize, statusBorderWidth, statusBorderColor
+  } = {...defaultRoomIconTheme, ...userTheme}
 
   const src = getColoredIcon({name: `room${capitalize(name)}`, color})
-
-  const privateTheme = {
-    classes: sheet.classes,
-    size: roomIconTheme.statusSize,
-    borderWidth: roomIconTheme.statusBorderWidth,
-    borderColor: roomIconTheme.statusBorderColor
-  }
 
   return (
     <Avatar
@@ -73,24 +53,42 @@ function RoomIcon(props) {
       className={className}
       style={{
         backgroundColor,
-        width: roomIconTheme.size,
-        height: roomIconTheme.size
+        width: size,
+        height: size
       }}
     >
       {isPrivate && showPrivateStatus &&
-        <Private
-          {...props}
-          theme={privateTheme}
+        <StatusIcon
+          classes={classes}
+          size={statusSize}
+          borderWidth={statusBorderWidth}
+          borderColor={statusBorderColor}
         />
       }
     </Avatar>
   )
 }
 
-export default injectSheet(style)(RoomIcon)
+export default injectSheet({
+  lock: {
+    position: 'absolute',
+    overflow: 'hidden',
+    border: {
+      style: 'solid',
+      radius: '50%'
+    },
+    background: {
+      image: `url(${getColoredIcon({name: 'lock', color: white})})`,
+      color: grayBlueDark,
+      position: ['50%', '50%'],
+      repeat: 'no-repeat',
+      size: '70%'
+    }
+  }
+})(RoomIcon)
 
 RoomIcon.propTypes = {
-  sheet: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   theme: PropTypes.shape({
     statusSize: PropTypes.number,
     statusBorderWidth: PropTypes.number,
