@@ -20,8 +20,7 @@ const getData = (() => {
     if (cache[name]) return cache[name]
     const data = {}
     cache[name] = data
-    // Name might be icon name or svg string.
-    div.innerHTML = raw[name] || name
+    div.innerHTML = raw[name]
     const svg = div.firstChild
     data.html = svg.innerHTML
     data.attrs = attrNames.reduce((attrs, attr) => {
@@ -33,8 +32,8 @@ const getData = (() => {
   }
 })()
 
-const Icon = ({classes, className, name, svg, ...rest}) => {
-  const {html, attrs} = getData(name || svg)
+const Icon = ({classes, className, name, ...rest}) => {
+  const {html, attrs} = getData(name)
   // eslint-disable-next-line no-param-reassign
   delete rest.sheet
   return (
@@ -49,15 +48,12 @@ const Icon = ({classes, className, name, svg, ...rest}) => {
 
 Icon.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string,
-  svg: PropTypes.string,
+  name: PropTypes.string.isRequired,
   className: PropTypes.string
 }
 
 Icon.defaultProps = {
-  className: undefined,
-  name: undefined,
-  svg: undefined
+  className: undefined
 }
 
 const styles = {
