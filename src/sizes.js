@@ -27,6 +27,7 @@ export default {
   icon: {
     s: 16,
     m: 22,
-    l: 32
+    l: 32,
+    xl: 60
   }
 }
