@@ -3,6 +3,7 @@ import React from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import {white, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
@@ -45,18 +46,20 @@ function RoomIcon(props) {
     statusSize, statusBorderWidth, statusBorderColor
   } = {...defaultRoomIconTheme, ...userTheme}
 
-  const src = getColoredIcon({name: `room${capitalize(name)}`, color})
-
   return (
     <Avatar
-      src={src}
       className={className}
       style={{
+        color,
         backgroundColor,
         width: size,
         height: size
       }}
     >
+      <Icon
+        name={`room${capitalize(name)}`}
+        className={classes.icon}
+      />
       {isPrivate && showPrivateStatus &&
         <StatusIcon
           classes={classes}
@@ -84,6 +87,10 @@ export default injectSheet({
       repeat: 'no-repeat',
       size: '70%'
     }
+  },
+  icon: {
+    width: '100%',
+    height: '100%'
   }
 })(RoomIcon)
 
