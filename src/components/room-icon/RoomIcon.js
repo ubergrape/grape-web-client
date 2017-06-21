@@ -5,6 +5,7 @@ import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import {white} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {defaultRoomIconSlug} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
@@ -43,7 +44,7 @@ const defaultRoomIconTheme = {
   statusSize: 14,
   statusBorderWidth: 1,
   statusBorderColor: white,
-  size: 32,
+  size: iconSize.l,
   color: white,
   backgroundColor: colors[0]
 }

@@ -5,7 +5,8 @@ import colors from 'grape-theme/dist/base-colors'
 
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
-import {styles, iconSize} from './theme'
+import {styles} from './theme'
+import {iconSize} from './constants'
 import IconSettings from './IconSettings'
 
 const iconTheme = {
@@ -16,7 +17,7 @@ const iconTheme = {
 }
 
 @injectSheet(styles)
-export default class RoomIconSetting extends PureComponent {
+export default class RoomIconSettings extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired,

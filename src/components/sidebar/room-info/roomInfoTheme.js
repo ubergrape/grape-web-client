@@ -3,8 +3,10 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {small, normal, bigger} from 'grape-theme/dist/fonts'
 import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
 import {borderLight, button} from 'grape-theme/dist/web-colors'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
-import {iconSize} from '../../room-icon-settings/theme'
+import {settingsButtonSize} from './constants'
+import {iconSize as roomIconSize} from '../../room-icon-settings'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
 import {spacing} from '../sidebar-panel/theme'
@@ -32,8 +34,6 @@ const divider = {
   borderBottom: `1px solid ${grayBlueLight}`
 }
 
-export const settingsButtonSize = normal.fontSize
-
 export const styles = {
   channelInfo: {
     color: grayBlueDark,
@@ -52,20 +52,20 @@ export const styles = {
   buttonInvite: {
     extend: [
       baseButton,
-      buttonIcon('invite', {color: blue, hoverColor, size: 18})
+      buttonIcon('invite', {color: blue, hoverColor, size: iconSize.s})
     ]
   },
   buttonIntegration: {
     extend: [
       baseButton,
-      buttonIcon('iconLink', {color: grayBlueDark, hoverColor, size: 18})
+      buttonIcon('iconLink', {color: grayBlueDark, hoverColor, size: iconSize.s})
     ],
     color: grayBlueDark
   },
   buttonLeave: {
     extend: [
       baseButton,
-      buttonIcon('exit', {color: grayBlueDark, hoverColor, size: 18})
+      buttonIcon('exit', {color: grayBlueDark, hoverColor, size: iconSize.s})
     ],
     color: grayBlueDark
   },
@@ -81,7 +81,7 @@ export const styles = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    minHeight: iconSize + marginBottom + paddingBottom
+    minHeight: roomIconSize + marginBottom + paddingBottom
   },
   title: {
     extend: small,

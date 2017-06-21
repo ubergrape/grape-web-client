@@ -1,6 +1,6 @@
 import {yellow} from 'grape-theme/dist/base-colors'
 import {borderDefault, chatBackground} from 'grape-theme/dist/web-colors'
-import spacers from 'grape-theme/dist/spacers'
+import {spacer} from 'grape-theme/dist/sizes'
 import scrollbarSize from 'scrollbar-size'
 import {padding as buttonPadding} from './controlsTheme'
 
@@ -9,7 +9,7 @@ const aboveHintsPadding = 3
 export const styles = {
   footer: {
     position: 'relative',
-    padding: [0, spacers.l],
+    padding: [0, spacer.l],
     borderTop: {
       width: 1,
       style: 'solid',
@@ -22,7 +22,7 @@ export const styles = {
     // On windows scrollbar is always visible.
     right: scrollbarSize,
     left: 0,
-    padding: [aboveHintsPadding, spacers.l],
+    padding: [aboveHintsPadding, spacer.l],
     display: 'flex'
   },
   typingNotificationContainer: {

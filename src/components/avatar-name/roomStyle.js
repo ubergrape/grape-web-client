@@ -1,5 +1,6 @@
 import {grayDark, white} from 'grape-theme/dist/base-colors'
 import {smaller} from 'grape-theme/dist/fonts'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import create from '../inline-icon/create'
 import style from './style'
@@ -15,7 +16,7 @@ export default {
     textAlign: 'center',
     flexShrink: 0,
     color: white,
-    lineHeight: '32px'
+    lineHeight: `${iconSize.l}px`
   },
   info: {
     extend: smaller,

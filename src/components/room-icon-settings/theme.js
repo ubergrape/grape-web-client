@@ -4,12 +4,8 @@ import {
   link as linkColor,
   borderDefault as borderColor
 } from 'grape-theme/dist/web-colors'
-
+import {iconSize} from './constants'
 import buttonReset from '../button/reset'
-
-export const iconSize = 60
-
-export const previewIconSize = 32
 
 const buttonBorderWidth = 1
 
@@ -27,8 +23,8 @@ const chooserButton = {
   display: 'block',
   overflow: 'hidden',
   boxSizing: 'border-box',
-  width: previewIconSize,
-  height: previewIconSize,
+  width: iconSize,
+  height: iconSize,
   borderRadius: '50%',
   backgroundClip: 'content-box',
   border: '1px solid transparent',
@@ -66,8 +62,8 @@ export const styles = {
   },
   iconSettingsItem: {
     display: 'inline-block',
-    width: previewIconSize,
-    height: previewIconSize,
+    width: iconSize.l,
+    height: iconSize.l,
     margin: '0 5px 5px 0',
     '&:last-child': {
       marginRight: 0
@@ -75,7 +71,7 @@ export const styles = {
   },
   chooserButton: {
     extend: chooserButton,
-    borderColor: borderColor
+    borderColor
   },
   chooserButtonActive: {
     extend: chooserButton,

@@ -17,7 +17,7 @@ import EditableText from '../../editable-text/EditableText'
 import RoomIconSettings from '../../room-icon-settings/RoomIconSettings'
 import Tooltip from '../../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
-import {settingsButtonSize} from './roomInfoTheme'
+import {settingsButtonSize} from './constants'
 
 const messages = defineMessages({
   placeholder: {

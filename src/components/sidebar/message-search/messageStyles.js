@@ -1,11 +1,11 @@
 import {gainsboroLight, grayDark} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
 const arrowWidth = 7
 const marginRight = 10
-const avatarWidth = 32
 const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
 
@@ -21,7 +21,7 @@ export default {
     display: 'flex'
   },
   header: {
-    paddingLeft: avatarWidth + marginRight + arrowWidth
+    paddingLeft: iconSize.l + marginRight + arrowWidth
   },
   leftColumn: {
     flexShrink: 0,

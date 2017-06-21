@@ -5,14 +5,13 @@ import BaseIconButton from 'material-ui/IconButton'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import {smaller} from 'grape-theme/dist/fonts'
-
-const size = 32
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 @injectSheet({
   iconButton: {
     fontSize: smaller.fontSize,
-    width: size,
-    height: size,
+    width: iconSize.l,
+    height: iconSize.l,
     '&, *': {
       isolate: false,
       cursor: 'pointer'
@@ -45,4 +44,3 @@ export default class IconButton extends PureComponent {
     )
   }
 }
-

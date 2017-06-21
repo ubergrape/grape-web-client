@@ -3,6 +3,7 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {
   grayLight, grayLighter, grayBlueLighter, orange, green, white
 } from 'grape-theme/dist/base-colors'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 import color from 'color'
 
 export const styles = {
@@ -49,8 +50,8 @@ export const styles = {
     height: '0.8em'
   },
   iconButton: {
-    width: 32,
-    height: 32,
+    width: iconSize.l,
+    height: iconSize.l,
     '&, *': {
       isolate: false,
       cursor: 'pointer'
@@ -83,8 +84,8 @@ export const styles = {
     flex: 1
   },
   headerControlClose: {
-    width: 16,
-    height: 16,
+    width: iconSize.s,
+    height: iconSize.s,
     '& $iconButtonIcon': {
       fontSize: 8
     }

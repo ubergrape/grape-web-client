@@ -7,7 +7,7 @@ import {
 } from 'react-intl'
 
 import SharedFiles from './shared-files/SharedFiles'
-import RoomInfo from './room-info/RoomInfo'
+import {RoomInfo} from './room-info'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
 import LabeledMessages from './labeled-messages/LabeledMessages'

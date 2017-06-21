@@ -6,6 +6,7 @@ import {small} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {grayLighter, gray} from 'grape-theme/dist/base-colors'
 import SvgIcon from 'grape-web/lib/svg-icons/Icon'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {defaultServiceIcon} from '../../../../../constants/images'
 
@@ -21,8 +22,8 @@ const styles = {
     }
   },
   icon: {
-    width: 16,
-    height: 16,
+    width: iconSize.s,
+    height: iconSize.s,
     color: gray
   },
   defaultIcon: {

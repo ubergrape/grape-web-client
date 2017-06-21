@@ -5,7 +5,7 @@ import {FormattedMessage} from 'react-intl'
 import Tooltip from '../../tooltip/HoverTooltip'
 import Dropdown from '../../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
-import {settingsButtonSize} from './roomInfoTheme'
+import {settingsButtonSize} from './constants'
 
 export default class AdditionalActionsDropdown extends PureComponent {
   static propTypes = {

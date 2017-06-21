@@ -1,12 +1,23 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import injectSheet from 'grape-web/lib/jss'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {defaultAvatar} from '../../constants/images'
-import {styles} from './theme'
 
-@injectSheet(styles)
+@injectSheet({
+  avatar: {
+    display: 'block',
+    position: 'relative',
+    width: iconSize.l,
+    height: iconSize.l,
+    flexShrink: 0,
+    borderRadius: '50%',
+    background: 'no-repeat center',
+    backgroundSize: '100%'
+  }
+})
 export default class Avatar extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -21,7 +32,8 @@ export default class Avatar extends PureComponent {
     src: defaultAvatar,
     className: '',
     onClick: noop,
-    style: {}
+    style: {},
+    children: undefined
   }
 
   render() {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 
-import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
+import {RoomIconSettings} from '../room-icon-settings'
 
 export default class IconSettings extends PureComponent {
   static propTypes = {
@@ -21,4 +21,3 @@ export default class IconSettings extends PureComponent {
     )
   }
 }
-

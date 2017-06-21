@@ -2,6 +2,7 @@ import {small, normal} from 'grape-theme/dist/fonts'
 import {grayLight, black} from 'grape-theme/dist/base-colors'
 import {borderDefault} from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {height as headerHeight} from '../header'
 
@@ -9,8 +10,6 @@ const header = {
   extend: ellipsis,
   lineHeight: 'initial'
 }
-
-export const logoSize = 32
 
 export const styles = {
   orgInfo: {
@@ -38,8 +37,8 @@ export const styles = {
     overflow: 'hidden',
     marginRight: 10,
     borderRadius: '50%',
-    width: logoSize,
-    height: logoSize
+    width: iconSize.l,
+    height: iconSize.l
   },
   logoImage: {
     widht: '100%',
