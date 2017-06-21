@@ -172,7 +172,7 @@ export default class InviteToOrg extends PureComponent {
                 />
               </button>
             </div>
-            {!isLoading && <Spinner overlay />}
+            {isLoading && <Spinner overlay />}
           </form>
           <InviteLink
             show={showInviteLinkFeature}
