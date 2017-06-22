@@ -22,9 +22,5 @@ export default function pipeEvents(ui) {
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
 
-  // sidebar
-  broker(ui.reduxEmitter, 'hideSidebar', ui, 'onHideSidebar')
-  broker(ui.reduxEmitter, 'showSidebar', ui, 'onShowSidebar')
   broker(ui.reduxEmitter, 'error', ui, 'gotError')
-  broker.pass(ui.reduxEmitter, 'hideSidebar', ui, 'hideSidebar')
 }

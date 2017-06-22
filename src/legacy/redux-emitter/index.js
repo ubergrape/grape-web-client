@@ -91,14 +91,6 @@ class ReduxEmitter extends Emitter {
     getBoundActions().showChannelMembersInvite()
   }
 
-  showSidebar() {
-    this.emit('showSidebar')
-  }
-
-  hideSidebar() {
-    this.emit('hideSidebar')
-  }
-
   showError(err) {
     this.emit('error', err)
   }
