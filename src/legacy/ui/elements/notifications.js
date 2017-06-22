@@ -4,7 +4,7 @@ import page from 'page'
 import {createNotification} from 'grape-web/lib/x-platform'
 
 // Legacy translation tool requires a _ variable untouched by webpack.
-const _ = require('t')
+const _ = require('t-component')
 
 import staticUrl from '../../../utils/static-url'
 import emoji from '../../../components/emoji/emoji'

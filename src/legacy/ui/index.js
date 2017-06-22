@@ -18,11 +18,8 @@ import v from 'virtualdom'
 import Notifications from './elements/notifications'
 
 
-require('startswith')
-require('endswith')
-
 // Legacy translation tool requires a _ variable untouched by webpack.
-const _ = require('t')
+const _ = require('t-component')
 
 const exports = module.exports = UI
 

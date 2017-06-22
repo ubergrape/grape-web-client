@@ -1,7 +1,6 @@
 import './stylus/app.styl'
 import 'meyer-reset/index.css'
 import 'normalize.css/normalize.css'
-import 'image-zoom/dist/imagezoom.css'
 import 'intro.js/introjs.css'
 import 'grape-js-emoji/emoji.css'
 

@@ -1,9 +1,8 @@
 import 'es6-promise'
 import 'array.from'
+import 'startswith'
 import 'custom-event-polyfill'
 import 'innersvg-polyfill'
-import 'document-register-element'
-import 'reactive-elements'
 import 'intl'
 
 import conf from './conf'
