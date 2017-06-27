@@ -1,9 +1,5 @@
-import 'es6-promise'
-import 'array.from'
-import 'startswith'
 import 'custom-event-polyfill'
 import 'innersvg-polyfill'
-import 'intl'
 
 import conf from './conf'
 import {

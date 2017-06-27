@@ -2,6 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
@@ -27,7 +28,8 @@ var plugins = [
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
-  })
+  }),
+  new BundleAnalyzerPlugin()
 ]
 
 module.exports = exports = {
