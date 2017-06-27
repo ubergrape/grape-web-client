@@ -568,3 +568,6 @@ export const linkAttachmentsSelector = createSelector(
   state => state.linkAttachments, state => state
 )
 
+export const browserNotificationSelector = createSelector(
+  state => state.browserNotification, state => state
+)

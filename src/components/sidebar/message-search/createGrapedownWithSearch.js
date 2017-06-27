@@ -3,10 +3,9 @@ import omit from 'lodash/object/omit'
 import findMatches from 'grape-web/lib/search/findMatches'
 
 import Highlight from '../../highlight/YellowHighlight'
-import render from '../../grapedown/render'
-import {renderTag} from '../../grapedown/renderers'
-import {nonStandardProps} from '../../grapedown/utils'
+import {render, renderers, nonStandardProps} from '../../grapedown'
 
+const {renderTag} = renderers
 const omitProps = [...nonStandardProps, 'href']
 
 export default function createGrapedownWithSearch(initialProps) {

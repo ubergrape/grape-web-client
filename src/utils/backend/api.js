@@ -576,3 +576,17 @@ export function setTyping({channel, typing}) {
     )
   })
 }
+
+export function setNotificationSession({orgId, clientId}) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'set_notification_session',
+      clientId,
+      args: [orgId]
+    }, (err) => {
+      if (err) return reject(err)
+      return resolve()
+    })
+  })
+}

@@ -3,27 +3,19 @@ const broker = require('broker')
 const qs = require('component-query')
 const classes = require('component-classes')
 const events = require('component-events')
-const notify = require('html5-desktop-notifications')
 const Introjs = require('intro.js').introJs
 
 import staticUrl from '../../utils/static-url'
 import timezone from './jstz'
-import focus from './focus'
 import pipeEvents from './pipeEvents'
 import page from 'page'
 import setUpRouter from '../init-router'
-import template from 'template'
-import v from 'virtualdom'
-
-import Notifications from './elements/notifications'
 
 
 // Legacy translation tool requires a _ variable untouched by webpack.
 const _ = require('t-component')
 
 const exports = module.exports = UI
-
-exports.Notifications = Notifications
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -41,37 +33,9 @@ UI.prototype.init = function UI_init() {
   // set the current language
   _[this.options.languageCode] = this.options.messages
   _.lang(this.options.languageCode || 'en')
-  template.locals._ = _
-  template.locals.staticUrl = staticUrl
-  // initialize user and org with dummy image
-  template.locals.user = {
-    avatar: staticUrl('images/orga-image-load.gif'),
-    username: 'Loading',
-    displayName: 'Loading'
-  }
-  template.locals.org = {
-    logo: staticUrl('images/orga-image-load.gif'),
-    name: 'Loading'
-  }
-
   this.reduxEmitter = reduxEmitter
 
   const self = this
-  // initialize notifications
-  this.notifications = new Notifications()
-  // only show notification info bar in supported browsers and only if the
-  // user has't accepted or declined notifications before
-  // don't show it in IE. it only supports notifications in "SiteMode" and
-  // there the permission is automatically granted, so no need to ask for it.
-  if (notify.isSupported
-    && notify.permissionLevel() === notify.PERMISSION_DEFAULT
-    && (typeof window.external === 'undefined' || typeof window.external.msIsSiteMode === 'undefined')) {
-    this.reduxEmitter.showAlert({
-      level: 'info',
-      type: alerts.NOTIFICATIONS_REMINDER
-    })
-    classes(qs('body')).add('notifications-disabled')
-  }
 
   if (!this.options.detached) {
     this.renderIntro()
@@ -79,7 +43,6 @@ UI.prototype.init = function UI_init() {
 
   // check timezone
   this.tz = timezone.determine().name()
-  this.notificationSessionSet = false
   this.firstTimeConnect = true
 }
 
@@ -155,22 +118,13 @@ UI.prototype.renderIntro = function() {
 }
 
 UI.prototype.requestPermission = function() {
-  notify.requestPermission((permission) => {
-    if (permission !== 'default') {
-      classes(qs('body')).remove('notifications-disabled')
-    }
-  })
+  notify.requestPermission()
 }
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
   this.org = org
-  template.locals.org = this.org
   this.emit('orgReady', this.org)
   setUpRouter(this)
-  this.setNotificationsSession()
-  if (this.notificationSessionSet === true) return
-  focus.on('focus', this.setNotificationsSession.bind(this))
-  this.notificationSessionSet = true
 }
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -178,7 +132,6 @@ UI.prototype.setUser = function UI_setUser(user) {
   // user and not another one
   if (this.user === undefined || user.id === this.user.id) {
     this.user = user
-    template.locals.user = user
     this.emit('setUser', user)
   }
 }
@@ -209,12 +162,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
     if (o.id === self.options.organizationId) return o
   })[0]
   this.emit('selectorganization', org)
-}
-
-UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-  if (notify.permissionLevel() === notify.PERMISSION_GRANTED) {
-    this.emit('setNotificationsSession', this.org.id)
-  }
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {

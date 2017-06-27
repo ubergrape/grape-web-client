@@ -10,7 +10,7 @@ import color from 'color'
 import noop from 'lodash/utility/noop'
 import Chip from 'material-ui/Chip'
 
-import Grapedown from '../../grapedown/Grapedown'
+import {Grapedown} from '../../grapedown'
 import Header from '../../message-parts/Header'
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 

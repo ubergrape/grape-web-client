@@ -7,7 +7,7 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import Grapedown from '../grapedown/Grapedown'
+import {Grapedown} from '../grapedown'
 import {OwnBubble as Bubble} from '../history'
 import {styles} from './markdownTipTheme'
 

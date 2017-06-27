@@ -107,10 +107,6 @@ class ReduxEmitter extends Emitter {
     getBoundActions().showToastNotification(message, options)
   }
 
-  enableNotifications() {
-    this.emit('enableNotifications')
-  }
-
   setLoadingHistory(value) {
     if (value) {
       getBoundActions().showAlert({

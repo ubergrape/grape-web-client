@@ -9,14 +9,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'selectchannel', ui, 'setRoomContext')
   broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
-  broker(ui, 'selectchannel', ui.notifications, 'setRoom')
-  broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
-  broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
   broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
-
-  // notifications
-  broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')
-  broker(ui.reduxEmitter, 'enableNotifications', ui, 'requestPermission')
 
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')

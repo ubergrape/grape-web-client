@@ -13,6 +13,7 @@ import {NewConversationProvider} from '../containers/new-conversation'
 import {InviteToOrgProvider} from '../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../containers/notification-settings'
 import {ToastNotificationProvider} from '../containers/toast-notification'
+import {BrowserNotificationProvider} from '../containers/browser-notification'
 import {UnreadChannelsProvider} from '../containers/unread-channels'
 import {AlertsProvider} from '../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../containers/markdown-tips'
@@ -48,6 +49,7 @@ const Globals = () => (
     <ToastNotificationProvider />
     <LinkAttachmentRemoveDialogProvider />
     <RoomDeleteDialogProvider />
+    <BrowserNotificationProvider />
   </section>
 )
 

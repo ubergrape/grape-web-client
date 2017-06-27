@@ -30,7 +30,6 @@ export default function subscribe(channel) {
   channel.on('data', (data) => {
     const cData = toCamel(data)
     switch (cData.event) {
-
       case 'notification.new':
         boundActions.handleNotification(cData)
         break
@@ -48,7 +47,9 @@ export default function subscribe(channel) {
         break
       case 'channel.typing':
         boundActions.handleTypingNotification(
-            selectors.setTypingSelector(getStore().getState()), cData)
+          selectors.setTypingSelector(getStore().getState()),
+          cData
+        )
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
@@ -68,29 +69,24 @@ export default function subscribe(channel) {
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
-
       case 'organization.joined':
         boundActions.handleJoinOrg(cData)
         break
       case 'organization.left':
         boundActions.handleLeftOrg(cData)
         break
-
       case 'user.status':
         boundActions.handleUserStatusChange(cData)
         break
       case 'user.updated':
         boundActions.handleUserUpdate(cData)
         break
-
       case 'membership.updated':
         boundActions.handleMembershipUpdate(cData)
         break
-
       case 'pins.changed':
         boundActions.handleFavoriteChange(cData)
         break
-
       default:
     }
   })

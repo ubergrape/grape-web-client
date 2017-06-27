@@ -1,27 +1,32 @@
 import page from 'page'
 import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
+import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import reduxEmitter from '../legacy/redux-emitter'
+import * as api from '../utils/backend/api'
+import {type as connection} from '../utils/backend/client'
+import {channelSelector, channelsSelector, userSelector, usersSelector} from '../selectors'
+import {ensureBrowserNotificationPermission} from './browserNotification'
+import {showToastNotification} from './toastNotification'
 import {
   normalizeChannelData,
   normalizeUserData,
   removeBrokenPms,
   roomNameFromUsers
 } from './utils'
-import reduxEmitter from '../legacy/redux-emitter'
-import * as api from '../utils/backend/api'
-import {type as connection} from '../utils/backend/client'
-import {channelSelector, userSelector} from '../selectors'
 
 export function error(err) {
-  console.error(err.stack) // eslint-disable-line no-console
-  reduxEmitter.showError(err)
-  // This action don't have reducer yet
-  return {
-    type: types.HANDLE_ERROR,
-    payload: error
+  return (dispatch) => {
+    dispatch({
+      type: types.HANDLE_ERROR,
+      payload: error
+    })
+    dispatch(showToastNotification(err.message))
+    // eslint-disable-next-line no-console
+    console.error(err.stack)
   }
 }
 
@@ -77,6 +82,7 @@ export function setInitialData(org) {
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
+    dispatch(ensureBrowserNotificationPermission())
     setTimeout(() => {
       dispatch(showTutorial({via: 'onboarding'}))
     }, 1000)
@@ -139,6 +145,16 @@ export function goToMessage(message) {
   }
 }
 
+export function goToChannel(slug) {
+  return (dispatch) => {
+    dispatch({
+      type: types.GO_TO_CHANNEL,
+      payload: slug
+    })
+    page(`/chat/${slug}`)
+  }
+}
+
 // TODO use goTo action creator
 export function goToPayment() {
   return (dispatch) => {
@@ -156,16 +172,6 @@ export function leaveChannel(channelId) {
   }
 }
 
-export function goToChannel(slug) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: slug
-    })
-    page(`/chat/${slug}`)
-  }
-}
-
 export function kickMemberFromChannel(params) {
   reduxEmitter.kickMemberFromChannel(params)
   return {
@@ -173,18 +179,19 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function enableNotifications() {
-  reduxEmitter.enableNotifications()
-  // This action don't have reducer yet
-  return {
-    type: types.ENABLE_NOTIFICATIONS
-  }
-}
-
 export function handleNotification(notification) {
-  return {
-    type: types.HANDLE_NOTIFICATION,
-    payload: notification
+  return (dispatch, getState) => {
+    const state = getState()
+    const channels = channelsSelector(state)
+    const users = usersSelector(state)
+    dispatch({
+      type: types.HANDLE_NOTIFICATION,
+      payload: {
+        ...notification,
+        channel: find(channels, {id: notification.channelId}),
+        inviter: find(users, {id: notification.inviterId})
+      }
+    })
   }
 }
 
