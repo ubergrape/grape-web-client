@@ -65,7 +65,7 @@ const getNewMessageOptions = (props) => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(({name}) => (name ? `${name}\n` : ''))
+    content += attachments.map(({name}) => (name ? `${author.name}: ${name}\n` : ''))
   }
 
   return {
