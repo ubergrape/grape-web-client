@@ -11,7 +11,6 @@ var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 
-
 var plugins = [
   appExtractText,
   componentsExtractText,
@@ -28,8 +27,7 @@ var plugins = [
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
-  }),
-  new BundleAnalyzerPlugin()
+  })
 ]
 
 module.exports = exports = {
@@ -103,7 +101,7 @@ module.exports = exports = {
 
 if (isDevServer) {
   exports.output.publicPath = '/static/app/'
-  // TODO: hotloading.
+  exports.plugins.push(new BundleAnalyzerPlugin())
 }
 
 if (NODE_ENV === 'production') {
