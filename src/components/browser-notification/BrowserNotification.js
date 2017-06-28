@@ -14,11 +14,6 @@ import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
 import mdNotification from '../../utils/markdown-it-plugins/notification'
 import {shouldNotify} from '../../utils/notifications'
 
-const md = new MarkdownIt({breaks: true})
-  .use(mdForcebreak)
-  .use(mdEmoji)
-  .use(mdNotification)
-
 const messages = defineMessages({
   pm: {
     id: 'privateMessageHint',
@@ -37,12 +32,72 @@ const messages = defineMessages({
   }
 })
 
+const md = new MarkdownIt({breaks: true})
+  .use(mdForcebreak)
+  .use(mdEmoji)
+  .use(mdNotification)
+
+const getInviteOptions = ({notification: {inviter, channel}, intl: {formatMessage}}) => ({
+  title: formatMessage(messages.groupInviteTitle, {
+    name: inviter.displayName,
+    group: channel.name
+  }),
+  content: formatMessage(messages.groupInviteContent, {name: inviter.displayName}),
+  icon: inviter.avatar
+})
+
+const getMessageTitle = (props) => {
+  const {
+    notification: {channel, author},
+    intl: {formatMessage}
+  } = props
+  if (channel.type === 'room') {
+    return `${author.name} (${channel.name})`
+  }
+  return `${author.name} ${formatMessage(messages.pm)}`
+}
+
+const getNewMessageOptions = (props) => {
+  const {author, attachments, content: mdContent} = props.notification
+  const title = getMessageTitle(props)
+  let content = md.render(mdContent)
+
+  if (attachments.length) {
+    if (content) content += '\n\n'
+    content += attachments.map(({name}) => (name ? `${name}\n` : ''))
+  }
+
+  return {
+    title,
+    content,
+    icon: author.iconUrl
+  }
+}
+
 const messageTypes = ['message', 'pm', 'mention', 'group_mention']
+
+const renderNotification = (props) => {
+  const {onGoToChannel, notification} = props
+  let options
+
+  if (messageTypes.indexOf(notification.dispatcher) !== -1) {
+    options = getNewMessageOptions(props)
+  } else {
+    options = getInviteOptions(props)
+  }
+
+  createNotification(options, () => {
+    onGoToChannel(notification.channel.slug)
+  })
+}
 
 @injectIntl
 export default class BrowserNotification extends PureComponent {
   static propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     intl: intlShape.isRequired,
+    onGoToChannel: PropTypes.func,
+    /* eslint-enable react/no-unused-prop-types */
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
     }),
@@ -56,8 +111,7 @@ export default class BrowserNotification extends PureComponent {
         displayName: PropTypes.string
       }),
       content: PropTypes.string
-    }),
-    onGoToChannel: PropTypes.func
+    })
   }
 
   static defaultProps = {
@@ -67,69 +121,20 @@ export default class BrowserNotification extends PureComponent {
   }
 
   componentWillUpdate(nextProps) {
-    const {notification, channel} = nextProps
-    const hasChanged = notification !== this.props.notification
+    const {channel, notification} = nextProps
 
-    if (!channel || !notification || !hasChanged) return
+    if (!channel || !notification) return
 
+    const isNew = notification !== this.props.notification
     const notify = shouldNotify({
       time: notification.time,
       sourceChannelId: notification.channel.id,
       currentChannelId: channel.id
     })
 
-    if (notify) this.renderNotification(notification)
-  }
+    if (!isNew || !notify) return
 
-  getInviteOptions({inviter, channel}) {
-    const {intl: {formatMessage}} = this.props
-    return {
-      title: formatMessage(messages.groupInviteTitle, {
-        name: inviter.displayName, group: channel.name
-      }),
-      content: formatMessage(messages.groupInviteContent, {name: inviter.displayName}),
-      icon: inviter.avatar
-    }
-  }
-
-  getNewMessageOptions(notification) {
-    const {author, attachments, content: mdContent} = notification
-    const title = this.renderTitle(notification)
-    let content = md.render(mdContent)
-
-    if (attachments.length) {
-      if (content) content += '\n\n'
-      content += attachments.map(({name}) => (name ? `${name}\n` : ''))
-    }
-
-    return {
-      title,
-      content,
-      icon: author.iconUrl
-    }
-  }
-
-  renderTitle({channel, author}) {
-    const {intl: {formatMessage}} = this.props
-    if (channel.type === 'room') {
-      return `${author.name} (${channel.name})`
-    }
-    return `${author.name} ${formatMessage(messages.pm)}`
-  }
-
-  renderNotification(notification) {
-    const {onGoToChannel} = this.props
-    let options
-
-    if (messageTypes.indexOf(notification.dispatcher) !== -1) {
-      options = this.getNewMessageOptions(notification)
-    } else {
-      options = this.getInviteOptions(notification)
-    }
-
-    createNotification(options, () => {
-      onGoToChannel(notification.channel.slug)
-    })
+    renderNotification(nextProps)
   }
 
   render() {
