@@ -13,6 +13,7 @@ import {
 import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
 import mdNotification from '../../utils/markdown-it-plugins/notification'
 import {shouldNotify} from '../../utils/notifications'
+import {dispatchers} from '../../constants/notification'
 
 const messages = defineMessages({
   pm: {
@@ -74,13 +75,11 @@ const getNewMessageOptions = (props) => {
   }
 }
 
-const messageTypes = ['message', 'pm', 'mention', 'group_mention']
-
 const renderNotification = (props) => {
   const {onGoToChannel, notification} = props
   let options
 
-  if (messageTypes.indexOf(notification.dispatcher) !== -1) {
+  if (dispatchers.invites.indexOf(notification.dispatcher) === -1) {
     options = getNewMessageOptions(props)
   } else {
     options = getInviteOptions(props)
@@ -102,7 +101,7 @@ export default class BrowserNotification extends PureComponent {
       id: PropTypes.number.isRequired
     }),
     notification: PropTypes.shape({
-      dispatcher: PropTypes.oneOf([...messageTypes, 'room_invite']).isRequired,
+      dispatcher: PropTypes.oneOf(dispatchers.all).isRequired,
       channel: PropTypes.shape({
         id: PropTypes.number
       }).isRequired,
