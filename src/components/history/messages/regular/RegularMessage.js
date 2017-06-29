@@ -5,7 +5,7 @@ import noop from 'lodash/utility/noop'
 
 import {constants} from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
-import Grapedown from '../../../grapedown/Grapedown'
+import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
 import {defaultAvatar} from '../../../../constants/images'
 

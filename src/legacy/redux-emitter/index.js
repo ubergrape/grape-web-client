@@ -91,14 +91,6 @@ class ReduxEmitter extends Emitter {
     getBoundActions().showChannelMembersInvite()
   }
 
-  showSidebar() {
-    this.emit('showSidebar')
-  }
-
-  hideSidebar() {
-    this.emit('hideSidebar')
-  }
-
   showError(err) {
     this.emit('error', err)
   }
@@ -113,10 +105,6 @@ class ReduxEmitter extends Emitter {
 
   showToastNotification(message, options) {
     getBoundActions().showToastNotification(message, options)
-  }
-
-  enableNotifications() {
-    this.emit('enableNotifications')
   }
 
   setLoadingHistory(value) {

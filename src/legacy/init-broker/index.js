@@ -12,7 +12,6 @@ export default function doBroker(ui, api) {
   broker(api, 'channelupdate', ui, 'channelUpdate')
 
   broker(ui, 'selectorganization', api, 'setOrganization')
-  broker(ui, 'setNotificationsSession', api, 'onSetNotificationsSession')
   broker(ui, 'kickMember', api, 'onKickMember')
   broker(ui, 'joinroom', api, 'joinRoom')
   broker(ui, 'leaveRoom', api, 'onLeaveRoom')
@@ -38,8 +37,6 @@ export default function doBroker(ui, api) {
   broker(ui, 'setTyping', api, 'onSetTyping')
 
   broker.pass(api, 'newMessage', ui, 'newMessage')
-  broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification')
-  broker.pass(api, 'newInviteNotification', ui, 'newInviteNotification')
   broker.pass(api, 'channelRead', ui, 'channelRead')
   broker.pass(api, 'newPMOpened', ui, 'newPMOpened')
   broker.pass(api, 'changeUser', ui, 'changeUser')

@@ -2,6 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
@@ -9,7 +10,6 @@ var componentsExtractText = new ExtractTextPlugin('components.css')
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
-
 
 var plugins = [
   appExtractText,
@@ -101,7 +101,7 @@ module.exports = exports = {
 
 if (isDevServer) {
   exports.output.publicPath = '/static/app/'
-  // TODO: hotloading.
+  exports.plugins.push(new BundleAnalyzerPlugin())
 }
 
 if (NODE_ENV === 'production') {

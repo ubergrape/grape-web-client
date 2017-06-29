@@ -3,7 +3,6 @@ import joinStrings from 'join-strings-in-array'
 import parseUrl from 'grape-web/lib/parse-url'
 import {emojiRegex, style} from '../emoji/emoji'
 
-
 export function isChatUrl(url) {
   const {host} = window.location
   const urlObj = parseUrl(url)

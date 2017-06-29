@@ -236,26 +236,6 @@ API.prototype.subscribe = function API_subscribe() {
     }
     self.emit('changeUser', user, changed)
   })
-
-  this.in.on('notification.new', (notification) => {
-    switch (notification.dispatcher) {
-      case 'message':
-      case 'pm':
-      case 'mention':
-      case 'group_mention':
-        notification.channel = models.Room.get(notification.channel_id)
-        self.emit('newMsgNotification', notification)
-        break
-      case 'room_invite': {
-        const inviter = models.User.get(notification.inviter_id)
-        const room = models.Room.get(notification.channel_id)
-        if (inviter && room) {
-          self.emit('newInviteNotification', {inviter, room})
-        }
-        break
-      }
-    }
-  })
 }
 
 const unknownUser = {
@@ -460,17 +440,6 @@ API.prototype.renameRoom = function API_renameRoom(roomId, newName) {
     args: [roomId, newName]
   }, (err) => {
     if (err) return this.emit('roomrenameerror', err)
-  })
-}
-
-API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession(orgId) {
-  rpc({
-    ns: 'notifications',
-    action: 'set_notification_session',
-    clientId: client().id,
-    args: [orgId]
-  }, (err) => {
-    if (err) return this.emit('error', err)
   })
 }
 

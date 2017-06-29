@@ -128,7 +128,7 @@ function loadNewer(params) {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages: normalizeMessages(res.reverse(), getState()),
+            messages: normalizeMessages(res, getState()),
             isScrollBack: false
           }
         })
