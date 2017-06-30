@@ -7,7 +7,9 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {FormGroup, FormControl, FormLabel} from 'material-ui/Form'
+import FormGroup from 'material-ui/Form/FormGroup'
+import FormControl from 'material-ui/Form/FormControl'
+import FormLabel from 'material-ui/Form/FormLabel'
 import Input from 'material-ui/Input'
 import List from 'material-ui/List'
 import Button from 'material-ui/Button'

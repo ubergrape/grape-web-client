@@ -11,7 +11,8 @@ import {
 import uniqueId from 'lodash/utility/uniqueId'
 import Button from 'material-ui/Button'
 import Input from 'material-ui/Input'
-import {FormControl, FormLabel} from 'material-ui/Form'
+import FormControl from 'material-ui/Form/FormControl'
+import FormLabel from 'material-ui/Form/FormLabel'
 import Dialog from '../dialog/Dialog'
 import {styles} from './roomDeleteDialogTheme'
 
