@@ -138,6 +138,7 @@
     "build": "webpack --bail",
     "build:watch": "webpack --progress --colors --watch",
     "build:i18n": "npm run clear:i18n && npm run build && npm run i18n:export",
+    "build:analize": "cross-env ANALIZE=true NODE_ENV=production npm run build:watch",
     "test": "karma start",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "lint": "eslint ./src",

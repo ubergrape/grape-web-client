@@ -10,6 +10,7 @@ var componentsExtractText = new ExtractTextPlugin('components.css')
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
+var ANALIZE = process.env.ANALIZE
 
 var plugins = [
   appExtractText,
@@ -101,7 +102,6 @@ module.exports = exports = {
 
 if (isDevServer) {
   exports.output.publicPath = '/static/app/'
-  exports.plugins.push(new BundleAnalyzerPlugin())
 }
 
 if (NODE_ENV === 'production') {
@@ -114,4 +114,8 @@ if (NODE_ENV === 'production') {
       }
     })
   )
+}
+
+if (ANALIZE) {
+  exports.plugins.push(new BundleAnalyzerPlugin())
 }
