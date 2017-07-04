@@ -75,21 +75,6 @@ export function showTutorial(options) {
   }
 }
 
-export function setInitialData(org) {
-  return (dispatch) => {
-    dispatch(setUsers([...org.users]))
-    dispatch(setChannels([...org.channels]))
-
-    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
-    dispatch(setOrg(cleanOrg))
-    dispatch(ensureBrowserNotificationPermission())
-    setTimeout(() => {
-      dispatch(showTutorial({via: 'onboarding'}))
-    }, 1000)
-    dispatch({type: types.HANDLE_INITIAL_DATA})
-  }
-}
-
 export function createChannel(channel) {
   return {
     type: types.CREATE_NEW_CHANNEL,
@@ -333,5 +318,25 @@ export function goTo(options) {
     })
     if (path) location.pathname = path
     if (url) window.open(url, target)
+  }
+}
+
+export function setInitialData(org) {
+  return (dispatch, getState) => {
+    dispatch(setUsers([...org.users]))
+    dispatch(setChannels([...org.channels]))
+
+    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
+    dispatch(setOrg(cleanOrg))
+    dispatch(ensureBrowserNotificationPermission())
+    if (conf.channelId) {
+      const channels = channelsSelector(getState())
+      const channel = find(channels, {id: conf.channelId})
+      dispatch(setChannel(channel))
+    }
+    setTimeout(() => {
+      dispatch(showTutorial({via: 'onboarding'}))
+    }, 1000)
+    dispatch({type: types.HANDLE_INITIAL_DATA})
   }
 }
