@@ -1,4 +1,6 @@
-import {constants} from '../../../conf'
+import conf from '../../../conf'
+
+const {constants} = conf
 
 export const getRoles = ({channel, user}) => {
   const isAdmin = user.role >= constants.roles.ROLE_ADMIN

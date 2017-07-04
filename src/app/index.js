@@ -6,12 +6,13 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import {organization, user, server, embed} from '../conf'
+import conf from '../conf'
 import {create as createClient} from '../utils/backend/client'
 import subscribe from './subscribe'
 import App from './App'
 import EmbeddedApp from './EmbeddedApp'
 
+const {organization, user, server, embed} = conf
 const {languageCode: locale, email, username, id: userId} = user
 
 export function init() {
@@ -35,10 +36,12 @@ export function renderSheetsInsertionPoints() {
 }
 
 function internalRender() {
-  const container = document.createElement('div')
-  container.className = 'grape-web-client'
-  document.body.appendChild(container)
-  ReactDom.render(React.createElement(embed ? EmbeddedApp : App), container)
+  const container = document.querySelector(conf.container)
+  const Component = embed ? EmbeddedApp : App
+
+  if (container) {
+    ReactDom.render(React.createElement(Component), container)
+  }
 }
 
 export function render() {

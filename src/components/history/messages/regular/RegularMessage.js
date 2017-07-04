@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
-import {constants} from '../../../../conf'
+import conf from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
 import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
@@ -19,6 +19,7 @@ import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
 
+const {constants} = conf
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message

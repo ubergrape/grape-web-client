@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 
-import {constants} from '../../../../conf'
+import conf from '../../../../conf'
 import BaseMenu from '../../../message-parts/Menu'
+
+const {constants} = conf
 
 const handlerMap = {
   copyLink: 'onCopyLink',

@@ -8,8 +8,10 @@ import MenuItem from 'material-ui/Menu/MenuItem'
 import Divider from 'material-ui/Divider'
 import noop from 'lodash/utility/noop'
 
-import {constants} from '../../conf'
+import conf from '../../conf'
 import {styles} from './menuTheme'
+
+const {constants} = conf
 
 const Item = ({classes, icon, children, onClick, href, target}) => {
   const item = (

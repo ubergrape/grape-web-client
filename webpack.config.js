@@ -35,7 +35,8 @@ module.exports = exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist/app'),
-    filename: 'app.js'
+    filename: 'app.js',
+    library: 'grapeClient'
   },
   module: {
     rules: [
