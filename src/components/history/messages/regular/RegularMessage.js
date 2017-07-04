@@ -19,7 +19,6 @@ import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
 
-const {constants} = conf
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
@@ -161,7 +160,7 @@ export default class RegularMessage extends PureComponent {
 
     const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
 
-    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
     let onRemoveLinkAttachment = null
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()

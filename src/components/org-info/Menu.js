@@ -11,8 +11,6 @@ import noop from 'lodash/utility/noop'
 import conf from '../../conf'
 import {styles} from './menuTheme'
 
-const {constants} = conf
-
 const Item = ({classes, icon, children, onClick, href, target}) => {
   const item = (
     <MenuItem className={classes.item} onClick={onClick} dense>
@@ -206,7 +204,7 @@ export default class Menu extends PureComponent {
     } = this.props
 
     const canInvite = user.role >= inviterRole
-    const isOrgManager = user.role >= constants.roles.ROLE_ADMIN
+    const isOrgManager = user.role >= conf.constants.roles.ROLE_ADMIN
 
     const items = []
     let key = 0

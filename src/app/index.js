@@ -12,20 +12,17 @@ import subscribe from './subscribe'
 import App from './App'
 import EmbeddedApp from './EmbeddedApp'
 
-const {organization, user, server, embed} = conf
-const {languageCode: locale, email, username, id: userId} = user
-
 export function init() {
   addLocaleData([...en, ...de])
-  moment.locale(locale)
+  moment.locale(conf.user.languageCode)
 
-  Raven.config(server.sentryJsDsn).install()
+  Raven.config(conf.server.sentryJsDsn).install()
   Raven.setUser({
-    email,
-    id: userId,
-    username,
-    organization: organization.subdomain,
-    organizationID: organization.id
+    email: conf.user.email,
+    id: conf.user.id,
+    username: conf.user.username,
+    organization: conf.organization.subdomain,
+    organizationID: conf.organization.id
   })
   subscribe(createClient().connect())
 }
@@ -37,11 +34,8 @@ export function renderSheetsInsertionPoints() {
 
 function internalRender() {
   const container = document.querySelector(conf.container)
-  const Component = embed ? EmbeddedApp : App
-
-  if (container) {
-    ReactDom.render(React.createElement(Component), container)
-  }
+  const Component = conf.embed ? EmbeddedApp : App
+  ReactDom.render(React.createElement(Component), container)
 }
 
 export function render() {

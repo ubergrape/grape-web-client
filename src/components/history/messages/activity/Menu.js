@@ -4,8 +4,6 @@ import React, {PureComponent} from 'react'
 import conf from '../../../../conf'
 import BaseMenu from '../../../message-parts/Menu'
 
-const {constants} = conf
-
 const handlerMap = {
   copyLink: 'onCopyLink',
   quote: 'onQuote',
@@ -41,7 +39,7 @@ export default class Menu extends PureComponent {
     const items = [...baseItems]
 
     if (
-      user.role >= constants.roles.ROLE_ADMIN ||
+      user.role >= conf.constants.roles.ROLE_ADMIN ||
       channel.creator === user.id
     ) {
       items.push('remove')
