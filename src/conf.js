@@ -10,6 +10,10 @@ function Config(conf) {
  * Setup defaults.
  */
 Config.prototype.init = function () {
+  if (!this.embed && localStorage.embed) {
+    this.embed = true
+  }
+
   if (!this.forceLongpolling && localStorage.forceLongpolling) {
     this.forceLongpolling = true
   }

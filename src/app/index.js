@@ -6,10 +6,11 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import {organization, user, server} from '../conf'
+import {organization, user, server, embed} from '../conf'
 import {create as createClient} from '../utils/backend/client'
 import subscribe from './subscribe'
 import App from './App'
+import EmbeddedApp from './EmbeddedApp'
 
 const {languageCode: locale, email, username, id: userId} = user
 
@@ -37,7 +38,7 @@ function internalRender() {
   const container = document.createElement('div')
   container.className = 'grape-web-client'
   document.body.appendChild(container)
-  ReactDom.render(<App />, container)
+  ReactDom.render(React.createElement(embed ? EmbeddedApp : App), container)
 }
 
 export function render() {

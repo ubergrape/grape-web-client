@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+
 import {styles} from './theme'
+
+const Noop = () => null
 
 @injectSheet(styles)
 export default class AppLayout extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     Aside: PropTypes.func.isRequired,
     Header: PropTypes.func.isRequired,
     Alerts: PropTypes.func.isRequired,
@@ -16,9 +19,19 @@ export default class AppLayout extends PureComponent {
     Globals: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    Aside: Noop,
+    Header: Noop,
+    Alerts: Noop,
+    History: Noop,
+    Footer: Noop,
+    Sidebar: Noop,
+    Globals: Noop
+  }
+
   render() {
     const {
-      sheet: {classes},
+      classes,
       Aside,
       Header,
       Alerts,
