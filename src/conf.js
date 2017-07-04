@@ -1,5 +1,6 @@
 const merge = require('lodash/object/merge')
 
+
 class Config {
   constants = {
     roles: {
@@ -12,11 +13,9 @@ class Config {
     languageCode: 'en'
   }
   organization = {}
-  server = {
-    loginPath: '/accounts/login',
-    host: localStorage.host || window.location.host,
-    protocol: window.location.protocol
-  }
+  embed = false
+  forceLongpolling = false
+  channel = null
 
   constructor() {
     if (!this.embed && localStorage.embed) {
@@ -27,8 +26,15 @@ class Config {
       this.forceLongpolling = true
     }
 
-    const wsProtocol = this.server.protocol === 'http:' ? 'ws:' : 'wss:'
-    this.server.wsUrl = `${wsProtocol}//${this.server.host}/ws`
+    const {protocol} = window.location
+    const wsProtocol = protocol === 'http:' ? 'ws:' : 'wss:'
+    const host = localStorage.host || window.location.host
+    this.server = {
+      loginPath: '/accounts/login',
+      host,
+      protocol,
+      wsUrl: `${wsProtocol}//${host}/ws`
+    }
   }
 
   setup(options) {
