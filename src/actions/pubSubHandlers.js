@@ -12,7 +12,7 @@ import {
 } from './utils'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
-import {createChannel} from './common'
+import {createChannel, goTo} from './common'
 
 import {
   orgSelector,
@@ -156,7 +156,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) location.pathname = '/'
+    if (userId === user.id) dispatch(goTo({path: '/'}))
   }
 }
 

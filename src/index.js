@@ -16,3 +16,10 @@ module.exports = (options) => {
   initLegacy()
   renderApp()
 }
+
+// Legacy init, remove it.
+if (window.CHATGRAPE_CONFIG) {
+  const div = document.body.appendChild(document.createElement('div'))
+  div.id = 'grape-client'
+  module.exports({...window.CHATGRAPE_CONFIG, container: `#${div.id}`})
+}

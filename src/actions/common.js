@@ -30,6 +30,23 @@ export function error(err) {
   }
 }
 
+// Use it for ALL location changes outside of the /chat.
+export function goTo(options) {
+  return (dispatch) => {
+    dispatch({
+      type: types.GO_TO,
+      payload: options
+    })
+    const {path, url, target} = options
+    if (url) window.open(url, target)
+    else if (path) {
+      if (conf.embed) {
+        window.open(`${conf.server.protocol}//${conf.server.host}${path}`, '_blank')
+      } else location.pathname = path
+    }
+  }
+}
+
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
@@ -122,31 +139,32 @@ export function setSidebarIsLoading(isLoading) {
 
 export function goToMessage(message) {
   return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_MESSAGE,
-      payload: message
-    })
+    if (!conf.embed) {
+      dispatch({
+        type: types.GO_TO_MESSAGE,
+        payload: message
+      })
+    }
     page(parseUrl(message.link).pathname)
   }
 }
 
 export function goToChannel(slug) {
   return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: slug
-    })
+    if (!conf.embed) {
+      dispatch({
+        type: types.GO_TO_CHANNEL,
+        payload: slug
+      })
+    }
     page(`/chat/${slug}`)
   }
 }
 
-// TODO use goTo action creator
 export function goToPayment() {
   return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_PAYMENT
-    })
-    location.pathname = '/payment'
+    dispatch({type: types.GO_TO_PAYMENT})
+    dispatch(goTo({path: '/payment'}))
   }
 }
 
@@ -215,14 +233,13 @@ export function inviteToChannel(emailAddresses, options = {}) {
   }
 }
 
-// TODO use goTo action creator
 function handleAuthError(err) {
   return (dispatch) => {
     dispatch({
       type: types.AUTH_ERROR,
       payload: err
     })
-    location.href = conf.server.loginPath
+    dispatch(goTo({path: '/accounts/login'}))
   }
 }
 
@@ -250,13 +267,10 @@ export function handleConnectionError(err) {
   }
 }
 
-// TODO use goTo action creator
 export function goToAddIntegrations() {
   return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_ADD_INTEGRATIONS
-    })
-    location.pathname = '/integrations'
+    dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
+    dispatch(goTo({path: '/integrations'}))
   }
 }
 
@@ -306,18 +320,6 @@ export function createRoomWithUsers(room, users) {
       .catch((err) => {
         dispatch(handleRoomCreateError(err.message))
       })
-  }
-}
-
-export function goTo(options) {
-  const {path, url, target} = options
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_LOCATION,
-      payload: options
-    })
-    if (path) location.pathname = path
-    if (url) window.open(url, target)
   }
 }
 

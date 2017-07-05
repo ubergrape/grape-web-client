@@ -30,7 +30,8 @@ const actionNames = [
   'clearRoomRenameError',
   'showRoomDeleteDialog',
   'goToAddIntegrations',
-  'showNotificationSettings'
+  'showNotificationSettings',
+  'openSharedFile'
 ]
 
 const ConnectedSidebar = connect(

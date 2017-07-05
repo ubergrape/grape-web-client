@@ -46,9 +46,6 @@ API.prototype.connect = function API_connect() {
   channel.on('data', (data) => {
     this.in.emit(data.event, data)
   })
-  channel.on('unauthorized', () => {
-    location.href = conf.server.loginPath
-  })
 }
 
 API.prototype.sync = function API_sync() {

@@ -26,14 +26,11 @@ class Config {
       this.forceLongpolling = true
     }
 
-    const {protocol} = window.location
-    const wsProtocol = protocol === 'http:' ? 'ws:' : 'wss:'
     const host = localStorage.host || window.location.host
     this.server = {
-      loginPath: '/accounts/login',
       host,
-      protocol,
-      wsUrl: `${wsProtocol}//${host}/ws`
+      protocol: 'https:',
+      wsUrl: `wss://${host}/ws`
     }
   }
 
