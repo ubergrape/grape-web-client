@@ -331,6 +331,7 @@ export function setInitialData(org) {
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
     dispatch(ensureBrowserNotificationPermission())
+    // Used by embedded chat.
     if (conf.channelId) {
       const channels = channelsSelector(getState())
       const channel = find(channels, {id: conf.channelId})

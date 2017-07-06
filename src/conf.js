@@ -1,5 +1,6 @@
 const merge = require('lodash/object/merge')
 
+const host = localStorage.host || window.location.host
 
 class Config {
   constants = {
@@ -13,25 +14,13 @@ class Config {
     languageCode: 'en'
   }
   organization = {}
-  embed = false
-  forceLongpolling = false
-  channel = null
-
-  constructor() {
-    if (!this.embed && localStorage.embed) {
-      this.embed = true
-    }
-
-    if (!this.forceLongpolling && localStorage.forceLongpolling) {
-      this.forceLongpolling = true
-    }
-
-    const host = localStorage.host || window.location.host
-    this.server = {
-      host,
-      protocol: 'https:',
-      wsUrl: `wss://${host}/ws`
-    }
+  embed = Boolean(localStorage.embed)
+  channelId = localStorage.channelId ? Number(localStorage.channelId) : null
+  forceLongpolling = Boolean(localStorage.forceLongpolling)
+  server = {
+    host,
+    protocol: 'https:',
+    wsUrl: `wss://${host}/ws`
   }
 
   setup(options) {
