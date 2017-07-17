@@ -1,11 +1,10 @@
-import * as types from '../constants/actionTypes'
-import page from 'page'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import sample from 'lodash/collection/sample'
 
+import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {roomNameFromUsers} from './utils'
 import {channelSelector, orgSelector} from '../selectors'
+import {roomNameFromUsers} from './utils'
 import {goToChannel, error, invitedToChannel} from './common'
 
 
@@ -64,7 +63,7 @@ export function createRoomFromPmAndInvite(users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .catch(err => {
+      .catch((err) => {
         const {details} = err
         if (details && details.error === 'SlugAlreadyExist') {
           dispatch(goToChannel(details.slug))
@@ -72,10 +71,11 @@ export function createRoomFromPmAndInvite(users) {
       })
       .then(() => {
         if (newRoom) return api.inviteToChannel(emailAddresses, newRoom.id)
+        return null
       })
       .then(() => {
         if (newRoom) {
-          page(`/chat/${newRoom.slug}`)
+          dispatch(goToChannel(newRoom.slug))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

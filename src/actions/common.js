@@ -30,7 +30,6 @@ export function error(err) {
   }
 }
 
-// Use it for ALL location changes outside of the /chat.
 export function goTo(options) {
   return (dispatch) => {
     dispatch({
@@ -38,11 +37,16 @@ export function goTo(options) {
       payload: options
     })
     const {path, url, target} = options
+    // If it is a URL and not a path, always open in a new window.
     if (url) window.open(url, target)
     else if (path) {
       if (conf.embed) {
+        // In the embdeded chat we open all URLs in a new window.
         window.open(`${conf.server.protocol}//${conf.server.host}${path}`, '_blank')
-      } else location.pathname = path
+      // All /chat URLs are handled by the router.
+      } else if (path.substr(0, 5) === '/chat') page(path)
+      // Locations outside of SPA.
+      else location.pathname = path
     }
   }
 }
@@ -145,7 +149,7 @@ export function goToMessage(message) {
         payload: message
       })
     }
-    page(parseUrl(message.link).pathname)
+    dispatch(goTo({path: parseUrl(message.link).pathname}))
   }
 }
 
@@ -157,7 +161,7 @@ export function goToChannel(slug) {
         payload: slug
       })
     }
-    page(`/chat/${slug}`)
+    dispatch(goTo({path: `/chat/${slug}`}))
   }
 }
 
@@ -313,7 +317,7 @@ export function createRoomWithUsers(room, users) {
       .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
       .then(() => {
         if (newRoom) {
-          page(`/chat/${newRoom.slug}`)
+          dispatch(goToChannel(newRoom.slug))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

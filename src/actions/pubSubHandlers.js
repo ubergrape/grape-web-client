@@ -1,4 +1,3 @@
-import page from 'page'
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 
@@ -198,7 +197,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) page('/chat/')
+    if (!rooms.length) dispatch(goTo({path: '/chat'}))
   }
 }
 
@@ -217,7 +216,7 @@ export function handleRemoveRoom({channel: id}) {
       type: types.REMOVE_ROOM,
       payload: id
     })
-    if (id === currentId) page('/chat/')
+    if (id === currentId) dispatch(goTo({path: '/chat'}))
   }
 }
 
