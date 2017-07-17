@@ -194,11 +194,6 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound(channel) {
   })
 }
 
-UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode(room) {
-  const redirectSlug = room.type === 'pm' ? `@${room.users[0].username.toLowerCase()}` : room.slug
-  page(`/chat/${redirectSlug}`)
-}
-
 UI.prototype.onInvalidUrl = function(cause) {
   page.redirect('/chat/')
   this.reduxEmitter.showAlert({
