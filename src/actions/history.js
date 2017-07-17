@@ -189,8 +189,11 @@ export {loadLatest as loadLatestHistory}
  * May be called many of times in a row.
  */
 export function loadMoreHistory(params) {
-  return (dispatch) => {
-    dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+  return (dispatch, getState) => {
+    const {messages} = historySelector(getState())
+    if (params.startIndex < 0) dispatch(loadOlder(params))
+    else if (messages.length) dispatch(loadNewer(params))
+    else dispatch(loadLatest())
   }
 }
 
