@@ -390,18 +390,6 @@ API.prototype.openPM = function API_openPM(user, callback) {
   })
 }
 
-API.prototype.onCreateRoom = function API_onCreateRoom(room) {
-  room.organization = this.organization.id
-  rpc({
-    ns: 'rooms',
-    action: 'create',
-    args: [room]
-  }, (err, room) => {
-    if (err) return this.emit('roomCreationError', err)
-    this.emit('roomCreated', this._tryAddRoom(room))
-  })
-}
-
 API.prototype.joinRoom = function API_joinRoom(room, callback) {
   if (room.joined) return
   callback || (callback = noop)

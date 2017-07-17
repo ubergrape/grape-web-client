@@ -164,14 +164,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
   this.emit('selectorganization', org)
 }
 
-UI.prototype.roomCreated = function UI_roomCreated(room) {
-  const self = this
-  self.emit('joinroom', room, () => {
-    page(`/chat/${room.slug}`)
-    self.emit('endRoomCreation')
-  })
-}
-
 UI.prototype.gotError = function UI_gotError(err) {
   this.reduxEmitter.showToastNotification(err.message)
 }
