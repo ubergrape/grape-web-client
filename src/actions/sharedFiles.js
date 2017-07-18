@@ -2,13 +2,13 @@ import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {setSidebarIsLoading, error, goTo} from './common'
 import {
   sharedFilesSelector,
   orgSelector,
   channelSelector,
   usersSelector
 } from '../selectors'
+import {setSidebarIsLoading, error, goTo} from './'
 
 /**
  * Format data for shared files.

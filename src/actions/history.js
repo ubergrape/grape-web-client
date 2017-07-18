@@ -6,10 +6,13 @@ import * as api from '../utils/backend/api'
 import {
   userSelector, channelSelector, historySelector, orgSelector
 } from '../selectors'
-import {error} from './common'
-import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 import {normalizeMessage, filterEmptyMessage, loadLabelsConfigCached} from './utils'
+import {
+  error,
+  showAlert,
+  hideAlertByType
+} from './'
 
 function normalizeMessages(messages, state) {
   return messages

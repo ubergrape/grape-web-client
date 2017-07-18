@@ -3,11 +3,11 @@ import random from 'lodash/number/random'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector, toastNotificationSelector} from '../selectors'
-import {createMessage} from './history'
 import {
   showToastNotification,
-  updateToastNotification
-} from './toastNotification'
+  updateToastNotification,
+  createMessage
+} from './'
 
 function uploadFile(file) {
   return (dispatch, getState) => {
@@ -57,7 +57,7 @@ function uploadFile(file) {
 }
 
 export function uploadFiles({files}) {
-  return dispatch => {
+  return (dispatch) => {
     files.forEach((file) => {
       dispatch(uploadFile(file))
     })
@@ -71,7 +71,8 @@ function showOrUpdateNotification(message, options) {
     const {notifications} = toastNotificationSelector(getState())
     const notification = find(notifications, {key})
     if (notification) {
-      return dispatch(updateToastNotification(key, message, options))
+      dispatch(updateToastNotification(key, message, options))
+      return
     }
     dispatch(showToastNotification(message, {
       ...options,
@@ -98,7 +99,7 @@ export function showUploadNotification({message, ...options}) {
 }
 
 export function hideUploadNotification() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(showOrUpdateNotification(null, {dismissAfter: 3000}))
     dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
   }

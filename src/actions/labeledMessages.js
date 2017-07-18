@@ -3,8 +3,8 @@ import noop from 'lodash/utility/noop'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector, labeledMessagesSelector} from '../selectors'
-import {error} from './common'
 import {normalizeMessage, loadLabelsConfigCached} from './utils'
+import {error} from './'
 
 export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
@@ -64,4 +64,3 @@ export const selectLabeledMessagesFilter = ({name}) => (
     })
   }
 )
-

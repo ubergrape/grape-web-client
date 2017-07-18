@@ -4,22 +4,26 @@ import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {
-  normalizeMessage,
-  countMentions,
-  pinToFavorite,
-  nullChannelIconToUndefined
-} from './utils'
-import {addSharedFiles, removeSharedFiles} from './sharedFiles'
-import {addMention, removeMention} from './mentions'
-import {createChannel, goTo} from './common'
-
-import {
   orgSelector,
   usersSelector,
   userSelector,
   channelSelector,
   joinedRoomsSelector
 } from '../selectors'
+import {
+  normalizeMessage,
+  countMentions,
+  pinToFavorite,
+  nullChannelIconToUndefined
+} from './utils'
+import {
+  goTo,
+  createChannel,
+  addSharedFiles,
+  removeSharedFiles,
+  addMention,
+  removeMention
+} from './'
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {

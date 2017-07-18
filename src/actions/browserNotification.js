@@ -6,8 +6,7 @@ import * as alerts from '../constants/alerts'
 import {shouldRequestPermission} from '../utils/notifications'
 import * as api from '../utils/backend/api'
 import client from '../utils/backend/client'
-import {showAlert} from './alert'
-import {error} from './common'
+import {error, showAlert} from './'
 
 export function setNotificationSession() {
   return (dispatch, getState) => {

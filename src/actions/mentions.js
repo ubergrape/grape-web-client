@@ -6,9 +6,8 @@ import {
   orgSelector,
   mentionsSelector
 } from '../selectors'
-
-import {setSidebarIsLoading, error} from './common'
 import {normalizeMessage} from './utils'
+import {setSidebarIsLoading, error} from './'
 
 export function loadMentions(params) {
   return (dispatch, getState) => {

@@ -6,17 +6,16 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../legacy/redux-emitter'
-import * as api from '../utils/backend/api'
-import {type as connection} from '../utils/backend/client'
-import {channelSelector, channelsSelector, userSelector, usersSelector} from '../selectors'
-import {ensureBrowserNotificationPermission} from './browserNotification'
-import {showToastNotification} from './toastNotification'
+import {channelsSelector, usersSelector} from '../selectors'
 import {
   normalizeChannelData,
   normalizeUserData,
-  removeBrokenPms,
-  roomNameFromUsers
+  removeBrokenPms
 } from './utils'
+import {
+  ensureBrowserNotificationPermission,
+  showToastNotification
+} from './'
 
 export function error(err) {
   return (dispatch) => {
@@ -96,16 +95,6 @@ export function showTutorial(options) {
   }
 }
 
-export function createChannel(channel) {
-  return {
-    type: types.CREATE_NEW_CHANNEL,
-    payload: {
-      ...normalizeChannelData(channel),
-      unread: channel.unread || 0
-    }
-  }
-}
-
 export function setUser(user) {
   return {
     type: types.SET_USER,
@@ -128,15 +117,6 @@ export function setSettings(settings) {
     type: types.SET_SETTINGS,
     payload: {
       settings
-    }
-  }
-}
-
-export function setSidebarIsLoading(isLoading) {
-  return {
-    type: types.SET_SIDEBAR_IS_LOADING,
-    payload: {
-      isLoading
     }
   }
 }
@@ -172,20 +152,6 @@ export function goToPayment() {
   }
 }
 
-export function leaveChannel(channelId) {
-  reduxEmitter.leaveChannel(channelId)
-  return {
-    type: types.LEAVE_CHANNEL
-  }
-}
-
-export function kickMemberFromChannel(params) {
-  reduxEmitter.kickMemberFromChannel(params)
-  return {
-    type: types.KICK_MEMBER_FROM_CHANNEL
-  }
-}
-
 export function handleNotification(notification) {
   return (dispatch, getState) => {
     const state = getState()
@@ -202,128 +168,10 @@ export function handleNotification(notification) {
   }
 }
 
-export function invitedToChannel(emailAddresses, channelId) {
-  return {
-    type: types.INVITED_TO_CHANNEL,
-    payload: {
-      emailAddresses,
-      channelId
-    }
-  }
-}
-
-// This action isn't used yet, remove this comment after first use
-/**
- * Run api request to join channel
- * response is handled at app/subscribe.js with action handleJoinedChannel
- */
-export function joinChannel(options = {}) {
-  return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-
-    return api
-      .joinChannel(id)
-      .catch(err => dispatch(error(err)))
-  }
-}
-
-export function inviteToChannel(emailAddresses, options = {}) {
-  return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-    return api
-      .inviteToChannel(emailAddresses, id)
-      .then(() => dispatch(invitedToChannel(emailAddresses, id)))
-      .catch(err => dispatch(error(err)))
-  }
-}
-
-function handleAuthError(err) {
-  return (dispatch) => {
-    dispatch({
-      type: types.AUTH_ERROR,
-      payload: err
-    })
-    dispatch(goTo({path: '/accounts/login'}))
-  }
-}
-
-export function handleConnectionError(err) {
-  return (dispatch) => {
-    dispatch({
-      type: types.CONNECTION_ERROR,
-      payload: err
-    })
-
-    if (connection === 'ws') {
-      api
-        .checkAuth()
-        .catch((authErr) => {
-          if (authErr.status === 401) {
-            dispatch(handleAuthError(authErr))
-          }
-        })
-      return
-    }
-
-    if (err.status === 401) {
-      dispatch(handleAuthError(err))
-    }
-  }
-}
-
 export function goToAddIntegrations() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
     dispatch(goTo({path: '/integrations'}))
-  }
-}
-
-export function requestRoomCreate() {
-  return {
-    type: types.REQUEST_ROOM_CREATE
-  }
-}
-
-export function handleRoomCreateError(message) {
-  return {
-    type: types.HANDLE_ROOM_CREATE_ERROR,
-    payload: message
-  }
-}
-
-export function clearRoomCreateError() {
-  return {
-    type: types.CLEAR_ROOM_CREATE_ERROR
-  }
-}
-
-export function createRoomWithUsers(room, users) {
-  return (dispatch, getState) => {
-    dispatch(requestRoomCreate())
-
-    const user = userSelector(getState())
-    const emailAddresses = users.map(({email}) => email)
-    let newRoom
-
-    return api
-      .createRoom({
-        ...room,
-        name: room.name || roomNameFromUsers([user, ...users])
-      })
-      .then((_newRoom) => {
-        newRoom = _newRoom
-        return api.joinChannel(newRoom.id)
-      })
-      .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
-      .then(() => {
-        if (newRoom) {
-          dispatch(goToChannel(newRoom.slug))
-          dispatch(invitedToChannel(emailAddresses, newRoom.id))
-        }
-      })
-      .catch((err) => {
-        dispatch(handleRoomCreateError(err.message))
-      })
   }
 }
 

@@ -5,8 +5,7 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {channelSelector, orgSelector} from '../selectors'
 import {roomNameFromUsers} from './utils'
-import {goToChannel, error, invitedToChannel} from './common'
-
+import {goToChannel, error, invitedToChannel} from './'
 
 export function showChannelMembersInvite() {
   return {
