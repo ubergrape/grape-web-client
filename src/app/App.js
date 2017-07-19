@@ -21,7 +21,8 @@ import {ManageContactsDialogProvider} from '../containers/manage-contacts'
 import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
-import {AppProvider} from '../containers/app'
+import {FileUploadProvider} from '../containers/file-upload'
+import {AppContainer} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
 
 const Aside = ({className}) => (
@@ -53,7 +54,7 @@ const Globals = () => (
 export default class App extends PureComponent {
   render() {
     return (
-      <AppProvider>
+      <AppContainer>
         <AppLayout
           Aside={Aside}
           Header={HeaderProvider}
@@ -62,8 +63,9 @@ export default class App extends PureComponent {
           Footer={FooterProvider}
           Sidebar={SidebarProvider}
           Globals={Globals}
+          FileUpload={FileUploadProvider}
         />
-      </AppProvider>
+      </AppContainer>
     )
   }
 }

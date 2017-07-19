@@ -8,6 +8,7 @@ import {MarkdownTipsDialogProvider} from '../containers/markdown-tips'
 import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
+import {FileUploadProvider} from '../containers/file-upload'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
 
@@ -29,6 +30,7 @@ export default class App extends PureComponent {
           Alerts={AlertsProvider}
           History={HistoryProvider}
           Footer={FooterProvider}
+          FileUpload={FileUploadProvider}
           Globals={Globals}
         />
       </AppProvider>

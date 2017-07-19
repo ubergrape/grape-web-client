@@ -8,7 +8,7 @@ import sizes from 'grape-theme/dist/sizes'
 import fonts from 'grape-theme/dist/fonts'
 import {gray, white} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 
 @injectSheet({
   spacer: {
@@ -45,33 +45,37 @@ import {FormattedMessage} from 'react-intl'
     color: white
   }
 })
+@injectIntl
 export default class Login extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    org: PropTypes.shape({
-      name: PropTypes.string.isRequired
-    }).isRequired,
-    channel: PropTypes.shape({
-      name: PropTypes.string.isRequired
-    }).isRequired,
-    onLogIn: PropTypes.func
+    onLogIn: PropTypes.func,
+    onCheckAuth: PropTypes.func,
+    show: PropTypes.bool
   }
 
   static defaultProps = {
-    onLogIn: noop
+    onLogIn: noop,
+    onCheckAuth: noop,
+    show: true
+  }
+
+  componentDidMount() {
+    this.props.onCheckAuth()
   }
 
   render() {
-    const {classes, org, channel, onLogIn} = this.props
+    const {classes, show, onLogIn} = this.props
+
+    if (!show) return null
 
     return (
       <div className={classes.login}>
         <Icon name="grape" className={classes.logo} />
         <FormattedMessage
           id="loginHeadline"
-          defaultMessage="Welcome to the {org} messenger!"
+          defaultMessage="Welcome to the messenger!"
           description="Embedded chat login view headline."
-          values={{org: org.name}}
         >
           {(...children) => (
             <h2 className={classes.headline}>{children}</h2>
@@ -79,9 +83,8 @@ export default class Login extends PureComponent {
         </FormattedMessage>
         <FormattedMessage
           id="loginHint"
-          defaultMessage="Please log in, to connect with the {channel} conversation."
+          defaultMessage="Please log in to join the conversation."
           description="Embedded chat login view hint."
-          values={{channel: channel.name}}
         >
           {(...children) => (
             <h2 className={classes.hint}>{children}</h2>

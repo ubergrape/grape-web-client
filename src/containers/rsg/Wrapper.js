@@ -1,8 +1,8 @@
 import React from 'react'
 
 import {renderSheetsInsertionPoints} from '../../app'
-import {AppProvider} from '../app'
+import {AppContainer} from '../app'
 
 renderSheetsInsertionPoints()
 
-export default props => <AppProvider {...props} />
+export default props => <AppContainer {...props} />

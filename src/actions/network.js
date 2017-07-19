@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
-import {goTo} from './common'
+import {goTo} from './'
 
 function handleAuthError(err) {
   return (dispatch) => {
@@ -35,4 +35,21 @@ export function handleConnectionError(err) {
       dispatch(handleAuthError(err))
     }
   }
+}
+
+export const checkAuth = () => (dispatch) => {
+  api
+    .checkAuth()
+    .then(() => {
+      dispatch({
+        type: types.HANDLE_AUTH_STATUS,
+        payload: 'ok'
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: types.HANDLE_AUTH_STATUS,
+        payload: 'nok'
+      })
+    })
 }

@@ -16,7 +16,8 @@ export default class AppLayout extends PureComponent {
     History: PropTypes.func.isRequired,
     Footer: PropTypes.func.isRequired,
     Sidebar: PropTypes.func.isRequired,
-    Globals: PropTypes.func.isRequired
+    Globals: PropTypes.func.isRequired,
+    FileUpload: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export default class AppLayout extends PureComponent {
     History: Noop,
     Footer: Noop,
     Sidebar: Noop,
-    Globals: Noop
+    Globals: Noop,
+    FileUpload: Noop
   }
 
   render() {
@@ -38,26 +40,29 @@ export default class AppLayout extends PureComponent {
       History,
       Footer,
       Sidebar,
-      Globals
+      Globals,
+      FileUpload
     } = this.props
 
     return (
       <div className={classes.app}>
-        <Aside className={classes.aside} />
-        <main className={classes.main}>
-          <Header />
-          <div className={classes.mainBody}>
-            <div className={classes.mainLeft}>
-              <Alerts />
-              <div className={classes.historyWrapper}>
-                <History />
-              </div>
-              <Footer />
-            </div>
-            <Sidebar className={classes.sidebar} />
-          </div>
-        </main>
         <Globals />
+        <FileUpload>
+          <Aside className={classes.aside} />
+          <main className={classes.main}>
+            <Header />
+            <div className={classes.mainBody}>
+              <div className={classes.mainLeft}>
+                <Alerts />
+                <div className={classes.historyWrapper}>
+                  <History />
+                </div>
+                <Footer />
+              </div>
+              <Sidebar className={classes.sidebar} />
+            </div>
+          </main>
+        </FileUpload>
       </div>
     )
   }
