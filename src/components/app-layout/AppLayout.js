@@ -45,9 +45,9 @@ export default class AppLayout extends PureComponent {
     } = this.props
 
     return (
-      <div className={classes.app}>
+      <FileUpload>
         <Globals />
-        <FileUpload>
+        <div className={classes.app}>
           <Aside className={classes.aside} />
           <main className={classes.main}>
             <Header />
@@ -62,8 +62,8 @@ export default class AppLayout extends PureComponent {
               <Sidebar className={classes.sidebar} />
             </div>
           </main>
-        </FileUpload>
-      </div>
+        </div>
+      </FileUpload>
     )
   }
 }

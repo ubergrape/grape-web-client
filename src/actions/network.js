@@ -1,6 +1,8 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
+import {disconnect} from '../app/client'
+import conf from '../conf'
 import {goTo} from './'
 
 function handleAuthError(err) {
@@ -13,30 +15,6 @@ function handleAuthError(err) {
   }
 }
 
-export function handleConnectionError(err) {
-  return (dispatch) => {
-    dispatch({
-      type: types.CONNECTION_ERROR,
-      payload: err
-    })
-
-    if (connection === 'ws') {
-      api
-        .checkAuth()
-        .catch((authErr) => {
-          if (authErr.status === 401) {
-            dispatch(handleAuthError(authErr))
-          }
-        })
-      return
-    }
-
-    if (err.status === 401) {
-      dispatch(handleAuthError(err))
-    }
-  }
-}
-
 export const checkAuth = () => (dispatch) => {
   api
     .checkAuth()
@@ -46,10 +24,30 @@ export const checkAuth = () => (dispatch) => {
         payload: 'ok'
       })
     })
-    .catch(() => {
+    .catch((err) => {
       dispatch({
         type: types.HANDLE_AUTH_STATUS,
         payload: 'nok'
       })
+      disconnect()
+      if (!conf.embed) dispatch(handleAuthError(err))
     })
+}
+
+export function handleConnectionError(err) {
+  return (dispatch) => {
+    dispatch({
+      type: types.CONNECTION_ERROR,
+      payload: err
+    })
+
+    if (connection === 'ws') {
+      dispatch(checkAuth())
+      return
+    }
+
+    if (err.status === 401) {
+      dispatch(handleAuthError(err))
+    }
+  }
 }

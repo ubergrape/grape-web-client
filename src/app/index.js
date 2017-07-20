@@ -7,8 +7,8 @@ import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
 import conf from '../conf'
-import {create as createClient} from '../utils/backend/client'
 import subscribe from './subscribe'
+import {connect} from './client'
 import App from './App'
 import EmbeddedApp from './EmbeddedApp'
 
@@ -24,7 +24,7 @@ export function init() {
     organization: conf.organization.subdomain,
     organizationID: conf.organization.id
   })
-  subscribe(createClient().connect())
+  subscribe(connect())
 }
 
 export function renderSheetsInsertionPoints() {
@@ -32,20 +32,20 @@ export function renderSheetsInsertionPoints() {
   document.head.appendChild(document.createComment('grape-jss'))
 }
 
-function internalRender() {
-  const container = document.querySelector(conf.container)
-  const Component = conf.embed ? EmbeddedApp : App
-  ReactDom.render(React.createElement(Component), container)
-}
-
 export function render() {
+  const renderApp = () => {
+    const container = document.querySelector(conf.container)
+    const Component = conf.embed ? EmbeddedApp : App
+    ReactDom.render(React.createElement(Component), container)
+  }
+
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {
     const before = performance.now()
-    internalRender()
+    renderApp()
     const diff = performance.now() - before
     // eslint-disable-next-line no-console
     console.log(`Initial render took ${diff}ms`)
   } else {
-    internalRender()
+    renderApp()
   }
 }

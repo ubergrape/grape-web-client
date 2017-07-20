@@ -22,7 +22,7 @@ const Globals = () => (
   </section>
 )
 
-export default class App extends PureComponent {
+export default class EmbeddedApp extends PureComponent {
   render() {
     return (
       <AppProvider>

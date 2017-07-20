@@ -22,7 +22,7 @@ import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
 import {FileUploadProvider} from '../containers/file-upload'
-import {AppContainer} from '../containers/app'
+import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
 
 const Aside = ({className}) => (
@@ -54,7 +54,7 @@ const Globals = () => (
 export default class App extends PureComponent {
   render() {
     return (
-      <AppContainer>
+      <AppProvider>
         <AppLayout
           Aside={Aside}
           Header={HeaderProvider}
@@ -65,7 +65,7 @@ export default class App extends PureComponent {
           Globals={Globals}
           FileUpload={FileUploadProvider}
         />
-      </AppContainer>
+      </AppProvider>
     )
   }
 }

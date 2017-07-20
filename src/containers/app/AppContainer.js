@@ -5,9 +5,9 @@ import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {IntlProvider} from '../../components/i18n'
 
 export default ({children}) => (
-  <IntlProvider>
-    <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <IntlProvider>
       {children}
-    </ThemeProvider>
-  </IntlProvider>
+    </IntlProvider>
+  </ThemeProvider>
 )

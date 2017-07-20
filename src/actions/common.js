@@ -37,8 +37,10 @@ export function goTo(options) {
     })
     const {path, url, target} = options
     // If it is a URL and not a path, always open in a new window.
-    if (url) window.open(url, target)
-    else if (path) {
+    if (url) {
+      if (target) window.open(url, target)
+      else location.href = url
+    } else if (path) {
       if (conf.embed) {
         // In the embdeded chat we open all URLs in a new window.
         window.open(`${conf.server.protocol}//${conf.server.host}${path}`, '_blank')

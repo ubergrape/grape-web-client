@@ -49,25 +49,15 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 export default class Login extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onLogIn: PropTypes.func,
-    onCheckAuth: PropTypes.func,
-    show: PropTypes.bool
+    onLogin: PropTypes.func
   }
 
   static defaultProps = {
-    onLogIn: noop,
-    onCheckAuth: noop,
-    show: true
-  }
-
-  componentDidMount() {
-    this.props.onCheckAuth()
+    onLogin: noop
   }
 
   render() {
-    const {classes, show, onLogIn} = this.props
-
-    if (!show) return null
+    const {classes, onLogin} = this.props
 
     return (
       <div className={classes.login}>
@@ -96,7 +86,7 @@ export default class Login extends PureComponent {
           description="Embedded chat login view submit button."
         >
           {(...children) => (
-            <Button raised primary className={classes.button} onClick={onLogIn}>
+            <Button raised primary className={classes.button} onClick={onLogin}>
               {children}
             </Button>
           )}

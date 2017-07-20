@@ -13,18 +13,31 @@ export default class WampClient {
     this.out = new Emitter()
     this.backoff = new Backoff(options.backoff)
     this.pingInterval = options.pingInterval || pingInterval
-    this.wamp = null
-    this.id = null
-    this.reopening = false
-    this.connected = false
     this.url = options.url
+    this.reset()
   }
 
   connect() {
     if (this.wamp) return this.out
+    log('connect')
     this.open()
-    setInterval(::this.ping, this.pingInterval)
+    this.intervalId = setInterval(::this.ping, this.pingInterval)
     return this.out
+  }
+
+  disconnect() {
+    log('disconnect')
+    this.close()
+    this.reset()
+  }
+
+  reset() {
+    this.wamp = null
+    this.socket = null
+    this.id = null
+    this.reopening = false
+    this.connected = false
+    if (this.intervalId) clearInterval(this.intervalId)
   }
 
   open() {
