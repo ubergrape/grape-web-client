@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Embedded Grape Client</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width">
+  <style>
+    html, body, #grape-client {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="grape-client"></div>
+  <script src='https://unpkg.com/grape-web-client/dist/app/app.js'></script>
+  <script>
+    grapeClient.embed({
+      container: '#grape-client',
+      channelId: 632,
+      orgId: 1,
+      host: 'staging.chatgrape.com'
+    });
+  </script>
+</body>
+</html>
