@@ -1,6 +1,4 @@
-const merge = require('lodash/object/merge')
-
-const host = localStorage.host || window.location.host
+import merge from 'lodash/object/merge'
 
 class Config {
   constants = {
@@ -14,17 +12,36 @@ class Config {
     languageCode: 'en'
   }
   organization = {}
-  embed = Boolean(localStorage.embed)
-  channelId = localStorage.channelId ? Number(localStorage.channelId) : null
-  forceLongpolling = Boolean(localStorage.forceLongpolling)
+  forceLongpolling = false
+  container = null
+  embed = null
+  channelId = null
   server = {
-    host,
+    host: null,
     protocol: 'https:',
-    wsUrl: `wss://${host}/ws`
+    wsUrl: null,
+    sentryJsDsn: null
   }
 
-  setup(options) {
-    merge(this, options)
+  constructor() {
+    this.setup({
+      server: {
+        host: localStorage.host || window.location.host
+      },
+      embed: Boolean(localStorage.embed),
+      channelId: localStorage.channelId ? Number(localStorage.channelId) : null,
+      forceLongpolling: Boolean(localStorage.forceLongpolling)
+    })
+  }
+
+  setup(conf) {
+    merge(this, {
+      ...conf,
+      server: {
+        ...conf.server,
+        wsUrl: `wss://${conf.server.host || this.server.host}/ws`
+      }
+    })
   }
 }
 
