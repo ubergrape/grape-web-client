@@ -447,9 +447,9 @@ export function inviteToOrg(orgId, settings) {
   })
 }
 
-export function loadConfig() {
+export function loadConfig(options) {
   return new Promise((resolve, reject) => {
-    const {host, protocol, authToken} = conf.server
+    const {host, protocol, authToken} = options || conf.server
     const orgSubdomain = host.split('.')[0]
     const req = request.get(`${protocol}//${host}/api/chat/config/`)
     if (authToken) req.set('Authorization', `Token ${authToken}`)

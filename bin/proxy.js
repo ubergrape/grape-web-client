@@ -24,7 +24,7 @@ const secureOptions = crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP
 const argv = parseArgs(process.argv.slice(2))
 const listenOnPort = argv.port || '3128'
 const devHost = argv.devHost || 'localhost'
-const devPort = argv.devPort || '8080'
+const devPort = argv.devPort || '8081'
 const devPath = argv.devPath || '/static/app'
 const helpRequested = argv.h || argv.help
 
@@ -106,14 +106,23 @@ function onRequest(ctx, callback) {
   // Find requests we want to rewrite.
   const host = ctx.clientToProxyRequest.headers.host
   const url = ctx.clientToProxyRequest.url
-  if (!/((staging|dev[0-9]+)\.chatgrape\.com|ug-cdn\.com)$/.test(host)) return callback()
+  let file
 
-  const match = url.match(/\/static\/app\/(.*)/)
-  if (!match) return callback()
+  if (/((staging|dev[0-9]+)\.chatgrape\.com|ug-cdn\.com)$/.test(host)) {
+    const match = url.match(/\/static\/app\/(.*)/)
+    if (match) file = match[1]
+  }
+
+  // We use unpkg cdn for the embedded chat demo for e.g.
+  if (host === 'unpkg.com' && /grape-web-client/.test(url)) {
+    const match = url.match(/\/dist\/app\/(.*)/)
+    if (match) file = match[1]
+  }
+
+  if (!file) return callback()
 
   // Rewrite request.
   const options = ctx.proxyToServerRequestOptions
-  const file = match[1]
   options.hostname = devHost
   options.headers.host = devHost
   options.port = devPort

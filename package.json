@@ -133,8 +133,8 @@
   },
   "scripts": {
     "all": "npm run test && npm run build",
-    "start:dev": "webpack-dev-server --host 0.0.0.0",
-    "start:proxy": "node ./proxy.js",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081",
+    "start:proxy": "node ./bin/proxy.js",
     "build": "webpack --bail",
     "build:watch": "webpack --progress --colors --watch",
     "build:i18n": "npm run clear:i18n && npm run build && npm run i18n:export",
