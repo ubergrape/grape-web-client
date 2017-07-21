@@ -27,6 +27,10 @@ export default function subscribe(channel) {
     })
   })
 
+  channel.on('unauthorized', (err) => {
+    boundActions.handleAuthError(err)
+  })
+
   channel.on('data', (data) => {
     const cData = toCamel(data)
     switch (cData.event) {

@@ -55,6 +55,7 @@ const Content = (props) => {
     currentChannelOnly,
     searchActivities,
     selectLabeledMessagesFilter,
+    openSharedFile,
     ...rest
   } = props
 
@@ -65,6 +66,7 @@ const Content = (props) => {
           {...rest}
           onLoad={loadSharedFiles}
           onClose={hideSidebar}
+          onOpen={openSharedFile}
         />
       )
     case 'room':
@@ -162,7 +164,8 @@ Content.propTypes = {
   toggleShowRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired,
-  selectLabeledMessagesFilter: PropTypes.func.isRequired
+  selectLabeledMessagesFilter: PropTypes.func.isRequired,
+  openSharedFile: PropTypes.func.isRequired
 }
 
 Content.defaultProps = {

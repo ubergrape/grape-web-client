@@ -2,10 +2,8 @@ import React, {PureComponent} from 'react'
 
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
-
 import {HeaderProvider} from '../containers/header'
 import {HistoryProvider} from '../containers/history'
-
 import {SidebarProvider} from '../containers/sidebar'
 import {BillingWarningProvider} from '../containers/billing-warning'
 import {ChannelMembersInviteProvider} from '../containers/channel-members-invite'
@@ -23,8 +21,8 @@ import {ManageContactsDialogProvider} from '../containers/manage-contacts'
 import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
+import {FileUploadProvider} from '../containers/file-upload'
 import {AppProvider} from '../containers/app'
-
 import {AppLayout} from '../components/app-layout'
 
 const Aside = ({className}) => (
@@ -65,6 +63,7 @@ export default class App extends PureComponent {
           Footer={FooterProvider}
           Sidebar={SidebarProvider}
           Globals={Globals}
+          FileUpload={FileUploadProvider}
         />
       </AppProvider>
     )

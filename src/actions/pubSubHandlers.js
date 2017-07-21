@@ -1,19 +1,8 @@
-import page from 'page'
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
-import {
-  normalizeMessage,
-  countMentions,
-  pinToFavorite,
-  nullChannelIconToUndefined
-} from './utils'
-import {addSharedFiles, removeSharedFiles} from './sharedFiles'
-import {addMention, removeMention} from './mentions'
-import {createChannel} from './common'
-
 import {
   orgSelector,
   usersSelector,
@@ -21,6 +10,20 @@ import {
   channelSelector,
   joinedRoomsSelector
 } from '../selectors'
+import {
+  normalizeMessage,
+  countMentions,
+  pinToFavorite,
+  nullChannelIconToUndefined
+} from './utils'
+import {
+  goTo,
+  createChannel,
+  addSharedFiles,
+  removeSharedFiles,
+  addMention,
+  removeMention
+} from './'
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
@@ -156,7 +159,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) location.pathname = '/'
+    if (userId === user.id) dispatch(goTo({path: '/'}))
   }
 }
 
@@ -198,7 +201,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) page('/chat/')
+    if (!rooms.length) dispatch(goTo({path: '/chat'}))
   }
 }
 
@@ -217,7 +220,7 @@ export function handleRemoveRoom({channel: id}) {
       type: types.REMOVE_ROOM,
       payload: id
     })
-    if (id === currentId) page('/chat/')
+    if (id === currentId) dispatch(goTo({path: '/chat'}))
   }
 }
 

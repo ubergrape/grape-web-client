@@ -7,6 +7,10 @@ import differenceBy from 'lodash.differenceby'
 import sortBy from 'lodash/collection/sortBy'
 import * as images from '../constants/images'
 
+export const appSelector = createSelector(
+  state => state.app, state => state
+)
+
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )

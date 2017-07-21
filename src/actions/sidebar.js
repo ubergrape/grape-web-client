@@ -1,5 +1,14 @@
 import * as types from '../constants/actionTypes'
 
+export function setSidebarIsLoading(isLoading) {
+  return {
+    type: types.SET_SIDEBAR_IS_LOADING,
+    payload: {
+      isLoading
+    }
+  }
+}
+
 export function hideSidebar() {
   return (dispatch) => {
     dispatch({

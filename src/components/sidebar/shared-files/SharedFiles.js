@@ -6,6 +6,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
 
@@ -33,13 +34,15 @@ export default class SharedFiles extends PureComponent {
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     onClose: PropTypes.func,
+    onOpen: PropTypes.func,
     total: PropTypes.number
   }
 
   static defaultProps = {
-    hideSidebar: null,
-    total: null,
-    onClose: null
+    hideSidebar: undefined,
+    total: undefined,
+    onClose: noop,
+    onOpen: noop
   }
 
   componentDidMount() {
@@ -65,7 +68,14 @@ export default class SharedFiles extends PureComponent {
   }
 
   renderFiles() {
-    return this.props.items.map(item => <SharedFile {...item} key={item.id} />)
+    const {items, onOpen} = this.props
+    return items.map(item => (
+      <SharedFile
+        {...item}
+        key={item.id}
+        onOpen={onOpen}
+      />
+    ))
   }
 
   renderLoadMore() {

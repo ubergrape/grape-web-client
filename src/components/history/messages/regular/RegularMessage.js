@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
-import {constants} from '../../../../conf'
+import conf from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
 import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
@@ -160,7 +160,7 @@ export default class RegularMessage extends PureComponent {
 
     const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
 
-    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
     let onRemoveLinkAttachment = null
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()

@@ -2,13 +2,13 @@ import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {setSidebarIsLoading, error} from './common'
 import {
   sharedFilesSelector,
   orgSelector,
   channelSelector,
   usersSelector
 } from '../selectors'
+import {setSidebarIsLoading, error, goTo} from './'
 
 /**
  * Format data for shared files.
@@ -102,5 +102,15 @@ export function removeSharedFiles(messageId) {
         total: sharedFiles.total - 1
       }
     })
+  }
+}
+
+export function openSharedFile(opts) {
+  return (dispatch) => {
+    dispatch({
+      type: types.OPEN_SHARED_FILE,
+      payload: opts
+    })
+    dispatch(goTo(opts))
   }
 }

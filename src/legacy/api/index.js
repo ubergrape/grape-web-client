@@ -46,9 +46,6 @@ API.prototype.connect = function API_connect() {
   channel.on('data', (data) => {
     this.in.emit(data.event, data)
   })
-  channel.on('unauthorized', () => {
-    location.href = conf.server.loginPath
-  })
 }
 
 API.prototype.sync = function API_sync() {
@@ -390,18 +387,6 @@ API.prototype.openPM = function API_openPM(user, callback) {
     user.pm = pm
     this.emit('newPMOpened', pm)
     callback()
-  })
-}
-
-API.prototype.onCreateRoom = function API_onCreateRoom(room) {
-  room.organization = this.organization.id
-  rpc({
-    ns: 'rooms',
-    action: 'create',
-    args: [room]
-  }, (err, room) => {
-    if (err) return this.emit('roomCreationError', err)
-    this.emit('roomCreated', this._tryAddRoom(room))
   })
 }
 

@@ -164,14 +164,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
   this.emit('selectorganization', org)
 }
 
-UI.prototype.roomCreated = function UI_roomCreated(room) {
-  const self = this
-  self.emit('joinroom', room, () => {
-    page(`/chat/${room.slug}`)
-    self.emit('endRoomCreation')
-  })
-}
-
 UI.prototype.gotError = function UI_gotError(err) {
   this.reduxEmitter.showToastNotification(err.message)
 }
@@ -200,11 +192,6 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound(channel) {
     type: alerts.MESSAGE_NOT_FOUND,
     closeAfter: 6000
   })
-}
-
-UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode(room) {
-  const redirectSlug = room.type === 'pm' ? `@${room.users[0].username.toLowerCase()}` : room.slug
-  page(`/chat/${redirectSlug}`)
 }
 
 UI.prototype.onInvalidUrl = function(cause) {

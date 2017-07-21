@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 
-import {constants} from '../../../../conf'
+import conf from '../../../../conf'
 import BaseMenu from '../../../message-parts/Menu'
 
 const handlerMap = {
@@ -39,7 +39,7 @@ export default class Menu extends PureComponent {
     const items = [...baseItems]
 
     if (
-      user.role >= constants.roles.ROLE_ADMIN ||
+      user.role >= conf.constants.roles.ROLE_ADMIN ||
       channel.creator === user.id
     ) {
       items.push('remove')

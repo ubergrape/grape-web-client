@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/Menu/MenuItem'
 import Divider from 'material-ui/Divider'
 import noop from 'lodash/utility/noop'
 
-import {constants} from '../../conf'
+import conf from '../../conf'
 import {styles} from './menuTheme'
 
 const Item = ({classes, icon, children, onClick, href, target}) => {
@@ -204,7 +204,7 @@ export default class Menu extends PureComponent {
     } = this.props
 
     const canInvite = user.role >= inviterRole
-    const isOrgManager = user.role >= constants.roles.ROLE_ADMIN
+    const isOrgManager = user.role >= conf.constants.roles.ROLE_ADMIN
 
     const items = []
     let key = 0

@@ -300,7 +300,9 @@ export function removeFromFavorite(channelId) {
 export function checkAuth() {
   return new Promise((resolve, reject) => {
     const {host, protocol, authToken} = conf.server
-    const req = request.get(`${protocol}//${host}/accounts/session_state/`)
+    const req = request
+      .get(`${protocol}//${host}/accounts/session_state/`)
+      .withCredentials()
     if (authToken) req.set('Authorization', `Token ${authToken}`)
     req.end((err) => {
       if (err) return reject(err)

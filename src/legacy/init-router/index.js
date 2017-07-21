@@ -4,11 +4,26 @@ import * as alerts from '../../constants/alerts'
 
 import getStore from '../../app/store'
 import {navigationSelector} from '../../selectors'
+import conf from '../../conf'
 
 export default function init(ui) {
-  const baseURL = '/chat'
-  const currUser = ui.user
   page.stop()
+
+  if (conf.embed) {
+    page('*', (ctx, next) => {
+      if (ctx.init) return
+      ctx.handled = false
+      const url = `${conf.server.protocol}//${conf.server.host}${ctx.path}`
+      // Will open a new tab if happens synchronously after click.
+      window.open(url, '_blank')
+    })
+    page({decodeURLComponents: false, click: false})
+    return
+  }
+
+  const currUser = ui.user
+  const baseURL = '/chat'
+
   page.base(baseURL)
   page('/', pickChannel)
   page('/@:creator/@:mate', goToPM)
@@ -18,9 +33,7 @@ export default function init(ui) {
   page('/:room', goToRoom)
   page('/:room/:message', goToRoom)
   page('*', notFound)
-  page({
-    decodeURLComponents: false
-  })
+  page({decodeURLComponents: false})
 
   function pickChannel() {
     const state = getStore().getState()
@@ -54,7 +67,7 @@ export default function init(ui) {
     )
   }
 
-  function goToPM(ctx) {
+  function goToPM(ctx, next) {
     const {creator, mate} = ctx.params
     const creatorSlug = `@${creator}`
     const mateSlug = `@${mate}`
@@ -79,6 +92,7 @@ export default function init(ui) {
     } else {
       notFound()
     }
+    next()
   }
 
   function findPM(username) {

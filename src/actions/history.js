@@ -6,10 +6,13 @@ import * as api from '../utils/backend/api'
 import {
   userSelector, channelSelector, historySelector, orgSelector
 } from '../selectors'
-import {error} from './common'
-import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 import {normalizeMessage, filterEmptyMessage, loadLabelsConfigCached} from './utils'
+import {
+  error,
+  showAlert,
+  hideAlertByType
+} from './'
 
 function normalizeMessages(messages, state) {
   return messages
@@ -189,8 +192,11 @@ export {loadLatest as loadLatestHistory}
  * May be called many of times in a row.
  */
 export function loadMoreHistory(params) {
-  return (dispatch) => {
-    dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+  return (dispatch, getState) => {
+    const {messages} = historySelector(getState())
+    if (params.startIndex < 0) dispatch(loadOlder(params))
+    else if (messages.length) dispatch(loadNewer(params))
+    else dispatch(loadLatest())
   }
 }
 

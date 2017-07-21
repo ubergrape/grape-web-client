@@ -1,7 +1,7 @@
 import uniq from 'lodash/array/uniq'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {error} from './common'
+import {error} from './'
 
 export function showEmojiBrowser() {
   return (dispatch) => {

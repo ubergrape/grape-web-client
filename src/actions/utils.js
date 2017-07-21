@@ -13,6 +13,7 @@ import {
   channelsSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
+import conf from '../conf'
 
 /**
  * Fix data inconsistencies at the backend.
@@ -110,10 +111,10 @@ export const loadLabelsConfigCached = (() => {
   let promise
   let prevOrgId
 
-  const normalize = configs => configs.map(conf => ({
-    name: conf.name,
-    nameLocalized: conf.localized,
-    color: conf.color
+  const normalize = configs => configs.map(config => ({
+    name: config.name,
+    nameLocalized: config.localized,
+    color: config.color
   }))
 
   return (orgId) => {
@@ -141,10 +142,10 @@ export const normalizeMessage = (() => {
         return uniqLabels
       }, [])
       .map((label) => {
-        const conf = configsMap[label.name]
+        const config = configsMap[label.name]
         return {
           id: label.id,
-          ...conf
+          ...config
         }
       })
   }
@@ -172,7 +173,7 @@ export const normalizeMessage = (() => {
   }
 
   function createLinkToMessage(channel, messageId) {
-    const {protocol, host} = location
+    const {protocol, host} = conf.server
     const {users} = channel
     let {slug} = channel
 

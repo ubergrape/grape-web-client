@@ -6,26 +6,25 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import {organization, user, server} from '../conf'
-import {create as createClient} from '../utils/backend/client'
+import conf from '../conf'
 import subscribe from './subscribe'
+import {connect} from './client'
 import App from './App'
-
-const {languageCode: locale, email, username, id: userId} = user
+import EmbeddedApp from './EmbeddedApp'
 
 export function init() {
   addLocaleData([...en, ...de])
-  moment.locale(locale)
+  moment.locale(conf.user.languageCode)
 
-  Raven.config(server.sentryJsDsn).install()
+  Raven.config(conf.server.sentryJsDsn).install()
   Raven.setUser({
-    email,
-    id: userId,
-    username,
-    organization: organization.subdomain,
-    organizationID: organization.id
+    email: conf.user.email,
+    id: conf.user.id,
+    username: conf.user.username,
+    organization: conf.organization.subdomain,
+    organizationID: conf.organization.id
   })
-  subscribe(createClient().connect())
+  subscribe(connect())
 }
 
 export function renderSheetsInsertionPoints() {
@@ -33,21 +32,20 @@ export function renderSheetsInsertionPoints() {
   document.head.appendChild(document.createComment('grape-jss'))
 }
 
-function internalRender() {
-  const container = document.createElement('div')
-  container.className = 'grape-web-client'
-  document.body.appendChild(container)
-  ReactDom.render(<App />, container)
-}
-
 export function render() {
+  const renderApp = () => {
+    const container = document.querySelector(conf.container)
+    const Component = conf.embed ? EmbeddedApp : App
+    ReactDom.render(React.createElement(Component), container)
+  }
+
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {
     const before = performance.now()
-    internalRender()
+    renderApp()
     const diff = performance.now() - before
     // eslint-disable-next-line no-console
     console.log(`Initial render took ${diff}ms`)
   } else {
-    internalRender()
+    renderApp()
   }
 }

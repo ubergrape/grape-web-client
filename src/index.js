@@ -8,29 +8,18 @@ import {
   renderSheetsInsertionPoints
 } from './app'
 import initLegacy from './legacy'
-import {loadConfig} from './utils/backend/api'
 
-const log = console.log.bind(console) // eslint-disable-line no-console
-
-function ensureConf() {
-  function init() {
-    initApp()
-    renderSheetsInsertionPoints()
-    initLegacy()
-    renderApp()
-  }
-
-  if (conf.isLoaded) {
-    init()
-    return
-  }
-
-  loadConfig()
-    .then((res) => {
-      conf.setup(res)
-      init()
-    })
-    .catch(log)
+module.exports = (options) => {
+  conf.setup(options)
+  initApp()
+  renderSheetsInsertionPoints()
+  initLegacy()
+  renderApp()
 }
 
-ensureConf()
+// Legacy init, remove it.
+if (window.CHATGRAPE_CONFIG) {
+  const div = document.body.appendChild(document.createElement('div'))
+  div.id = 'grape-client'
+  module.exports({...window.CHATGRAPE_CONFIG, container: `#${div.id}`})
+}
