@@ -11,12 +11,18 @@ import {
 import initLegacy from './legacy'
 import * as api from './utils/backend/api'
 
+const onDocReady = (callback) => {
+  if (/interactive|complete/.test(document.readyState)) callback()
+  else document.addEventListener('DOMContentLoaded', callback)
+}
+
 export const init = (config) => {
   conf.setup(config)
   initApp()
   renderSheetsInsertionPoints()
   initLegacy()
-  renderApp()
+  // Wait for container element.
+  onDocReady(renderApp)
 }
 
 export const embed = (options) => {
