@@ -10,17 +10,19 @@
       height: 100%;
     }
   </style>
-</head>
-<body>
-  <div id="grape-client"></div>
-  <script src='https://unpkg.com/grape-web-client/dist/app/app.js'></script>
   <script>
+  !function(d,s,c,n){n=d.createElement('script')
+  n.async=1,n.src=s,n.onload=c,d.head.appendChild(n)}(document,'https://unpkg.com/grape-web-client/dist/app/app.js',function(){
     grapeClient.embed({
       container: '#grape-client',
       channelId: 632,
       orgId: 1,
       host: 'staging.chatgrape.com'
-    });
+    })
+  })
   </script>
+</head>
+<body>
+  <div id="grape-client"></div>
 </body>
 </html>
