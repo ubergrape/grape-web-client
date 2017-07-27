@@ -3,24 +3,25 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
-import {orgInfoSelector as selector} from '../../selectors'
-import OrgInfo from '../../components/org-info/OrgInfo'
+import {introSelector as selector} from '../../selectors'
+import {Intro} from '../../components/intro'
 
 const actionNames = {
-  showInviteToOrg: 'onInvite',
-  showIntro: 'onshowIntro'
+  showNextIntro: 'onNext',
+  skipIntro: 'onSkip',
+  doneIntro: 'onDone'
 }
 
-const ConnectedOrgInfo = connect(
+const ConnectedIntro = connect(
   selector,
   mapActionsToProps(actionNames)
-)(OrgInfo)
+)(Intro)
 
-export default class OrgInfoProvider extends PureComponent {
+export default class IntroProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedOrgInfo />
+        <ConnectedIntro />
       </Provider>
     )
   }

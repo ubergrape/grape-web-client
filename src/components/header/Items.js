@@ -7,6 +7,7 @@ import {
 } from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
+import {Beacon} from '../intro'
 import Favorite from './Favorite'
 
 const messages = defineMessages({
@@ -204,6 +205,7 @@ export default function Items(props) {
           placeholder={formatMessage(messages.placeholder)}
           type="search"
         />
+        <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('mentions')}>

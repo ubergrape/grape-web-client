@@ -5,7 +5,7 @@ import colors from 'grape-theme/dist/base-colors'
 import {icons, colors as roomColors} from 'grape-theme/dist/room-settings'
 
 import Icon from '../room-icon/RoomIcon'
-import {defaultRoomIconSlug} from '../../constants/images'
+import {defaultIconSlug} from '../../constants/channel'
 
 function RenderColors({theme, channel, onSetRoomColor}) {
   const {classes} = theme
@@ -57,7 +57,7 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
       <ul className={classes.iconSettingsList}>
         {icons.map((slug) => {
           const {icon} = channel
-          const isCurrent = icon ? icon === slug : slug === defaultRoomIconSlug
+          const isCurrent = icon ? icon === slug : slug === defaultIconSlug
           const iconTheme = {
             color: colors[isCurrent ? 'blue' : 'gray'],
             backgroundColor: colors.white

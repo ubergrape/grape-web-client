@@ -4,7 +4,6 @@ export const SET_CHANNELS = 'SET_CHANNELS'
 export const SET_ROOMS = 'SET_ROOMS'
 export const SET_PMS = 'SET_PMS'
 export const HANDLE_INITIAL_DATA = 'HANDLE_INITIAL_DATA'
-export const SHOW_TUTORIAL = 'SHOW_TUTORIAL'
 export const TRACK_ANALYTICS = 'TRACK_ANALYTICS'
 export const GO_TO = 'GO_TO'
 export const GO_TO_MESSAGE = 'GO_TO_MESSAGE'
@@ -13,6 +12,10 @@ export const HANDLE_ERROR = 'HANDLE_ERROR'
 
 export const SET_USER = 'SET_USER'
 export const SET_CHANNEL = 'SET_CHANNEL'
+
+export const SHOW_INTRO = 'SHOW_INTRO'
+export const SHOW_NEXT_INTRO = 'SHOW_NEXT_INTRO'
+export const HIDE_INTRO = 'HIDE_INTRO'
 
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const SET_SIDEBAR_IS_LOADING = 'SET_SIDEBAR_IS_LOADING'

@@ -22,6 +22,7 @@ import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
 import {FileUploadProvider} from '../containers/file-upload'
+import {IntroProvider} from '../containers/intro'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
 
@@ -48,6 +49,7 @@ const Globals = () => (
     <LinkAttachmentRemoveDialogProvider />
     <RoomDeleteDialogProvider />
     <BrowserNotificationProvider />
+    <IntroProvider />
   </section>
 )
 

@@ -180,7 +180,7 @@ export default class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
-    onShowTutorial: PropTypes.func.isRequired,
+    onshowIntro: PropTypes.func.isRequired,
     inviterRole: PropTypes.number.isRequired,
     user: PropTypes.shape({
       role: PropTypes.number.isRequired
@@ -189,7 +189,7 @@ export default class Menu extends PureComponent {
 
   static defaultProps = {
     onInvite: noop,
-    onShowTutorial: noop,
+    onshowIntro: noop,
     inviterRole: 2,
     user: {role: 2}
   }
@@ -198,7 +198,7 @@ export default class Menu extends PureComponent {
     const {
       classes,
       onInvite,
-      onShowTutorial,
+      onshowIntro,
       user,
       inviterRole
     } = this.props
@@ -228,7 +228,7 @@ export default class Menu extends PureComponent {
     items.push(
       <AccountSettingsItem classes={classes} key={++key} />,
       <NotificationSettingsItem classes={classes} key={++key} />,
-      <TutorialItem classes={classes} onClick={onShowTutorial} key={++key} />,
+      <TutorialItem classes={classes} onClick={onshowIntro} key={++key} />,
       <SupportItem classes={classes} key={++key} />,
       <SwitchOrganizationsItem classes={classes} key={++key} />,
       <Divider key={++key} />,

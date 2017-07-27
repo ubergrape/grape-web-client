@@ -575,3 +575,7 @@ export const linkAttachmentsSelector = createSelector(
 export const browserNotificationSelector = createSelector(
   state => state.browserNotification, state => state
 )
+
+export const introSelector = createSelector(
+  state => state.intro, state => state
+)

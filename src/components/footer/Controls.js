@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import Dropzone from '@ubergrape/react-dropzone'
 
 import {maxSize as maxFileSize} from '../file-upload'
+import {Beacon} from '../intro'
 import {styles} from './controlsTheme'
 
 @injectSheet(styles)
@@ -56,6 +57,7 @@ export default class Controls extends PureComponent {
         />
         <button className={classes.emoji} onClick={this.onToggleEmojiBrowser} disabled={disabled} />
         <button className={classes.search} onClick={this.onShowSearchBrowser} disabled={disabled} />
+        <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
   }

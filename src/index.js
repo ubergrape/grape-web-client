@@ -3,13 +3,6 @@ import 'innersvg-polyfill'
 import merge from 'lodash/object/merge'
 
 import conf from './conf'
-import {
-  init as initApp,
-  render as renderApp,
-  renderSheetsInsertionPoints
-} from './app'
-import initLegacy from './legacy'
-import * as api from './utils/backend/api'
 
 const onDocReady = (callback) => {
   if (/interactive|complete/.test(document.readyState)) callback()
@@ -18,14 +11,22 @@ const onDocReady = (callback) => {
 
 export const init = (config) => {
   conf.setup(config)
-  initApp()
-  renderSheetsInsertionPoints()
+  // FIXME
+  // conf.server.staticPath is used immediately at evaluation time.
+  /* eslint-disable global-require */
+  const app = require('./app')
+  const initLegacy = require('./legacy').default
+  /* eslint-enable global-require */
+  app.init()
+  app.renderSheetsInsertionPoints()
   initLegacy()
   // Wait for container element.
-  onDocReady(renderApp)
+  onDocReady(app.render)
 }
 
 export const embed = (options) => {
+  // eslint-disable-next-line global-require
+  const api = require('./utils/backend/api')
   api
     .loadConfig({
       host: options.host,

@@ -3,6 +3,9 @@ import React from 'react'
 import {FormattedMessage} from 'react-intl'
 
 import {Contacts, Groups} from '../i18n/i18n'
+import {Beacon} from '../intro'
+
+const beaconShift = {top: 10, left: 10}
 
 export default function ManageButtons(props) {
   const {
@@ -36,6 +39,7 @@ export default function ManageButtons(props) {
           onClick={showManageContacts}
         >
           <Contacts />
+          <Beacon id="pm" placement="right" shift={beaconShift} />
         </button>
       </li>
       <li className={classes.manageItem} id="intro-step2">
@@ -44,6 +48,7 @@ export default function ManageButtons(props) {
           onClick={showManageGroups}
         >
           <Groups />
+          <Beacon id="manageGroups" placement="right" shift={beaconShift} />
         </button>
       </li>
     </ul>
