@@ -104,7 +104,16 @@ const MuiButton = {
   root: {
     textTransform: 'none',
     height: 'auto',
-    padding: [0, 14]
+    padding: [0, 14],
+    '&[href]': {
+      padding: 0,
+      backgroundColor: 'transparent',
+      color: palette.accent.A200,
+      fontSize: 'inherit'
+    },
+    '&[href]:hover': {
+      color: palette.accent.A100
+    }
   },
   raised: {
     border: {

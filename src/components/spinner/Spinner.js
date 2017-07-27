@@ -87,7 +87,7 @@ export default class Spinner extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state = {active: !Boolean(props.delay)}
+    this.state = {active: !props.delay}
   }
 
   componentDidMount() {
@@ -98,7 +98,7 @@ export default class Spinner extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({active: !Boolean(props.delay)})
+    this.setState({active: !props.delay})
   }
 
   componentWillUnmount() {
