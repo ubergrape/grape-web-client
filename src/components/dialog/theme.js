@@ -40,19 +40,16 @@ export const styles = {
     height: 50
   },
   close: {
-    border: 'none',
-    opacity: 0.5,
-    padding: 0,
-    '&:before': {
-      content: '"×"',
-      fontSize: 26,
-      fontWeight: 'bold',
-      padding: '0 20px',
-      cursor: 'pointer'
+    font: {
+      size: 26,
+      weight: 'bold'
     },
+    opacity: 0.5,
+    padding: [0, 20],
+    minWidth: 'auto',
     '&:hover': {
-      isolate: false,
-      opacity: 1
+      opacity: 1,
+      background: 'none'
     }
   },
   title: {

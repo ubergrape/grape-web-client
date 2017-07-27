@@ -5,6 +5,7 @@ import {FormattedMessage} from 'react-intl'
 import {gray} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import cn from 'classnames'
+import Button from 'material-ui/Button'
 
 @injectSheet({
   link: {
@@ -12,15 +13,15 @@ import cn from 'classnames'
     color: gray
   },
   button: {
-    cursor: 'pointer',
-    border: 0,
-    font: 'inherit',
-    color: 'inherit',
-    padding: 0,
     textDecoration: 'underline',
-    '&:hover, &:focus': {
-      isolate: false,
+    '&[href]:hover': {
+      textDecoration: 'underline',
+      color: 'inherit',
       opacity: 0.8
+    },
+    '&[href]': {
+      display: 'inline',
+      color: 'inherit'
     }
   }
 })
@@ -35,18 +36,23 @@ export default class Link extends PureComponent {
     className: null
   }
 
+  onClick = (e) => {
+    e.preventDefault()
+    this.props.onClick()
+  }
+
   render() {
-    const {classes, className, onClick} = this.props
-    const Button = (
-      <button className={classes.button} onClick={onClick} key="button">
+    const {classes, className} = this.props
+    const button = (
+      <Button onClick={this.onClick} className={classes.button} href="#" key="button">
         markdown
-      </button>
+      </Button>
     )
     return (
       <FormattedMessage
         id="markdownTipsLinkMessage"
         defaultMessage="You can also use {markdown}"
-        values={{markdown: Button}}
+        values={{markdown: button}}
       >
         {(...nodes) => (
           <span className={cn(classes.link, className)}>

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
+import Button from 'material-ui/Button'
 
 import {styles} from './theme'
 
@@ -21,7 +22,7 @@ export default class Dialog extends PureComponent {
     title: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node
-    ])
+    ]).isRequired
   }
 
   render() {
@@ -40,7 +41,7 @@ export default class Dialog extends PureComponent {
         <div className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{title}</h2>
-            <button className={classes.close} onClick={onHide} />
+            <Button className={classes.close} onClick={onHide}>×</Button>
           </header>
           <div className={classes.body}>
             {children}

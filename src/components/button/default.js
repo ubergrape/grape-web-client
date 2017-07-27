@@ -4,6 +4,7 @@ import sizes from 'grape-theme/dist/sizes'
 
 export default {
   ...fonts.normal,
+  outline: 'none',
   background: white,
   color: gray,
   border: [1, 'solid', grayBombay],
