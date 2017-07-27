@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import Position from 'react-overlays/lib/Position'
 import warning from 'warning'
 import {spacer} from 'grape-theme/dist/sizes'
@@ -20,8 +21,13 @@ const Tooltip = useTheme(BaseTooltip, {
 })
 
 export default class IntroTooltip extends PureComponent {
+  static propTypes = {
+    beacon: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    container: PropTypes.node
+  }
+
   static defaultProps = {
-    placement: 'right',
     container: document.body
   }
 
@@ -49,17 +55,16 @@ export default class IntroTooltip extends PureComponent {
 
     if (!beacon) return null
 
-    const {placement, target, ...beaconRest} = beacon
-
+    const {target, ...tooltipProps} = beacon
 
     return (
       <Position
         container={container}
-        placement={placement}
+        placement={beacon.placement}
         target={target}
         shouldUpdatePosition
       >
-        <Tooltip placement={placement} {...beaconRest}>
+        <Tooltip {...tooltipProps}>
           {children}
         </Tooltip>
       </Position>

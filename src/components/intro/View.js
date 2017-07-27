@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import noop from 'lodash/utility/noop'
+import PropTypes from 'prop-types'
 import fonts from 'grape-theme/dist/fonts'
 import injectSheet from 'grape-web/lib/jss'
 import {spacer} from 'grape-theme/dist/sizes'
@@ -116,12 +116,23 @@ const Div = ({className, children}) => <div className={className}>{children}</di
 
 @injectSheet(styles)
 export default class View extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    headline: PropTypes.node.isRequired,
+    text: PropTypes.node.isRequired,
+    beacon: PropTypes.string,
+    background: PropTypes.string,
+    container: PropTypes.node
+  }
+
   static defaultProps = {
-    onSkip: noop
+    beacon: undefined,
+    background: undefined,
+    container: undefined
   }
 
   render() {
-    const {classes, headline, text, beacon, background, container, onSkip} = this.props
+    const {classes, headline, text, beacon, background, container} = this.props
 
     const Container = beacon ? Tooltip : Div
 
@@ -130,7 +141,6 @@ export default class View extends PureComponent {
         className={classes.view}
         background={background}
         beacon={beacon}
-        onOutsideClick={onSkip}
         container={container}
       >
         <div>
