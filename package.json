@@ -6,7 +6,7 @@
     "color": "^0.10.1",
     "css-functions": "^1.0.5",
     "grape-js-emoji": "^0.0.1",
-    "grape-theme": "^3.1.0",
+    "grape-theme": "3.x",
     "jss": "^7.1.5",
     "jss-default-unit": "^6.1.1",
     "jss-expand": "^3.0.1",
