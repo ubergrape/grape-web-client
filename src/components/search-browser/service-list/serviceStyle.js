@@ -30,7 +30,8 @@ export default {
     flex: 1,
     alignSelf: 'center',
     padding: '7px 0',
-    minWidth: 1 // firefox 34+ flexbox bug workaround
+    minWidth: 1, // firefox 34+ flexbox bug workaround
+    color: 'inherit'
   },
   hint: {
     alignSelf: 'center',

@@ -17,6 +17,7 @@ export const amount = {
 }
 
 export const container = {
+  ...fonts.small,
   position: 'relative',
   display: 'inline-flex',
   justifyContent: 'center',
@@ -31,17 +32,17 @@ export const container = {
 
 export const rules = {
   container: {
-    ...container,
+    extend: container,
     '&:hover': {
       isolate: false,
       color: colors.grayDark
     }
   },
   containerSelected: {
-    ...container,
+    composes: '$container',
     color: colors.grayDark,
-    boxShadow: '0 2px 0 ' + colors.blue
+    boxShadow: `0 2px 0 ${colors.blue}`
   },
-  text: text,
-  amount: amount
+  text,
+  amount
 }

@@ -26,6 +26,7 @@ export default {
     alignSelf: 'center'
   },
   text: {
-    flex: 1
+    flex: 1,
+    color: 'inherit'
   }
 }

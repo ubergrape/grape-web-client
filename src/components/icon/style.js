@@ -1,5 +1,6 @@
 export default {
   icon: {
+    isolate: false,
     display: 'inline-block',
     width: '1.616em',
     height: '1.616em',

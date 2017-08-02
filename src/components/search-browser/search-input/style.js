@@ -12,7 +12,7 @@ const magnifierIcon = getColoredIcon({name: 'magnifier', color: grayBlueDark})
 export default {
   searchInput: {
     display: 'flex',
-    borderBottom: `1px solid ${silverDark}`,
+    borderBottom: [1, 'solid', silverDark],
     flexShrink: 0
   },
   magnifierIcon: {
@@ -35,16 +35,17 @@ export default {
   },
   container: {
     flex: 1,
-    border: '1px solid transparent'
+    border: [1, 'solid', 'transparent']
   },
   editable: {
     extend: biggest,
     paddingTop: margin,
     paddingBottom: margin,
-    height: 31 + margin * 2,
+    height: 31 + (margin * 2),
     border: '1px solid transparent',
     outline: 'none',
     '&::-ms-clear': {
+      isolate: false,
       display: 'none'
     }
   },

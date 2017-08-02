@@ -4,44 +4,23 @@ import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 
-export const container = {
-  display: 'flex',
-  position: 'relative',
-  background: colors.white,
-  color: colors.grayDark,
-  cursor: 'pointer',
-  userSelect: 'none',
-  borderBottom: '1px solid ' + colors.silverDark
-}
-
-const info = {
-  extend: [
-    fonts.smaller,
-    mixins.ellipsis
-  ],
-  marginTop: 4
-}
-
-const metaItem = {
-  ...fonts.small,
-  display: 'block',
-  marginLeft: 4,
-  padding: '2px 6px',
-  borderRadius: sizes.borderRadius.small,
-  border: `1px solid ${colors.silverDark}`,
-  backgroundColor: colors.silverLight,
-  color: colors.gainsboroDark
-}
-
 export const rules = {
-  container: container,
+  container: {
+    display: 'flex',
+    position: 'relative',
+    background: colors.white,
+    color: colors.grayDark,
+    cursor: 'pointer',
+    userSelect: 'none',
+    borderBottom: [1, 'solid', colors.silverDark]
+  },
   containerFocused: {
-    ...container,
+    composes: '$container',
     color: colors.white,
     background: webColors.buttonBgDefault
   },
   containerFocusedInactive: {
-    ...container,
+    composes: '$container',
     color: colors.grayDarker,
     background: colors.grayBlueLight
   },
@@ -49,33 +28,47 @@ export const rules = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '6px 16px',
+    padding: [6, 16],
     fontSize: '1.9em'
   },
   nameContainer: {
     flex: 1,
     alignSelf: 'center',
-    padding: '6px 0',
-    minWidth: 1 // firefox 34+ flexbox bug workaround
+    padding: [6, 0],
+    minWidth: 1, // firefox 34+ flexbox bug workaround
+    color: 'inherit'
   },
   name: {
-    ...fonts.normal,
-    ...mixins.ellipsis,
-    lineHeight: 1.2
+    extend: [fonts.normal, mixins.ellipsis],
+    lineHeight: 1.2,
+    color: 'inherit'
   },
   info: {
-    extend: [info],
+    extend: [fonts.smaller, mixins.ellipsis],
+    marginTop: 4,
     color: colors.grayLight
   },
-  infoFocused: info,
+  infoFocused: {
+    composes: '$info',
+    color: 'inherit'
+  },
   metaContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '6px 12px'
+    padding: [6, 12]
   },
-  metaItem: metaItem,
+  metaItem: {
+    extend: fonts.small,
+    display: 'block',
+    marginLeft: 4,
+    padding: [2, 6],
+    borderRadius: sizes.borderRadius.small,
+    border: [1, 'solid', colors.silverDark],
+    backgroundColor: colors.silverLight,
+    color: colors.gainsboroDark
+  },
   metaItemFocused: {
-    ...metaItem,
+    composes: '$metaItem',
     color: colors.white,
     backgroundColor: webColors.buttonBgDefault
   }
