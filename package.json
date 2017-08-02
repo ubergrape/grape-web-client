@@ -13,7 +13,6 @@
     "jss-extend": "^5.0.0",
     "jss-isolate": "^4.0.1",
     "jss-props-sort": "^5.0.0",
-    "jss-theme-reactor": "^0.11.1",
     "jss-vendor-prefixer": "^6.0.0",
     "lodash": "^3.10.0",
     "material-ui": "^1.0.0-beta.3",
