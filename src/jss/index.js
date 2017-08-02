@@ -1,4 +1,4 @@
-import injectSheet, {jss} from 'react-jss'
+import injectSheet, {jss, ThemeProvider} from 'react-jss'
 import {create} from 'jss'
 import isolate from 'jss-isolate'
 import extend from 'jss-extend'
@@ -22,20 +22,26 @@ const jssInline = create({
 
 export const inlineStyle = style => jssInline.createRule(style).toJSON()
 
-jss
-  .setup({insertionPoint: 'grape-jss'})
-  .use(isolate({
-    reset: {
-      'font-family': typographyConstants.fontFamily,
-      'box-sizing': 'border-box',
-      // Can be removed after at v3 of jss-isolate.
-      'word-break': 'normal',
-      color: palette.text.primary
-    }
-  }))
+// Used by material-ui
+jss.setup({
+  ...jss.options,
+  insertionPoint: 'grape-jss'
+})
+.use(isolate({
+  isolate: false,
+  reset: {
+    fontFamily: typographyConstants.fontFamily,
+    fontSize: typographyConstants.fontSize,
+    boxSizing: 'border-box',
+    textRendering: 'optimizeLegibility',
+    color: palette.text.primary,
+    listStyle: 'none'
+  }
+}))
 
 export const Styled = createStyled(jss)
 export const styled = Styled()
 
 export {jss}
-export default injectSheet
+export {ThemeProvider}
+export default (styles, options = {}) => injectSheet(styles, {...options, isolate: true})

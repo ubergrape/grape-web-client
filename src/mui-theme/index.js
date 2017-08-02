@@ -3,8 +3,8 @@ import createPalette from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
 import Input from 'material-ui/Input'
 import {
-  white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayMercury,
-  grayBombay
+  white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayBlueDark,
+  grayMercury, grayBombay
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
@@ -21,6 +21,7 @@ palette.error[700] = color(red).lighten(0.2).rgbaString()
 palette.accent.A200 = blue
 palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
+palette.text.secondary = grayBlueDark
 palette.text.divider = grayLighter
 palette.text.lightDivider = grayBlueLighter
 palette.grey.A100 = grayLighter
@@ -88,8 +89,7 @@ const MuiInput = {
     borderColor: palette.error[500]
   }
 }
-
-Input.defaultProps.disableUnderline = true
+Input.Naked.defaultProps.disableUnderline = true
 
 const MuiFormLabel = {
   root: {
@@ -160,6 +160,9 @@ const MuiChip = {
   root: {
     height: 'auto',
     padding: [5, 0]
+  },
+  label: {
+    isolate: false
   }
 }
 
