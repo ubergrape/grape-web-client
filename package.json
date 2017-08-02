@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.67.0",
+  "version": "0.68.0",
   "dependencies": {
     "classnames": "^2.2.5",
     "color": "^0.10.1",
