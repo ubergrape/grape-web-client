@@ -7,7 +7,7 @@
     "css-functions": "^1.0.5",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "3.x",
-    "jss": "^8.1.0",
+    "jss": "^9.0.0-pre",
     "jss-default-unit": "^7.0.0",
     "jss-expand": "^4.0.0",
     "jss-extend": "^5.0.0",

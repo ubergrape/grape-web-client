@@ -35,7 +35,7 @@ jss.setup({
     boxSizing: 'border-box',
     textRendering: 'optimizeLegibility',
     color: palette.text.primary,
-    listStyle: 'none'
+    listStyleType: 'none'
   }
 }))
 
