@@ -1,15 +1,12 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
+import SvgIcon from 'grape-web/lib/svg-icons/Icon'
 
-import {jss} from 'grape-web/lib/jss'
-import Icon from '../icon/Icon'
-import style from './style'
+import UserIcon from '../icon/Icon'
 
-let sheet
-
-function getIcon(item) {
-  if (item.currentRoom) return 'bell'
-  return item.isPrivate ? 'lock' : 'comments'
+const getSvgIconName = ({currentRoom, isPrivate}) => {
+  if (currentRoom) return 'bell'
+  return isPrivate ? 'lock' : 'comment'
 }
 
 function getRoomNote(item) {
@@ -19,7 +16,8 @@ function getRoomNote(item) {
         <FormattedMessage
           id="willNotifyRoom"
           description="*Describe willNotifyRoom*: this string is decribing action"
-          defaultMessage="— notify everyone in this room" />
+          defaultMessage="— notify everyone in this room"
+        />
       </span>
     )
   }
@@ -28,27 +26,25 @@ function getRoomNote(item) {
       <FormattedMessage
         id="wontNotifyRoom"
         description="*Describe wountNotifyRoom*: this string is decribing action"
-        defaultMessage="— does not notify room members" />
+        defaultMessage="— does not notify room members"
+      />
     </span>
 
   )
 }
 
-export function init() {
-  sheet = jss.createStyleSheet(style).attach()
-}
-
 /**
  * Change data for representation.
  */
-export function map(data) {
-  data.forEach(item => {
+export function map(originalData) {
+  const data = originalData.map((originalItem) => {
+    const item = {...originalItem}
     if (item.type === 'user') {
       const iconStyle = {
         backgroundImage: `url(${item.iconURL})`,
         borderRadius: '100%'
       }
-      item.icon = <Icon name={item.name} style={iconStyle} />
+      item.icon = <UserIcon name={item.name} style={iconStyle} />
       if (!item.inRoom) {
         item.note = (
           <span>
@@ -56,14 +52,16 @@ export function map(data) {
             {' '}
             <FormattedMessage
               id="notInRoom"
-              defaultMessage="not in room" />
+              defaultMessage="not in room"
+            />
           </span>
         )
       }
-      return
+      return item
     }
     item.note = getRoomNote(item)
-    item.icon = <Icon name={item.name} className={`fa fa-${getIcon(item)} ${sheet.classes.icon}`}/>
+    item.icon = <SvgIcon name={getSvgIconName(item)} style={{height: '1.4em'}} />
+    return item
   })
 
   data.sort((a, b) => {

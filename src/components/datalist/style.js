@@ -27,7 +27,8 @@ export default {
     lineHeight: 0,
     textAlign: 'center',
     verticalAlign: 'middle',
-    marginTop: -3
+    marginTop: -3,
+    color: colors.gainsboroDark
   },
   name: {
     lineHeight: 1,
