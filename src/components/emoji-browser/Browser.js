@@ -26,8 +26,6 @@ import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
 
-const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
-
 function init(options) {
   const {emojiSheet, customEmojis} = options
   if (emojiSheet) emoji.setSheet(emojiSheet)
@@ -53,7 +51,6 @@ class Browser extends Component {
     onAbort: PropTypes.func.isRequired,
     onSelectItem: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
-    container: PropTypes.element,
     className: PropTypes.string,
     focused: PropTypes.bool,
     images: PropTypes.object
@@ -61,7 +58,6 @@ class Browser extends Component {
 
   static defaultProps = {
     focused: false,
-    container: null,
     images: {},
     height: 400,
     maxWidth: 292,
@@ -76,7 +72,6 @@ class Browser extends Component {
 
   constructor(props) {
     super(props)
-    this.exposePublicMethods()
     this.state = this.createState(this.props, {})
   }
 
@@ -155,14 +150,6 @@ class Browser extends Component {
     })
 
     return {tabs, facet, sections}
-  }
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach((method) => {
-      container[method] = this[method]
-    })
   }
 
   cacheItemsPerRow() {

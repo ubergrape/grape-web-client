@@ -22,8 +22,6 @@ import * as emojiSuggest from '../emoji-suggest'
 import style from './style'
 import * as utils from './utils'
 
-const publicMethods = ['setTextContent', 'getTextContent']
-
 // Map indicates whether browser has its own input field or
 // its using the main one.
 const browserWithInput = {
@@ -39,7 +37,6 @@ const browserWithInput = {
 @injectSheet(style)
 export default class GrapeBrowser extends PureComponent {
   static propTypes = {
-    container: PropTypes.object,
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
     /* eslint-disable react/no-unused-prop-types */
@@ -75,7 +72,6 @@ export default class GrapeBrowser extends PureComponent {
     // We need to set it to null to enable shallowEqual comparance in
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
-    container: null,
     maxSuggestions: 12,
     externalServicesInputDelay: 150,
     browser: undefined,
@@ -108,7 +104,6 @@ export default class GrapeBrowser extends PureComponent {
   constructor(props) {
     super(props)
     this.query = new QueryModel({onChange: this.onChangeQuery})
-    this.exposePublicMethods()
 
     const emojiSheet = get(props, 'images.emojiSheet')
     if (emojiSheet) {
@@ -289,14 +284,6 @@ export default class GrapeBrowser extends PureComponent {
     this.query.reset()
     this.setState({content, caretPosition}, () => {
       if (!silent) this.onChangeInput()
-    })
-  }
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    publicMethods.forEach((method) => {
-      container[method] = this[method]
     })
   }
 
