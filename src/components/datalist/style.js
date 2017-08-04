@@ -6,8 +6,8 @@ import color from 'color'
 export default {
   datalist: {
     background: colors.white,
-    border: '1px solid ' + colors.gainsboroLight,
-    boxShadow: '0px 3px 4px 0 ' + color(colors.grayDark).alpha(0.5).rgbaString(),
+    border: `1px solid ${colors.gainsboroLight}`,
+    boxShadow: `0px 3px 4px 0 ${color(colors.grayDark).alpha(0.5).rgbaString()}`,
     overflow: 'auto'
   },
   item: {
@@ -31,7 +31,8 @@ export default {
   },
   name: {
     lineHeight: 1,
-    marginLeft: 5
+    marginLeft: 5,
+    color: 'inherit'
   },
   note: {
     ...fonts.small,
