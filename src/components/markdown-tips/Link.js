@@ -15,6 +15,7 @@ import Button from 'material-ui/Button'
   button: {
     textDecoration: 'underline',
     '&[href]:hover': {
+      isolate: false,
       textDecoration: 'underline',
       color: 'inherit',
       opacity: 0.8

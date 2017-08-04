@@ -3,6 +3,7 @@ import linkButton from '../button/link'
 
 export const styles = {
   formInput: {
+    color: 'inherit',
     display: 'flex',
     '& $submit': {
       marginLeft: 10
@@ -10,6 +11,7 @@ export const styles = {
   },
   submit: {
     extend: [linkButton, normal],
+    color: 'inherit',
     flexShrink: 0
   },
   hidden: {

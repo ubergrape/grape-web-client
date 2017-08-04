@@ -1,8 +1,9 @@
-import buttonIcon from '../button/icon'
 import {small} from 'grape-theme/dist/fonts'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+
+import buttonIcon from '../button/icon'
 
 const button = {
   extend: small,
@@ -11,7 +12,9 @@ const button = {
   display: 'block',
   width: '100%',
   paddingLeft: 35,
-  textAlign: 'left'
+  textAlign: 'left',
+  color: colors.grayBlueDark,
+  cursor: 'pointer'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
 const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
@@ -65,7 +68,6 @@ export const styles = {
     flex: 1,
     // Fixes flex box bug in Firefox.
     overflowY: 'hidden',
-    color: colors.grayBlueDark,
     background: colors.grayBlueLighter
   },
   navigation: {
@@ -120,10 +122,13 @@ export const styles = {
     ...small,
     position: 'relative',
     padding: '3px 42px 3px 15px',
-    cursor: 'pointer',
     '&:hover': {
       isolate: false,
       background: darkenBackground
+    },
+    '& *': {
+      isolate: false,
+      cursor: 'pointer'
     }
   },
   channelCurrent: {
@@ -133,6 +138,9 @@ export const styles = {
   },
   channelFocused: {
     background: darkenBackground
+  },
+  channelName: {
+    color: colors.grayBlueDark
   },
   sign: {
     extend: small,

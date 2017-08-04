@@ -21,6 +21,7 @@ import {styles as linkStyles} from '../../message-parts/linkTheme'
       background: color(grayBlueLighter).darken(0.05).hexString()
     },
     '&, & *': {
+      isolate: false,
       cursor: 'pointer'
     },
     '& a': linkStyles.link

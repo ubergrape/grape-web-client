@@ -11,22 +11,26 @@ export const styles = {
     display: 'flex',
     marginBottom: 10,
     cursor: 'pointer',
-    '&:hover button': {
-      visibility: 'visible'
+    '&:hover $buttonKick': {
+      isolate: false,
+      opacity: 1
     }
   },
   userNameContainer: {
     flex: 1,
     overflow: 'hidden'
   },
-  name: normal,
+  name: {
+    extend: normal,
+    color: grayBlueDark
+  },
   buttonKick: {
     extend: [
       buttonIcon('close', {color: grayBlueDark, hoverColor, iconOnly: true}),
       small
     ],
     flexShrink: 0,
-    visibility: 'hidden',
+    opacity: 0,
     marginLeft: 10
   }
 }

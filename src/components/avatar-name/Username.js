@@ -20,7 +20,7 @@ Status.propTypes = {
   status: PropTypes.string.isRequired
 }
 
-Status.defaultPros = {
+Status.defaultProps = {
   borderColor: white
 }
 
@@ -33,12 +33,16 @@ export default class Username extends PureComponent {
     theme: PropTypes.object.isRequired,
     showStatus: PropTypes.bool,
     status: PropTypes.string,
-    statusBorderColor: PropTypes.string
+    statusBorderColor: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
     showStatus: true,
-    theme: {classes: {}}
+    theme: {classes: {}},
+    className: undefined,
+    statusBorderColor: undefined,
+    status: 'online'
   }
 
   render() {
@@ -49,11 +53,12 @@ export default class Username extends PureComponent {
       status,
       statusBorderColor,
       sheet: {classes},
-      theme
+      theme,
+      className
     } = this.props
 
     return (
-      <span className={cn(classes.avatarName, theme.classes.avatarName)}>
+      <span className={cn(classes.avatarName, theme.classes.avatarName, className)}>
         <Avatar
           src={avatar}
           className={cn(classes.avatar, theme.classes.avatar)}

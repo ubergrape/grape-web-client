@@ -98,12 +98,7 @@ module.exports = exports = {
     // https://github.com/webpack/webpack/issues/784
     modules: [path.resolve(__dirname, 'node_modules'), 'web_modules', 'node_modules']
   },
-  devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map',
-  performance: {
-    hints: "error",
-    maxEntrypointSize: 2650 * 1024,
-    maxAssetSize: 2650 * 1024
-  }
+  devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
 
 if (isDevServer) {
@@ -120,6 +115,11 @@ if (NODE_ENV === 'production') {
       }
     })
   )
+  exports.performance = {
+    hints: "error",
+    maxEntrypointSize: 2650 * 1024,
+    maxAssetSize: 2650 * 1024
+  }
 }
 
 if (ANALIZE) {

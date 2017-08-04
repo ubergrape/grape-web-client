@@ -55,7 +55,8 @@ export const styles = {
     lineHeight: 2.5,
     whiteSpace: 'nowrap',
     padding: [0, 7],
-    width: '100%'
+    width: '100%',
+    color: 'inherit'
   },
   rightLabel: {
     textAlign: 'right'

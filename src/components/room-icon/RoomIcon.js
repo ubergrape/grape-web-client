@@ -89,6 +89,7 @@ export default injectSheet({
     }
   },
   icon: {
+    isolate: false,
     width: '100%',
     height: '100%'
   }

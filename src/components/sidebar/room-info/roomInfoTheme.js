@@ -24,7 +24,7 @@ const baseButton = {
   '&:hover': {
     isolate: false,
     color: hoverColor,
-    textDecoration: 'underline !important'
+    textDecoration: 'underline'
   }
 }
 
@@ -42,7 +42,7 @@ export const styles = {
   actions: {
     extend: divider,
     marginBottom,
-    '& :last-child': {
+    '& > :last-child': {
       marginBottom: 0
     }
   },
@@ -71,10 +71,12 @@ export const styles = {
   },
   roomName: {
     extend: bigger,
-    width: '100%'
+    width: '100%',
+    color: grayBlueDark
   },
   roomDescription: {
-    extend: [normal, divider]
+    extend: [normal, divider],
+    color: grayBlueDark
   },
   mainSettings: {
     extend: divider,

@@ -14,6 +14,7 @@ export default function create(name, options = {}) {
 
   const style = {
     '&:before': {
+      font: 'inherit',
       backgroundImage,
       backgroundPosition: '50% 50%',
       backgroundRepeat: 'no-repeat',

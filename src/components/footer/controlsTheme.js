@@ -18,14 +18,17 @@ export const styles = {
   },
   attachment: {
     extend: buttonIcon('paperclip', iconOptions),
-    padding
+    padding,
+    fontSize: 'inherit'
   },
   emoji: {
     extend: buttonIcon('smileOpen', iconOptions),
-    padding
+    padding,
+    fontSize: 'inherit'
   },
   search: {
     extend: buttonIcon('hashtag', {...iconOptions, color: blue}),
-    padding
+    padding,
+    fontSize: 'inherit'
   }
 }

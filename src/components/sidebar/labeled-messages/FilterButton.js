@@ -2,11 +2,13 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {blue, white} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 import noop from 'lodash/utility/noop'
 import Chip from 'material-ui/Chip'
 
 @injectSheet({
   chip: {
+    extend: fonts.small,
     display: 'inline-block',
     background: ({isSelected}) => (isSelected ? blue : white),
     color: ({isSelected, color}) => (isSelected ? white : color),
@@ -15,6 +17,7 @@ import Chip from 'material-ui/Chip'
       bottom: 5
     },
     '&:hover, &:focus': {
+      isolate: false,
       color: white,
       background: blue
     },

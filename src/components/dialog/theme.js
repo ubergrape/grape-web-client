@@ -49,7 +49,8 @@ export const styles = {
     minWidth: 'auto',
     '&:hover': {
       opacity: 1,
-      background: 'none'
+      background: 'none',
+      isolate: false
     }
   },
   title: {
