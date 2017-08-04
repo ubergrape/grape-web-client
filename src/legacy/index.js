@@ -1,4 +1,3 @@
-import './stylus/app.styl'
 import 'meyer-reset/index.css'
 import 'normalize.css/normalize.css'
 import 'grape-js-emoji/emoji.css'

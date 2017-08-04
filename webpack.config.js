@@ -48,12 +48,6 @@ module.exports = exports = {
         })
       },
       {
-        test: /\.styl$/,
-        loader: appExtractText.extract({
-          use: 'css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/'
-        })
-      },
-      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
