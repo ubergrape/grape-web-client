@@ -1,9 +1,31 @@
 import {screenWidth} from 'grape-theme/dist/sizes'
+import {baseUrl as fontsBaseUrl} from '../../constants/fonts'
 
 export const sidebarWidthXl = 400
 export const sidebarWidth = 340
 
+const getFontFace = ({family, style = 'normal', weight = 400, formats = ['woff2', 'woff', 'ttf']}) => ({
+  fontFamily: `"${family}"`,
+  fontStyle: style,
+  fontWeight: weight,
+  src: formats.map(format => (
+    `url(${fontsBaseUrl}/${family}-${style}.${format}) format("${format}")`
+  ))
+})
+
 export const styles = {
+  '@font-face': [
+    getFontFace({family: 'proxima-nova'}),
+    getFontFace({
+      family: 'proxima-nova',
+      style: 'bold',
+      weight: 700
+    }),
+    getFontFace({
+      family: 'proxima-nova',
+      style: 'italic'
+    })
+  ],
   app: {
     display: 'flex',
     height: '100vh'

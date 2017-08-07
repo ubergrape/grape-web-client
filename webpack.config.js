@@ -4,7 +4,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
 
 var NODE_ENV = process.env.NODE_ENV
@@ -13,11 +12,14 @@ var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
 
 var plugins = [
-  appExtractText,
   componentsExtractText,
   new CopyFilesPlugin([{
     from: './src/images',
     to: './images'
+  }]),
+  new CopyFilesPlugin([{
+    from: './src/fonts',
+    to: './fonts'
   }]),
   new CopyFilesPlugin([{
     from: './src/sounds',
@@ -53,26 +55,12 @@ module.exports = exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&minetype=application/font-woff'
-      },
-      {
-        // Font files need to be in a font dir, because we want to import
-        // svg's raw too.
-        test: /fonts\/.+\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
-      },
-      {
         test: /.svg$/,
         loader: 'raw-loader'
       },
       {
         test: /\.(png|jpg|gif)$/,
         loader: 'url-loader?limit=8192'
-      },
-      {
-        test: /\.jade$/,
-        loader: 'jade-VDOM-loader'
       },
       {
         test: /\.html$/,
