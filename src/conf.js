@@ -22,6 +22,7 @@ class Config {
     wsUrl: null,
     sentryJsDsn: null
   }
+  container: '#grape-client'
 
   constructor() {
     this.setup({
