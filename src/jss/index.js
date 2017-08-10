@@ -6,6 +6,7 @@ import defaultUnit from 'jss-default-unit'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
 import expand from 'jss-expand'
+import increaseSpecificity from 'jss-increase-specificity'
 import createStyled from 'styled-jss/createStyled'
 
 import {typographyConstants, palette} from '../mui-theme'
@@ -27,6 +28,7 @@ jss.setup({
   ...jss.options,
   insertionPoint: 'grape-jss'
 })
+.use(increaseSpecificity({repeat: 1}))
 .use(isolate({
   isolate: false,
   reset: {
@@ -34,8 +36,7 @@ jss.setup({
     fontSize: typographyConstants.fontSize,
     boxSizing: 'border-box',
     textRendering: 'optimizeLegibility',
-    color: palette.text.primary,
-    listStyleType: 'none'
+    color: palette.text.primary
   }
 }))
 
@@ -44,4 +45,4 @@ export const styled = Styled()
 
 export {jss}
 export {ThemeProvider}
-export default (styles, options = {}) => injectSheet(styles, {...options, isolate: true})
+export default (styles, options = {}) => injectSheet(styles, {isolate: true, ...options})
