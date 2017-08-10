@@ -10,7 +10,7 @@ export const horizontalMargin = 20
 
 export const styles = {
   message: {
-    margin: `0 ${horizontalMargin}px`,
+    margin: [0, horizontalMargin],
     position: 'relative',
     minWidth: 400
   },
@@ -27,24 +27,27 @@ export const styles = {
   // TODO #149 use standard typography styles
   content: {
     minHeight: '1em',
+    '& p': {
+      margin: 0
+    },
     '& a': link,
     '& a:hover': linkHover,
     '& em': {
       fontStyle: 'italic'
     },
     '& blockquote': {
-      borderLeft: `3px solid ${gainsboroLight}`,
-      margin: '4px 0',
-      padding: '0.5em 10px',
+      borderLeft: [3, 'solid', gainsboroLight],
+      margin: [4, 0],
+      padding: ['0.5em', 10],
       fontStyle: 'italic',
       color: gainsboroDark
     },
     '& code': {
       display: 'inline-block',
-      padding: '0 4px',
+      padding: [0, 4],
       wordWrap: 'normal',
       color: grayDark,
-      border: `1px solid ${gainsboroLight}`,
+      border: [1, 'solid', gainsboroLight],
       borderRadius: 4,
       background: white,
       wordBreak: 'break-all'

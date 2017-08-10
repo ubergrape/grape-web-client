@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
@@ -53,6 +54,15 @@ const Globals = () => (
   </section>
 )
 
+@injectSheet({
+  '@global': {
+    'html, body': {
+      margin: 0,
+      height: '100vh',
+      overflow: 'hidden'
+    }
+  }
+}, {increaseSpecificity: false, isolate: false})
 export default class App extends PureComponent {
   render() {
     return (

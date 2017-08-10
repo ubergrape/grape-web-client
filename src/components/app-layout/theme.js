@@ -28,7 +28,9 @@ export const styles = {
   ],
   app: {
     display: 'flex',
-    height: '100vh'
+    position: 'absolute',
+    height: '100%',
+    width: '100%'
   },
   aside: {
     display: 'flex',
@@ -49,7 +51,7 @@ export const styles = {
     flex: 1,
     // Flexbox fix, otherwise it stretches full height and you can't scroll
     // anywhere inside in Firefox at least.
-    maxHeight: '100%'
+    height: '100%'
   },
   mainLeft: {
     display: 'flex',

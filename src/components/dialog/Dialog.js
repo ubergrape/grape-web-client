@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import Normalize from 'grape-web/lib/components/normalize'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
 import Button from 'material-ui/Button'
@@ -38,7 +39,7 @@ export default class Dialog extends PureComponent {
         backdropClassName={classes.backdrop}
         onHide={onHide}
       >
-        <div className={classes.content}>
+        <Normalize className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{title}</h2>
             <Button className={classes.close} onClick={onHide}>×</Button>
@@ -46,7 +47,7 @@ export default class Dialog extends PureComponent {
           <div className={classes.body}>
             {children}
           </div>
-        </div>
+        </Normalize>
       </Modal>
     )
   }
