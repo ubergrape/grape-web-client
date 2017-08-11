@@ -2,15 +2,48 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import fonts from 'grape-theme/dist/fonts'
+import webColors from 'grape-theme/dist/web-colors'
+import {white} from 'grape-theme/dist/base-colors'
+import cn from 'classnames'
 
 import * as types from '../../constants/alerts'
-import Alert from './Alert'
+import {zIndex} from '../../utils/z-index'
+import AutoHide from './AutoHide'
 import TextAlert from './TextAlert'
 import NotificationsAlert from './NotificationsAlert'
-import ConnectionLostAlert from './ConnectionLostAlert'
-import style from './alertsStyle'
 
-@injectSheet(style)
+@injectSheet({
+  alerts: {
+    extend: fonts.small,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    zIndex: zIndex('alerts')
+  },
+  alertContainer: {
+    padding: [10, 10, 10, 20],
+    borderBottom: [1, 'solid'],
+    opacity: 1,
+    transform: 'scaleX(1) translate3d(0, 0, 0)',
+    animation: 'hifromthetopNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    color: white,
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
+  },
+  info: {
+    background: webColors.alertInfo
+  },
+  success: {
+    background: webColors.alertSuccess
+  },
+  warning: {
+    background: webColors.alertWarning
+  },
+  danger: {
+    background: webColors.alertDanger
+  }
+})
 export default class Alerts extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -25,7 +58,7 @@ export default class Alerts extends PureComponent {
     alerts: []
   }
 
-  renderAlertContent(alert) {
+  renderAlert(alert) {
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:
         return (
@@ -35,13 +68,6 @@ export default class Alerts extends PureComponent {
             hideAlert={this.props.hideAlert}
           />
         )
-      case types.CONNECTION_LOST:
-        return <ConnectionLostAlert />
-      case types.LOADING_HISTORY:
-      case types.RECONNECTED:
-      case types.URL_NOT_FOUND:
-      case types.MESSAGE_NOT_FOUND:
-      case types.MESSAGE_TO_SELF:
       default:
         return <TextAlert type={alert.type} />
     }
@@ -55,14 +81,14 @@ export default class Alerts extends PureComponent {
     return (
       <div className={classes.alerts}>
         {alerts.map(alert => (
-          <div className={`${classes.alert} ${classes[alert.level]}`} key={alert.type}>
-            <Alert
+          <div className={cn(classes.alertContainer, classes[alert.level])} key={alert.type}>
+            <AutoHide
               data={alert}
-              closeAfter={alert.closeAfter}
-              onCloseAfter={hideAlert}
+              delay={alert.closeAfter}
+              onHide={hideAlert}
             >
-              {this.renderAlertContent(alert)}
-            </Alert>
+              {this.renderAlert(alert)}
+            </AutoHide>
           </div>
         ))}
       </div>

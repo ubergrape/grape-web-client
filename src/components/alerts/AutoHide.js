@@ -2,30 +2,30 @@ import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/utility/noop'
 
-export default class Alert extends PureComponent {
+export default class AutoHide extends PureComponent {
   static propTypes = {
-    closeAfter: PropTypes.number,
-    onCloseAfter: PropTypes.func,
+    delay: PropTypes.number,
+    onHide: PropTypes.func,
     data: PropTypes.object,
     children: PropTypes.node
   }
 
   static defaultProps = {
-    closeAfter: undefined,
+    delay: undefined,
     children: undefined,
     data: undefined,
-    onCloseAfter: noop
+    onHide: noop
   }
 
   state = {timeoutId: undefined}
 
   componentWillReceiveProps(nextProps) {
-    const {closeAfter, data} = nextProps
-    if (closeAfter) {
+    const {delay, data} = nextProps
+    if (delay) {
       this.setState({
         timeoutId: setTimeout(() => {
-          this.props.onCloseAfter(data)
-        }, closeAfter)
+          this.props.onHide(data)
+        }, delay)
       })
     }
   }
