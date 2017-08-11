@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
+import Normalize from 'grape-web/lib/components/normalize'
 
 import SearchBrowser from './SearchBrowser'
 
@@ -12,9 +13,7 @@ import SearchBrowser from './SearchBrowser'
     height: '100%',
     width: '100%',
     zIndex: 1000,
-    top: 0,
-    display: 'flex',
-    flexDirection: 'column'
+    top: 0
   },
   backdrop: {
     position: 'fixed',
@@ -25,6 +24,11 @@ import SearchBrowser from './SearchBrowser'
     zIndex: 'auto',
     backgroundColor: '#000',
     opacity: 0.5
+  },
+  browserContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
   },
   browser: {
     position: 'relative',
@@ -62,11 +66,13 @@ export default class SearchBrowserModal extends PureComponent {
         backdropClassName={classes.backdrop}
         onBackdropClick={this.onAbort}
       >
-        <SearchBrowser
-          {...rest}
-          className={classes.browser}
-          onAbort={this.onAbort}
-        />
+        <Normalize className={classes.browserContainer}>
+          <SearchBrowser
+            {...rest}
+            className={classes.browser}
+            onAbort={this.onAbort}
+          />
+        </Normalize>
       </Modal>
     )
   }
