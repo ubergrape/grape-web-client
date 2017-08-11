@@ -26,6 +26,7 @@ import {FileUploadProvider} from '../containers/file-upload'
 import {IntroProvider} from '../containers/intro'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
+import {AppContainer} from '../components/app-container'
 
 const Aside = ({className}) => (
   <aside className={className}>
@@ -67,16 +68,18 @@ export default class App extends PureComponent {
   render() {
     return (
       <AppProvider>
-        <AppLayout
-          Aside={Aside}
-          Header={HeaderProvider}
-          Alerts={AlertsProvider}
-          History={HistoryProvider}
-          Footer={FooterProvider}
-          Sidebar={SidebarProvider}
-          Globals={Globals}
-          FileUpload={FileUploadProvider}
-        />
+        <AppContainer>
+          <AppLayout
+            Aside={Aside}
+            Header={HeaderProvider}
+            Alerts={AlertsProvider}
+            History={HistoryProvider}
+            Footer={FooterProvider}
+            Sidebar={SidebarProvider}
+            Globals={Globals}
+            FileUpload={FileUploadProvider}
+          />
+        </AppContainer>
       </AppProvider>
     )
   }
