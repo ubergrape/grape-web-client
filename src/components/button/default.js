@@ -10,6 +10,7 @@ export default {
   border: [1, 'solid', grayBombay],
   borderRadius: sizes.borderRadius.big,
   padding: [4, 14],
+  cursor: 'pointer',
   transition: [
     ['background 0.3s'],
     ['border-color 0.3s'],

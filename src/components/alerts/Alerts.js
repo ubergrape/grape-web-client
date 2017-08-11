@@ -1,24 +1,28 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 
+import * as types from '../../constants/alerts'
 import Alert from './Alert'
 import TextAlert from './TextAlert'
 import NotificationsAlert from './NotificationsAlert'
 import ConnectionLostAlert from './ConnectionLostAlert'
-
-import * as types from '../../constants/alerts'
-
-import injectSheet from 'grape-web/lib/jss'
 import style from './alertsStyle'
 
 @injectSheet(style)
 export default class Alerts extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     alerts: PropTypes.array,
     enableNotifications: PropTypes.func,
-    hideAlert: PropTypes.func,
-    clearAlertDelay: PropTypes.func
+    hideAlert: PropTypes.func
+  }
+
+  static defaultProps = {
+    hideAlert: noop,
+    enableNotifications: noop,
+    alerts: []
   }
 
   renderAlertContent(alert) {
@@ -44,27 +48,24 @@ export default class Alerts extends PureComponent {
   }
 
   render() {
-    const {alerts, hideAlert, sheet: {classes}} = this.props
+    const {alerts, hideAlert, classes} = this.props
 
     if (!alerts.length) return false
 
     return (
-      <ul className={classes.alerts}>
-        {alerts.map((alert, i) => (
-          <li
-            className={`${classes.alert} ${classes[alert.level]}`}
-            key={i}
-          >
+      <div className={classes.alerts}>
+        {alerts.map(alert => (
+          <div className={`${classes.alert} ${classes[alert.level]}`} key={alert.type}>
             <Alert
-              key={i}
+              data={alert}
               closeAfter={alert.closeAfter}
-              onCloseAfter={/* TODO #120 */hideAlert.bind(null, alert)}
+              onCloseAfter={hideAlert}
             >
               {this.renderAlertContent(alert)}
             </Alert>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     )
   }
 }

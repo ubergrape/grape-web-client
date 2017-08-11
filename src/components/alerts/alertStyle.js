@@ -1,7 +1,7 @@
 import color from 'color'
-
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
+
 import defaultButton from '../button/default'
 import inlineLink from '../button/inlineLink'
 
@@ -37,7 +37,7 @@ export default {
     opacity: 0.8,
     '&:hover': {
       isolate: false,
-      textDecoration: 'underline !important'
+      textDecoration: 'underline'
     }
   },
   layout: {
@@ -45,11 +45,9 @@ export default {
     alignItems: 'baseline'
   },
   mainCol: {
-    flexGrow: 1,
-    fontWeight: 'bold'
+    flexGrow: 1
   },
   secondaryCol: {
     flexShrink: 0,
-    margin: '0 10px'
-  }
-}
+    margin: [0, 10]
+  }}

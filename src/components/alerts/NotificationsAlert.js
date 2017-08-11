@@ -35,8 +35,8 @@ export default class NotificationsAlert extends PureComponent {
     const {alert, classes} = this.props
 
     return (
-      <span className={classes.layout}>
-        <span className={classes.mainCol}>
+      <div className={classes.layout}>
+        <div className={classes.mainCol}>
           <FormattedMessage
             id="initialGreeting"
             defaultMessage="Hey there!"
@@ -56,8 +56,8 @@ export default class NotificationsAlert extends PureComponent {
             id="notificationsExplanation"
             defaultMessage="so your team members can reach you on Grape."
           />
-        </span>
-        <span className={classes.secondaryCol}>
+        </div>
+        <div className={classes.secondaryCol}>
           <button
             className={`${classes.actionButton} ${classes[`${alert.level}Button`]}`}
             onClick={this.onEnableNotifications}
@@ -67,16 +67,16 @@ export default class NotificationsAlert extends PureComponent {
               defaultMessage="Enable notifications"
             />
           </button>
-        </span>
-        <span className={classes.secondaryCol}>
+        </div>
+        <div className={classes.secondaryCol}>
           <button
             className={classes.buttonLink}
             onClick={this.onHide}
           >
             <Close />
           </button>
-        </span>
-      </span>
+        </div>
+      </div>
     )
   }
 }
