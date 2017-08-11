@@ -129,7 +129,7 @@
   },
   "scripts": {
     "all": "npm run test && npm run build",
-    "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081 --hot --inline",
     "start:proxy": "node ./bin/proxy.js",
     "build": "webpack --bail",
     "build:watch": "webpack --progress --colors --watch",
