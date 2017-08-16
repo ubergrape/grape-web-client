@@ -4,7 +4,7 @@ import {small, normal, big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 const divider = {
   marginBottom: spacing,

@@ -9,7 +9,7 @@ import {settingsButtonSize} from './constants'
 import {iconSize as roomIconSize} from '../../room-icon-settings'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -47,6 +47,7 @@ export const styles = {
     }
   },
   actionItem: {
+    listStyleType: 'none',
     marginTop: 10
   },
   buttonInvite: {

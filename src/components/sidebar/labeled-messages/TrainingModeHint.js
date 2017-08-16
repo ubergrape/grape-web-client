@@ -8,7 +8,7 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
 
 import linkButton from '../../button/link'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 const TrainingModeHint = ({classes}) => (
   <div className={classes.hint}>

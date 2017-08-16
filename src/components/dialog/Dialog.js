@@ -3,11 +3,12 @@ import React, {PureComponent} from 'react'
 import Normalize from 'grape-web/lib/components/normalize'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
-import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
 import {black, white} from 'grape-theme/dist/base-colors'
-import {biggest} from 'grape-theme/dist/fonts'
+import {small, biggest} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import {zIndex} from '../../utils/z-index'
 
@@ -52,17 +53,12 @@ import {zIndex} from '../../utils/z-index'
     height: 50
   },
   close: {
-    font: {
-      size: 26,
-      weight: 'bold'
-    },
+    isolate: false,
+    fontSize: small.fontSize,
     opacity: 0.5,
-    padding: [0, 20],
-    minWidth: 'auto',
     '&:hover': {
-      opacity: 1,
-      background: 'none',
-      isolate: false
+      isolate: false,
+      opacity: 1
     }
   },
   title: {
@@ -103,7 +99,9 @@ export default class Dialog extends PureComponent {
         <Normalize className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{title}</h2>
-            <Button className={classes.close} onClick={onHide}>×</Button>
+            <IconButton className={classes.close} onClick={onHide}>
+              <Icon name="close" />
+            </IconButton>
           </header>
           <div className={classes.body}>
             {children}

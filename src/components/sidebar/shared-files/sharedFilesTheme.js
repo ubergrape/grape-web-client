@@ -1,5 +1,5 @@
 import button from '../../button/default'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 export const styles = {
   sharedFiles: {

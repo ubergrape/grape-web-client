@@ -32,7 +32,12 @@ import NotificationsAlert from './NotificationsAlert'
     extend: fonts.normal,
     color: white,
     width: 40,
-    height: 40
+    height: 40,
+    opacity: 0.8,
+    '&:hover': {
+      isolate: false,
+      opacity: 1
+    }
   },
   infoContainer: {
     background: webColors.alertInfo
