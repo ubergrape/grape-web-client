@@ -12,7 +12,8 @@ const Noop = () => null
     display: 'flex',
     position: 'absolute',
     height: '100%',
-    width: '100%'
+    width: '100%',
+    overflow: 'hidden'
   },
   aside: {
     display: 'flex',
@@ -100,8 +101,8 @@ export default class AppLayout extends PureComponent {
 
     return (
       <FileUpload>
-        <Globals />
         <div className={classes.appLayout}>
+          <Globals />
           <Aside className={classes.aside} />
           <main className={classes.main}>
             <Header />
