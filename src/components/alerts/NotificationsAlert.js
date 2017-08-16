@@ -7,34 +7,32 @@ import Button from 'material-ui/Button'
 
 @injectSheet({
   notificationAlert: {
-    color: 'inherit'
+    color: 'inherit',
+    font: 'inherit'
   }
 })
 export default class NotificationsAlert extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    alert: PropTypes.object.isRequired,
-    enableNotifications: PropTypes.func,
-    hideAlert: PropTypes.func
+    onEnableNotifications: PropTypes.func,
+    onHide: PropTypes.func,
+    buttonClass: PropTypes.string
   }
 
   static defaultProps = {
-    enableNotifications: noop,
-    hideAlert: noop
+    onEnableNotifications: noop,
+    onHide: noop,
+    buttonClass: undefined
   }
 
   onEnableNotifications = () => {
-    this.props.enableNotifications()
-    this.onHide()
-  }
-
-  onHide = () => {
-    const {alert, hideAlert} = this.props
-    hideAlert(alert)
+    const {onHide, onEnableNotifications} = this.props
+    onEnableNotifications()
+    onHide()
   }
 
   render() {
-    const {alert, classes} = this.props
+    const {classes, buttonClass} = this.props
 
     return (
       <div className={classes.notificationAlert}>
@@ -52,8 +50,9 @@ export default class NotificationsAlert extends PureComponent {
           id="notificationsExplanation"
           defaultMessage="so your team members can reach you on Grape."
         />
+        {' '}
         <Button
-          className={`${classes.actionButton} ${classes[`${alert.level}Button`]}`}
+          className={buttonClass}
           onClick={this.onEnableNotifications}
         >
           <FormattedMessage
