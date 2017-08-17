@@ -192,7 +192,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
             </Button>
             <Button
               raised
-              accent
+              color="accent"
               className={classes.submitButton}
               type="submit"
             >

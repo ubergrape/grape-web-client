@@ -68,7 +68,7 @@ const LinkSection = ({classes, onFocus, onBlur, isFocused}) => (
         onBlur={onBlur}
       />
       {isFocused && (
-        <Button accent compact className={classes.linkEnter}>
+        <Button color="accent" compact className={classes.linkEnter}>
           <Enter />
         </Button>
       )}

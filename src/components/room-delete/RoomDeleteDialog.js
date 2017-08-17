@@ -106,7 +106,7 @@ const ConfirmForm = ({
     </div>
     <div className={classes.buttonContainer}>
       <Button
-        accent
+        color="accent"
         raised
         type="submit"
         className={classes.deleteButton}

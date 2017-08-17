@@ -69,7 +69,7 @@ const Footer = (props) => {
 
   if (isLast) {
     return (
-      <Button raised primary className={classes.button} onClick={onDone}>
+      <Button raised color="primary" className={classes.button} onClick={onDone}>
         <Done />
       </Button>
     )
@@ -97,7 +97,7 @@ const Footer = (props) => {
         description="Intro button continue."
       >
         {(...children) => (
-          <Button raised primary className={classes.button} onClick={onNext}>
+          <Button raised color="primary" className={classes.button} onClick={onNext}>
             {children}
           </Button>
         )}

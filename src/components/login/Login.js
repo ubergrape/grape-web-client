@@ -40,6 +40,7 @@ import {FormattedMessage, injectIntl} from 'react-intl'
     textAlign: 'center'
   },
   button: {
+    isolate: false,
     composes: '$spacer',
     extend: ellipsis,
     color: white
@@ -86,7 +87,7 @@ export default class Login extends PureComponent {
           description="Embedded chat login view submit button."
         >
           {(...children) => (
-            <Button raised primary className={classes.button} onClick={onLogin}>
+            <Button raised color="primary" className={classes.button} onClick={onLogin}>
               {children}
             </Button>
           )}
