@@ -25,6 +25,8 @@ export const checkAuth = () => (dispatch) => {
       })
     })
     .catch((err) => {
+      // It might be a connection loss which is handled in a different place.
+      if (err.status !== 401) return
       dispatch({
         type: types.HANDLE_AUTH_STATUS,
         payload: 'nok'
