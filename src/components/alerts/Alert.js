@@ -25,7 +25,8 @@ import NotificationsAlert from './NotificationsAlert'
   content: {
     padding: 10,
     color: white,
-    font: 'inherit'
+    font: 'inherit',
+    flexGrow: 1
   },
   close: {
     isolate: false,
