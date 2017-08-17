@@ -65,7 +65,7 @@ export default class Login extends PureComponent {
         <Icon name="grape" className={classes.logo} />
         <FormattedMessage
           id="loginHeadline"
-          defaultMessage="Welcome to the messenger!"
+          defaultMessage="Join the chat!"
           description="Embedded chat login view headline."
         >
           {(...children) => (
@@ -74,7 +74,7 @@ export default class Login extends PureComponent {
         </FormattedMessage>
         <FormattedMessage
           id="loginHint"
-          defaultMessage="Please log in to join the conversation."
+          defaultMessage="Please log in to join the conversation on Grape."
           description="Embedded chat login view hint."
         >
           {(...children) => (
@@ -83,7 +83,7 @@ export default class Login extends PureComponent {
         </FormattedMessage>
         <FormattedMessage
           id="loginSubmit"
-          defaultMessage="Log me in, Grape!"
+          defaultMessage="Log me in"
           description="Embedded chat login view submit button."
         >
           {(...children) => (
