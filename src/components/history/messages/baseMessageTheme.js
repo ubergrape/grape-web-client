@@ -12,7 +12,7 @@ export const styles = {
   message: {
     margin: [0, horizontalMargin],
     position: 'relative',
-    minWidth: 400
+    minWidth: 200
   },
   row: {
     display: 'flex',
