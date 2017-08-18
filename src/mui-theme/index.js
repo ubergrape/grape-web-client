@@ -48,9 +48,13 @@ const MuiLinearProgress = {
       image: '-webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, rgba(0, 0, 0, 0)), color-stop(.5, rgba(0, 0, 0, 0)), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0)) )',
       size: [20, 20]
     },
-    animation: 'determinate-1 2s linear infinite'
+    animation: 'mui-indeterminate2 2s linear infinite'
   },
-  '@keyframes determinate-1': {
+  // FIXME it should not be using animation designed for indeterminate style progress,
+  // the new validation of mui doesn't allows to use names which mui isn't using already.
+  // Should be fixed in JSS by allowing keyframes inside of the rules and evtl with auto
+  // generated name https://github.com/cssinjs/jss/issues/346
+  '@keyframes mui-indeterminate2': {
     from: {
       backgroundPosition: [0, 0]
     },
