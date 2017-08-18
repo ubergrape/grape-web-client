@@ -4,3 +4,4 @@ dist
 build
 lib
 i18n/src
+package-lock.json
