@@ -12,7 +12,7 @@
     "jss-expand": "^4.0.0",
     "jss-extend": "^5.0.0",
     "jss-increase-specificity": "^0.3.1",
-    "jss-isolate": "^4.0.1",
+    "jss-isolate": "^5.0.0-pre.1",
     "jss-props-sort": "^5.0.0",
     "jss-vendor-prefixer": "^6.0.0",
     "lodash": "^3.10.0",
