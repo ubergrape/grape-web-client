@@ -109,3 +109,12 @@ export function hideUploadNotification() {
     dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
   }
 }
+
+export function setOpenFileDialogHandler(fn) {
+  return (dispatch) => {
+    dispatch({
+      type: types.SET_OPEN_FILE_DIALOG_HANDLER,
+      payload: fn
+    })
+  }
+}

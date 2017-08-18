@@ -49,3 +49,7 @@ export const searchMessages = (query) => {
   getBoundActions().showSidebar('search')
   getBoundActions().updateMessageSearchQuery(query)
 }
+
+export const setOpenFileDialogHandler = (fn) => {
+  getBoundActions().setOpenFileDialogHandler(fn)
+}

@@ -7,6 +7,27 @@ import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
 import {styles} from './controlsTheme'
 
+const AttachmentButton = (props) => {
+  const {
+    classes, disabled, onDropAccepted, onDropRejected, onOpenFileDialog
+  } = props
+
+  // Upload click will be handled using public API.
+  if (onOpenFileDialog) {
+    return <span className={classes.attachment} onClick={onOpenFileDialog} />
+  }
+
+  return (
+    <Dropzone
+      className={classes.attachment}
+      maxSize={maxFileSize}
+      disableClick={disabled}
+      onDropAccepted={onDropAccepted}
+      onDropRejected={onDropRejected}
+    />
+  )
+}
+
 @injectSheet(styles)
 export default class Controls extends PureComponent {
   static propTypes = {
@@ -17,11 +38,13 @@ export default class Controls extends PureComponent {
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
-    onRejectFiles: PropTypes.func.isRequired
+    onRejectFiles: PropTypes.func.isRequired,
+    onOpenFileDialog: PropTypes.func
   }
 
   static defaultProps = {
-    disabled: false
+    disabled: false,
+    onOpenFileDialog: undefined
   }
 
   onDropAccepted = (files) => {
@@ -45,13 +68,13 @@ export default class Controls extends PureComponent {
   }
 
   render() {
-    const {classes, disabled} = this.props
+    const {classes, disabled, onOpenFileDialog} = this.props
     return (
       <div className={classes.controls}>
-        <Dropzone
-          className={classes.attachment}
-          maxSize={maxFileSize}
-          disableClick={false}
+        <AttachmentButton
+          classes={classes}
+          disabled={disabled}
+          onOpenFileDialog={onOpenFileDialog}
           onDropAccepted={this.onDropAccepted}
           onDropRejected={this.onDropRejected}
         />
