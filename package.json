@@ -1,7 +1,7 @@
 {
   "name": "grape-theme",
   "description": "Theme related files sharable between all ubergrape projects.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "engines": {
     "node": ">=0.8.0"
   },
