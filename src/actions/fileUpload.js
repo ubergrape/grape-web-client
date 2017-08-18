@@ -39,12 +39,17 @@ function uploadFile(file) {
         })
       })
       .on('response', (res) => {
-        if (res.error) return
-        const message = createMessage({
+        if (res.error || !res.body) {
+          dispatch({
+            type: types.HANDLE_FILE_UPLOAD_ERROR,
+            payload: {id, err: res.error || new Error('Bad response.')}
+          })
+          return
+        }
+        dispatch(createMessage({
           channelId: channel.id,
           attachments: [res.body]
-        })
-        dispatch(message)
+        }))
       })
       .on('end', () => {
         dispatch({

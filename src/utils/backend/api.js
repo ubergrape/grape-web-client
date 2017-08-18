@@ -490,7 +490,7 @@ export function getNotificationSettings(orgId, channelId) {
 
 export function uploadFile(orgId, file) {
   return request
-    .post(conf.server.uploadPath)
+    .post(conf.server.protocol + conf.server.host + conf.server.uploadPath)
     .field('organization', orgId)
     .attach('file', file, file.name)
     .accept('json')
