@@ -14,12 +14,12 @@ export default class Header extends PureComponent {
     channel: PropTypes.object.isRequired,
     mate: PropTypes.object.isRequired,
     favorite: PropTypes.object.isRequired,
-    showInSidebar: PropTypes.func.isRequired,
+    showSidebar: PropTypes.func.isRequired,
     updateMessageSearchQuery: PropTypes.func.isRequired
   }
 
   onFocusMessageSearch = ({target}) => {
-    this.props.showInSidebar('search')
+    this.props.showSidebar('search')
     this.props.updateMessageSearchQuery(target.value)
   }
 

@@ -131,9 +131,9 @@ function itemButtonClassName(panel, {sidebar, theme}) {
   return theme.classes[sidebar === panel ? `${panel}Active` : panel]
 }
 
-function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
+function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
   if (sidebar === panel) return hideSidebar
-  return showInSidebar.bind(null, panel)
+  return showSidebar.bind(null, panel)
 }
 
 export default function Items(props) {

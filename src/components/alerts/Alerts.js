@@ -15,7 +15,8 @@ import Alert from './Alert'
     top: 0,
     right: 0,
     zIndex: zIndex('alerts'),
-    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
+    overflow: 'hidden'
   }
 })
 export default class Alerts extends PureComponent {

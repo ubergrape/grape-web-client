@@ -7,6 +7,7 @@ import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+import cn from 'classnames'
 
 import {zIndex} from '../../../utils/z-index'
 import {spacing} from '../constants'
@@ -44,8 +45,10 @@ import {spacing} from '../constants'
     zIndex: zIndex('base'),
     marginLeft: spacing
   },
-  titleOptions: {
-    composes: '$title',
+  headerWithOptions: {
+    marginLeft: 0
+  },
+  titleWithOptions: {
     paddingLeft: spacing
   },
   body: {
@@ -80,17 +83,12 @@ export default class SidebarPanel extends PureComponent {
     children: undefined
   }
 
-  getClassName(className) {
-    const {options, classes} = this.props
-    return classes[`${className}${options ? 'Options' : ''}`]
-  }
-
   render() {
     const {options, title, children, classes, onClose} = this.props
     return (
       <div className={classes.sidebarPanel}>
-        <header className={this.getClassName('header')}>
-          <h2 className={this.getClassName('title')}>
+        <header className={cn(classes.header, options && classes.headerWithOptions)}>
+          <h2 className={cn(classes.title, options && classes.titleWithOptions)}>
             {title}
           </h2>
           <IconButton className={classes.close} onClick={onClose}>
