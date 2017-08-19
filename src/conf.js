@@ -13,7 +13,6 @@ class Config {
   }
   organization = {}
   forceLongpolling = false
-  container = null
   embed = null
   channelId = null
   server = {
@@ -22,7 +21,7 @@ class Config {
     wsUrl: null,
     sentryJsDsn: null
   }
-  container: '#grape-client'
+  container = '#grape-client'
 
   constructor() {
     this.setup({
