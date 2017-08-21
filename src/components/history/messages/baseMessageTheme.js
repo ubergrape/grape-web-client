@@ -31,6 +31,9 @@ export const styles = {
     '& p': {
       margin: 0
     },
+    '& strong, & b': {
+      fontWeight: 'bold'
+    },
     '& a': link,
     '& a:hover': linkHover,
     '& em': {

@@ -56,7 +56,10 @@ const linkHover = linkStyles.link['&:hover']
     '& pre': {
       display: 'block',
       color: grayDark,
-      border: `1px solid ${gainsboroLight}`
+      border: [1, 'solid', gainsboroLight]
+    },
+    '& strong, & b': {
+      fontWeight: 'bold'
     }
   }
 })
