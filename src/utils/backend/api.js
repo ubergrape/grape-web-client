@@ -488,13 +488,14 @@ export function getNotificationSettings(orgId, channelId) {
   })
 }
 
-export function uploadFile(orgId, file) {
-  return request
-    .post(conf.server.protocol + conf.server.host + conf.server.uploadPath)
+export const uploadFile = (orgId, file) => (
+  request
+    .post(`${conf.server.protocol}//${conf.server.host}${conf.server.uploadPath}`)
     .field('organization', orgId)
     .attach('file', file, file.name)
     .accept('json')
-}
+    .withCredentials()
+)
 
 export function removeLinkAttachments(channelId, messageId, sourceUrl, type) {
   return new Promise((resolve, reject) => {
