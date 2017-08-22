@@ -1,15 +1,38 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import color from 'color'
 import injectSheet from 'grape-web/lib/jss'
+import {normal} from 'grape-theme/dist/fonts'
+import webColors from 'grape-theme/dist/web-colors'
 
-import {styles} from './titleTheme.js'
-
-@injectSheet(styles)
+@injectSheet({
+  text: {
+    extend: normal,
+    fontWeight: 'bold',
+    lineHeight: 1.4
+  },
+  link: {
+    textDecoration: 'none',
+    '& $text': {
+      isolate: false,
+      color: webColors.link,
+      '&:hover, &:focus': {
+        isolate: false,
+        textDecoration: 'none',
+        color: color(webColors.link).lighten(0.2).hexString(),
+        borderBottom: {
+          width: 1,
+          style: 'solid'
+        }
+      }
+    }
+  }
+})
 export default class Title extends PureComponent {
   static propTypes = {
     link: PropTypes.string,
     text: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -19,11 +42,11 @@ export default class Title extends PureComponent {
   renderText() {
     const {
       text,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
-      <span className={classes.container}>
+      <span className={classes.text}>
         {text}
       </span>
     )
@@ -32,7 +55,7 @@ export default class Title extends PureComponent {
   renderWithLink() {
     const {
       link,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (

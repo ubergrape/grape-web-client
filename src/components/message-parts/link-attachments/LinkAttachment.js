@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import fonts from 'grape-theme/dist/fonts'
+import {grayBlueDark} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
 import groupConsecutive from '../../../utils/group-consecutive'
-
+import ImageAttachment from '../attachments/ImageAttachment'
+import Menu from '../Menu'
 import {
   Author,
   Bubble,
@@ -15,9 +18,6 @@ import {
   Row,
   Title
 } from './parts'
-import ImageAttachment from '../attachments/ImageAttachment'
-import Menu from '../Menu'
-import {styles} from './linkAttachmentTheme.js'
 
 const fieldsGroupSize = 2
 
@@ -30,7 +30,36 @@ const getThumbUrl = ({imageUrl, width, height}) => (
   `${imageUrl}${width}x${height}`
 )
 
-@injectSheet(styles)
+@injectSheet({
+  main: {
+    flex: 1,
+    minWidth: 0
+  },
+  side: {
+    marginLeft: 10
+  },
+  text: {
+    extend: fonts.normal,
+    lineHeight: 1.4,
+    margin: 0,
+    color: grayBlueDark
+  },
+  fields: {
+    margin: [3, 0]
+  },
+  fieldGroup: {
+    marginTop: 8,
+    '&:first-child': {
+      marginTop: 0
+    }
+  },
+  fieldGroupShort: {
+    display: 'flex'
+  },
+  embed: {
+    maxWidth: 480
+  }
+})
 export default class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
@@ -275,11 +304,12 @@ export default class LinkAttachment extends PureComponent {
 
     return (
       <div
-        onMouseEnter={onRemove && this.onMouseEnter}
-        onMouseLeave={onRemove && this.onMouseLeave}
-        ref={onRemove && this.onRefContent}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        ref={this.onRefContent}
+        className={className}
       >
-        <Bubble hasArrow={false} className={className}>
+        <Bubble hasArrow={false}>
           {isAllowedToRemove && <Menu {...this.menuProps} getContentNode={this.getContentNode} />}
           <div className={classes.main}>
             {authorName && this.renderAuthor()}

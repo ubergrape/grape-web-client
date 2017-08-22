@@ -3,9 +3,14 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import LinkAttachment from './LinkAttachment'
-import {styles} from './linkAttachmentsTheme'
 
-@injectSheet(styles)
+@injectSheet({
+  linkAttachments: {
+  },
+  linkAttachment: {
+    margin: [2, 0, 0, 3]
+  }
+})
 export default class LinkAttachments extends PureComponent {
   static propTypes = {
     attachments: PropTypes.array.isRequired,
@@ -32,17 +37,16 @@ export default class LinkAttachments extends PureComponent {
     } = this.props
 
     return (
-      <ul>
+      <div className={classes.linkAttachments}>
         {attachments.map(meta => (
-          <li key={meta.sourceUrl}>
-            <LinkAttachment
-              {...meta}
-              onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
-              className={classes.linkAttachment}
-            />
-          </li>
+          <LinkAttachment
+            {...meta}
+            key={meta.sourceUrl}
+            onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
+            className={classes.linkAttachment}
+          />
         ))}
-      </ul>
+      </div>
     )
   }
 }
