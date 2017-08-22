@@ -110,7 +110,8 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound(channel) {
   this.reduxEmitter.showAlert({
     level: 'warning',
     type: alerts.MESSAGE_NOT_FOUND,
-    closeAfter: 6000
+    closeAfter: 6000,
+    isClosable: true
   })
 }
 
@@ -119,14 +120,15 @@ UI.prototype.onInvalidUrl = function(cause) {
   this.reduxEmitter.showAlert({
     level: 'warning',
     type: cause,
-    closeAfter: 6000
+    closeAfter: 6000,
+    isClosable: true
   })
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager() {
   const roommanager = new RoomManager({
     rooms: this.org.rooms.slice()
-  }).closable().overlay().show()
+  }).isClosable().overlay().show()
   broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
   broker(this, 'leftChannel', roommanager, 'onLeftChannel')
   broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')

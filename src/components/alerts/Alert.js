@@ -85,7 +85,8 @@ export default class Alert extends PureComponent {
     alert: PropTypes.shape({
       type: PropTypes.string.isRequired,
       level: PropTypes.oneOf(['info', 'success', 'warning', 'danger']).isRequired,
-      closeAfter: PropTypes.number
+      closeAfter: PropTypes.number,
+      isClosable: PropTypes.bool
     }).isRequired,
     onHide: PropTypes.func,
     enableNotifications: PropTypes.func
@@ -132,9 +133,11 @@ export default class Alert extends PureComponent {
             <div className={classes.content}>
               {this.renderContent(alert)}
             </div>
-            <IconButton className={classes.close} onClick={this.onHide}>
-              <Icon name="close" />
-            </IconButton>
+            {alert.isClosable && (
+              <IconButton className={classes.close} onClick={this.onHide}>
+                <Icon name="close" />
+              </IconButton>
+            )}
           </div>
         </AutoHide>
       </div>
