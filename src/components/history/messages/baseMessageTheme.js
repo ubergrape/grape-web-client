@@ -26,7 +26,6 @@ export const styles = {
   },
   // TODO #149 use standard typography styles
   content: {
-    minHeight: '1em',
     overflow: 'hidden',
     '& p': {
       margin: 0
