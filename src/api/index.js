@@ -1,7 +1,11 @@
+/**
+ * We use require because we can't import anything before the initial config is provided.
+ */
+ /* eslint-disable global-require */
+
 import merge from 'lodash/object/merge'
 
 import conf from '../conf'
-import getBoundActions from '../app/boundActions'
 
 const onDocReady = (callback) => {
   if (/interactive|complete/.test(document.readyState)) callback()
@@ -10,16 +14,12 @@ const onDocReady = (callback) => {
 
 export const init = (config) => {
   conf.setup(config)
-  // FIXME
-  // conf.server.staticPath is used immediately at evaluation time.
-  /* eslint-disable global-require */
   const app = require('../app')
   const initLegacy = require('../legacy').default
-  /* eslint-enable global-require */
   app.init()
   app.renderSheetsInsertionPoints()
   initLegacy()
-  // Wait for container element.
+  // We don't know if container is already in the tree.
   onDocReady(app.render)
 }
 
@@ -45,11 +45,19 @@ export const embed = (options) => {
     .then(init)
 }
 
+const getActions = (() => {
+  let getBoundActions
+  return () => {
+    if (!getBoundActions) getBoundActions = require('../app/boundActions').default
+    return getBoundActions()
+  }
+})()
+
 export const searchMessages = (query) => {
-  getBoundActions().showSidebar('search')
-  getBoundActions().updateMessageSearchQuery(query)
+  getActions().showSidebar('search')
+  getActions().updateMessageSearchQuery(query)
 }
 
 export const setOpenFileDialogHandler = (fn) => {
-  getBoundActions().setOpenFileDialogHandler(fn)
+  getActions().setOpenFileDialogHandler(fn)
 }
