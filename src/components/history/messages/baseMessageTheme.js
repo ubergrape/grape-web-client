@@ -1,5 +1,6 @@
-import {gainsboroLight, gainsboroDark, grayDark, white} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
+import {gainsboroLight, gainsboroDark, grayDark, white} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
@@ -60,6 +61,9 @@ export const styles = {
       wordBreak: 'initial',
       transform: 'translateZ(0)',
       maxWidth: '100%'
-    }
+    },
+    // Increase specificity a bit to overtone the previous definitions,
+    // saves us some writing.
+    '&& *': fonts.normal
   }
 }
