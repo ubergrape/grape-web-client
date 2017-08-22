@@ -12,11 +12,10 @@ export const styles = {
     margin: [5, 0]
   },
   name: {
-    extend: fonts.normal,
-    color: white,
     opacity: 0.7,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    color: white
   },
   nameCompleted: {
     opacity: 1,
@@ -29,7 +28,12 @@ export const styles = {
     display: 'flex',
     overflow: 'hidden',
     width: '100%',
-    whiteSpace: 'nowrap'
+    color: 'inherit',
+    '& > span': {
+      whiteSpace: 'nowrap',
+      extend: fonts.normal,
+      color: 'inherit'
+    }
   },
   nameTextLeft: ellipsis,
   error: {
