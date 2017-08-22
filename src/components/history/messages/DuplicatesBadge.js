@@ -12,7 +12,8 @@ import Chip from 'material-ui/Chip'
     background: gold,
     color: white,
     marginLeft: 5,
-    verticalAlign: 'top'
+    verticalAlign: 'top',
+    padding: 0
   }
 })
 export default class DuplicatesBadge extends PureComponent {
