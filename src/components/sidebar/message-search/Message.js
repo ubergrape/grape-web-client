@@ -1,21 +1,17 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {gainsboroLight, grayDark} from 'grape-theme/dist/base-colors'
-import omit from 'lodash/object/omit'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import Avatar from '../../avatar/Avatar'
 import Header from '../../message-parts/Header'
 import Bubble from '../../message-parts/Bubble'
-import {styles as linkStyles} from '../../message-parts/linkTheme'
+import contentStyles from '../../message-parts/contentStyles'
 
 const arrowWidth = 7
 const marginRight = 10
 const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
-const link = omit(linkStyles.link, '&:hover')
-const linkHover = linkStyles.link['&:hover']
 
 @injectSheet({
   message: {
@@ -49,19 +45,7 @@ const linkHover = linkStyles.link['&:hover']
       boxShadow: `0px 1px 8px ${shadowColor}`
     }
   },
-  innerContent: {
-    overflow: 'hidden',
-    '& a': link,
-    '& a:hover': linkHover,
-    '& pre': {
-      display: 'block',
-      color: grayDark,
-      border: [1, 'solid', gainsboroLight]
-    },
-    '& strong, & b': {
-      fontWeight: 'bold'
-    }
-  }
+  innerContent: contentStyles
 })
 export default class Message extends PureComponent {
   static propTypes = {
