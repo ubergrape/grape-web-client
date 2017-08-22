@@ -132,9 +132,13 @@ export const styles = {
     }
   },
   channelCurrent: {
-    fontWeight: 'bold',
     color: colors.grayDarker,
-    background: darkenBackground
+    background: darkenBackground,
+    '& $channelName': {
+      isolate: false,
+      fontWeight: 'bold',
+      color: colors.grayDarker
+    }
   },
   channelFocused: {
     background: darkenBackground
