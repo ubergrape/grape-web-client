@@ -4,15 +4,12 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-var componentsExtractText = new ExtractTextPlugin('components.css')
-
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
 
 var plugins = [
-  componentsExtractText,
   new CopyFilesPlugin([{
     from: './src/images',
     to: './images'
@@ -42,13 +39,6 @@ module.exports = exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        loader: componentsExtractText.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
-      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
