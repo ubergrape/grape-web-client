@@ -16,21 +16,31 @@ import injectSheet from 'grape-web/lib/jss'
     '.zoom-image-clone': {
       position: 'fixed',
       transition: 'transform 0.2s linear',
-      zIndex: '999',
+      zIndex: 999,
       cursor: 'zoom-out'
     },
     '#overlay': {
-      zIndex: '998',
+      zIndex: 998,
       cursor: 'zoom-out',
       backgroundColor: 'rgba(0,0,0,0.8)'
     },
     '.loading': {
       transition: 'transform 0.2s linear',
-      opacity: '.75',
+      opacity: 0.75,
       cursor: 'progress'
     },
     '.Overlay.image-zoom-overlay': {
-      backgroundColor: 'rgba(0,0,0,0.8)'
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      opacity: 0,
+      transition: 'opacity 0.2s linear',
+      '&.show': {
+        opacity: 1
+      }
     }
   }
 })
