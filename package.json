@@ -11,7 +11,7 @@
     "jss-default-unit": "^7.0.0",
     "jss-expand": "^4.0.0",
     "jss-extend": "^5.0.0",
-    "jss-increase-specificity": "^0.3.2",
+    "jss-increase-specificity": "^0.3.3",
     "jss-isolate": "^5.0.0-pre.1",
     "jss-props-sort": "^5.0.0",
     "jss-vendor-prefixer": "^6.0.0",

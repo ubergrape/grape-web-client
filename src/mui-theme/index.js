@@ -55,10 +55,18 @@ const MuiLinearProgress = {
   // Should be fixed in JSS by allowing keyframes inside of the rules and evtl with auto
   // generated name https://github.com/cssinjs/jss/issues/346
   '@keyframes mui-indeterminate2': {
-    from: {
+    '0%': {
+      left: 0,
+      right: 0,
       backgroundPosition: [0, 0]
     },
-    to: {
+    '60%': {
+      left: 0,
+      right: 0,
+    },
+    '100%': {
+      left: 0,
+      right: 0,
       backgroundPosition: [20, 20]
     }
   }
