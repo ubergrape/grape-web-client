@@ -21,8 +21,16 @@ function uploadFile(file) {
       payload: {id, name: file.name}
     })
 
-    api
-      .uploadFile(org.id, file)
+    const onError = (err) => {
+      dispatch({
+        type: types.HANDLE_FILE_UPLOAD_ERROR,
+        payload: {id, err}
+      })
+    }
+
+    const upload = api.uploadFile(org.id, file)
+
+    upload
       .on('progress', (e) => {
         // It is undefined at the end.
         if (e.percent === undefined) return
@@ -32,12 +40,7 @@ function uploadFile(file) {
           payload: {id, progress: e.percent}
         })
       })
-      .on('error', (err) => {
-        dispatch({
-          type: types.HANDLE_FILE_UPLOAD_ERROR,
-          payload: {id, err}
-        })
-      })
+      .on('error', onError)
       .on('response', (res) => {
         if (res.error || !res.body) {
           dispatch({
@@ -57,7 +60,13 @@ function uploadFile(file) {
           payload: {id}
         })
       })
-      .end()
+
+    upload.end()
+
+    // Should be in the lib itself.
+    upload.xhr.addEventListener('error', () => {
+      onError(new Error('An unknown error happened.'))
+    })
   }
 }
 
