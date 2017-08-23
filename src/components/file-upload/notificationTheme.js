@@ -1,5 +1,5 @@
 import fonts from 'grape-theme/dist/fonts'
-import {white, green, grayLight} from 'grape-theme/dist/base-colors'
+import {white, green, red} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 export const styles = {
@@ -22,7 +22,7 @@ export const styles = {
     color: green
   },
   nameErrored: {
-    color: grayLight
+    color: red
   },
   nameText: {
     display: 'flex',
@@ -40,7 +40,7 @@ export const styles = {
     extend: [ellipsis, fonts.normal],
     display: 'flex',
     alignItems: 'center',
-    color: grayLight
+    color: red
   },
   icon: {
     flexShrink: 0,
@@ -52,6 +52,6 @@ export const styles = {
   },
   iconError: {
     composes: '$icon',
-    fill: grayLight
+    fill: red
   }
 }
