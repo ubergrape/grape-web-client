@@ -6,6 +6,7 @@ export default {
     lineHeight: 0
   },
   scroll: {
+    display: 'block',
     overflow: 'auto',
     maxHeight: 160
   },

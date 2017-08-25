@@ -2,6 +2,7 @@ import {normal} from 'grape-theme/dist/fonts'
 
 export default {
   container: {
+    display: 'block',
     extend: normal,
     position: 'relative',
     boxSizing: 'border-box'
@@ -17,6 +18,7 @@ export default {
   },
   token: {
     extend: normal,
+    display: 'inline',
     position: 'relative',
     boxSizing: 'border-box',
     borderRadius: 3,
