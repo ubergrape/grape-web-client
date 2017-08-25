@@ -31,13 +31,14 @@ jss.setup({
 .use(increaseSpecificity({repeat: 1}))
 .use(isolate({
   isolate: false,
-  reset: {
+  reset: ['all', {
+    display: 'inline-block',
     fontFamily: typographyConstants.fontFamily,
     fontSize: typographyConstants.fontSize,
     boxSizing: 'border-box',
     textRendering: 'optimizeLegibility',
     color: palette.text.primary
-  }
+  }]
 }))
 
 export const Styled = createStyled(jss)

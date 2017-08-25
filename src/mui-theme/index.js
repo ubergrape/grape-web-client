@@ -62,7 +62,7 @@ const MuiLinearProgress = {
     },
     '60%': {
       left: 0,
-      right: 0,
+      right: 0
     },
     '100%': {
       left: 0,
