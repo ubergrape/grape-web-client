@@ -6,6 +6,7 @@ export const styles = {
     color: 'inherit',
     display: 'flex',
     '& $submit': {
+      isolate: false,
       marginLeft: 10
     }
   },
