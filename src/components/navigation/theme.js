@@ -75,7 +75,7 @@ export const styles = {
     flex: '1 0'
   },
   navigationWrapper: {
-    boxSizing: 'border-box',
+    display: 'block',
     padding: '15px 0',
     height: '100%'
   },
@@ -83,6 +83,7 @@ export const styles = {
     paddingLeft: 15
   },
   manageItem: {
+    display: 'block',
     marginTop: 10,
     listStyle: 'none'
   },
@@ -90,9 +91,11 @@ export const styles = {
   contacts,
   channels,
   section: {
+    display: 'block',
     marginTop: 20
   },
   list: {
+    display: 'block',
     marginTop: 10
   },
   notFound: {
@@ -119,9 +122,9 @@ export const styles = {
     backgroundPosition: '0 2px'
   },
   channel: {
-    ...small,
-    position: 'relative',
-    padding: '3px 42px 3px 15px',
+    extend: small,
+    display: 'block',
+    padding: [3, 15],
     '&:hover': {
       isolate: false,
       background: darkenBackground
@@ -130,6 +133,10 @@ export const styles = {
       isolate: false,
       cursor: 'pointer'
     }
+  },
+  channelInner: {
+    display: 'flex',
+    alignItems: 'center'
   },
   channelCurrent: {
     color: colors.grayDarker,
@@ -146,14 +153,14 @@ export const styles = {
   channelName: {
     color: colors.grayBlueDark
   },
+  avatarName: {
+    flexGrow: 1
+  },
   sign: {
     extend: small,
     fontWeight: 'normal',
-    position: 'absolute',
-    right: 15,
-    top: 9,
     minWidth: 24,
-    padding: '1px 7px 0',
+    padding: [1, 7, 0],
     textAlign: 'center',
     borderRadius: 50,
     color: colors.white
@@ -171,7 +178,6 @@ export const styles = {
   },
   filterInput: {
     extend: small,
-    boxSizing: 'border-box !important',
     background: `${darkenBackground} no-repeat 10px 50%`,
     backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
     backgroundSize: 19,

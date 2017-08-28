@@ -15,8 +15,8 @@ const transition = 'box-shadow 150ms ease-out'
 
 @injectSheet({
   message: {
-    cursor: 'pointer',
-    margin: [0, 0, 15]
+    display: 'block',
+    cursor: 'pointer'
   },
   body: {
     display: 'flex'

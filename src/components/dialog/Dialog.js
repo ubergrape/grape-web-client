@@ -68,6 +68,7 @@ import {zIndex} from '../../utils/z-index'
     paddingLeft: 20
   },
   body: {
+    display: 'block',
     background: white
   }
 })

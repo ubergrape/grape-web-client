@@ -3,40 +3,31 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import {small, normal} from 'grape-theme/dist/fonts'
-import {white, grayBlueLighter, grayLight, grayDark} from 'grape-theme/dist/base-colors'
+import {white, grayLight, grayDark} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import cn from 'classnames'
-import color from 'color'
 import noop from 'lodash/utility/noop'
 import Chip from 'material-ui/Chip'
 
 import {Grapedown} from '../../grapedown'
 import Header from '../../message-parts/Header'
-import {styles as linkStyles} from '../../message-parts/linkTheme'
+import contentStyles from '../../message-parts/contentStyles'
 
 @injectSheet({
-  message: {
-    '&:hover': {
-      isolate: false,
-      background: color(grayBlueLighter).darken(0.05).hexString()
-    },
-    '&, & *': {
-      isolate: false,
-      cursor: 'pointer'
-    },
-    '& a': linkStyles.link
-  },
+  message: contentStyles,
   channel: {
     extend: [ellipsis, small],
     marginLeft: 20,
     color: grayLight
   },
   body: {
-    extend: normal,
+    display: 'block',
+    extend: [normal, ellipsis],
     color: grayDark,
     wordWrap: 'break-word'
   },
   footer: {
+    display: 'block',
     marginTop: 10
   },
   chip: {

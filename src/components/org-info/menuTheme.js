@@ -7,8 +7,10 @@ export const styles = {
     minWidth: 220
   },
   anchorItem: {
+    display: 'block',
     textDecoration: 'none',
     '&:hover': {
+      isolate: false,
       textDecoration: 'none'
     }
   },

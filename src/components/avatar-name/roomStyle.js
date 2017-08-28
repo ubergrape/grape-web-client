@@ -20,10 +20,12 @@ export default {
   },
   info: {
     extend: smaller,
+    color: 'inherit',
     display: 'flex'
   },
   usersCountIcon: createIcon({name: 'users', width: '1.4em'}),
   creator: {
+    color: 'inherit',
     marginLeft: 10
   },
   creatorIcon: createIcon({name: 'user'})

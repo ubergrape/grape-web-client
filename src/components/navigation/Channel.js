@@ -30,12 +30,13 @@ function Room(props) {
   const {channel, classes} = props
   const theme = {
     classes: {
-      name: classes.channelName
+      name: classes.channelName,
+      avatarName: classes.avatarName
     }
   }
 
   return (
-    <div>
+    <div className={classes.channelInner}>
       <Roomname
         {...channel}
         statusBorderColor={colors.grayBlueLighter}
@@ -57,7 +58,7 @@ function Pm(props) {
   }
 
   return (
-    <div>
+    <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
         avatar={mate.avatar}

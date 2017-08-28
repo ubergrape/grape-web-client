@@ -22,7 +22,6 @@ const chooserButton = {
   extend: buttonReset,
   display: 'block',
   overflow: 'hidden',
-  boxSizing: 'border-box',
   width: iconSize.l,
   height: iconSize.l,
   borderRadius: '50%',
@@ -49,7 +48,6 @@ export const styles = {
     borderColor: linkColor
   },
   iconSettings: {
-    boxSizing: 'border-box',
     padding: 15,
     paddingRight: 10
   },

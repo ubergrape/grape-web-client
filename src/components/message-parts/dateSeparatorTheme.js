@@ -3,7 +3,8 @@ import {small, normal} from 'grape-theme/dist/fonts'
 
 export const styles = {
   separator: {
-    marginTop: 25,
+    display: 'block',
+    marginTop: 15,
     position: 'relative',
     textAlign: 'center',
     '&:before': {

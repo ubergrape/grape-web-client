@@ -10,6 +10,7 @@ const linkHover = linkStyles.link['&:hover']
 // TODO #149 use standard typography styles
 export default {
   overflow: 'hidden',
+  display: 'block',
   '& p': {
     margin: 0
   },

@@ -45,5 +45,8 @@ export const styles = {
   tooltip: {
     lineHeight: 1,
     whiteSpace: 'nowrap'
+  },
+  childrenWrapper: {
+    verticalAlign: 'middle'
   }
 }

@@ -15,7 +15,6 @@ export const styles = {
   orgInfo: {
     display: 'flex',
     alignItems: 'center',
-    boxSizing: 'border-box',
     padding: {
       right: 10,
       left: 20

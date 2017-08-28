@@ -16,6 +16,7 @@ import NotificationsAlert from './NotificationsAlert'
 
 @injectSheet({
   alert: {
+    display: 'block',
     font: 'inherit'
   },
   body: {

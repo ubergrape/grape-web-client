@@ -46,6 +46,7 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     '&:last-child': {
+      isolate: false,
       marginRight: -buttonPadding
     }
   },

@@ -44,7 +44,6 @@ const styles = {
       top: spacing,
       left: spacing
     },
-    boxSizing: 'border-box',
     boxShadow: 'none',
     color: white,
     fontSize: normal.fontSize,

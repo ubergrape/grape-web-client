@@ -2,6 +2,7 @@
   "presets": ["es2015", "react", "stage-0"],
   "plugins": [
     "transform-decorators-legacy",
+    "transform-react-stateless-component-name",
     ["react-intl", {
         "messagesDir": "./i18n"
     }]

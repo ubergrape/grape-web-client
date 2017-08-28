@@ -108,7 +108,6 @@ export const styles = {
     extend: [linkButton, normal],
     display: 'block',
     whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
     width: '100%',
     textAlign: 'left',
     padding: 10,

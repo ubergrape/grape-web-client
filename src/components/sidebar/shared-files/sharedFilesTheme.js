@@ -3,9 +3,11 @@ import {spacing} from '../constants'
 
 export const styles = {
   sharedFiles: {
+    display: 'block',
     padding: spacing
   },
   loadMoreContainer: {
+    display: 'block',
     textAlign: 'center'
   },
   button,

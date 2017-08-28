@@ -81,6 +81,7 @@ export default class HoverTooltip extends PureComponent {
         <span
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
+          className={classes.childrenWrapper}
         >
           {children}
         </span>

@@ -3,6 +3,7 @@ import {link} from 'grape-theme/dist/web-colors'
 
 export const styles = {
   link: {
+    display: 'inline',
     textDecoration: 'none',
     color: link,
     '&:hover': {

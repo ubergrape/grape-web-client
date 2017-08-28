@@ -29,6 +29,7 @@ const getFontFace = ({family, style = 'normal', weight = 400, formats = ['woff2'
     })
   ],
   appContainer: {
+    display: 'block',
     position: 'relative',
     height: '100%',
     border: [conf.embed ? 1 : 0, 'solid', colors.grayBlueLighter]

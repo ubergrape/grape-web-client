@@ -6,12 +6,14 @@ import {spacing} from '../constants'
 
 export default {
   messageSearch: {
+    display: 'block',
     padding: spacing
   },
   separatorDate: {
     background: grayBlueLighter
   },
   loadMoreContainer: {
+    display: 'block',
     textAlign: 'center'
   },
   channel: {

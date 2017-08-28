@@ -1,5 +1,6 @@
-import buttonPrimary from '../button/primary'
 import {borderDefault} from 'grape-theme/dist/web-colors'
+
+import buttonPrimary from '../button/primary'
 
 export const styles = {
   createButton: {
@@ -11,11 +12,13 @@ export const styles = {
     }
   },
   advancedSettings: {
+    display: 'block',
     padding: [15, 0],
     marginTop: 15,
     borderTop: [1, 'solid', borderDefault]
   },
   footer: {
+    display: 'block',
     paddingTop: 15,
     borderTop: [1, 'solid', borderDefault],
     textAlign: 'right'
