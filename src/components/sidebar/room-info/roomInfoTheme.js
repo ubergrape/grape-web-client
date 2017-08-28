@@ -43,18 +43,21 @@ export const styles = {
     extend: divider,
     marginBottom,
     '& > :last-child': {
+      isolate: false,
       marginBottom: 0
     }
   },
   actionItem: {
+    display: 'block',
     listStyleType: 'none',
     marginTop: 10
   },
   buttonInvite: {
     extend: [
       baseButton,
-      buttonIcon('invite', {color: blue, hoverColor, size: iconSize.s})
-    ]
+      buttonIcon('invite', {color: grayBlueDark, hoverColor, size: iconSize.s})
+    ],
+    color: grayBlueDark
   },
   buttonIntegration: {
     extend: [
@@ -97,6 +100,7 @@ export const styles = {
     display: 'flex',
     flexShrink: 0,
     '& > *': {
+      isolate: false,
       marginLeft: 10
     }
   },
