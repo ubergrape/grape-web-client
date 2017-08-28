@@ -2,7 +2,8 @@ import {yellow} from 'grape-theme/dist/base-colors'
 import {borderDefault, chatBackground} from 'grape-theme/dist/web-colors'
 import {spacer} from 'grape-theme/dist/sizes'
 import scrollbarSize from 'scrollbar-size'
-import {padding as buttonPadding} from './controlsTheme'
+
+import {controlSpacing} from './constants'
 
 const aboveHintsPadding = 3
 
@@ -47,7 +48,7 @@ export const styles = {
     alignItems: 'center',
     '&:last-child': {
       isolate: false,
-      marginRight: -buttonPadding
+      marginRight: -controlSpacing
     }
   },
   highlighted: {

@@ -55,9 +55,9 @@ export const styles = {
   buttonInvite: {
     extend: [
       baseButton,
-      buttonIcon('invite', {color: grayBlueDark, hoverColor, size: iconSize.s})
+      buttonIcon('invite', {color: blue, hoverColor, size: iconSize.s})
     ],
-    color: grayBlueDark
+    color: blue
   },
   buttonIntegration: {
     extend: [

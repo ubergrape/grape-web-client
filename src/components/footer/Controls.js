@@ -2,10 +2,13 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
+import {grayLight, blue} from 'grape-theme/dist/base-colors'
+import {bigger} from 'grape-theme/dist/fonts'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
-import {styles} from './controlsTheme'
+import buttonIcon from '../button/icon'
+import {controlSpacing} from './constants'
 
 const AttachmentButton = (props) => {
   const {
@@ -28,7 +31,33 @@ const AttachmentButton = (props) => {
   )
 }
 
-@injectSheet(styles)
+const iconOptions = {
+  color: grayLight,
+  hoverColor: blue,
+  iconOnly: true
+}
+
+@injectSheet({
+  controls: {
+    extend: bigger,
+    flexShrink: 0
+  },
+  attachment: {
+    extend: buttonIcon('paperclip', iconOptions),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  },
+  emoji: {
+    extend: buttonIcon('smileOpen', iconOptions),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  },
+  search: {
+    extend: buttonIcon('hashtag', {...iconOptions, color: blue}),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  }
+})
 export default class Controls extends PureComponent {
   static propTypes = {
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
