@@ -1,4 +1,4 @@
-import colors from 'grape-theme/dist/base-colors'
+import {grayDarker, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
@@ -6,8 +6,11 @@ import sizes from 'grape-theme/dist/sizes'
 export const styles = {
   sharedFile: {
     display: 'flex',
-    cursor: 'pointer',
-    marginBottom: 20
+    marginBottom: 20,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   leftColumn: {
     flexShrink: 0,
@@ -36,10 +39,10 @@ export const styles = {
   name: {
     extend: [ellipsis, fonts.normal],
     fontWeight: 500,
-    color: colors.grayDarker
+    color: grayDarker
   },
   meta: {
     extend: [ellipsis, fonts.small],
-    color: colors.grayBlueDark
+    color: grayBlueDark
   }
 }

@@ -77,6 +77,7 @@ export const styles = {
   },
   roomDescription: {
     extend: [normal, divider],
+    display: 'block',
     color: grayBlueDark
   },
   mainSettings: {

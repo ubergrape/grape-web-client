@@ -5,6 +5,7 @@ export const styles = {
   formInput: {
     color: 'inherit',
     display: 'flex',
+    font: 'inherit',
     '& $submit': {
       isolate: false,
       marginLeft: 10

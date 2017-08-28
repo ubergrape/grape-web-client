@@ -21,6 +21,7 @@ import color from 'color'
     }
   },
   checkbox: {
+    WebkitAppearance: 'checkbox',
     marginRight: 5,
     cursor: 'pointer'
   }

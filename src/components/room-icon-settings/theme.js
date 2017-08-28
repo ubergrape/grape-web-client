@@ -15,7 +15,11 @@ const iconSettingsButton = {
   marginRight: 10,
   padding: 4,
   borderRadius: '50%',
-  border: `${buttonBorderWidth}px solid`
+  border: [buttonBorderWidth, 'solid'],
+  '&:hover, &:hover *': {
+    isolate: false,
+    cursor: 'pointer'
+  }
 }
 
 const chooserButton = {
@@ -26,11 +30,16 @@ const chooserButton = {
   height: iconSize.l,
   borderRadius: '50%',
   backgroundClip: 'content-box',
-  border: '1px solid transparent',
+  border: [1, 'solid', 'transparent'],
   boxShadow: `inset 0 0 0 2px ${white}`,
+  cursor: 'pointer',
   '&:hover': {
     isolate: false,
-    borderColor: linkColor
+    borderColor: linkColor,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   }
 }
 
