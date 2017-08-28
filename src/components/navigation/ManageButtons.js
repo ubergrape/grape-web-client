@@ -33,7 +33,7 @@ export default function ManageButtons(props) {
           />
         </button>
       </li>
-      <li className={classes.manageItem} id="intro-step3">
+      <li className={classes.manageItem}>
         <button
           className={classes.contacts}
           onClick={showManageContacts}
@@ -42,7 +42,7 @@ export default function ManageButtons(props) {
           <Beacon id="pm" placement="right" shift={beaconShift} />
         </button>
       </li>
-      <li className={classes.manageItem} id="intro-step2">
+      <li className={classes.manageItem}>
         <button
           className={classes.channels}
           onClick={showManageGroups}

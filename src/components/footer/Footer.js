@@ -103,12 +103,7 @@ export default class Footer extends PureComponent {
       onAddIntegration
     } = this.props
     return (
-      <footer
-        className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}
-        id="intro-stepOne"
-        data-step="1"
-        data-topic="grape input"
-      >
+      <footer className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}>
         <div className={classes.above}>
           <div className={classes.typingNotificationContainer}>
             <TypingNotification
