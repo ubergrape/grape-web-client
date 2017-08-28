@@ -23,6 +23,7 @@ export const styles = {
     },
     border,
     borderRadius: 6,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    whiteSpace: 'inherit'
   }
 }

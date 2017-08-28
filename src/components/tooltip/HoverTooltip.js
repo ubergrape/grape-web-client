@@ -75,9 +75,7 @@ export default class HoverTooltip extends PureComponent {
 
     const position = theme[placement + capitalize(align)]
     return (
-      <div
-        className={classes[`wrapper${inline ? 'Inline' : ''}`]}
-      >
+      <div className={classes[`wrapper${inline ? 'Inline' : ''}`]}>
         <span
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
@@ -86,7 +84,7 @@ export default class HoverTooltip extends PureComponent {
           {children}
         </span>
         <div className={classes.tooltip}>
-          {this.state.show &&
+          {this.state.show && (
             <BlackTooltip
               style={position}
               placement={placement}
@@ -94,7 +92,7 @@ export default class HoverTooltip extends PureComponent {
             >
               {message}
             </BlackTooltip>
-          }
+          )}
         </div>
       </div>
     )
