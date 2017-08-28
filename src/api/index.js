@@ -58,6 +58,14 @@ export const searchMessages = (query) => {
   getActions().updateMessageSearchQuery(query)
 }
 
+export const showMentions = () => {
+  getActions().showSidebar('mentions')
+}
+
+export const showLabeledMessages = () => {
+  getActions().showSidebar('labeledMessages')
+}
+
 export const setOpenFileDialogHandler = (fn) => {
   getActions().setOpenFileDialogHandler(fn)
 }
