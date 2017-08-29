@@ -210,7 +210,11 @@ export default class RegularMessage extends PureComponent {
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {linkAttachments.length > 0 && <LinkAttachments {...attachmentsProps} />}
+            { /* We are migrating towards using link attachments only */
+              !attachments.length && linkAttachments.length > 0 && (
+                <LinkAttachments {...attachmentsProps} />
+              )
+            }
           </div>
         </div>
         <DeliveryState state={state} time={time} classes={classes} />
