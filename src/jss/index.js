@@ -24,22 +24,21 @@ const jssInline = create({
 export const inlineStyle = style => jssInline.createRule(style).toJSON()
 
 // Used by material-ui
-jss.setup({
-  ...jss.options,
-  insertionPoint: 'grape-jss'
-})
-.use(increaseSpecificity({repeat: 1}))
-.use(isolate({
-  isolate: false,
-  reset: ['all', {
-    display: 'inline-block',
-    fontFamily: typographyConstants.fontFamily,
-    fontSize: typographyConstants.fontSize,
-    boxSizing: 'border-box',
-    textRendering: 'optimizeLegibility',
-    color: palette.text.primary
-  }]
-}))
+jss.options.insertionPoint = 'grape-jss'
+
+jss
+  .use(increaseSpecificity({repeat: 1}))
+  .use(isolate({
+    isolate: false,
+    reset: ['all', {
+      display: 'inline-block',
+      fontFamily: typographyConstants.fontFamily,
+      fontSize: typographyConstants.fontSize,
+      boxSizing: 'border-box',
+      textRendering: 'optimizeLegibility',
+      color: palette.text.primary
+    }]
+  }))
 
 export const Styled = createStyled(jss)
 export const styled = Styled()
