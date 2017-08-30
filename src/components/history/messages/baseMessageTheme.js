@@ -4,6 +4,7 @@ export const horizontalMargin = 20
 
 export const styles = {
   message: {
+    display: 'block',
     margin: [0, horizontalMargin],
     position: 'relative',
     minWidth: 200
@@ -16,6 +17,7 @@ export const styles = {
     minWidth: 45
   },
   bubble: {
+    display: 'block',
     maxWidth: '100%'
   },
   content: contentStyles

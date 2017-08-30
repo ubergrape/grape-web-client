@@ -5,26 +5,25 @@ import injectSheet from 'grape-web/lib/jss'
 import {normal} from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 
+const lighterLink = color(webColors.link).lighten(0.2).hexString()
+
 @injectSheet({
   text: {
     extend: normal,
-    fontWeight: 'bold',
-    lineHeight: 1.4
+    fontWeight: 'bold'
   },
-  link: {
+  title: {
     textDecoration: 'none',
     '& $text': {
       isolate: false,
       color: webColors.link,
-      '&:hover, &:focus': {
-        isolate: false,
-        textDecoration: 'none',
-        color: color(webColors.link).lighten(0.2).hexString(),
-        borderBottom: {
-          width: 1,
-          style: 'solid'
-        }
-      }
+      borderBottom: [1, 'solid', 'transparent']
+    },
+    '&:hover $text, &:focus $text': {
+      isolate: false,
+      textDecoration: 'none',
+      color: lighterLink,
+      borderBottomColor: lighterLink
     }
   }
 })
@@ -60,7 +59,7 @@ export default class Title extends PureComponent {
 
     return (
       <a
-        className={classes.link}
+        className={classes.title}
         target="_blank"
         rel="noopener noreferrer"
         href={link}

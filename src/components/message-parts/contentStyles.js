@@ -28,6 +28,7 @@ export default {
     padding: ['0.5em', 10],
     fontStyle: 'italic',
     '& p': {
+      isolate: false,
       color: gainsboroDark
     }
   },

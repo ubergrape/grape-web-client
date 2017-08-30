@@ -6,6 +6,7 @@ import LinkAttachment from './LinkAttachment'
 
 @injectSheet({
   linkAttachments: {
+    display: 'block'
   },
   linkAttachment: {
     margin: [2, 0, 0, 3]
