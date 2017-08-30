@@ -101,7 +101,8 @@ export function rejectFiles({files}) {
     type: types.HANDLE_REJECTED_FILES,
     payload: files.map(file => ({
       id: random(1e5),
-      name: file.name
+      name: file.name || 'Noname',
+      error: 'Rejected'
     }))
   }
 }
