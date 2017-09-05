@@ -32,6 +32,9 @@ export default {
       color: gainsboroDark
     }
   },
+  '& pre': {
+    margin: 0
+  },
   '& code': {
     display: 'inline-block',
     padding: [0, 4],
