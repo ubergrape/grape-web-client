@@ -5,6 +5,7 @@
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "css-functions": "^1.0.5",
+    "css-vendor": "^0.3.8",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "3.x",
     "jss": "^9.0.0-pre.1",
