@@ -13,7 +13,6 @@ import Button from 'material-ui/Button'
     color: gray
   },
   button: {
-    textDecoration: 'underline',
     '&[href]:hover': {
       isolate: false,
       textDecoration: 'underline',
@@ -21,6 +20,7 @@ import Button from 'material-ui/Button'
       opacity: 0.8
     },
     '&[href]': {
+      textDecoration: 'underline',
       display: 'inline',
       color: 'inherit'
     }
