@@ -38,7 +38,6 @@ const styles = {
     bottom: 'auto',
     left: 'auto',
     right: 0,
-    width: '100%',
     padding: spacing * 2,
     margin: {
       top: spacing,
@@ -53,9 +52,9 @@ const styles = {
     border: {
       width: 1,
       style: 'solid',
-      color: grayBlueLighter
+      color: grayBlueLighter,
+      radius: borderRadius.bigger
     },
-    borderRadius: borderRadius.bigger,
     background: indigo,
     transition: [
       {
@@ -97,22 +96,22 @@ const styleNotification = (notification) => {
 
 @injectSheet(styles)
 export default class ToastNotification extends PureComponent {
-  static defaultProps = {
-    dismissAfter: 3000
-  }
-
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     dismissAfter: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
     ]).isRequired,
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired,
     sidebar: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string
     ]).isRequired
+  }
+
+  static defaultProps = {
+    dismissAfter: 3000
   }
 
   onDismiss = (notification) => {
@@ -125,7 +124,7 @@ export default class ToastNotification extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       dismissAfter,
       sidebar
     } = this.props

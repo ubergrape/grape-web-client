@@ -7,13 +7,16 @@ export const styles = {
     extend: fonts.normal,
     color: white
   },
-  list: {},
+  list: {
+    display: 'block'
+  },
   upload: {
+    display: 'block',
     margin: [5, 0]
   },
   name: {
-    opacity: 0.7,
     display: 'flex',
+    opacity: 0.7,
     alignItems: 'center',
     color: white
   },
@@ -30,8 +33,9 @@ export const styles = {
     width: '100%',
     color: 'inherit',
     '& > span': {
-      whiteSpace: 'nowrap',
+      isolate: false,
       extend: fonts.normal,
+      whiteSpace: 'nowrap',
       color: 'inherit'
     }
   },
