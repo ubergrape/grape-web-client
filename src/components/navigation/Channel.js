@@ -53,7 +53,8 @@ function Pm(props) {
   const {classes, channel: {mate}} = props
   const theme = {
     classes: {
-      name: classes.channelName
+      name: classes.channelName,
+      avatarName: classes.avatarName
     }
   }
 
