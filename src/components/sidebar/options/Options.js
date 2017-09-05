@@ -3,15 +3,15 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import uniqueId from 'lodash/utility/uniqueId'
 import {grayBlueLight} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
+import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
+import {spacer} from 'grape-theme/dist/sizes'
 import color from 'color'
 
 @injectSheet({
   label: {
-    extend: small,
     display: 'block',
-    padding: [4, 10, 4, 20],
+    padding: [spacer.xs, spacer.s, spacer.xs, spacer.l],
     background: grayBlueLight,
     cursor: 'pointer',
     borderBottom: [1, 'solid', webColors.borderDefault],
@@ -22,8 +22,14 @@ import color from 'color'
   },
   checkbox: {
     WebkitAppearance: 'checkbox',
-    marginRight: 5,
-    cursor: 'pointer'
+    marginRight: spacer.xs,
+    cursor: 'pointer',
+    verticalAlign: 'middle'
+  },
+  labelText: {
+    fontSize: fonts.small.fontSize,
+    lineHeight: 1,
+    verticalAlign: 'middle'
   }
 })
 export default class Options extends PureComponent {
@@ -49,12 +55,12 @@ export default class Options extends PureComponent {
     if (!options.length) return null
 
     return (
-      <ul>
+      <div>
         {options.map((option) => {
           const inputId = uniqueId()
 
           return (
-            <li key={option.label}>
+            <div key={option.label}>
               <label
                 className={classes.label}
                 onClick={onClickOption}
@@ -68,12 +74,12 @@ export default class Options extends PureComponent {
                   disabled={isLoading}
                   id={inputId}
                 />
-                {option.label}
+                <span className={classes.labelText}>{option.label}</span>
               </label>
-            </li>
+            </div>
           )
         })}
-      </ul>
+      </div>
     )
   }
 }

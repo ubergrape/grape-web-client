@@ -5,6 +5,7 @@ import {grayBlueLight} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import sizes from 'grape-theme/dist/sizes'
 import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
 
 import linkButton from '../../button/link'
@@ -49,7 +50,8 @@ const styles = {
     padding: [5, spacing]
   },
   magicWand: {
-    height: '1.2em',
+    height: sizes.icon.s,
+    width: sizes.icon.s,
     marginRight: 5
   },
   linkButton: {
