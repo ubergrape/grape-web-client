@@ -31,11 +31,12 @@ const baseButton = {
 const divider = {
   marginBottom,
   paddingBottom,
-  borderBottom: `1px solid ${grayBlueLight}`
+  borderBottom: [1, 'solid', grayBlueLight]
 }
 
 export const styles = {
   channelInfo: {
+    display: 'block',
     color: grayBlueDark,
     padding: spacing
   },

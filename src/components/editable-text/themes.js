@@ -13,7 +13,8 @@ const commonInput = {
   outline: 'none',
   border: 'none',
   resize: 'none',
-  textOverflow: 'ellipsis'
+  textOverflow: 'ellipsis',
+  overflow: 'hidden'
 }
 
 const theme = {
