@@ -61,6 +61,7 @@ export const styles = {
     paddingRight: 10
   },
   iconSettingsTitle: {
+    display: 'block',
     extend: small,
     fontWeight: 'bold'
   },

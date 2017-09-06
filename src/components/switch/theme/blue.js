@@ -16,7 +16,8 @@ const toggler = {
   transition: 'left 0.2s, right 0.2s',
   transitionTimingFunction,
   willChange: 'left, right',
-  content: '""'
+  content: '""',
+  cursor: 'pointer'
 }
 
 export const styles = {
@@ -56,7 +57,8 @@ export const styles = {
     whiteSpace: 'nowrap',
     padding: [0, 7],
     width: '100%',
-    color: 'inherit'
+    color: 'inherit',
+    cursor: 'pointer'
   },
   rightLabel: {
     textAlign: 'right'
