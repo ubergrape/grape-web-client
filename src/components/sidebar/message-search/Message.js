@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {icon as iconSize} from 'grape-theme/dist/sizes'
+import {icon as iconSize, spacer} from 'grape-theme/dist/sizes'
 
 import Avatar from '../../avatar/Avatar'
 import Header from '../../message-parts/Header'
@@ -16,12 +16,20 @@ const transition = 'box-shadow 150ms ease-out'
 @injectSheet({
   message: {
     display: 'block',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    // Stronger selector because `contentStyles` contains declarations for tags
+    // with an isolation, so we need to be stronger here.
+    // TODO think of something better.
+    '&& *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   body: {
     display: 'flex'
   },
   header: {
+    marginTop: spacer.m,
     paddingLeft: iconSize.l + marginRight + arrowWidth
   },
   leftColumn: {

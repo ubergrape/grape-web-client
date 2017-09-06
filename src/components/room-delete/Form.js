@@ -1,8 +1,6 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  FormattedMessage
-} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import uniqueId from 'lodash/utility/uniqueId'
 import Button from 'material-ui/Button'
 import Input from 'material-ui/Input'

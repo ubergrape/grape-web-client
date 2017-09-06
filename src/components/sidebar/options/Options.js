@@ -9,11 +9,17 @@ import {spacer} from 'grape-theme/dist/sizes'
 import color from 'color'
 
 @injectSheet({
+  root: {
+    '& *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
+  },
   label: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
     padding: [spacer.xs, spacer.s, spacer.xs, spacer.l],
     background: grayBlueLight,
-    cursor: 'pointer',
     borderBottom: [1, 'solid', webColors.borderDefault],
     '&:hover': {
       isolate: false,
@@ -22,14 +28,11 @@ import color from 'color'
   },
   checkbox: {
     WebkitAppearance: 'checkbox',
-    marginRight: spacer.xs,
-    cursor: 'pointer',
-    verticalAlign: 'middle'
+    marginRight: spacer.xs
   },
   labelText: {
     fontSize: fonts.small.fontSize,
-    lineHeight: 1,
-    verticalAlign: 'middle'
+    lineHeight: 1
   }
 })
 export default class Options extends PureComponent {
@@ -55,28 +58,27 @@ export default class Options extends PureComponent {
     if (!options.length) return null
 
     return (
-      <div>
+      <div className={classes.root}>
         {options.map((option) => {
           const inputId = uniqueId()
 
           return (
-            <div key={option.label}>
-              <label
-                className={classes.label}
-                onClick={onClickOption}
-                htmlFor={inputId}
-              >
-                <input
-                  className={classes.checkbox}
-                  type="checkbox"
-                  checked={option.status}
-                  onChange={option.handler}
-                  disabled={isLoading}
-                  id={inputId}
-                />
-                <span className={classes.labelText}>{option.label}</span>
-              </label>
-            </div>
+            <label
+              className={classes.label}
+              onClick={onClickOption}
+              htmlFor={inputId}
+              key={option.label}
+            >
+              <input
+                className={classes.checkbox}
+                type="checkbox"
+                checked={option.status}
+                onChange={option.handler}
+                disabled={isLoading}
+                id={inputId}
+              />
+              <span className={classes.labelText}>{option.label}</span>
+            </label>
           )
         })}
       </div>
