@@ -1,4 +1,6 @@
 import {normal} from 'grape-theme/dist/fonts'
+import {blue} from 'grape-theme/dist/base-colors'
+
 import linkButton from '../button/link'
 
 export const styles = {
@@ -13,7 +15,7 @@ export const styles = {
   },
   submit: {
     extend: [linkButton, normal],
-    color: 'inherit',
+    color: blue,
     flexShrink: 0
   },
   hidden: {
