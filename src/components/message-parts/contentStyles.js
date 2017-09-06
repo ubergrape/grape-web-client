@@ -12,6 +12,7 @@ export default {
   overflow: 'hidden',
   display: 'block',
   '& p': {
+    display: 'block',
     margin: 0
   },
   '& strong, & b': {
@@ -23,16 +24,19 @@ export default {
     fontStyle: 'italic'
   },
   '& blockquote': {
+    display: 'block',
     borderLeft: [3, 'solid', gainsboroLight],
     margin: [4, 0],
     padding: ['0.5em', 10],
     fontStyle: 'italic',
     '& p': {
       isolate: false,
+      display: 'block',
       color: gainsboroDark
     }
   },
   '& pre': {
+    display: 'block',
     margin: 0
   },
   '& code': {
