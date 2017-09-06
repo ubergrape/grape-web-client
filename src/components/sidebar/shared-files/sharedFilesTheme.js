@@ -8,7 +8,8 @@ export const styles = {
   },
   loadMoreContainer: {
     display: 'block',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: spacing
   },
   button,
   empty: {

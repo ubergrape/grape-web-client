@@ -14,7 +14,8 @@ export default {
   },
   loadMoreContainer: {
     display: 'block',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: spacing
   },
   channel: {
     extend: small,
