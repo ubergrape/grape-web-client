@@ -81,7 +81,7 @@ const MuiMenuItem = {
 const inputHorizontalSpacing = 10
 
 const MuiInput = {
-  wrapper: {
+  root: {
     border: {
       width: 1,
       style: 'solid',
@@ -109,6 +109,9 @@ const MuiFormLabel = {
   },
   focused: {
     color: palette.text.primary
+  },
+  error: {
+    color: palette.error[500]
   }
 }
 
