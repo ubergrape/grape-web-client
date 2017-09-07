@@ -10,9 +10,10 @@ const styles = {
   root: {
     display: 'block',
     textDecoration: 'none',
-    '&:hover': {
+    '&:hover *': {
       isolate: false,
-      textDecoration: 'none'
+      textDecoration: 'none',
+      cursor: 'pointer'
     }
   },
   icon: {
