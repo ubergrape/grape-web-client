@@ -29,6 +29,7 @@ const baseButton = {
 }
 
 const divider = {
+  display: 'block',
   marginBottom,
   paddingBottom,
   borderBottom: [1, 'solid', grayBlueLight]
@@ -81,7 +82,6 @@ export const styles = {
   },
   roomDescription: {
     extend: [normal, divider],
-    display: 'block',
     color: grayBlueDark
   },
   mainSettings: {

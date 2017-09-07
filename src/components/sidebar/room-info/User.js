@@ -16,7 +16,10 @@ const hoverColor = color(blue).lighten(0.05).rgbaString()
   row: {
     display: 'flex',
     marginBottom: 10,
-    cursor: 'pointer',
+    '& *': {
+      isolate: false,
+      cursor: 'pointer'
+    },
     '&:hover $buttonKick': {
       isolate: false,
       opacity: 1
