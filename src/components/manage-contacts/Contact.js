@@ -19,7 +19,7 @@ import Username from '../avatar-name/Username'
         isolate: false,
         color: white
       },
-      '& *': {
+      '&, & *': {
         isolate: false,
         cursor: 'pointer'
       }

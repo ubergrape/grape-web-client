@@ -27,7 +27,7 @@ export const styles = {
     display: 'block',
     padding: [4, 8],
     borderRadius: 3,
-    '& *': {
+    '&, & *': {
       isolate: false,
       cursor: 'pointer'
     }

@@ -10,7 +10,7 @@ import color from 'color'
 
 @injectSheet({
   root: {
-    '& *': {
+    '&, & *': {
       isolate: false,
       cursor: 'pointer'
     }

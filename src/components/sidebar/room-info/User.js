@@ -16,7 +16,7 @@ const hoverColor = color(blue).lighten(0.05).rgbaString()
   row: {
     display: 'flex',
     marginBottom: 10,
-    '& *': {
+    '&, & *': {
       isolate: false,
       cursor: 'pointer'
     },

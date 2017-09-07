@@ -129,7 +129,7 @@ export const styles = {
       isolate: false,
       background: darkenBackground
     },
-    '& *': {
+    '&, & *': {
       isolate: false,
       cursor: 'pointer'
     }
