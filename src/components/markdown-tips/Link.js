@@ -45,7 +45,7 @@ export default class Link extends PureComponent {
   render() {
     const {classes, className} = this.props
     const button = (
-      <Button onClick={this.onClick} className={classes.button} href="#" key="button">
+      <Button onClick={this.onClick} className={classes.button} href="#" key="button" draggable="false">
         markdown
       </Button>
     )
