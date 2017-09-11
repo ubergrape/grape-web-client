@@ -6,7 +6,7 @@ import steps from './steps'
 import {zIndex} from '../../utils/z-index'
 
 @injectSheet({
-  intro: {
+  root: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -37,7 +37,7 @@ export default class Intro extends PureComponent {
     if (!show) return null
 
     return (
-      <div className={classes.intro}>
+      <div className={classes.root}>
         <Step {...rest} isLast={!steps[step + 1]} container={this} />
       </div>
     )

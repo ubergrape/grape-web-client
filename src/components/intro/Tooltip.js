@@ -24,7 +24,7 @@ export default class IntroTooltip extends PureComponent {
   static propTypes = {
     beacon: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    container: PropTypes.node
+    container: PropTypes.object
   }
 
   static defaultProps = {

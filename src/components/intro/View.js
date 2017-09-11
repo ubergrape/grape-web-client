@@ -12,7 +12,7 @@ import Tooltip from './Tooltip'
 import {containerStyle} from './constants'
 
 const styles = {
-  view: containerStyle,
+  root: containerStyle,
   hl: {
     extend: fonts.biggest,
     lineHeight: 1,
@@ -64,6 +64,18 @@ const styles = {
   }
 }
 
+const SkipButton = props => (
+  <FormattedMessage
+    id="skipIntro"
+    defaultMessage="Skip tutorial"
+    description="Intro footer skip button"
+  >
+    {(...children) => (
+      <Button {...props}>{children}</Button>
+      )}
+  </FormattedMessage>
+)
+
 const Footer = (props) => {
   const {classes, onNext, onSkip, onDone, isLast} = props
 
@@ -74,20 +86,6 @@ const Footer = (props) => {
       </Button>
     )
   }
-
-  const skip = (
-    <FormattedMessage
-      id="skipIntro"
-      defaultMessage="Skip tutorial"
-      description="Intro footer skip button"
-    >
-      {(...children) => (
-        <Button className={classes.skip} onClick={onSkip}>
-          {children}
-        </Button>
-      )}
-    </FormattedMessage>
-  )
 
   return (
     <div className={classes.footer}>
@@ -106,7 +104,9 @@ const Footer = (props) => {
         id="skipIfDone"
         defaultMessage="Already done?{skip}"
         description="Intro footer"
-        values={{skip}}
+        values={{
+          skip: <SkipButton className={classes.skip} onClick={onSkip} />
+        }}
       />
     </div>
   )
@@ -122,7 +122,7 @@ export default class View extends PureComponent {
     text: PropTypes.node.isRequired,
     beacon: PropTypes.string,
     background: PropTypes.string,
-    container: PropTypes.node
+    container: PropTypes.object
   }
 
   static defaultProps = {
@@ -138,7 +138,7 @@ export default class View extends PureComponent {
 
     return (
       <Container
-        className={classes.view}
+        className={classes.root}
         background={background}
         beacon={beacon}
         container={container}

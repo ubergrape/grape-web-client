@@ -122,64 +122,65 @@ steps.push(props => (
   />
 ))
 
-const StepDone = (props) => {
-  const {classes, ...rest} = props
-  const addTeamMembersLink = (
-    <FormattedMessage
-      id="addTeamMembersLinkIntro"
-      defaultMessage="add your team members"
-      description="Link to the members admin within 'Well done' intro screen."
-    >
-      {(...children) => (
-        <Button
-          href="/accounts/organization/settings/members/"
-          className={classes.link}
-        >
-          {children}
-        </Button>
-      )}
-    </FormattedMessage>
-  )
-  const connectServicesLink = (
-    <FormattedMessage
-      id="connectServicesLinkIntro"
-      defaultMessage="connect your services"
-      description="Link to the integrations admin within 'Well done' intro screen."
-    >
-      {(...children) => (
-        <Button
-          href="/integrations/"
-          className={classes.link}
-        >
-          {children}
-        </Button>
-      )}
-    </FormattedMessage>
-  )
+const AddTeamMembersLink = props => (
+  <FormattedMessage
+    id="addTeamMembersLinkIntro"
+    defaultMessage="add your team members"
+    description="Link to the members admin within 'Well done' intro screen."
+  >
+    {(...children) => (
+      <Button
+        href="/accounts/organization/settings/members/"
+        {...props}
+      >
+        {children}
+      </Button>
+    )}
+  </FormattedMessage>
+)
 
-  return (
-    <View
-      {...rest}
-      headline={
-        <FormattedMessage
-          id="introHlDone"
-          defaultMessage="Well done!"
-          description="Intro data hl."
-        />
-      }
-      text={
-        <FormattedMessage
-          id="introTextDone"
-          defaultMessage="Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner."
-          description="Intro data text."
-          values={{addTeamMembersLink, connectServicesLink}}
-        />
-      }
-      image={mascot.inSpace}
-      background={green}
-    />
-  )
-}
+const ConnectServicesLink = props => (
+  <FormattedMessage
+    id="connectServicesLinkIntro"
+    defaultMessage="connect your services"
+    description="Link to the integrations admin within 'Well done' intro screen."
+  >
+    {(...children) => (
+      <Button
+        href="/integrations/"
+        {...props}
+      >
+        {children}
+      </Button>
+    )}
+  </FormattedMessage>
+)
+
+const StepDone = ({classes, ...rest}) => (
+  <View
+    {...rest}
+    headline={
+      <FormattedMessage
+        id="introHlDone"
+        defaultMessage="Well done!"
+        description="Intro data hl."
+      />
+    }
+    text={
+      <FormattedMessage
+        id="introTextDone"
+        defaultMessage="Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner."
+        description="Intro data text."
+        values={{
+          addTeamMembersLink: <AddTeamMembersLink className={classes.link} />,
+          connectServicesLink: <ConnectServicesLink className={classes.link} />
+        }}
+      />
+    }
+    image={mascot.inSpace}
+    background={green}
+  />
+)
 
 steps.push(injectSheet({
   link: {
