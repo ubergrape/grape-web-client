@@ -1,11 +1,7 @@
-import omit from 'lodash/object/omit'
 import {gainsboroLight, gainsboroDark, grayDark, white} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 import {styles as linkStyles} from './linkTheme'
-
-const link = omit(linkStyles.link, '&:hover')
-const linkHover = linkStyles.link['&:hover']
 
 // TODO #149 use standard typography styles
 export default {
@@ -13,13 +9,13 @@ export default {
   display: 'block',
   '& p': {
     display: 'block',
-    margin: 0
+    margin: 0,
+    wordBreak: 'break-word'
   },
   '& strong, & b': {
     fontWeight: 'bold'
   },
-  '& a': link,
-  '& a:hover': linkHover,
+  '& a': linkStyles.link,
   '& em': {
     fontStyle: 'italic'
   },
