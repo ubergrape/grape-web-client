@@ -5,10 +5,11 @@ import injectSheet from 'grape-web/lib/jss'
 import LinkAttachment from './LinkAttachment'
 
 @injectSheet({
-  linkAttachments: {
+  root: {
     display: 'block'
   },
   linkAttachment: {
+    display: 'block',
     margin: [2, 0, 0, 3]
   }
 })
@@ -38,7 +39,7 @@ export default class LinkAttachments extends PureComponent {
     } = this.props
 
     return (
-      <div className={classes.linkAttachments}>
+      <div className={classes.root}>
         {attachments.map(meta => (
           <LinkAttachment
             {...meta}
