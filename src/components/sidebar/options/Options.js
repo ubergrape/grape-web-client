@@ -27,7 +27,7 @@ import color from 'color'
     }
   },
   checkbox: {
-    WebkitAppearance: 'checkbox',
+    appearance: 'checkbox',
     marginRight: spacer.xs
   },
   labelText: {

@@ -126,11 +126,12 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
 
     return (
       <fieldset className={classes.adminField}>
-        <label className={classes.container}>
+        <label className={classes.label}>
           <input
             type="checkbox"
             checked={isChecked}
             onChange={this.onCheck}
+            className={classes.checkbox}
           />
           <FormattedMessage
             id="linkAttachmentRemoveDialogAdminCheckbox"
@@ -138,7 +139,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
             defaultMessage="Disable future attachments from this website?"
           />
         </label>
-        <label className={classes.container}>
+        <label className={classes.label}>
           <select
             name="type"
             disabled={!isChecked}
@@ -175,7 +176,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
         <form
           method="post"
           onSubmit={this.onSubmit}
-          className={classes.wrapper}
+          className={classes.root}
         >
           <FormattedMessage
             id="linkAttachmentRemoveDialogMessage"
