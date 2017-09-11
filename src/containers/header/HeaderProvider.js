@@ -8,7 +8,7 @@ import {Header} from '../../components/header'
 
 const actionNames = [
   'showChannelMembersInvite',
-  'showInSidebar',
+  'showSidebar',
   'hideSidebar',
   'requestAddChannelToFavorites',
   'requestRemoveChannelFromFavorites',

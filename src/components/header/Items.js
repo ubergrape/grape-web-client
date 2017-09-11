@@ -7,6 +7,7 @@ import {
 } from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
+import {Beacon} from '../intro'
 import Favorite from './Favorite'
 
 const messages = defineMessages({
@@ -130,9 +131,9 @@ function itemButtonClassName(panel, {sidebar, theme}) {
   return theme.classes[sidebar === panel ? `${panel}Active` : panel]
 }
 
-function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
+function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
   if (sidebar === panel) return hideSidebar
-  return showInSidebar.bind(null, panel)
+  return showSidebar.bind(null, panel)
 }
 
 export default function Items(props) {
@@ -154,12 +155,7 @@ export default function Items(props) {
   const {classes} = theme
 
   return (
-    <ul
-      className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
-      id="intro-step4"
-      data-step="4"
-      data-topic="room header"
-    >
+    <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
       <li className={classes.favorite}>
         <Tooltip message={getTooltipMessage('favorite')}>
           <Favorite {...favoriteProps} />
@@ -204,6 +200,7 @@ export default function Items(props) {
           placeholder={formatMessage(messages.placeholder)}
           type="search"
         />
+        <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('mentions')}>

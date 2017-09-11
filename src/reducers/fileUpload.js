@@ -12,9 +12,8 @@ const initialUpload = {
 export default function reduce(state = initialState, action) {
   const {payload} = action
   switch (action.type) {
-    case types.START_FILE_UPLOAD: {
+    case types.START_FILE_UPLOAD:
       return {...state, uploads: [...state.uploads, {...initialUpload, ...payload}]}
-    }
     case types.UPDATE_FILE_UPLOAD_PROGRESS: {
       const uploads = state.uploads.map(upload => (
         upload.id === payload.id ? {...upload, ...payload} : upload
@@ -28,7 +27,7 @@ export default function reduce(state = initialState, action) {
       return {...state, uploads}
     }
     case types.HANDLE_FILE_UPLOAD_ERROR: {
-      const uploads = state.uploads.map(upload => {
+      const uploads = state.uploads.map((upload) => {
         if (upload.id !== payload.id) return upload
         return {
           ...upload,

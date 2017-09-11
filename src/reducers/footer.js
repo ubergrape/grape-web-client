@@ -34,6 +34,8 @@ export default function reduce(state = initialState, action) {
       return {...state, services: action.payload}
     case types.HANDLE_AUTOCOMPLETE_SERVICES_STATS:
       return {...state, servicesStats: action.payload}
+    case types.SET_OPEN_FILE_DIALOG_HANDLER:
+      return {...state, onOpenFileDialog: action.payload}
     default:
       return state
   }

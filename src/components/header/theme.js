@@ -17,7 +17,8 @@ const button = {
   borderRadius: '100%',
   background: 'no-repeat 50% 50%',
   backgroundSize: ['auto', iconSize],
-  cursor: 'pointer'
+  cursor: 'pointer',
+  verticalAlign: 'middle'
 }
 
 function getIcon(name, type) {
@@ -80,8 +81,7 @@ export const styles = {
     overflow: 'hidden',
     flexGrow: 1,
     minWidth: 50,
-    paddingLeft: 10,
-    boxSizing: 'border-box'
+    paddingLeft: 10
   },
   name: {
     ...ellipsis,
@@ -112,7 +112,6 @@ export const styles = {
   },
   search: {
     extend: small,
-    boxSizing: 'border-box !important',
     background: `${white} no-repeat 12px 50%`,
     backgroundImage: `url('${getColoredIcon({name: 'magnifier', color: '#929292'})}')`,
     backgroundSize: 15,

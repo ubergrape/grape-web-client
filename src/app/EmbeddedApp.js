@@ -9,8 +9,10 @@ import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {FileUploadProvider} from '../containers/file-upload'
+import {SidebarProvider} from '../containers/sidebar'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
+import {AppContainer} from '../components/app-container'
 
 const Globals = () => (
   <section>
@@ -26,13 +28,16 @@ export default class EmbeddedApp extends PureComponent {
   render() {
     return (
       <AppProvider>
-        <AppLayout
-          Alerts={AlertsProvider}
-          History={HistoryProvider}
-          Footer={FooterProvider}
-          FileUpload={FileUploadProvider}
-          Globals={Globals}
-        />
+        <AppContainer>
+          <AppLayout
+            Alerts={AlertsProvider}
+            History={HistoryProvider}
+            Footer={FooterProvider}
+            FileUpload={FileUploadProvider}
+            Sidebar={SidebarProvider}
+            Globals={Globals}
+          />
+        </AppContainer>
       </AppProvider>
     )
   }

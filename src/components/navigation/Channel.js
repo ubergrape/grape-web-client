@@ -9,21 +9,6 @@ import {userStatusMap} from '../../constants/app'
 
 const maxUnread = 99
 
-function ChannelPicker(props) {
-  switch (props.channel.type) {
-    case 'room':
-      return <Room {...props} />
-    case 'pm':
-      return <Pm {...props} />
-    default:
-      return null
-  }
-}
-
-ChannelPicker.propTypes = {
-  channel: PropTypes.object.isRequired
-}
-
 function Unread(props) {
   const {type, unread, mentioned} = props.channel
   if (!unread) return null
@@ -41,45 +26,61 @@ function Unread(props) {
   )
 }
 
-Unread.propTypes = {
-  channel: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
-}
-
 function Room(props) {
+  const {channel, classes} = props
+  const theme = {
+    classes: {
+      name: classes.channelName,
+      avatarName: classes.avatarName
+    }
+  }
+
   return (
-    <div>
+    <div className={classes.channelInner}>
       <Roomname
-        {...props.channel}
+        {...channel}
         statusBorderColor={colors.grayBlueLighter}
         showPrivateStatus
+        theme={theme}
       />
       <Unread {...props} />
     </div>
   )
 }
 
-Room.propTypes = {
-  channel: PropTypes.object.isRequired
-}
 
 function Pm(props) {
-  const {mate} = props.channel
+  const {classes, channel: {mate}} = props
+  const theme = {
+    classes: {
+      name: classes.channelName,
+      avatarName: classes.avatarName
+    }
+  }
+
   return (
-    <div>
+    <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
         avatar={mate.avatar}
         status={userStatusMap[mate.status]}
         name={mate.displayName}
+        theme={theme}
       />
       <Unread {...props} />
     </div>
   )
 }
 
-Pm.propTypes = {
-  channel: PropTypes.object.isRequired
+function ChannelPicker(props) {
+  switch (props.channel.type) {
+    case 'room':
+      return <Room {...props} />
+    case 'pm':
+      return <Pm {...props} />
+    default:
+      return null
+  }
 }
 
 export default class Channel extends PureComponent {
@@ -89,12 +90,10 @@ export default class Channel extends PureComponent {
     header: PropTypes.string.isRequired,
     channel: PropTypes.object.isRequired,
     focused: PropTypes.bool.isRequired,
-    goToChannel: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    goToChannel: noop,
     onClick: noop,
     focused: false,
     header: ''

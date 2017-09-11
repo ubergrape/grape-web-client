@@ -6,6 +6,7 @@ import jsEmoji, {
   getEmojiSliceStyle,
   style
 } from '../emoji/emoji'
+import conf from '../../conf'
 
 import {
   isChatUrl,
@@ -28,7 +29,7 @@ export function renderTag(tag, props, children) {
     if (isGrapeUrl(nextProps.href)) {
       return createElement(GrapeObject, nextProps, children)
     }
-    if (!isChatUrl(nextProps.href)) {
+    if (conf.embed || !isChatUrl(nextProps.href)) {
       nextProps = {...nextProps, target: '_blank'}
     }
   }

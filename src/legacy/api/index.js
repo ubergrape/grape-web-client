@@ -342,16 +342,6 @@ API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
   })
 }
 
-API.prototype.endedIntro = function API_endedIntro() {
-  rpc({
-    ns: 'users',
-    action: 'set_profile',
-    args: [{show_intro: false}]
-  }, (err) => {
-    if (err) return this.emit('error', err)
-  })
-}
-
 API.prototype.changedTimezone = function API_changedTimezone(tz) {
   rpc({
     ns: 'users',

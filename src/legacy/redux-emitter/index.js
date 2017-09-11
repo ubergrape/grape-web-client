@@ -11,8 +11,12 @@ class ReduxEmitter extends Emitter {
     getBoundActions().setInitialData(toCamel(org.toJSON()))
   }
 
-  onSetUser(user) {
-    getBoundActions().setUser(toCamel(user.toJSON()))
+  onSetUser(userModel) {
+    const user = toCamel(userModel.toJSON())
+    getBoundActions().setUser(user)
+    if (user.settings.showIntro) {
+      getBoundActions().showIntro({via: 'onboarding'})
+    }
   }
 
   onSelectChannel(channel, messageId) {
@@ -121,10 +125,6 @@ class ReduxEmitter extends Emitter {
 
   showManageGroups() {
     getBoundActions().showManageGroups()
-  }
-
-  showIntro(options) {
-    this.emit('showIntro', options)
   }
 }
 

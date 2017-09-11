@@ -11,7 +11,6 @@ import {
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInputBigger'
 import IconSettings from './IconSettings'
-import {styles} from './advancedSettingsTheme'
 
 function getError(message) {
   if (!message) return undefined
@@ -36,7 +35,20 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
+@injectSheet({
+  advancedSettings: {
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center'
+  },
+  icon: {
+    flexShrink: 1
+  },
+  name: {
+    flexGrow: 1,
+    marginRight: 10
+  }
+})
 @injectIntl
 export default class AdvancedSettings extends PureComponent {
   static propTypes = {
@@ -98,7 +110,7 @@ export default class AdvancedSettings extends PureComponent {
             onClick={onClickRoomName}
           />
         </div>
-        <div className={classes.privacy}>
+        <div>
           <Switch
             off={formatMessage(messages.off)}
             on={formatMessage(messages.on)}

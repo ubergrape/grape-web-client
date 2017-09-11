@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
@@ -22,8 +23,10 @@ import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
 import {FileUploadProvider} from '../containers/file-upload'
+import {IntroProvider} from '../containers/intro'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
+import {AppContainer} from '../components/app-container'
 
 const Aside = ({className}) => (
   <aside className={className}>
@@ -48,23 +51,35 @@ const Globals = () => (
     <LinkAttachmentRemoveDialogProvider />
     <RoomDeleteDialogProvider />
     <BrowserNotificationProvider />
+    <IntroProvider />
   </section>
 )
 
+@injectSheet({
+  '@global': {
+    'html, body': {
+      margin: 0,
+      height: '100vh',
+      overflow: 'hidden'
+    }
+  }
+}, {increaseSpecificity: false, isolate: false})
 export default class App extends PureComponent {
   render() {
     return (
       <AppProvider>
-        <AppLayout
-          Aside={Aside}
-          Header={HeaderProvider}
-          Alerts={AlertsProvider}
-          History={HistoryProvider}
-          Footer={FooterProvider}
-          Sidebar={SidebarProvider}
-          Globals={Globals}
-          FileUpload={FileUploadProvider}
-        />
+        <AppContainer>
+          <AppLayout
+            Aside={Aside}
+            Header={HeaderProvider}
+            Alerts={AlertsProvider}
+            History={HistoryProvider}
+            Footer={FooterProvider}
+            Sidebar={SidebarProvider}
+            Globals={Globals}
+            FileUpload={FileUploadProvider}
+          />
+        </AppContainer>
       </AppProvider>
     )
   }

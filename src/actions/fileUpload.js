@@ -21,8 +21,16 @@ function uploadFile(file) {
       payload: {id, name: file.name}
     })
 
-    api
-      .uploadFile(org.id, file)
+    const onError = (err) => {
+      dispatch({
+        type: types.HANDLE_FILE_UPLOAD_ERROR,
+        payload: {id, err}
+      })
+    }
+
+    const upload = api.uploadFile(org.id, file)
+
+    upload
       .on('progress', (e) => {
         // It is undefined at the end.
         if (e.percent === undefined) return
@@ -32,19 +40,19 @@ function uploadFile(file) {
           payload: {id, progress: e.percent}
         })
       })
-      .on('error', (err) => {
-        dispatch({
-          type: types.HANDLE_FILE_UPLOAD_ERROR,
-          payload: {id, err}
-        })
-      })
+      .on('error', onError)
       .on('response', (res) => {
-        if (res.error) return
-        const message = createMessage({
+        if (res.error || !res.body) {
+          dispatch({
+            type: types.HANDLE_FILE_UPLOAD_ERROR,
+            payload: {id, err: res.error || new Error('Bad response.')}
+          })
+          return
+        }
+        dispatch(createMessage({
           channelId: channel.id,
           attachments: [res.body]
-        })
-        dispatch(message)
+        }))
       })
       .on('end', () => {
         dispatch({
@@ -52,7 +60,13 @@ function uploadFile(file) {
           payload: {id}
         })
       })
-      .end()
+
+    upload.end()
+
+    // Should be in the lib itself.
+    upload.xhr.addEventListener('error', () => {
+      onError(new Error('An unknown error happened.'))
+    })
   }
 }
 
@@ -87,7 +101,8 @@ export function rejectFiles({files}) {
     type: types.HANDLE_REJECTED_FILES,
     payload: files.map(file => ({
       id: random(1e5),
-      name: file.name
+      name: file.name || 'Noname',
+      error: 'Rejected'
     }))
   }
 }
@@ -102,5 +117,14 @@ export function hideUploadNotification() {
   return (dispatch) => {
     dispatch(showOrUpdateNotification(null, {dismissAfter: 3000}))
     dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
+  }
+}
+
+export function setOpenFileDialogHandler(fn) {
+  return (dispatch) => {
+    dispatch({
+      type: types.SET_OPEN_FILE_DIALOG_HANDLER,
+      payload: fn
+    })
   }
 }

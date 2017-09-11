@@ -8,7 +8,7 @@ import {white, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
-import {defaultRoomIconSlug} from '../../constants/images'
+import {defaultIconSlug} from '../../constants/channel'
 import Avatar from '../avatar/Avatar'
 
 const StatusIcon = ({classes, borderWidth, borderColor, size}) => (
@@ -89,6 +89,7 @@ export default injectSheet({
     }
   },
   icon: {
+    isolate: false,
     width: '100%',
     height: '100%'
   }
@@ -111,7 +112,7 @@ RoomIcon.propTypes = {
 }
 
 RoomIcon.defaultProps = {
-  name: defaultRoomIconSlug,
+  name: defaultIconSlug,
   className: '',
   isPrivate: false,
   showPrivateStatus: false

@@ -8,7 +8,7 @@ import OrgInfo from '../../components/org-info/OrgInfo'
 
 const actionNames = {
   showInviteToOrg: 'onInvite',
-  showTutorial: 'onShowTutorial'
+  showIntro: 'onshowIntro'
 }
 
 const ConnectedOrgInfo = connect(

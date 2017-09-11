@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import Dropzone from '@ubergrape/react-dropzone'
+import Dropzone from 'react-dropzone'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import DropOverlay from './DropOverlay'
@@ -24,12 +24,7 @@ export default class FileUpload extends PureComponent {
     dropZoneStyle: {}
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isDragging: false
-    }
-  }
+  state = {isDragging: false}
 
   onDragEnter = () => {
     this.setState({isDragging: true})

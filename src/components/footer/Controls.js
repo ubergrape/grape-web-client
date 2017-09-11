@@ -1,12 +1,63 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Dropzone from '@ubergrape/react-dropzone'
+import Dropzone from 'react-dropzone'
+import {grayLight, blue} from 'grape-theme/dist/base-colors'
+import {bigger} from 'grape-theme/dist/fonts'
 
 import {maxSize as maxFileSize} from '../file-upload'
-import {styles} from './controlsTheme'
+import {Beacon} from '../intro'
+import buttonIcon from '../button/icon'
+import {controlSpacing} from './constants'
 
-@injectSheet(styles)
+const AttachmentButton = (props) => {
+  const {
+    classes, disabled, onDropAccepted, onDropRejected, onOpenFileDialog
+  } = props
+
+  // Upload click will be handled using public API.
+  if (onOpenFileDialog) {
+    return <span className={classes.attachment} onClick={onOpenFileDialog} />
+  }
+
+  return (
+    <Dropzone
+      className={classes.attachment}
+      maxSize={maxFileSize}
+      disableClick={disabled}
+      onDropAccepted={onDropAccepted}
+      onDropRejected={onDropRejected}
+    />
+  )
+}
+
+const iconOptions = {
+  color: grayLight,
+  hoverColor: blue,
+  iconOnly: true
+}
+
+@injectSheet({
+  controls: {
+    extend: bigger,
+    flexShrink: 0
+  },
+  attachment: {
+    extend: buttonIcon('paperclip', iconOptions),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  },
+  emoji: {
+    extend: buttonIcon('smileOpen', iconOptions),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  },
+  search: {
+    extend: buttonIcon('hashtag', {...iconOptions, color: blue}),
+    padding: controlSpacing,
+    fontSize: 'inherit'
+  }
+})
 export default class Controls extends PureComponent {
   static propTypes = {
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
@@ -16,18 +67,20 @@ export default class Controls extends PureComponent {
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
-    onRejectFiles: PropTypes.func.isRequired
+    onRejectFiles: PropTypes.func.isRequired,
+    onOpenFileDialog: PropTypes.func
   }
 
   static defaultProps = {
-    disabled: false
+    disabled: false,
+    onOpenFileDialog: undefined
   }
 
-  onSelectFiles = (files) => {
+  onDropAccepted = (files) => {
     this.props.onUpload({files})
   }
 
-  onRejectFiles = (files) => {
+  onDropRejected = (files) => {
     this.props.onRejectFiles({files})
   }
 
@@ -44,18 +97,19 @@ export default class Controls extends PureComponent {
   }
 
   render() {
-    const {classes, disabled} = this.props
+    const {classes, disabled, onOpenFileDialog} = this.props
     return (
       <div className={classes.controls}>
-        <Dropzone
-          className={classes.attachment}
-          onDropAccepted={this.onSelectFiles}
-          onDropRejected={this.onRejectFiles}
-          maxSize={maxFileSize}
-          disableClick={disabled}
+        <AttachmentButton
+          classes={classes}
+          disabled={disabled}
+          onOpenFileDialog={onOpenFileDialog}
+          onDropAccepted={this.onDropAccepted}
+          onDropRejected={this.onDropRejected}
         />
         <button className={classes.emoji} onClick={this.onToggleEmojiBrowser} disabled={disabled} />
         <button className={classes.search} onClick={this.onShowSearchBrowser} disabled={disabled} />
+        <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
   }

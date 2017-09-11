@@ -17,7 +17,7 @@ export function hideSidebar() {
   }
 }
 
-export function showInSidebar(panel) {
+export function showSidebar(panel) {
   return (dispatch) => {
     dispatch({
       type: types.SHOW_SIDEBAR,

@@ -7,7 +7,6 @@ import reset from './reset'
 export default {
   extend: [normal, reset],
   color: colors.blue,
-  border: 'none',
   cursor: 'pointer',
   '&:hover': {
     isolate: false,

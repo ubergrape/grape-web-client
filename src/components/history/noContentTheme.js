@@ -34,9 +34,10 @@ const image = {
 export const styles = {
   noContent: {
     display: 'flex',
-    padding: '80px 20px'
+    padding: [80, 20]
   },
   illustration: {
+    flexShrink: 0,
     paddingRight: 20
   },
   publicChannelImage: {
@@ -61,7 +62,7 @@ export const styles = {
       button,
       buttonIcon('invite', buttonIconOptions)
     ],
-    padding: '20px 20px 0 0'
+    padding: [20, 20, 0, 0]
   },
   buttonIntegration: {
     extend: [

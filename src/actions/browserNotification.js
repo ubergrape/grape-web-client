@@ -38,7 +38,8 @@ export function ensureBrowserNotificationPermission() {
     if (shouldRequestPermission()) {
       dispatch(showAlert({
         level: 'info',
-        type: alerts.NOTIFICATIONS_REMINDER
+        type: alerts.NOTIFICATIONS_REMINDER,
+        isClosable: true
       }))
     } else {
       dispatch(setNotificationSession())

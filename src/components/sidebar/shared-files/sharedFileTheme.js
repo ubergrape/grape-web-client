@@ -1,21 +1,16 @@
-import colors from 'grape-theme/dist/base-colors'
+import {grayDarker, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 
-const image = {
-  width: '100%',
-  height: '100%',
-  background: 'transparent no-repeat center',
-  backgroundSize: 'contain',
-  borderRadius: sizes.borderRadius.big
-}
-
 export const styles = {
   sharedFile: {
     display: 'flex',
-    cursor: 'pointer',
-    marginBottom: 20
+    marginBottom: 20,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   leftColumn: {
     flexShrink: 0,
@@ -26,25 +21,28 @@ export const styles = {
   },
   rightColumn: {
     flex: 1,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    overflow: 'hidden'
+  },
+  icon: {
+    width: '100%',
+    height: '100%',
+    background: 'transparent no-repeat center',
+    backgroundSize: 'contain',
+    borderRadius: sizes.borderRadius.big
   },
   thumbnail: {
-    ...image,
+    composes: '$icon',
     backgroundSize: 'cover',
     boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.15)'
   },
-  icon: {
-    ...image
-  },
   name: {
-    ...ellipsis,
-    ...fonts.normal,
-    fontWeight: '500',
-    color: colors.grayDarker
+    extend: [ellipsis, fonts.normal],
+    fontWeight: 500,
+    color: grayDarker
   },
   meta: {
-    ...ellipsis,
-    ...fonts.small,
-    color: colors.grayBlueDark
+    extend: [ellipsis, fonts.small],
+    color: grayBlueDark
   }
 }

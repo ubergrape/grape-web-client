@@ -29,8 +29,9 @@ export default class Group extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     group: PropTypes.object.isRequired,
-    sheet: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired
+    classes: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   }
 
   onClick = () => {
@@ -40,16 +41,14 @@ export default class Group extends PureComponent {
       type
     } = this.props
 
-    onSelect(
-      type === 'joined' ? id : slug
-    )
+    onSelect(type === 'joined' ? id : slug)
   }
 
   render() {
     const {
       group,
       intl: {formatMessage},
-      sheet: {classes},
+      classes,
       type
     } = this.props
     return (
@@ -59,6 +58,7 @@ export default class Group extends PureComponent {
             {...group}
             showPrivateStatus
             showRoomInfo
+            theme={{classes}}
           />
         </div>
         <button className={classes[type]} onClick={this.onClick}>

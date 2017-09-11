@@ -2,14 +2,15 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
-import {icon as iconSize} from 'grape-theme/dist/sizes'
+
+import {size} from './constants'
 
 @injectSheet({
   avatar: {
     display: 'block',
     position: 'relative',
-    width: iconSize.l,
-    height: iconSize.l,
+    width: size,
+    height: size,
     flexShrink: 0,
     borderRadius: '50%',
     background: {

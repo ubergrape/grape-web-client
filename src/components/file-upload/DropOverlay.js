@@ -1,15 +1,63 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
+import injectSheet from 'grape-web/lib/jss'
+import {blue, white} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
+import {zIndex} from '../../utils/z-index'
 import staticUrl from '../../utils/static-url'
 import {maxSize} from './constants'
-import {styles} from './dropOverlayTheme'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
-@injectSheet(styles)
+@injectSheet({
+  dropzone: {},
+  overlay: {
+    position: 'absolute',
+    background: 'rgba(0,0,0,.85)',
+    zIndex: zIndex('dialog'),
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  },
+  body: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10,
+    border: {
+      width: 2,
+      style: 'dashed',
+      color: blue,
+      radius: 15
+    }
+  },
+  content: {
+    width: '50%',
+    marginTop: '-10%',
+    textAlign: 'center'
+  },
+  image: {
+    width: '50%'
+  },
+  headline: {
+    extend: fonts.biggest,
+    color: blue,
+    textAlign: 'center'
+  },
+  descr: {
+    extend: fonts.small,
+    lineHeight: 2,
+    color: white,
+    textAlign: 'center'
+  }
+})
 export default class DropOverlay extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired

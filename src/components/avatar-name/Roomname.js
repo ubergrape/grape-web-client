@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
@@ -19,12 +20,15 @@ export default class Roomname extends PureComponent {
     isPublic: PropTypes.bool,
     showPrivateStatus: PropTypes.bool,
     showRoomInfo: PropTypes.bool,
-    users: PropTypes.array
+    users: PropTypes.array,
+    className: PropTypes.string,
+    theme: PropTypes.object
   }
 
   static defaultProps = {
     name: '',
-    creatorUser: null,
+    className: undefined,
+    creatorUser: undefined,
     icon: undefined,
     color: '#f00',
     statusBorderColor: '#fff',
@@ -33,7 +37,8 @@ export default class Roomname extends PureComponent {
     showPrivateStatus: false,
     showRoomInfo: false,
     isPublic: false,
-    users: []
+    users: [],
+    theme: {classes: {}}
   }
 
   render() {
@@ -41,11 +46,12 @@ export default class Roomname extends PureComponent {
       name, icon, color: backgroundColor,
       creatorUser, users, showRoomInfo,
       statusBorderColor, isPublic, showPrivateStatus,
-      classes
+      classes, className,
+      theme
     } = this.props
 
     return (
-      <div className={classes.avatarName}>
+      <div className={cn(classes.avatarName, theme.classes.avatarName, className)}>
         <Icon
           name={icon}
           theme={{
@@ -55,7 +61,7 @@ export default class Roomname extends PureComponent {
           showPrivateStatus={showPrivateStatus}
           isPrivate={!isPublic}
         />
-        <div className={classes.name}>
+        <div className={cn(classes.name, theme.classes.name)}>
           {name}
           {showRoomInfo && (
             <ul className={classes.info}>

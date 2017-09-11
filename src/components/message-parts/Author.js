@@ -2,13 +2,22 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import {gray} from 'grape-theme/dist/base-colors'
+import {small} from 'grape-theme/dist/fonts'
 
-import {styles} from './authorTheme'
-
-@injectSheet(styles)
+@injectSheet({
+  root: {
+    extend: [small, ellipsis],
+    color: gray,
+    marginRight: 10,
+    fontWeight: 'bold',
+    flexShrink: 1
+  }
+})
 export default class Author extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     className: PropTypes.string,
     onClick: PropTypes.func,
     author: PropTypes.string
@@ -21,12 +30,11 @@ export default class Author extends PureComponent {
   }
 
   render() {
-    const {author, onClick, sheet, className} = this.props
-    const {classes} = sheet
+    const {author, onClick, classes, className} = this.props
     return (
       <span
         onClick={onClick}
-        className={`${classes.author} ${className}`}
+        className={`${classes.root} ${className}`}
       >
         {author || <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />}
       </span>

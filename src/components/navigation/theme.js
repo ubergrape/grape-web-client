@@ -1,8 +1,9 @@
-import buttonIcon from '../button/icon'
 import {small} from 'grape-theme/dist/fonts'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+
+import buttonIcon from '../button/icon'
 
 const button = {
   extend: small,
@@ -11,7 +12,9 @@ const button = {
   display: 'block',
   width: '100%',
   paddingLeft: 35,
-  textAlign: 'left'
+  textAlign: 'left',
+  color: colors.grayBlueDark,
+  cursor: 'pointer'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
 const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
@@ -65,7 +68,6 @@ export const styles = {
     flex: 1,
     // Fixes flex box bug in Firefox.
     overflowY: 'hidden',
-    color: colors.grayBlueDark,
     background: colors.grayBlueLighter
   },
   navigation: {
@@ -73,7 +75,7 @@ export const styles = {
     flex: '1 0'
   },
   navigationWrapper: {
-    boxSizing: 'border-box',
+    display: 'block',
     padding: '15px 0',
     height: '100%'
   },
@@ -81,6 +83,7 @@ export const styles = {
     paddingLeft: 15
   },
   manageItem: {
+    display: 'block',
     marginTop: 10,
     listStyle: 'none'
   },
@@ -88,9 +91,11 @@ export const styles = {
   contacts,
   channels,
   section: {
+    display: 'block',
     marginTop: 20
   },
   list: {
+    display: 'block',
     marginTop: 10
   },
   notFound: {
@@ -117,31 +122,45 @@ export const styles = {
     backgroundPosition: '0 2px'
   },
   channel: {
-    ...small,
-    position: 'relative',
-    padding: '3px 42px 3px 15px',
-    cursor: 'pointer',
+    extend: small,
+    display: 'block',
+    padding: [3, 15],
     '&:hover': {
       isolate: false,
       background: darkenBackground
+    },
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
     }
   },
+  channelInner: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   channelCurrent: {
-    fontWeight: 'bold',
     color: colors.grayDarker,
-    background: darkenBackground
+    background: darkenBackground,
+    '& $channelName': {
+      isolate: false,
+      fontWeight: 'bold',
+      color: colors.grayDarker
+    }
   },
   channelFocused: {
     background: darkenBackground
   },
+  channelName: {
+    color: colors.grayBlueDark
+  },
+  avatarName: {
+    flexGrow: 1
+  },
   sign: {
     extend: small,
     fontWeight: 'normal',
-    position: 'absolute',
-    right: 15,
-    top: 9,
     minWidth: 24,
-    padding: '1px 7px 0',
+    padding: [1, 7, 0],
     textAlign: 'center',
     borderRadius: 50,
     color: colors.white
@@ -159,7 +178,6 @@ export const styles = {
   },
   filterInput: {
     extend: small,
-    boxSizing: 'border-box !important',
     background: `${darkenBackground} no-repeat 10px 50%`,
     backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
     backgroundSize: 19,

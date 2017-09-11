@@ -6,17 +6,21 @@ import {horizontalPadding} from '../input/theme/grayBigger'
 
 export const styles = {
   wrapper: {
+    display: 'block',
     padding: 15,
     borderTop: [3, 'solid', grayBlueLighter]
   },
   form: {
+    display: 'block',
     position: 'relative'
   },
   label: {
     extend: normal,
-    marginLeft: horizontalPadding
+    marginLeft: horizontalPadding,
+    display: 'block'
   },
   line: {
+    display: 'block',
     marginTop: 10
   },
   textarea: {
@@ -36,6 +40,7 @@ export const styles = {
     opacity: 1
   },
   submit: {
+    display: 'block',
     marginTop: 15,
     textAlign: 'right'
   },

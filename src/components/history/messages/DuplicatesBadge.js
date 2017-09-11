@@ -2,15 +2,18 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {gold, white} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 import Chip from 'material-ui/Chip'
 
 @injectSheet({
   badge: {
+    extend: fonts.normal,
     display: 'inline-block',
     background: gold,
     color: white,
     marginLeft: 5,
-    alignSelf: 'flex-start'
+    verticalAlign: 'top',
+    padding: 0
   }
 })
 export default class DuplicatesBadge extends PureComponent {

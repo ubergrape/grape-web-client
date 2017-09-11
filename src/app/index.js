@@ -28,7 +28,6 @@ export function init() {
 }
 
 export function renderSheetsInsertionPoints() {
-  document.head.appendChild(document.createComment('jss-theme-reactor'))
   document.head.appendChild(document.createComment('grape-jss'))
 }
 

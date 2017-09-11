@@ -9,7 +9,7 @@ import {settingsButtonSize} from './constants'
 import {iconSize as roomIconSize} from '../../room-icon-settings'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -24,36 +24,42 @@ const baseButton = {
   '&:hover': {
     isolate: false,
     color: hoverColor,
-    textDecoration: 'underline !important'
+    textDecoration: 'underline'
   }
 }
 
 const divider = {
+  display: 'block',
   marginBottom,
   paddingBottom,
-  borderBottom: `1px solid ${grayBlueLight}`
+  borderBottom: [1, 'solid', grayBlueLight]
 }
 
 export const styles = {
   channelInfo: {
+    display: 'block',
     color: grayBlueDark,
     padding: spacing
   },
   actions: {
     extend: divider,
     marginBottom,
-    '& :last-child': {
+    '& > :last-child': {
+      isolate: false,
       marginBottom: 0
     }
   },
   actionItem: {
+    display: 'block',
+    listStyleType: 'none',
     marginTop: 10
   },
   buttonInvite: {
     extend: [
       baseButton,
       buttonIcon('invite', {color: blue, hoverColor, size: iconSize.s})
-    ]
+    ],
+    color: blue
   },
   buttonIntegration: {
     extend: [
@@ -71,10 +77,12 @@ export const styles = {
   },
   roomName: {
     extend: bigger,
-    width: '100%'
+    width: '100%',
+    color: grayBlueDark
   },
   roomDescription: {
-    extend: [normal, divider]
+    extend: [normal, divider],
+    color: grayBlueDark
   },
   mainSettings: {
     extend: divider,
@@ -93,6 +101,7 @@ export const styles = {
     display: 'flex',
     flexShrink: 0,
     '& > *': {
+      isolate: false,
       marginLeft: 10
     }
   },
@@ -105,7 +114,6 @@ export const styles = {
     extend: [linkButton, normal],
     display: 'block',
     whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
     width: '100%',
     textAlign: 'left',
     padding: 10,

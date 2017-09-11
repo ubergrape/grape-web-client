@@ -5,7 +5,6 @@ import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import reduxEmitter from '../legacy/redux-emitter'
 import {channelsSelector, usersSelector} from '../selectors'
 import {
   normalizeChannelData,
@@ -84,16 +83,6 @@ export function trackAnalytics(name, options) {
       payload: {name, options}
     })
     if (window.analytics) window.analytics.track(name, options)
-  }
-}
-
-export function showTutorial(options) {
-  return (dispatch) => {
-    dispatch({type: types.SHOW_TUTORIAL})
-    // FIXME: this should be deleted when Intro.js would be refactored
-    // https://github.com/ubergrape/chatgrape/issues/4056
-    reduxEmitter.showIntro(options)
-    dispatch(trackAnalytics('Started Tutorial', options))
   }
 }
 
@@ -191,9 +180,6 @@ export function setInitialData(org) {
       const channel = find(channels, {id: conf.channelId})
       dispatch(setChannel(channel))
     }
-    setTimeout(() => {
-      dispatch(showTutorial({via: 'onboarding'}))
-    }, 1000)
     dispatch({type: types.HANDLE_INITIAL_DATA})
   }
 }

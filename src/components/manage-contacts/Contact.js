@@ -1,18 +1,37 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import colors from 'grape-theme/dist/base-colors'
+import {grayDark, white} from 'grape-theme/dist/base-colors'
+import {link} from 'grape-theme/dist/web-colors'
 import injectSheet from 'grape-web/lib/jss'
 
 import {userStatusMap} from '../../constants/app'
 import Username from '../avatar-name/Username'
-import {styles} from './contactTheme'
 
-@injectSheet(styles)
+@injectSheet({
+  contact: {
+    display: 'block',
+    color: grayDark,
+    padding: [10, 20],
+    '&:hover, &:focus': {
+      isolate: false,
+      backgroundColor: link,
+      '& $name': {
+        isolate: false,
+        color: white
+      },
+      '&, & *': {
+        isolate: false,
+        cursor: 'pointer'
+      }
+    }
+  },
+  name: {}
+})
 export default class Contact extends PureComponent {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   onClick = () => {
@@ -26,18 +45,19 @@ export default class Contact extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       user
     } = this.props
     const {displayName, avatar, status} = user
 
     return (
-      <div className={classes.item} onClick={this.onClick} tabIndex="0">
+      <div className={classes.contact} onClick={this.onClick} tabIndex="0">
         <Username
           name={displayName}
           avatar={avatar}
-          statusBorderColor={colors.white}
+          statusBorderColor={white}
           status={userStatusMap[status]}
+          theme={{classes}}
         />
       </div>
     )

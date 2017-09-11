@@ -18,7 +18,6 @@ export default function doBroker(ui, api) {
   broker(ui, 'send', api, 'publish')
   broker(ui, 'update', api, 'updateMsg')
   broker(ui, 'hasread', api, 'setRead')
-  broker(ui, 'introend', api, 'endedIntro')
   broker(ui, 'timezonechange', api, 'changedTimezone')
   broker(ui, 'editView', api, 'onEditView')
   broker(ui, 'needhistory', api, 'getHistory')

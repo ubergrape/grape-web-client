@@ -6,9 +6,11 @@ export const styles = {
     background: white
   },
   row: {
+    display: 'block',
     paddingTop: 10
   },
   groupedRow: {
+    display: 'block',
     paddingTop: 2
   },
   lastRow: {

@@ -153,9 +153,8 @@ Content.propTypes = {
   loadLabeledMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
-  show: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
+  show: PropTypes.oneOf([
+    false, 'files', 'room', 'pm', 'mentions', 'search', 'labeledMessages'
   ]).isRequired,
   searchActivities: PropTypes.bool,
   currentChannelOnly: PropTypes.bool,

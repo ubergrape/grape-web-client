@@ -15,23 +15,31 @@ const iconSettingsButton = {
   marginRight: 10,
   padding: 4,
   borderRadius: '50%',
-  border: `${buttonBorderWidth}px solid`
+  border: [buttonBorderWidth, 'solid'],
+  '&:hover, &:hover *': {
+    isolate: false,
+    cursor: 'pointer'
+  }
 }
 
 const chooserButton = {
   extend: buttonReset,
   display: 'block',
   overflow: 'hidden',
-  boxSizing: 'border-box',
   width: iconSize.l,
   height: iconSize.l,
   borderRadius: '50%',
   backgroundClip: 'content-box',
-  border: '1px solid transparent',
+  border: [1, 'solid', 'transparent'],
   boxShadow: `inset 0 0 0 2px ${white}`,
+  cursor: 'pointer',
   '&:hover': {
     isolate: false,
-    borderColor: linkColor
+    borderColor: linkColor,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   }
 }
 
@@ -49,11 +57,11 @@ export const styles = {
     borderColor: linkColor
   },
   iconSettings: {
-    boxSizing: 'border-box',
     padding: 15,
     paddingRight: 10
   },
   iconSettingsTitle: {
+    display: 'block',
     extend: small,
     fontWeight: 'bold'
   },

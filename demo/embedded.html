@@ -6,21 +6,33 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width">
   <style>
-    html, body, #grape-client {
+    html, body {
       height: 100%;
+      margin: 0;
+    }
+
+    #grape-client {
+      position: absolute;
+      width: 60%;
+      height: 100%;
+      margin-left: -30%;
+      left: 50%
     }
   </style>
-</head>
-<body>
-  <div id="grape-client"></div>
-  <script src='https://unpkg.com/grape-web-client/dist/app/app.js'></script>
   <script>
+  !function(d,s,c,n){n=d.createElement('script')
+  n.async=1,n.src=s,n.onload=c,d.head.appendChild(n)}(document,'https://unpkg.com/grape-web-client/dist/app/app.js',function(){
     grapeClient.embed({
       container: '#grape-client',
       channelId: 632,
+      //channelId: 2253,
       orgId: 1,
-      host: 'staging.chatgrape.com'
-    });
+      host: 'uebergrape.staging.chatgrape.com'
+    })
+  })
   </script>
+</head>
+<body>
+  <div id="grape-client"></div>
 </body>
 </html>

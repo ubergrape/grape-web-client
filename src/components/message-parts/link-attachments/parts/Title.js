@@ -1,15 +1,37 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import color from 'color'
 import injectSheet from 'grape-web/lib/jss'
+import {normal} from 'grape-theme/dist/fonts'
+import webColors from 'grape-theme/dist/web-colors'
 
-import {styles} from './titleTheme.js'
+const lighterLink = color(webColors.link).lighten(0.2).hexString()
 
-@injectSheet(styles)
+@injectSheet({
+  text: {
+    extend: normal,
+    fontWeight: 'bold'
+  },
+  title: {
+    textDecoration: 'none',
+    '& $text': {
+      isolate: false,
+      color: webColors.link,
+      borderBottom: [1, 'solid', 'transparent']
+    },
+    '&:hover $text, &:focus $text': {
+      isolate: false,
+      textDecoration: 'none',
+      color: lighterLink,
+      borderBottomColor: lighterLink
+    }
+  }
+})
 export default class Title extends PureComponent {
   static propTypes = {
     link: PropTypes.string,
     text: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -19,11 +41,11 @@ export default class Title extends PureComponent {
   renderText() {
     const {
       text,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
-      <span className={classes.container}>
+      <span className={classes.text}>
         {text}
       </span>
     )
@@ -32,12 +54,12 @@ export default class Title extends PureComponent {
   renderWithLink() {
     const {
       link,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
       <a
-        className={classes.link}
+        className={classes.title}
         target="_blank"
         rel="noopener noreferrer"
         href={link}

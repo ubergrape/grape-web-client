@@ -1,5 +1,5 @@
 import {grayBombay} from 'grape-theme/dist/base-colors'
-import {normal} from 'grape-theme/dist/fonts'
+import fonts from 'grape-theme/dist/fonts'
 
 export const styles = {
   container: {
@@ -11,12 +11,13 @@ export const styles = {
     color: grayBombay,
     textDecoration: 'none',
     '&:hover, &:focus': {
+      isolate: false,
       textDecoration: 'underline'
     }
   },
   icon: {
-    width: normal.fontSize,
-    height: normal.fontSize,
+    width: fonts.normal.fontSize,
+    height: fonts.normal.fontSize,
     marginRight: 5
   },
   text: {

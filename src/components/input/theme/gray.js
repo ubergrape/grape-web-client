@@ -1,6 +1,7 @@
 import fonts from 'grape-theme/dist/fonts'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import {grayBlueLighter, red, orange} from 'grape-theme/dist/base-colors'
+import prefixSelector from 'grape-web/lib/jss-utils/prefixSelector'
+import {grayLight, grayBlueLighter, red, orange} from 'grape-theme/dist/base-colors'
 import color from 'color'
 
 export const placement = 'bottom'
@@ -11,13 +12,17 @@ export const horizontalPadding = 10
 const input = {
   width: '100%',
   outline: 'none',
-  padding: `1px ${horizontalPadding}px`,
+  padding: [1, horizontalPadding],
   borderRadius: 5,
-  border: '1px solid',
+  border: [1, 'solid'],
   '&:disabled': {
     isolate: false,
     opacity: 0.6,
     pointerEvents: 'none'
+  },
+  [`&${prefixSelector('::input-placeholder')}`]: {
+    isolate: false,
+    color: grayLight
   }
 }
 

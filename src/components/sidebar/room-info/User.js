@@ -1,14 +1,48 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import colors from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
+import color from 'color'
+import {small, normal} from 'grape-theme/dist/fonts'
+import {blue, grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
 
 import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
 import {getRoles} from './utils'
-import {styles} from './userTheme'
+import buttonIcon from '../../button/icon'
 
-@injectSheet(styles)
+const hoverColor = color(blue).lighten(0.05).rgbaString()
+
+@injectSheet({
+  row: {
+    display: 'flex',
+    marginBottom: 10,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    },
+    '&:hover $buttonKick': {
+      isolate: false,
+      opacity: 1
+    }
+  },
+  userNameContainer: {
+    flex: 1,
+    overflow: 'hidden'
+  },
+  name: {
+    extend: normal,
+    color: grayBlueDark
+  },
+  buttonKick: {
+    extend: [
+      buttonIcon('close', {color: grayBlueDark, hoverColor, iconOnly: true}),
+      small
+    ],
+    flexShrink: 0,
+    opacity: 0,
+    marginLeft: 10
+  }
+})
 export default class User extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -69,7 +103,7 @@ export default class User extends PureComponent {
           onClick={this.onSelectMember}
         >
           <Username
-            statusBorderColor={colors.grayBlueLighter}
+            statusBorderColor={grayBlueLighter}
             avatar={user.avatar}
             status={userStatusMap[user.status]}
             name={user.displayName}

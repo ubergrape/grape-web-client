@@ -23,7 +23,7 @@ export const styles = {
     }
   },
   authorClickable: {
-    extend: 'clickable'
+    compose: '$clickable'
   },
   contentWrapper: {
     width: '100%',
@@ -37,6 +37,7 @@ export const styles = {
     color: red,
     marginTop: 5,
     '& a': {
+      isolate: false,
       color: red
     }
   },

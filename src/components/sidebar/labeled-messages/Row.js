@@ -7,7 +7,7 @@ import moment from 'moment'
 import Button from 'material-ui/Button'
 
 import DateSeparator from '../../message-parts/DateSeparator'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 import Message from './Message'
 
 const messagePropType = PropTypes.shape({

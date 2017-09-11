@@ -7,11 +7,12 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import capitalize from 'lodash/string/capitalize'
+import {grayBlue} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
 import Dialog from '../dialog/Dialog'
 import {Tab, TabsNav} from '../tabs'
 import Contact from './Contact'
-import {styles} from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
@@ -51,12 +52,24 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
+@injectSheet({
+  container: {
+    display: 'block',
+    extend: fonts.normal,
+    height: 356,
+    padding: [10, 0],
+    overflowY: 'auto'
+  },
+  message: {
+    extend: fonts.normal,
+    color: grayBlue,
+    padding: [0, 20, 10]
+  }
+})
 @injectIntl
 export default class ManageContactsDialog extends PureComponent {
   static propTypes = {
     activeFilter: PropTypes.string.isRequired,
-    children: PropTypes.node,
     intl: intlShape.isRequired,
     onHide: PropTypes.func.isRequired,
     onSelectFilter: PropTypes.func.isRequired,

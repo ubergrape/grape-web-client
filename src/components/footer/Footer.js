@@ -42,6 +42,7 @@ export default class Footer extends PureComponent {
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onUploadFiles: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired,
+    onOpenFileDialog: PropTypes.func,
     onEditMessageSend: PropTypes.func.isRequired,
     onEditMessageAbort: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired
@@ -49,13 +50,14 @@ export default class Footer extends PureComponent {
 
   static defaultProps = {
     disabled: false,
-    targetMessage: null,
-    quoteMessage: null,
+    targetMessage: undefined,
+    quoteMessage: undefined,
     search: '',
     services: [],
     servicesStats: {},
     customEmojis: {},
-    autocomplete: {}
+    autocomplete: {},
+    onOpenFileDialog: undefined
   }
 
   onRef = (ref) => {
@@ -87,6 +89,7 @@ export default class Footer extends PureComponent {
       onShowUsersAndRoomsBrowser,
       onShowSearchBrowser,
       onRejectFiles,
+      onOpenFileDialog,
       onHideBrowser,
       onCreateMessage,
       onSetUnsentMessage,
@@ -100,12 +103,7 @@ export default class Footer extends PureComponent {
       onAddIntegration
     } = this.props
     return (
-      <footer
-        className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}
-        id="intro-stepOne"
-        data-step="1"
-        data-topic="grape input"
-      >
+      <footer className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}>
         <div className={classes.above}>
           <div className={classes.typingNotificationContainer}>
             <TypingNotification
@@ -159,6 +157,7 @@ export default class Footer extends PureComponent {
             onShowSearchBrowser={onShowSearchBrowser}
             onHideBrowser={onHideBrowser}
             onRejectFiles={onRejectFiles}
+            onOpenFileDialog={onOpenFileDialog}
           />
         </div>
       </footer>

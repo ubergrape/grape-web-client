@@ -1,40 +1,54 @@
-import {grayMercury} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
+import {grayMercury, grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {spacer, borderRadius} from 'grape-theme/dist/sizes'
 
 export const styles = {
+  root: {
+    extend: fonts.small,
+    padding: [0, spacer.l, spacer.l]
+  },
   adminField: {
     border: 0,
     padding: 0,
-    paddingLeft: 20,
+    paddingLeft: spacer.l,
     margin: 0,
-    marginTop: 10
+    marginTop: spacer.s
   },
-  wrapper: {
-    padding: [0, 20, 20]
-  },
-  container: {
+  label: {
+    extend: fonts.small,
     display: 'flex',
     alignItems: 'center',
     userSelect: 'none',
-    cursor: 'default',
-    '& > input': {
-      marginRight: 3
-    }
+    cursor: 'default'
+  },
+  checkbox: {
+    appearance: 'checkbox',
+    marginRight: spacer.xs
   },
   select: {
+    extend: fonts.small,
     display: 'block',
     width: '100%',
-    marginTop: 5,
+    marginTop: spacer.xs,
     backgroundColor: 'transparent',
+    appearance: 'menulist',
+    border: {
+      width: 1,
+      style: 'solid',
+      color: grayBlueLighter,
+      radius: borderRadius.big
+    },
     '&:disabled': {
+      isolate: false,
       backgroundColor: grayMercury
     }
   },
   buttons: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: 20
+    marginTop: spacer.l
   },
   submitButton: {
-    marginLeft: 5
+    marginLeft: spacer.xs
   }
 }

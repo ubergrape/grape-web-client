@@ -1,12 +1,15 @@
 import button from '../../button/default'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 export const styles = {
   sharedFiles: {
+    display: 'block',
     padding: spacing
   },
   loadMoreContainer: {
-    textAlign: 'center'
+    display: 'block',
+    textAlign: 'center',
+    marginTop: spacing
   },
   button,
   empty: {
