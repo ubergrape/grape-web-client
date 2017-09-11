@@ -3,6 +3,7 @@ import {Provider, connect} from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
 import ThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import {IntlProvider} from 'react-intl'
 
 import {mapActionsToProps} from '../../app/redux'
 import {appSelector} from '../../selectors'
@@ -10,7 +11,6 @@ import getStore from '../../app/store'
 import {Login} from '../../components/login'
 import * as translations from '../../i18n'
 import conf from '../../conf'
-import {IntlProvider} from '../../components/i18n'
 
 const AppOrLogin = ({show, children, ...rest}) => {
   switch (show) {
