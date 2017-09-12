@@ -33,7 +33,8 @@ export default {
   },
   '& pre': {
     display: 'block',
-    margin: 0
+    margin: 0,
+    whiteSpace: 'pre'
   },
   '& code': {
     display: 'inline-block',
@@ -43,7 +44,9 @@ export default {
     border: [1, 'solid', gainsboroLight],
     borderRadius: 4,
     background: white,
-    wordBreak: 'break-all'
+    wordBreak: 'break-all',
+    fontFamily: 'monospace',
+    whiteSpace: 'pre'
   },
   '& pre code': {
     isolate: false,

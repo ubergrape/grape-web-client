@@ -6,10 +6,12 @@ import {
   injectIntl
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import {gray, grayLighter} from 'grape-theme/dist/base-colors'
+import {bigger, small} from 'grape-theme/dist/fonts'
 
 import {Grapedown} from '../grapedown'
 import {OwnBubble as Bubble} from '../history'
-import {styles} from './markdownTipTheme'
+import contentStyles from '../message-parts/contentStyles'
 
 const messages = defineMessages({
   example: {
@@ -24,7 +26,49 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
+@injectSheet({
+  root: {
+    display: 'block',
+    marginTop: 20,
+    paddingTop: 20,
+    borderTop: {
+      width: 1,
+      style: 'solid',
+      color: grayLighter
+    },
+    '&:first-child': {
+      isolate: false,
+      marginTop: 0
+    }
+  },
+  title: {
+    extend: bigger,
+    marginBottom: 5
+  },
+  subheading: {
+    extend: small,
+    fontStyle: 'italic',
+    margin: [20, 0, 5],
+    textTransform: 'capitalize',
+    color: gray
+  },
+  example: {
+    extend: contentStyles['& code'],
+    width: 'auto',
+    display: 'block',
+    padding: 10,
+    whiteSpace: 'pre-line',
+    backgroundColor: grayLighter,
+    overflow: 'auto'
+  },
+  renderedExample: {
+    extend: contentStyles,
+    '& pre code': {
+      isolate: false,
+      width: 'auto'
+    }
+  }
+})
 @injectIntl
 export default class MarkdownTip extends PureComponent {
   static propTypes = {
@@ -50,7 +94,7 @@ export default class MarkdownTip extends PureComponent {
     ).trim()
 
     return (
-      <div className={classes.section}>
+      <div className={classes.root}>
         <h3 className={classes.title}>{formatMessage(title)}</h3>
         <div>
           <h4 className={classes.subheading}>{formatMessage(messages.example)}</h4>
