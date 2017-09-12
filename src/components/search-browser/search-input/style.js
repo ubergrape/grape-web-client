@@ -42,19 +42,20 @@ export default {
     paddingTop: margin,
     paddingBottom: margin,
     height: 31 + (margin * 2),
-    border: '1px solid transparent',
+    border: [1, 'solid', 'transparent'],
     outline: 'none',
+    whiteSpace: 'pre',
     '&::-ms-clear': {
       isolate: false,
       display: 'none'
     }
   },
   highlighter: {
-    extend: 'editable',
-    whiteSpace: 'pre'
+    composes: '$editable'
   },
   token: {
     extend: biggest,
-    background: 'linear-gradient(0deg, #b8e7aa, #c3ebb7)'
+    background: 'linear-gradient(0deg, #b8e7aa, #c3ebb7)',
+    whiteSpace: 'pre'
   }
 }

@@ -1,9 +1,8 @@
-import {normal} from 'grape-theme/dist/fonts'
+import fonts from 'grape-theme/dist/fonts'
 
 export default {
   container: {
     display: 'block',
-    extend: normal,
     position: 'relative',
     boxSizing: 'border-box'
   },
@@ -17,14 +16,15 @@ export default {
     textRendering: 'auto'
   },
   token: {
-    extend: normal,
+    extend: fonts.normal,
     display: 'inline',
     position: 'relative',
     boxSizing: 'border-box',
     borderRadius: 3,
     padding: 1,
     marginLeft: -1,
-    marginRight: -1
+    marginRight: -1,
+    color: 'transparent'
   },
   editable: {
     position: 'relative',
@@ -34,6 +34,7 @@ export default {
     width: '100%',
     height: '100%',
     background: 'transparent',
-    textRendering: 'auto'
+    textRendering: 'auto',
+    wordBreak: 'break-word'
   }
 }

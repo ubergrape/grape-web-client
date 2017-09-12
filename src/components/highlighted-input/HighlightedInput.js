@@ -5,9 +5,9 @@ import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
-import AccentMode from '../accent-mode/AccentMode'
 import injectSheet from 'grape-web/lib/jss'
 
+import AccentMode from '../accent-mode/AccentMode'
 import {
   getTouchedWord,
   getTokenPositionNearCaret,
@@ -211,7 +211,7 @@ export default class HighlightedInput extends Component {
 
   renderHighlighterContent() {
     const {classes} = this.props.sheet
-    const {tokens, getTokenClass} = this.props
+    const {tokens, getTokenClass, theme} = this.props
     const {value} = this.state
 
     const content = splitByTokens(value, tokens).map((part, index) => {
@@ -221,7 +221,8 @@ export default class HighlightedInput extends Component {
         return (
           <span
             key={index}
-            className={`${classes.token} ${getTokenClass(part) || ''}`}>
+            className={`${classes.token} ${theme.token} ${getTokenClass(part) || ''}`}
+          >
             {part}
           </span>
         )
@@ -233,8 +234,8 @@ export default class HighlightedInput extends Component {
       return (
         <span
           key={index}
-          dangerouslySetInnerHTML={{__html: escape(part)}}>
-        </span>
+          dangerouslySetInnerHTML={{__html: escape(part)}}
+        />
       )
     })
 
@@ -255,15 +256,18 @@ export default class HighlightedInput extends Component {
       <div
         ref="container"
         className={`${classes.container} ${theme.container}`}
-        data-test="highlighted-editable">
+        data-test="highlighted-editable"
+      >
         <div
           ref="highlighter"
-          className={`${classes.highlighter} ${theme.highlighter}`}>
+          className={`${classes.highlighter} ${theme.highlighter}`}
+        >
           {this.renderHighlighterContent()}
         </div>
         <AccentMode
           onChange={this.onChangeAccentMode}
-          ref="editable">
+          ref="editable"
+        >
           <Editable
             {...editableProps}
             autoFocus
@@ -272,7 +276,8 @@ export default class HighlightedInput extends Component {
             onChange={this.onChange}
             onScroll={this.onScroll}
             value={this.state.value}
-            className={`${classes.editable} ${theme.editable}`} />
+            className={`${classes.editable} ${theme.editable}`}
+          />
         </AccentMode>
       </div>
     )

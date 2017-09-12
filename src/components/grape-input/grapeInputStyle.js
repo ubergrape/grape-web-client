@@ -11,7 +11,6 @@ export default {
     minHeight: 38,
     boxSizing: 'border-box',
     padding: [14, 1],
-    overflow: 'hidden',
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word'
   },
@@ -20,6 +19,10 @@ export default {
     outline: 'none',
     border: 'none',
     resize: 'none'
+  },
+  token: {
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word'
   },
   room: {
     background: 'linear-gradient(0deg, #e2c8f0, #e6d0f2)'
