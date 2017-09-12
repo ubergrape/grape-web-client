@@ -27,7 +27,7 @@
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
     "fuse.js": "^2.2.0",
-    "grape-browser": "^3.16.1",
+    "grape-browser": "^3.16.2",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^3.2.0",
     "grape-web": "^0.72.6",
