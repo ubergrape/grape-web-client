@@ -45,11 +45,14 @@ const getThumbUrl = ({imageUrl, width, height}) => (
     color: grayBlueDark
   },
   fields: {
+    display: 'block',
     margin: [3, 0]
   },
   fieldGroup: {
+    display: 'block',
     marginTop: 8,
     '&:first-child': {
+      isolate: false,
       marginTop: 0
     }
   },
