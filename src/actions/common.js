@@ -42,7 +42,7 @@ export function goTo(options) {
     } else if (path) {
       if (conf.embed) {
         // In the embdeded chat we open all URLs in a new window.
-        window.open(`${conf.server.protocol}//${conf.server.host}${path}`, '_blank')
+        window.open(`${conf.server.siteUrl}${path}`, '_blank')
       // All /chat URLs are handled by the router.
       } else if (path.substr(0, 5) === '/chat') page(path)
       // Locations outside of SPA.

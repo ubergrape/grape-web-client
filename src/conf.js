@@ -25,9 +25,6 @@ class Config {
 
   constructor() {
     this.setup({
-      server: {
-        host: localStorage.host || window.location.host
-      },
       embed: Boolean(localStorage.embed),
       channelId: localStorage.channelId ? Number(localStorage.channelId) : null,
       forceLongpolling: Boolean(localStorage.forceLongpolling)
@@ -35,13 +32,7 @@ class Config {
   }
 
   setup(conf) {
-    merge(this, {
-      ...conf,
-      server: {
-        ...conf.server,
-        wsUrl: `wss://${conf.server.host || this.server.host}/ws`
-      }
-    })
+    merge(this, conf)
   }
 }
 
