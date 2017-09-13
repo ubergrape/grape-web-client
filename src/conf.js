@@ -16,7 +16,7 @@ class Config {
   embed = null
   channelId = null
   server = {
-    host: null,
+    host: location.host,
     protocol: 'https:',
     wsUrl: null,
     sentryJsDsn: null
