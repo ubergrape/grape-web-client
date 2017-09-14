@@ -4,17 +4,69 @@ import injectSheet from 'grape-web/lib/jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
 import noop from 'lodash/utility/noop'
+import {white, gainsboroLight, gainsboroDark, grayDark, grapeLight} from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import color from 'color'
 
-import style from './style'
+const createState = (props) => {
+  const {data} = props
+  const focused = data[0]
+  return {data, focused}
+}
 
-@injectSheet(style)
+@injectSheet({
+  datalist: {
+    background: white,
+    border: [1, 'solid', gainsboroLight],
+    boxShadow: `0px 3px 4px 0 ${color(grayDark).alpha(0.5).rgbaString()}`,
+    overflow: 'auto'
+  },
+  item: {
+    display: 'block',
+    extend: [fonts.normal, ellipsis],
+    padding: [5, 7],
+    color: grayDark,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
+  },
+  itemFocused: {
+    color: white,
+    background: grapeLight
+  },
+  icon: {
+    minWidth: 22,
+    display: 'inline-block',
+    lineHeight: 0,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    marginTop: -3,
+    color: gainsboroDark
+  },
+  name: {
+    lineHeight: 1,
+    marginLeft: 5,
+    color: 'inherit'
+  },
+  note: {
+    extend: fonts.small,
+    color: gainsboroDark,
+    marginLeft: 6
+  },
+  noteFocused: {
+    color: white
+  }
+})
 export default class Datalist extends Component {
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     data: PropTypes.array,
     className: PropTypes.string,
     onDidMount: PropTypes.func,
     onSelect: PropTypes.func,
-    sheet: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -26,7 +78,7 @@ export default class Datalist extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.createState(this.props)
+    this.state = createState(this.props)
   }
 
   componentDidMount() {
@@ -34,7 +86,7 @@ export default class Datalist extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this.createState(nextProps))
+    this.setState(createState(nextProps))
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -43,17 +95,11 @@ export default class Datalist extends Component {
     this.focus(item)
   }
 
-  onMouseDown(e) {
+  onMouseDown = (e) => {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
     this.props.onSelect(this.state.focused)
-  }
-
-  createState(props) {
-    const {data} = props
-    const focused = data[0]
-    return {data, focused}
   }
 
   focus(id) {
@@ -65,23 +111,25 @@ export default class Datalist extends Component {
       if (id === 'next') index++
       else if (id === 'prev') index--
       item = data[index]
-    }
-    else item = id
+    } else item = id
 
     if (!item) return
 
     this.setState({focused: item})
   }
 
-  renderItems(listItem, i) {
+  renderItem = (listItem, i) => {
     const focused = listItem === this.state.focused
-    const {item, itemFocused, icon, name, note, noteFocused} = this.props.sheet.classes
+    const {item, itemFocused, icon, name, note, noteFocused} = this.props.classes
+
     return (
       <div
-        onMouseDown={::this.onMouseDown}
+        onMouseDown={this.onMouseDown}
+        // eslint-disable-next-line react/jsx-no-bind
         onMouseOver={this.onMouseOver.bind(this, listItem)}
         className={`${item} ${focused ? itemFocused : ''}`}
-        key={i}>
+        key={i}
+      >
         <span className={icon}>{listItem.icon}</span>
         <span className={name}>{listItem.name}</span>
         <span className={`${note} ${focused ? noteFocused : ''}`}>
@@ -96,12 +144,14 @@ export default class Datalist extends Component {
 
     if (!data.length) return null
 
-    const {classes} = this.props.sheet
+    const {classes} = this.props
+
     return (
       <div
         className={`${classes.datalist} ${this.props.className}`}
-        data-test="datalist">
-        {data.map(::this.renderItems)}
+        data-test="datalist"
+      >
+        {data.map(this.renderItem)}
       </div>
     )
   }
