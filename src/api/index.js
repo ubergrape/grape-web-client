@@ -27,19 +27,13 @@ export const embed = (options) => {
   // eslint-disable-next-line global-require
   const api = require('../utils/backend/api')
   api
-    .loadConfig({
-      host: options.host,
-      protocol: 'https:'
-    })
-    .then(res => merge(res, {
+    .loadConfig({siteUrl: options.siteUrl})
+    .then(res => merge({}, res, {
       container: options.container,
       organization: {
         id: options.orgId
       },
       channelId: options.channelId,
-      server: {
-        host: options.host
-      },
       embed: true
     }))
     .then(init)

@@ -1,9 +1,7 @@
 import request from 'superagent'
 
 import conf from '../../conf'
-
 import rpc from './rpc'
-import {toSnake} from './convertCase'
 import {sequenceToSettings, settingsToSequence} from './notification'
 
 export function createRoom(room) {
@@ -299,9 +297,9 @@ export function removeFromFavorite(channelId) {
 
 export function checkAuth() {
   return new Promise((resolve, reject) => {
-    const {host, protocol, authToken} = conf.server
+    const {siteUrl, authToken} = conf.server
     const req = request
-      .get(`${protocol}//${host}/accounts/session_state/`)
+      .get(`${siteUrl}/accounts/session_state/`)
       .withCredentials()
     if (authToken) req.set('Authorization', `Token ${authToken}`)
     req.end((err) => {
@@ -449,16 +447,13 @@ export function inviteToOrg(orgId, settings) {
 
 export function loadConfig(options) {
   return new Promise((resolve, reject) => {
-    const {host, protocol, authToken} = options || conf.server
-    const orgSubdomain = host.split('.')[0]
-    const req = request.get(`${protocol}//${host}/api/chat/config/`)
+    const {siteUrl, authToken} = options || conf.server
+    const req = request.get(`${siteUrl}/api/chat/config/`)
     if (authToken) req.set('Authorization', `Token ${authToken}`)
-    req
-      .query(toSnake({orgSubdomain}))
-      .end((err, res) => {
-        if (err) return reject(err)
-        return resolve(res.body)
-      })
+    req.end((err, res) => {
+      if (err) return reject(err)
+      return resolve(res.body)
+    })
   })
 }
 
