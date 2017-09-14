@@ -2,14 +2,46 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import cn from 'classnames'
 
-import {styles, maxHeight} from './expanderTheme'
 import {ShowMore, ShowLess} from '../../../i18n/i18n'
+import button from '../../../button/link'
+import {bubbleBorderRadius as borderRadius} from '../../../message-parts'
+import {expanderColor} from './constants'
 
-@injectSheet(styles)
+const maxHeight = 350
+
+@injectSheet({
+  expandedExpander: {
+    display: 'block',
+    paddingBottom: 15
+  },
+  collapsedExpander: {
+    display: 'block',
+    overflow: 'hidden',
+    maxHeight
+  },
+  panel: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    borderRadius
+  },
+  collapsedPanel: {
+    composes: '$panel',
+    paddingTop: 50,
+    background: `linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, ${expanderColor} 70%)`,
+    fallbacks: {
+      background: expanderColor
+    }
+  },
+  button
+})
 export default class Expander extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
     onToggle: PropTypes.func.isRequired,
     isExpanded: PropTypes.bool.isRequired
@@ -20,10 +52,7 @@ export default class Expander extends PureComponent {
     isExpanded: false
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {isEnabled: false}
-  }
+  state = {isEnabled: false}
 
   componentDidMount() {
     this.update()
@@ -49,7 +78,7 @@ export default class Expander extends PureComponent {
   }
 
   render() {
-    const {children, sheet: {classes}, isExpanded} = this.props
+    const {children, classes, isExpanded} = this.props
     const {isEnabled} = this.state
 
     return (
@@ -58,16 +87,16 @@ export default class Expander extends PureComponent {
         className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}
       >
         {children}
-        {isEnabled &&
+        {isEnabled && (
           <div
             onClick={this.onToggle}
-            className={classes[isExpanded ? 'expandedPanel' : 'collapsedPanel']}
+            className={cn(classes.panel, !isExpanded && classes.collapsedPanel)}
           >
             <button className={classes.button}>
               {isExpanded ? <ShowLess /> : <ShowMore />}
             </button>
           </div>
-        }
+        )}
       </div>
     )
   }
