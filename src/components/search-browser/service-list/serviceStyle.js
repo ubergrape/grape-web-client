@@ -9,8 +9,11 @@ export default {
     position: 'relative',
     background: colors.white,
     color: colors.grayDark,
-    cursor: 'pointer',
-    userSelect: 'none'
+    userSelect: 'none',
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   serviceFocused: {
     color: colors.white,

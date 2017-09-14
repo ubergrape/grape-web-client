@@ -4,9 +4,12 @@ import webColors from 'grape-theme/dist/web-colors'
 export default {
   action: {
     display: 'flex',
-    padding: '5px 15px',
-    cursor: 'pointer',
-    color: colors.grayBlueDark
+    padding: [5, 15],
+    color: colors.grayBlueDark,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   actionFocused: {
     background: webColors.buttonBgDefault,

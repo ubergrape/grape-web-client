@@ -10,9 +10,12 @@ export const rules = {
     position: 'relative',
     background: colors.white,
     color: colors.grayDark,
-    cursor: 'pointer',
     userSelect: 'none',
-    borderBottom: [1, 'solid', colors.silverDark]
+    borderBottom: [1, 'solid', colors.silverDark],
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   containerFocused: {
     composes: '$container',
