@@ -73,7 +73,7 @@
     "t-component": "^1.0.0",
     "wamp1": "ubergrape/wamp1#2.0.0",
     "warning": "^3.0.0",
-    "websocket-wrapper": "^0.1.1"
+    "websocket-wrapper": "^0.1.2"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
