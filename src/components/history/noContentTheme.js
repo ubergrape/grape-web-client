@@ -55,7 +55,10 @@ export const styles = {
   description: {
     minWidth: 300
   },
-  title: biggest,
+  title: {
+    extend: biggest,
+    display: 'block'
+  },
   text: normal,
   buttonInvite: {
     extend: [
