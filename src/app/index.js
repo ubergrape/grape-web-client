@@ -8,9 +8,12 @@ import moment from 'moment'
 
 import conf from '../conf'
 import subscribe from './subscribe'
-import {connect} from './client'
+import {connect, disconnect} from './client'
 import App from './App'
 import EmbeddedApp from './EmbeddedApp'
+
+let sheetsInsertionPoint
+let renderContainer
 
 export function init() {
   addLocaleData([...en, ...de])
@@ -27,15 +30,28 @@ export function init() {
   subscribe(connect())
 }
 
+export function destroy() {
+  disconnect()
+  if (sheetsInsertionPoint) {
+    sheetsInsertionPoint.parentNode.removeChild(sheetsInsertionPoint)
+    sheetsInsertionPoint = null
+  }
+  if (renderContainer) {
+    ReactDom.unmountComponentAtNode(renderContainer)
+    renderContainer = null
+  }
+}
+
 export function renderSheetsInsertionPoints() {
-  document.head.appendChild(document.createComment('grape-jss'))
+  sheetsInsertionPoint = document.createComment('grape-jss')
+  document.head.appendChild(sheetsInsertionPoint)
 }
 
 export function render() {
   const renderApp = () => {
-    const container = document.querySelector(conf.container)
     const Component = conf.embed ? EmbeddedApp : App
-    ReactDom.render(React.createElement(Component), container)
+    renderContainer = document.querySelector(conf.container)
+    ReactDom.render(React.createElement(Component), renderContainer)
   }
 
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {

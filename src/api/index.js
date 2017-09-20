@@ -8,6 +8,8 @@ import Emitter from 'component-emitter'
 
 import conf from '../conf'
 
+let app
+
 const onDocReady = (callback) => {
   if (/interactive|complete/.test(document.readyState)) callback()
   else document.addEventListener('DOMContentLoaded', callback)
@@ -33,13 +35,20 @@ const checkShowHideComponent = (() => {
 
 const init = (config) => {
   conf.setup(config)
-  const app = require('../app')
+  app = require('../app')
   const initLegacy = require('../legacy').default
   app.init()
   app.renderSheetsInsertionPoints()
   initLegacy()
   // We don't know if container is already in the tree.
   onDocReady(app.render)
+}
+
+const destroy = () => {
+  if (app) {
+    app.destroy()
+    app = null
+  }
 }
 
 const embed = (options) => {
@@ -86,7 +95,7 @@ class Api extends Emitter {
   hide = hide
   searchMessages = searchMessages
   setOpenFileDialogHandler = setOpenFileDialogHandler
-
+  destroy = destroy
   authStatus = 'unauthorized'
 
   setAuthStatus(nextStatus) {

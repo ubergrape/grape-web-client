@@ -42,6 +42,21 @@ describe('API', () => {
     })
   })
 
+  describe('destroy()', () => {
+    it('should call app.destroy()', () => {
+      const initMock = mockInit()
+      api.init()
+      initMock.verifyAndRestore()
+
+      const destroy = sinon.mock(app).expects('destroy').once()
+
+      api.destroy()
+
+      destroy.verify()
+      destroy.restore()
+    })
+  })
+
   describe('embed()', () => {
     it('should call expected functions', (done) => {
       const stub = sinon.stub(backendApi, 'loadConfig').returns(Promise.resolve())
