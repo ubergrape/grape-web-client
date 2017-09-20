@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
+import publicApi from '../api'
 import {type as connection} from '../utils/backend/client'
 import {disconnect} from '../app/client'
 import conf from '../conf'
@@ -23,6 +24,7 @@ export const checkAuth = () => (dispatch) => {
         type: types.HANDLE_AUTH_STATUS,
         payload: 'ok'
       })
+      publicApi.setAuthStatus('authorized')
     })
     .catch((err) => {
       // It might be a connection loss which is handled in a different place.
@@ -31,6 +33,7 @@ export const checkAuth = () => (dispatch) => {
         type: types.HANDLE_AUTH_STATUS,
         payload: 'nok'
       })
+      publicApi.setAuthStatus('unauthorized')
       disconnect()
       if (!conf.embed) dispatch(handleAuthError(err))
     })

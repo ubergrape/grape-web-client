@@ -115,4 +115,21 @@ describe('API', () => {
       spy.restore()
     })
   })
+
+  describe('setAuthStatus', () => {
+    it('should not emit when not changed', () => {
+      const spy = sinon.spy(() => null)
+      api.on('authChange', spy)
+      api.setAuthStatus('unauthorized')
+      expect(spy.called).to.be(false)
+    })
+
+    it('should emit when changed', () => {
+      const spy = sinon.spy(() => null)
+      api.on('authChange', spy)
+      api.setAuthStatus('authorized')
+      expect(spy.called).to.be(true)
+      expect(spy.args[0][0]).to.be('authorized')
+    })
+  })
 })

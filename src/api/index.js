@@ -79,13 +79,21 @@ const setOpenFileDialogHandler = (fn) => {
   getActions().setOpenFileDialogHandler(fn)
 }
 
-class Client extends Emitter {
+class Api extends Emitter {
   init = init
   embed = embed
   show = show
   hide = hide
   searchMessages = searchMessages
   setOpenFileDialogHandler = setOpenFileDialogHandler
+
+  authStatus = 'unauthorized'
+
+  setAuthStatus(nextStatus) {
+    if (nextStatus === this.authStatus) return
+    this.authStatus = nextStatus
+    this.emit('authChange', nextStatus)
+  }
 }
 
-export default new Client()
+export default new Api()
