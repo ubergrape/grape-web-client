@@ -4,6 +4,7 @@
  /* eslint-disable global-require */
 
 import merge from 'lodash/object/merge'
+import Emitter from 'component-emitter'
 
 import conf from '../conf'
 
@@ -12,7 +13,25 @@ const onDocReady = (callback) => {
   else document.addEventListener('DOMContentLoaded', callback)
 }
 
-export const init = (config) => {
+const getActions = (() => {
+  let getBoundActions
+  return () => {
+    if (!getBoundActions) getBoundActions = require('../app/boundActions').default
+    return getBoundActions()
+  }
+})()
+
+const checkShowHideComponent = (() => {
+  const allowed = ['search', 'mentions', 'labeledMessages']
+
+  return (name) => {
+    if (allowed.indexOf(name) === -1) {
+      throw new Error(`Unexpected component name "${name}". Possible values: ${allowed}.`)
+    }
+  }
+})()
+
+const init = (config) => {
   conf.setup(config)
   const app = require('../app')
   const initLegacy = require('../legacy').default
@@ -23,10 +42,10 @@ export const init = (config) => {
   onDocReady(app.render)
 }
 
-export const embed = (options) => {
+const embed = (options) => {
   // eslint-disable-next-line global-require
-  const api = require('../utils/backend/api')
-  api
+  const backend = require('../utils/backend/api')
+  backend
     .loadConfig({siteUrl: options.siteUrl})
     .then(res => merge({}, res, {
       container: options.container,
@@ -39,27 +58,34 @@ export const embed = (options) => {
     .then(init)
 }
 
-const getActions = (() => {
-  let getBoundActions
-  return () => {
-    if (!getBoundActions) getBoundActions = require('../app/boundActions').default
-    return getBoundActions()
-  }
-})()
+const show = (name) => {
+  checkShowHideComponent(name)
+  getActions().showSidebar(name)
+}
 
-export const searchMessages = (query) => {
-  getActions().showSidebar('search')
+const hide = (name) => {
+  // Validate it for the future, we might be using it to hide other things than sidebar.
+  checkShowHideComponent(name)
+  getActions().hideSidebar()
+}
+
+const searchMessages = (query) => {
+  show('search')
   getActions().updateMessageSearchQuery(query)
 }
 
-export const showMentions = () => {
-  getActions().showSidebar('mentions')
-}
-
-export const showLabeledMessages = () => {
-  getActions().showSidebar('labeledMessages')
-}
-
-export const setOpenFileDialogHandler = (fn) => {
+const setOpenFileDialogHandler = (fn) => {
+  if (typeof fn !== 'function') throw new TypeError('Expected function argument.')
   getActions().setOpenFileDialogHandler(fn)
 }
+
+class Client extends Emitter {
+  init = init
+  embed = embed
+  show = show
+  hide = hide
+  searchMessages = searchMessages
+  setOpenFileDialogHandler = setOpenFileDialogHandler
+}
+
+export default new Client()

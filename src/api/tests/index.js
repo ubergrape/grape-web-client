@@ -1,0 +1,118 @@
+import sinon from 'sinon'
+import expect from 'expect.js'
+
+import api from '..'
+import * as app from '../../app'
+import * as legacy from '../../legacy'
+import conf from '../../conf'
+import * as backendApi from '../../utils/backend/api'
+import getBoundActions from '../../app/boundActions'
+
+const mockInit = () => {
+  const appMock = sinon.mock(app)
+  appMock.expects('init').once()
+  appMock.expects('renderSheetsInsertionPoints').once()
+  appMock.expects('render').once()
+  const legacyMock = sinon.mock(legacy)
+  legacyMock.expects('default').once()
+  const confMock = sinon.mock(conf)
+  confMock.expects('setup').once()
+  return {
+    verifyAndRestore: () => {
+      [appMock, legacyMock, confMock].forEach((mock) => {
+        mock.verify()
+        mock.restore()
+      })
+    }
+  }
+}
+
+describe('API', () => {
+  let actions
+
+  beforeEach(() => {
+    actions = getBoundActions()
+  })
+
+  describe('init()', () => {
+    it('should call expected functions', () => {
+      const mock = mockInit()
+      api.init()
+      mock.verifyAndRestore()
+    })
+  })
+
+  describe('embed()', () => {
+    it('should call expected functions', (done) => {
+      const stub = sinon.stub(backendApi, 'loadConfig').returns(Promise.resolve())
+      const mock = mockInit()
+
+      api.embed({})
+
+      setTimeout(() => {
+        stub.restore()
+        mock.verifyAndRestore()
+        done()
+      })
+    })
+  })
+
+  describe('show()', () => {
+    it('should throw if called with bad argument', () => {
+      expect(() => api.show('something')).to.throwError()
+    })
+
+    it('should invoke action', () => {
+      const spy = sinon.spy(actions, 'showSidebar')
+      api.show('search')
+      expect(spy.called).to.be(true)
+      expect(spy.args[0][0]).to.be('search')
+      spy.restore()
+    })
+  })
+
+  describe('hide()', () => {
+    it('should throw if called with bad argument', () => {
+      expect(() => api.hide('something')).to.throwError()
+    })
+
+    it('should invoke action', () => {
+      const spy = sinon.spy(actions, 'hideSidebar')
+      api.hide('search')
+      expect(spy.called).to.be(true)
+      spy.restore()
+    })
+  })
+
+  describe('searchMessages()', () => {
+    it('should invoke showSidebar', () => {
+      const spy = sinon.spy(actions, 'showSidebar')
+      api.searchMessages()
+      expect(spy.called).to.be(true)
+      spy.restore()
+    })
+
+    it('should invoke updateMessageSearchQuery', () => {
+      const spy = sinon.spy(actions, 'updateMessageSearchQuery')
+      api.searchMessages('ab')
+      expect(spy.called).to.be(true)
+      expect(spy.args[0][0]).to.be('ab')
+      spy.restore()
+    })
+  })
+
+  describe('setOpenFileDialogHandler()', () => {
+    it('should accept a function only', () => {
+      expect(() => api.setOpenFileDialogHandler()).to.throwError()
+    })
+
+    it('should invoke showSidebar', () => {
+      const spy = sinon.spy(actions, 'setOpenFileDialogHandler')
+      const fn = () => null
+      api.setOpenFileDialogHandler(fn)
+      expect(spy.called).to.be(true)
+      expect(spy.args[0][0]).to.be(fn)
+      spy.restore()
+    })
+  })
+})
