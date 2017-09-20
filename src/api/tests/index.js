@@ -116,7 +116,7 @@ describe('API', () => {
     })
   })
 
-  describe('setAuthStatus', () => {
+  describe('setAuthStatus()', () => {
     it('should not emit when not changed', () => {
       const spy = sinon.spy(() => null)
       api.on('authChange', spy)
@@ -130,6 +130,15 @@ describe('API', () => {
       api.setAuthStatus('authorized')
       expect(spy.called).to.be(true)
       expect(spy.args[0][0]).to.be('authorized')
+    })
+  })
+
+  describe('onHideSidebar()', () => {
+    it('should emit when called', () => {
+      const spy = sinon.spy(() => null)
+      api.on('hide', spy)
+      api.onHideSidebar()
+      expect(spy.called).to.be(true)
     })
   })
 })

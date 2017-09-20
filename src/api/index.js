@@ -94,6 +94,12 @@ class Api extends Emitter {
     this.authStatus = nextStatus
     this.emit('authChange', nextStatus)
   }
+
+  // We are abastracting away the fact that it is located in the sidebar,
+  // because this might change.
+  onHideSidebar() {
+    this.emit('hide')
+  }
 }
 
 export default new Api()

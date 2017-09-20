@@ -1,3 +1,4 @@
+import publicApi from '../api'
 import * as types from '../constants/actionTypes'
 
 export function setSidebarIsLoading(isLoading) {
@@ -11,9 +12,8 @@ export function setSidebarIsLoading(isLoading) {
 
 export function hideSidebar() {
   return (dispatch) => {
-    dispatch({
-      type: types.HIDE_SIDEBAR
-    })
+    dispatch({type: types.HIDE_SIDEBAR})
+    publicApi.onHideSidebar()
   }
 }
 
