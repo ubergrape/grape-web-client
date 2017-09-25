@@ -44,10 +44,13 @@ const maxSizeInMb = maxSize / 1000 / 1000
     textAlign: 'center'
   },
   image: {
-    width: '50%'
+    width: '30%',
+    minWidth: 150,
+    marginBottom: 20
   },
   headline: {
     extend: fonts.biggest,
+    display: 'block',
     color: blue,
     textAlign: 'center'
   },
