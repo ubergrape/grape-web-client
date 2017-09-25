@@ -15,7 +15,6 @@ const commonInput = {
   outline: 'none',
   border: 'none',
   resize: 'none',
-  textOverflow: 'ellipsis',
   overflow: 'hidden',
   [`&${prefixSelector('::input-placeholder')}`]: {
     isolate: false,
@@ -58,6 +57,7 @@ export const string = {
       ...commonInput,
       background: 'transparent',
       cursor: 'text',
+      textOverflow: 'ellipsis',
       '&:hover': {
         isolate: false,
         background: 'rgba(255,255,255,0.5)'
