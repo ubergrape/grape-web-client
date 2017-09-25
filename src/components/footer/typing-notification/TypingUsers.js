@@ -68,7 +68,8 @@ const getText = (users, max) => {
       display: 'inline-block',
       verticalAlign: 'bottom',
       width: 0,
-      animation: `${dotAnimation} steps(4, end) 1s infinite`
+      animation: `${dotAnimation} steps(4, end) 1s infinite`,
+      color: 'inherit'
     }
   },
   [`@keyframes ${dotAnimation}`]: {
