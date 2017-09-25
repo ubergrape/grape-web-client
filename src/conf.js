@@ -6,9 +6,8 @@ import parseUrl from 'grape-web/lib/parse-url'
 const getSiteUrl = (url) => {
   if (!url) return null
 
-  const {host: urlHost, protocol} = parseUrl(url)
-  const {host: currHost} = location
-
+  const {hostname: urlHost, protocol} = parseUrl(url)
+  const {hostname: currHost} = location
   if (currHost.indexOf(urlHost) >= 0) {
     return `${protocol}//${currHost}`
   }
