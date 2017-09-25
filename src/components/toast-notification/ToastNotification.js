@@ -4,7 +4,7 @@ import {NotificationStack} from '@ubergrape/react-notification'
 import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
 import cn from 'classnames'
 import {normal} from 'grape-theme/dist/fonts'
-import {white, indigo, grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {white, indigo} from 'grape-theme/dist/base-colors'
 import {borderRadius, screenWidth} from 'grape-theme/dist/sizes'
 import {translateZ, translateX} from 'css-functions'
 
@@ -49,12 +49,7 @@ const styles = {
     fontFamily: 'inherit',
     lineHeight: 1,
     textAlign: 'center',
-    border: {
-      width: 1,
-      style: 'solid',
-      color: grayBlueLighter,
-      radius: borderRadius.bigger
-    },
+    borderRadius: borderRadius.bigger,
     background: indigo,
     transition: [
       {
