@@ -26,6 +26,12 @@ export default class FileUpload extends PureComponent {
 
   state = {isDragging: false}
 
+  onDragStart = (e) => {
+    // Avoid uploads triggered by d&d of DOM elements. For e.g. anchors and images
+    // are draggable by default.
+    e.preventDefault()
+  }
+
   onDragEnter = () => {
     this.setState({isDragging: true})
   }
@@ -67,6 +73,7 @@ export default class FileUpload extends PureComponent {
         disablePreview
         style={dropZoneStyle}
         onDrop={this.onDragDone}
+        onDragStart={this.onDragStart}
         onDragEnter={this.onDragEnter}
         onDragLeave={this.onDragDone}
         onDropAccepted={this.onAccept}
