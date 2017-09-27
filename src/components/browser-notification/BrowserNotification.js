@@ -76,7 +76,7 @@ const getNewMessageOptions = (props) => {
 }
 
 const renderNotification = (props) => {
-  const {onGoToChannel, notification} = props
+  const {onGoToChannel, notification, channel} = props
   let options
 
   if (dispatchers.invites.indexOf(notification.dispatcher) === -1) {
@@ -86,7 +86,7 @@ const renderNotification = (props) => {
   }
 
   createNotification(options, () => {
-    onGoToChannel(notification.channel.slug)
+    if (channel.id !== notification.channel.id) { onGoToChannel(notification.channel.slug) }
   })
 }
 
