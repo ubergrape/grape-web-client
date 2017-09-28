@@ -23,7 +23,7 @@ export const styles = {
     }
   },
   authorClickable: {
-    compose: '$clickable'
+    composes: '$clickable'
   },
   contentWrapper: {
     width: '100%',
