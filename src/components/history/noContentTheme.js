@@ -59,7 +59,10 @@ export const styles = {
     extend: biggest,
     display: 'block'
   },
-  text: normal,
+  text: {
+    extend: normal,
+    display: 'block'
+  },
   buttonInvite: {
     extend: [
       button,
