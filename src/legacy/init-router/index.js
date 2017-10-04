@@ -13,7 +13,7 @@ export default function init(ui) {
     page('*', (ctx, next) => {
       if (ctx.init) return
       ctx.handled = false
-      const url = `${conf.server.siteUrl}${ctx.path}`
+      const url = `${conf.server.serviceUrl}${ctx.path}`
       // Will open a new tab if happens synchronously after click.
       window.open(url, '_blank')
     })

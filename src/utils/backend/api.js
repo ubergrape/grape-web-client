@@ -297,9 +297,9 @@ export function removeFromFavorite(channelId) {
 
 export function checkAuth() {
   return new Promise((resolve, reject) => {
-    const {siteUrl, authToken} = conf.server
+    const {serviceUrl, authToken} = conf.server
     const req = request
-      .get(`${siteUrl}/accounts/session_state/`)
+      .get(`${serviceUrl}/accounts/session_state/`)
       .withCredentials()
     if (authToken) req.set('Authorization', `Token ${authToken}`)
     req.end((err) => {
@@ -447,8 +447,8 @@ export function inviteToOrg(orgId, settings) {
 
 export function loadConfig(options) {
   return new Promise((resolve, reject) => {
-    const {siteUrl, authToken} = options || conf.server
-    const req = request.get(`${siteUrl}/api/chat/config/`)
+    const {serviceUrl, authToken} = options || conf.server
+    const req = request.get(`${serviceUrl}/api/chat/config/`)
     if (authToken) req.set('Authorization', `Token ${authToken}`)
     req.end((err, res) => {
       if (err) return reject(err)
@@ -485,7 +485,7 @@ export function getNotificationSettings(orgId, channelId) {
 
 export const uploadFile = (orgId, file) => (
   request
-    .post(`${conf.server.siteUrl}${conf.server.uploadPath}`)
+    .post(`${conf.server.serviceUrl}${conf.server.uploadPath}`)
     .field('organization', orgId)
     .attach('file', file, file.name)
     .accept('json')

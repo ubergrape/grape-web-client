@@ -1,18 +1,12 @@
 import merge from 'lodash/object/merge'
 import parseUrl from 'grape-web/lib/parse-url'
 
-// Uses location.host if it matches the `url` host to avoid CORS issue
-// when location.host contains org name.
-const getSiteUrl = (url) => {
-  if (!url) return null
-
-  const {hostname: urlHost, protocol} = parseUrl(url)
-  const {hostname: currHost} = location
-  if (currHost.indexOf(urlHost) >= 0) {
-    return `${protocol}//${currHost}`
+const parseServiceUrl = (url) => {
+  const {protocol, hostname} = parseUrl(url)
+  return {
+    wsUrl: `${protocol === 'http:' ? 'ws' : 'wss'}://${hostname}/ws`,
+    hostname
   }
-
-  return url
 }
 
 class Config {
@@ -31,11 +25,14 @@ class Config {
   embed = null
   channelId = null
   server = {
-    host: location.host,
-    protocol: location.protocol,
     wsUrl: null,
+    pubsubUrl: null,
     sentryJsDsn: null,
-    siteUrl: null
+    serviceUrl: null,
+    host: null,
+    uploadPath: null,
+    staticPath: null,
+    authToken: null
   }
   container = '#grape-client'
 
@@ -43,13 +40,16 @@ class Config {
     this.setup({
       embed: Boolean(localStorage.embed),
       channelId: localStorage.channelId ? Number(localStorage.channelId) : null,
-      forceLongpolling: Boolean(localStorage.forceLongpolling)
+      forceLongpolling: Boolean(localStorage.forceLongpolling),
+      server: {serviceUrl: location.origin}
     })
   }
 
   setup(conf) {
     merge(this, conf)
-    this.server.siteUrl = getSiteUrl(this.server.siteUrl)
+    if (conf.server && conf.server.serviceUrl) {
+      Object.assign(this.server, parseServiceUrl(conf.server.serviceUrl))
+    }
   }
 }
 

@@ -18,7 +18,7 @@ export default function GrapeObject({children, href, user}) {
   if (conf.embed) target = '_blank'
 
   if (url[0] === '/') {
-    url = `${conf.server.siteUrl}${url}`
+    url = `${conf.server.serviceUrl}${url}`
   }
 
   if (type === 'user') {

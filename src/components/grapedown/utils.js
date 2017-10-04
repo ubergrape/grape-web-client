@@ -6,9 +6,9 @@ import conf from '../../conf'
 import {emojiRegex, style} from '../emoji/emoji'
 
 export function isChatUrl(url) {
-  const {host} = conf.server
+  const {hostname} = conf.server
   const urlObj = parseUrl(url)
-  return urlObj.host === host && urlObj.pathname.indexOf('/chat') === 0
+  return urlObj.hostname === hostname && urlObj.pathname.indexOf('/chat') === 0
 }
 
 export const nonStandardProps = ['user', 'customEmojis', 'forcebreak']
