@@ -44,11 +44,12 @@ const init = (config) => {
   onDocReady(app.render)
 }
 
-const destroy = () => {
-  if (app) {
-    app.destroy()
-    app = null
-  }
+const resume = () => {
+  app.resume()
+}
+
+const suspend = () => {
+  app.suspend()
 }
 
 const embed = (options) => {
@@ -99,7 +100,8 @@ class Api extends Emitter {
   hide = hide
   searchMessages = searchMessages
   setOpenFileDialogHandler = setOpenFileDialogHandler
-  destroy = destroy
+  resume = resume
+  suspend = suspend
   authStatus = 'unauthorized'
 
   setAuthStatus(nextStatus) {
