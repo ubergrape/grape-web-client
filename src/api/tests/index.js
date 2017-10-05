@@ -42,18 +42,21 @@ describe('API', () => {
     })
   })
 
-  describe('destroy()', () => {
-    it('should call app.destroy()', () => {
-      const initMock = mockInit()
-      api.init()
-      initMock.verifyAndRestore()
+  describe('suspend()', () => {
+    it('should call app.suspend()', () => {
+      const suspend = sinon.mock(app).expects('suspend').once()
+      api.suspend()
+      suspend.verify()
+      suspend.restore()
+    })
+  })
 
-      const destroy = sinon.mock(app).expects('destroy').once()
-
-      api.destroy()
-
-      destroy.verify()
-      destroy.restore()
+  describe('resume()', () => {
+    it('should call app.resume()', () => {
+      const resume = sinon.mock(app).expects('resume').once()
+      api.resume()
+      resume.verify()
+      resume.restore()
     })
   })
 
