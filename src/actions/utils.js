@@ -173,7 +173,7 @@ export const normalizeMessage = (() => {
   }
 
   function createLinkToMessage(channel, messageId) {
-    const {siteUrl} = conf.server
+    const {serviceUrl} = conf.server
     const {users} = channel
     let {slug} = channel
 
@@ -181,7 +181,7 @@ export const normalizeMessage = (() => {
       slug = `${users[0].slug}/${users[1].slug}`
     }
 
-    return `${siteUrl}/chat/${slug}/${messageId}`
+    return `${serviceUrl}/chat/${slug}/${messageId}`
   }
 
   function normalizeMentions(mentions) {

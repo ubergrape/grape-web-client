@@ -58,11 +58,17 @@ describe('API', () => {
   })
 
   describe('embed()', () => {
+    it('should throw when serviceUrl is missing', () => {
+      expect(() => {
+        api.embed()
+      }).to.throwError()
+    })
+
     it('should call expected functions', (done) => {
       const stub = sinon.stub(backendApi, 'loadConfig').returns(Promise.resolve())
       const mock = mockInit()
 
-      api.embed({})
+      api.embed({serviceUrl: 'something'})
 
       setTimeout(() => {
         stub.restore()

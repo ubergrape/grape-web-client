@@ -52,15 +52,19 @@ const destroy = () => {
 }
 
 const embed = (options) => {
+  if (!options.serviceUrl) {
+    throw new Error('Missing serviceUrl option.')
+  }
   // eslint-disable-next-line global-require
   const backend = require('../utils/backend/api')
   backend
-    .loadConfig({siteUrl: options.siteUrl})
+    .loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
       organization: {
         id: options.orgId
       },
+      server: {serviceUrl: options.serviceUrl},
       channelId: options.channelId,
       embed: true
     }))
