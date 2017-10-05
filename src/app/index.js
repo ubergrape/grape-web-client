@@ -14,13 +14,18 @@ import EmbeddedApp from './EmbeddedApp'
 
 let sheetsInsertionPoint
 let renderContainer
+let isSuspended = true
 
 export const resume = () => {
+  if (!isSuspended) return
   subscribe(client.connect())
+  isSuspended = false
 }
 
 export const suspend = () => {
+  if (isSuspended) return
   client.disconnect()
+  isSuspended = true
 }
 
 export function init() {
