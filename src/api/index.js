@@ -7,6 +7,7 @@ import merge from 'lodash/object/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
+import loadConfig from '../utils/backend/api/loadConfig'
 
 let app
 
@@ -56,10 +57,7 @@ const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
-  // eslint-disable-next-line global-require
-  const backend = require('../utils/backend/api')
-  backend
-    .loadConfig({serviceUrl: options.serviceUrl})
+  loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
       organization: {

@@ -5,7 +5,7 @@ import api from '..'
 import * as app from '../../app'
 import * as legacy from '../../legacy'
 import conf from '../../conf'
-import * as backendApi from '../../utils/backend/api'
+import * as loadConfig from '../../utils/backend/api/loadConfig'
 import getBoundActions from '../../app/boundActions'
 
 const mockInit = () => {
@@ -68,7 +68,7 @@ describe('API', () => {
     })
 
     it('should call expected functions', (done) => {
-      const stub = sinon.stub(backendApi, 'loadConfig').returns(Promise.resolve())
+      const stub = sinon.stub(loadConfig, 'default').returns(Promise.resolve())
       const mock = mockInit()
 
       api.embed({serviceUrl: 'something'})

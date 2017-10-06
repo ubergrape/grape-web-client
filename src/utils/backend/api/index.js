@@ -1,8 +1,8 @@
 import request from 'superagent'
 
-import conf from '../../conf'
-import rpc from './rpc'
-import {sequenceToSettings, settingsToSequence} from './notification'
+import conf from '../../../conf'
+import rpc from '../rpc'
+import {sequenceToSettings, settingsToSequence} from '../notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -441,18 +441,6 @@ export function inviteToOrg(orgId, settings) {
     (err, res) => {
       if (err) return reject(err)
       return resolve(res)
-    })
-  })
-}
-
-export function loadConfig(options) {
-  return new Promise((resolve, reject) => {
-    const {serviceUrl, authToken} = options || conf.server
-    const req = request.get(`${serviceUrl}/api/chat/config/`)
-    if (authToken) req.set('Authorization', `Token ${authToken}`)
-    req.end((err, res) => {
-      if (err) return reject(err)
-      return resolve(res.body)
     })
   })
 }
