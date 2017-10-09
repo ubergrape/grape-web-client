@@ -18,7 +18,7 @@ let isSuspended = true
 
 export const resume = () => {
   if (!isSuspended) return
-  subscribe(client.connect())
+  client.connect()
   isSuspended = false
 }
 
@@ -40,7 +40,7 @@ export function init() {
     organization: conf.organization.subdomain,
     organizationID: conf.organization.id
   })
-  resume()
+  subscribe(client.connect())
 }
 
 export function renderSheetsInsertionPoints() {
