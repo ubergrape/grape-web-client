@@ -8,12 +8,25 @@ import moment from 'moment'
 
 import conf from '../conf'
 import subscribe from './subscribe'
-import {connect, disconnect} from './client'
+import * as client from './client'
 import App from './App'
 import EmbeddedApp from './EmbeddedApp'
 
 let sheetsInsertionPoint
 let renderContainer
+let isSuspended = true
+
+export const resume = () => {
+  if (!isSuspended) return
+  client.connect()
+  isSuspended = false
+}
+
+export const suspend = () => {
+  if (isSuspended) return
+  client.disconnect()
+  isSuspended = true
+}
 
 export function init() {
   addLocaleData([...en, ...de])
@@ -27,19 +40,7 @@ export function init() {
     organization: conf.organization.subdomain,
     organizationID: conf.organization.id
   })
-  subscribe(connect())
-}
-
-export function destroy() {
-  disconnect()
-  if (sheetsInsertionPoint) {
-    sheetsInsertionPoint.parentNode.removeChild(sheetsInsertionPoint)
-    sheetsInsertionPoint = null
-  }
-  if (renderContainer) {
-    ReactDom.unmountComponentAtNode(renderContainer)
-    renderContainer = null
-  }
+  subscribe(client.connect())
 }
 
 export function renderSheetsInsertionPoints() {

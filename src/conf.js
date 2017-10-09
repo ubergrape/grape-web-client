@@ -2,10 +2,10 @@ import merge from 'lodash/object/merge'
 import parseUrl from 'grape-web/lib/parse-url'
 
 const parseServiceUrl = (url) => {
-  const {protocol, hostname} = parseUrl(url)
+  const {protocol, host} = parseUrl(url)
   return {
-    wsUrl: `${protocol === 'http:' ? 'ws' : 'wss'}://${hostname}/ws`,
-    hostname
+    wsUrl: `${protocol === 'http:' ? 'ws' : 'wss'}://${host}/ws`,
+    host
   }
 }
 

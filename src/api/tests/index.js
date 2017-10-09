@@ -5,7 +5,7 @@ import api from '..'
 import * as app from '../../app'
 import * as legacy from '../../legacy'
 import conf from '../../conf'
-import * as backendApi from '../../utils/backend/api'
+import * as backend from '../../utils/backend/api'
 import getBoundActions from '../../app/boundActions'
 
 const mockInit = () => {
@@ -17,10 +17,19 @@ const mockInit = () => {
   legacyMock.expects('default').once()
   const confMock = sinon.mock(conf)
   confMock.expects('setup').once()
+
+  const all = [appMock, legacyMock, confMock]
+
   return {
     verifyAndRestore: () => {
-      [appMock, legacyMock, confMock].forEach((mock) => {
+      all.forEach((mock) => {
         mock.verify()
+        mock.restore()
+      })
+    },
+
+    restore: () => {
+      all.forEach((mock) => {
         mock.restore()
       })
     }
@@ -42,18 +51,24 @@ describe('API', () => {
     })
   })
 
-  describe('destroy()', () => {
-    it('should call app.destroy()', () => {
+  describe('suspend()', () => {
+    it('should call app.suspend()', () => {
       const initMock = mockInit()
-      api.init()
-      initMock.verifyAndRestore()
+      const suspend = sinon.mock(app).expects('suspend').once()
+      api.init({})
+      api.suspend()
+      suspend.verify()
+      suspend.restore()
+      initMock.restore()
+    })
+  })
 
-      const destroy = sinon.mock(app).expects('destroy').once()
-
-      api.destroy()
-
-      destroy.verify()
-      destroy.restore()
+  describe('resume()', () => {
+    it('should call app.resume()', () => {
+      const resume = sinon.mock(app).expects('resume').once()
+      api.resume()
+      resume.verify()
+      resume.restore()
     })
   })
 
@@ -64,17 +79,14 @@ describe('API', () => {
       }).to.throwError()
     })
 
-    it('should call expected functions', (done) => {
-      const stub = sinon.stub(backendApi, 'loadConfig').returns(Promise.resolve())
+    it('should call expected functions', () => {
+      const stub = sinon.stub(backend, 'loadConfig').returns(Promise.resolve())
       const mock = mockInit()
 
       api.embed({serviceUrl: 'something'})
 
-      setTimeout(() => {
-        stub.restore()
-        mock.verifyAndRestore()
-        done()
-      })
+      stub.restore()
+      mock.verifyAndRestore()
     })
   })
 
