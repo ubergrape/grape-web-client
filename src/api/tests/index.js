@@ -5,7 +5,7 @@ import api from '..'
 import * as app from '../../app'
 import * as legacy from '../../legacy'
 import conf from '../../conf'
-import * as loadConfig from '../../utils/backend/api/loadConfig'
+import * as backend from '../../utils/backend/api'
 import getBoundActions from '../../app/boundActions'
 
 const mockInit = () => {
@@ -17,10 +17,19 @@ const mockInit = () => {
   legacyMock.expects('default').once()
   const confMock = sinon.mock(conf)
   confMock.expects('setup').once()
+
+  const all = [appMock, legacyMock, confMock]
+
   return {
     verifyAndRestore: () => {
-      [appMock, legacyMock, confMock].forEach((mock) => {
+      all.forEach((mock) => {
         mock.verify()
+        mock.restore()
+      })
+    },
+
+    restore: () => {
+      all.forEach((mock) => {
         mock.restore()
       })
     }
@@ -44,10 +53,13 @@ describe('API', () => {
 
   describe('suspend()', () => {
     it('should call app.suspend()', () => {
+      const initMock = mockInit()
       const suspend = sinon.mock(app).expects('suspend').once()
+      api.init({})
       api.suspend()
       suspend.verify()
       suspend.restore()
+      initMock.restore()
     })
   })
 
@@ -67,17 +79,14 @@ describe('API', () => {
       }).to.throwError()
     })
 
-    it('should call expected functions', (done) => {
-      const stub = sinon.stub(loadConfig, 'default').returns(Promise.resolve())
+    it('should call expected functions', () => {
+      const stub = sinon.stub(backend, 'loadConfig').returns(Promise.resolve())
       const mock = mockInit()
 
       api.embed({serviceUrl: 'something'})
 
-      setTimeout(() => {
-        stub.restore()
-        mock.verifyAndRestore()
-        done()
-      })
+      stub.restore()
+      mock.verifyAndRestore()
     })
   })
 

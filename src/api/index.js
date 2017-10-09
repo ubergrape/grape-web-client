@@ -7,22 +7,25 @@ import merge from 'lodash/object/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
-import loadConfig from '../utils/backend/api/loadConfig'
+import {loadConfig} from '../utils/backend/api'
 
-let app
+let resolveAppReady
 
-const onDocReady = (callback) => {
-  if (/interactive|complete/.test(document.readyState)) callback()
-  else document.addEventListener('DOMContentLoaded', callback)
-}
+const appReady = new Promise((resolve) => {
+  resolveAppReady = resolve
+})
 
-const getActions = (() => {
-  let getBoundActions
-  return () => {
-    if (!getBoundActions) getBoundActions = require('../app/boundActions').default
-    return getBoundActions()
-  }
-})()
+const docReady = new Promise((resolve) => {
+  if (/interactive|complete/.test(document.readyState)) resolve()
+  else document.addEventListener('DOMContentLoaded', resolve)
+})
+
+const actionsReady = new Promise((resolve) => {
+  appReady.then(() => {
+    const getBoundActions = require('../app/boundActions').default
+    resolve(getBoundActions())
+  })
+})
 
 const checkShowHideComponent = (() => {
   const allowed = ['search', 'mentions', 'labeledMessages']
@@ -36,21 +39,27 @@ const checkShowHideComponent = (() => {
 
 const init = (config) => {
   conf.setup(config)
-  app = require('../app')
-  const initLegacy = require('../legacy').default
+  const app = require('../app')
+  resolveAppReady(app)
+
   app.init()
   app.renderSheetsInsertionPoints()
+  const initLegacy = require('../legacy').default
   initLegacy()
   // We don't know if container is already in the tree.
-  onDocReady(app.render)
+  docReady.then(app.render)
 }
 
 const resume = () => {
-  app.resume()
+  appReady.then((app) => {
+    app.resume()
+  })
 }
 
 const suspend = () => {
-  app.suspend()
+  appReady.then((app) => {
+    app.suspend()
+  })
 }
 
 const embed = (options) => {
@@ -72,23 +81,31 @@ const embed = (options) => {
 
 const show = (name) => {
   checkShowHideComponent(name)
-  getActions().showSidebar(name)
+  actionsReady.then((actions) => {
+    actions.showSidebar(name)
+  })
 }
 
 const hide = (name) => {
   // Validate it for the future, we might be using it to hide other things than sidebar.
   checkShowHideComponent(name)
-  getActions().hideSidebar()
+  actionsReady.then((actions) => {
+    actions.hideSidebar()
+  })
 }
 
 const searchMessages = (query) => {
   show('search')
-  getActions().updateMessageSearchQuery(query)
+  actionsReady.then((actions) => {
+    actions.updateMessageSearchQuery(query)
+  })
 }
 
 const setOpenFileDialogHandler = (fn) => {
   if (typeof fn !== 'function') throw new TypeError('Expected function argument.')
-  getActions().setOpenFileDialogHandler(fn)
+  actionsReady.then((actions) => {
+    actions.setOpenFileDialogHandler(fn)
+  })
 }
 
 class Api extends Emitter {

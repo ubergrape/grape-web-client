@@ -4,6 +4,15 @@ import conf from '../../../conf'
 import rpc from '../rpc'
 import {sequenceToSettings, settingsToSequence} from '../notification'
 
+export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, reject) => {
+  const req = request.get(`${serviceUrl}/api/chat/config/`)
+  if (authToken) req.set('Authorization', `Token ${authToken}`)
+  req.end((err, res) => {
+    if (err) return reject(err)
+    return resolve(res.body)
+  })
+})
+
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
     rpc(
