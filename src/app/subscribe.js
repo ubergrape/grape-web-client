@@ -25,6 +25,10 @@ export default function subscribe(channel) {
       level: 'danger',
       type: alerts.CONNECTION_LOST
     })
+
+    channel.once('connected', () => {
+      boundActions.loadHistory()
+    })
   })
 
   channel.on('unauthorized', (err) => {

@@ -17,15 +17,15 @@ let renderContainer
 let isSuspended = true
 
 export const resume = () => {
-  if (!isSuspended) return
-  client.connect()
+  if (!isSuspended) return null
   isSuspended = false
+  return client.connect()
 }
 
 export const suspend = () => {
   if (isSuspended) return
-  client.disconnect()
   isSuspended = true
+  client.disconnect()
 }
 
 export function init() {
@@ -40,7 +40,7 @@ export function init() {
     organization: conf.organization.subdomain,
     organizationID: conf.organization.id
   })
-  subscribe(client.connect())
+  subscribe(resume())
 }
 
 export function renderSheetsInsertionPoints() {
