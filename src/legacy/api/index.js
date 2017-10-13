@@ -35,7 +35,7 @@ API.prototype.connect = function API_connect() {
   channel.on('connected', () => {
     // Resync the whole data if we got a new client id, because we might have
     // missed some messages. This is related to the current serverside arch.
-    channel.on('set:id', () => {
+    channel.once('set:id', () => {
       this.sync()
     })
   })
@@ -476,24 +476,6 @@ API.prototype.getHistory = function API_getHistory(room, options) {
   })
 }
 
-API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch(direction, room, options) {
-  rpc({
-    ns: 'channels',
-    action: 'get_history',
-    args: [room.id, options]
-  }, (err, res) => {
-    if (err) return this.emit('error', err)
-    const lines = res.map((line) => {
-      const exists = models.Line.get(line.id)
-      if (!exists || !~room.searchHistory.indexOf(exists)) {
-        line.read = true
-        line = new models.Line(line)
-        if (direction === 'old') { room.searchHistory.unshift(line) } else { room.searchHistory.push(line) }
-      }
-    })
-    this.emit('gotHistory', direction)
-  })
-}
 
 API.prototype.setRead = function API_setRead(room, lineId) {
   // update the unread count

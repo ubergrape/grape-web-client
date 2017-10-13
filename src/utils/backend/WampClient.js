@@ -28,6 +28,7 @@ export default class WampClient {
   disconnect() {
     log('disconnect')
     this.close()
+    this.onDisconnected()
     this.reset()
   }
 

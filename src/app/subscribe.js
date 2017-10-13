@@ -1,12 +1,14 @@
 import {toCamel} from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
+import conf from '../conf'
 import getStore from './store'
 import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
   const boundActions = getBoundActions()
   let showReconnectedAlert = false
+  let isSuspended = false
 
   channel.on('connected', () => {
     if (showReconnectedAlert) {
@@ -18,13 +20,33 @@ export default function subscribe(channel) {
       })
     }
     showReconnectedAlert = true
+    isSuspended = false
+  })
+
+  channel.on('suspend', () => {
+    isSuspended = true
+    showReconnectedAlert = false
   })
 
   channel.on('disconnected', () => {
-    boundActions.showAlert({
-      level: 'danger',
-      type: alerts.CONNECTION_LOST
-    })
+    if (!isSuspended) {
+      boundActions.showAlert({
+        level: 'danger',
+        type: alerts.CONNECTION_LOST
+      })
+    }
+
+    // TODO investigate why only embedded mode is not reloading history on connect
+    // On the other hand full mode does it too many times.
+    if (isSuspended && conf.embed) {
+      channel.once('connected', () => {
+        // We don't want to clear the history when client was suspended
+        // over an API and then reconnected.
+        // Clearing is used to enhance perceptional performance when clicked
+        // on a navigation in order to react immediately.
+        boundActions.loadHistory({clear: false})
+      })
+    }
   })
 
   channel.on('unauthorized', (err) => {
