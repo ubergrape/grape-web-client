@@ -8,7 +8,7 @@ import getBoundActions from './boundActions'
 export default function subscribe(channel) {
   const boundActions = getBoundActions()
   let showReconnectedAlert = false
-  let suspended = false
+  let isSuspended = false
 
   channel.on('connected', () => {
     if (showReconnectedAlert) {
@@ -20,16 +20,16 @@ export default function subscribe(channel) {
       })
     }
     showReconnectedAlert = true
-    suspended = false
+    isSuspended = false
   })
 
   channel.on('suspend', () => {
-    suspended = true
+    isSuspended = true
     showReconnectedAlert = false
   })
 
   channel.on('disconnected', () => {
-    if (!suspended) {
+    if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
         type: alerts.CONNECTION_LOST
@@ -38,9 +38,13 @@ export default function subscribe(channel) {
 
     // TODO investigate why only embedded mode is not reloading history on connect
     // On the other hand full mode does it too many times.
-    if (conf.embed) {
+    if (isSuspended && conf.embed) {
       channel.once('connected', () => {
-        boundActions.loadHistory()
+        // We don't want to clear the history when client was suspended
+        // over an API and then reconnected.
+        // Clearing is used to enhance perceptional performance when clicked
+        // on a navigation in order to react immediately.
+        boundActions.loadHistory({clear: false})
       })
     }
   })
