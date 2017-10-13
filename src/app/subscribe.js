@@ -7,6 +7,7 @@ import getBoundActions from './boundActions'
 export default function subscribe(channel) {
   const boundActions = getBoundActions()
   let showReconnectedAlert = false
+  let suspended = false
 
   channel.on('connected', () => {
     if (showReconnectedAlert) {
@@ -18,13 +19,21 @@ export default function subscribe(channel) {
       })
     }
     showReconnectedAlert = true
+    suspended = false
+  })
+
+  channel.on('suspend', () => {
+    suspended = true
+    showReconnectedAlert = false
   })
 
   channel.on('disconnected', () => {
-    boundActions.showAlert({
-      level: 'danger',
-      type: alerts.CONNECTION_LOST
-    })
+    if (!suspended) {
+      boundActions.showAlert({
+        level: 'danger',
+        type: alerts.CONNECTION_LOST
+      })
+    }
 
     channel.once('connected', () => {
       boundActions.loadHistory()
