@@ -1,6 +1,7 @@
 import {toCamel} from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
+import conf from '../conf'
 import getStore from './store'
 import getBoundActions from './boundActions'
 
@@ -35,9 +36,13 @@ export default function subscribe(channel) {
       })
     }
 
-    channel.once('connected', () => {
-      boundActions.loadHistory()
-    })
+    // TODO investigate why only embedded mode is not reloading history on connect
+    // On the other hand full mode does it too many times.
+    if (conf.embed) {
+      channel.once('connected', () => {
+        boundActions.loadHistory()
+      })
+    }
   })
 
   channel.on('unauthorized', (err) => {

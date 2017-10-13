@@ -25,8 +25,7 @@ export const resume = () => {
 export const suspend = () => {
   if (isSuspended) return
   isSuspended = true
-  client.emit('suspend')
-  client.disconnect()
+  client.suspend()
 }
 
 export function init() {
