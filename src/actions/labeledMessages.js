@@ -10,10 +10,10 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
-    const {currentChannelOnly, filter} = labeledMessagesSelector(state)
+    const {options: {currentChannelOnly}, filter} = labeledMessagesSelector(state)
     let reqOptions = {...options, labels: filter === 'all' ? null : [filter]}
 
-    if (currentChannelOnly) {
+    if (currentChannelOnly.status) {
       reqOptions = {...reqOptions, channel: channelSelector(state).id}
     }
 

@@ -423,23 +423,26 @@ export const sidebarComponentSelector = createSelector(
     labeledMessagesSelector
   ],
   ({show}, room, pm, files, search, mentions, user, labeledMessages) => {
-    const select = {
-      show,
-      user
-    }
+    const select = {show, user}
 
     if (!show) return select
 
-    const panels = {
+    const views = {
       room,
       pm,
       files,
       search,
-      mentions: {...mentions, query: user.displayName},
+      mentions: {
+        ...mentions,
+        query: user.displayName
+      },
       labeledMessages
     }
 
-    return {...select, ...panels[show]}
+    return {
+      ...select,
+      ...views[show]
+    }
   }
 )
 

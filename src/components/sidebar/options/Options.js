@@ -61,7 +61,7 @@ export default class Options extends PureComponent {
       <div className={classes.root}>
         {options.map((option) => {
           const inputId = uniqueId()
-
+          if (!option.show) return null
           return (
             <label
               className={classes.label}
