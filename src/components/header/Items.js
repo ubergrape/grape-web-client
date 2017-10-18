@@ -27,14 +27,6 @@ function getTooltipMessage(name) {
           defaultMessage="Pin to Favorites"
         />
       )
-    case 'invite':
-      return (
-        <FormattedMessage
-          id="addUsersToGroup"
-          description="Tooltip text"
-          defaultMessage="Add users to Group"
-        />
-      )
     case 'room':
       return (
         <FormattedMessage
@@ -47,13 +39,6 @@ function getTooltipMessage(name) {
         <FormattedMessage
           id="userProfile"
           defaultMessage="User Profile"
-        />
-      )
-    case 'files':
-      return (
-        <FormattedMessage
-          id="sharedFiles"
-          defaultMessage="Shared Files"
         />
       )
     case 'mentions':
@@ -128,7 +113,7 @@ MentionsBadge.propTypes = {
 }
 
 function itemButtonClassName(panel, {sidebar, theme}) {
-  return theme.classes[sidebar === panel ? `${panel}Active` : panel]
+  return theme.classes[sidebar === panel ? `${panel}Active` : panel] || ''
 }
 
 function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
@@ -138,7 +123,6 @@ function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
 
 export default function Items(props) {
   const {
-    showChannelMembersInvite,
     onFocusMessageSearch,
     onChangeMessageSearch,
     mate,
@@ -169,26 +153,10 @@ export default function Items(props) {
         />
       </li>
       <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('invite')}>
-          <Button
-            className={classes.invite}
-            onClick={showChannelMembersInvite}
-          />
-        </Tooltip>
-      </li>
-      <li className={classes.action}>
         <Tooltip message={getTooltipMessage(channel)}>
           <Button
-            className={itemButtonClassName(channel || 'room', props)}
+            className={itemButtonClassName(channel, props)}
             onClick={itemClickHandler(channel, props)}
-          />
-        </Tooltip>
-      </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('files')}>
-          <Button
-            className={itemButtonClassName('files', props)}
-            onClick={itemClickHandler('files', props)}
           />
         </Tooltip>
       </li>
@@ -240,7 +208,6 @@ Items.propTypes = {
     PropTypes.bool
   ]),
   favorite: PropTypes.object.isRequired,
-  showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
   features: PropTypes.shape({
