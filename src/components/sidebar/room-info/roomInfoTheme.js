@@ -1,8 +1,8 @@
 import color from 'color'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {small, normal, bigger} from 'grape-theme/dist/fonts'
-import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
-import {borderLight, button} from 'grape-theme/dist/web-colors'
+import {blue, grayDark, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
+import {borderLight} from 'grape-theme/dist/web-colors'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
 import {settingsButtonSize} from './constants'
@@ -105,10 +105,10 @@ export const styles = {
       marginLeft: 10
     }
   },
-  notificationsButtonInherit: buttonIcon('bell', {color: button, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonOff: buttonIcon('bellSlashOpen', {color: blue, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonCustom: buttonIcon('bellOpen', {color: blue, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  settingsButton: buttonIcon('cog', {color: button, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonInherit: buttonIcon('bell', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonOff: buttonIcon('bellSlashOpen', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonCustom: buttonIcon('bellOpen', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  settingsButton: buttonIcon('cog', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
   additionalActionsDropdown: {},
   additionalActionButton: {
     extend: [linkButton, normal],
@@ -117,7 +117,7 @@ export const styles = {
     width: '100%',
     textAlign: 'left',
     padding: 10,
-    borderBottom: `1px solid ${borderLight}`,
+    borderBottom: [1, 'solid', borderLight],
     '&:hover': {
       isolate: false,
       color: red,
