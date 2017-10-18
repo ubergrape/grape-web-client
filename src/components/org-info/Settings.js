@@ -34,7 +34,8 @@ const toggleMenu = state => ({showMenu: !state.showMenu})
   },
   button: {
     width: iconSize,
-    height: iconSize
+    height: iconSize,
+    display: 'flex'
   },
   buttonIcon: {
     isolate: false,

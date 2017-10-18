@@ -2,30 +2,27 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import color from 'color'
-import colors from 'grape-theme/dist/base-colors'
-
 import buttonIcon from '../button/icon'
 import {iconSize} from './constants'
 
-@injectSheet({
+@injectSheet(({palette}) => ({
   favorite: {
     ...buttonIcon('star', {
-      color: colors.grayBlue,
-      hoverColor: colors.grayBlueDark,
+      stroke: palette.text.primary,
+      hoverStroke: palette.accent.A200,
       iconOnly: true
     }),
     fontSize: iconSize
   },
   favorited: {
     ...buttonIcon('star', {
-      color: colors.orange,
-      hoverColor: color(colors.orange).lighten(0.2).hexString(),
+      color: palette.secondary[700],
+      hoverColor: palette.secondary[500],
       iconOnly: true
     }),
     fontSize: iconSize
   }
-})
+}))
 export default class Favorite extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
