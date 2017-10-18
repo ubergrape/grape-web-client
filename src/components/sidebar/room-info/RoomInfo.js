@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import isEmpty from 'lodash/lang/isEmpty'
 import {
-  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -16,6 +15,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
 import {styles} from './roomInfoTheme.js'
 import User from './User'
+import RoomActions from './RoomActions'
 import {getRoles} from './utils'
 
 const messages = defineMessages({
@@ -157,7 +157,8 @@ export default class RoomInfo extends PureComponent {
       classes,
       showNotificationSettings, notificationSettings,
       user: currUser,
-      goToChannel, kickMemberFromChannel
+      goToChannel, kickMemberFromChannel,
+      goToAddIntegrations
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -184,50 +185,14 @@ export default class RoomInfo extends PureComponent {
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
           />
-
+          <RoomActions
+            classes={classes}
+            channel={channel}
+            onLeave={this.onLeave}
+            onInvite={this.onInvite}
+            onAddIntegration={goToAddIntegrations}
+          />
           {this.renderDescription()}
-
-          <article className={classes.actions}>
-            <ul>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onInvite}
-                  className={classes.buttonInvite}
-                >
-                  <FormattedMessage
-                    id="inviteMoreToGroup"
-                    defaultMessage="Invite more people to this group"
-                    description="Room Info Panel: link to invite people to the group/room"
-                  />
-                </button>
-              </li>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onAddIntegration}
-                  className={classes.buttonIntegration}
-                >
-                  <FormattedMessage
-                    id="addServiceIntegration"
-                    defaultMessage="Add service integration"
-                    description="Room Info Panel: link to add an integration to the current room"
-                  />
-                </button>
-              </li>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onLeave}
-                  className={classes.buttonLeave}
-                >
-                  <FormattedMessage
-                    id="leaveChannel"
-                    defaultMessage="Leave {channel}"
-                    values={{channel: channel.name}}
-                    description="Room Info Panel: leave room link"
-                  />
-                </button>
-              </li>
-            </ul>
-          </article>
           {channel.users.map(user => (
             <User
               key={user.id}
