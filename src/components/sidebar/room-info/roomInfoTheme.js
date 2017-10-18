@@ -64,9 +64,9 @@ export const styles = {
   buttonIntegration: {
     extend: [
       baseButton,
-      buttonIcon('iconLink', {color: grayBlueDark, hoverColor, size: iconSize.s})
+      buttonIcon('iconLink', {color: grayDark, hoverColor, size: iconSize.s})
     ],
-    color: grayBlueDark
+    color: grayDark
   },
   buttonLeave: {
     extend: [

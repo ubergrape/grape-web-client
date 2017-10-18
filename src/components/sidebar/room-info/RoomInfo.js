@@ -8,21 +8,15 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {maxChannelDescriptionLength} from '../../../constants/app'
-import {Description} from '../../i18n'
-import EditableText from '../../editable-text/EditableText'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
-import {styles} from './roomInfoTheme.js'
 import User from './User'
 import RoomActions from './RoomActions'
+import Description from './Description'
 import {getRoles} from './utils'
+import {styles} from './roomInfoTheme.js'
 
 const messages = defineMessages({
-  placeholder: {
-    id: 'addGroupDescription',
-    defaultMessage: 'Add a group description here…'
-  },
   title: {
     id: 'groupInfo',
     defaultMessage: 'Group Info'
@@ -116,44 +110,11 @@ export default class RoomInfo extends PureComponent {
     renameRoom(channel.id, name)
   }
 
-  renderDescriptionEditable() {
-    const {channel, user, intl: {formatMessage}} = this.props
-    const {allowEdit} = getRoles({channel, user})
-
-    if (!allowEdit) return <p>{channel.description}</p>
-
-    return (
-      <EditableText
-        placeholder={formatMessage(messages.placeholder)}
-        maxLength={maxChannelDescriptionLength}
-        onSave={this.onSetRoomDescription}
-        value={channel.description}
-        preserveSpaceForButton
-        multiline
-      />
-    )
-  }
-
-  renderDescription() {
-    const {channel, user, classes} = this.props
-    const {allowEdit} = getRoles({channel, user})
-
-    if (!allowEdit && !channel.description) return null
-
-    return (
-      <article className={classes.roomDescription}>
-        <h2 className={classes.title}>
-          <Description />
-        </h2>
-        {this.renderDescriptionEditable()}
-      </article>
-    )
-  }
-
   render() {
     const {
       channel, renameError, clearRoomRenameError,
       intl: {formatMessage},
+      intl,
       classes,
       showNotificationSettings, notificationSettings,
       user: currUser,
@@ -185,6 +146,13 @@ export default class RoomInfo extends PureComponent {
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
           />
+          <Description
+            classes={classes}
+            description={channel.description}
+            intl={intl}
+            allowEdit={allowEdit}
+            onSetRoomDescription={this.onSetRoomDescription}
+          />
           <RoomActions
             classes={classes}
             channel={channel}
@@ -192,7 +160,6 @@ export default class RoomInfo extends PureComponent {
             onInvite={this.onInvite}
             onAddIntegration={goToAddIntegrations}
           />
-          {this.renderDescription()}
           {channel.users.map(user => (
             <User
               key={user.id}
