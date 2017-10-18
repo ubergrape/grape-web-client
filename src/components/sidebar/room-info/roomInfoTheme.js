@@ -71,18 +71,18 @@ export const styles = {
   buttonLeave: {
     extend: [
       baseButton,
-      buttonIcon('exit', {color: grayBlueDark, hoverColor, size: iconSize.s})
+      buttonIcon('exit', {color: grayDark, hoverColor, size: iconSize.s})
     ],
-    color: grayBlueDark
+    color: grayDark
   },
   roomName: {
     extend: bigger,
     width: '100%',
-    color: grayBlueDark
+    color: grayDark
   },
   roomDescription: {
     extend: [normal, divider],
-    color: grayBlueDark
+    color: grayDark
   },
   mainSettings: {
     extend: divider,
