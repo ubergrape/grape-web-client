@@ -57,9 +57,10 @@ export function renderInlineImage(href, text) {
  */
 export function renderEmoji(markup) {
   // In case some client sends an emoji web client doesn't know.
-  const image = jsEmoji.map.colons[markup] || jsEmoji.map.colons.smile
+  const image = jsEmoji.map.colons[markup]
+  if (!image) return `:${markup}:`
   const styles = getEmojiSliceStyle(image)
-  if (!image || !styles) return `:${markup}:`
+  if (!styles) return `:${markup}:`
 
   return [[
     'span',
