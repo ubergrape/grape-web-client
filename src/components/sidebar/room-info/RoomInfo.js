@@ -13,6 +13,7 @@ import MainSettings from './MainSettings'
 import User from './User'
 import RoomActions from './RoomActions'
 import Description from './Description'
+import Divider from './Divider'
 import {getRoles} from './utils'
 import {styles} from './roomInfoTheme.js'
 
@@ -146,6 +147,7 @@ export default class RoomInfo extends PureComponent {
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
           />
+          <Divider />
           <Description
             classes={classes}
             description={channel.description}
@@ -153,13 +155,14 @@ export default class RoomInfo extends PureComponent {
             allowEdit={allowEdit}
             onSetRoomDescription={this.onSetRoomDescription}
           />
+          <Divider />
           <RoomActions
-            classes={classes}
             channel={channel}
             onLeave={this.onLeave}
             onInvite={this.onInvite}
             onAddIntegration={goToAddIntegrations}
           />
+          <Divider />
           {channel.users.map(user => (
             <User
               key={user.id}
