@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
-import {grayLight, blue} from 'grape-theme/dist/base-colors'
 import {bigger} from 'grape-theme/dist/fonts'
 
 import {maxSize as maxFileSize} from '../file-upload'
@@ -31,31 +30,33 @@ const AttachmentButton = (props) => {
   )
 }
 
-const iconOptions = {
-  color: grayLight,
-  hoverColor: blue,
-  iconOnly: true
-}
+@injectSheet(({palette}) => {
+  const iconOptions = {
+    stroke: palette.text.primary,
+    hoverStroke: palette.accent.A200,
+    iconOnly: true
+  }
 
-@injectSheet({
-  controls: {
-    extend: bigger,
-    flexShrink: 0
-  },
-  attachment: {
-    extend: buttonIcon('paperclip', iconOptions),
-    padding: controlSpacing,
-    fontSize: 'inherit'
-  },
-  emoji: {
-    extend: buttonIcon('smileOpen', iconOptions),
-    padding: controlSpacing,
-    fontSize: 'inherit'
-  },
-  search: {
-    extend: buttonIcon('hashtag', {...iconOptions, color: blue}),
-    padding: controlSpacing,
-    fontSize: 'inherit'
+  return {
+    controls: {
+      extend: bigger,
+      flexShrink: 0
+    },
+    attachment: {
+      extend: buttonIcon('paperclip', iconOptions),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    },
+    emoji: {
+      extend: buttonIcon('smileOpen', iconOptions),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    },
+    search: {
+      extend: buttonIcon('windowSearch', iconOptions),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    }
   }
 })
 export default class Controls extends PureComponent {
