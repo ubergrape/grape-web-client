@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import noop from 'lodash/utility/noop'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
@@ -99,5 +101,24 @@ const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) =>
     </li>
   </ul>
 )
+
+RoomActions.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onLeave: PropTypes.func,
+  onInvite: PropTypes.func,
+  onAddIntegration: PropTypes.func,
+  channel: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  })
+}
+
+RoomActions.defaultProps = {
+  onLeave: noop,
+  onInvite: noop,
+  onAddIntegration: noop,
+  channel: {
+    name: 'Undefined'
+  }
+}
 
 export default injectSheet(styles)(RoomActions)
