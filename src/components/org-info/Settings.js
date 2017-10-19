@@ -50,7 +50,7 @@ export default class Settings extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
-    onshowIntro: PropTypes.func.isRequired
+    onShowIntro: PropTypes.func.isRequired
   }
 
   state = {showMenu: false}
@@ -75,9 +75,9 @@ export default class Settings extends PureComponent {
     this.props.onInvite()
   }
 
-  onshowIntro = () => {
+  onShowIntro = () => {
     this.onHideMenu()
-    this.props.onshowIntro({
+    this.props.onShowIntro({
       via: 'user menu',
       force: true
     })
@@ -108,7 +108,7 @@ export default class Settings extends PureComponent {
             <Menu
               {...menuProps}
               onInvite={this.onInvite}
-              onshowIntro={this.onshowIntro}
+              onShowIntro={this.onShowIntro}
             />
           </Dropdown>
         }

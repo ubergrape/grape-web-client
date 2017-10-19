@@ -14,9 +14,6 @@ class ReduxEmitter extends Emitter {
   onSetUser(userModel) {
     const user = toCamel(userModel.toJSON())
     getBoundActions().setUser(user)
-    if (user.settings.showIntro) {
-      getBoundActions().showIntro({via: 'onboarding'})
-    }
   }
 
   onSelectChannel(channel, messageId) {
