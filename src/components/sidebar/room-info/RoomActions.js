@@ -9,19 +9,20 @@ import fonts from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
+import {settingsButtonSize} from './constants'
 
 const styles = ({palette}) => {
   const iconOptions = {
     stroke: palette.text.primary,
     hoverStroke: palette.accent.A200,
-    size: sizes.icon.s
+    size: settingsButtonSize
   }
 
   return {
-    actionItem: {
+    action: {
       display: 'block',
       listStyleType: 'none',
-      marginTop: 10,
+      marginTop: sizes.spacer.s,
       '&:first-child': {
         isolate: false,
         marginTop: 0
@@ -62,7 +63,7 @@ const styles = ({palette}) => {
 
 const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) => (
   <ul>
-    <li className={classes.actionItem}>
+    <li className={classes.action}>
       <button
         onClick={onInvite}
         className={classes.buttonInvite}
@@ -74,7 +75,7 @@ const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) =>
         />
       </button>
     </li>
-    <li className={classes.actionItem}>
+    <li className={classes.action}>
       <button
         onClick={onAddIntegration}
         className={classes.buttonIntegration}
@@ -86,7 +87,7 @@ const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) =>
         />
       </button>
     </li>
-    <li className={classes.actionItem}>
+    <li className={classes.action}>
       <button
         onClick={onLeave}
         className={classes.buttonLeave}
