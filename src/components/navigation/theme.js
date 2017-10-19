@@ -17,17 +17,17 @@ const button = {
   cursor: 'pointer'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
+const buttonSettings = {stroke: colors.grayBlue, hoverStroke: colors.grayBlueDark}
 const newConversation = {
-  ...buttonIcon('pencilWindow', buttonSettings),
+  ...buttonIcon('createConversation', buttonSettings),
   ...button
 }
 const contacts = {
-  ...buttonIcon('user', buttonSettings),
+  ...buttonIcon('users', buttonSettings),
   ...button
 }
 const channels = {
-  ...buttonIcon('users', buttonSettings),
+  ...buttonIcon('conversations', buttonSettings),
   ...button
 }
 newConversation['&:before'] = {
@@ -57,7 +57,7 @@ const title = {
   marginLeft: 15,
   textTransform: 'uppercase',
   background: '0 0 no-repeat',
-  color: colors.grayBlue
+  color: colors.grayBlueDark
 }
 
 export const styles = {
@@ -112,12 +112,12 @@ export const styles = {
     marginBottom: 10
   },
   recent: {
-    backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})})`,
+    backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlueDark})})`,
     backgroundSize: 'auto 12px',
     backgroundPosition: '0 2px'
   },
   favorites: {
-    backgroundImage: `url(${getColoredIcon({name: 'star', color: colors.grayBlue})})`,
+    backgroundImage: `url(${getColoredIcon({name: 'star', color: colors.grayBlueDark})})`,
     backgroundSize: 'auto 13px',
     backgroundPosition: '0 2px'
   },
