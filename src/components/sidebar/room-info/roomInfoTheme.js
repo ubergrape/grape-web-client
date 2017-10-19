@@ -47,8 +47,8 @@ export const styles = {
     }
   },
   notificationsButtonInherit: buttonIcon('bell', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonOff: buttonIcon('bellSlashOpen', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonCustom: buttonIcon('bellOpen', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonOff: buttonIcon('bellMuted', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonCustom: buttonIcon('bellCustom', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
   settingsButton: buttonIcon('cog', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
   additionalActionsDropdown: {},
   additionalActionButton: {

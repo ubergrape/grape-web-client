@@ -11,7 +11,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
  */
 export default function create(name, options = {}) {
   const {
-    width, height, size, top,
+    width, height, size, top, format,
     color, fill, stroke,
     hoverColor, hoverFill, hoverStroke
   } = options
@@ -40,7 +40,7 @@ export default function create(name, options = {}) {
     return style
   }
 
-  style['&:before'].backgroundImage = `url('${getColoredIcon({name, color, fill, stroke})}')`
+  style['&:before'].backgroundImage = `url('${getColoredIcon({name, color, fill, stroke, format})}')`
 
   const setHoverColor = Boolean(hoverColor || hoverFill || hoverStroke)
 
@@ -49,7 +49,8 @@ export default function create(name, options = {}) {
       name,
       color: hoverColor,
       fill: hoverFill,
-      stroke: hoverStroke
+      stroke: hoverStroke,
+      format
     })
 
     style['&:hover:before'] = {
