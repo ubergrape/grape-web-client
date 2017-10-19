@@ -3,8 +3,8 @@ import createPalette from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
 import Input from 'material-ui/Input'
 import {
-  white, blue, red, green, grayBlue, grayBlueLight, grayBlueLighter, grayLighter, grayDark, grayBlueDark,
-  grayMercury, grayBombay, orange
+  white, blue, red, green, grayBlue, grayBlueLight, grayBlueLighter, grayLighter,
+  grayDark, grayBlueDark, grayMercury, grayBombay, orange
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
