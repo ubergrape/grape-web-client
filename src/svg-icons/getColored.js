@@ -6,19 +6,20 @@ const cache = {}
 /**
  * Modifies `fill` and `stroke` attribute of `path`, caches the resulting string.
  */
-export default function getColored({name, color, format = 'data'}) {
+export default function getColored({name, color, format = 'data', replaceColor = 'currentColor'}) {
   const key = name + color + format
 
   if (!cache[key]) {
-    cache[key] = dom(raw[name])
-      .find('path')
-      .attr('fill', color)
-      .each((node) => {
-        if (!node.hasAttribute('stroke')) return
+    const list = dom(raw[name]).find(`[fill="${replaceColor}"],[stroke="${replaceColor}"]`)
+    list.each((node) => {
+      if (node.getAttribute('stroke') === replaceColor) {
         node.setAttribute('stroke', color)
-      })
-      // eslint-disable-next-line no-unexpected-multiline
-      [format]()
+      }
+      if (node.getAttribute('fill') === replaceColor) {
+        node.setAttribute('fill', color)
+      }
+    })
+    cache[key] = list[format]()
   }
 
   return cache[key]

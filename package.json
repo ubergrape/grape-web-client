@@ -66,6 +66,7 @@
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && npm run build:lib && npm run svg",
     "build:lib": "babel src --out-dir lib",
+    "build:lib:watch": "babel src --out-dir lib --watch",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src --fix",
     "svg": "npm run svg:clean && npm run svg:copy",

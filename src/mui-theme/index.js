@@ -3,8 +3,8 @@ import createPalette from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
 import Input from 'material-ui/Input'
 import {
-  white, blue, red, green, grayBlueLighter, grayLighter, grayDark, grayBlueDark,
-  grayMercury, grayBombay
+  white, blue, red, green, grayBlue, grayBlueLight, grayBlueLighter, grayLighter, grayDark, grayBlueDark,
+  grayMercury, grayBombay, orange
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
@@ -12,10 +12,13 @@ import merge from 'lodash/object/merge'
 import color from 'color'
 
 export const palette = createPalette()
-
 palette.primary[100] = white
 palette.primary[500] = green
 palette.primary[700] = color(green).lighten(0.2).rgbaString()
+// Added since v1.0.0-beta.6
+palette.secondary = {}
+palette.secondary[500] = color(orange).lighten(0.2).rgbaString()
+palette.secondary[700] = orange
 palette.error[500] = red
 palette.error[700] = color(red).lighten(0.2).rgbaString()
 palette.accent.A200 = blue
@@ -27,6 +30,10 @@ palette.text.lightDivider = grayBlueLighter
 palette.grey.A100 = grayLighter
 palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
+// Added since v1.0.0-beta.6
+palette.blueGrey = {}
+palette.blueGrey[100] = grayBlueLight
+palette.blueGrey[400] = grayBlue
 
 export const typographyConstants = {
   fontFamily: '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
