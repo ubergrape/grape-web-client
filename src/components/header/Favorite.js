@@ -1,26 +1,29 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import IconButton from 'material-ui/IconButton'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 
-import buttonIcon from '../button/icon'
 import {iconSize} from './constants'
 
 @injectSheet(({palette}) => ({
-  favorite: {
-    ...buttonIcon('star', {
-      stroke: palette.text.primary,
-      hoverStroke: palette.accent.A200,
-      iconOnly: true
-    }),
-    fontSize: iconSize
+  root: {
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
-  favorited: {
-    ...buttonIcon('star', {
-      color: palette.secondary[700],
-      hoverColor: palette.secondary[500],
-      iconOnly: true
-    }),
-    fontSize: iconSize
+  star: {
+    color: ({favorited}) => (favorited ? palette.secondary[700] : palette.text.primary),
+    width: iconSize,
+    height: iconSize,
+    '&:hover': {
+      isolate: false,
+      // TODO fix a bug in React-JSS. Size here should not be needed.
+      width: iconSize,
+      height: iconSize,
+      color: ({favorited}) => (favorited ? palette.secondary[500] : palette.accent.A200)
+    }
   }
 }))
 export default class Favorite extends PureComponent {
@@ -60,10 +63,9 @@ export default class Favorite extends PureComponent {
     } = this.props
 
     return (
-      <button
-        onClick={this.onToggle}
-        className={classes[favorited ? 'favorited' : 'favorite']}
-      />
+      <IconButton onClick={this.onToggle} className={classes.root}>
+        <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
+      </IconButton>
     )
   }
 }

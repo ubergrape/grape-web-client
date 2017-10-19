@@ -1,5 +1,5 @@
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import {gray, grayDarker, blue, white} from 'grape-theme/dist/base-colors'
+import {gray, grayDarker, grayBlueDark, blue, white} from 'grape-theme/dist/base-colors'
 import {borderDefault, alertDanger} from 'grape-theme/dist/web-colors'
 import {small, big} from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
@@ -23,18 +23,18 @@ const button = {
 
 export const styles = ({palette}) => {
   const getIcon = (name, type) => {
-    let stroke
+    let color
     switch (type) {
       case 'hover':
-        stroke = palette.accent.A200
+        color = palette.accent.A200
         break
       case 'active':
-        stroke = palette.accent.A200
+        color = palette.accent.A200
         break
       default:
-        stroke = palette.text.primary
+        color = palette.text.primary
     }
-    return `url('${getColoredIcon({name, stroke})}')`
+    return `url('${getColoredIcon({name, color})}')`
   }
 
   return {
@@ -99,11 +99,10 @@ export const styles = ({palette}) => {
         repeat: 'no-repeat',
         position: [12, '50%']
       },
-      backgroundImage: `url('${getColoredIcon({name: 'magnifier', color: '#929292'})}')`,
-      backgroundSize: 15,
+      backgroundImage: `url('${getColoredIcon({name: 'magnifier', color: grayBlueDark})}')`,
       border: [1, 'solid', borderDefault],
       padding: [7, 10, 7, 35],
-      color: grayDarker,
+      color: grayBlueDark,
       borderRadius: sizes.borderRadius.bigger,
       outline: 'none',
       width: '100%',
@@ -154,7 +153,6 @@ export const styles = ({palette}) => {
     },
     mentionsActive: {
       ...button,
-      backgroundColor: blue,
       backgroundImage: getIcon('at', 'active')
     },
     labeledMessages: {
@@ -167,7 +165,6 @@ export const styles = ({palette}) => {
     },
     labeledMessagesActive: {
       ...button,
-      backgroundColor: blue,
       backgroundImage: getIcon('tag', 'active')
     },
     badge: {

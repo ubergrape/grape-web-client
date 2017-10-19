@@ -18,12 +18,12 @@ export const styles = ({palette}) => {
   const border = [borderSize, 'solid', palette.blueGrey[400]]
 
   const iconOptions = {
-    fill: palette.text.secondary,
-    hoverFill: palette.accent.A200,
+    color: palette.text.secondary,
+    hoverColor: palette.accent.A200,
     iconOnly: true
   }
 
-  const binIconOptions = {...iconOptions, hoverFill: palette.error[500]}
+  const binIconOptions = {...iconOptions, hoverColor: palette.error[500]}
 
   return {
     menu: {
@@ -31,8 +31,8 @@ export const styles = ({palette}) => {
       whiteSpace: 'nowrap'
     },
     editItem: buttonIcon('pencil', iconOptions),
-    copyLinkItem: buttonIcon('iconLink', iconOptions),
-    removeItem: buttonIcon('bin', binIconOptions),
+    copyLinkItem: buttonIcon('link', iconOptions),
+    removeItem: buttonIcon('deleteMessage', binIconOptions),
     removeLinkAttachmentItem: buttonIcon('bin', binIconOptions),
     quoteItem: buttonIcon('quoteLeft', iconOptions),
     item: {

@@ -13,8 +13,8 @@ import {settingsButtonSize} from './constants'
 
 const styles = ({palette}) => {
   const iconOptions = {
-    stroke: palette.text.primary,
-    hoverStroke: palette.accent.A200,
+    color: palette.text.primary,
+    hoverColor: palette.accent.A200,
     size: settingsButtonSize
   }
 
@@ -45,7 +45,7 @@ const styles = ({palette}) => {
     },
     buttonInvite: {
       composes: '$baseButton',
-      extend: buttonIcon('invite', {...iconOptions, stroke: palette.accent.A200}),
+      extend: buttonIcon('invite', {...iconOptions, color: palette.accent.A200}),
       color: palette.accent.A200
     },
     buttonIntegration: {
@@ -55,7 +55,7 @@ const styles = ({palette}) => {
     },
     buttonLeave: {
       composes: '$baseButton',
-      extend: buttonIcon('exit', iconOptions),
+      extend: buttonIcon('leave', iconOptions),
       color: palette.text.primary
     }
   }

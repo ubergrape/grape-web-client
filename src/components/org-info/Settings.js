@@ -39,10 +39,10 @@ const toggleMenu = state => ({showMenu: !state.showMenu})
   },
   buttonIcon: {
     isolate: false,
-    stroke: palette.text.primary,
+    color: palette.text.primary,
     '&:hover': {
       isolate: false,
-      stroke: palette.accent.A200
+      color: palette.accent.A200
     }
   }
 }))

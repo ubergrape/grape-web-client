@@ -46,10 +46,10 @@ export const styles = {
       marginLeft: 10
     }
   },
-  notificationsButtonInherit: buttonIcon('bell', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonOff: buttonIcon('bellMuted', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonCustom: buttonIcon('bellCustom', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
-  settingsButton: buttonIcon('cog', {stroke: grayDark, hoverStroke: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonInherit: buttonIcon('bell', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonOff: buttonIcon('bellMuted', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonCustom: buttonIcon('bellCustom', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  settingsButton: buttonIcon('cog', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
   additionalActionsDropdown: {},
   additionalActionButton: {
     extend: [linkButton, normal],

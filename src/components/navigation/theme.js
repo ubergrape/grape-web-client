@@ -17,7 +17,7 @@ const button = {
   cursor: 'pointer'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-const buttonSettings = {stroke: colors.grayBlue, hoverStroke: colors.grayBlueDark}
+const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
 const newConversation = {
   ...buttonIcon('createConversation', buttonSettings),
   ...button
@@ -117,7 +117,7 @@ export const styles = {
     backgroundPosition: '0 2px'
   },
   favorites: {
-    backgroundImage: `url(${getColoredIcon({name: 'star', color: colors.grayBlueDark})})`,
+    backgroundImage: `url(${getColoredIcon({name: 'starFilled', color: colors.grayBlueDark})})`,
     backgroundSize: 'auto 13px',
     backgroundPosition: '0 2px'
   },
@@ -169,7 +169,7 @@ export const styles = {
     background: colors.green
   },
   defaultSign: {
-    background: colors.grayBlue
+    background: colors.grayBlueDark
   },
   filter: {
     flexShrink: 0,
@@ -179,7 +179,7 @@ export const styles = {
   filterInput: {
     extend: small,
     background: `${darkenBackground} no-repeat 10px 50%`,
-    backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
+    backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayBlueDark})})`,
     backgroundSize: 19,
     border: 'none',
     padding: '7px 5px 6px 35px',

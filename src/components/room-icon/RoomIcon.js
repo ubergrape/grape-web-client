@@ -85,7 +85,7 @@ export default injectSheet({
       color: grayBlueDark,
       position: ['50%', '50%'],
       repeat: 'no-repeat',
-      size: '70%'
+      size: '50%'
     }
   },
   icon: {

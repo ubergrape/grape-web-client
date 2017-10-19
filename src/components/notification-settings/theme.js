@@ -10,7 +10,7 @@ import inlineLink from '../button/inlineLink'
 const padding = 15
 
 const createIcon = name => createInlineIcon(name, {
-  stroke: grayDark,
+  color: grayDark,
   size: normal.fontSize
 })
 

@@ -32,8 +32,8 @@ const AttachmentButton = (props) => {
 
 @injectSheet(({palette}) => {
   const iconOptions = {
-    stroke: palette.text.primary,
-    hoverStroke: palette.accent.A200,
+    color: palette.text.primary,
+    hoverColor: palette.accent.A200,
     iconOnly: true
   }
 
