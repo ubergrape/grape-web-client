@@ -1,16 +1,10 @@
 import color from 'color'
-import {blue, grayBlueLight, grayBlue, grayBlueDark} from 'grape-theme/dist/base-colors'
+import {blue, grayBlue, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {small, normal, big} from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
 import {spacing} from '../constants'
-
-const divider = {
-  marginBottom: spacing,
-  paddingBottom: spacing,
-  borderBottom: [1, 'solid', grayBlueLight]
-}
 
 const createIcon = name => buttonIcon(name, {
   color: blue,
@@ -24,16 +18,17 @@ const button = {
 
 export const styles = {
   userNameContainer: {
-    extend: divider,
-    display: 'flex',
+    display: 'block',
     padding: spacing
   },
   details: {
-    padding: spacing
+    display: 'block',
+    padding: [0, spacing]
   },
   name: big,
   about: {
-    extend: [normal, divider],
+    extend: normal,
+    display: 'block',
     marginBottom: spacing,
     maxHeight: 200,
     overflowY: 'auto',

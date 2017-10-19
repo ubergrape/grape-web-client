@@ -13,6 +13,7 @@ import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import {styles} from './theme'
+import Divider from '../Divider'
 
 const messages = defineMessages({
   title: {
@@ -87,6 +88,7 @@ export default class UserProfile extends PureComponent {
             theme={this.userNameTheme}
           />
         </div>
+        <Divider />
         <div className={classes.details}>
           {whatIDo && (
             <div className={classes.about}>
@@ -100,6 +102,7 @@ export default class UserProfile extends PureComponent {
               <p>{whatIDo}</p>
             </div>
           )}
+          <Divider />
           <ul>
             <li>
               <a href={`mailto:${email}`} className={classes.email}>

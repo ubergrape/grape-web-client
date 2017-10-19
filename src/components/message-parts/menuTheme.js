@@ -18,7 +18,7 @@ export const styles = ({palette}) => {
   const border = [borderSize, 'solid', palette.blueGrey[400]]
 
   const iconOptions = {
-    fill: palette.text.primary,
+    fill: palette.text.secondary,
     hoverFill: palette.accent.A200,
     iconOnly: true
   }

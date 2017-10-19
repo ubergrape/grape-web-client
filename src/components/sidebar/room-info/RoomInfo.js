@@ -13,7 +13,7 @@ import MainSettings from './MainSettings'
 import User from './User'
 import RoomActions from './RoomActions'
 import Description from './Description'
-import Divider from './Divider'
+import Divider from '../Divider'
 import {getRoles} from './utils'
 import {styles} from './roomInfoTheme.js'
 
