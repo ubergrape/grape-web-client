@@ -56,7 +56,8 @@ export function renderInlineImage(href, text) {
  * Coverts known `:emoji:`-strings in to the image.
  */
 export function renderEmoji(markup) {
-  const image = jsEmoji.map.colons[markup]
+  // In case some client sends an emoji web client doesn't know.
+  const image = jsEmoji.map.colons[markup] || jsEmoji.map.colons.smile
   const styles = getEmojiSliceStyle(image)
   if (!image || !styles) return `:${markup}:`
 
