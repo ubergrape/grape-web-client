@@ -2,23 +2,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
-import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import Tooltip from '../tooltip/HoverTooltip'
-import {iconSize} from './constants'
 import FabButton from './FabButton'
 
 const styles = ({palette}) => ({
-  icon: {
-    width: iconSize,
-    height: iconSize,
-    cursor: 'inherit',
-    color: ({isSelected}) => (isSelected ? palette.accent.A200 : palette.text.primary),
-    '&:hover': {
-      isolate: false,
-      color: palette.accent.A200
-    }
-  },
   badge: {
     position: 'absolute',
     boxSizing: 'content-box',
@@ -42,9 +30,7 @@ const tip = (
 
 const MentionsButton = ({classes, onClick, isSelected, mentions}) => (
   <Tooltip message={tip}>
-    <FabButton onClick={onClick} isSelected={isSelected}>
-      <Icon name="at" className={classes.icon} />
-    </FabButton>
+    <FabButton onClick={onClick} isSelected={isSelected} icon="at" />
     {mentions > 0 && !isSelected && <i className={classes.badge} />}
   </Tooltip>
 )
