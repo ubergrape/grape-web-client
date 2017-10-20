@@ -1,105 +1,108 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  FormattedMessage,
-  defineMessages,
-  intlShape
-} from 'react-intl'
+import {intlShape} from 'react-intl'
+import injectSheet from 'grape-web/lib/jss'
+import sizes from 'grape-theme/dist/sizes'
 
-import Tooltip from '../tooltip/HoverTooltip'
 import {Beacon} from '../intro'
 import FavoriteButton from './FavoriteButton'
 import Title from './Title'
 import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
 import InfoButton from './InfoButton'
+import Search from './Search'
+import {height} from './constants'
 
-const messages = defineMessages({
-  placeholder: {
-    id: 'searchMessages',
-    defaultMessage: 'Search messages'
+export const styles = ({palette}) => ({
+  header: {
+    display: 'flex',
+    height,
+    padding: [0, sizes.spacer.s],
+    alignItems: 'center',
+    borderBottom: [1, 'solid', palette.grey[300]],
+    flexShrink: 0
+  },
+  headerDisabled: {
+    opacity: 0.4,
+    WebkitFilter: 'grayscale(100%)',
+    filter: 'grayscale(100%)',
+    pointerEvents: 'none'
+  },
+  favorite: {
+    listStyle: 'none',
+    flexShrink: 0,
+    position: 'relative',
+    marginRight: sizes.spacer.xs
+  },
+  title: {
+    listStyle: 'none',
+    overflow: 'hidden',
+    flexGrow: 1,
+    minWidth: 50,
+    paddingLeft: sizes.spacer.s
+  },
+  action: {
+    listStyle: 'none',
+    position: 'relative',
+    flexShrink: 0,
+    marginLeft: sizes.spacer.xs,
+    lineHeight: 0
+  },
+  search: {
+    listStyle: 'none',
+    marginLeft: sizes.spacer.s,
+    minWidth: 190
   }
 })
 
-function getTooltipMessage(name) {
-  switch (name) {
-    case 'favorite':
-      return (
-        <FormattedMessage
-          id="pinToFavorites"
-          description="Tooltip text"
-          defaultMessage="Pin to Favorites"
-        />
-      )
-    default:
-      return (<span />)
-  }
-}
+const itemClickHandler = (panel, {sidebar, hideSidebar, showSidebar}) => (
+  sidebar === panel ? hideSidebar : showSidebar.bind(null, panel)
+)
 
-function Button({onClick, className}) {
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-    />
-  )
-}
-
-Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired
-}
-
-function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
-  if (sidebar === panel) return hideSidebar
-  return showSidebar.bind(null, panel)
-}
-
-export default function Items(props) {
+function Items(props) {
   const {
     onFocusMessageSearch,
     onChangeMessageSearch,
+    requestAddChannelToFavorites,
+    requestRemoveChannelFromFavorites,
     mate,
     favorite,
     mentions,
     sidebar,
-    theme,
-    features
+    classes,
+    features,
+    intl,
+    channel
   } = props
-  const {type: channel} = props.channel
-
-  const favoriteProps = {...favorite, ...props}
-  const {formatMessage} = props.intl
-  const {classes} = theme
 
   return (
     <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
       <li className={classes.favorite}>
-        <Tooltip message={getTooltipMessage('favorite')}>
-          <FavoriteButton {...favoriteProps} />
-        </Tooltip>
+        <FavoriteButton
+          id={favorite.id}
+          favorited={favorite.favorited}
+          onFavorize={requestAddChannelToFavorites}
+          onUnfavorize={requestRemoveChannelFromFavorites}
+        />
       </li>
       <li className={classes.title}>
         <Title
-          channel={props.channel}
+          channel={channel}
           mate={mate}
-          theme={theme}
         />
       </li>
       <li className={classes.action}>
         <InfoButton
           onClick={itemClickHandler(channel, props)}
-          isSelected={sidebar === channel}
-          channel={channel}
+          isSelected={sidebar === channel.type}
+          channel={channel.type}
         />
       </li>
-      <li className={classes.searchAction}>
-        <input
-          className={`${classes.search} search-form`}
+      <li className={classes.search}>
+        <Search
           onFocus={onFocusMessageSearch}
           onChange={onChangeMessageSearch}
-          placeholder={formatMessage(messages.placeholder)}
-          type="search"
+          intl={intl}
         />
         <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
       </li>
@@ -124,7 +127,7 @@ export default function Items(props) {
 
 Items.propTypes = {
   intl: intlShape.isRequired,
-  theme: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   mate: PropTypes.object.isRequired,
   mentions: PropTypes.number,
@@ -137,9 +140,15 @@ Items.propTypes = {
   onChangeMessageSearch: PropTypes.func.isRequired,
   features: PropTypes.shape({
     labeledMessagesList: PropTypes.bool
-  })
+  }),
+  requestAddChannelToFavorites: PropTypes.func.isRequired,
+  requestRemoveChannelFromFavorites: PropTypes.func.isRequired
 }
 
 Items.defaultProps = {
-  features: {}
+  features: {},
+  mentions: 0,
+  sidebar: undefined
 }
+
+export default injectSheet(styles)(Items)

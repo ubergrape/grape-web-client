@@ -1,9 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {gray, grayDarker} from 'grape-theme/dist/base-colors'
+import {small, big} from 'grape-theme/dist/fonts'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import injectSheet from 'grape-web/lib/jss'
 
-export default function Title({channel, mate, theme}) {
+const styles = {
+  name: {
+    extend: [ellipsis, big],
+    fontWeight: 'bold',
+    lineHeight: 1.2,
+    color: grayDarker
+  },
+  description: {
+    extend: [ellipsis, small],
+    lineHeight: 1.2,
+    color: gray
+  }
+}
+
+const Title = ({channel, mate, classes}) => {
   const title = (
-    <h1 className={theme.classes.name}>
+    <h1 className={classes.name}>
       {channel.name || mate.displayName}
     </h1>
   )
@@ -12,7 +30,7 @@ export default function Title({channel, mate, theme}) {
   return (
     <div>
       {title}
-      <h2 className={theme.classes.description}>
+      <h2 className={classes.description}>
         {channel.description}
       </h2>
     </div>
@@ -27,7 +45,7 @@ Title.propTypes = {
   mate: PropTypes.shape({
     displayName: PropTypes.string
   }).isRequired,
-  theme: PropTypes.shape({
-    classes: PropTypes.object
-  }).isRequired
+  classes: PropTypes.object.isRequired
 }
+
+export default injectSheet(styles)(Title)

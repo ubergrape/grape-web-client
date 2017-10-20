@@ -3,8 +3,18 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+import {FormattedMessage} from 'react-intl'
 
+import Tooltip from '../tooltip/HoverTooltip'
 import {iconSize} from './constants'
+
+const tip = (
+  <FormattedMessage
+    id="pinToFavorites"
+    description="Tooltip text"
+    defaultMessage="Pin to Favorites"
+  />
+)
 
 @injectSheet(({palette}) => ({
   star: {
@@ -27,8 +37,8 @@ export default class Favorite extends PureComponent {
     classes: PropTypes.object.isRequired,
     id: PropTypes.number,
     favorited: PropTypes.bool,
-    requestAddChannelToFavorites: PropTypes.func.isRequired,
-    requestRemoveChannelFromFavorites: PropTypes.func.isRequired
+    onFavorize: PropTypes.func.isRequired,
+    onUnfavorize: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -40,16 +50,12 @@ export default class Favorite extends PureComponent {
     const {
       id,
       favorited,
-      requestAddChannelToFavorites,
-      requestRemoveChannelFromFavorites
+      onFavorize,
+      onUnfavorize
     } = this.props
 
-    if (favorited) {
-      requestRemoveChannelFromFavorites(id)
-      return
-    }
-
-    requestAddChannelToFavorites(id)
+    if (favorited) onUnfavorize(id)
+    else onFavorize(id)
   }
 
   render() {
@@ -59,9 +65,11 @@ export default class Favorite extends PureComponent {
     } = this.props
 
     return (
-      <IconButton onClick={this.onToggle}>
-        <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
-      </IconButton>
+      <Tooltip message={tip}>
+        <IconButton onClick={this.onToggle}>
+          <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
+        </IconButton>
+      </Tooltip>
     )
   }
 }

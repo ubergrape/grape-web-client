@@ -1,19 +1,12 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {injectIntl} from 'react-intl'
-import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './theme'
 import Items from './Items'
 
-@injectSheet(styles)
 @injectIntl
 export default class Header extends PureComponent {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
-    channel: PropTypes.object.isRequired,
-    mate: PropTypes.object.isRequired,
-    favorite: PropTypes.object.isRequired,
     showSidebar: PropTypes.func.isRequired,
     updateMessageSearchQuery: PropTypes.func.isRequired
   }
@@ -28,13 +21,11 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const {classes, ...rest} = this.props
     return (
       <Items
-        {...rest}
+        {...this.props}
         onChangeMessageSearch={this.onChangeMessageSearch}
         onFocusMessageSearch={this.onFocusMessageSearch}
-        theme={{classes}}
       />
     )
   }
