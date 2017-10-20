@@ -130,7 +130,7 @@ export default function Items(props) {
       <li className={classes.action}>
         <Mentions
           onClick={itemClickHandler('mentions', props)}
-          isActive={sidebar === 'mentions'}
+          isSelected={sidebar === 'mentions'}
           mentions={mentions}
         />
       </li>
