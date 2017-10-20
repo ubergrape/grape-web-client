@@ -10,6 +10,7 @@ The app source code is in `src/` and adhere to the following structure:
 actions    # redux's actions
 app        # app container
 components # react render components
+  images   # local components images
   tests
   index.js
 containers # react container components connected to the Redux store
