@@ -32,6 +32,7 @@ palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
 // Added since v1.0.0-beta.6
 palette.blueGrey = {}
+palette.blueGrey[50] = grayBlueLighter
 palette.blueGrey[100] = grayBlueLight
 palette.blueGrey[400] = grayBlue
 
