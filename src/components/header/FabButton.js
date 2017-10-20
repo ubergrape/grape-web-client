@@ -5,12 +5,12 @@ import Button from 'material-ui/Button'
 
 import {iconSize} from './constants'
 
-const styles = () => ({
+const styles = ({palette}) => ({
   root: {
     border: 'none',
     width: iconSize + 18,
     height: iconSize + 18,
-    background: ({isSelected}) => (isSelected ? '#EBEEF3' : 'none'),
+    background: ({isSelected}) => (isSelected ? palette.blueGrey[50] : 'none'),
     '&:hover': {
       isolate: false,
       background: 'none'
@@ -20,10 +20,10 @@ const styles = () => ({
   // is fixed.
   active: {
     composes: '$root',
-    background: '#EBEEF3',
+    background: palette.blueGrey[50],
     '&:hover': {
       isolate: false,
-      background: '#EBEEF3'
+      background: palette.blueGrey[50]
     }
   }
 })
