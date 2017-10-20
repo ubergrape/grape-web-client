@@ -9,6 +9,8 @@ import {
 import Tooltip from '../tooltip/HoverTooltip'
 import {Beacon} from '../intro'
 import Favorite from './Favorite'
+import Title from './Title'
+import Mentions from './Mentions'
 
 const messages = defineMessages({
   placeholder: {
@@ -41,13 +43,6 @@ function getTooltipMessage(name) {
           defaultMessage="User Profile"
         />
       )
-    case 'mentions':
-      return (
-        <FormattedMessage
-          id="mentions"
-          defaultMessage="Mentions"
-        />
-      )
     case 'labeledMessages':
       return (
         <FormattedMessage
@@ -58,30 +53,6 @@ function getTooltipMessage(name) {
     default:
       return (<span />)
   }
-}
-
-function Title({channel, mate, theme}) {
-  const title = (
-    <h1 className={theme.classes.name}>
-      {channel.name || mate.displayName}
-    </h1>
-  )
-  if (!channel.description) return title
-
-  return (
-    <div>
-      {title}
-      <h2 className={theme.classes.description}>
-        {channel.description}
-      </h2>
-    </div>
-  )
-}
-
-Title.propTypes = {
-  channel: PropTypes.object.isRequired,
-  mate: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
 }
 
 function Button({onClick, className}) {
@@ -96,20 +67,6 @@ function Button({onClick, className}) {
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired
-}
-
-function MentionsBadge({mentions, sidebar, theme}) {
-  if (!mentions || sidebar === 'mentions') return null
-  return <i className={theme.classes.badge} />
-}
-
-MentionsBadge.propTypes = {
-  mentions: PropTypes.number,
-  sidebar: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  theme: PropTypes.object.isRequired
 }
 
 function itemButtonClassName(panel, {sidebar, theme}) {
@@ -171,17 +128,11 @@ export default function Items(props) {
         <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
       </li>
       <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('mentions')}>
-          <Button
-            className={itemButtonClassName('mentions', props)}
-            onClick={itemClickHandler('mentions', props)}
-          />
-          <MentionsBadge
-            mentions={mentions}
-            sidebar={sidebar}
-            theme={theme}
-          />
-        </Tooltip>
+        <Mentions
+          onClick={itemClickHandler('mentions', props)}
+          isActive={sidebar === 'mentions'}
+          mentions={mentions}
+        />
       </li>
       {features.labeledMessagesList && (
         <li className={classes.action}>

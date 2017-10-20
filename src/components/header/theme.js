@@ -1,6 +1,6 @@
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import {gray, grayDarker, grayBlueDark, blue, white} from 'grape-theme/dist/base-colors'
-import {borderDefault, alertDanger} from 'grape-theme/dist/web-colors'
+import {borderDefault} from 'grape-theme/dist/web-colors'
 import {small, big} from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
@@ -143,18 +143,6 @@ export const styles = ({palette}) => {
     roomActive: {
       composes: '$sidebarActive'
     },
-    mentions: {
-      ...button,
-      backgroundImage: getIcon('at'),
-      '&:hover': {
-        isolate: false,
-        backgroundImage: getIcon('at', 'hover')
-      }
-    },
-    mentionsActive: {
-      ...button,
-      backgroundImage: getIcon('at', 'active')
-    },
     labeledMessages: {
       ...button,
       backgroundImage: getIcon('tag'),
@@ -166,17 +154,6 @@ export const styles = ({palette}) => {
     labeledMessagesActive: {
       ...button,
       backgroundImage: getIcon('tag', 'active')
-    },
-    badge: {
-      position: 'absolute',
-      boxSizing: 'content-box',
-      top: 2,
-      right: 2,
-      width: 7,
-      height: 7,
-      background: alertDanger,
-      borderRadius: '50%',
-      border: [2, 'solid', white]
     }
   }
 }
