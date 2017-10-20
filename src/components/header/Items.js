@@ -93,7 +93,7 @@ function Items(props) {
       </li>
       <li className={classes.action}>
         <InfoButton
-          onClick={itemClickHandler(channel, props)}
+          onClick={itemClickHandler(channel.type, props)}
           isSelected={sidebar === channel.type}
           channel={channel.type}
         />
