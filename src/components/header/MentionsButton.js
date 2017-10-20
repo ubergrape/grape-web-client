@@ -40,7 +40,7 @@ const tip = (
   />
 )
 
-const Mentions = ({classes, onClick, isSelected, mentions}) => (
+const MentionsButton = ({classes, onClick, isSelected, mentions}) => (
   <Tooltip message={tip}>
     <FabButton onClick={onClick} isSelected={isSelected}>
       <Icon name="at" className={classes.icon} />
@@ -49,11 +49,11 @@ const Mentions = ({classes, onClick, isSelected, mentions}) => (
   </Tooltip>
 )
 
-Mentions.propTypes = {
+MentionsButton.propTypes = {
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   mentions: PropTypes.number.isRequired
 }
 
-export default injectSheet(styles)(Mentions)
+export default injectSheet(styles)(MentionsButton)

@@ -7,19 +7,15 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import {iconSize} from './constants'
 
 @injectSheet(({palette}) => ({
-  root: {
-    '&, & *': {
-      isolate: false,
-      cursor: 'pointer'
-    }
-  },
   star: {
     color: ({favorited}) => (favorited ? palette.secondary[700] : palette.text.primary),
     width: iconSize,
     height: iconSize,
     '&:hover': {
       isolate: false,
-      // TODO fix a bug in React-JSS. Size here should not be needed.
+      cursor: 'pointer',
+      // TODO Size here should not be needed.
+      // https://github.com/cssinjs/react-jss/issues/165
       width: iconSize,
       height: iconSize,
       color: ({favorited}) => (favorited ? palette.secondary[500] : palette.accent.A200)
@@ -63,7 +59,7 @@ export default class Favorite extends PureComponent {
     } = this.props
 
     return (
-      <IconButton onClick={this.onToggle} className={classes.root}>
+      <IconButton onClick={this.onToggle}>
         <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
       </IconButton>
     )

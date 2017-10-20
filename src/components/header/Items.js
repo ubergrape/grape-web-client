@@ -8,9 +8,9 @@ import {
 
 import Tooltip from '../tooltip/HoverTooltip'
 import {Beacon} from '../intro'
-import Favorite from './Favorite'
+import FavoriteButton from './FavoriteButton'
 import Title from './Title'
-import Mentions from './Mentions'
+import MentionsButton from './MentionsButton'
 
 const messages = defineMessages({
   placeholder: {
@@ -99,7 +99,7 @@ export default function Items(props) {
     <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
       <li className={classes.favorite}>
         <Tooltip message={getTooltipMessage('favorite')}>
-          <Favorite {...favoriteProps} />
+          <FavoriteButton {...favoriteProps} />
         </Tooltip>
       </li>
       <li className={classes.title}>
@@ -128,7 +128,7 @@ export default function Items(props) {
         <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
       </li>
       <li className={classes.action}>
-        <Mentions
+        <MentionsButton
           onClick={itemClickHandler('mentions', props)}
           isSelected={sidebar === 'mentions'}
           mentions={mentions}
