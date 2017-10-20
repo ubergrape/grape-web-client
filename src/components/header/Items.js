@@ -12,6 +12,7 @@ import FavoriteButton from './FavoriteButton'
 import Title from './Title'
 import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
+import InfoButton from './InfoButton'
 
 const messages = defineMessages({
   placeholder: {
@@ -28,20 +29,6 @@ function getTooltipMessage(name) {
           id="pinToFavorites"
           description="Tooltip text"
           defaultMessage="Pin to Favorites"
-        />
-      )
-    case 'room':
-      return (
-        <FormattedMessage
-          id="groupInfo"
-          defaultMessage="Group Info"
-        />
-      )
-    case 'pm':
-      return (
-        <FormattedMessage
-          id="userProfile"
-          defaultMessage="User Profile"
         />
       )
     default:
@@ -61,10 +48,6 @@ function Button({onClick, className}) {
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired
-}
-
-function itemButtonClassName(panel, {sidebar, theme}) {
-  return theme.classes[sidebar === panel ? `${panel}Active` : panel] || ''
 }
 
 function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
@@ -104,12 +87,11 @@ export default function Items(props) {
         />
       </li>
       <li className={classes.action}>
-        <Tooltip message={getTooltipMessage(channel)}>
-          <Button
-            className={itemButtonClassName(channel, props)}
-            onClick={itemClickHandler(channel, props)}
-          />
-        </Tooltip>
+        <InfoButton
+          onClick={itemClickHandler(channel, props)}
+          isSelected={sidebar === channel}
+          channel={channel}
+        />
       </li>
       <li className={classes.searchAction}>
         <input

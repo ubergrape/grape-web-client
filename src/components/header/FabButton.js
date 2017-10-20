@@ -54,7 +54,7 @@ FabButton.propTypes = {
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  icon: PropTypes.oneOf(['at', 'tag']).isRequired
+  icon: PropTypes.oneOf(['at', 'tag', 'sidebar']).isRequired
 }
 
 export default injectSheet(styles)(FabButton)
