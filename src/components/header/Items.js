@@ -11,6 +11,7 @@ import {Beacon} from '../intro'
 import FavoriteButton from './FavoriteButton'
 import Title from './Title'
 import MentionsButton from './MentionsButton'
+import LabeledMessagesButton from './LabeledMessagesButton'
 
 const messages = defineMessages({
   placeholder: {
@@ -41,13 +42,6 @@ function getTooltipMessage(name) {
         <FormattedMessage
           id="userProfile"
           defaultMessage="User Profile"
-        />
-      )
-    case 'labeledMessages':
-      return (
-        <FormattedMessage
-          id="labeledMessagesTooltip"
-          defaultMessage="Important Messages"
         />
       )
     default:
@@ -136,12 +130,10 @@ export default function Items(props) {
       </li>
       {features.labeledMessagesList && (
         <li className={classes.action}>
-          <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
-            <Button
-              className={itemButtonClassName('labeledMessages', props)}
-              onClick={itemClickHandler('labeledMessages', props)}
-            />
-          </Tooltip>
+          <LabeledMessagesButton
+            isSelected={sidebar === 'labeledMessages'}
+            onClick={itemClickHandler('labeledMessages', props)}
+          />
         </li>
       )}
     </ul>

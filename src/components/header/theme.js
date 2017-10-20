@@ -142,18 +142,6 @@ export const styles = ({palette}) => {
     },
     roomActive: {
       composes: '$sidebarActive'
-    },
-    labeledMessages: {
-      ...button,
-      backgroundImage: getIcon('tag'),
-      '&:hover': {
-        isolate: false,
-        backgroundImage: getIcon('tag', 'hover')
-      }
-    },
-    labeledMessagesActive: {
-      ...button,
-      backgroundImage: getIcon('tag', 'active')
     }
   }
 }
