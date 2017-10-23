@@ -1,6 +1,7 @@
 import array from 'array'
 import Emitter from 'component-emitter'
 import noop from 'lodash/utility/noop'
+import merge from 'lodash/object/merge'
 
 import conf from '../../conf'
 import models from './models'
@@ -216,6 +217,7 @@ API.prototype.subscribe = function API_subscribe() {
     user.what_i_do = data.user.what_i_do
     user.skype_username = data.user.skype_username
     user.phone_number = data.user.phone_number
+    merge(user.settings, data.user.settings)
     if (data.user.avatar !== null) user.avatar = data.user.avatar
     self.emit('changeUser', user)
   })
