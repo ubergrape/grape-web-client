@@ -14,10 +14,15 @@ const button = {
   paddingLeft: 35,
   textAlign: 'left',
   color: colors.grayBlueDark,
-  cursor: 'pointer'
+  cursor: 'pointer',
+  '&:hover': {
+    isolate: false,
+    color: colors.grayDark
+  }
 }
+
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
+const buttonSettings = {color: colors.grayDark, hoverColor: colors.blue}
 const newConversation = {
   ...buttonIcon('createConversation', buttonSettings),
   ...button
@@ -76,7 +81,7 @@ export const styles = {
   },
   navigationWrapper: {
     display: 'block',
-    padding: '15px 0',
+    padding: [15, 0],
     height: '100%'
   },
   manage: {
@@ -125,9 +130,9 @@ export const styles = {
     extend: small,
     display: 'block',
     padding: [3, 15],
-    '&:hover': {
+    '&:hover $channelName': {
       isolate: false,
-      background: darkenBackground
+      color: colors.grayDark
     },
     '&, & *': {
       isolate: false,
@@ -182,7 +187,7 @@ export const styles = {
     backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayBlueDark})})`,
     backgroundSize: 19,
     border: 'none',
-    padding: '7px 5px 6px 35px',
+    padding: [7, 5, 6, 35],
     color: colors.grayDarker,
     borderRadius: 6,
     outline: 'none',
@@ -190,6 +195,10 @@ export const styles = {
     '&::-webkit-search-cancel-button': {
       isolate: false,
       WebkitAppearance: 'searchfield-cancel-button !important'
+    },
+    '&:focus': {
+      isolate: false,
+      backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayDark})})`
     }
   }
 }

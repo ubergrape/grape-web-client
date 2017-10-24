@@ -30,7 +30,7 @@ const styles = ({palette}) => ({
     },
     '&:focus': {
       isolate: false,
-      borderColor: palette.accent.A200
+      backgroundImage: `url(${getColoredIcon({name: 'magnifier', color: palette.text.primary})})`
     }
   }
 })
