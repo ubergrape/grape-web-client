@@ -33,15 +33,12 @@ API.prototype.connect = function API_connect() {
   const channel = client().connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
-  channel.on('connected', () => {
-    // Resync the whole data if we got a new client id, because we might have
-    // missed some messages. This is related to the current serverside arch.
-    channel.once('set:id', () => {
-      this.sync()
-    })
+  // Resync the whole data if we got a new client id, because we might have
+  // missed some messages. This is related to the current serverside arch.
+  channel.on('set:id', () => {
+    this.sync()
   })
   channel.on('disconnected', () => {
-    channel.off('set:id')
     this.emit('disconnected')
   })
   channel.on('data', (data) => {
