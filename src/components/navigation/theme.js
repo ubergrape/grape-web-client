@@ -2,64 +2,13 @@ import {small} from 'grape-theme/dist/fonts'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-
-import buttonIcon from '../button/icon'
-
-const button = {
-  extend: small,
-  lineHeight: 1.7,
-  position: 'relative',
-  display: 'block',
-  width: '100%',
-  paddingLeft: 35,
-  textAlign: 'left',
-  color: colors.grayBlueDark,
-  cursor: 'pointer',
-  '&:hover': {
-    isolate: false,
-    color: colors.grayDark
-  }
-}
+import sizes from 'grape-theme/dist/sizes'
 
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-const buttonSettings = {color: colors.grayDark, hoverColor: colors.blue}
-const newConversation = {
-  ...buttonIcon('createConversation', buttonSettings),
-  ...button
-}
-const contacts = {
-  ...buttonIcon('users', buttonSettings),
-  ...button
-}
-const channels = {
-  ...buttonIcon('conversations', buttonSettings),
-  ...button
-}
-newConversation['&:before'] = {
-  ...newConversation['&:before'],
-  position: 'absolute',
-  left: 3,
-  width: 21,
-  height: 21
-}
-contacts['&:before'] = {
-  ...contacts['&:before'],
-  position: 'absolute',
-  left: 3,
-  width: 18,
-  height: 21
-}
-channels['&:before'] = {
-  ...channels['&:before'],
-  position: 'absolute',
-  left: 0,
-  width: 24,
-  height: 21
-}
 
 const title = {
   ...small,
-  marginLeft: 15,
+  marginLeft: sizes.spacer.m,
   textTransform: 'uppercase',
   background: '0 0 no-repeat',
   color: colors.grayBlueDark
@@ -81,40 +30,37 @@ export const styles = {
   },
   navigationWrapper: {
     display: 'block',
-    padding: [15, 0],
+    padding: [sizes.spacer.s, 0],
     height: '100%'
   },
   manage: {
-    paddingLeft: 15
+    paddingLeft: sizes.spacer.m
   },
   manageItem: {
     display: 'block',
-    marginTop: 10,
+    marginTop: sizes.spacer.s,
     listStyle: 'none'
   },
-  newConversation,
-  contacts,
-  channels,
   section: {
     display: 'block',
-    marginTop: 20
+    marginTop: sizes.spacer.s
   },
   list: {
     display: 'block',
-    marginTop: 10
+    marginTop: sizes.spacer.s
   },
   notFound: {
-    padding: 10,
+    padding: sizes.spacer.s,
     textAlign: 'center'
   },
   title: {
     ...title,
-    paddingLeft: 18
+    paddingLeft: sizes.spacer.l
   },
   unjoinedTitle: {
     ...title,
-    marginTop: 20,
-    marginBottom: 10
+    marginTop: sizes.spacer.l,
+    marginBottom: sizes.spacer.s
   },
   recent: {
     backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlueDark})})`,
@@ -129,7 +75,7 @@ export const styles = {
   channel: {
     extend: small,
     display: 'block',
-    padding: [3, 15],
+    padding: [3, sizes.spacer.m],
     '&:hover $channelName': {
       isolate: false,
       color: colors.grayDark
@@ -164,7 +110,7 @@ export const styles = {
   sign: {
     extend: small,
     fontWeight: 'normal',
-    minWidth: 24,
+    minWidth: sizes.spacer.xl,
     padding: [1, 7, 0],
     textAlign: 'center',
     borderRadius: 50,

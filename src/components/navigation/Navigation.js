@@ -16,7 +16,7 @@ import Filter from './Filter'
 import List from './List'
 import FilteredList from './FilteredList'
 import Channel from './Channel'
-import ManageButtons from './ManageButtons'
+import Actions from './Actions'
 import {styles} from './theme'
 
 const messages = defineMessages({
@@ -38,10 +38,13 @@ const messages = defineMessages({
 @injectIntl
 export default class Navigation extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
     goToChannel: PropTypes.func.isRequired,
+    showManageGroups: PropTypes.func.isRequired,
+    showNewConversation: PropTypes.func.isRequired,
+    showManageContacts: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     joined: PropTypes.array.isRequired,
@@ -184,8 +187,7 @@ export default class Navigation extends PureComponent {
 
   renderFilteredChannel = (params) => {
     const {item: channel, focused} = params
-    const {classes} = this.props.sheet
-    const {formatMessage} = this.props.intl
+    const {classes, intl: {formatMessage}} = this.props
     const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
 
     return (
@@ -203,7 +205,9 @@ export default class Navigation extends PureComponent {
   }
 
   renderList() {
-    const {classes} = this.props.sheet
+    const {recent, intl: {formatMessage}, classes} = this.props
+    const {shift} = this.state
+    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     if (this.state.filter) {
       return (
@@ -219,11 +223,6 @@ export default class Navigation extends PureComponent {
         />
       )
     }
-
-    const {recent, intl} = this.props
-    const {formatMessage} = intl
-    const {shift} = this.state
-    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     return (
       <div>
@@ -250,22 +249,27 @@ export default class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    if (this.props.isLoading) return null
-    const {classes} = this.props.sheet
+    const {
+      isLoading, classes, showManageContacts, showNewConversation,
+      showManageGroups
+    } = this.props
+    if (isLoading) return null
     return (
       <div className={classes.navigationWrapper}>
-        <ManageButtons
-          {...this.props}
-          {...this.state}
-          theme={{classes}}
-        />
+        {!this.state.filter && (
+          <Actions
+            onContacts={showManageContacts}
+            onNewConversation={showNewConversation}
+            onManageGroups={showManageGroups}
+          />
+        )}
         {this.renderList()}
       </div>
     )
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {classes} = this.props
 
     return (
       <div className={classes.wrapper}>

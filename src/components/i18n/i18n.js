@@ -47,23 +47,21 @@ export function ShowLess() {
   )
 }
 
-export function Contacts() {
-  return (
-    <FormattedMessage
-      id="contacts"
-      defaultMessage="Contacts"
-    />
-  )
-}
+export const Contacts = props => (
+  <FormattedMessage
+    {...props}
+    id="contacts"
+    defaultMessage="Contacts"
+  />
+)
 
-export function Groups() {
-  return (
-    <FormattedMessage
-      id="groups"
-      defaultMessage="Groups"
-    />
-  )
-}
+export const Groups = props => (
+  <FormattedMessage
+    {...props}
+    id="groups"
+    defaultMessage="Groups"
+  />
+)
 
 export function Description() {
   return (

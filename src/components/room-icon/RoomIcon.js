@@ -29,7 +29,7 @@ const defaultRoomIconTheme = {
   statusSize: 14,
   statusBorderWidth: 1,
   statusBorderColor: white,
-  size: iconSize.l,
+  size: iconSize.xl,
   color: white,
   backgroundColor: colors[0]
 }

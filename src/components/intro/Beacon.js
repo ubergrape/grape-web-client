@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
 import beacons from './beacons'
 
@@ -20,14 +21,16 @@ export default class Beacon extends PureComponent {
     placement: PropTypes.string,
     shift: PropTypes.object,
     arrowOffsetLeft: PropTypes.number,
-    arrowOffsetTop: PropTypes.number
+    arrowOffsetTop: PropTypes.number,
+    className: PropTypes.string
   }
 
   static defaultProps = {
     placement: undefined,
     shift: undefined,
     arrowOffsetLeft: undefined,
-    arrowOffsetTop: undefined
+    arrowOffsetTop: undefined,
+    className: undefined
   }
 
   componentWillMount() {
@@ -54,7 +57,7 @@ export default class Beacon extends PureComponent {
   }
 
   render() {
-    const {classes} = this.props
-    return <span className={classes.beacon} />
+    const {classes, className} = this.props
+    return <span className={cn(classes.beacon, className)} />
   }
 }
