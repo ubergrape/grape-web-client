@@ -149,7 +149,6 @@ export default class RoomInfo extends PureComponent {
           />
           <Divider />
           <Description
-            classes={classes}
             description={channel.description}
             intl={intl}
             allowEdit={allowEdit}

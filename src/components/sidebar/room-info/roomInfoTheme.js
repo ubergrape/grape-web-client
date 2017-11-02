@@ -1,5 +1,5 @@
-import {small, normal, bigger} from 'grape-theme/dist/fonts'
-import {blue, grayDark, grayBlueDark, grayBlue, red} from 'grape-theme/dist/base-colors'
+import {normal, bigger} from 'grape-theme/dist/fonts'
+import {blue, grayDark, grayBlueDark, red} from 'grape-theme/dist/base-colors'
 import {borderLight} from 'grape-theme/dist/web-colors'
 
 import {settingsButtonSize} from './constants'
@@ -22,21 +22,11 @@ export const styles = {
     width: '100%',
     color: grayDark
   },
-  roomDescription: {
-    extend: [normal],
-    color: grayDark
-  },
   mainSettings: {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
     minHeight: roomIconSize + marginBottom + paddingBottom
-  },
-  title: {
-    extend: small,
-    textTransform: 'uppercase',
-    background: '0 0 no-repeat',
-    color: grayBlue
   },
   additionalActions: {
     display: 'flex',
