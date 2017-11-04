@@ -36,6 +36,8 @@ palette.blueGrey[50] = grayBlueLighter
 palette.blueGrey[100] = grayBlueLight
 palette.blueGrey[400] = grayBlue
 
+palette.action.active = grayDark
+
 export const typographyConstants = {
   fontFamily: '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
   fontSize: normal.fontSize,
