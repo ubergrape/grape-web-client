@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/lang/isEmpty'
+import find from 'lodash/collection/find'
 import {
   defineMessages,
   intlShape,
@@ -28,12 +29,18 @@ const messages = defineMessages({
   }
 })
 
-const subviewRenderMap = {
-  members: 'renderMembers',
-  files: 'renderSharedFiles'
-}
-
-const tabs = Object.keys(subviewRenderMap)
+const tabs = [
+  {
+    name: 'members',
+    icon: 'accountGroup',
+    render: 'renderMembers'
+  },
+  {
+    name: 'files',
+    icon: 'folderPicture',
+    render: 'renderSharedFiles'
+  }
+]
 
 @injectSheet(styles)
 @injectIntl
@@ -119,7 +126,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   onChangeTab = (index) => {
-    this.props.onShowSubview(tabs[index])
+    this.props.onShowSubview(tabs[index].name)
   }
 
   renderMembers = () => {
@@ -201,6 +208,7 @@ export default class RoomInfo extends PureComponent {
     if (isEmpty(channel)) return null
 
     const {allowEdit} = getRoles({channel, user: currUser})
+    const tab = find(tabs, {name: showSubview})
 
     return (
       <SidebarPanel
@@ -230,10 +238,11 @@ export default class RoomInfo extends PureComponent {
             onSetRoomDescription={this.onSetRoomDescription}
           />
           <TabbedContent
-            value={tabs.indexOf(showSubview)}
+            value={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
+            tabs={tabs}
           >
-            {this[subviewRenderMap[showSubview]]()}
+            {this[tab.render]()}
           </TabbedContent>
         </div>
       </SidebarPanel>

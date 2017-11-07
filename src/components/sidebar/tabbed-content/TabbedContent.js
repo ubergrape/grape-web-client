@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import Tabs, {Tab} from 'material-ui/Tabs'
@@ -46,8 +47,19 @@ import {spacing} from '../constants'
   }
 }))
 export default class TabbedContent extends PureComponent {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    children: PropTypes.node,
+    value: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
+    tabs: PropTypes.arrayOf(PropTypes.shape({
+      icon: PropTypes.string.isRequired
+    })).isRequired
+  }
+
   static defaultProps = {
-    value: 0
+    value: 0,
+    children: undefined
   }
 
   onChange = (e, value) => {
@@ -55,7 +67,7 @@ export default class TabbedContent extends PureComponent {
   }
 
   render() {
-    const {children, value, classes} = this.props
+    const {children, value, classes, tabs} = this.props
 
     const tabClasses = {rootInheritSelected: classes.tabSelected}
 
@@ -67,16 +79,14 @@ export default class TabbedContent extends PureComponent {
           className={classes.tabs}
           indicatorClassName={classes.indicator}
         >
-          <Tab
-            icon={<Icon name="accountGroup" className={classes.icon} />}
-            className={classes.tab}
-            classes={tabClasses}
-          />
-          <Tab
-            icon={<Icon name="folderPicture" className={classes.icon} />}
-            className={classes.tab}
-            classes={tabClasses}
-          />
+          {tabs.map(({name, icon}) => (
+            <Tab
+              key={name}
+              icon={<Icon name={icon} className={classes.icon} />}
+              className={classes.tab}
+              classes={tabClasses}
+            />
+          ))}
         </Tabs>
         <div className={classes.content}>
           {children}
