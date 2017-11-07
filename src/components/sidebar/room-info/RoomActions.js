@@ -39,24 +39,23 @@ const styles = ({palette}) => {
       marginBottom: sizes.spacer.xs,
       '&:hover': {
         isolate: false,
-        color: palette.accent.A200,
-        textDecoration: 'underline'
+        color: palette.text.primary
       }
     },
     buttonInvite: {
       composes: '$baseButton',
-      extend: buttonIcon('invite', {...iconOptions, color: palette.accent.A200}),
-      color: palette.accent.A200
+      extend: buttonIcon('invite', iconOptions),
+      color: palette.text.secondary
     },
     buttonIntegration: {
       composes: '$baseButton',
       extend: buttonIcon('plug', iconOptions),
-      color: palette.text.primary
+      color: palette.text.secondary
     },
     buttonLeave: {
       composes: '$baseButton',
       extend: buttonIcon('leave', iconOptions),
-      color: palette.text.primary
+      color: palette.text.secondary
     }
   }
 }

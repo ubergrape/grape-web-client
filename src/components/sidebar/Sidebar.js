@@ -6,7 +6,6 @@ import {
   injectIntl
 } from 'react-intl'
 
-import SharedFiles from './shared-files/SharedFiles'
 import {RoomInfo} from './room-info'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
@@ -50,6 +49,7 @@ const Content = (props) => {
     toggleSearchActivities,
     toggleShowRoomMentions,
     hideSidebar,
+    showSidebarSubview,
     goToMessage,
     showRoomMentions,
     selectLabeledMessagesFilter,
@@ -59,21 +59,14 @@ const Content = (props) => {
   } = props
 
   switch (show) {
-    case 'files':
-      return (
-        <SharedFiles
-          {...rest}
-          onLoad={loadSharedFiles}
-          onClose={hideSidebar}
-          onOpen={openSharedFile}
-        />
-      )
     case 'room':
       return (
         <RoomInfo
           {...rest}
           onLoad={loadRoomInfo}
           onClose={hideSidebar}
+          onShowSubview={showSidebarSubview}
+          onLoadSharedFiles={loadSharedFiles}
         />
       )
     case 'pm':
@@ -148,9 +141,10 @@ Content.propTypes = {
   loadSharedFiles: PropTypes.func.isRequired,
   loadLabeledMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
+  showSidebarSubview: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
-    false, 'files', 'room', 'pm', 'mentions', 'search', 'labeledMessages'
+    false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'
   ]).isRequired,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   toggleSearchActivities: PropTypes.func.isRequired,

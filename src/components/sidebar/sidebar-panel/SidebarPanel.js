@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
-import {small, big} from 'grape-theme/dist/fonts'
+import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
-import webColors from 'grape-theme/dist/web-colors'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 
 import {zIndex} from '../../../utils/z-index'
 import {spacing} from '../constants'
-
+import Title from '../Title'
 
 /**
  * Dialog has
@@ -19,14 +17,10 @@ import {spacing} from '../constants'
  * - body
  * - positioned in the middle
  */
-@injectSheet({
+@injectSheet(({palette}) => ({
   title: {
-    extend: [big, ellipsis],
     flex: 2,
-    alignSelf: 'center',
-    color: colors.gray,
-    padding: [14, spacing, 14, 0],
-    margin: 0
+    alignSelf: 'center'
   },
   sidebarPanel: {
     alignItems: 'stretch',
@@ -39,11 +33,10 @@ import {spacing} from '../constants'
   header: {
     display: 'flex',
     flexShrink: 0,
-    borderBottom: [1, 'solid', webColors.borderDefault],
+    borderBottom: [1, 'solid', palette.text.divider],
     // Used to overlap absolutely positioned content e.g. loading indicator.
     position: 'relative',
-    zIndex: zIndex('base'),
-    marginLeft: spacing
+    zIndex: zIndex('base')
   },
   headerWithOptions: {
     marginLeft: 0
@@ -61,14 +54,14 @@ import {spacing} from '../constants'
   },
   close: {
     isolate: false,
-    fontSize: small.fontSize,
-    opacity: 0.5,
+    fontSize: fonts.small.fontSize,
+    color: palette.text.primary,
     '&:hover': {
       isolate: false,
-      opacity: 1
+      color: palette.accent.A200
     }
   }
-})
+}))
 export default class SidebarPanel extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -88,9 +81,7 @@ export default class SidebarPanel extends PureComponent {
     return (
       <div className={classes.sidebarPanel}>
         <header className={cn(classes.header, options && classes.headerWithOptions)}>
-          <h2 className={cn(classes.title, options && classes.titleWithOptions)}>
-            {title}
-          </h2>
+          <Title className={classes.title}>{title}</Title>
           <IconButton className={classes.close} onClick={onClose}>
             <Icon name="close" />
           </IconButton>

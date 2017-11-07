@@ -1,19 +1,23 @@
-import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import isEmpty from 'lodash/lang/isEmpty'
 import {
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
+  FormattedMessage
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import Divider from '../Divider'
+import SharedFiles from '../shared-files/SharedFiles'
+import TabbedContent from '../tabbed-content/TabbedContent'
+import Title from '../Title'
 import MainSettings from './MainSettings'
 import User from './User'
 import RoomActions from './RoomActions'
 import Description from './Description'
-import Divider from '../Divider'
 import {getRoles} from './utils'
 import {styles} from './roomInfoTheme.js'
 
@@ -24,6 +28,13 @@ const messages = defineMessages({
   }
 })
 
+const subviewRenderMap = {
+  members: 'renderMembers',
+  files: 'renderSharedFiles'
+}
+
+const tabs = Object.keys(subviewRenderMap)
+
 @injectSheet(styles)
 @injectIntl
 export default class RoomInfo extends PureComponent {
@@ -33,8 +44,13 @@ export default class RoomInfo extends PureComponent {
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
+    showSubview: PropTypes.string,
+    subview: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
+    openSharedFile: PropTypes.func,
+    onLoadSharedFiles: PropTypes.func.isRequired,
+    onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -52,10 +68,13 @@ export default class RoomInfo extends PureComponent {
   }
 
   static defaultProps = {
-    renameError: null
+    renameError: null,
+    showSubview: 'members',
+    subview: undefined,
+    openSharedFile: undefined
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {onLoad, channel} = this.props
     onLoad({channel})
   }
@@ -70,25 +89,13 @@ export default class RoomInfo extends PureComponent {
     this.props.showChannelMembersInvite(this.props.channel)
   }
 
-  onAddIntegration = () => {
-    this.props.goToAddIntegrations()
-  }
-
   onLeave = () => {
     this.props.leaveChannel(this.props.channel.id)
-  }
-
-  onClose = () => {
-    this.props.onClose()
   }
 
   onChangePrivacy = () => {
     const {setRoomPrivacy, channel} = this.props
     setRoomPrivacy(channel.id, !channel.isPublic)
-  }
-
-  onShowRoomDeleteDialog = (room) => {
-    this.props.showRoomDeleteDialog(room)
   }
 
   onSetRoomColor = (color) => {
@@ -111,50 +118,27 @@ export default class RoomInfo extends PureComponent {
     renameRoom(channel.id, name)
   }
 
-  render() {
+  onChangeTab = (index) => {
+    this.props.onShowSubview(tabs[index])
+  }
+
+  renderMembers = () => {
     const {
-      channel, renameError, clearRoomRenameError,
-      intl: {formatMessage},
-      intl,
-      classes,
-      showNotificationSettings, notificationSettings,
-      user: currUser,
-      goToChannel, kickMemberFromChannel,
-      goToAddIntegrations
+      channel, goToAddIntegrations, user: currUser, goToChannel,
+      kickMemberFromChannel, classes
     } = this.props
 
-    if (isEmpty(channel)) return null
-
-    const {allowEdit} = getRoles({channel, user: currUser})
-
     return (
-      <SidebarPanel
-        title={formatMessage(messages.title)}
-        onClose={this.onClose}
-      >
-        <div className={classes.channelInfo}>
-          <MainSettings
-            classes={classes}
-            channel={channel}
-            clearRoomRenameError={clearRoomRenameError}
-            renameError={renameError}
-            allowEdit={allowEdit}
-            onSetRoomColor={this.onSetRoomColor}
-            onSetRoomIcon={this.onSetRoomIcon}
-            onChangePrivacy={this.onChangePrivacy}
-            onShowRoomDeleteDialog={this.onShowRoomDeleteDialog}
-            renameRoom={this.onRenameRoom}
-            notificationSettings={notificationSettings}
-            showNotificationSettings={showNotificationSettings}
-          />
-          <Divider />
-          <Description
-            description={channel.description}
-            intl={intl}
-            allowEdit={allowEdit}
-            onSetRoomDescription={this.onSetRoomDescription}
-          />
-          <Divider />
+      <section>
+        <header className={classes.sectionHeader}>
+          <Title>
+            <FormattedMessage
+              id="members"
+              defaultMessage="Members"
+            />
+          </Title>
+        </header>
+        <div className={classes.sectionBody}>
           <RoomActions
             channel={channel}
             onLeave={this.onLeave}
@@ -172,6 +156,85 @@ export default class RoomInfo extends PureComponent {
               kickMemberFromChannel={kickMemberFromChannel}
             />
           ))}
+        </div>
+      </section>
+    )
+  }
+
+  renderSharedFiles = () => {
+    const {onLoadSharedFiles, openSharedFile, subview, classes} = this.props
+
+    return (
+      <section>
+        <header className={classes.sectionHeader}>
+          <Title>
+            <FormattedMessage
+              id="sharedFiles"
+              defaultMessage="Shared Files"
+            />
+          </Title>
+        </header>
+        <div className={classes.sectionBody}>
+          <SharedFiles
+            {...subview}
+            onLoad={onLoadSharedFiles}
+            onOpen={openSharedFile}
+          />
+        </div>
+      </section>
+    )
+  }
+
+  render() {
+    const {
+      channel, renameError, clearRoomRenameError,
+      intl: {formatMessage},
+      intl,
+      classes,
+      showNotificationSettings, notificationSettings,
+      showRoomDeleteDialog,
+      user: currUser,
+      showSubview,
+      onClose
+    } = this.props
+
+    if (isEmpty(channel)) return null
+
+    const {allowEdit} = getRoles({channel, user: currUser})
+
+    return (
+      <SidebarPanel
+        title={formatMessage(messages.title)}
+        onClose={onClose}
+      >
+        <div className={classes.roomInfo}>
+          <MainSettings
+            classes={classes}
+            channel={channel}
+            clearRoomRenameError={clearRoomRenameError}
+            renameError={renameError}
+            allowEdit={allowEdit}
+            onSetRoomColor={this.onSetRoomColor}
+            onSetRoomIcon={this.onSetRoomIcon}
+            onChangePrivacy={this.onChangePrivacy}
+            onShowRoomDeleteDialog={showRoomDeleteDialog}
+            renameRoom={this.onRenameRoom}
+            notificationSettings={notificationSettings}
+            showNotificationSettings={showNotificationSettings}
+          />
+          <Divider inset />
+          <Description
+            description={channel.description}
+            intl={intl}
+            allowEdit={allowEdit}
+            onSetRoomDescription={this.onSetRoomDescription}
+          />
+          <TabbedContent
+            value={tabs.indexOf(showSubview)}
+            onChange={this.onChangeTab}
+          >
+            {this[subviewRenderMap[showSubview]]()}
+          </TabbedContent>
         </div>
       </SidebarPanel>
     )

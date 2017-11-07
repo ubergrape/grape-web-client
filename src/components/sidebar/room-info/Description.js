@@ -8,6 +8,7 @@ import sizes from 'grape-theme/dist/sizes'
 import {maxChannelDescriptionLength} from '../../../constants/app'
 import {Description as DescriptionText} from '../../i18n'
 import EditableText from '../../editable-text/EditableText'
+import {spacing} from '../constants'
 
 const messages = defineMessages({
   placeholder: {
@@ -49,7 +50,8 @@ const PrivateHint = injectSheet(({palette}) => ({
 
 const styles = ({palette}) => ({
   root: {
-    display: 'block'
+    display: 'block',
+    padding: spacing
   },
   title: {
     extend: small,
@@ -63,7 +65,7 @@ const Description = ({classes, allowEdit, description, ...rest}) => {
   if (!allowEdit && !description) return null
 
   return (
-    <article className={classes.root}>
+    <section className={classes.root}>
       <h2 className={classes.title}>
         <DescriptionText />
       </h2>
@@ -73,7 +75,7 @@ const Description = ({classes, allowEdit, description, ...rest}) => {
         {...rest}
       />
       <PrivateHint />
-    </article>
+    </section>
   )
 }
 

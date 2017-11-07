@@ -11,11 +11,12 @@ import {spacing} from '../constants'
 const marginBottom = 15
 const paddingBottom = 15
 
-export const styles = {
-  channelInfo: {
+export const styles = ({palette}) => ({
+  roomInfo: {
     display: 'block',
-    color: grayBlueDark,
-    padding: spacing
+    flexDirection: 'column',
+    height: '100%',
+    color: grayBlueDark
   },
   roomName: {
     extend: bigger,
@@ -26,7 +27,8 @@ export const styles = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    minHeight: roomIconSize + marginBottom + paddingBottom
+    minHeight: roomIconSize + marginBottom + paddingBottom,
+    padding: spacing
   },
   additionalActions: {
     display: 'flex',
@@ -60,5 +62,13 @@ export const styles = {
   },
   settingsWrapper: {
     flexShrink: 0
+  },
+  sectionHeader: {
+    display: 'block',
+    borderBottom: [1, 'solid', palette.text.divider]
+  },
+  sectionBody: {
+    display: 'block',
+    padding: spacing
   }
-}
+})

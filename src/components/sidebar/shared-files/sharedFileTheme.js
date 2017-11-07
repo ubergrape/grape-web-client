@@ -38,7 +38,6 @@ export const styles = {
   },
   name: {
     extend: [ellipsis, fonts.normal],
-    fontWeight: 500,
     color: grayDarker
   },
   meta: {
