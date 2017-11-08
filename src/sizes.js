@@ -25,9 +25,11 @@ export default {
   // TODO
   // Calculate them based on font face sizes.
   icon: {
+    xs: 12,
     s: 16,
-    m: 22,
-    l: 32,
-    xl: 60
+    m: 20,
+    l: 24,
+    xl: 32,
+    xxl: 60
   }
 }
