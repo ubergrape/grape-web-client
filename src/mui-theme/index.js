@@ -25,7 +25,6 @@ palette.accent.A200 = blue
 palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
 palette.text.secondary = grayBlueDark
-palette.text.divider = grayLighter
 palette.text.lightDivider = grayBlueLighter
 palette.grey.A100 = grayLighter
 palette.grey[200] = grayMercury
