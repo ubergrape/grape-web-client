@@ -10,11 +10,10 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
 import SharedFiles from '../shared-files/SharedFiles'
-import TabbedContent from '../tabbed-content/TabbedContent'
-import Title from '../Title'
+import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
 import User from './User'
 import RoomActions from './RoomActions'
@@ -33,12 +32,24 @@ const tabs = [
   {
     name: 'members',
     icon: 'accountGroup',
-    render: 'renderMembers'
+    render: 'renderMembers',
+    title: (
+      <FormattedMessage
+        id="members"
+        defaultMessage="Members"
+      />
+    )
   },
   {
     name: 'files',
     icon: 'folderPicture',
-    render: 'renderSharedFiles'
+    render: 'renderSharedFiles',
+    title: (
+      <FormattedMessage
+        id="sharedFiles"
+        defaultMessage="Shared Files"
+      />
+    )
   }
 ]
 
@@ -132,63 +143,41 @@ export default class RoomInfo extends PureComponent {
   renderMembers = () => {
     const {
       channel, goToAddIntegrations, user: currUser, goToChannel,
-      kickMemberFromChannel, classes
+      kickMemberFromChannel
     } = this.props
 
     return (
-      <section>
-        <header className={classes.sectionHeader}>
-          <Title>
-            <FormattedMessage
-              id="members"
-              defaultMessage="Members"
-            />
-          </Title>
-        </header>
-        <div className={classes.sectionBody}>
-          <RoomActions
+      <div>
+        <RoomActions
+          channel={channel}
+          onLeave={this.onLeave}
+          onInvite={this.onInvite}
+          onAddIntegration={goToAddIntegrations}
+        />
+        <Divider />
+        {channel.users.map(user => (
+          <User
+            key={user.id}
+            user={user}
             channel={channel}
-            onLeave={this.onLeave}
-            onInvite={this.onInvite}
-            onAddIntegration={goToAddIntegrations}
+            currUser={currUser}
+            goToChannel={goToChannel}
+            kickMemberFromChannel={kickMemberFromChannel}
           />
-          <Divider />
-          {channel.users.map(user => (
-            <User
-              key={user.id}
-              user={user}
-              channel={channel}
-              currUser={currUser}
-              goToChannel={goToChannel}
-              kickMemberFromChannel={kickMemberFromChannel}
-            />
-          ))}
-        </div>
-      </section>
+        ))}
+      </div>
     )
   }
 
   renderSharedFiles = () => {
-    const {onLoadSharedFiles, openSharedFile, subview, classes} = this.props
+    const {onLoadSharedFiles, openSharedFile, subview} = this.props
 
     return (
-      <section>
-        <header className={classes.sectionHeader}>
-          <Title>
-            <FormattedMessage
-              id="sharedFiles"
-              defaultMessage="Shared Files"
-            />
-          </Title>
-        </header>
-        <div className={classes.sectionBody}>
-          <SharedFiles
-            {...subview}
-            onLoad={onLoadSharedFiles}
-            onOpen={openSharedFile}
-          />
-        </div>
-      </section>
+      <SharedFiles
+        {...subview}
+        onLoad={onLoadSharedFiles}
+        onOpen={openSharedFile}
+      />
     )
   }
 
@@ -238,12 +227,12 @@ export default class RoomInfo extends PureComponent {
             onSetRoomDescription={this.onSetRoomDescription}
           />
           <TabbedContent
-            value={tabs.indexOf(tab)}
+            index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
             tabs={tabs}
-          >
-            {this[tab.render]()}
-          </TabbedContent>
+            title={tab.title}
+            body={this[tab.render]()}
+          />
         </div>
       </SidebarPanel>
     )

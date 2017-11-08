@@ -11,7 +11,7 @@ import {spacing} from '../constants'
 const marginBottom = 15
 const paddingBottom = 15
 
-export const styles = ({palette}) => ({
+export const styles = () => ({
   roomInfo: {
     display: 'block',
     flexDirection: 'column',
@@ -62,13 +62,5 @@ export const styles = ({palette}) => ({
   },
   settingsWrapper: {
     flexShrink: 0
-  },
-  sectionHeader: {
-    display: 'block',
-    borderBottom: [1, 'solid', palette.text.divider]
-  },
-  sectionBody: {
-    display: 'block',
-    padding: spacing
   }
 })

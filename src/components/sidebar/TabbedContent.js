@@ -5,7 +5,8 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import Tabs, {Tab} from 'material-ui/Tabs'
 import sizes from 'grape-theme/dist/sizes'
 
-import {spacing} from '../constants'
+import {spacing} from './constants'
+import Title from './Title'
 
 @injectSheet(({palette}) => ({
   root: {
@@ -44,37 +45,47 @@ import {spacing} from '../constants'
   content: {
     display: 'block',
     flex: 1
+  },
+  header: {
+    display: 'block',
+    borderBottom: [1, 'solid', palette.text.divider]
+  },
+  body: {
+    display: 'block',
+    padding: spacing
   }
 }))
 export default class TabbedContent extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    children: PropTypes.node,
-    value: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     tabs: PropTypes.arrayOf(PropTypes.shape({
       icon: PropTypes.string.isRequired
-    })).isRequired
+    })).isRequired,
+    index: PropTypes.number,
+    title: PropTypes.node,
+    body: PropTypes.node
   }
 
   static defaultProps = {
-    value: 0,
-    children: undefined
+    index: 0,
+    title: undefined,
+    body: undefined
   }
 
-  onChange = (e, value) => {
-    this.props.onChange(value)
+  onChange = (e, index) => {
+    this.props.onChange(index)
   }
 
   render() {
-    const {children, value, classes, tabs} = this.props
+    const {index, classes, tabs, title, body} = this.props
 
     const tabClasses = {rootInheritSelected: classes.tabSelected}
 
     return (
       <section className={classes.root}>
         <Tabs
-          index={value}
+          index={index}
           onChange={this.onChange}
           className={classes.tabs}
           indicatorClassName={classes.indicator}
@@ -89,7 +100,12 @@ export default class TabbedContent extends PureComponent {
           ))}
         </Tabs>
         <div className={classes.content}>
-          {children}
+          <header className={classes.header}>
+            <Title>{title}</Title>
+          </header>
+          <div className={classes.body}>
+            {body}
+          </div>
         </div>
       </section>
     )

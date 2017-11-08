@@ -11,9 +11,9 @@ import {
 
 import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
-import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import {styles} from './theme'
+import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
+import {styles} from './theme'
 
 const messages = defineMessages({
   title: {

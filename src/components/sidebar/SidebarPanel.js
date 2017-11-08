@@ -7,9 +7,9 @@ import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 
-import {zIndex} from '../../../utils/z-index'
-import {spacing} from '../constants'
-import Title from '../Title'
+import {zIndex} from '../../utils/z-index'
+import {spacing} from './constants'
+import Title from './Title'
 
 /**
  * Dialog has
