@@ -109,3 +109,10 @@ export const InviteSuccess = ({invited}) => (
 InviteSuccess.propTypes = {
   invited: PropTypes.arrayOf(PropTypes.string)
 }
+
+export const SharedFiles = () => (
+  <FormattedMessage
+    id="sharedFiles"
+    defaultMessage="Shared Files"
+  />
+)

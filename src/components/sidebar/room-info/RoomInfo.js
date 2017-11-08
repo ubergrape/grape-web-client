@@ -2,14 +2,10 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl,
-  FormattedMessage
-} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
+import {SharedFiles as SharedFilesText} from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
 import SharedFiles from '../shared-files/SharedFiles'
@@ -21,12 +17,12 @@ import Description from './Description'
 import {getRoles} from './utils'
 import {styles} from './roomInfoTheme.js'
 
-const messages = defineMessages({
-  title: {
-    id: 'groupInfo',
-    defaultMessage: 'Group Info'
-  }
-})
+const title = (
+  <FormattedMessage
+    id="groupInfo"
+    defaultMessage="Group Info"
+  />
+)
 
 const tabs = [
   {
@@ -44,21 +40,14 @@ const tabs = [
     name: 'files',
     icon: 'folderPicture',
     render: 'renderSharedFiles',
-    title: (
-      <FormattedMessage
-        id="sharedFiles"
-        defaultMessage="Shared Files"
-      />
-    )
+    title: <SharedFilesText />
   }
 ]
 
 @injectSheet(styles)
-@injectIntl
 export default class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
@@ -66,7 +55,7 @@ export default class RoomInfo extends PureComponent {
     subview: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
-    openSharedFile: PropTypes.func,
+    onOpenSharedFile: PropTypes.func,
     onLoadSharedFiles: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
@@ -89,7 +78,7 @@ export default class RoomInfo extends PureComponent {
     renameError: null,
     showSubview: 'members',
     subview: undefined,
-    openSharedFile: undefined
+    onOpenSharedFile: undefined
   }
 
   componentDidMount() {
@@ -170,13 +159,13 @@ export default class RoomInfo extends PureComponent {
   }
 
   renderSharedFiles = () => {
-    const {onLoadSharedFiles, openSharedFile, subview} = this.props
+    const {onLoadSharedFiles, onOpenSharedFile, subview} = this.props
 
     return (
       <SharedFiles
         {...subview}
         onLoad={onLoadSharedFiles}
-        onOpen={openSharedFile}
+        onOpen={onOpenSharedFile}
       />
     )
   }
@@ -184,8 +173,6 @@ export default class RoomInfo extends PureComponent {
   render() {
     const {
       channel, renameError, clearRoomRenameError,
-      intl: {formatMessage},
-      intl,
       classes,
       showNotificationSettings, notificationSettings,
       showRoomDeleteDialog,
@@ -201,7 +188,7 @@ export default class RoomInfo extends PureComponent {
 
     return (
       <SidebarPanel
-        title={formatMessage(messages.title)}
+        title={title}
         onClose={onClose}
       >
         <div className={classes.roomInfo}>
@@ -222,7 +209,6 @@ export default class RoomInfo extends PureComponent {
           <Divider inset />
           <Description
             description={channel.description}
-            intl={intl}
             allowEdit={allowEdit}
             onSetRoomDescription={this.onSetRoomDescription}
           />

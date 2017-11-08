@@ -1,5 +1,5 @@
 import React from 'react'
-import {defineMessages} from 'react-intl'
+import {defineMessages, injectIntl} from 'react-intl'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
 import {small} from 'grape-theme/dist/fonts'
@@ -17,7 +17,11 @@ const messages = defineMessages({
   }
 })
 
-const Editable = ({allowEdit, description, intl: {formatMessage}, onSetRoomDescription}) => {
+const Editable = injectIntl((props) => {
+  const {
+    allowEdit, description, intl: {formatMessage}, onSetRoomDescription
+  } = props
+
   if (!allowEdit) return <p>{description}</p>
 
   return (
@@ -30,7 +34,7 @@ const Editable = ({allowEdit, description, intl: {formatMessage}, onSetRoomDescr
       multiline
     />
   )
-}
+})
 
 const PrivateHint = injectSheet(({palette}) => ({
   root: {

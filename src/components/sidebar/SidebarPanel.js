@@ -65,7 +65,7 @@ import Title from './Title'
 export default class SidebarPanel extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired,
     options: PropTypes.node,
     children: PropTypes.node

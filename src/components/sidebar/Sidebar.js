@@ -67,10 +67,19 @@ const Content = (props) => {
           onClose={hideSidebar}
           onShowSubview={showSidebarSubview}
           onLoadSharedFiles={loadSharedFiles}
+          onOpenSharedFile={openSharedFile}
         />
       )
     case 'pm':
-      return <UserProfile {...rest} onClose={hideSidebar} />
+      return (
+        <UserProfile
+          {...rest}
+          onClose={hideSidebar}
+          onShowSubview={showSidebarSubview}
+          onLoadSharedFiles={loadSharedFiles}
+          onOpenSharedFile={openSharedFile}
+        />
+      )
     case 'mentions':
       return (
         <MessageSearch
