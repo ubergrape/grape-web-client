@@ -8,6 +8,7 @@ export default {
   extend: [normal, reset],
   color: colors.blue,
   cursor: 'pointer',
+  textDecoration: 'none',
   '&:hover': {
     isolate: false,
     color: color(colors.blue).lighten(0.2).rgbaString(),

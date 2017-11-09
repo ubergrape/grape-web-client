@@ -4,11 +4,11 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
 import {small} from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
+import cn from 'classnames'
 
 import {maxChannelDescriptionLength} from '../../../constants/app'
 import {Description as DescriptionText} from '../../i18n'
 import EditableText from '../../editable-text/EditableText'
-import {spacing} from '../constants'
 
 const messages = defineMessages({
   placeholder: {
@@ -54,8 +54,7 @@ const PrivateHint = injectSheet(({palette}) => ({
 
 const styles = ({palette}) => ({
   root: {
-    display: 'block',
-    padding: spacing
+    display: 'block'
   },
   title: {
     extend: small,
@@ -65,11 +64,11 @@ const styles = ({palette}) => ({
   }
 })
 
-const Description = ({classes, allowEdit, description, ...rest}) => {
+const Description = ({classes, className, allowEdit, description, ...rest}) => {
   if (!allowEdit && !description) return null
 
   return (
-    <section className={classes.root}>
+    <section className={cn(classes.root, className)}>
       <h2 className={classes.title}>
         <DescriptionText />
       </h2>

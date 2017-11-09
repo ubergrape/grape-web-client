@@ -12,12 +12,12 @@ import LabeledMessagesButton from './LabeledMessagesButton'
 import InfoButton from './InfoButton'
 import Search from './Search'
 import {height} from './constants'
+import {sidebarWidth, sidebarWidthXl} from '../app-layout'
 
 export const styles = ({palette}) => ({
   header: {
     display: 'flex',
     height,
-    padding: [0, sizes.spacer.s],
     alignItems: 'center',
     borderBottom: [1, 'solid', palette.grey[300]],
     flexShrink: 0
@@ -32,7 +32,7 @@ export const styles = ({palette}) => ({
     listStyle: 'none',
     flexShrink: 0,
     position: 'relative',
-    marginRight: sizes.spacer.xs
+    margin: [0, sizes.spacer.s]
   },
   title: {
     listStyle: 'none',
@@ -51,7 +51,30 @@ export const styles = ({palette}) => ({
   search: {
     listStyle: 'none',
     marginLeft: sizes.spacer.s,
-    minWidth: 190
+    minWidth: 190,
+    flexGrow: 1
+  },
+  sidebarActions: {
+    display: 'flex',
+    marginRight: sizes.spacer.s,
+    width: sidebarWidthXl - sizes.spacer.s,
+    height: '100%',
+    flexShrink: 0,
+    alignItems: 'center'
+  },
+  [`@media (max-width: ${sizes.screenWidth.xl}px)`]: {
+    sidebarActions: {
+      width: sidebarWidth - sizes.spacer.s
+    }
+  },
+  divider: {
+    display: 'block',
+    width: 1,
+    height: '100%',
+    // TODO change it into expanded version once https://github.com/cssinjs/jss/issues/621
+    // is solved
+    borderLeft: [1, 'solid'],
+    borderImage: `linear-gradient(to top, ${palette.grey[100]}, rgba(0, 0, 0, 0)) 1 100%`
   }
 })
 
@@ -77,6 +100,7 @@ function Items(props) {
 
   return (
     <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
+      <span className={classes.divider} />
       <li className={classes.favorite}>
         <FavoriteButton
           id={favorite.id}
@@ -91,36 +115,39 @@ function Items(props) {
           mate={mate}
         />
       </li>
-      <li className={classes.action}>
-        <InfoButton
-          onClick={itemClickHandler(channel.type, props)}
-          isSelected={sidebar === channel.type}
-          channel={channel.type}
-        />
-      </li>
-      <li className={classes.search}>
-        <Search
-          onFocus={onFocusMessageSearch}
-          onChange={onChangeMessageSearch}
-          intl={intl}
-        />
-        <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
-      </li>
-      <li className={classes.action}>
-        <MentionsButton
-          onClick={itemClickHandler('mentions', props)}
-          isSelected={sidebar === 'mentions'}
-          mentions={mentions}
-        />
-      </li>
-      {features.labeledMessagesList && (
+      <ul className={classes.sidebarActions}>
+        <span className={classes.divider} />
         <li className={classes.action}>
-          <LabeledMessagesButton
-            isSelected={sidebar === 'labeledMessages'}
-            onClick={itemClickHandler('labeledMessages', props)}
+          <InfoButton
+            onClick={itemClickHandler(channel.type, props)}
+            isSelected={sidebar === channel.type}
+            channel={channel.type}
           />
         </li>
-      )}
+        <li className={classes.search}>
+          <Search
+            onFocus={onFocusMessageSearch}
+            onChange={onChangeMessageSearch}
+            intl={intl}
+          />
+          <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
+        </li>
+        <li className={classes.action}>
+          <MentionsButton
+            onClick={itemClickHandler('mentions', props)}
+            isSelected={sidebar === 'mentions'}
+            mentions={mentions}
+          />
+        </li>
+        {features.labeledMessagesList && (
+          <li className={classes.action}>
+            <LabeledMessagesButton
+              isSelected={sidebar === 'labeledMessages'}
+              onClick={itemClickHandler('labeledMessages', props)}
+            />
+          </li>
+        )}
+      </ul>
     </ul>
   )
 }

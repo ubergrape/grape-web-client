@@ -14,7 +14,7 @@ const title = {
   color: colors.grayBlueDark
 }
 
-export const styles = {
+export const styles = ({palette}) => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -76,6 +76,10 @@ export const styles = {
     extend: small,
     display: 'block',
     padding: [3, sizes.spacer.m],
+    '&:hover': {
+      isolate: false,
+      background: palette.blueGrey[100]
+    },
     '&:hover $channelName': {
       isolate: false,
       color: colors.grayDark
@@ -147,4 +151,4 @@ export const styles = {
       backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayDark})})`
     }
   }
-}
+})

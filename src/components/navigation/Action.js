@@ -8,7 +8,7 @@ import fonts from 'grape-theme/dist/fonts'
 
 const styles = ({palette}) => ({
   root: {
-    padding: [sizes.spacer.s, sizes.spacer.m],
+    padding: [sizes.spacer.xs, sizes.spacer.m],
     '&:hover': {
       isolate: false,
       background: 'none',

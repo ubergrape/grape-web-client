@@ -211,6 +211,7 @@ export default class RoomInfo extends PureComponent {
             description={channel.description}
             allowEdit={allowEdit}
             onSetRoomDescription={this.onSetRoomDescription}
+            className={classes.description}
           />
           <TabbedContent
             index={tabs.indexOf(tab)}

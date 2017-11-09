@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import sizes from 'grape-theme/dist/sizes'
 import fonts from 'grape-theme/dist/fonts'
+import {FormattedMessage} from 'react-intl'
 
-import link from '../../button/link'
+import inlineLink from '../../button/inlineLink'
 
 const styles = ({palette}) => ({
   row: {
@@ -39,7 +39,7 @@ const styles = ({palette}) => ({
     extend: ellipsis
   },
   link: {
-    extend: [link, fonts.small],
+    extend: [inlineLink, fonts.small],
     lineHeight: 1
   }
 })

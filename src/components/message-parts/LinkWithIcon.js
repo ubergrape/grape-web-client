@@ -5,10 +5,19 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import icons from 'grape-web/lib/svg-icons/data'
 import webColors from 'grape-theme/dist/web-colors'
 
-import {styles as linkStyles} from './linkTheme'
+import inlineLink from '../button/inlineLink'
 
 @injectSheet({
-  ...linkStyles,
+  link: {
+    extends: inlineLink,
+    wordBreak: 'break-word',
+    '&:hover': {
+      ...inlineLink['&:hover'],
+      textDecoration: 'none',
+      // Using border in order to underline the icon as well.
+      borderBottom: [1, 'solid']
+    }
+  },
   icon: {
     display: 'inline-block',
     background: 'no-repeat',

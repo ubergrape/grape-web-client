@@ -28,7 +28,8 @@ export const styles = () => ({
     display: 'flex',
     alignItems: 'center',
     minHeight: roomIconSize + marginBottom + paddingBottom,
-    padding: spacing
+    padding: spacing,
+    paddingBottom: 0
   },
   additionalActions: {
     display: 'flex',
@@ -62,5 +63,9 @@ export const styles = () => ({
   },
   settingsWrapper: {
     flexShrink: 0
+  },
+  description: {
+    padding: spacing,
+    paddingTop: 0
   }
 })
