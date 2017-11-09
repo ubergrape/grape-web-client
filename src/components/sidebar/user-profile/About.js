@@ -56,7 +56,7 @@ const About = ({classes, whatIDo, ...contacts}) => (
         </h2>
         <div className={classes.whatIDo}>
           <Icon name="infoFilled" className={classes.whatIDoIcon} />
-          <p>{` ${whatIDo}`}</p>
+          <p>{whatIDo}</p>
         </div>
       </section>
     )}
