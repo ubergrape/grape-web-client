@@ -37,8 +37,11 @@ export default class RegularMessage extends PureComponent {
     /* eslint-disable react/no-unused-prop-types */
     userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
+    showMore: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onMore: PropTypes.func.isRequired,
+    closeMore: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
@@ -71,6 +74,7 @@ export default class RegularMessage extends PureComponent {
     isOwn: false,
     isSelected: false,
     isPm: false,
+    showMore: false,
     duplicates: 0,
     attachments: [],
     linkAttachments: [],
@@ -79,6 +83,7 @@ export default class RegularMessage extends PureComponent {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
+    onMore: noop,
     onGoToChannel: noop,
     onCopyLink: noop,
     onQuote: noop,
@@ -101,6 +106,7 @@ export default class RegularMessage extends PureComponent {
 
   onMouseLeave = () => {
     this.setState({isMenuOpened: false})
+    this.props.closeMore()
   }
 
   onRefContent = (ref) => {

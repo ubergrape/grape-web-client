@@ -13,6 +13,13 @@ function getMessage(name) {
           defaultMessage="Edit message"
         />
       )
+    case 'more':
+      return (
+        <FormattedMessage
+          id="showMoreActions"
+          defaultMessage="Show more actions"
+        />
+      )
     case 'copyLink':
       return (
         <FormattedMessage

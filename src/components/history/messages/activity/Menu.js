@@ -25,7 +25,8 @@ export default class Menu extends PureComponent {
     /* eslint-disable react/no-unused-prop-types */
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired
+    onRemove: PropTypes.func.isRequired,
+    onMore: PropTypes.func.isRequired
     /* eslint-enable react/no-unused-prop-types */
   }
 

@@ -29,8 +29,9 @@ export const styles = {
     whiteSpace: 'nowrap'
   },
   editItem: buttonIcon('pencil', iconOptions),
+  moreItem: buttonIcon('moreOptions', iconOptions),
   copyLinkItem: buttonIcon('iconLink', iconOptions),
-  removeItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
+  removeItem: buttonIcon('bin', {...iconOptions, hoverColor: red}),
   removeLinkAttachmentItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
   quoteItem: buttonIcon('quoteLeft', iconOptions),
   item: {
