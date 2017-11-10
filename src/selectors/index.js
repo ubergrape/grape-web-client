@@ -422,15 +422,14 @@ export const sidebarComponentSelector = createSelector(
     userSelector,
     labeledMessagesSelector
   ],
-  ({show}, room, pm, files, search, mentions, user, labeledMessages) => {
-    const select = {show, user}
+  ({show, showSubview}, room, pm, files, search, mentions, user, labeledMessages) => {
+    const select = {show, showSubview, user}
 
     if (!show) return select
 
     const views = {
       room,
       pm,
-      files,
       search,
       mentions: {
         ...mentions,
@@ -439,9 +438,14 @@ export const sidebarComponentSelector = createSelector(
       labeledMessages
     }
 
+    const subviews = {
+      files
+    }
+
     return {
       ...select,
-      ...views[show]
+      ...views[show],
+      subview: subviews[showSubview]
     }
   }
 )

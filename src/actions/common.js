@@ -13,7 +13,8 @@ import {
 } from './utils'
 import {
   ensureBrowserNotificationPermission,
-  showToastNotification
+  showToastNotification,
+  showIntro
 } from './'
 
 export function error(err) {
@@ -87,9 +88,15 @@ export function trackAnalytics(name, options) {
 }
 
 export function setUser(user) {
-  return {
-    type: types.SET_USER,
-    payload: user
+  return (dispatch) => {
+    dispatch({
+      type: types.SET_USER,
+      payload: user
+    })
+
+    if (user.settings.showIntro) {
+      dispatch(showIntro({via: 'onboarding'}))
+    }
   }
 }
 

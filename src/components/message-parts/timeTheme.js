@@ -60,6 +60,7 @@ export const styles = {
   globe,
   globeActive,
   tooltip: {
-    marginTop: -5
+    marginTop: 15,
+    marginLeft: -17
   }
 }

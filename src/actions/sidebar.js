@@ -30,6 +30,13 @@ export function showSidebar(show, options) {
   }
 }
 
+export const showSidebarSubview = name => (dispatch) => {
+  dispatch({
+    type: types.SHOW_SIDEBAR_SUBVIEW,
+    payload: name
+  })
+}
+
 export function toggleSearchOnlyInChannel() {
   return {
     type: types.TOGGLE_SEARCH_IN_CHANNEL_ONLY

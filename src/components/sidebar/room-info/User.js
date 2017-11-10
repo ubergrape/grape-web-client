@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import color from 'color'
-import {small, normal} from 'grape-theme/dist/fonts'
+import {small} from 'grape-theme/dist/fonts'
 import {blue, grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
 
 import {userStatusMap} from '../../../constants/app'
@@ -30,7 +30,6 @@ const hoverColor = color(blue).lighten(0.05).rgbaString()
     overflow: 'hidden'
   },
   name: {
-    extend: normal,
     color: grayBlueDark
   },
   buttonKick: {

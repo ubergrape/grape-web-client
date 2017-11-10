@@ -9,7 +9,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'selectchannel', ui, 'setRoomContext')
   broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
-  broker(ui.reduxEmitter, 'showIntro', ui, 'showIntro')
 
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
