@@ -70,8 +70,6 @@ export const styles = {
   },
   iconSettingsItem: {
     display: 'inline-block',
-    width: iconSize.l,
-    height: iconSize.l,
     margin: '0 5px 5px 0',
     '&:last-child': {
       marginRight: 0

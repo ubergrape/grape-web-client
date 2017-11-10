@@ -1,1 +1,3 @@
-export const spacing = 20
+import sizes from 'grape-theme/dist/sizes'
+
+export const spacing = sizes.spacer.m

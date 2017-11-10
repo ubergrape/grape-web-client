@@ -2,9 +2,59 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
+import fonts from 'grape-theme/dist/fonts'
+import {grayLight, black} from 'grape-theme/dist/base-colors'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import sizes from 'grape-theme/dist/sizes'
 
+import {Divider, height as headerHeight} from '../header'
 import Settings from './Settings'
-import {styles} from './orgInfoTheme'
+
+const header = {
+  extend: ellipsis,
+  lineHeight: 'initial'
+}
+
+const styles = ({palette}) => ({
+  orgInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: sizes.spacer.m,
+    height: headerHeight,
+    borderBottom: [1, 'solid', palette.grey[300]],
+    flexShrink: 0
+  },
+  logoContainer: {
+    flexShrink: 0,
+    position: 'relative',
+    overflow: 'hidden',
+    marginRight: sizes.spacer.s,
+    borderRadius: '50%',
+    width: sizes.icon.l,
+    height: sizes.icon.l
+  },
+  logoImage: {
+    widht: '100%',
+    height: '100%'
+  },
+  info: {
+    flex: 1,
+    flexBasis: 'auto',
+    overflow: 'hidden',
+    marginRight: sizes.spacer.xs,
+    cursor: 'default'
+  },
+  orgName: {
+    extend: [fonts.normal, header],
+    lineHeight: 1,
+    color: black
+  },
+  userName: {
+    extend: [fonts.small, header],
+    color: grayLight
+  }
+})
+
 
 const LogoImage = ({classes, logo, name}) => (
   <img
@@ -71,6 +121,7 @@ export default class OrgInfo extends PureComponent {
         />
         {!isLoading && user && <Info classes={classes} name={name} user={user} />}
         {!isLoading && user && <Settings {...settingsProps} user={user} />}
+        <Divider />
       </header>
     )
   }

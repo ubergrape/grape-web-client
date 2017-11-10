@@ -5,7 +5,6 @@ import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
-import {iconSize} from '../header'
 import Dropdown from '../dropdown/Dropdown'
 import Tooltip from '../tooltip/HoverTooltip'
 import Menu from './Menu'
@@ -33,8 +32,6 @@ const toggleMenu = state => ({showMenu: !state.showMenu})
     flexShrink: 0
   },
   button: {
-    width: iconSize,
-    height: iconSize,
     display: 'flex'
   },
   buttonIcon: {

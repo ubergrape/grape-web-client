@@ -11,6 +11,7 @@ import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
 import InfoButton from './InfoButton'
 import Search from './Search'
+import Divider from './Divider'
 import {height} from './constants'
 import {sidebarWidth, sidebarWidthXl} from '../app-layout'
 
@@ -39,19 +40,17 @@ export const styles = ({palette}) => ({
     overflow: 'hidden',
     flexGrow: 1,
     minWidth: 50,
-    paddingLeft: sizes.spacer.s
+    paddingRight: sizes.spacer.s
   },
   action: {
     listStyle: 'none',
     position: 'relative',
     flexShrink: 0,
-    marginLeft: sizes.spacer.xs,
     lineHeight: 0
   },
   search: {
     listStyle: 'none',
-    marginLeft: sizes.spacer.s,
-    minWidth: 190,
+    margin: [0, sizes.spacer.s],
     flexGrow: 1
   },
   sidebarActions: {
@@ -66,15 +65,6 @@ export const styles = ({palette}) => ({
     sidebarActions: {
       width: sidebarWidth - sizes.spacer.s
     }
-  },
-  divider: {
-    display: 'block',
-    width: 1,
-    height: '100%',
-    // TODO change it into expanded version once https://github.com/cssinjs/jss/issues/621
-    // is solved
-    borderLeft: [1, 'solid'],
-    borderImage: `linear-gradient(to top, ${palette.grey[100]}, rgba(0, 0, 0, 0)) 1 100%`
   }
 })
 
@@ -100,7 +90,6 @@ function Items(props) {
 
   return (
     <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
-      <span className={classes.divider} />
       <li className={classes.favorite}>
         <FavoriteButton
           id={favorite.id}
@@ -116,7 +105,7 @@ function Items(props) {
         />
       </li>
       <ul className={classes.sidebarActions}>
-        <span className={classes.divider} />
+        <Divider />
         <li className={classes.action}>
           <InfoButton
             onClick={itemClickHandler(channel.type, props)}

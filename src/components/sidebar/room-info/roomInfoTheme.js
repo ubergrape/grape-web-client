@@ -3,13 +3,9 @@ import {blue, grayDark, grayBlueDark, red} from 'grape-theme/dist/base-colors'
 import {borderLight} from 'grape-theme/dist/web-colors'
 
 import {settingsButtonSize} from './constants'
-import {iconSize as roomIconSize} from '../../room-icon-settings'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
 import {spacing} from '../constants'
-
-const marginBottom = 15
-const paddingBottom = 15
 
 export const styles = () => ({
   roomInfo: {
@@ -27,9 +23,8 @@ export const styles = () => ({
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    minHeight: roomIconSize + marginBottom + paddingBottom,
-    padding: spacing,
-    paddingBottom: 0
+    margin: spacing,
+    marginBottom: 0
   },
   additionalActions: {
     display: 'flex',

@@ -15,6 +15,10 @@ const styles = ({palette}) => ({
     '&:hover': {
       isolate: false,
       background: 'none'
+    },
+    '&:active': {
+      isolate: false,
+      boxShadow: 'none'
     }
   },
   // TODO use function value once https://github.com/cssinjs/react-jss/issues/165

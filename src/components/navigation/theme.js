@@ -124,7 +124,7 @@ export const styles = ({palette}) => ({
     background: colors.green
   },
   defaultSign: {
-    background: colors.grayBlueDark
+    background: palette.blueGrey[400]
   },
   filter: {
     flexShrink: 0,
