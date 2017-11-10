@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, {Component} from 'react'
 import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
@@ -41,7 +41,10 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   container: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
-  target: PropTypes.instanceOf(Element).isRequired,
+  target: PropTypes.oneOfType([
+    PropTypes.instanceOf(Component),
+    PropTypes.instanceOf(Element)
+  ]).isRequired,
   placement: PropTypes.string,
   onOutsideClick: PropTypes.func,
   onClick: PropTypes.func,

@@ -1,6 +1,5 @@
 import {small, normal} from 'grape-theme/dist/fonts'
 import {grayLight, black} from 'grape-theme/dist/base-colors'
-import {borderDefault} from 'grape-theme/dist/web-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
@@ -11,7 +10,7 @@ const header = {
   lineHeight: 'initial'
 }
 
-export const styles = {
+export const styles = ({palette}) => ({
   orgInfo: {
     display: 'flex',
     alignItems: 'center',
@@ -20,7 +19,7 @@ export const styles = {
       left: 20
     },
     height: headerHeight,
-    borderBottom: [1, 'solid', borderDefault],
+    borderBottom: [1, 'solid', palette.grey[300]],
     flexShrink: 0
   },
   info: {
@@ -52,4 +51,4 @@ export const styles = {
     extend: [small, header],
     color: grayLight
   }
-}
+})

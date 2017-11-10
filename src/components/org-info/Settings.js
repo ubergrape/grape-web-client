@@ -2,12 +2,13 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
+import {iconSize} from '../header'
 import Dropdown from '../dropdown/Dropdown'
 import Tooltip from '../tooltip/HoverTooltip'
 import Menu from './Menu'
-import {styles} from './settingsTheme'
 
 const SettingsButton = ({classes, onClick, onButtonRef}) => (
   <Tooltip
@@ -18,24 +19,38 @@ const SettingsButton = ({classes, onClick, onButtonRef}) => (
       />
     )}
   >
-    <button
-      className={classes.settingsButton}
-      onClick={onClick}
-      ref={onButtonRef}
-    >
-      <Icon name="cog" className={classes.settingsButtonIcon} />
-    </button>
+    <IconButton onClick={onClick} rootRef={onButtonRef} className={classes.button}>
+      <Icon name="cog" className={classes.buttonIcon} />
+    </IconButton>
   </Tooltip>
 )
 
 const toggleMenu = state => ({showMenu: !state.showMenu})
 
-@injectSheet(styles)
+@injectSheet(({palette}) => ({
+  settings: {
+    position: 'relative',
+    flexShrink: 0
+  },
+  button: {
+    width: iconSize,
+    height: iconSize,
+    display: 'flex'
+  },
+  buttonIcon: {
+    isolate: false,
+    color: palette.text.primary,
+    '&:hover': {
+      isolate: false,
+      color: palette.accent.A200
+    }
+  }
+}))
 export default class Settings extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
-    onshowIntro: PropTypes.func.isRequired
+    onShowIntro: PropTypes.func.isRequired
   }
 
   state = {showMenu: false}
@@ -60,9 +75,9 @@ export default class Settings extends PureComponent {
     this.props.onInvite()
   }
 
-  onshowIntro = () => {
+  onShowIntro = () => {
     this.onHideMenu()
-    this.props.onshowIntro({
+    this.props.onShowIntro({
       via: 'user menu',
       force: true
     })
@@ -93,7 +108,7 @@ export default class Settings extends PureComponent {
             <Menu
               {...menuProps}
               onInvite={this.onInvite}
-              onshowIntro={this.onshowIntro}
+              onShowIntro={this.onShowIntro}
             />
           </Dropdown>
         }

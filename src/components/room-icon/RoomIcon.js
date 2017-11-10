@@ -29,7 +29,7 @@ const defaultRoomIconTheme = {
   statusSize: 14,
   statusBorderWidth: 1,
   statusBorderColor: white,
-  size: iconSize.l,
+  size: iconSize.xl,
   color: white,
   backgroundColor: colors[0]
 }
@@ -85,7 +85,7 @@ export default injectSheet({
       color: grayBlueDark,
       position: ['50%', '50%'],
       repeat: 'no-repeat',
-      size: '70%'
+      size: '50%'
     }
   },
   icon: {

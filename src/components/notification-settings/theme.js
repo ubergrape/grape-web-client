@@ -39,7 +39,7 @@ export const styles = {
     display: 'inline-block',
     width: 22
   },
-  titleIconMuteAll: createIcon('bellSlashOpen'),
+  titleIconMuteAll: createIcon('bellMuted'),
   titleIconDesktop: createIcon('laptop'),
   titleIconPush: createIcon('mobile'),
   titleHeadline: {

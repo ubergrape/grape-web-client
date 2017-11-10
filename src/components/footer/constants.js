@@ -1,3 +1,3 @@
 import {spacer} from 'grape-theme/dist/sizes'
 
-export const controlSpacing = spacer.s
+export const controlSpacing = spacer.s / 2
