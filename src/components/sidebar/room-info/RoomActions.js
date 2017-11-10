@@ -11,54 +11,52 @@ import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
 import {settingsButtonSize} from './constants'
 
-const styles = ({palette}) => {
-  const iconOptions = {
-    color: palette.text.primary,
-    hoverColor: palette.accent.A200,
-    size: settingsButtonSize
-  }
+const icon = (name, palette) => buttonIcon(name, {
+  color: palette.text.primary,
+  hoverColor: palette.accent.A200,
+  size: settingsButtonSize
+})
 
-  return {
-    action: {
-      display: 'block',
-      listStyleType: 'none',
-      marginTop: sizes.spacer.s,
-      '&:first-child': {
-        isolate: false,
-        marginTop: 0
-      },
-      '&:last-child': {
-        isolate: false,
-        marginBottom: 0
-      }
+const styles = ({palette}) => ({
+  action: {
+    display: 'block',
+    listStyleType: 'none',
+    marginTop: sizes.spacer.s,
+    '&:first-child': {
+      isolate: false,
+      marginTop: 0
     },
-    baseButton: {
-      extend: [linkButton, fonts.small, ellipsis],
-      width: '100%',
-      textAlign: 'left',
-      marginBottom: sizes.spacer.xs,
-      '&:hover': {
-        isolate: false,
-        color: palette.text.primary
-      }
-    },
-    buttonInvite: {
-      composes: '$baseButton',
-      extend: buttonIcon('invite', iconOptions),
-      color: palette.text.secondary
-    },
-    buttonIntegration: {
-      composes: '$baseButton',
-      extend: buttonIcon('plug', iconOptions),
-      color: palette.text.secondary
-    },
-    buttonLeave: {
-      composes: '$baseButton',
-      extend: buttonIcon('leave', iconOptions),
-      color: palette.text.secondary
+    '&:last-child': {
+      isolate: false,
+      marginBottom: 0
     }
+  },
+  baseButton: {
+    extend: [linkButton, fonts.small, ellipsis],
+    width: '100%',
+    textAlign: 'left',
+    marginBottom: sizes.spacer.xs,
+    '&:hover': {
+      isolate: false,
+      color: palette.text.primary
+    }
+  },
+  buttonInvite: {
+    composes: '$baseButton',
+    extend: icon('invite', palette),
+    color: palette.text.secondary
+  },
+  buttonIntegration: {
+    composes: '$baseButton',
+    extend: icon('plug', palette),
+    color: palette.text.secondary
+  },
+  buttonLeave: {
+    composes: '$baseButton',
+    extend: icon('leave', palette),
+    color: palette.text.secondary
   }
-}
+})
 
 const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) => (
   <ul>
