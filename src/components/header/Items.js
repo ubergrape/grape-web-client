@@ -1,237 +1,160 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  FormattedMessage,
-  defineMessages,
-  intlShape
-} from 'react-intl'
+import {intlShape} from 'react-intl'
+import injectSheet from 'grape-web/lib/jss'
+import sizes from 'grape-theme/dist/sizes'
 
-import Tooltip from '../tooltip/HoverTooltip'
 import {Beacon} from '../intro'
-import Favorite from './Favorite'
+import FavoriteButton from './FavoriteButton'
+import Title from './Title'
+import MentionsButton from './MentionsButton'
+import LabeledMessagesButton from './LabeledMessagesButton'
+import InfoButton from './InfoButton'
+import Search from './Search'
+import {height} from './constants'
+import {sidebarWidth, sidebarWidthXl} from '../app-layout'
 
-const messages = defineMessages({
-  placeholder: {
-    id: 'searchMessages',
-    defaultMessage: 'Search messages'
+export const styles = ({palette}) => ({
+  header: {
+    display: 'flex',
+    height,
+    alignItems: 'center',
+    borderBottom: [1, 'solid', palette.grey[300]],
+    flexShrink: 0
+  },
+  headerDisabled: {
+    opacity: 0.4,
+    WebkitFilter: 'grayscale(100%)',
+    filter: 'grayscale(100%)',
+    pointerEvents: 'none'
+  },
+  favorite: {
+    listStyle: 'none',
+    flexShrink: 0,
+    position: 'relative',
+    margin: [0, sizes.spacer.s]
+  },
+  title: {
+    listStyle: 'none',
+    overflow: 'hidden',
+    flexGrow: 1,
+    minWidth: 50,
+    paddingLeft: sizes.spacer.s
+  },
+  action: {
+    listStyle: 'none',
+    position: 'relative',
+    flexShrink: 0,
+    marginLeft: sizes.spacer.xs,
+    lineHeight: 0
+  },
+  search: {
+    listStyle: 'none',
+    marginLeft: sizes.spacer.s,
+    minWidth: 190,
+    flexGrow: 1
+  },
+  sidebarActions: {
+    display: 'flex',
+    marginRight: sizes.spacer.s,
+    width: sidebarWidthXl - sizes.spacer.s,
+    height: '100%',
+    flexShrink: 0,
+    alignItems: 'center'
+  },
+  [`@media (max-width: ${sizes.screenWidth.xl}px)`]: {
+    sidebarActions: {
+      width: sidebarWidth - sizes.spacer.s
+    }
+  },
+  divider: {
+    display: 'block',
+    width: 1,
+    height: '100%',
+    // TODO change it into expanded version once https://github.com/cssinjs/jss/issues/621
+    // is solved
+    borderLeft: [1, 'solid'],
+    borderImage: `linear-gradient(to top, ${palette.grey[100]}, rgba(0, 0, 0, 0)) 1 100%`
   }
 })
 
-function getTooltipMessage(name) {
-  switch (name) {
-    case 'favorite':
-      return (
-        <FormattedMessage
-          id="pinToFavorites"
-          description="Tooltip text"
-          defaultMessage="Pin to Favorites"
-        />
-      )
-    case 'invite':
-      return (
-        <FormattedMessage
-          id="addUsersToGroup"
-          description="Tooltip text"
-          defaultMessage="Add users to Group"
-        />
-      )
-    case 'room':
-      return (
-        <FormattedMessage
-          id="groupInfo"
-          defaultMessage="Group Info"
-        />
-      )
-    case 'pm':
-      return (
-        <FormattedMessage
-          id="userProfile"
-          defaultMessage="User Profile"
-        />
-      )
-    case 'files':
-      return (
-        <FormattedMessage
-          id="sharedFiles"
-          defaultMessage="Shared Files"
-        />
-      )
-    case 'mentions':
-      return (
-        <FormattedMessage
-          id="mentions"
-          defaultMessage="Mentions"
-        />
-      )
-    case 'labeledMessages':
-      return (
-        <FormattedMessage
-          id="labeledMessagesTooltip"
-          defaultMessage="Important Messages"
-        />
-      )
-    default:
-      return (<span />)
-  }
-}
+const itemClickHandler = (panel, {sidebar, hideSidebar, showSidebar}) => (
+  sidebar === panel ? hideSidebar : showSidebar.bind(null, panel)
+)
 
-function Title({channel, mate, theme}) {
-  const title = (
-    <h1 className={theme.classes.name}>
-      {channel.name || mate.displayName}
-    </h1>
-  )
-  if (!channel.description) return title
-
-  return (
-    <div>
-      {title}
-      <h2 className={theme.classes.description}>
-        {channel.description}
-      </h2>
-    </div>
-  )
-}
-
-Title.propTypes = {
-  channel: PropTypes.object.isRequired,
-  mate: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
-}
-
-function Button({onClick, className}) {
-  return (
-    <button
-      className={className}
-      onClick={onClick}
-    />
-  )
-}
-
-Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired
-}
-
-function MentionsBadge({mentions, sidebar, theme}) {
-  if (!mentions || sidebar === 'mentions') return null
-  return <i className={theme.classes.badge} />
-}
-
-MentionsBadge.propTypes = {
-  mentions: PropTypes.number,
-  sidebar: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  theme: PropTypes.object.isRequired
-}
-
-function itemButtonClassName(panel, {sidebar, theme}) {
-  return theme.classes[sidebar === panel ? `${panel}Active` : panel]
-}
-
-function itemClickHandler(panel, {sidebar, hideSidebar, showSidebar}) {
-  if (sidebar === panel) return hideSidebar
-  return showSidebar.bind(null, panel)
-}
-
-export default function Items(props) {
+function Items(props) {
   const {
-    showChannelMembersInvite,
     onFocusMessageSearch,
     onChangeMessageSearch,
+    requestAddChannelToFavorites,
+    requestRemoveChannelFromFavorites,
     mate,
     favorite,
     mentions,
     sidebar,
-    theme,
-    features
+    classes,
+    features,
+    intl,
+    channel
   } = props
-  const {type: channel} = props.channel
-
-  const favoriteProps = {...favorite, ...props}
-  const {formatMessage} = props.intl
-  const {classes} = theme
 
   return (
     <ul className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}>
+      <span className={classes.divider} />
       <li className={classes.favorite}>
-        <Tooltip message={getTooltipMessage('favorite')}>
-          <Favorite {...favoriteProps} />
-        </Tooltip>
+        <FavoriteButton
+          id={favorite.id}
+          favorited={favorite.favorited}
+          onFavorize={requestAddChannelToFavorites}
+          onUnfavorize={requestRemoveChannelFromFavorites}
+        />
       </li>
       <li className={classes.title}>
         <Title
-          channel={props.channel}
+          channel={channel}
           mate={mate}
-          theme={theme}
         />
       </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('invite')}>
-          <Button
-            className={classes.invite}
-            onClick={showChannelMembersInvite}
-          />
-        </Tooltip>
-      </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage(channel)}>
-          <Button
-            className={itemButtonClassName(channel || 'room', props)}
-            onClick={itemClickHandler(channel, props)}
-          />
-        </Tooltip>
-      </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('files')}>
-          <Button
-            className={itemButtonClassName('files', props)}
-            onClick={itemClickHandler('files', props)}
-          />
-        </Tooltip>
-      </li>
-      <li className={classes.searchAction}>
-        <input
-          className={`${classes.search} search-form`}
-          onFocus={onFocusMessageSearch}
-          onChange={onChangeMessageSearch}
-          placeholder={formatMessage(messages.placeholder)}
-          type="search"
-        />
-        <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
-      </li>
-      <li className={classes.action}>
-        <Tooltip message={getTooltipMessage('mentions')}>
-          <Button
-            className={itemButtonClassName('mentions', props)}
-            onClick={itemClickHandler('mentions', props)}
-          />
-          <MentionsBadge
-            mentions={mentions}
-            sidebar={sidebar}
-            theme={theme}
-          />
-        </Tooltip>
-      </li>
-      {features.labeledMessagesList && (
+      <ul className={classes.sidebarActions}>
+        <span className={classes.divider} />
         <li className={classes.action}>
-          <Tooltip message={getTooltipMessage('labeledMessages')} align="right">
-            <Button
-              className={itemButtonClassName('labeledMessages', props)}
+          <InfoButton
+            onClick={itemClickHandler(channel.type, props)}
+            isSelected={sidebar === channel.type}
+            channel={channel.type}
+          />
+        </li>
+        <li className={classes.search}>
+          <Search
+            onFocus={onFocusMessageSearch}
+            onChange={onChangeMessageSearch}
+            intl={intl}
+          />
+          <Beacon id="search" placement="bottom" shift={{top: 40, left: -120}} />
+        </li>
+        <li className={classes.action}>
+          <MentionsButton
+            onClick={itemClickHandler('mentions', props)}
+            isSelected={sidebar === 'mentions'}
+            mentions={mentions}
+          />
+        </li>
+        {features.labeledMessagesList && (
+          <li className={classes.action}>
+            <LabeledMessagesButton
+              isSelected={sidebar === 'labeledMessages'}
               onClick={itemClickHandler('labeledMessages', props)}
             />
-          </Tooltip>
-        </li>
-      )}
+          </li>
+        )}
+      </ul>
     </ul>
   )
 }
 
 Items.propTypes = {
   intl: intlShape.isRequired,
-  theme: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   mate: PropTypes.object.isRequired,
   mentions: PropTypes.number,
@@ -240,14 +163,19 @@ Items.propTypes = {
     PropTypes.bool
   ]),
   favorite: PropTypes.object.isRequired,
-  showChannelMembersInvite: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
   features: PropTypes.shape({
     labeledMessagesList: PropTypes.bool
-  })
+  }),
+  requestAddChannelToFavorites: PropTypes.func.isRequired,
+  requestRemoveChannelFromFavorites: PropTypes.func.isRequired
 }
 
 Items.defaultProps = {
-  features: {}
+  features: {},
+  mentions: 0,
+  sidebar: undefined
 }
+
+export default injectSheet(styles)(Items)

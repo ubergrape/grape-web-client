@@ -6,7 +6,6 @@ import {
   injectIntl
 } from 'react-intl'
 
-import SharedFiles from './shared-files/SharedFiles'
 import {RoomInfo} from './room-info'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
@@ -50,48 +49,48 @@ const Content = (props) => {
     toggleSearchActivities,
     toggleShowRoomMentions,
     hideSidebar,
+    showSidebarSubview,
     goToMessage,
     showRoomMentions,
-    currentChannelOnly,
-    searchActivities,
     selectLabeledMessagesFilter,
     openSharedFile,
+    options,
     ...rest
   } = props
 
   switch (show) {
-    case 'files':
-      return (
-        <SharedFiles
-          {...rest}
-          onLoad={loadSharedFiles}
-          onClose={hideSidebar}
-          onOpen={openSharedFile}
-        />
-      )
     case 'room':
       return (
         <RoomInfo
           {...rest}
           onLoad={loadRoomInfo}
           onClose={hideSidebar}
+          onShowSubview={showSidebarSubview}
+          onLoadSharedFiles={loadSharedFiles}
+          onOpenSharedFile={openSharedFile}
         />
       )
     case 'pm':
-      return <UserProfile {...rest} onClose={hideSidebar} />
+      return (
+        <UserProfile
+          {...rest}
+          onClose={hideSidebar}
+          onShowSubview={showSidebarSubview}
+          onLoadSharedFiles={loadSharedFiles}
+          onOpenSharedFile={openSharedFile}
+        />
+      )
     case 'mentions':
       return (
         <MessageSearch
           {...rest}
           title={formatMessage(messages.mentionsTitle)}
           options={[{
+            ...options.showRoomMentions,
             label: formatMessage(messages.mentions),
-            handler: toggleShowRoomMentions,
-            status: showRoomMentions
+            handler: toggleShowRoomMentions
           }]}
-          currentChannelOnly={currentChannelOnly}
-          searchActivities={searchActivities}
-          showRoomMentions={showRoomMentions}
+          showRoomMentions={options.showRoomMentions.status}
           show={show}
           onLoad={loadMentions}
           onClose={hideSidebar}
@@ -105,19 +104,18 @@ const Content = (props) => {
           title={formatMessage(messages.searchTitle)}
           options={[
             {
+              ...options.currentChannelOnly,
               label: formatMessage(messages.currentConversationOption),
-              handler: toggleSearchOnlyInChannel,
-              status: currentChannelOnly
+              handler: toggleSearchOnlyInChannel
             },
             {
+              ...options.searchActivities,
               label: formatMessage(messages.searchActivitiesOption),
-              handler: toggleSearchActivities,
-              status: searchActivities
+              handler: toggleSearchActivities
             }
           ]}
-          currentChannelOnly={currentChannelOnly}
-          searchActivities={searchActivities}
-          showRoomMentions={showRoomMentions}
+          currentChannelOnly={options.currentChannelOnly.status}
+          searchActivities={options.searchActivities.status}
           show={show}
           onLoad={searchMessages}
           onClose={hideSidebar}
@@ -128,11 +126,11 @@ const Content = (props) => {
       return (
         <LabeledMessages
           {...rest}
-          currentChannelOnly={currentChannelOnly}
+          currentChannelOnly={options.currentChannelOnly.status}
           options={[{
+            ...options.currentChannelOnly,
             label: formatMessage(messages.currentConversationOption),
-            handler: toggleSearchOnlyInChannel,
-            status: currentChannelOnly
+            handler: toggleSearchOnlyInChannel
           }]}
           onClose={hideSidebar}
           onLoad={loadLabeledMessages}
@@ -152,25 +150,50 @@ Content.propTypes = {
   loadSharedFiles: PropTypes.func.isRequired,
   loadLabeledMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
+  showSidebarSubview: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
-    false, 'files', 'room', 'pm', 'mentions', 'search', 'labeledMessages'
+    false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'
   ]).isRequired,
-  searchActivities: PropTypes.bool,
-  currentChannelOnly: PropTypes.bool,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   toggleSearchActivities: PropTypes.func.isRequired,
   toggleShowRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired,
   selectLabeledMessagesFilter: PropTypes.func.isRequired,
-  openSharedFile: PropTypes.func.isRequired
+  openSharedFile: PropTypes.func.isRequired,
+  options: PropTypes.shape({
+    currentChannelOnly: PropTypes.shape({
+      show: PropTypes.bool,
+      status: PropTypes.bool
+    }),
+    searchActivities: PropTypes.shape({
+      show: PropTypes.bool,
+      status: PropTypes.bool
+    }),
+    showRoomMentions: PropTypes.shape({
+      show: PropTypes.bool,
+      status: PropTypes.bool
+    })
+  }).isRequired
 }
 
 Content.defaultProps = {
   showRoomMentions: false,
-  searchActivities: false,
-  currentChannelOnly: false
+  options: {
+    currentChannelOnly: {
+      show: true,
+      status: false
+    },
+    searchActivities: {
+      show: true,
+      status: false
+    },
+    showRoomMentions: {
+      show: true,
+      status: false
+    }
+  }
 }
 
 @injectIntl
@@ -186,7 +209,6 @@ export default class Sidebar extends PureComponent {
   static defaultProps = {
     className: null
   }
-
 
   render() {
     const {

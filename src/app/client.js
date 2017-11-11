@@ -4,13 +4,13 @@ import getBoundActions from './boundActions'
 let client
 let authIntervalId
 
-const getClient = () => {
+const get = () => {
   if (!client) client = create()
   return client
 }
 
 export const connect = () => {
-  const channel = getClient().connect()
+  const channel = get().connect()
   const {checkAuth} = getBoundActions()
   checkAuth()
   authIntervalId = setInterval(checkAuth, 5000)
@@ -19,5 +19,10 @@ export const connect = () => {
 
 export const disconnect = () => {
   clearInterval(authIntervalId)
-  getClient().disconnect()
+  get().disconnect()
+}
+
+export const suspend = () => {
+  get().out.emit('suspend')
+  disconnect()
 }

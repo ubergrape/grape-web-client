@@ -27,7 +27,7 @@ export default class ActivityMessage extends PureComponent {
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    onMore: PropTypes.func.isRequired,
+    toggleMoreOptionsDropdown: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     author: PropTypes.shape({
@@ -78,7 +78,7 @@ export default class ActivityMessage extends PureComponent {
 
   renderMenu() {
     if (!this.state.isMenuOpened) return null
-    const {user, channel, onCopyLink, onQuote, onRemove, onMore} = this.props
+    const {user, channel, onCopyLink, onQuote, onRemove, toggleMoreOptionsDropdown} = this.props
 
     return (
       <Menu
@@ -88,7 +88,7 @@ export default class ActivityMessage extends PureComponent {
         onCopyLink={onCopyLink}
         onQuote={onQuote}
         onRemove={onRemove}
-        onMore={onMore}
+        toggleMoreOptionsDropdown={toggleMoreOptionsDropdown}
       />
     )
   }

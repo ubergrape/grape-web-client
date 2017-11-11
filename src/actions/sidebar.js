@@ -17,13 +17,24 @@ export function hideSidebar() {
   }
 }
 
-export function showSidebar(panel) {
+export function showSidebar(show, options) {
   return (dispatch) => {
     dispatch({
       type: types.SHOW_SIDEBAR,
-      payload: panel
+      payload: show
+    })
+    dispatch({
+      type: types.SET_SIDEBAR_OPTIONS,
+      payload: options
     })
   }
+}
+
+export const showSidebarSubview = name => (dispatch) => {
+  dispatch({
+    type: types.SHOW_SIDEBAR_SUBVIEW,
+    payload: name
+  })
 }
 
 export function toggleSearchOnlyInChannel() {

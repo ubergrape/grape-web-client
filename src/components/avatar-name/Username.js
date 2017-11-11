@@ -31,25 +31,22 @@ export default class Username extends PureComponent {
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    showStatus: PropTypes.bool,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string,
     className: PropTypes.string
   }
 
   static defaultProps = {
-    showStatus: true,
     theme: {classes: {}},
     className: undefined,
     statusBorderColor: undefined,
-    status: 'online'
+    status: undefined
   }
 
   render() {
     const {
       name,
       avatar,
-      showStatus,
       status,
       statusBorderColor,
       sheet: {classes},
@@ -63,7 +60,7 @@ export default class Username extends PureComponent {
           src={avatar}
           className={cn(classes.avatar, theme.classes.avatar)}
         >
-          {showStatus &&
+          {status &&
             <Status
               classes={classes}
               status={status}

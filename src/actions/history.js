@@ -20,9 +20,15 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
-function loadLatest() {
+// Clearing is used to enhance perceptional performance when clicked
+// on a navigation in order to react immediately.
+function loadLatest(options = {clear: true}) {
   return (dispatch, getState) => {
     const {minimumBatchSize: limit, channel} = historySelector(getState())
+
+    if (options.clear) {
+      dispatch({type: types.CLEAR_HISTORY})
+    }
 
     dispatch({
       type: types.REQUEST_LATEST_HISTORY,
@@ -178,10 +184,10 @@ function loadFragment() {
   }
 }
 
-export function loadHistory() {
+export function loadHistory(options) {
   return (dispatch, getState) => {
     const {selectedMessageId} = historySelector(getState())
-    dispatch(selectedMessageId ? loadFragment() : loadLatest())
+    dispatch(selectedMessageId ? loadFragment() : loadLatest(options))
   }
 }
 

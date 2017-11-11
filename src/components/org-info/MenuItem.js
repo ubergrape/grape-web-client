@@ -22,7 +22,7 @@ const styles = {
   icon: {
     extend: fonts.normal,
     marginRight: 10,
-    fill: grayDarker,
+    color: grayDarker,
     flex: {
       grow: 0,
       basis: '10%'

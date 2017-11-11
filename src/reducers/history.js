@@ -84,7 +84,7 @@ export default function reduce(state = initialState, action) {
         showNoContent: false
       }
     }
-    case types.REQUEST_LATEST_HISTORY:
+    case types.CLEAR_HISTORY:
       return {...state, messages: []}
     case types.REQUEST_OLDER_HISTORY:
       return {...state, olderMessages: payload.promise}

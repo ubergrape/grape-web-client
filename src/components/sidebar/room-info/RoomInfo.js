@@ -1,45 +1,63 @@
-import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import isEmpty from 'lodash/lang/isEmpty'
-import {
-  FormattedMessage,
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import find from 'lodash/collection/find'
+import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {maxChannelDescriptionLength} from '../../../constants/app'
-import {Description} from '../../i18n'
-import EditableText from '../../editable-text/EditableText'
-import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import {SharedFiles as SharedFilesText} from '../../i18n'
+import SidebarPanel from '../SidebarPanel'
+import Divider from '../Divider'
+import SharedFiles from '../shared-files/SharedFiles'
+import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
-import {styles} from './roomInfoTheme.js'
 import User from './User'
+import RoomActions from './RoomActions'
+import Description from './Description'
 import {getRoles} from './utils'
+import {styles} from './roomInfoTheme.js'
 
-const messages = defineMessages({
-  placeholder: {
-    id: 'addGroupDescription',
-    defaultMessage: 'Add a group description here…'
+const title = (
+  <FormattedMessage
+    id="groupInfo"
+    defaultMessage="Group Info"
+  />
+)
+
+const tabs = [
+  {
+    name: 'members',
+    icon: 'accountGroup',
+    render: 'renderMembers',
+    title: (
+      <FormattedMessage
+        id="members"
+        defaultMessage="Members"
+      />
+    )
   },
-  title: {
-    id: 'groupInfo',
-    defaultMessage: 'Group Info'
+  {
+    name: 'files',
+    icon: 'folderPicture',
+    render: 'renderSharedFiles',
+    title: <SharedFilesText />
   }
-})
+]
 
 @injectSheet(styles)
-@injectIntl
 export default class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
+    showSubview: PropTypes.string,
+    subview: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
+    onOpenSharedFile: PropTypes.func,
+    onLoadSharedFiles: PropTypes.func.isRequired,
+    onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -57,10 +75,13 @@ export default class RoomInfo extends PureComponent {
   }
 
   static defaultProps = {
-    renameError: null
+    renameError: null,
+    showSubview: 'members',
+    subview: undefined,
+    onOpenSharedFile: undefined
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {onLoad, channel} = this.props
     onLoad({channel})
   }
@@ -75,25 +96,13 @@ export default class RoomInfo extends PureComponent {
     this.props.showChannelMembersInvite(this.props.channel)
   }
 
-  onAddIntegration = () => {
-    this.props.goToAddIntegrations()
-  }
-
   onLeave = () => {
     this.props.leaveChannel(this.props.channel.id)
-  }
-
-  onClose = () => {
-    this.props.onClose()
   }
 
   onChangePrivacy = () => {
     const {setRoomPrivacy, channel} = this.props
     setRoomPrivacy(channel.id, !channel.isPublic)
-  }
-
-  onShowRoomDeleteDialog = (room) => {
-    this.props.showRoomDeleteDialog(room)
   }
 
   onSetRoomColor = (color) => {
@@ -116,60 +125,73 @@ export default class RoomInfo extends PureComponent {
     renameRoom(channel.id, name)
   }
 
-  renderDescriptionEditable() {
-    const {channel, user, intl: {formatMessage}} = this.props
-    const {allowEdit} = getRoles({channel, user})
+  onChangeTab = (index) => {
+    this.props.onShowSubview(tabs[index].name)
+  }
 
-    if (!allowEdit) return <p>{channel.description}</p>
+  renderMembers = () => {
+    const {
+      channel, goToAddIntegrations, user: currUser, goToChannel,
+      kickMemberFromChannel
+    } = this.props
 
     return (
-      <EditableText
-        placeholder={formatMessage(messages.placeholder)}
-        maxLength={maxChannelDescriptionLength}
-        onSave={this.onSetRoomDescription}
-        value={channel.description}
-        preserveSpaceForButton
-        multiline
-      />
+      <div>
+        <RoomActions
+          channel={channel}
+          onLeave={this.onLeave}
+          onInvite={this.onInvite}
+          onAddIntegration={goToAddIntegrations}
+        />
+        <Divider />
+        {channel.users.map(user => (
+          <User
+            key={user.id}
+            user={user}
+            channel={channel}
+            currUser={currUser}
+            goToChannel={goToChannel}
+            kickMemberFromChannel={kickMemberFromChannel}
+          />
+        ))}
+      </div>
     )
   }
 
-  renderDescription() {
-    const {channel, user, classes} = this.props
-    const {allowEdit} = getRoles({channel, user})
-
-    if (!allowEdit && !channel.description) return null
+  renderSharedFiles = () => {
+    const {onLoadSharedFiles, onOpenSharedFile, subview} = this.props
 
     return (
-      <article className={classes.roomDescription}>
-        <h2 className={classes.title}>
-          <Description />
-        </h2>
-        {this.renderDescriptionEditable()}
-      </article>
+      <SharedFiles
+        {...subview}
+        onLoad={onLoadSharedFiles}
+        onOpen={onOpenSharedFile}
+      />
     )
   }
 
   render() {
     const {
       channel, renameError, clearRoomRenameError,
-      intl: {formatMessage},
       classes,
       showNotificationSettings, notificationSettings,
+      showRoomDeleteDialog,
       user: currUser,
-      goToChannel, kickMemberFromChannel
+      showSubview,
+      onClose
     } = this.props
 
     if (isEmpty(channel)) return null
 
     const {allowEdit} = getRoles({channel, user: currUser})
+    const tab = find(tabs, {name: showSubview})
 
     return (
       <SidebarPanel
-        title={formatMessage(messages.title)}
-        onClose={this.onClose}
+        title={title}
+        onClose={onClose}
       >
-        <div className={classes.channelInfo}>
+        <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}
             channel={channel}
@@ -179,65 +201,25 @@ export default class RoomInfo extends PureComponent {
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
-            onShowRoomDeleteDialog={this.onShowRoomDeleteDialog}
+            onShowRoomDeleteDialog={showRoomDeleteDialog}
             renameRoom={this.onRenameRoom}
             notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
           />
-
-          {this.renderDescription()}
-
-          <article className={classes.actions}>
-            <ul>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onInvite}
-                  className={classes.buttonInvite}
-                >
-                  <FormattedMessage
-                    id="inviteMoreToGroup"
-                    defaultMessage="Invite more people to this group"
-                    description="Room Info Panel: link to invite people to the group/room"
-                  />
-                </button>
-              </li>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onAddIntegration}
-                  className={classes.buttonIntegration}
-                >
-                  <FormattedMessage
-                    id="addServiceIntegration"
-                    defaultMessage="Add service integration"
-                    description="Room Info Panel: link to add an integration to the current room"
-                  />
-                </button>
-              </li>
-              <li className={classes.actionItem}>
-                <button
-                  onClick={this.onLeave}
-                  className={classes.buttonLeave}
-                >
-                  <FormattedMessage
-                    id="leaveChannel"
-                    defaultMessage="Leave {channel}"
-                    values={{channel: channel.name}}
-                    description="Room Info Panel: leave room link"
-                  />
-                </button>
-              </li>
-            </ul>
-          </article>
-          {channel.users.map(user => (
-            <User
-              key={user.id}
-              user={user}
-              channel={channel}
-              currUser={currUser}
-              goToChannel={goToChannel}
-              kickMemberFromChannel={kickMemberFromChannel}
-            />
-          ))}
+          <Divider inset />
+          <Description
+            description={channel.description}
+            allowEdit={allowEdit}
+            onSetRoomDescription={this.onSetRoomDescription}
+            className={classes.description}
+          />
+          <TabbedContent
+            index={tabs.indexOf(tab)}
+            onChange={this.onChangeTab}
+            tabs={tabs}
+            title={tab.title}
+            body={this[tab.render]()}
+          />
         </div>
       </SidebarPanel>
     )

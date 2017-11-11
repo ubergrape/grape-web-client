@@ -30,7 +30,7 @@ export default class Menu extends PureComponent {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
-    showMore: PropTypes.bool.isRequired
+    showMoreOptionsDropdown: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -50,10 +50,12 @@ export default class Menu extends PureComponent {
       onEdit,
       onRemove,
       onCopyLink,
-      showMore
+      showMoreOptionsDropdown
     } = this.props
 
     let key = 0
+
+    const position = getPosition(getContentNode(), items.length)
     const menuItems = [
       <EditMessage onClick={onEdit} key={++key} />,
       <CopyMessageLink onClick={onCopyLink} key={++key} />,
@@ -61,8 +63,6 @@ export default class Menu extends PureComponent {
       <Divider key={++key} />,
       <DeleteMessage onClick={onRemove} key={++key} />
     ]
-
-    const position = getPosition(getContentNode(), items.length)
 
     return (
       <div
@@ -78,7 +78,7 @@ export default class Menu extends PureComponent {
               classes={classes}
               onSelect={onSelect}
             />
-            {showMore && name === 'more' &&
+            {showMoreOptionsDropdown && name === 'more' &&
               <Dropdown
                 target={this.menuItemRef}
                 placement="bottom"

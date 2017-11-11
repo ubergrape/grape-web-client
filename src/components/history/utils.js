@@ -61,8 +61,9 @@ export const createRowsState = (() => {
         isPm: props.channel.type === 'pm',
         isLast: false,
         duplicates: [],
-        ...pick(props, 'user', 'channel', 'customEmojis', 'onEdit', 'onRemove', 'onResend', 'onMore',
-          'onGoToChannel', 'selectedMessageId', 'onCopyLink', 'onQuote', 'onRemoveLinkAttachment')
+        ...pick(props, 'user', 'channel', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
+        'toggleMoreOptionsDropdown', 'onGoToChannel', 'selectedMessageId', 'onCopyLink',
+        'onQuote', 'onRemoveLinkAttachment')
       })
 
       map[message.id] = message.id

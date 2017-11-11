@@ -31,7 +31,7 @@ export const OrgSettingsItem = () => (
 
 export const ManageMembersItem = () => (
   <Item
-    icon="user"
+    icon="users"
     href="/accounts/organization/settings/members/"
   >
     <FormattedMessage
@@ -44,7 +44,7 @@ export const ManageMembersItem = () => (
 
 export const AddServiceItem = () => (
   <Item
-    icon="iconLink"
+    icon="plug"
     href="/integrations/"
   >
     <FormattedMessage
@@ -57,7 +57,7 @@ export const AddServiceItem = () => (
 
 export const AccountSettingsItem = () => (
   <Item
-    icon="cog"
+    icon="idCard"
     href="/accounts/settings/"
   >
     <FormattedMessage
@@ -123,7 +123,7 @@ export const SwitchOrganizationsItem = () => (
 
 export const LogoutItem = () => (
   <Item
-    icon="signOut"
+    icon="doorExit"
     href="/accounts/logout/"
   >
     <FormattedMessage

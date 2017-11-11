@@ -79,10 +79,10 @@ const embed = (options) => {
     .then(init)
 }
 
-const show = (name) => {
+const show = (name, options) => {
   checkShowHideComponent(name)
   actionsReady.then((actions) => {
-    actions.showSidebar(name)
+    actions.showSidebar(name, options)
   })
 }
 
@@ -94,8 +94,8 @@ const hide = (name) => {
   })
 }
 
-const searchMessages = (query) => {
-  show('search')
+const searchMessages = (query, options) => {
+  show('search', options)
   actionsReady.then((actions) => {
     actions.updateMessageSearchQuery(query)
   })

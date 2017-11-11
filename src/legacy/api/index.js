@@ -1,6 +1,7 @@
 import array from 'array'
 import Emitter from 'component-emitter'
 import noop from 'lodash/utility/noop'
+import merge from 'lodash/object/merge'
 
 import conf from '../../conf'
 import models from './models'
@@ -32,15 +33,12 @@ API.prototype.connect = function API_connect() {
   const channel = client().connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
-  channel.on('connected', () => {
-    // Resync the whole data if we got a new client id, because we might have
-    // missed some messages. This is related to the current serverside arch.
-    channel.on('set:id', () => {
-      this.sync()
-    })
+  // Resync the whole data if we got a new client id, because we might have
+  // missed some messages. This is related to the current serverside arch.
+  channel.on('set:id', () => {
+    this.sync()
   })
   channel.on('disconnected', () => {
-    channel.off('set:id')
     this.emit('disconnected')
   })
   channel.on('data', (data) => {
@@ -216,6 +214,7 @@ API.prototype.subscribe = function API_subscribe() {
     user.what_i_do = data.user.what_i_do
     user.skype_username = data.user.skype_username
     user.phone_number = data.user.phone_number
+    merge(user.settings, data.user.settings)
     if (data.user.avatar !== null) user.avatar = data.user.avatar
     self.emit('changeUser', user)
   })
@@ -476,24 +475,6 @@ API.prototype.getHistory = function API_getHistory(room, options) {
   })
 }
 
-API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch(direction, room, options) {
-  rpc({
-    ns: 'channels',
-    action: 'get_history',
-    args: [room.id, options]
-  }, (err, res) => {
-    if (err) return this.emit('error', err)
-    const lines = res.map((line) => {
-      const exists = models.Line.get(line.id)
-      if (!exists || !~room.searchHistory.indexOf(exists)) {
-        line.read = true
-        line = new models.Line(line)
-        if (direction === 'old') { room.searchHistory.unshift(line) } else { room.searchHistory.push(line) }
-      }
-    })
-    this.emit('gotHistory', direction)
-  })
-}
 
 API.prototype.setRead = function API_setRead(room, lineId) {
   // update the unread count

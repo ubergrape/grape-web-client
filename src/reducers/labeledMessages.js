@@ -1,4 +1,5 @@
 import find from 'lodash/collection/find'
+import merge from 'lodash/object/merge'
 
 import * as types from '../constants/actionTypes'
 
@@ -6,7 +7,12 @@ const initialState = {
   messages: [],
   labelConfigs: [],
   isLoading: true,
-  currentChannelOnly: false,
+  options: {
+    currentChannelOnly: {
+      show: true,
+      status: false
+    }
+  },
   newMessagesAmount: 0,
   filter: 'all'
 }
@@ -15,6 +21,8 @@ export default function reduce(state = initialState, action) {
   const {payload} = action
 
   switch (action.type) {
+    case types.SET_SIDEBAR_OPTIONS:
+      return {...state, options: merge({}, state.options, action.payload)}
     case types.REQUEST_LABELED_MESSAGES:
       return {
         ...state,
@@ -37,14 +45,17 @@ export default function reduce(state = initialState, action) {
       }
     case types.HIDE_SIDEBAR:
       return initialState
-    case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY:
+    case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY: {
+      const options = merge({}, state.options)
+      options.currentChannelOnly.status = !options.currentChannelOnly.status
       return {
         ...state,
-        currentChannelOnly: !state.currentChannelOnly,
+        options,
         messages: initialState.messages,
         labelConfigs: initialState.labelConfigs,
         isLoading: true
       }
+    }
     case types.SET_CHANNEL: {
       if (state.channel && payload.channel.id === state.channel.id) {
         return state
@@ -55,7 +66,7 @@ export default function reduce(state = initialState, action) {
         channel: payload.channel
       }
 
-      if (state.currentChannelOnly) {
+      if (state.options.currentChannelOnly.status) {
         newState.isLoading = true
         newState.messages = []
       }
@@ -83,14 +94,14 @@ export default function reduce(state = initialState, action) {
     }
     case types.HANDLE_MESSAGE_LABELED: {
       const {
-        filter, currentChannelOnly, channel, newMessagesAmount, messages
+        filter, options, channel, newMessagesAmount, messages
       } = state
 
       // Ignore messages which don't pass the filter.
       const isFiltered = filter !== 'all' && payload.labels.indexOf(filter) === -1
       // User doesn't need to see a new message from a different channel
       // when this option is turned on.
-      const isWrongChannel = currentChannelOnly && payload.channel !== channel.id
+      const isWrongChannel = options.currentChannelOnly.status && payload.channel !== channel.id
 
       if (isFiltered || isWrongChannel) return state
 

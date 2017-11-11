@@ -7,16 +7,19 @@ const initialState = {
 const channelTypes = ['pm', 'room']
 
 export default function reduce(state = initialState, action) {
+  const {payload} = action
   switch (action.type) {
     case types.HIDE_SIDEBAR:
-      return {...state, show: false}
+      return initialState
     case types.SHOW_SIDEBAR:
-      return {...state, show: action.payload}
+      return {...state, show: payload}
+    case types.SHOW_SIDEBAR_SUBVIEW:
+      return {...state, showSubview: payload}
     case types.SET_CHANNEL: {
-      const {type} = action.payload.channel
+      const {type} = payload.channel
       const {show} = state
       if (type !== show && channelTypes.includes(show)) {
-        return {...state, show: type}
+        return {...state, show: type, showSubview: undefined}
       }
       return state
     }
