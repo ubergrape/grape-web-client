@@ -31,8 +31,9 @@ export const styles = ({palette}) => {
       whiteSpace: 'nowrap'
     },
     editItem: buttonIcon('pencil', iconOptions),
+    moreItem: buttonIcon('moreOptions', iconOptions),
     copyLinkItem: buttonIcon('link', iconOptions),
-    removeItem: buttonIcon('deleteMessage', binIconOptions),
+    removeItem: buttonIcon('bin', binIconOptions),
     removeLinkAttachmentItem: buttonIcon('bin', binIconOptions),
     quoteItem: buttonIcon('quoteLeft', iconOptions),
     item: {

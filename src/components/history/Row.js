@@ -45,6 +45,8 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
+const toggleState = state => ({showMoreOptionsDropdown: !state.showMoreOptionsDropdown})
+
 @injectSheet(styles)
 @injectIntl
 export default class Row extends PureComponent {
@@ -87,6 +89,8 @@ export default class Row extends PureComponent {
     key: null,
     selectedMessageId: null
   }
+
+  state = {showMoreOptionsDropdown: false}
 
   onEdit = () => {
     const {onEdit, message} = this.props
@@ -131,6 +135,14 @@ export default class Row extends PureComponent {
     onResend(message)
   }
 
+  toggleMoreOptionsDropdown = () => {
+    this.setState(toggleState)
+  }
+
+  closeMoreOptionsDropdown = () => {
+    this.setState({showMoreOptionsDropdown: false})
+  }
+
   render() {
     const {
       sheet: {classes},
@@ -166,10 +178,13 @@ export default class Row extends PureComponent {
       hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
+      closeMoreOptionsDropdown: this.closeMoreOptionsDropdown,
       onResend: this.onResend,
+      toggleMoreOptionsDropdown: this.toggleMoreOptionsDropdown,
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
-      onRemoveLinkAttachment
+      onRemoveLinkAttachment,
+      showMoreOptionsDropdown: this.state.showMoreOptionsDropdown
     }
 
     if (message.type === 'activity') {
