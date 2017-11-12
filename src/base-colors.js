@@ -13,6 +13,7 @@ export default {
   grayDark: '#4d4d4d',
   grayDarker: '#333333',
   grayBombay: '#b1b6be',
+  grayVenus: '#d3d5da',
   grayMercury: '#e6e6e6',
 
   grayBlueLighter: '#ebeef3',
