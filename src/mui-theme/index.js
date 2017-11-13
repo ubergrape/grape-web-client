@@ -3,8 +3,9 @@ import createPalette from 'material-ui/styles/palette'
 import createTypography from 'material-ui/styles/typography'
 import Input from 'material-ui/Input'
 import {
-  white, blue, red, green, grayBlue, grayBlueLight, grayBlueLighter, grayLighter,
-  grayDark, grayBlueDark, grayMercury, grayBombay, orange
+  white, blue, red, green, orange,
+  grayBlue, grayBlueLight, grayBlueLighter, grayBlueDark,
+  grayLighter, grayLight, grayDark, grayMercury, grayBombay, grayVenus
 } from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
@@ -27,8 +28,10 @@ palette.text.primary = grayDark
 palette.text.secondary = grayBlueDark
 palette.text.lightDivider = grayBlueLighter
 palette.grey.A100 = grayLighter
+palette.grey[100] = grayLight
 palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
+palette.grey[400] = grayVenus
 // Added since v1.0.0-beta.6
 palette.blueGrey = {}
 palette.blueGrey[50] = grayBlueLighter
