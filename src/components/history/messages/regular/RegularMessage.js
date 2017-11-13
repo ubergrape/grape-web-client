@@ -37,11 +37,11 @@ export default class RegularMessage extends PureComponent {
     /* eslint-disable react/no-unused-prop-types */
     userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
-    showMoreOptionsDropdown: PropTypes.bool.isRequired,
+    showMenuDropdown: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    toggleMoreOptionsDropdown: PropTypes.func.isRequired,
-    closeMoreOptionsDropdown: PropTypes.func.isRequired,
+    toggleMenuDropdown: PropTypes.func.isRequired,
+    closeMenuDropdown: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
@@ -74,7 +74,7 @@ export default class RegularMessage extends PureComponent {
     isOwn: false,
     isSelected: false,
     isPm: false,
-    showMoreOptionsDropdown: false,
+    showMenuDropdown: false,
     duplicates: 0,
     attachments: [],
     linkAttachments: [],
@@ -83,7 +83,7 @@ export default class RegularMessage extends PureComponent {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    toggleMoreOptionsDropdown: noop,
+    toggleMenuDropdown: noop,
     onGoToChannel: noop,
     onCopyLink: noop,
     onQuote: noop,
@@ -106,7 +106,7 @@ export default class RegularMessage extends PureComponent {
 
   onMouseLeave = () => {
     this.setState({isMenuOpened: false})
-    this.props.closeMoreOptionsDropdown()
+    this.props.closeMenuDropdown()
   }
 
   onRefContent = (ref) => {

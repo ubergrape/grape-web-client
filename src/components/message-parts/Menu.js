@@ -30,7 +30,7 @@ export default class Menu extends PureComponent {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
-    showMoreOptionsDropdown: PropTypes.bool.isRequired
+    showMenuDropdown: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -50,7 +50,7 @@ export default class Menu extends PureComponent {
       onEdit,
       onRemove,
       onCopyLink,
-      showMoreOptionsDropdown
+      showMenuDropdown
     } = this.props
 
     let key = 0
@@ -78,7 +78,7 @@ export default class Menu extends PureComponent {
               classes={classes}
               onSelect={onSelect}
             />
-            {showMoreOptionsDropdown && name === 'more' &&
+            {showMenuDropdown && name === 'more' &&
               <Dropdown
                 target={this.menuItemRef}
                 placement="bottom"

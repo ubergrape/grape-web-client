@@ -5,7 +5,7 @@ import BaseMenu from '../../../message-parts/Menu'
 const menuHandlerMap = {
   copyLink: 'onCopyLink',
   remove: 'onRemove',
-  more: 'toggleMoreOptionsDropdown',
+  more: 'toggleMenuDropdown',
   edit: 'onEdit',
   quote: 'onQuote'
 }
@@ -18,7 +18,7 @@ export default class Menu extends PureComponent {
 
   render() {
     const {isOwn, attachments, state, getContentNode,
-      onEdit, onRemove, onCopyLink, showMoreOptionsDropdown} = this.props
+      onEdit, onRemove, onCopyLink, showMenuDropdown} = this.props
 
     if (state === 'pending' || state === 'unsent') return null
 
@@ -41,7 +41,7 @@ export default class Menu extends PureComponent {
         onEdit={onEdit}
         onRemove={onRemove}
         onCopyLink={onCopyLink}
-        showMoreOptionsDropdown={showMoreOptionsDropdown}
+        showMenuDropdown={showMenuDropdown}
       />
     )
   }

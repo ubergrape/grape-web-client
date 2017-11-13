@@ -45,7 +45,7 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-const toggleState = state => ({showMoreOptionsDropdown: !state.showMoreOptionsDropdown})
+const toggleState = state => ({showMenuDropdown: !state.showMenuDropdown})
 
 @injectSheet(styles)
 @injectIntl
@@ -90,7 +90,7 @@ export default class Row extends PureComponent {
     selectedMessageId: null
   }
 
-  state = {showMoreOptionsDropdown: false}
+  state = {showMenuDropdown: false}
 
   onEdit = () => {
     const {onEdit, message} = this.props
@@ -135,12 +135,12 @@ export default class Row extends PureComponent {
     onResend(message)
   }
 
-  toggleMoreOptionsDropdown = () => {
+  toggleMenuDropdown = () => {
     this.setState(toggleState)
   }
 
-  closeMoreOptionsDropdown = () => {
-    this.setState({showMoreOptionsDropdown: false})
+  closeMenuDropdown = () => {
+    this.setState({showMenuDropdown: false})
   }
 
   render() {
@@ -178,13 +178,13 @@ export default class Row extends PureComponent {
       hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
-      closeMoreOptionsDropdown: this.closeMoreOptionsDropdown,
+      closeMenuDropdown: this.closeMenuDropdown,
       onResend: this.onResend,
-      toggleMoreOptionsDropdown: this.toggleMoreOptionsDropdown,
+      toggleMenuDropdown: this.toggleMenuDropdown,
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
       onRemoveLinkAttachment,
-      showMoreOptionsDropdown: this.state.showMoreOptionsDropdown
+      showMenuDropdown: this.state.showMenuDropdown
     }
 
     if (message.type === 'activity') {
