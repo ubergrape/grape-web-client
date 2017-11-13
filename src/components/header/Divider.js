@@ -6,10 +6,7 @@ const styles = ({palette}) => ({
     display: 'block',
     width: 1,
     height: '100%',
-    // TODO change it into expanded version once https://github.com/cssinjs/jss/issues/621
-    // is solved
-    borderLeft: [1, 'solid'],
-    borderImage: `linear-gradient(to top, ${palette.grey[100]}, rgba(0, 0, 0, 0)) 1 100%`
+    backgroundImage: `linear-gradient(to top, ${palette.grey[100]}, rgba(0, 0, 0, 0))`
   }
 })
 

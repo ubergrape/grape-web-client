@@ -17,6 +17,11 @@ const tip = (
 )
 
 @injectSheet(({palette}) => ({
+  button: {
+    display: 'flex',
+    width: iconSize + 16,
+    height: iconSize + 16
+  },
   star: {
     color: ({favorited}) => (favorited ? palette.secondary[700] : palette.text.primary),
     width: iconSize,
@@ -66,7 +71,10 @@ export default class Favorite extends PureComponent {
 
     return (
       <Tooltip message={tip}>
-        <IconButton onClick={this.onToggle}>
+        <IconButton
+          onClick={this.onToggle}
+          classes={classes}
+        >
           <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
         </IconButton>
       </Tooltip>

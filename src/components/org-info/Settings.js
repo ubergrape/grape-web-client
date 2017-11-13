@@ -4,9 +4,11 @@ import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+import sizes from 'grape-theme/dist/sizes'
 
 import Dropdown from '../dropdown/Dropdown'
 import Tooltip from '../tooltip/HoverTooltip'
+import {iconSize} from '../header'
 import Menu from './Menu'
 
 const SettingsButton = ({classes, onClick, onButtonRef}) => (
@@ -32,7 +34,10 @@ const toggleMenu = state => ({showMenu: !state.showMenu})
     flexShrink: 0
   },
   button: {
-    display: 'flex'
+    display: 'flex',
+    width: iconSize + 16,
+    height: iconSize + 16,
+    marginRight: sizes.spacer.s
   },
   buttonIcon: {
     isolate: false,
