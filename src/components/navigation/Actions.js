@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import List from 'material-ui/List'
+import injectSheet from 'grape-web/lib/jss'
 
 import {Contacts as ContactsText, Groups as GroupsText} from '../i18n/i18n'
 import {Beacon} from '../intro'
@@ -9,15 +10,26 @@ import Action from './Action'
 
 const beaconShift = {top: 10, left: 10}
 
-export default function Actions(props) {
+const styles = () => ({
+  root: {
+    display: 'block',
+    padding: {
+      top: 0,
+      bottom: 0
+    }
+  }
+})
+
+function Actions(props) {
   const {
     onNewConversation,
     onContacts,
-    onManageGroups
+    onManageGroups,
+    classes
   } = props
 
   return (
-    <List>
+    <List className={classes.root}>
       <Action icon="createConversation" onClick={onNewConversation}>
         {({renderText}) => (
           <FormattedMessage
@@ -58,7 +70,10 @@ export default function Actions(props) {
 }
 
 Actions.propTypes = {
+  classes: PropTypes.object.isRequired,
   onContacts: PropTypes.func.isRequired,
   onNewConversation: PropTypes.func.isRequired,
   onManageGroups: PropTypes.func.isRequired
 }
+
+export default injectSheet(styles)(Actions)

@@ -9,8 +9,8 @@ import {iconSize} from './constants'
 const styles = ({palette}) => ({
   root: {
     border: 'none',
-    width: iconSize + 18,
-    height: iconSize + 18,
+    width: iconSize + 16,
+    height: iconSize + 16,
     background: ({isSelected}) => (isSelected ? palette.blueGrey[50] : 'none'),
     '&:hover': {
       isolate: false,

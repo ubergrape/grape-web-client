@@ -20,7 +20,7 @@ export const styles = ({palette}) => ({
     display: 'flex',
     height,
     alignItems: 'center',
-    borderBottom: [1, 'solid', palette.grey[300]],
+    borderBottom: [1, 'solid', palette.grey[400]],
     flexShrink: 0
   },
   headerDisabled: {
@@ -33,7 +33,7 @@ export const styles = ({palette}) => ({
     listStyle: 'none',
     flexShrink: 0,
     position: 'relative',
-    margin: [0, sizes.spacer.s]
+    margin: [0, sizes.spacer.xs, 0, sizes.spacer.s]
   },
   title: {
     listStyle: 'none',
@@ -46,24 +46,25 @@ export const styles = ({palette}) => ({
     listStyle: 'none',
     position: 'relative',
     flexShrink: 0,
-    lineHeight: 0
+    lineHeight: 0,
+    marginLeft: sizes.spacer.xs
   },
   search: {
     listStyle: 'none',
-    margin: [0, sizes.spacer.s],
+    margin: [0, 0, 0, sizes.spacer.xs],
     flexGrow: 1
   },
   sidebarActions: {
     display: 'flex',
-    marginRight: sizes.spacer.s,
-    width: sidebarWidthXl - sizes.spacer.s,
+    marginRight: sizes.spacer.xs,
+    width: sidebarWidthXl - sizes.spacer.xs,
     height: '100%',
     flexShrink: 0,
     alignItems: 'center'
   },
   [`@media (max-width: ${sizes.screenWidth.xl}px)`]: {
     sidebarActions: {
-      width: sidebarWidth - sizes.spacer.s
+      width: sidebarWidth - sizes.spacer.xs
     }
   }
 })

@@ -3,7 +3,6 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
 import fonts from 'grape-theme/dist/fonts'
-import {grayLight, black} from 'grape-theme/dist/base-colors'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import sizes from 'grape-theme/dist/sizes'
 
@@ -21,7 +20,7 @@ const styles = ({palette}) => ({
     alignItems: 'center',
     paddingLeft: sizes.spacer.m,
     height: headerHeight,
-    borderBottom: [1, 'solid', palette.grey[300]],
+    borderBottom: [1, 'solid', palette.grey[400]],
     flexShrink: 0
   },
   logoContainer: {
@@ -30,11 +29,11 @@ const styles = ({palette}) => ({
     overflow: 'hidden',
     marginRight: sizes.spacer.s,
     borderRadius: '50%',
-    width: sizes.icon.l,
-    height: sizes.icon.l
+    width: sizes.icon.xl,
+    height: sizes.icon.xl
   },
   logoImage: {
-    widht: '100%',
+    width: '100%',
     height: '100%'
   },
   info: {
@@ -47,11 +46,11 @@ const styles = ({palette}) => ({
   orgName: {
     extend: [fonts.normal, header],
     lineHeight: 1,
-    color: black
+    color: palette.common.black
   },
   userName: {
     extend: [fonts.small, header],
-    color: grayLight
+    color: palette.grey[100]
   }
 })
 

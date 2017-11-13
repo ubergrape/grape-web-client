@@ -30,7 +30,7 @@ export const styles = ({palette}) => ({
   },
   navigationWrapper: {
     display: 'block',
-    padding: [sizes.spacer.s, 0],
+    padding: [sizes.spacer.m, 0],
     height: '100%'
   },
   manage: {
@@ -43,11 +43,11 @@ export const styles = ({palette}) => ({
   },
   section: {
     display: 'block',
-    marginTop: sizes.spacer.s
+    marginTop: sizes.spacer.m
   },
   list: {
     display: 'block',
-    marginTop: sizes.spacer.s
+    marginTop: sizes.spacer.xs
   },
   notFound: {
     padding: sizes.spacer.s,
