@@ -62,7 +62,7 @@ export const createRowsState = (() => {
         isLast: false,
         duplicates: [],
         ...pick(props, 'user', 'channel', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
-        'toggleMenuDropdown', 'onGoToChannel', 'selectedMessageId', 'onCopyLink',
+        'onGoToChannel', 'selectedMessageId', 'onCopyLink', 'onPin',
         'onQuote', 'onRemoveLinkAttachment')
       })
 

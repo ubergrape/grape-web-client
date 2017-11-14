@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 
-import Tooltip from '../tooltip/HoverTooltip'
+import Tooltip from '../../tooltip/HoverTooltip'
 
 function getMessage(name) {
   switch (name) {
@@ -73,6 +73,7 @@ function getItemClassName(classes, name, index, total) {
 export default class MenuItem extends PureComponent {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
+    onRefItem: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
@@ -85,7 +86,7 @@ export default class MenuItem extends PureComponent {
   }
 
   render() {
-    const {name, classes, index, total} = this.props
+    const {name, classes, index, total, onRefItem} = this.props
     return (
       <Tooltip
         key={name}
@@ -96,6 +97,7 @@ export default class MenuItem extends PureComponent {
         <span
           className={getItemClassName(classes, name, index, total)}
           onClick={this.onSelect}
+          ref={onRefItem}
         />
       </Tooltip>
     )

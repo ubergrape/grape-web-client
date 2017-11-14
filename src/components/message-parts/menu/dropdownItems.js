@@ -1,11 +1,11 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 
-import Item from './MenuListItem'
+import Item from './DropdownItem'
 
-export const EditMessage = props => (
+export const EditMessage = ({onClick}) => (
   <Item
-    onClick={props.onClick}
+    onClick={onClick}
     icon="pencil"
   >
     <FormattedMessage
@@ -16,9 +16,9 @@ export const EditMessage = props => (
   </Item>
 )
 
-export const CopyMessageLink = props => (
+export const CopyMessageLink = ({onClick}) => (
   <Item
-    onClick={props.onClick}
+    onClick={onClick}
     icon="link"
   >
     <FormattedMessage
@@ -29,9 +29,10 @@ export const CopyMessageLink = props => (
   </Item>
 )
 
-export const PinMessage = () => (
+export const PinMessage = ({onClick}) => (
   <Item
     icon="pin"
+    onClick={onClick}
   >
     <FormattedMessage
       id="pinMessage"
@@ -41,10 +42,10 @@ export const PinMessage = () => (
   </Item>
 )
 
-export const DeleteMessage = props => (
+export const DeleteMessage = ({onClick}) => (
   <Item
-    onClick={props.onClick}
-    icon="bin"
+    onClick={onClick}
+    icon="deleteMessage"
   >
     <FormattedMessage
       id="deleteMessage"

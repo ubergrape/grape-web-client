@@ -1,4 +1,4 @@
-import buttonIcon from '../button/icon'
+import buttonIcon from '../../button/icon'
 
 const fontSize = 16
 const padding = 4
@@ -38,6 +38,7 @@ export const styles = ({palette}) => ({
   removeItem: getIcon('deleteMessage', palette),
   removeLinkAttachmentItem: getIcon('bin', palette),
   quoteItem: getIcon('quoteLeft', palette),
+  moreItem: getIcon('moreOptions', palette),
   item: {
     padding,
     border: [borderSize, 'solid', palette.blueGrey[400]],
@@ -79,5 +80,9 @@ export const styles = ({palette}) => ({
     position: 'absolute',
     top: 1,
     left: `calc(100% + ${firstLastPadding}px)`
+  },
+  dropdownList: {
+    width: 200,
+    padding: 0
   }
 })

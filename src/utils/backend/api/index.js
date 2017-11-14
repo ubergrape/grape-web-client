@@ -386,6 +386,20 @@ export function updateMessage(channelId, messageId, text) {
   })
 }
 
+export function pinMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'pin_message',
+      args: [channelId, messageId, true]
+    },
+    (err) => {
+      if (err) return reject(err)
+      return resolve()
+    })
+  })
+}
+
 export function postMessage(channelId, text = '', options) {
   return new Promise((resolve, reject) => {
     let optionsArg = options

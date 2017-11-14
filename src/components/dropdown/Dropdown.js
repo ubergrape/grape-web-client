@@ -30,7 +30,7 @@ export default function Dropdown(props) {
       <Tooltip
         onOutsideClick={onOutsideClick}
         onClick={onClick}
-        placement={placement}
+        placement="left"
       >
         {children}
       </Tooltip>

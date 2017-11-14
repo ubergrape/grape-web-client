@@ -21,7 +21,8 @@ const actionNames = {
   goToAddIntegrations: 'onAddIntegration',
   showToastNotification: 'onCopyLink',
   quoteMessage: 'onQuote',
-  showRemoveLinkAttachments: 'onRemoveLinkAttachment'
+  showRemoveLinkAttachments: 'onRemoveLinkAttachment',
+  pinMessage: 'onPin'
 }
 
 const ConnectedHistory = connect(

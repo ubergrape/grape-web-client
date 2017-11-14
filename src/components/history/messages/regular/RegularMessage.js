@@ -37,17 +37,15 @@ export default class RegularMessage extends PureComponent {
     /* eslint-disable react/no-unused-prop-types */
     userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
-    showMenuDropdown: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    toggleMenuDropdown: PropTypes.func.isRequired,
-    closeMenuDropdown: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
+    onPin: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
     /**
@@ -74,7 +72,6 @@ export default class RegularMessage extends PureComponent {
     isOwn: false,
     isSelected: false,
     isPm: false,
-    showMenuDropdown: false,
     duplicates: 0,
     attachments: [],
     linkAttachments: [],
@@ -83,7 +80,6 @@ export default class RegularMessage extends PureComponent {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    toggleMenuDropdown: noop,
     onGoToChannel: noop,
     onCopyLink: noop,
     onQuote: noop,
@@ -105,8 +101,7 @@ export default class RegularMessage extends PureComponent {
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
-    this.props.closeMenuDropdown()
+    // this.setState({isMenuOpened: false})
   }
 
   onRefContent = (ref) => {
@@ -125,6 +120,11 @@ export default class RegularMessage extends PureComponent {
   onResend = (e) => {
     e.preventDefault()
     this.props.onResend()
+  }
+
+  onPin = () => {
+    const {id, channelId} = this.props
+    this.props.onPin({messageId: id, channelId})
   }
 
   getContentNode = () => this.content
@@ -212,7 +212,9 @@ export default class RegularMessage extends PureComponent {
                 )}
                 {attachments.map(this.renderAttachment)}
               </div>
-              {isMenuOpened && <Menu {...this.props} getContentNode={this.getContentNode} />}
+              {isMenuOpened && (
+                <Menu {...this.props} getContentNode={this.getContentNode} onPin={this.onPin} />
+              )}
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}

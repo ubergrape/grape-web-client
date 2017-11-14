@@ -1,13 +1,13 @@
 import React, {PureComponent} from 'react'
 
-import BaseMenu from '../../../message-parts/Menu'
+import {Menu as BaseMenu} from '../../../message-parts'
 
 const menuHandlerMap = {
   copyLink: 'onCopyLink',
   remove: 'onRemove',
-  more: 'toggleMenuDropdown',
   edit: 'onEdit',
-  quote: 'onQuote'
+  quote: 'onQuote',
+  pin: 'onPin'
 }
 
 export default class Menu extends PureComponent {
@@ -17,8 +17,7 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const {isOwn, attachments, state, getContentNode,
-      onEdit, onRemove, onCopyLink, showMenuDropdown} = this.props
+    const {isOwn, attachments, state, getContentNode} = this.props
 
     if (state === 'pending' || state === 'unsent') return null
 
@@ -26,11 +25,11 @@ export default class Menu extends PureComponent {
     const hasAttachments = attachments.length !== 0
 
     if (isOwn) {
+      items.unshift('remove')
       // Attachments can't be edited.
       if (!hasAttachments) items.unshift('edit')
-      items.push('remove')
     } else if (!hasAttachments) {
-      items.push('quote')
+      items.unshift('quote')
     }
 
     return (
@@ -38,10 +37,6 @@ export default class Menu extends PureComponent {
         onSelect={this.onSelectMenuItem}
         getContentNode={getContentNode}
         items={items}
-        onEdit={onEdit}
-        onRemove={onRemove}
-        onCopyLink={onCopyLink}
-        showMenuDropdown={showMenuDropdown}
       />
     )
   }

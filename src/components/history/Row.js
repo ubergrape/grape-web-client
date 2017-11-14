@@ -45,8 +45,6 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-const toggleState = state => ({showMenuDropdown: !state.showMenuDropdown})
-
 @injectSheet(styles)
 @injectIntl
 export default class Row extends PureComponent {
@@ -76,7 +74,8 @@ export default class Row extends PureComponent {
     isExpanded: PropTypes.bool.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
-    onRemoveLinkAttachment: PropTypes.func.isRequired
+    onRemoveLinkAttachment: PropTypes.func.isRequired,
+    onPin: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -89,8 +88,6 @@ export default class Row extends PureComponent {
     key: null,
     selectedMessageId: null
   }
-
-  state = {showMenuDropdown: false}
 
   onEdit = () => {
     const {onEdit, message} = this.props
@@ -135,19 +132,11 @@ export default class Row extends PureComponent {
     onResend(message)
   }
 
-  toggleMenuDropdown = () => {
-    this.setState(toggleState)
-  }
-
-  closeMenuDropdown = () => {
-    this.setState({showMenuDropdown: false})
-  }
-
   render() {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
+      isLast, isGroupable, duplicates, onToggleExpander, onPin, isExpanded, isPm,
       style, key, onRemoveLinkAttachment, channel
     } = this.props
 
@@ -168,6 +157,7 @@ export default class Row extends PureComponent {
       key: `row-${message.id}`,
       user,
       channel,
+      onPin,
       onGoToChannel,
       onToggleExpander,
       customEmojis,
@@ -178,13 +168,10 @@ export default class Row extends PureComponent {
       hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
-      closeMenuDropdown: this.closeMenuDropdown,
       onResend: this.onResend,
-      toggleMenuDropdown: this.toggleMenuDropdown,
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
-      onRemoveLinkAttachment,
-      showMenuDropdown: this.state.showMenuDropdown
+      onRemoveLinkAttachment
     }
 
     if (message.type === 'activity') {

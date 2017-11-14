@@ -4,7 +4,8 @@ export const styles = {
   tooltip: {
     position: 'absolute',
     zIndex: zIndex('tooltip'),
-    whiteSpace: 'inherit'
+    whiteSpace: 'inherit',
+    lineHeight: 0
   },
   arrow: {
     position: 'absolute',
