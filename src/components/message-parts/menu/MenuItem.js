@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import injectSheet from 'grape-web/lib/jss'
 
 import Tooltip from '../../tooltip/HoverTooltip'
+import buttonIcon from '../../button/icon'
 import * as messages from './messages'
+import {
+  firstLastPadding,
+  padding,
+  fontSize,
+  borderSize
+} from './constants'
 
-function getItemClassName(classes, name, index, total) {
+const getItemClassName = (classes, name, index, total) => {
   const classNames = [classes[`${name}Item`], classes.item]
 
   if (total === 1) {
@@ -20,6 +28,61 @@ function getItemClassName(classes, name, index, total) {
   return classNames.join(' ')
 }
 
+const getIcon = (name, palette) => {
+  const options = {
+    color: palette.text.primary,
+    hoverColor: palette.accent.A200,
+    iconOnly: true
+  }
+
+  if (name === 'bin' || name === 'deleteMessage') {
+    Object.assign(options, {hoverColor: palette.error[500]})
+  }
+
+  return buttonIcon(name, options)
+}
+
+
+@injectSheet(({palette}) => ({
+  editItem: getIcon('pencil', palette),
+  copyLinkItem: getIcon('link', palette),
+  removeItem: getIcon('deleteMessage', palette),
+  removeLinkAttachmentItem: getIcon('bin', palette),
+  quoteItem: getIcon('quoteLeft', palette),
+  moreItem: getIcon('moreOptions', palette),
+  item: {
+    padding,
+    border: [borderSize, 'solid', palette.blueGrey[400]],
+    borderLeftColor: palette.blueGrey[50],
+    borderRightColor: palette.blueGrey[50],
+    fontSize,
+    cursor: 'pointer',
+    textAlign: 'center',
+    lineHeight: 1,
+    background: palette.background.paper
+  },
+  firstItem: {
+    borderTopLeftRadius: '50%',
+    borderBottomLeftRadius: '50%',
+    borderRight: 0,
+    borderLeftColor: palette.blueGrey[400],
+    paddingLeft: firstLastPadding
+  },
+  lastItem: {
+    borderTopRightRadius: '50%',
+    borderBottomRightRadius: '50%',
+    borderLeft: 0,
+    borderRightColor: palette.blueGrey[400],
+    paddingRight: firstLastPadding
+  },
+  singleItem: {
+    borderRadius: '50%',
+    border: [borderSize, 'solid', palette.blueGrey[400]]
+  },
+  nextToLastItem: {
+    borderRight: [borderSize, 'solid', palette.blueGrey[50]]
+  }
+}))
 export default class MenuItem extends PureComponent {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,

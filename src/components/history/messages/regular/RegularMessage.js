@@ -101,7 +101,7 @@ export default class RegularMessage extends PureComponent {
   }
 
   onMouseLeave = () => {
-    // this.setState({isMenuOpened: false})
+    this.setState({isMenuOpened: false})
   }
 
   onRefContent = (ref) => {

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import MuiMenuItem from 'material-ui/Menu/MenuItem'
@@ -7,7 +8,7 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 import * as messages from './messages'
 
-const styles = {
+@injectSheet({
   root: {
     '&:hover *': {
       isolate: false,
@@ -28,13 +29,28 @@ const styles = {
     width: '100%',
     flex: 1
   }
+})
+export default class DropdownItem extends PureComponent {
+  static propTypes = {
+    onSelect: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    classes: PropTypes.object.isRequired
+  }
+
+  onSelect = () => {
+    const {onSelect, name} = this.props
+    onSelect({name})
+  }
+
+  render() {
+    const {classes, icon, name} = this.props
+
+    return (
+      <MuiMenuItem className={classes.root} onClick={this.onSelect} dense>
+        <Icon name={icon} className={classes.icon} />
+        <span className={classes.text}>{messages[name]}</span>
+      </MuiMenuItem>
+    )
+  }
 }
-
-const DropdownItem = ({classes, icon, name, onClick}) => (
-  <MuiMenuItem className={classes.root} onClick={onClick} dense>
-    <Icon name={icon} className={classes.icon} />
-    <span className={classes.text}>{messages[name]}</span>
-  </MuiMenuItem>
-)
-
-export default injectSheet(styles)(DropdownItem)

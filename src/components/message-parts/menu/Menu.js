@@ -8,16 +8,48 @@ import injectSheet from 'grape-web/lib/jss'
 import Dropdown from '../../dropdown/Dropdown'
 import MenuItem from './MenuItem'
 import DropdownItem from './DropdownItem'
-import {styles, getWidth} from './menuTheme'
+import {
+  fontSize,
+  borderSize,
+  padding,
+  firstLastPadding
+} from './constants'
 
-function getPosition(content, total) {
+const getWidth = (total) => {
+  const itemWidth = fontSize + (borderSize * 2) + (padding * 2)
+  if (total === 1) return itemWidth
+
+  const itemsWidth = (total - 2) * itemWidth
+  const firstLastItemsWidth = fontSize + borderSize + firstLastPadding + padding
+  return (firstLastItemsWidth * 2) + (itemsWidth > 0 ? itemsWidth : 0)
+}
+
+const getPosition = (content, total) => {
   const canFit = content.offsetWidth > getWidth(total)
   return canFit ? 'top' : 'right'
 }
 
 const toggleDropdown = state => ({showDropdown: !state.showDropdown})
 
-@injectSheet(styles)
+@injectSheet({
+  root: {
+    whiteSpace: 'nowrap'
+  },
+  top: {
+    position: 'absolute',
+    top: -13,
+    right: 15
+  },
+  right: {
+    position: 'absolute',
+    top: 1,
+    left: `calc(100% + ${firstLastPadding}px)`
+  },
+  dropdownList: {
+    width: 200,
+    padding: 0
+  }
+})
 export default class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -45,24 +77,9 @@ export default class Menu extends PureComponent {
     this.props.onSelect({name})
   }
 
-  onEdit = () => {
+  onSelectFromDropdown = (data) => {
     this.setState({showDropdown: false})
-    this.props.onSelect({name: 'edit'})
-  }
-
-  onCopyLink = () => {
-    this.setState({showDropdown: false})
-    this.props.onSelect({name: 'copyLink'})
-  }
-
-  onRemove = () => {
-    this.setState({showDropdown: false})
-    this.props.onSelect({name: 'remove'})
-  }
-
-  onPin = () => {
-    this.setState({showDropdown: false})
-    this.props.onSelect({name: 'pin'})
+    this.props.onSelect(data)
   }
 
   render() {
@@ -76,14 +93,13 @@ export default class Menu extends PureComponent {
     const position = getPosition(getContentNode(), items.length)
 
     return (
-      <div className={`${classes.menu} ${classes[position]}`}>
+      <div className={`${classes.root} ${classes[position]}`}>
         {items.map((name, index) => (
           <span key={name}>
             <MenuItem
               name={name}
               index={index}
               total={items.length}
-              classes={classes}
               onSelect={this.onSelect}
               onRefItem={this.onRefMoreIcon}
             />
@@ -97,23 +113,23 @@ export default class Menu extends PureComponent {
                   <DropdownItem
                     icon="pencil"
                     name="edit"
-                    onClick={this.onEdit}
+                    onSelect={this.onSelectFromDropdown}
                   />
                   <DropdownItem
                     icon="link"
                     name="copyLink"
-                    onClick={this.onCopyLink}
+                    onSelect={this.onSelectFromDropdown}
                   />
                   <DropdownItem
                     icon="pin"
                     name="pin"
-                    onClick={this.onPin}
+                    onSelect={this.onSelectFromDropdown}
                   />
                   <Divider />
                   <DropdownItem
                     icon="deleteMessage"
                     name="remove"
-                    onClick={this.onRemove}
+                    onSelect={this.onSelectFromDropdown}
                   />
                 </MenuList>
               </Dropdown>
