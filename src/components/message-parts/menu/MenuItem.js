@@ -1,58 +1,8 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../../tooltip/HoverTooltip'
-
-function getMessage(name) {
-  switch (name) {
-    case 'edit':
-      return (
-        <FormattedMessage
-          id="editMessage"
-          defaultMessage="Edit message"
-        />
-      )
-    case 'more':
-      return (
-        <FormattedMessage
-          id="showMoreActions"
-          defaultMessage="Show more actions"
-        />
-      )
-    case 'copyLink':
-      return (
-        <FormattedMessage
-          id="copyLink"
-          defaultMessage="Copy link to message"
-        />
-      )
-    case 'remove':
-      return (
-        <FormattedMessage
-          id="deleteMessage"
-          defaultMessage="Delete message"
-        />
-      )
-    case 'removeLinkAttachment':
-      return (
-        <FormattedMessage
-          id="deleteLinkAttachment"
-          defaultMessage="Delete attachment"
-        />
-      )
-    case 'quote':
-      return (
-        <FormattedMessage
-          id="quoteMessage"
-          defaultMessage="Quote message"
-        />
-      )
-    default:
-  }
-
-  return null
-}
+import * as messages from './messages'
 
 function getItemClassName(classes, name, index, total) {
   const classNames = [classes[`${name}Item`], classes.item]
@@ -87,11 +37,12 @@ export default class MenuItem extends PureComponent {
 
   render() {
     const {name, classes, index, total, onRefItem} = this.props
+
     return (
       <Tooltip
         key={name}
         placement="top"
-        message={getMessage(name)}
+        message={messages[name]}
         inline
       >
         <span

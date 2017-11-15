@@ -5,6 +5,8 @@ import MuiMenuItem from 'material-ui/Menu/MenuItem'
 import fonts from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
+import * as messages from './messages'
+
 const styles = {
   root: {
     '&:hover *': {
@@ -28,10 +30,10 @@ const styles = {
   }
 }
 
-const DropdownItem = ({classes, icon, children, onClick}) => (
+const DropdownItem = ({classes, icon, name, onClick}) => (
   <MuiMenuItem className={classes.root} onClick={onClick} dense>
     <Icon name={icon} className={classes.icon} />
-    <span className={classes.text}>{children}</span>
+    <span className={classes.text}>{messages[name]}</span>
   </MuiMenuItem>
 )
 

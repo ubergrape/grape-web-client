@@ -7,13 +7,8 @@ import injectSheet from 'grape-web/lib/jss'
 
 import Dropdown from '../../dropdown/Dropdown'
 import MenuItem from './MenuItem'
+import DropdownItem from './DropdownItem'
 import {styles, getWidth} from './menuTheme'
-import {
-  EditMessage,
-  CopyMessageLink,
-  PinMessage,
-  DeleteMessage
-} from './dropdownItems'
 
 function getPosition(content, total) {
   const canFit = content.offsetWidth > getWidth(total)
@@ -99,11 +94,27 @@ export default class Menu extends PureComponent {
                 container={this}
               >
                 <MenuList className={classes.dropdownList}>
-                  <EditMessage onClick={this.onEdit} />
-                  <CopyMessageLink onClick={this.onCopyLink} />
-                  <PinMessage onClick={this.onPin} />
+                  <DropdownItem
+                    icon="pencil"
+                    name="edit"
+                    onClick={this.onEdit}
+                  />
+                  <DropdownItem
+                    icon="link"
+                    name="copyLink"
+                    onClick={this.onCopyLink}
+                  />
+                  <DropdownItem
+                    icon="pin"
+                    name="pin"
+                    onClick={this.onPin}
+                  />
                   <Divider />
-                  <DeleteMessage onClick={this.onRemove} />
+                  <DropdownItem
+                    icon="deleteMessage"
+                    name="remove"
+                    onClick={this.onRemove}
+                  />
                 </MenuList>
               </Dropdown>
             )}
