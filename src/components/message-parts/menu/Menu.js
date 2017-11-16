@@ -56,7 +56,7 @@ export default class Menu extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    isPinned: PropTypes.array
+    isPinned: PropTypes.bool
   }
 
   static defaultProps = {

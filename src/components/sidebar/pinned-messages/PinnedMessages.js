@@ -3,8 +3,8 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
-import Message from '../message-search/Message'
 import {Grapedown} from '../../grapedown'
+import Message from '../message-search/Message'
 
 @injectSheet({
   root: {
@@ -15,7 +15,7 @@ export default class PinnedMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
-    user: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
