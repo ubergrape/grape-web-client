@@ -12,7 +12,7 @@ export default function reduce(state = initialState, action) {
     case types.HIDE_SIDEBAR:
       return initialState
     case types.SHOW_SIDEBAR:
-      return {...state, show: payload}
+      return {...state, show: payload, showSubview: channelTypes.includes(payload) && 'pinnedMessages'}
     case types.SHOW_SIDEBAR_SUBVIEW:
       return {...state, showSubview: payload}
     case types.SET_CHANNEL: {

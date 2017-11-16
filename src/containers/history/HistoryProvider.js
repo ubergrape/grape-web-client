@@ -22,7 +22,8 @@ const actionNames = {
   showToastNotification: 'onCopyLink',
   quoteMessage: 'onQuote',
   showRemoveLinkAttachments: 'onRemoveLinkAttachment',
-  pinMessage: 'onPin'
+  pinMessage: 'onPin',
+  unpinMessage: 'onUnpin'
 }
 
 const ConnectedHistory = connect(

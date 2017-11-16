@@ -196,7 +196,7 @@ export const normalizeMessage = (() => {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, channel: channelId} = msg
+    const {id, text, channel: channelId, pinned: isPinned} = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -240,7 +240,8 @@ export const normalizeMessage = (() => {
       channelId,
       channel,
       linkAttachments,
-      labels
+      labels,
+      isPinned
     }
   }
 

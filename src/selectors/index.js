@@ -411,6 +411,10 @@ export const labeledMessagesSelector = createSelector(
   state => state.labeledMessages, state => state
 )
 
+export const pinnedMessagesSelector = createSelector(
+  state => state.pinnedMessages, state => state
+)
+
 export const sidebarComponentSelector = createSelector(
   [
     sidebarSelector,
@@ -420,9 +424,13 @@ export const sidebarComponentSelector = createSelector(
     messageSearchWithChannels,
     mentionsWithChannels,
     userSelector,
-    labeledMessagesSelector
+    labeledMessagesSelector,
+    pinnedMessagesSelector
   ],
-  ({show, showSubview}, room, pm, files, search, mentions, user, labeledMessages) => {
+  (
+    {show, showSubview}, room, pm, files, search, mentions, user,
+    labeledMessages, pinnedMessages
+  ) => {
     const select = {show, showSubview, user}
 
     if (!show) return select
@@ -439,7 +447,8 @@ export const sidebarComponentSelector = createSelector(
     }
 
     const subviews = {
-      files
+      files,
+      pinnedMessages
     }
 
     return {

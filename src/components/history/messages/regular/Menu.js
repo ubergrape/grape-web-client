@@ -7,7 +7,8 @@ const menuHandlerMap = {
   remove: 'onRemove',
   edit: 'onEdit',
   quote: 'onQuote',
-  pin: 'onPin'
+  pin: 'onPin',
+  unpin: 'onUnpin'
 }
 
 export default class Menu extends PureComponent {
@@ -17,7 +18,7 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const {isOwn, attachments, state, getContentNode} = this.props
+    const {isOwn, isPinned, attachments, state, getContentNode} = this.props
 
     if (state === 'pending' || state === 'unsent') return null
 
@@ -37,6 +38,7 @@ export default class Menu extends PureComponent {
         onSelect={this.onSelectMenuItem}
         getContentNode={getContentNode}
         items={items}
+        isPinned={isPinned}
       />
     )
   }

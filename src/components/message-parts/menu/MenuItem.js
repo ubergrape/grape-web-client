@@ -42,7 +42,6 @@ const getIcon = (name, palette) => {
   return buttonIcon(name, options)
 }
 
-
 @injectSheet(({palette}) => ({
   editItem: getIcon('pencil', palette),
   copyLinkItem: getIcon('link', palette),

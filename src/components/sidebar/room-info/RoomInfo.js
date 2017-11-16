@@ -9,6 +9,7 @@ import {SharedFiles as SharedFilesText} from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
 import SharedFiles from '../shared-files/SharedFiles'
+import PinnedMessages from '../pinned-messages/PinnedMessages'
 import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
 import User from './User'
@@ -25,6 +26,17 @@ const title = (
 )
 
 const tabs = [
+  {
+    name: 'pinnedMessages',
+    icon: 'pinFilled',
+    render: 'renderPinnedMessages',
+    title: (
+      <FormattedMessage
+        id="pinnedMesages"
+        defaultMessage="Pinned Messages"
+      />
+    )
+  },
   {
     name: 'members',
     icon: 'accountGroup',
@@ -57,6 +69,8 @@ export default class RoomInfo extends PureComponent {
     showNotificationSettings: PropTypes.func.isRequired,
     onOpenSharedFile: PropTypes.func,
     onLoadSharedFiles: PropTypes.func.isRequired,
+    onLoadPinnedMessages: PropTypes.func.isRequired,
+    onSelectPinnedMessage: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
@@ -76,7 +90,7 @@ export default class RoomInfo extends PureComponent {
 
   static defaultProps = {
     renameError: null,
-    showSubview: 'members',
+    showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined
   }
@@ -166,6 +180,19 @@ export default class RoomInfo extends PureComponent {
         {...subview}
         onLoad={onLoadSharedFiles}
         onOpen={onOpenSharedFile}
+      />
+    )
+  }
+
+  renderPinnedMessages = () => {
+    const {onLoadPinnedMessages, onSelectPinnedMessage, subview, user} = this.props
+
+    return (
+      <PinnedMessages
+        {...subview}
+        user={user}
+        onLoad={onLoadPinnedMessages}
+        onSelect={onSelectPinnedMessage}
       />
     )
   }

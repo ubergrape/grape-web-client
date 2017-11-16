@@ -369,13 +369,3 @@ export function quoteMessage({message}) {
     })
   }
 }
-
-export const pinMessage = ({channelId, messageId}) => (dispatch) => {
-  dispatch({
-    type: types.REQUEST_PIN_MESSAGE,
-    payload: messageId
-  })
-  api
-    .pinMessage(channelId, messageId)
-    .catch(err => dispatch(error(err)))
-}

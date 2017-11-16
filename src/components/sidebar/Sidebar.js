@@ -44,6 +44,7 @@ const Content = (props) => {
     loadRoomInfo,
     loadSharedFiles,
     loadLabeledMessages,
+    loadPinnedMessages,
     searchMessages,
     toggleSearchOnlyInChannel,
     toggleSearchActivities,
@@ -68,6 +69,8 @@ const Content = (props) => {
           onShowSubview={showSidebarSubview}
           onLoadSharedFiles={loadSharedFiles}
           onOpenSharedFile={openSharedFile}
+          onLoadPinnedMessages={loadPinnedMessages}
+          onSelectPinnedMessage={goToMessage}
         />
       )
     case 'pm':
@@ -149,6 +152,7 @@ Content.propTypes = {
   loadRoomInfo: PropTypes.func.isRequired,
   loadSharedFiles: PropTypes.func.isRequired,
   loadLabeledMessages: PropTypes.func.isRequired,
+  loadPinnedMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,

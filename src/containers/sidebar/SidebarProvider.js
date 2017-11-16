@@ -14,6 +14,7 @@ const actionNames = [
   'kickMemberFromChannel',
   'showChannelMembersInvite',
   'loadSharedFiles',
+  'loadPinnedMessages',
   'loadMentions',
   'loadRoomInfo',
   'loadLabeledMessages',

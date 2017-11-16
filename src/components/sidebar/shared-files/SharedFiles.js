@@ -22,7 +22,6 @@ export default class SharedFiles extends PureComponent {
   }
 
   static defaultProps = {
-    hideSidebar: undefined,
     total: undefined,
     onOpen: noop
   }

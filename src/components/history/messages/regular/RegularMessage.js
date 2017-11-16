@@ -46,6 +46,7 @@ export default class RegularMessage extends PureComponent {
     onGoToChannel: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
+    onUnpin: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
     /**
@@ -125,6 +126,11 @@ export default class RegularMessage extends PureComponent {
   onPin = () => {
     const {id, channelId} = this.props
     this.props.onPin({messageId: id, channelId})
+  }
+
+  onUnpin = () => {
+    const {id, channelId} = this.props
+    this.props.onUnpin({messageId: id, channelId})
   }
 
   getContentNode = () => this.content
@@ -213,7 +219,12 @@ export default class RegularMessage extends PureComponent {
                 {attachments.map(this.renderAttachment)}
               </div>
               {isMenuOpened && (
-                <Menu {...this.props} getContentNode={this.getContentNode} onPin={this.onPin} />
+                <Menu
+                  {...this.props}
+                  getContentNode={this.getContentNode}
+                  onPin={this.onPin}
+                  onUnpin={this.onUnpin}
+                />
               )}
               {nlp && <Footer nlp={nlp} />}
             </Bubble>

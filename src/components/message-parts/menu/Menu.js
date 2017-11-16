@@ -55,10 +55,12 @@ export default class Menu extends PureComponent {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
+    isPinned: PropTypes.array
   }
 
   static defaultProps = {
+    isPinned: false,
     onSelect: noop
   }
 
@@ -86,7 +88,8 @@ export default class Menu extends PureComponent {
     const {
       classes,
       items,
-      getContentNode
+      getContentNode,
+      isPinned
     } = this.props
     const {showDropdown} = this.state
 
@@ -121,8 +124,8 @@ export default class Menu extends PureComponent {
                     onSelect={this.onSelectFromDropdown}
                   />
                   <DropdownItem
-                    icon="pin"
-                    name="pin"
+                    icon={isPinned ? 'unpin' : 'pin'}
+                    name={isPinned ? 'unpin' : 'pin'}
                     onSelect={this.onSelectFromDropdown}
                   />
                   <Divider />

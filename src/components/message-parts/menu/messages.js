@@ -32,6 +32,14 @@ export const pin = (
   />
 )
 
+export const unpin = (
+  <FormattedMessage
+    id="unpinMessage"
+    defaultMessage="Un-pin message"
+    description="Message menu dropdown."
+  />
+)
+
 export const remove = (
   <FormattedMessage
     id="deleteMessage"
