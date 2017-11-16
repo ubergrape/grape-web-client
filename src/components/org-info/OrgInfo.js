@@ -16,11 +16,12 @@ const header = {
 
 const styles = ({palette}) => ({
   orgInfo: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     paddingLeft: sizes.spacer.m,
     height: headerHeight,
-    borderBottom: [1, 'solid', palette.grey[400]],
+    borderBottom: [1, 'solid', palette.text.divider],
     flexShrink: 0
   },
   logoContainer: {
@@ -51,6 +52,10 @@ const styles = ({palette}) => ({
   userName: {
     extend: [fonts.small, header],
     color: palette.grey[100]
+  },
+  divider: {
+    position: 'absolute',
+    right: 0
   }
 })
 
@@ -120,7 +125,7 @@ export default class OrgInfo extends PureComponent {
         />
         {!isLoading && user && <Info classes={classes} name={name} user={user} />}
         {!isLoading && user && <Settings {...settingsProps} user={user} />}
-        <Divider />
+        <Divider className={classes.divider} />
       </header>
     )
   }

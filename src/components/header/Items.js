@@ -20,7 +20,7 @@ export const styles = ({palette}) => ({
     display: 'flex',
     height,
     alignItems: 'center',
-    borderBottom: [1, 'solid', palette.grey[400]],
+    borderBottom: [1, 'solid', palette.text.divider],
     flexShrink: 0
   },
   headerDisabled: {
