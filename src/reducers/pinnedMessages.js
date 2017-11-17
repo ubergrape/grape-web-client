@@ -17,6 +17,10 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_PINNED_MESSAGE:
       return {...state, ...action.payload}
     case types.SET_CHANNEL:
+      // Don't reset the state if channel hasn't changed.
+      if (state.channel && state.channel.id === action.payload.channel.id) {
+        return state
+      }
       return {...initialState, channel: action.payload.channel}
     case types.UPDATE_MESSAGE: {
       const message = action.payload
