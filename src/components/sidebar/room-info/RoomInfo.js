@@ -96,7 +96,8 @@ export default class RoomInfo extends PureComponent {
   }
 
   componentDidMount() {
-    const {onLoad, channel} = this.props
+    const {onLoad, onShowSubview, channel} = this.props
+    onShowSubview(tabs[0].name)
     onLoad({channel})
   }
 
