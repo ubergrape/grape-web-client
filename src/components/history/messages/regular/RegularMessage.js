@@ -221,6 +221,7 @@ export default class RegularMessage extends PureComponent {
               {isMenuOpened && (
                 <Menu
                   {...this.props}
+                  hasAttachments={attachments.length !== 0}
                   getContentNode={this.getContentNode}
                   onPin={this.onPin}
                   onUnpin={this.onUnpin}

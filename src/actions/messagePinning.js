@@ -13,7 +13,7 @@ export const loadPinnedMessages = () => (dispatch, getState) => {
   const state = getState()
   const channelId = channelSelector(state).id
 
-  return api
+  api
     .loadPinnedMessages(channelId)
     .then(({results, total}) => {
       dispatch(setSidebarIsLoading(false))

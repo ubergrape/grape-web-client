@@ -56,11 +56,17 @@ export default class Menu extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    isPinned: PropTypes.bool
+    isPinned: PropTypes.bool,
+    quote: PropTypes.bool,
+    edit: PropTypes.bool,
+    remove: PropTypes.bool
   }
 
   static defaultProps = {
     isPinned: false,
+    quote: false,
+    remove: false,
+    edit: false,
     onSelect: noop
   }
 
@@ -89,7 +95,8 @@ export default class Menu extends PureComponent {
       classes,
       items,
       getContentNode,
-      isPinned
+      isPinned,
+      edit, remove, quote
     } = this.props
     const {showDropdown} = this.state
 
@@ -97,27 +104,45 @@ export default class Menu extends PureComponent {
 
     return (
       <div className={`${classes.root} ${classes[position]}`}>
-        {items.map((name, index) => (
-          <span key={name}>
-            <MenuItem
-              name={name}
-              index={index}
-              total={items.length}
-              onSelect={this.onSelect}
-              onRefItem={this.onRefMoreIcon}
-            />
-            {showDropdown && name === 'more' && (
-              <Dropdown
-                target={this.moreIconRef}
-                placement="top"
-                container={this}
-              >
-                <MenuList className={classes.dropdownList}>
+        {items.slice(0, 2).map((name, index) => (
+          <MenuItem
+            name={name}
+            index={index}
+            total={items.length + 1}
+            onSelect={this.onSelect}
+            key={name}
+          />
+        ))}
+        <span>
+          <MenuItem
+            name="more"
+            index={items.length}
+            total={items.length + 1}
+            onSelect={this.onSelect}
+            onRefItem={this.onRefMoreIcon}
+          />
+          {showDropdown && (
+            <Dropdown
+              target={this.moreIconRef}
+              placement="top"
+              container={this}
+            >
+              <MenuList className={classes.dropdownList}>
+                <span>
+                  {edit && (
                   <DropdownItem
                     icon="pencil"
                     name="edit"
                     onSelect={this.onSelectFromDropdown}
                   />
+                )}
+                  {quote && (
+                  <DropdownItem
+                    icon="quote"
+                    name="quote"
+                    onSelect={this.onSelectFromDropdown}
+                  />
+                )}
                   <DropdownItem
                     icon="link"
                     name="copyLink"
@@ -128,17 +153,19 @@ export default class Menu extends PureComponent {
                     name={isPinned ? 'unpin' : 'pin'}
                     onSelect={this.onSelectFromDropdown}
                   />
-                  <Divider />
+                  {remove && <Divider />}
+                  {remove && (
                   <DropdownItem
                     icon="deleteMessage"
                     name="remove"
                     onSelect={this.onSelectFromDropdown}
                   />
-                </MenuList>
-              </Dropdown>
-            )}
-          </span>
-        ))}
+                )}
+                </span>
+              </MenuList>
+            </Dropdown>
+          )}
+        </span>
       </div>
     )
   }

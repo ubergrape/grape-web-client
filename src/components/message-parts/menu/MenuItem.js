@@ -85,11 +85,15 @@ const getIcon = (name, palette) => {
 export default class MenuItem extends PureComponent {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
-    onRefItem: PropTypes.func.isRequired,
+    onRefItem: PropTypes.func,
     name: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired
+  }
+
+  static defaultProps = {
+    onRefItem: undefined
   }
 
   onSelect = () => {
