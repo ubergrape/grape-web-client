@@ -29,8 +29,6 @@ const getPosition = (content, total) => {
   return canFit ? 'top' : 'right'
 }
 
-const toggleDropdown = state => ({showDropdown: !state.showDropdown})
-
 @injectSheet({
   root: {
     whiteSpace: 'nowrap'
@@ -57,6 +55,7 @@ export default class Menu extends PureComponent {
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     isPinned: PropTypes.bool,
+    isDropdownOpened: PropTypes.bool,
     quote: PropTypes.bool,
     edit: PropTypes.bool,
     remove: PropTypes.bool
@@ -64,30 +63,15 @@ export default class Menu extends PureComponent {
 
   static defaultProps = {
     isPinned: false,
+    isDropdownOpened: false,
     quote: false,
     remove: false,
     edit: false,
     onSelect: noop
   }
 
-  state = {showDropdown: false}
-
   onRefMoreIcon = (ref) => {
     this.moreIconRef = ref
-  }
-
-  onSelect = ({name}) => {
-    if (name === 'more') {
-      this.setState(toggleDropdown)
-      return
-    }
-
-    this.props.onSelect({name})
-  }
-
-  onSelectFromDropdown = (data) => {
-    this.setState({showDropdown: false})
-    this.props.onSelect(data)
   }
 
   render() {
@@ -95,10 +79,10 @@ export default class Menu extends PureComponent {
       classes,
       items,
       getContentNode,
-      isPinned,
-      edit, remove, quote
+      isPinned, isDropdownOpened,
+      edit, remove, quote,
+      onSelect
     } = this.props
-    const {showDropdown} = this.state
 
     const position = getPosition(getContentNode(), items.length)
 
@@ -109,7 +93,7 @@ export default class Menu extends PureComponent {
             name={name}
             index={index}
             total={items.length + 1}
-            onSelect={this.onSelect}
+            onSelect={onSelect}
             key={name}
           />
         ))}
@@ -118,10 +102,10 @@ export default class Menu extends PureComponent {
             name="more"
             index={items.length}
             total={items.length + 1}
-            onSelect={this.onSelect}
+            onSelect={onSelect}
             onRefItem={this.onRefMoreIcon}
           />
-          {showDropdown && (
+          {isDropdownOpened && (
             <Dropdown
               target={this.moreIconRef}
               placement="top"
@@ -130,37 +114,37 @@ export default class Menu extends PureComponent {
               <MenuList className={classes.dropdownList}>
                 <span>
                   {edit && (
-                  <DropdownItem
-                    icon="pencil"
-                    name="edit"
-                    onSelect={this.onSelectFromDropdown}
-                  />
-                )}
+                    <DropdownItem
+                      icon="pencil"
+                      name="edit"
+                      onSelect={onSelect}
+                    />
+                  )}
                   {quote && (
-                  <DropdownItem
-                    icon="quote"
-                    name="quote"
-                    onSelect={this.onSelectFromDropdown}
-                  />
-                )}
+                    <DropdownItem
+                      icon="quote"
+                      name="quote"
+                      onSelect={onSelect}
+                    />
+                  )}
                   <DropdownItem
                     icon="link"
                     name="copyLink"
-                    onSelect={this.onSelectFromDropdown}
+                    onSelect={onSelect}
                   />
                   <DropdownItem
                     icon={isPinned ? 'unpin' : 'pin'}
                     name={isPinned ? 'unpin' : 'pin'}
-                    onSelect={this.onSelectFromDropdown}
+                    onSelect={onSelect}
                   />
                   {remove && <Divider />}
                   {remove && (
-                  <DropdownItem
-                    icon="deleteMessage"
-                    name="remove"
-                    onSelect={this.onSelectFromDropdown}
-                  />
-                )}
+                    <DropdownItem
+                      icon="deleteMessage"
+                      name="remove"
+                      onSelect={onSelect}
+                    />
+                  )}
                 </span>
               </MenuList>
             </Dropdown>

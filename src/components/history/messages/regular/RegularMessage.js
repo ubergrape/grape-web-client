@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import cn from 'classnames'
 
 import conf from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
@@ -20,6 +21,8 @@ import Menu from './Menu'
 import Footer from './Footer'
 
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
+
+const toggleMenuDropdown = state => ({isMenuDropdownOpened: !state.isMenuDropdownOpened})
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
@@ -92,9 +95,9 @@ export default class RegularMessage extends PureComponent {
     nlp: null
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {isMenuOpened: false}
+  state = {
+    isMenuOpened: false,
+    isMenuDropdownOpened: false
   }
 
   onMouseEnter = () => {
@@ -102,7 +105,9 @@ export default class RegularMessage extends PureComponent {
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
+    if (!this.state.isMenuDropdownOpened) {
+      this.setState({isMenuOpened: false})
+    }
   }
 
   onRefContent = (ref) => {
@@ -133,6 +138,11 @@ export default class RegularMessage extends PureComponent {
     this.props.onUnpin({messageId: id, channelId})
   }
 
+  onToggleMenuDropdown = (isMenuDropdownOpened) => {
+    if (isMenuDropdownOpened != null) this.setState({isMenuDropdownOpened})
+    else this.setState(toggleMenuDropdown)
+  }
+
   getContentNode = () => this.content
 
   makeOnRemoveLinkAttachment = () => {
@@ -161,7 +171,7 @@ export default class RegularMessage extends PureComponent {
       classes, linkAttachments, nlp
     } = this.props
 
-    const {isMenuOpened} = this.state
+    const {isMenuOpened, isMenuDropdownOpened} = this.state
 
     let Bubble
     if (isSelected) {
@@ -173,14 +183,9 @@ export default class RegularMessage extends PureComponent {
     const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
 
     const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
-    let onRemoveLinkAttachment = null
+    let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
-    }
-    const attachmentsProps = {
-      attachments: linkAttachments,
-      onRemove: onRemoveLinkAttachment,
-      isAdmin
     }
 
     return (
@@ -204,10 +209,10 @@ export default class RegularMessage extends PureComponent {
             <Bubble hasArrow={hasBubbleArrow}>
               <div
                 ref={this.onRefContent}
-                className={[
+                className={cn(
                   classes.content,
-                  state === 'pending' || state === 'unsent' ? classes.disabled : ''
-                ].join(' ')}
+                  (state === 'pending' || state === 'unsent') && classes.disabled
+                )}
               >
                 {children && (
                   <Grapedown
@@ -221,10 +226,13 @@ export default class RegularMessage extends PureComponent {
               {isMenuOpened && (
                 <Menu
                   {...this.props}
+                  onSelect={this.onSelectMenuItem}
                   hasAttachments={attachments.length !== 0}
+                  isDropdownOpened={isMenuDropdownOpened}
                   getContentNode={this.getContentNode}
                   onPin={this.onPin}
                   onUnpin={this.onUnpin}
+                  onToggleDropdown={this.onToggleMenuDropdown}
                 />
               )}
               {nlp && <Footer nlp={nlp} />}
@@ -232,7 +240,11 @@ export default class RegularMessage extends PureComponent {
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
             { /* We are migrating towards using link attachments only */
               !attachments.length && linkAttachments.length > 0 && (
-                <LinkAttachments {...attachmentsProps} />
+                <LinkAttachments
+                  attachments={linkAttachments}
+                  isAdmin={isAdmin}
+                  onRemove={onRemoveLinkAttachment}
+                />
               )
             }
           </div>

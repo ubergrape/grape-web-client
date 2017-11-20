@@ -9,7 +9,8 @@ const menuHandlerMap = {
   edit: 'onEdit',
   quote: 'onQuote',
   pin: 'onPin',
-  unpin: 'onUnpin'
+  unpin: 'onUnpin',
+  more: 'onToggleDropdown'
 }
 
 export default class Menu extends PureComponent {
@@ -21,27 +22,35 @@ export default class Menu extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
+    onToggleDropdown: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     getContentNode: PropTypes.func.isRequired,
-    isOwn: PropTypes.bool.isRequired,
-    isPinned: PropTypes.bool.isRequired,
-    hasAttachments: PropTypes.bool.isRequired,
+    isOwn: PropTypes.bool,
+    isPinned: PropTypes.bool,
+    isDropdownOpened: PropTypes.bool,
+    hasAttachments: PropTypes.bool,
     state: PropTypes.string
   }
 
   static defaultProps = {
+    isOwn: false,
     isPinned: false,
+    isDropdownOpened: false,
+    hasAttachments: false,
     state: undefined
   }
 
   onSelectMenuItem = ({name}) => {
     const cb = menuHandlerMap[name]
+    // Always close the dropdown once item was clicked.
+    if (name !== 'more') this.props.onToggleDropdown(false)
     this.props[cb]()
   }
 
   render() {
     const {
-      isOwn, isPinned, hasAttachments, state, getContentNode
+      isOwn, isPinned, hasAttachments, state, getContentNode,
+      isDropdownOpened
     } = this.props
 
     if (state === 'pending' || state === 'unsent') return null
@@ -63,6 +72,7 @@ export default class Menu extends PureComponent {
         getContentNode={getContentNode}
         items={items}
         isPinned={isPinned}
+        isDropdownOpened={isDropdownOpened}
         edit={edit}
         remove={remove}
         quote={quote}
