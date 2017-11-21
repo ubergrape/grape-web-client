@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
-import Divider from 'material-ui/Divider'
-import MenuList from 'material-ui/Menu/MenuList'
 import injectSheet from 'grape-web/lib/jss'
 
-import Dropdown from '../../dropdown/Dropdown'
+import Dropdown from './Dropdown'
 import MenuItem from './MenuItem'
-import DropdownItem from './DropdownItem'
 import {
   fontSize,
   borderSize,
@@ -42,10 +39,6 @@ const getPosition = (content, total) => {
     position: 'absolute',
     top: 1,
     left: `calc(100% + ${firstLastPadding}px)`
-  },
-  dropdownList: {
-    width: 200,
-    padding: 0
   }
 })
 export default class Menu extends PureComponent {
@@ -54,85 +47,12 @@ export default class Menu extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    isPinned: PropTypes.bool,
-    isDropdownOpened: PropTypes.bool,
     dropdown: PropTypes.bool
   }
 
   static defaultProps = {
-    isPinned: false,
-    isDropdownOpened: false,
     dropdown: false,
     onSelect: noop
-  }
-
-  onRefMoreIcon = (ref) => {
-    this.moreIconRef = ref
-  }
-
-  renderDropdown(menuItems) {
-    const {
-      classes,
-      isPinned, isDropdownOpened,
-      onSelect,
-      items
-    } = this.props
-
-    return (
-      <span>
-        <MenuItem
-          name="more"
-          index={menuItems.length}
-          total={menuItems.length + 1}
-          onSelect={onSelect}
-          onRefItem={this.onRefMoreIcon}
-        />
-        {isDropdownOpened && (
-          <Dropdown
-            target={this.moreIconRef}
-            placement="top"
-            container={this}
-          >
-            <MenuList className={classes.dropdownList}>
-              <span>
-                <DropdownItem
-                  icon="link"
-                  name="copyLink"
-                  onSelect={onSelect}
-                />
-                {items.includes('edit') && (
-                  <DropdownItem
-                    icon="pencil"
-                    name="edit"
-                    onSelect={onSelect}
-                  />
-                )}
-                {items.includes('quote') && (
-                  <DropdownItem
-                    icon="quote"
-                    name="quote"
-                    onSelect={onSelect}
-                  />
-                )}
-                <DropdownItem
-                  icon={isPinned ? 'unpin' : 'pin'}
-                  name={isPinned ? 'unpin' : 'pin'}
-                  onSelect={onSelect}
-                />
-                {items.includes('remove') && <Divider />}
-                {items.includes('remove') && (
-                  <DropdownItem
-                    icon="deleteMessage"
-                    name="remove"
-                    onSelect={onSelect}
-                  />
-                )}
-              </span>
-            </MenuList>
-          </Dropdown>
-        )}
-      </span>
-    )
   }
 
   render() {
@@ -141,7 +61,8 @@ export default class Menu extends PureComponent {
       items,
       getContentNode,
       dropdown,
-      onSelect
+      onSelect,
+      ...dropdownProps
     } = this.props
 
     const menuItems = items.slice(0, dropdown ? 2 : 3)
@@ -158,7 +79,14 @@ export default class Menu extends PureComponent {
             key={name}
           />
         ))}
-        {dropdown && this.renderDropdown(menuItems)}
+        {dropdown && (
+          <Dropdown
+            {...dropdownProps}
+            onSelect={onSelect}
+            items={items}
+            menuItems={menuItems}
+          />
+        )}
       </div>
     )
   }
