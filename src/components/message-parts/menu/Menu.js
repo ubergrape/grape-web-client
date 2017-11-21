@@ -56,17 +56,13 @@ export default class Menu extends PureComponent {
     items: PropTypes.array.isRequired,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
-    quote: PropTypes.bool,
-    edit: PropTypes.bool,
-    remove: PropTypes.bool
+    dropdown: PropTypes.bool
   }
 
   static defaultProps = {
     isPinned: false,
     isDropdownOpened: false,
-    quote: false,
-    remove: false,
-    edit: false,
+    dropdown: false,
     onSelect: noop
   }
 
@@ -74,82 +70,95 @@ export default class Menu extends PureComponent {
     this.moreIconRef = ref
   }
 
+  renderDropdown(menuItems) {
+    const {
+      classes,
+      isPinned, isDropdownOpened,
+      onSelect,
+      items
+    } = this.props
+
+    return (
+      <span>
+        <MenuItem
+          name="more"
+          index={menuItems.length}
+          total={menuItems.length + 1}
+          onSelect={onSelect}
+          onRefItem={this.onRefMoreIcon}
+        />
+        {isDropdownOpened && (
+          <Dropdown
+            target={this.moreIconRef}
+            placement="top"
+            container={this}
+          >
+            <MenuList className={classes.dropdownList}>
+              <span>
+                <DropdownItem
+                  icon="link"
+                  name="copyLink"
+                  onSelect={onSelect}
+                />
+                {items.includes('edit') && (
+                  <DropdownItem
+                    icon="pencil"
+                    name="edit"
+                    onSelect={onSelect}
+                  />
+                )}
+                {items.includes('quote') && (
+                  <DropdownItem
+                    icon="quote"
+                    name="quote"
+                    onSelect={onSelect}
+                  />
+                )}
+                <DropdownItem
+                  icon={isPinned ? 'unpin' : 'pin'}
+                  name={isPinned ? 'unpin' : 'pin'}
+                  onSelect={onSelect}
+                />
+                {items.includes('remove') && <Divider />}
+                {items.includes('remove') && (
+                  <DropdownItem
+                    icon="deleteMessage"
+                    name="remove"
+                    onSelect={onSelect}
+                  />
+                )}
+              </span>
+            </MenuList>
+          </Dropdown>
+        )}
+      </span>
+    )
+  }
+
   render() {
     const {
       classes,
       items,
       getContentNode,
-      isPinned, isDropdownOpened,
-      edit, remove, quote,
+      dropdown,
       onSelect
     } = this.props
 
-    const position = getPosition(getContentNode(), items.length)
+    const menuItems = items.slice(0, dropdown ? 2 : 3)
+    const position = getPosition(getContentNode(), menuItems.length)
 
     return (
       <div className={`${classes.root} ${classes[position]}`}>
-        {items.slice(0, 2).map((name, index) => (
+        {menuItems.map((name, index) => (
           <MenuItem
             name={name}
             index={index}
-            total={items.length + 1}
+            total={menuItems.length + (dropdown ? 1 : 0)}
             onSelect={onSelect}
             key={name}
           />
         ))}
-        <span>
-          <MenuItem
-            name="more"
-            index={items.length}
-            total={items.length + 1}
-            onSelect={onSelect}
-            onRefItem={this.onRefMoreIcon}
-          />
-          {isDropdownOpened && (
-            <Dropdown
-              target={this.moreIconRef}
-              placement="top"
-              container={this}
-            >
-              <MenuList className={classes.dropdownList}>
-                <span>
-                  {edit && (
-                    <DropdownItem
-                      icon="pencil"
-                      name="edit"
-                      onSelect={onSelect}
-                    />
-                  )}
-                  {quote && (
-                    <DropdownItem
-                      icon="quote"
-                      name="quote"
-                      onSelect={onSelect}
-                    />
-                  )}
-                  <DropdownItem
-                    icon="link"
-                    name="copyLink"
-                    onSelect={onSelect}
-                  />
-                  <DropdownItem
-                    icon={isPinned ? 'unpin' : 'pin'}
-                    name={isPinned ? 'unpin' : 'pin'}
-                    onSelect={onSelect}
-                  />
-                  {remove && <Divider />}
-                  {remove && (
-                    <DropdownItem
-                      icon="deleteMessage"
-                      name="remove"
-                      onSelect={onSelect}
-                    />
-                  )}
-                </span>
-              </MenuList>
-            </Dropdown>
-          )}
-        </span>
+        {dropdown && this.renderDropdown(menuItems)}
       </div>
     )
   }

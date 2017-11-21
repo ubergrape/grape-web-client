@@ -73,9 +73,7 @@ export default class Menu extends PureComponent {
         items={items}
         isPinned={isPinned}
         isDropdownOpened={isDropdownOpened}
-        edit={edit}
-        remove={remove}
-        quote={quote}
+        dropdown
       />
     )
   }
