@@ -4,22 +4,23 @@ import Divider from 'material-ui/Divider'
 import MenuList from 'material-ui/Menu/MenuList'
 import injectSheet from 'grape-web/lib/jss'
 
-import BaseDropdown from '../../dropdown/Dropdown'
+import Dropdown from '../../dropdown/Dropdown'
 import DropdownItem from './DropdownItem'
 import MenuItem from './MenuItem'
 
 @injectSheet({
   list: {
-    width: 250,
+    width: 230,
     padding: 0
   }
 })
-export default class Dropdown extends PureComponent {
+export default class More extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     menuItems: PropTypes.array.isRequired,
+    container: PropTypes.object.isRequired,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool
   }
@@ -38,7 +39,8 @@ export default class Dropdown extends PureComponent {
       classes,
       isPinned, isDropdownOpened,
       onSelect,
-      items, menuItems
+      items, menuItems,
+      container
     } = this.props
 
     return (
@@ -51,10 +53,10 @@ export default class Dropdown extends PureComponent {
           onRefItem={this.onRefMoreIcon}
         />
         {isDropdownOpened && (
-          <BaseDropdown
+          <Dropdown
             target={this.moreIconRef}
             placement="top"
-            container={this}
+            container={container}
           >
             <MenuList className={classes.list}>
               <span>
@@ -92,7 +94,7 @@ export default class Dropdown extends PureComponent {
                 )}
               </span>
             </MenuList>
-          </BaseDropdown>
+          </Dropdown>
         )}
       </span>
     )

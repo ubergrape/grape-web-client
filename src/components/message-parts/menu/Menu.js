@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
-import Dropdown from './Dropdown'
+import More from './More'
 import MenuItem from './MenuItem'
 import {
   fontSize,
@@ -80,11 +80,12 @@ export default class Menu extends PureComponent {
           />
         ))}
         {dropdown && (
-          <Dropdown
+          <More
             {...dropdownProps}
             onSelect={onSelect}
             items={items}
             menuItems={menuItems}
+            container={this}
           />
         )}
       </div>
