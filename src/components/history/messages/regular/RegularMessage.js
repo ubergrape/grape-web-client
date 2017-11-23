@@ -10,7 +10,7 @@ import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
 import {defaultAvatar} from '../../../../constants/images'
 
-import {OwnBubble, MateBubble, SelectedBubble} from './Bubbles'
+import {OwnBubble, MateBubble, PinnedBubble, SelectedBubble} from './Bubbles'
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
 import {styles} from './regularMessageTheme'
@@ -23,6 +23,12 @@ import Footer from './Footer'
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 
 const toggleMenuDropdown = state => ({isMenuDropdownOpened: !state.isMenuDropdownOpened})
+
+const getBubble = ({isSelected, isPinned, isOwn}) => {
+  if (isPinned) return PinnedBubble
+  if (isSelected) return SelectedBubble
+  return isOwn ? OwnBubble : MateBubble
+}
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
@@ -37,6 +43,7 @@ export default class RegularMessage extends PureComponent {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
+    isPinned: PropTypes.bool.isRequired,
     /* eslint-disable react/no-unused-prop-types */
     userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
@@ -76,6 +83,7 @@ export default class RegularMessage extends PureComponent {
     isOwn: false,
     isSelected: false,
     isPm: false,
+    isPinned: false,
     duplicates: 0,
     attachments: [],
     linkAttachments: [],
@@ -167,18 +175,13 @@ export default class RegularMessage extends PureComponent {
   render() {
     const {
       author, user, time, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, attachments, customEmojis, duplicates,
+      state, isOwn, isSelected, isPinned, attachments, customEmojis, duplicates,
       classes, linkAttachments, nlp
     } = this.props
 
     const {isMenuOpened, isMenuDropdownOpened} = this.state
 
-    let Bubble
-    if (isSelected) {
-      Bubble = SelectedBubble
-    } else {
-      Bubble = isOwn ? OwnBubble : MateBubble
-    }
+    const Bubble = getBubble({isSelected, isPinned, isOwn})
 
     const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
 

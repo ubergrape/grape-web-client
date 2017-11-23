@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
+import {zIndex} from '../../../utils/z-index'
 import More from './More'
 import MenuItem from './MenuItem'
 import {
@@ -21,14 +22,15 @@ const getWidth = (total) => {
   return (firstLastItemsWidth * 2) + (itemsWidth > 0 ? itemsWidth : 0)
 }
 
-const getPosition = (content, total) => {
-  const canFit = content.offsetWidth > getWidth(total)
+const getPosition = (contentNode, total) => {
+  const canFit = contentNode.offsetWidth > getWidth(total)
   return canFit ? 'top' : 'right'
 }
 
 @injectSheet({
   root: {
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    zIndex: zIndex('base')
   },
   top: {
     position: 'absolute',
@@ -65,8 +67,12 @@ export default class Menu extends PureComponent {
       ...dropdownProps
     } = this.props
 
+    const contentNode = getContentNode()
+
+    if (!contentNode) return null
+
     const menuItems = items.slice(0, dropdown ? 2 : 3)
-    const position = getPosition(getContentNode(), menuItems.length)
+    const position = getPosition(contentNode, menuItems.length)
 
     return (
       <div className={`${classes.root} ${classes[position]}`}>
