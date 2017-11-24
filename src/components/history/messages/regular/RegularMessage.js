@@ -9,6 +9,7 @@ import Avatar from '../../../avatar/Avatar'
 import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
 import {defaultAvatar} from '../../../../constants/images'
+import {messageDeliveryStates} from '../../../../constants/app'
 
 import {OwnBubble, MateBubble, PinnedBubble, SelectedBubble} from './Bubbles'
 import DuplicatesBadge from '../DuplicatesBadge'
@@ -68,7 +69,7 @@ export default class RegularMessage extends PureComponent {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
+    state: PropTypes.oneOf(messageDeliveryStates),
     nlp: PropTypes.object,
     id: PropTypes.string.isRequired,
     channelId: PropTypes.number.isRequired
@@ -99,8 +100,8 @@ export default class RegularMessage extends PureComponent {
     time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
-    state: null,
-    nlp: null
+    state: undefined,
+    nlp: undefined
   }
 
   state = {
@@ -252,7 +253,7 @@ export default class RegularMessage extends PureComponent {
             }
           </div>
         </div>
-        <DeliveryState state={state} time={time} classes={classes} />
+        <DeliveryState state={state} time={time} />
         {state === 'unsent' && <UnsentWarning classes={classes} onResend={this.onResend} />}
       </div>
     )

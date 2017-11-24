@@ -1,16 +1,16 @@
 import React from 'react'
-import capitalize from 'lodash/string/capitalize'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import {gray} from 'grape-theme/dist/base-colors'
-import cn from 'classnames'
 
 import Tooltip from '../../../tooltip/HoverTooltip'
 import createInlineIcon from '../../../inline-icon/create'
+import {messageDeliveryStates} from '../../../../constants/app'
 import {horizontalMargin} from '../baseMessageTheme'
 
-const deliveryStateTooltipMessages = {
+const messages = {
   pending: (
     <FormattedMessage
       id="pending"
@@ -51,38 +51,42 @@ const stateIndicatorIcon = {
 }
 
 const styles = {
-  stateIndicator: {
+  root: {
     position: 'absolute',
     right: -(stateIndicatorSize + horizontalMargin) / 2,
     bottom: 0,
     width: stateIndicatorSize,
     height: stateIndicatorSize
   },
-  stateIndicatorPending: {
+  pending: {
+    composes: '$root',
     extend: [
       createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
       stateIndicatorIcon
     ]
   },
-  stateIndicatorUnsent: {
+  unsent: {
+    composes: '$root',
     extend: [
       createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
       stateIndicatorIcon
     ]
   },
-  stateIndicatorSent: {
+  sent: {
+    composes: '$root',
     extend: [
       createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
       stateIndicatorIcon
     ]
   },
-  stateIndicatorRead: {
+  read: {
+    composes: '$root',
     extend: [
       createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
       stateIndicatorIcon
     ]
   },
-  stateIndicatorTooltipTrigger: {
+  tooltipTrigger: {
     display: 'block',
     width: stateIndicatorSize,
     height: stateIndicatorSize
@@ -96,20 +100,25 @@ const DeliveryState = ({time, state, classes}) => {
   if (!state || state === 'unsent' || !isFresh) return null
 
   return (
-    <span
-      className={cn(
-        classes.stateIndicator,
-        classes[`stateIndicator${capitalize(state)}`]
-      )}
-    >
+    <span className={classes[state]}>
       <Tooltip
         placement="left"
-        message={deliveryStateTooltipMessages[state]}
+        message={messages[state]}
       >
-        <span className={classes.stateIndicatorTooltipTrigger} />
+        <span className={classes.tooltipTrigger} />
       </Tooltip>
     </span>
   )
+}
+
+DeliveryState.propTypes = {
+  classes: PropTypes.object.isRequired,
+  time: PropTypes.instanceOf(Date).isRequired,
+  state: PropTypes.oneOf(messageDeliveryStates)
+}
+
+DeliveryState.defaultProps = {
+  state: undefined
 }
 
 export default injectSheet(styles)(DeliveryState)
