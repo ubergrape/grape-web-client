@@ -4,10 +4,11 @@ import moment from 'moment'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import {gray} from 'grape-theme/dist/base-colors'
+import sizes from 'grape-theme/dist/sizes'
 
+import {messageDeliveryStates} from '../../../../constants/app'
 import Tooltip from '../../../tooltip/HoverTooltip'
 import createInlineIcon from '../../../inline-icon/create'
-import {messageDeliveryStates} from '../../../../constants/app'
 import {horizontalMargin} from '../baseMessageTheme'
 
 const messages = {
@@ -41,8 +42,8 @@ const messages = {
   )
 }
 
-const stateIndicatorSize = 12
-const stateIndicatorIcon = {
+const indicatorSize = sizes.icon.xs
+const icon = {
   '&:before': {
     position: 'absolute',
     right: 0,
@@ -53,43 +54,43 @@ const stateIndicatorIcon = {
 const styles = {
   root: {
     position: 'absolute',
-    right: -(stateIndicatorSize + horizontalMargin) / 2,
+    right: -(indicatorSize + horizontalMargin) / 2,
     bottom: 0,
-    width: stateIndicatorSize,
-    height: stateIndicatorSize
+    width: indicatorSize,
+    height: indicatorSize
   },
   pending: {
     composes: '$root',
     extend: [
-      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-      stateIndicatorIcon
+      createInlineIcon('waiting', {color: gray, size: indicatorSize}),
+      icon
     ]
   },
   unsent: {
     composes: '$root',
     extend: [
-      createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
-      stateIndicatorIcon
+      createInlineIcon('waiting', {color: gray, size: indicatorSize}),
+      icon
     ]
   },
   sent: {
     composes: '$root',
     extend: [
-      createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
-      stateIndicatorIcon
+      createInlineIcon('checkmark', {color: gray, size: indicatorSize}),
+      icon
     ]
   },
   read: {
     composes: '$root',
     extend: [
-      createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
-      stateIndicatorIcon
+      createInlineIcon('checkmarkFilled', {color: gray, size: indicatorSize}),
+      icon
     ]
   },
   tooltipTrigger: {
     display: 'block',
-    width: stateIndicatorSize,
-    height: stateIndicatorSize
+    width: indicatorSize,
+    height: indicatorSize
   }
 }
 

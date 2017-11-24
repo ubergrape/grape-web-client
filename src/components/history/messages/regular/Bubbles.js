@@ -23,9 +23,9 @@ export const PinnedBubble = useTheme(Bubble, {
   styles: ({palette}) => merge(baseStyles({color: palette.orange[50]}), {
     bubble: {
       '&::after': {
-        extend: createInlineIcon('pinFilled', {color: palette.orange[800]})['&:before'],
+        extend: createInlineIcon('pinFilled', {color: palette.orange[800], size: sizes.icon.xs})['&:before'],
         position: 'absolute',
-        right: -sizes.spacer.l + 2,
+        right: -sizes.spacer.l + (sizes.icon.xs / 2),
         top: 0
       }
     }
