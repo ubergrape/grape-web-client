@@ -2,13 +2,16 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
+import sizes from 'grape-theme/dist/sizes'
 
 import {Grapedown} from '../../grapedown'
 import PinnedMessage from './PinnedMessage'
+import Empty from './Empty'
 
 @injectSheet({
   root: {
-    display: 'block'
+    display: 'flex',
+    paddingTop: ({items}) => (items.length ? 0 : sizes.spacer.xxl)
   }
 })
 export default class PinnedMessages extends PureComponent {
@@ -61,6 +64,7 @@ export default class PinnedMessages extends PureComponent {
             <Grapedown text={message.text} user={user} />
           </PinnedMessage>
         ))}
+        {!items.length && <Empty />}
       </div>
     )
   }
