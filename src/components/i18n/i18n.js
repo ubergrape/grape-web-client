@@ -116,3 +116,24 @@ export const SharedFiles = () => (
     defaultMessage="Shared Files"
   />
 )
+
+export const PinnedMessages = () => (
+  <FormattedMessage
+    id="pinnedMesages"
+    defaultMessage="Pinned Messages"
+  />
+)
+
+export const GroupInfo = () => (
+  <FormattedMessage
+    id="groupInfo"
+    defaultMessage="Group Info"
+  />
+)
+
+export const UserProfile = () => (
+  <FormattedMessage
+    id="userProfile"
+    defaultMessage="User Profile"
+  />
+)

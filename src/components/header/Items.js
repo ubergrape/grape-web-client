@@ -9,6 +9,7 @@ import FavoriteButton from './FavoriteButton'
 import Title from './Title'
 import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
+import PinButton from './PinButton'
 import InfoButton from './InfoButton'
 import Search from './Search'
 import Divider from './Divider'
@@ -36,11 +37,14 @@ export const styles = ({palette}) => ({
     margin: [0, sizes.spacer.xs, 0, sizes.spacer.s]
   },
   title: {
+    display: 'flex',
     listStyle: 'none',
-    overflow: 'hidden',
     flexGrow: 1,
     minWidth: 50,
     paddingRight: sizes.spacer.s
+  },
+  pinButton: {
+    flexShrink: 0
   },
   action: {
     listStyle: 'none',
@@ -103,6 +107,10 @@ function Items(props) {
         <Title
           channel={channel}
           mate={mate}
+        />
+        <PinButton
+          onClick={itemClickHandler(channel.type, props)}
+          className={classes.pinButton}
         />
       </li>
       <ul className={classes.sidebarActions}>

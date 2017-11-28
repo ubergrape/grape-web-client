@@ -10,19 +10,12 @@ import find from 'lodash/collection/find'
 
 import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
-import {SharedFiles as SharedFilesText} from '../../i18n'
+import {SharedFiles as SharedFilesText, UserProfile as UserProfileText} from '../../i18n'
 import SharedFiles from '../shared-files/SharedFiles'
 import SidebarPanel from '../SidebarPanel'
 import {spacing} from '../constants'
 import TabbedContent from '../TabbedContent'
 import About from './About'
-
-const title = (
-  <FormattedMessage
-    id="userProfile"
-    defaultMessage="User Profile"
-  />
-)
 
 const tabs = [
   {
@@ -126,7 +119,7 @@ export default class UserProfile extends PureComponent {
 
     return (
       <SidebarPanel
-        title={title}
+        title={<UserProfileText />}
         onClose={onClose}
       >
         <div className={classes.userNameContainer}>

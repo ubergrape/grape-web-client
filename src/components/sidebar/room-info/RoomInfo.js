@@ -5,7 +5,10 @@ import find from 'lodash/collection/find'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {SharedFiles as SharedFilesText} from '../../i18n'
+import {
+  SharedFiles as SharedFilesText, PinnedMessages as PinnedMessagesText,
+  GroupInfo as GroupInfoText
+} from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
 import SharedFiles from '../shared-files/SharedFiles'
@@ -18,24 +21,12 @@ import Description from './Description'
 import {getRoles} from './utils'
 import {styles} from './roomInfoTheme.js'
 
-const title = (
-  <FormattedMessage
-    id="groupInfo"
-    defaultMessage="Group Info"
-  />
-)
-
 const tabs = [
   {
     name: 'pinnedMessages',
     icon: 'pinFilled',
     render: 'renderPinnedMessages',
-    title: (
-      <FormattedMessage
-        id="pinnedMesages"
-        defaultMessage="Pinned Messages"
-      />
-    )
+    title: <PinnedMessagesText />
   },
   {
     name: 'members',
@@ -220,7 +211,7 @@ export default class RoomInfo extends PureComponent {
 
     return (
       <SidebarPanel
-        title={title}
+        title={<GroupInfoText />}
         onClose={onClose}
       >
         <div className={classes.roomInfo}>
