@@ -55,6 +55,7 @@ const Content = (props) => {
     showRoomMentions,
     selectLabeledMessagesFilter,
     openSharedFile,
+    unpinMessage,
     options,
     ...rest
   } = props
@@ -71,6 +72,7 @@ const Content = (props) => {
           onOpenSharedFile={openSharedFile}
           onLoadPinnedMessages={loadPinnedMessages}
           onSelectPinnedMessage={goToMessage}
+          onUnpin={unpinMessage}
         />
       )
     case 'pm':
@@ -155,6 +157,7 @@ Content.propTypes = {
   loadPinnedMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
+  unpinMessage: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
     false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'

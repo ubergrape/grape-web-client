@@ -14,7 +14,7 @@ import {ShowMore} from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Options from '../Options'
 import style from './messageSearchStyles'
-import Message from './Message'
+import Message from '../Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 
 @injectSheet(style)

@@ -49,6 +49,7 @@ const getIcon = (name, palette) => {
   removeLinkAttachmentItem: getIcon('bin', palette),
   quoteItem: getIcon('quoteLeft', palette),
   moreItem: getIcon('moreOptions', palette),
+  unpinItem: getIcon('unpin', palette),
   item: {
     padding,
     border: [borderSize, 'solid', palette.blueGrey[400]],

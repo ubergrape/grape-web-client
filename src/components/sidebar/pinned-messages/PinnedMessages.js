@@ -4,7 +4,7 @@ import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
 import {Grapedown} from '../../grapedown'
-import Message from '../message-search/Message'
+import PinnedMessage from './PinnedMessage'
 
 @injectSheet({
   root: {
@@ -19,13 +19,15 @@ export default class PinnedMessages extends PureComponent {
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
+    onUnpin: PropTypes.func,
     total: PropTypes.number
   }
 
   static defaultProps = {
     total: undefined,
     items: [],
-    onSelect: noop
+    onSelect: noop,
+    onUnpin: noop
   }
 
   componentDidMount() {
@@ -45,18 +47,19 @@ export default class PinnedMessages extends PureComponent {
   }
 
   render() {
-    const {classes, items, onSelect, user} = this.props
+    const {classes, items, onSelect, onUnpin, user} = this.props
 
     return (
       <div className={classes.root}>
         {items.map(message => (
-          <Message
+          <PinnedMessage
             message={message}
             key={message.id}
             onSelect={onSelect}
+            onUnpin={onUnpin}
           >
             <Grapedown text={message.text} user={user} />
-          </Message>
+          </PinnedMessage>
         ))}
       </div>
     )

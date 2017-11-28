@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {icon as iconSize, spacer} from 'grape-theme/dist/sizes'
+import noop from 'lodash/utility/noop'
 
-import Avatar from '../../avatar/Avatar'
-import Header from '../../message-parts/Header'
-import Bubble from '../../message-parts/Bubble'
-import contentStyles from '../../message-parts/contentStyles'
+import Avatar from '../avatar/Avatar'
+import Header from '../message-parts/Header'
+import Bubble from '../message-parts/Bubble'
+import contentStyles from '../message-parts/contentStyles'
 
 const arrowWidth = 7
 const marginRight = 10
@@ -55,7 +56,7 @@ const transition = 'box-shadow 150ms ease-out'
   },
   innerContent: contentStyles
 })
-export default class Message extends PureComponent {
+export default class Message extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     message: PropTypes.shape({
@@ -66,10 +67,22 @@ export default class Message extends PureComponent {
       avatar: PropTypes.string
     }).isRequired,
     children: PropTypes.node.isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onRefContent: PropTypes.func,
+    renderMenu: PropTypes.func
   }
 
-  onClick = () => {
+  static defaultProps = {
+    onSelect: noop,
+    onMouseLeave: noop,
+    onMouseEnter: noop,
+    renderMenu: noop,
+    onRefContent: undefined
+  }
+
+  onSelectMessage = () => {
     const {message, onSelect} = this.props
     onSelect(message)
   }
@@ -78,18 +91,28 @@ export default class Message extends PureComponent {
     const {
       classes,
       message: {author, time, avatar},
+      renderMenu, onMouseEnter, onMouseLeave, onRefContent,
       children
     } = this.props
 
     return (
-      <section className={classes.message} onClick={this.onClick}>
+      <section
+        className={classes.message}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
         <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn} />
           <Bubble className={classes.rightColumn} theme={{classes}}>
-            <div className={classes.innerContent}>
+            <div
+              className={classes.innerContent}
+              ref={onRefContent}
+              onClick={this.onSelectMessage}
+            >
               {children}
             </div>
+            {renderMenu()}
           </Bubble>
         </div>
       </section>

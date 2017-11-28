@@ -85,6 +85,7 @@ export default class RoomInfo extends PureComponent {
     leaveChannel: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
+    onUnpin: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired
   }
 
@@ -186,7 +187,9 @@ export default class RoomInfo extends PureComponent {
   }
 
   renderPinnedMessages = () => {
-    const {onLoadPinnedMessages, onSelectPinnedMessage, subview, user} = this.props
+    const {
+      onLoadPinnedMessages, onSelectPinnedMessage, onUnpin, subview, user
+    } = this.props
 
     return (
       <PinnedMessages
@@ -194,6 +197,7 @@ export default class RoomInfo extends PureComponent {
         user={user}
         onLoad={onLoadPinnedMessages}
         onSelect={onSelectPinnedMessage}
+        onUnpin={onUnpin}
       />
     )
   }

@@ -33,7 +33,8 @@ const actionNames = [
   'showRoomDeleteDialog',
   'goToAddIntegrations',
   'showNotificationSettings',
-  'openSharedFile'
+  'openSharedFile',
+  'unpinMessage'
 ]
 
 const ConnectedSidebar = connect(
