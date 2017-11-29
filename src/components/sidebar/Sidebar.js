@@ -83,6 +83,9 @@ const Content = (props) => {
           onShowSubview={showSidebarSubview}
           onLoadSharedFiles={loadSharedFiles}
           onOpenSharedFile={openSharedFile}
+          onLoadPinnedMessages={loadPinnedMessages}
+          onSelectPinnedMessage={goToMessage}
+          onUnpin={unpinMessage}
         />
       )
     case 'mentions':
