@@ -3,7 +3,8 @@ import style from './style'
 const statusSize = 10
 // Position status indicator in the middle of the icon circle of the right-bottom
 // quarter.
-const statusPositionCalc = `calc(100% * 0.8535 - ${statusSize / 2}px)`
+const factor = (1 + Math.sin(Math.PI / 4)) / 2
+const statusPositionCalc = `calc(100% * ${factor} - ${statusSize / 2}px)`
 
 export default {
   ...style,
