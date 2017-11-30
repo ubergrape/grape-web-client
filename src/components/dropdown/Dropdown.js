@@ -18,11 +18,22 @@ export default function Dropdown(props) {
     ...tooltipProps
   } = props
 
+  const targetNode = findDOMNode(target)
+
+  let calcPlacement
+
+  if (placement === 'vertical') {
+    const {top} = targetNode.getBoundingClientRect()
+    const middle = document.body.clientHeight / 2
+    // Take the direction where there is more space.
+    calcPlacement = top > middle ? 'top' : 'bottom'
+  }
+
   return (
     <Position
       container={container}
-      placement={placement}
-      target={() => findDOMNode(target)}
+      placement={calcPlacement || placement}
+      target={targetNode}
       shouldUpdatePosition={shouldUpdatePosition}
     >
       <Tooltip {...tooltipProps} />

@@ -55,7 +55,7 @@ export default class More extends PureComponent {
         {isDropdownOpened && (
           <Dropdown
             target={this.moreIconRef}
-            placement="top"
+            placement="vertical"
             container={container}
           >
             <MenuList className={classes.list}>
