@@ -1,14 +1,19 @@
 import style from './style'
 
+const statusSize = 10
+// Position status indicator in the middle of the icon circle of the right-bottom
+// quarter.
+const statusPositionCalc = `calc(100% / 1.175 - ${statusSize / 2}px)`
+
 export default {
   ...style,
   status: {
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    left: statusPositionCalc,
+    top: statusPositionCalc,
     width: 10,
     height: 10,
-    border: '1px solid',
+    border: [1, 'solid'],
     borderRadius: '50%'
   },
   online: {
