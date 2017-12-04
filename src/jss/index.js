@@ -46,7 +46,7 @@ export const styled = Styled()
 export {jss}
 export {ThemeProvider}
 export default (styles, options = {}) => injectSheet(styles, {
-  inject: ['classes', 'sheet', 'theme'], 
+  inject: ['classes', 'sheet', 'theme'],
   isolate: true,
   ...options
 })
