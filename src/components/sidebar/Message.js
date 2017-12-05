@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {icon as iconSize, spacer} from 'grape-theme/dist/sizes'
 import noop from 'lodash/utility/noop'
+import cn from 'classnames'
 
 import Avatar from '../avatar/Avatar'
 import Header from '../message-parts/Header'
@@ -71,7 +72,8 @@ export default class Message extends Component {
     onMouseLeave: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onRefContent: PropTypes.func,
-    renderMenu: PropTypes.func
+    renderMenu: PropTypes.func,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -79,7 +81,8 @@ export default class Message extends Component {
     onMouseLeave: noop,
     onMouseEnter: noop,
     renderMenu: noop,
-    onRefContent: undefined
+    onRefContent: undefined,
+    className: undefined
   }
 
   onSelectMessage = () => {
@@ -92,12 +95,13 @@ export default class Message extends Component {
       classes,
       message: {author, time, avatar},
       renderMenu, onMouseEnter, onMouseLeave, onRefContent,
+      className,
       children
     } = this.props
 
     return (
       <section
-        className={classes.message}
+        className={cn(classes.message, className)}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >

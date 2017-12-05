@@ -12,6 +12,9 @@ import Empty from './Empty'
   root: {
     display: 'flex',
     paddingTop: ({items}) => (items.length ? 0 : sizes.spacer.xxl)
+  },
+  message: {
+    flex: 1
   }
 })
 export default class PinnedMessages extends PureComponent {
@@ -60,6 +63,7 @@ export default class PinnedMessages extends PureComponent {
             key={message.id}
             onSelect={onSelect}
             onUnpin={onUnpin}
+            className={classes.message}
           >
             <Grapedown text={message.text} user={user} />
           </PinnedMessage>
