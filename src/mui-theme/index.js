@@ -1,39 +1,46 @@
-import createMuiTheme from 'material-ui/styles/theme'
-import createPalette from 'material-ui/styles/palette'
-import createTypography from 'material-ui/styles/typography'
+import createMuiTheme from 'material-ui/styles/createMuiTheme'
+import createPalette, {light} from 'material-ui/styles/createPalette'
+import createTypography from 'material-ui/styles/createTypography'
 import Input from 'material-ui/Input'
 import {
   white, blue, red, green, orange,
   grayBlue, grayBlueLight, grayBlueLighter, grayBlueDark,
-  grayLighter, grayLight, grayDark, grayMercury, grayBombay, grayVenus
+  grayLighter, grayLight, grayDark, grayMercury, grayBombay, grayVenus, grayDarker
 } from 'grape-theme/dist/base-colors'
+import orangePalette from 'material-ui/colors/orange'
+
 import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import merge from 'lodash/object/merge'
 import color from 'color'
 
-export const palette = createPalette()
+export const palette = createPalette(light)
 palette.primary[100] = white
 palette.primary[500] = green
 palette.primary[700] = color(green).lighten(0.2).rgbaString()
 // Added since v1.0.0-beta.6
-palette.secondary = {}
+palette.secondary = palette.secondary || {}
 palette.secondary[500] = color(orange).lighten(0.2).rgbaString()
 palette.secondary[700] = orange
 palette.error[500] = red
 palette.error[700] = color(red).lighten(0.2).rgbaString()
+
+// XXX
+palette.accent = palette.accent || {}
 palette.accent.A200 = blue
 palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
 palette.text.secondary = grayBlueDark
 palette.text.lightDivider = grayBlueLighter
-palette.grey.A100 = grayLighter
 palette.grey[100] = grayLight
 palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
 palette.grey[400] = grayVenus
+palette.grey.A100 = grayLighter
+palette.grey.A400 = grayDarker
+palette.orange = orangePalette
 // Added since v1.0.0-beta.6
-palette.blueGrey = {}
+palette.blueGrey = palette.blueGrey || {}
 palette.blueGrey[50] = grayBlueLighter
 palette.blueGrey[100] = grayBlueLight
 palette.blueGrey[400] = grayBlue

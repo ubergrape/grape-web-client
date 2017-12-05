@@ -17,7 +17,7 @@
     "jss-props-sort": "^6.0.0",
     "jss-vendor-prefixer": "^7.0.0",
     "lodash": "^3.10.0",
-    "material-ui": "^1.0.0-beta.3",
+    "material-ui": "^1.0.0-beta.22",
     "normalize-jss": "^3.1.0",
     "prop-types": "^15.5.10",
     "react": "^15.3.0",
