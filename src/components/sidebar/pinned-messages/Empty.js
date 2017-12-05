@@ -37,14 +37,14 @@ const Empty = ({classes}) => (
     <h1 className={classes.headline}>
       <FormattedMessage
         id="emptyPinnedMessagesSidebarHeadline"
-        defaultMessage="The most important messages go here."
+        defaultMessage="No messages have been pinned yet!"
         description="Headline in the sidebar, pinned messages zero design."
       />
     </h1>
     <p className={classes.description}>
       <FormattedMessage
         id="emptyPinnedMessagesSidebarDescription"
-        defaultMessage="Group admins can mark the most important messages by clicking the pin button in the context menu."
+        defaultMessage='Choose "Pin message" in the context menu of any message to make it show up here.'
         description="Description in the sidebar, pinned messages zero design."
       />
     </p>
