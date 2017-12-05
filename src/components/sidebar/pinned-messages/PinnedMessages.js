@@ -10,11 +10,11 @@ import Empty from './Empty'
 
 @injectSheet({
   root: {
-    display: 'flex',
-    paddingTop: ({items}) => (items.length ? 0 : sizes.spacer.xxl)
+    display: 'block'
   },
-  message: {
-    flex: 1
+  rootEmpty: {
+    display: 'flex',
+    paddingTop: sizes.spacer.xxl
   }
 })
 export default class PinnedMessages extends PureComponent {
@@ -56,14 +56,13 @@ export default class PinnedMessages extends PureComponent {
     const {classes, items, onSelect, onUnpin, user} = this.props
 
     return (
-      <div className={classes.root}>
+      <div className={classes[items.length ? 'root' : 'rootEmpty']}>
         {items.map(message => (
           <PinnedMessage
             message={message}
             key={message.id}
             onSelect={onSelect}
             onUnpin={onUnpin}
-            className={classes.message}
           >
             <Grapedown text={message.text} user={user} />
           </PinnedMessage>
