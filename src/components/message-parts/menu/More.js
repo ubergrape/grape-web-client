@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import {findDOMNode} from 'react-dom'
 import Divider from 'material-ui/Divider'
 import MenuList from 'material-ui/Menu/MenuList'
 import injectSheet from 'grape-web/lib/jss'
 
-import Dropdown from '../../dropdown/Dropdown'
-import DropdownItem from './DropdownItem'
+import Popover from 'material-ui/Popover'
+import PopoverItem from './PopoverItem'
 import MenuItem from './MenuItem'
 
 @injectSheet({
@@ -20,7 +21,6 @@ export default class More extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     menuItems: PropTypes.array.isRequired,
-    container: PropTypes.object.isRequired,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool
   }
@@ -31,7 +31,11 @@ export default class More extends PureComponent {
   }
 
   onRefMoreIcon = (ref) => {
-    this.moreIconRef = ref
+    this.moreIconRef = findDOMNode(ref)
+  }
+
+  onRequestClose = () => {
+    this.props.onSelect({name: 'more'})
   }
 
   render() {
@@ -39,8 +43,7 @@ export default class More extends PureComponent {
       classes,
       isPinned, isDropdownOpened,
       onSelect,
-      items, menuItems,
-      container
+      items, menuItems
     } = this.props
 
     return (
@@ -53,48 +56,46 @@ export default class More extends PureComponent {
           onRefItem={this.onRefMoreIcon}
         />
         {isDropdownOpened && (
-          <Dropdown
-            target={this.moreIconRef}
-            placement="vertical"
-            container={container}
+          <Popover
+            anchorEl={this.moreIconRef}
+            onRequestClose={this.onRequestClose}
+            open
           >
             <MenuList className={classes.list}>
-              <span>
-                <DropdownItem
-                  icon="link"
-                  name="copyLink"
-                  onSelect={onSelect}
-                />
-                {items.includes('edit') && (
-                  <DropdownItem
-                    icon="pencil"
-                    name="edit"
-                    onSelect={onSelect}
-                  />
+              <PopoverItem
+                icon="link"
+                name="copyLink"
+                onSelect={onSelect}
+              />
+              {items.includes('edit') && (
+              <PopoverItem
+                icon="pencil"
+                name="edit"
+                onSelect={onSelect}
+              />
                 )}
-                {items.includes('quote') && (
-                  <DropdownItem
-                    icon="quote"
-                    name="quote"
-                    onSelect={onSelect}
-                  />
+              {items.includes('quote') && (
+              <PopoverItem
+                icon="quote"
+                name="quote"
+                onSelect={onSelect}
+              />
                 )}
-                <DropdownItem
-                  icon={isPinned ? 'unpin' : 'pin'}
-                  name={isPinned ? 'unpin' : 'pin'}
-                  onSelect={onSelect}
-                />
-                {items.includes('remove') && <Divider />}
-                {items.includes('remove') && (
-                  <DropdownItem
-                    icon="deleteMessage"
-                    name="remove"
-                    onSelect={onSelect}
-                  />
+              <PopoverItem
+                icon={isPinned ? 'unpin' : 'pin'}
+                name={isPinned ? 'unpin' : 'pin'}
+                onSelect={onSelect}
+              />
+              {items.includes('remove') && <Divider />}
+              {items.includes('remove') && (
+              <PopoverItem
+                icon="deleteMessage"
+                name="remove"
+                onSelect={onSelect}
+              />
                 )}
-              </span>
             </MenuList>
-          </Dropdown>
+          </Popover>
         )}
       </span>
     )

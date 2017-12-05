@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import MuiMenuItem from 'material-ui/Menu/MenuItem'
+import MenuItem from 'material-ui/Menu/MenuItem'
 import fonts from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
@@ -30,7 +30,7 @@ import * as messages from './messages'
     flex: 1
   }
 })
-export default class DropdownItem extends PureComponent {
+export default class PopoverItem extends PureComponent {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
@@ -47,10 +47,10 @@ export default class DropdownItem extends PureComponent {
     const {classes, icon, name} = this.props
 
     return (
-      <MuiMenuItem className={classes.root} onClick={this.onSelect} dense>
+      <MenuItem className={classes.root} onClick={this.onSelect} dense>
         <Icon name={icon} className={classes.icon} />
         <span className={classes.text}>{messages[name]}</span>
-      </MuiMenuItem>
+      </MenuItem>
     )
   }
 }

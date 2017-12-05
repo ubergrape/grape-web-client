@@ -91,7 +91,6 @@ export default class Menu extends PureComponent {
             onSelect={onSelect}
             items={items}
             menuItems={menuItems}
-            container={this}
           />
         )}
       </div>
