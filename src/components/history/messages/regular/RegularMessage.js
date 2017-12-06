@@ -11,7 +11,7 @@ import {LinkAttachments} from '../../../message-parts'
 import {defaultAvatar} from '../../../../constants/images'
 import {messageDeliveryStates} from '../../../../constants/app'
 
-import {OwnBubble, MateBubble, PinnedBubble, SelectedBubble} from './Bubbles'
+import getBubble from './getBubble'
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
 import {styles} from './regularMessageTheme'
@@ -24,12 +24,6 @@ import Footer from './Footer'
 const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
 
 const toggleMenuDropdown = state => ({isMenuDropdownOpened: !state.isMenuDropdownOpened})
-
-const getBubble = ({isSelected, isPinned, isOwn}) => {
-  if (isPinned) return PinnedBubble
-  if (isSelected) return SelectedBubble
-  return isOwn ? OwnBubble : MateBubble
-}
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
