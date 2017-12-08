@@ -43,6 +43,7 @@ palette.orange = orangePalette
 
 palette.blueGrey = palette.blueGrey || {}
 palette.blueGrey[50] = grayBlueLighter
+palette.blueGrey[70] = color(grayBlueLighter).darken(0.05).hexString()
 palette.blueGrey[100] = grayBlueLight
 palette.blueGrey[400] = grayBlue
 
