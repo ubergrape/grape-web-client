@@ -5,7 +5,7 @@ import Input from 'material-ui/Input'
 import {
   white, blue, red, green, orange,
   grayBlue, grayBlueLight, grayBlueLighter, grayBlueDark,
-  grayLighter, grayLight, grayDark, grayMercury, grayBombay, grayVenus, grayDarker
+  grayLighter, grayLight, grayDark, grayMercury, grayBombay, grayDarker
 } from 'grape-theme/dist/base-colors'
 import orangePalette from 'material-ui/colors/orange'
 
@@ -35,7 +35,6 @@ palette.text.lightDivider = grayBlueLighter
 palette.grey[100] = grayLight
 palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
-palette.grey[400] = grayVenus
 palette.grey.A100 = grayLighter
 palette.grey.A400 = grayDarker
 
