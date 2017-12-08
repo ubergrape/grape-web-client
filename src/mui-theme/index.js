@@ -15,31 +15,32 @@ import merge from 'lodash/object/merge'
 import color from 'color'
 
 export const palette = createPalette(light)
+
 palette.primary[100] = white
 palette.primary[500] = green
 palette.primary[700] = color(green).lighten(0.2).rgbaString()
-// Added since v1.0.0-beta.6
-palette.secondary = palette.secondary || {}
+
 palette.secondary[500] = color(orange).lighten(0.2).rgbaString()
 palette.secondary[700] = orange
+palette.secondary.A200 = blue
+palette.secondary.A100 = color(blue).lighten(0.2).rgbaString()
+
 palette.error[500] = red
 palette.error[700] = color(red).lighten(0.2).rgbaString()
 
-// XXX
-palette.accent = palette.accent || {}
-palette.accent.A200 = blue
-palette.accent.A100 = color(blue).lighten(0.2).rgbaString()
 palette.text.primary = grayDark
 palette.text.secondary = grayBlueDark
 palette.text.lightDivider = grayBlueLighter
+
 palette.grey[100] = grayLight
 palette.grey[200] = grayMercury
 palette.grey[300] = grayBombay
 palette.grey[400] = grayVenus
 palette.grey.A100 = grayLighter
 palette.grey.A400 = grayDarker
+
 palette.orange = orangePalette
-// Added since v1.0.0-beta.6
+
 palette.blueGrey = palette.blueGrey || {}
 palette.blueGrey[50] = grayBlueLighter
 palette.blueGrey[100] = grayBlueLight
@@ -114,7 +115,7 @@ const MuiInput = {
     marginBottom: 5
   },
   focused: {
-    borderColor: palette.accent.A200
+    borderColor: palette.secondary.A200
   },
   error: {
     borderColor: palette.error[500]
@@ -142,11 +143,11 @@ const MuiButton = {
     '&[href]': {
       padding: 0,
       backgroundColor: 'transparent',
-      color: palette.accent.A200,
+      color: palette.secondary.A200,
       fontSize: 'inherit'
     },
     '&[href]:hover': {
-      color: palette.accent.A100
+      color: palette.secondary.A100
     }
   },
   raised: {
