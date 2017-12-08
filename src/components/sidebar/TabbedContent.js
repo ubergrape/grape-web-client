@@ -19,7 +19,8 @@ import Title from './Title'
     borderTop: [1, 'solid', palette.text.divider],
     borderBottom: [1, 'solid', palette.text.divider],
     background: palette.blueGrey[100],
-    padding: [0, spacing]
+    padding: [0, spacing],
+    minHeight: 0
   },
   tab: {
     textAlign: 'center',
@@ -85,7 +86,7 @@ export default class TabbedContent extends PureComponent {
     return (
       <section className={classes.root}>
         <Tabs
-          index={index}
+          value={index}
           onChange={this.onChange}
           className={classes.tabs}
           indicatorClassName={classes.indicator}
