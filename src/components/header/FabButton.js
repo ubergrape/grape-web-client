@@ -11,6 +11,7 @@ const styles = ({palette}) => ({
     border: 'none',
     width: iconSize + 16,
     height: iconSize + 16,
+    color: palette.blueGrey[100],
     background: ({isSelected}) => (isSelected ? palette.blueGrey[50] : 'none'),
     '&:hover': {
       isolate: false,

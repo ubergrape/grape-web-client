@@ -1,10 +1,7 @@
 import {small} from 'grape-theme/dist/fonts'
-import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import sizes from 'grape-theme/dist/sizes'
-
-const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
 
 const title = {
   ...small,
@@ -78,7 +75,7 @@ export const styles = ({palette}) => ({
     padding: [3, sizes.spacer.m],
     '&:hover': {
       isolate: false,
-      background: palette.blueGrey[100]
+      background: palette.blueGrey[70]
     },
     '&:hover $channelName': {
       isolate: false,
@@ -95,7 +92,7 @@ export const styles = ({palette}) => ({
   },
   channelCurrent: {
     color: colors.grayDarker,
-    background: darkenBackground,
+    background: palette.blueGrey[70],
     '& $channelName': {
       isolate: false,
       fontWeight: 'bold',
@@ -103,7 +100,7 @@ export const styles = ({palette}) => ({
     }
   },
   channelFocused: {
-    background: darkenBackground
+    background: palette.blueGrey[70]
   },
   channelName: {
     color: colors.grayBlueDark
@@ -133,7 +130,7 @@ export const styles = ({palette}) => ({
   },
   filterInput: {
     extend: small,
-    background: `${darkenBackground} no-repeat 10px 50%`,
+    background: `${palette.blueGrey[70]} no-repeat 10px 50%`,
     backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayBlueDark})})`,
     backgroundSize: 19,
     border: 'none',
