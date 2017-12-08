@@ -31,7 +31,7 @@ import Title from './Title'
     opacity: 1
   },
   tabSelected: {
-    color: palette.accent.A200
+    color: palette.secondary.A200
   },
   indicator: {
     isolate: false,

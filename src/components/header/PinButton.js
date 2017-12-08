@@ -24,7 +24,7 @@ const styles = ({palette}) => ({
     color: palette.text.secondary,
     '&:hover': {
       isolate: false,
-      color: palette.accent.A200
+      color: palette.secondary.A200
     }
   },
   divider: {

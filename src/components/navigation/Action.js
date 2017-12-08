@@ -14,7 +14,7 @@ const styles = ({palette}) => ({
       background: 'none',
       '& $icon': {
         isolate: false,
-        color: palette.accent.A200
+        color: palette.secondary.A200
       },
       '& $text': {
         isolate: false,

@@ -31,7 +31,7 @@ const getItemClassName = (classes, name, index, total) => {
 const getIcon = (name, palette) => {
   const options = {
     color: palette.text.primary,
-    hoverColor: palette.accent.A200,
+    hoverColor: palette.secondary.A200,
     iconOnly: true
   }
 

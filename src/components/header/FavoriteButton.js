@@ -33,7 +33,7 @@ const tip = (
       // https://github.com/cssinjs/react-jss/issues/165
       width: iconSize,
       height: iconSize,
-      color: ({favorited}) => (favorited ? palette.secondary[500] : palette.accent.A200)
+      color: ({favorited}) => (favorited ? palette.secondary[500] : palette.secondary.A200)
     }
   }
 }))

@@ -35,10 +35,10 @@ const styles = ({palette}) => ({
     width: iconSize,
     height: iconSize,
     cursor: 'inherit',
-    color: ({isSelected}) => (isSelected ? palette.accent.A200 : palette.text.primary),
+    color: ({isSelected}) => (isSelected ? palette.secondary.A200 : palette.text.primary),
     '&:hover': {
       isolate: false,
-      color: palette.accent.A200
+      color: palette.secondary.A200
     }
   }
 })
