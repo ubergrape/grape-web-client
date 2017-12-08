@@ -73,7 +73,7 @@ export default class Favorite extends PureComponent {
       <Tooltip message={tip}>
         <IconButton
           onClick={this.onToggle}
-          classes={classes}
+          className={classes.button}
         >
           <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
         </IconButton>
