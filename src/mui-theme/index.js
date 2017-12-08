@@ -201,6 +201,12 @@ const MuiChip = {
   }
 }
 
+const MuiPopover = {
+  paper: {
+    borderRadius: borderRadius.bigger
+  }
+}
+
 export const create = theme => createMuiTheme(merge({
   typography,
   palette,
@@ -210,7 +216,8 @@ export const create = theme => createMuiTheme(merge({
     MuiInput,
     MuiFormLabel,
     MuiButton,
-    MuiChip
+    MuiChip,
+    MuiPopover
   }
 }, theme))
 
