@@ -61,7 +61,7 @@ const styles = {
     isolate: false,
     display: 'inline-block',
     height: '1em',
-    width: 'auto',
+    width: '1em',
     maxWidth: '100%',
     userSelect: 'none',
     fill: 'currentColor'
