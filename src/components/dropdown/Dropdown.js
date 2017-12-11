@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
-import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
@@ -18,22 +17,11 @@ export default function Dropdown(props) {
     ...tooltipProps
   } = props
 
-  const targetNode = findDOMNode(target)
-
-  let calcPlacement
-
-  if (placement === 'vertical') {
-    const {top} = targetNode.getBoundingClientRect()
-    const middle = document.body.clientHeight / 2
-    // Take the direction where there is more space.
-    calcPlacement = top > middle ? 'top' : 'bottom'
-  }
-
   return (
     <Position
       container={container}
-      placement={calcPlacement || placement}
-      target={targetNode}
+      placement={placement}
+      target={target}
       shouldUpdatePosition={shouldUpdatePosition}
     >
       <Tooltip {...tooltipProps} />
