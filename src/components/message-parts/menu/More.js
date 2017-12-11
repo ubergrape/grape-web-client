@@ -63,7 +63,7 @@ export default class More extends PureComponent {
           >
             <MenuList className={classes.list}>
               <PopoverItem
-                icon="link"
+                icon="iconLink"
                 name="copyLink"
                 onSelect={onSelect}
               />
