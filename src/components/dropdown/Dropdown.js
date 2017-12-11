@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import Position from 'react-overlays/lib/Position'
-import noop from 'lodash/utility/noop'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
@@ -24,7 +23,7 @@ export default function Dropdown(props) {
       target={target}
       shouldUpdatePosition={shouldUpdatePosition}
     >
-      <Tooltip {...tooltipProps} />
+      <Tooltip {...tooltipProps} target={target} />
     </Position>
   )
 }
@@ -37,12 +36,10 @@ Dropdown.propTypes = {
     PropTypes.instanceOf(Element)
   ]).isRequired,
   placement: PropTypes.string,
-  shouldUpdatePosition: PropTypes.bool,
-  onOutsideClick: PropTypes.func
+  shouldUpdatePosition: PropTypes.bool
 }
 
 Dropdown.defaultProps = {
   placement: 'bottom',
-  shouldUpdatePosition: false,
-  onOutsideClick: noop
+  shouldUpdatePosition: false
 }

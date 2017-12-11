@@ -20,20 +20,16 @@ const iconTheme = {
 export default class RoomIconSettings extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
-    sheet: PropTypes.object.isRequired,
-    dropdownPlacement: PropTypes.string.isRequired
+    classes: PropTypes.object.isRequired,
+    dropdownPlacement: PropTypes.string.isRequired,
+    container: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     dropdownPlacement: 'bottom'
   }
 
-  constructor() {
-    super()
-    this.state = {
-      show: false
-    }
-  }
+  state = {show: false}
 
   onShowDropdown = (e) => {
     if (!this.state.show) {
@@ -54,11 +50,13 @@ export default class RoomIconSettings extends PureComponent {
   }
 
   render() {
-    const {channel, sheet, dropdownPlacement} = this.props
+    const {
+      channel: {icon, color: backgroundColor, isPublic},
+      classes,
+      dropdownPlacement,
+      container
+    } = this.props
     const {show} = this.state
-
-    const {icon, color: backgroundColor, isPublic} = channel
-    const {classes} = sheet
 
     return (
       <div>
@@ -76,7 +74,7 @@ export default class RoomIconSettings extends PureComponent {
         </button>
         {show &&
           <Dropdown
-            {...this.props}
+            container={container}
             placement={dropdownPlacement}
             onOutsideClick={this.onClickOutsideDropdown}
             target={this.button}
