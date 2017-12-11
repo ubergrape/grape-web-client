@@ -58,7 +58,7 @@ import Title from './Title'
     color: palette.text.primary,
     '&:hover': {
       isolate: false,
-      color: palette.accent.A200
+      color: palette.secondary.A200
     }
   }
 }))

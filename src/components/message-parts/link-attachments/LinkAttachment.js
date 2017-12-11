@@ -7,7 +7,7 @@ import cn from 'classnames'
 
 import groupConsecutive from '../../../utils/group-consecutive'
 import ImageAttachment from '../attachments/ImageAttachment'
-import Menu from '../Menu'
+import Menu from '../menu/Menu'
 import {
   Author,
   Bubble,

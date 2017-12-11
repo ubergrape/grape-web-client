@@ -11,6 +11,7 @@ const styles = ({palette}) => ({
     border: 'none',
     width: iconSize + 16,
     height: iconSize + 16,
+    color: palette.blueGrey[100],
     background: ({isSelected}) => (isSelected ? palette.blueGrey[50] : 'none'),
     '&:hover': {
       isolate: false,
@@ -35,10 +36,10 @@ const styles = ({palette}) => ({
     width: iconSize,
     height: iconSize,
     cursor: 'inherit',
-    color: ({isSelected}) => (isSelected ? palette.accent.A200 : palette.text.primary),
+    color: ({isSelected}) => (isSelected ? palette.secondary.A200 : palette.text.primary),
     '&:hover': {
       isolate: false,
-      color: palette.accent.A200
+      color: palette.secondary.A200
     }
   }
 })

@@ -20,6 +20,21 @@ Illustration.propTypes = {
   type: PropTypes.oneOf(['private', 'public', 'pm']).isRequired
 }
 
+const text = {
+  public: (
+    <FormattedMessage
+      id="roomIsPublic"
+      defaultMessage="This group is public. Every member can join and read the history."
+    />
+  ),
+  private: (
+    <FormattedMessage
+      id="roomIsPrivate"
+      defaultMessage="This group is private. Only invited members can see and join this group."
+    />
+  )
+}
+
 function RoomContent(props) {
   const {
     name,
@@ -28,24 +43,6 @@ function RoomContent(props) {
     onAddIntegration,
     onInvite
   } = props
-
-  let text
-
-  if (isPublic) {
-    text = (
-      <FormattedMessage
-        id="roomIsPublic"
-        defaultMessage="This group is public. Every member can join and read the history."
-      />
-    )
-  } else {
-    text = (
-      <FormattedMessage
-        id="roomIsPrivate"
-        defaultMessage="This group is private. Only invited members can see and join this group."
-      />
-    )
-  }
 
   return (
     <div className={classes.noContent}>
@@ -59,7 +56,7 @@ function RoomContent(props) {
           />
         </h2>
         <p className={classes.text}>
-          {text}
+          {text[isPublic ? 'public' : 'private']}
         </p>
         <button
           onClick={onInvite}

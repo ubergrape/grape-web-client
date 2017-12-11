@@ -5,7 +5,7 @@ import api from '..'
 import * as app from '../../app'
 import * as legacy from '../../legacy'
 import conf from '../../conf'
-import * as backend from '../../utils/backend/api'
+import * as backend from '../../utils/backend/api/main'
 import getBoundActions from '../../app/boundActions'
 
 const mockInit = () => {

@@ -10,21 +10,24 @@ import find from 'lodash/collection/find'
 
 import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
-import {SharedFiles as SharedFilesText} from '../../i18n'
+import {
+  SharedFiles as SharedFilesText, UserProfile as UserProfileText,
+  PinnedMessages as PinnedMessagesText
+} from '../../i18n'
 import SharedFiles from '../shared-files/SharedFiles'
+import PinnedMessages from '../pinned-messages/PinnedMessages'
 import SidebarPanel from '../SidebarPanel'
 import {spacing} from '../constants'
 import TabbedContent from '../TabbedContent'
 import About from './About'
 
-const title = (
-  <FormattedMessage
-    id="userProfile"
-    defaultMessage="User Profile"
-  />
-)
-
 const tabs = [
+  {
+    name: 'pinnedMessages',
+    icon: 'pinFilled',
+    render: 'renderPinnedMessages',
+    title: <PinnedMessagesText />
+  },
   {
     name: 'about',
     icon: 'userInfo',
@@ -63,6 +66,10 @@ export default class UserProfile extends PureComponent {
     onShowSubview: PropTypes.func.isRequired,
     onLoadSharedFiles: PropTypes.func.isRequired,
     onOpenSharedFile: PropTypes.func.isRequired,
+    onUnpin: PropTypes.func.isRequired,
+    onLoadPinnedMessages: PropTypes.func.isRequired,
+    onSelectPinnedMessage: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     status: PropTypes.number,
     avatar: PropTypes.string,
     displayName: PropTypes.string,
@@ -75,7 +82,7 @@ export default class UserProfile extends PureComponent {
     displayName: undefined,
     status: undefined,
     subview: undefined,
-    showSubview: 'about'
+    showSubview: 'pinnedMessages'
   }
 
   constructor(props) {
@@ -112,6 +119,22 @@ export default class UserProfile extends PureComponent {
     )
   }
 
+  renderPinnedMessages = () => {
+    const {
+      onLoadPinnedMessages, onSelectPinnedMessage, onUnpin, subview, user
+    } = this.props
+
+    return (
+      <PinnedMessages
+        {...subview}
+        user={user}
+        onLoad={onLoadPinnedMessages}
+        onSelect={onSelectPinnedMessage}
+        onUnpin={onUnpin}
+      />
+    )
+  }
+
   render() {
     const {
       status,
@@ -126,7 +149,7 @@ export default class UserProfile extends PureComponent {
 
     return (
       <SidebarPanel
-        title={title}
+        title={<UserProfileText />}
         onClose={onClose}
       >
         <div className={classes.userNameContainer}>

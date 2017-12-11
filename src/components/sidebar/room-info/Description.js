@@ -64,7 +64,7 @@ const styles = ({palette}) => ({
   }
 })
 
-const Description = ({classes, className, allowEdit, description, ...rest}) => {
+const Description = ({classes, className, allowEdit, description, isPublic, ...rest}) => {
   if (!allowEdit && !description) return null
 
   return (
@@ -77,7 +77,7 @@ const Description = ({classes, className, allowEdit, description, ...rest}) => {
         description={description}
         {...rest}
       />
-      <PrivateHint />
+      {!isPublic && <PrivateHint />}
     </section>
   )
 }

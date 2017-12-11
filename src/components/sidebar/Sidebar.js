@@ -44,6 +44,7 @@ const Content = (props) => {
     loadRoomInfo,
     loadSharedFiles,
     loadLabeledMessages,
+    loadPinnedMessages,
     searchMessages,
     toggleSearchOnlyInChannel,
     toggleSearchActivities,
@@ -54,6 +55,7 @@ const Content = (props) => {
     showRoomMentions,
     selectLabeledMessagesFilter,
     openSharedFile,
+    unpinMessage,
     options,
     ...rest
   } = props
@@ -68,6 +70,9 @@ const Content = (props) => {
           onShowSubview={showSidebarSubview}
           onLoadSharedFiles={loadSharedFiles}
           onOpenSharedFile={openSharedFile}
+          onLoadPinnedMessages={loadPinnedMessages}
+          onSelectPinnedMessage={goToMessage}
+          onUnpin={unpinMessage}
         />
       )
     case 'pm':
@@ -78,6 +83,9 @@ const Content = (props) => {
           onShowSubview={showSidebarSubview}
           onLoadSharedFiles={loadSharedFiles}
           onOpenSharedFile={openSharedFile}
+          onLoadPinnedMessages={loadPinnedMessages}
+          onSelectPinnedMessage={goToMessage}
+          onUnpin={unpinMessage}
         />
       )
     case 'mentions':
@@ -149,8 +157,10 @@ Content.propTypes = {
   loadRoomInfo: PropTypes.func.isRequired,
   loadSharedFiles: PropTypes.func.isRequired,
   loadLabeledMessages: PropTypes.func.isRequired,
+  loadPinnedMessages: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
+  unpinMessage: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
     false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'

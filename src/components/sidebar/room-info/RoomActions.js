@@ -13,7 +13,7 @@ import {settingsButtonSize} from './constants'
 
 const icon = (name, palette) => buttonIcon(name, {
   color: palette.text.primary,
-  hoverColor: palette.accent.A200,
+  hoverColor: palette.secondary.A200,
   size: settingsButtonSize
 })
 

@@ -74,7 +74,9 @@ export default class Row extends PureComponent {
     isExpanded: PropTypes.bool.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
-    onRemoveLinkAttachment: PropTypes.func.isRequired
+    onRemoveLinkAttachment: PropTypes.func.isRequired,
+    onPin: PropTypes.func.isRequired,
+    onUnpin: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -135,8 +137,8 @@ export default class Row extends PureComponent {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
-      style, key, onRemoveLinkAttachment, channel
+      isLast, isGroupable, duplicates, onToggleExpander, onPin, onUnpin,
+      isExpanded, isPm, style, key, onRemoveLinkAttachment, channel
     } = this.props
 
     let separator = null
@@ -156,6 +158,8 @@ export default class Row extends PureComponent {
       key: `row-${message.id}`,
       user,
       channel,
+      onPin,
+      onUnpin,
       onGoToChannel,
       onToggleExpander,
       customEmojis,

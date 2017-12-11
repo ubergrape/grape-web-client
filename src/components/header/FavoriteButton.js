@@ -33,7 +33,7 @@ const tip = (
       // https://github.com/cssinjs/react-jss/issues/165
       width: iconSize,
       height: iconSize,
-      color: ({favorited}) => (favorited ? palette.secondary[500] : palette.accent.A200)
+      color: ({favorited}) => (favorited ? palette.secondary[500] : palette.secondary.A200)
     }
   }
 }))
@@ -73,7 +73,7 @@ export default class Favorite extends PureComponent {
       <Tooltip message={tip}>
         <IconButton
           onClick={this.onToggle}
-          classes={classes}
+          className={classes.button}
         >
           <Icon name={favorited ? 'starFilled' : 'star'} className={classes.star} />
         </IconButton>

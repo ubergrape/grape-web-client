@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import {Provider as ReduxProvider, connect} from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {ThemeProvider} from 'grape-web/lib/jss'
+import {ThemeProvider, JssProvider, jss} from 'grape-web/lib/jss'
 import {IntlProvider} from 'react-intl'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -34,18 +34,20 @@ const AppOrLoginConnected = connect(appSelector, mapActionsToProps(actionNames))
 export default class AppProvider extends PureComponent {
   render() {
     return (
-      <Provider store={getStore()}>
-        <ThemeProvider theme={theme}>
-          <MuiThemeProvider theme={theme}>
-            <IntlProvider
-              locale={conf.user.languageCode}
-              messages={translations[conf.user.languageCode]}
-            >
-              <AppOrLoginConnected {...this.props} />
-            </IntlProvider>
-          </MuiThemeProvider>
-        </ThemeProvider>
-      </Provider>
+      <ReduxProvider store={getStore()}>
+        <JssProvider jss={jss}>
+          <ThemeProvider theme={theme}>
+            <MuiThemeProvider theme={theme}>
+              <IntlProvider
+                locale={conf.user.languageCode}
+                messages={translations[conf.user.languageCode]}
+              >
+                <AppOrLoginConnected {...this.props} />
+              </IntlProvider>
+            </MuiThemeProvider>
+          </ThemeProvider>
+        </JssProvider>
+      </ReduxProvider>
     )
   }
 }

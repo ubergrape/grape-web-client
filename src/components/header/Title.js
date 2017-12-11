@@ -1,23 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {gray, grayDarker} from 'grape-theme/dist/base-colors'
 import {small, big} from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import injectSheet from 'grape-web/lib/jss'
 
-const styles = {
+const styles = ({palette}) => ({
+  root: {
+    overflow: 'hidden'
+  },
   name: {
     extend: [ellipsis, big],
     fontWeight: 'bold',
     lineHeight: 1.2,
-    color: grayDarker
+    color: palette.grey.A400
   },
   description: {
     extend: [ellipsis, small],
     lineHeight: 1.2,
-    color: gray
+    color: palette.text.secondary
   }
-}
+})
 
 const Title = ({channel, mate, classes}) => {
   const title = (
@@ -28,7 +30,7 @@ const Title = ({channel, mate, classes}) => {
   if (!channel.description) return title
 
   return (
-    <div>
+    <div className={classes.root}>
       {title}
       <h2 className={classes.description}>
         {channel.description}

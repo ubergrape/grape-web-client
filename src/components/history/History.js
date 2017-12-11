@@ -10,7 +10,6 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
-import {styles} from './historyTheme'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -18,7 +17,15 @@ function createState(state, props) {
   return {rows, scrollTo}
 }
 
-@injectSheet(styles)
+@injectSheet({
+  history: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  }
+})
 export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

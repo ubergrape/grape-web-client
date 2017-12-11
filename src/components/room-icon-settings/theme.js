@@ -9,43 +9,21 @@ import buttonReset from '../button/reset'
 
 const buttonBorderWidth = 1
 
-const iconSettingsButton = {
-  extend: buttonReset,
-  display: 'block',
-  marginRight: 10,
-  padding: 4,
-  borderRadius: '50%',
-  border: [buttonBorderWidth, 'solid'],
-  '&:hover, &:hover *': {
-    isolate: false,
-    cursor: 'pointer'
-  }
-}
-
-const chooserButton = {
-  extend: buttonReset,
-  display: 'block',
-  overflow: 'hidden',
-  width: iconSize.xl,
-  height: iconSize.xl,
-  borderRadius: '50%',
-  backgroundClip: 'content-box',
-  border: [1, 'solid', 'transparent'],
-  boxShadow: `inset 0 0 0 2px ${white}`,
-  cursor: 'pointer',
-  '&:hover': {
-    isolate: false,
-    borderColor: linkColor,
-    '&, & *': {
+export const styles = {
+  iconSettingsButtonBase: {
+    extend: buttonReset,
+    display: 'block',
+    marginRight: 10,
+    padding: 4,
+    borderRadius: '50%',
+    border: [buttonBorderWidth, 'solid'],
+    '&:hover, &:hover *': {
       isolate: false,
       cursor: 'pointer'
     }
-  }
-}
-
-export const styles = {
+  },
   iconSettingsButton: {
-    extend: iconSettingsButton,
+    composes: '$iconSettingsButtonBase',
     borderColor: 'transparent',
     '&:hover': {
       isolate: false,
@@ -53,7 +31,7 @@ export const styles = {
     }
   },
   iconSettingsButtonActive: {
-    extend: iconSettingsButton,
+    composes: '$iconSettingsButtonBase',
     borderColor: linkColor
   },
   iconSettings: {
@@ -61,8 +39,8 @@ export const styles = {
     paddingRight: 10
   },
   iconSettingsTitle: {
-    display: 'block',
     extend: small,
+    display: 'block',
     fontWeight: 'bold'
   },
   roomColors: {
@@ -70,17 +48,38 @@ export const styles = {
   },
   iconSettingsItem: {
     display: 'inline-block',
-    margin: '0 5px 5px 0',
+    margin: [0, 5, 5, 0],
     '&:last-child': {
+      isolate: false,
       marginRight: 0
     }
   },
+  chooserButtonBase: {
+    extend: buttonReset,
+    display: 'block',
+    overflow: 'hidden',
+    width: iconSize.xl,
+    height: iconSize.xl,
+    borderRadius: '50%',
+    backgroundClip: 'content-box',
+    border: [1, 'solid', 'transparent'],
+    boxShadow: `inset 0 0 0 2px ${white}`,
+    cursor: 'pointer',
+    '&:hover': {
+      isolate: false,
+      borderColor: linkColor,
+      '&, & *': {
+        isolate: false,
+        cursor: 'pointer'
+      }
+    }
+  },
   chooserButton: {
-    extend: chooserButton,
+    composes: '$chooserButtonBase',
     borderColor
   },
   chooserButtonActive: {
-    extend: chooserButton,
+    composes: '$chooserButtonBase',
     borderColor: linkColor
   },
   iconSettingsList: {

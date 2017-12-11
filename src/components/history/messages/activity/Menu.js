@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 
 import conf from '../../../../conf'
-import BaseMenu from '../../../message-parts/Menu'
+import {Menu as BaseMenu} from '../../../message-parts'
 
 const handlerMap = {
   copyLink: 'onCopyLink',
@@ -26,7 +26,6 @@ export default class Menu extends PureComponent {
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired
-    /* eslint-enable react/no-unused-prop-types */
   }
 
   onSelectMenuItem = ({name}) => {

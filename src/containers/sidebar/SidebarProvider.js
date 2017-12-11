@@ -14,6 +14,7 @@ const actionNames = [
   'kickMemberFromChannel',
   'showChannelMembersInvite',
   'loadSharedFiles',
+  'loadPinnedMessages',
   'loadMentions',
   'loadRoomInfo',
   'loadLabeledMessages',
@@ -32,7 +33,8 @@ const actionNames = [
   'showRoomDeleteDialog',
   'goToAddIntegrations',
   'showNotificationSettings',
-  'openSharedFile'
+  'openSharedFile',
+  'unpinMessage'
 ]
 
 const ConnectedSidebar = connect(

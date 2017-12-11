@@ -1,23 +1,13 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
 
+import {GroupInfo as GroupInfoText, UserProfile as UserProfileText} from '../i18n'
 import Tooltip from '../tooltip/HoverTooltip'
 import FabButton from './FabButton'
 
 const tips = {
-  room: (
-    <FormattedMessage
-      id="groupInfo"
-      defaultMessage="Group Info"
-    />
-  ),
-  pm: (
-    <FormattedMessage
-      id="userProfile"
-      defaultMessage="User Profile"
-    />
-  )
+  room: <GroupInfoText />,
+  pm: <UserProfileText />
 }
 
 const InfoButton = ({onClick, channel, isSelected}) => (
