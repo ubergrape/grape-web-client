@@ -108,10 +108,12 @@ function Items(props) {
           channel={channel}
           mate={mate}
         />
-        <PinButton
-          onClick={itemClickHandler(channel.type, props)}
-          className={classes.pinButton}
-        />
+        {channel.hasPinnedMessages && (
+          <PinButton
+            onClick={itemClickHandler(channel.type, props)}
+            className={classes.pinButton}
+          />
+        )}
       </li>
       <ul className={classes.sidebarActions}>
         <Divider />
