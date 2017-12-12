@@ -25,21 +25,28 @@ export default function reduce(state = initialState, action) {
     case types.UPDATE_MESSAGE: {
       const message = action.payload
 
-      // That message comes from a different channel.
-      if (message.channelId !== state.channel.id) {
+      if (
+        // That message comes from a different channel.
+        message.channelId !== state.channel.id ||
+        // We don't support attachments currently.
+        message.attachments.length
+      ) {
         return state
       }
 
-      let items = [...state.items]
-      const index = findIndex(items, {id: message.id})
+      const index = findIndex(state.items, {id: message.id})
 
-      // Add a new message.
+      if (index === -1 && !message.isPinned) return state
+
+      let items = [...state.items]
+
+      // Add a new message, which has been just pinned.
       if (index === -1) {
         items.push(message)
         items = items.sort((a, b) => (a.time > b.time ? -1 : 1))
       // Update a message.
       } else if (message.isPinned) {
-        Object.assign(items[index], message)
+        items[index] = {...items[index], ...message}
       // Remove a message.
       } else {
         items.splice(index, 1)
