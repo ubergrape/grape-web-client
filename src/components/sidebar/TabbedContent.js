@@ -39,7 +39,7 @@ import Title from './Title'
     borderRadius: [2, 2, 0, 0]
   },
   icon: {
-    height: sizes.icon.m,
+    fontSize: sizes.icon.m,
     color: 'inherit',
     cursor: 'inherit'
   },

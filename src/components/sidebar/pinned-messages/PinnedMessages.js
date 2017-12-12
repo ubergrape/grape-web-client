@@ -15,6 +15,10 @@ import Empty from './Empty'
   rootEmpty: {
     display: 'flex',
     paddingTop: sizes.spacer.xxl
+  },
+  empty: {
+    // Required by IE11.
+    width: '100%'
   }
 })
 export default class PinnedMessages extends PureComponent {
@@ -67,7 +71,7 @@ export default class PinnedMessages extends PureComponent {
             <Grapedown text={message.text} user={user} />
           </PinnedMessage>
         ))}
-        {!items.length && <Empty />}
+        {!items.length && <Empty className={classes.empty} />}
       </div>
     )
   }

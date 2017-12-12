@@ -4,6 +4,7 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import {FormattedMessage} from 'react-intl'
+import cn from 'classnames'
 
 const styles = ({palette}) => ({
   root: {
@@ -16,7 +17,8 @@ const styles = ({palette}) => ({
   },
   icon: {
     fontSize: sizes.icon.l,
-    marginBottom: sizes.spacer.l
+    marginBottom: sizes.spacer.l,
+    alignSelf: 'center'
   },
   headline: {
     extend: fonts.bigger,
@@ -31,8 +33,8 @@ const styles = ({palette}) => ({
   }
 })
 
-const Empty = ({classes}) => (
-  <div className={classes.root}>
+const Empty = ({classes, className}) => (
+  <div className={cn(classes.root, className)}>
     <Icon name="pinColored" className={classes.icon} />
     <h1 className={classes.headline}>
       <FormattedMessage
