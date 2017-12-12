@@ -62,38 +62,42 @@ export default class More extends PureComponent {
             open
           >
             <MenuList className={classes.list}>
-              <PopoverItem
-                icon="iconLink"
-                name="copyLink"
-                onSelect={onSelect}
-              />
+              {items.includes('copyLink') && (
+                <PopoverItem
+                  icon="iconLink"
+                  name="copyLink"
+                  onSelect={onSelect}
+                />
+              )}
               {items.includes('edit') && (
-              <PopoverItem
-                icon="pencil"
-                name="edit"
-                onSelect={onSelect}
-              />
-                )}
+                <PopoverItem
+                  icon="pencil"
+                  name="edit"
+                  onSelect={onSelect}
+                />
+              )}
               {items.includes('quote') && (
-              <PopoverItem
-                icon="quote"
-                name="quote"
-                onSelect={onSelect}
-              />
-                )}
-              <PopoverItem
-                icon={isPinned ? 'unpin' : 'pin'}
-                name={isPinned ? 'unpin' : 'pin'}
-                onSelect={onSelect}
-              />
+                <PopoverItem
+                  icon="quote"
+                  name="quote"
+                  onSelect={onSelect}
+                />
+              )}
+              {items.includes('pin') && (
+                <PopoverItem
+                  icon={isPinned ? 'unpin' : 'pin'}
+                  name={isPinned ? 'unpin' : 'pin'}
+                  onSelect={onSelect}
+                />
+              )}
               {items.includes('remove') && <Divider />}
               {items.includes('remove') && (
-              <PopoverItem
-                icon="deleteMessage"
-                name="remove"
-                onSelect={onSelect}
-              />
-                )}
+                <PopoverItem
+                  icon="deleteMessage"
+                  name="remove"
+                  onSelect={onSelect}
+                />
+              )}
             </MenuList>
           </Popover>
         )}

@@ -49,11 +49,11 @@ export default class Menu extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    dropdown: PropTypes.bool
+    showDropdown: PropTypes.bool
   }
 
   static defaultProps = {
-    dropdown: false,
+    showDropdown: false,
     onSelect: noop
   }
 
@@ -62,7 +62,7 @@ export default class Menu extends PureComponent {
       classes,
       items,
       getContentNode,
-      dropdown,
+      showDropdown,
       onSelect,
       ...dropdownProps
     } = this.props
@@ -71,7 +71,7 @@ export default class Menu extends PureComponent {
 
     if (!contentNode) return null
 
-    const menuItems = items.slice(0, dropdown ? 2 : 3)
+    const menuItems = items.slice(0, showDropdown ? 2 : 3)
     const position = getPosition(contentNode, menuItems.length)
 
     return (
@@ -80,12 +80,12 @@ export default class Menu extends PureComponent {
           <MenuItem
             name={name}
             index={index}
-            total={menuItems.length + (dropdown ? 1 : 0)}
+            total={menuItems.length + (showDropdown ? 1 : 0)}
             onSelect={onSelect}
             key={name}
           />
         ))}
-        {dropdown && (
+        {showDropdown && (
           <More
             {...dropdownProps}
             onSelect={onSelect}

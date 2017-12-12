@@ -57,14 +57,13 @@ export default class Menu extends PureComponent {
 
     const items = []
 
-    const edit = isOwn && !hasAttachments
-    const remove = isOwn
-    const quote = !hasAttachments
-
-    if (edit) items.push('edit')
-    if (remove) items.push('remove')
+    if (isOwn) items.push('remove')
+    if (isOwn && !hasAttachments) items.push('edit')
     items.push('copyLink')
-    if (quote) items.push('quote')
+    if (!hasAttachments) {
+      items.push('quote')
+      items.push('pin')
+    }
 
     return (
       <BaseMenu
@@ -73,7 +72,7 @@ export default class Menu extends PureComponent {
         items={items}
         isPinned={isPinned}
         isDropdownOpened={isDropdownOpened}
-        dropdown
+        showDropdown={items.length > 2}
       />
     )
   }
