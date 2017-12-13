@@ -8,10 +8,7 @@ import indexBy from 'lodash/collection/indexBy'
 import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
 import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
-import {
-  usersSelector,
-  channelsSelector
-} from '../selectors'
+import {channelsSelector} from '../selectors'
 import * as api from '../utils/backend/api'
 import conf from '../conf'
 
@@ -194,29 +191,17 @@ export const normalizeMessage = (() => {
 
   function normalizeRegularMessage(msg, state, labelConfigs) {
     const channels = channelsSelector(state)
-    const users = usersSelector(state)
-
-    const {id, text, channel: channelId, pinned: isPinned} = msg
+    const {
+      id, text, channel: channelId, pinned: isPinned
+    } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
-    let author
-    let avatar
-
-    const fullAuthor = find(users, {id: msg.author.id})
-    if (fullAuthor) {
-      author = {
-        id: fullAuthor.id,
-        name: fullAuthor.displayName,
-        slug: fullAuthor.slug
-      }
-      avatar = fullAuthor.avatar
-    } else {
-      author = {
-        id: msg.author.id,
-        name: 'Deleted User'
-      }
-      avatar = defaultAvatar
+    const avatar = msg.author.avatar || defaultAvatar
+    const author = {
+      id: msg.author.id,
+      name: msg.author.displayName || 'Deleted User',
+      slug: msg.author.username ? `@${msg.author.username}` : undefined
     }
 
     const channel = find(channels, {id: channelId})
