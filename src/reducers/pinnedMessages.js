@@ -13,9 +13,12 @@ export default function reduce(state = initialState, action) {
     case types.SET_SIDEBAR_IS_LOADING:
     case types.REQUEST_PINNED_MESSAGES:
     case types.HANDLE_PINNED_MESSAGES:
-    case types.ADD_PINNED_MESSAGE:
-    case types.REMOVE_PINNED_MESSAGE:
       return {...state, ...action.payload}
+    case types.REMOVE_MESSAGE:
+      return {
+        ...state,
+        items: state.items.filter(({id}) => id !== action.payload)
+      }
     case types.SET_CHANNEL:
       // Don't reset the state if channel hasn't changed.
       if (state.channel && state.channel.id === action.payload.channel.id) {
