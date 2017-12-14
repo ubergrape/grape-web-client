@@ -6,7 +6,7 @@ export const setShowIntro = (value = false) => rpc({
   args: [{showIntro: value}]
 })
 
-export const searchUsers = ({orgId, search = '', limit}) => rpc({
+export const searchUsers = ({orgId, search = '', limit = 1500}) => rpc({
   ns: 'search',
   action: 'search_users',
   args: [orgId, search, limit]
