@@ -585,14 +585,3 @@ export function setNotificationSession({orgId, clientId}) {
     })
   })
 }
-
-export const setShowIntro = (value = false) => new Promise((resolve, reject) => {
-  rpc({
-    ns: 'users',
-    action: 'set_profile',
-    args: [{showIntro: value}]
-  }, (err) => {
-    if (err) return reject(err)
-    return resolve()
-  })
-})

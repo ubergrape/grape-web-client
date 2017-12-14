@@ -8,7 +8,7 @@ import staticUrl from '../../utils/static-url'
 import timezone from './jstz'
 import pipeEvents from './pipeEvents'
 import page from 'page'
-import setUpRouter from '../init-router'
+import initRouter from '../init-router'
 
 
 // Legacy translation tool requires a _ variable untouched by webpack.
@@ -53,7 +53,6 @@ UI.prototype.requestPermission = function() {
 UI.prototype.setOrganization = function UI_setOrganization(org) {
   this.org = org
   this.emit('orgReady', this.org)
-  setUpRouter(this)
 }
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -63,6 +62,10 @@ UI.prototype.setUser = function UI_setUser(user) {
     this.user = user
     this.emit('setUser', user)
   }
+}
+
+UI.prototype.initRouter = function() {
+  initRouter(this)
 }
 
 UI.prototype.setSettings = function UI_setSettings(settings) {

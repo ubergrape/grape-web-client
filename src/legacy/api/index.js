@@ -441,41 +441,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   }, callback)
 }
 
-/**
- * Loads history for `room`
- */
-API.prototype.getHistory = function API_getHistory(room, options) {
-  options = options || {}
-  rpc({
-    ns: 'channels',
-    action: 'get_history',
-    args: [room.id, options]
-  }, (err, res) => {
-    if (err) return this.emit('error', err)
-    // so when the first message in history is read, assume the history as read
-    // as well
-    const read = !!room.history.length && room.history[0].read
-    if (res.length === 0) return this.emit('nohistory')
-    // append all to the front of the array
-    // TODO: for now the results are sorted in reverse order, will this be
-    // consistent?
-    const lines = res.map((line) => {
-      // check if line already exists and only add it to the history
-      // if it isnt in the history yet
-      const exists = models.Line.get(line.id)
-      if (!exists || !~room.history.indexOf(exists)) {
-        line.read = read
-        line = new models.Line(line)
-        // TODO: maybe check if everythings correctly sorted before
-        // inserting the line?
-        room.history.unshift(line)
-      }
-    })
-    this.emit('gotHistory')
-  })
-}
-
-
 API.prototype.setRead = function API_setRead(room, lineId) {
   // update the unread count
   // iterate the history in reverse order

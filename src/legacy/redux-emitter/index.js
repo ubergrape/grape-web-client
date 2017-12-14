@@ -32,6 +32,10 @@ class ReduxEmitter extends Emitter {
     getBoundActions().editPreviousMessage()
   }
 
+  initRouter() {
+    this.emit('initRouter')
+  }
+
   leaveChannel(channelId) {
     this.emit('leaveRoom', channelId)
   }

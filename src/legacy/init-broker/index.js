@@ -20,7 +20,6 @@ export default function doBroker(ui, api) {
   broker(ui, 'hasread', api, 'setRead')
   broker(ui, 'timezonechange', api, 'changedTimezone')
   broker(ui, 'editView', api, 'onEditView')
-  broker(ui, 'needhistory', api, 'getHistory')
   broker(ui, 'requestMessage', api, 'onRequestMessage')
   broker(ui, 'autocomplete', api, 'autocomplete')
   broker(ui, 'autocompletedate', api, 'autocompleteDate')

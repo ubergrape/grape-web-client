@@ -4,8 +4,10 @@ import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
 
 import conf from '../conf'
+import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import {channelsSelector, usersSelector} from '../selectors'
+import * as api from '../utils/backend/api'
 import {
   normalizeChannelData,
   normalizeUserData,
@@ -175,18 +177,21 @@ export function goToAddIntegrations() {
 
 export function setInitialData(org) {
   return (dispatch, getState) => {
-    dispatch(setUsers([...org.users]))
-    dispatch(setChannels([...org.channels]))
+    api.searchUsers({orgId: org.id}).then((usersSearch) => {
+      dispatch(setUsers(usersSearch.results))
+      dispatch(setChannels([...org.channels]))
 
-    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
-    dispatch(setOrg(cleanOrg))
-    dispatch(ensureBrowserNotificationPermission())
-    // Used by embedded chat.
-    if (conf.channelId) {
-      const channels = channelsSelector(getState())
-      const channel = find(channels, {id: conf.channelId})
-      dispatch(setChannel(channel))
-    }
-    dispatch({type: types.HANDLE_INITIAL_DATA})
+      const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
+      dispatch(setOrg(cleanOrg))
+      dispatch(ensureBrowserNotificationPermission())
+      // Used by embedded chat.
+      if (conf.channelId) {
+        const channels = channelsSelector(getState())
+        const channel = find(channels, {id: conf.channelId})
+        dispatch(setChannel(channel))
+      }
+      reduxEmitter.initRouter()
+      dispatch({type: types.HANDLE_INITIAL_DATA})
+    })
   }
 }
