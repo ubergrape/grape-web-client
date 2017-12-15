@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import * as api from '../utils/backend/api'
 import reduxEmitter from '../legacy/redux-emitter'
-import {joinedRoomsSelector, userSelector, channelSelector} from '../selectors'
+import {joinedRoomsSelector, userSelector, channelSelector, usersSelector} from '../selectors'
 import {
   normalizeChannelData,
   roomNameFromUsers
@@ -37,6 +37,17 @@ export function kickMemberFromChannel(params) {
 export function loadRoomInfo({channel}) {
   return dispatch => dispatch(loadNotificationSettings({channel}))
 }
+
+export const loadChannelMembers = () => (dispatch, getState) => {
+  const state = getState()
+  const users = usersSelector(state)
+  const channel = channelSelector(state)
+  dispatch({
+    type: types.HANDLE_CHANNEL_MEMBERS,
+    payload: users.filter(user => Boolean(find(channel.users, {id: user.id})))
+  })
+}
+
 
 export function invitedToChannel(emailAddresses, channelId) {
   return {

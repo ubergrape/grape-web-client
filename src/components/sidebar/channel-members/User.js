@@ -7,8 +7,8 @@ import {blue, grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
 
 import {userStatusMap} from '../../../constants/app'
 import {Username} from '../../avatar-name'
-import {getRoles} from './utils'
 import buttonIcon from '../../button/icon'
+import {getRoles} from '../utils'
 
 const hoverColor = color(blue).lighten(0.05).rgbaString()
 
@@ -48,8 +48,8 @@ export default class User extends PureComponent {
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
-    kickMemberFromChannel: PropTypes.func.isRequired,
-    goToChannel: PropTypes.func.isRequired
+    onKick: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -63,16 +63,16 @@ export default class User extends PureComponent {
   }
 
   onKickMember = () => {
-    const {kickMemberFromChannel, channel, user} = this.props
-    kickMemberFromChannel({
+    const {onKick, channel, user} = this.props
+    onKick({
       channelId: channel.id,
       userId: user.id
     })
   }
 
   onSelectMember = () => {
-    const {user, goToChannel} = this.props
-    goToChannel(user.slug)
+    const {user, onOpen} = this.props
+    onOpen(user.slug)
   }
 
   renderDeleteButton() {

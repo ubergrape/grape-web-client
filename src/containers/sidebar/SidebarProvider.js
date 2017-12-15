@@ -17,6 +17,7 @@ const actionNames = [
   'loadPinnedMessages',
   'loadMentions',
   'loadRoomInfo',
+  'loadChannelMembers',
   'loadLabeledMessages',
   'selectLabeledMessagesFilter',
   'goToMessage',

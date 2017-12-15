@@ -45,6 +45,7 @@ const Content = (props) => {
     loadSharedFiles,
     loadLabeledMessages,
     loadPinnedMessages,
+    loadChannelMembers,
     searchMessages,
     toggleSearchOnlyInChannel,
     toggleSearchActivities,
@@ -71,6 +72,7 @@ const Content = (props) => {
           onLoadSharedFiles={loadSharedFiles}
           onOpenSharedFile={openSharedFile}
           onLoadPinnedMessages={loadPinnedMessages}
+          onLoadMembers={loadChannelMembers}
           onSelectPinnedMessage={goToMessage}
           onUnpin={unpinMessage}
         />
@@ -158,6 +160,7 @@ Content.propTypes = {
   loadSharedFiles: PropTypes.func.isRequired,
   loadLabeledMessages: PropTypes.func.isRequired,
   loadPinnedMessages: PropTypes.func.isRequired,
+  loadChannelMembers: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
   unpinMessage: PropTypes.func.isRequired,

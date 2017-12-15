@@ -13,12 +13,12 @@ import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
 import SharedFiles from '../shared-files/SharedFiles'
 import PinnedMessages from '../pinned-messages/PinnedMessages'
+import ChannelMembers from '../channel-members/ChannelMembers'
 import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
-import User from './User'
 import RoomActions from './RoomActions'
 import Description from './Description'
-import {getRoles} from './utils'
+import {getRoles} from '../utils'
 import {styles} from './roomInfoTheme.js'
 
 const tabs = [
@@ -61,6 +61,7 @@ export default class RoomInfo extends PureComponent {
     onOpenSharedFile: PropTypes.func,
     onLoadSharedFiles: PropTypes.func.isRequired,
     onLoadPinnedMessages: PropTypes.func.isRequired,
+    onLoadMembers: PropTypes.func.isRequired,
     onSelectPinnedMessage: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
@@ -138,8 +139,8 @@ export default class RoomInfo extends PureComponent {
 
   renderMembers = () => {
     const {
-      channel, goToAddIntegrations, user: currUser, goToChannel,
-      kickMemberFromChannel
+      channel, goToAddIntegrations, user, goToChannel,
+      kickMemberFromChannel, subview: {users}, onLoadMembers
     } = this.props
 
     return (
@@ -151,16 +152,14 @@ export default class RoomInfo extends PureComponent {
           onAddIntegration={goToAddIntegrations}
         />
         <Divider />
-        {channel.users.map(user => (
-          <User
-            key={user.id}
-            user={user}
-            channel={channel}
-            currUser={currUser}
-            goToChannel={goToChannel}
-            kickMemberFromChannel={kickMemberFromChannel}
-          />
-        ))}
+        <ChannelMembers
+          channel={channel}
+          onLoad={onLoadMembers}
+          onOpen={goToChannel}
+          onKick={kickMemberFromChannel}
+          currUser={user}
+          users={users}
+        />
       </div>
     )
   }
