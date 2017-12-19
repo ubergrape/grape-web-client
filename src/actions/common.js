@@ -1,10 +1,8 @@
-import page from 'page'
 import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
 
 import conf from '../conf'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import {channelsSelector, usersSelector} from '../selectors'
 import * as api from '../utils/backend/api'
@@ -46,10 +44,14 @@ export function goTo(options) {
       if (conf.embed) {
         // In the embdeded chat we open all URLs in a new window.
         window.open(`${conf.server.serviceUrl}${path}`, '_blank')
-      // All /chat URLs are handled by the router.
-      } else if (path.substr(0, 5) === '/chat') page(path)
+      }
+    // All /chat URLs are handled by the router.
+    } else if (path.substr(0, 5) === '/chat') {
+      // XXX resolve during router refactoring
+      // page(path)
       // Locations outside of SPA.
-      else location.pathname = path
+    } else {
+      location.pathname = path
     }
   }
 }
@@ -190,7 +192,6 @@ export function setInitialData(org) {
         const channel = find(channels, {id: conf.channelId})
         dispatch(setChannel(channel))
       }
-      reduxEmitter.initRouter()
       dispatch({type: types.HANDLE_INITIAL_DATA})
     })
   }

@@ -15,5 +15,4 @@ export default function pipeEvents(ui) {
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
 
   broker(ui.reduxEmitter, 'error', ui, 'gotError')
-  broker(ui.reduxEmitter, 'initRouter', ui, 'initRouter')
 }

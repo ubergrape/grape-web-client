@@ -7,8 +7,6 @@ const events = require('component-events')
 import staticUrl from '../../utils/static-url'
 import timezone from './jstz'
 import pipeEvents from './pipeEvents'
-import page from 'page'
-import initRouter from '../init-router'
 
 
 // Legacy translation tool requires a _ variable untouched by webpack.
@@ -64,10 +62,6 @@ UI.prototype.setUser = function UI_setUser(user) {
   }
 }
 
-UI.prototype.initRouter = function() {
-  initRouter(this)
-}
-
 UI.prototype.setSettings = function UI_setSettings(settings) {
   this.settings = settings
 
@@ -93,39 +87,6 @@ UI.prototype.gotError = function UI_gotError(err) {
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
   this.room = room
-}
-
-UI.prototype.leftChannel = function UI_leftChannel(room) {
-  if (this.room !== room) return
-  page.replace('/chat/')
-}
-
-UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-  if (this.room !== room) return
-  page.replace(`/chat/${room.slug}`)
-}
-
-UI.prototype.onMessageNotFound = function UI_onMessageNotFound(channel) {
-  // TODO: need to be fixed before PR accepted!
-  const redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
-
-  page.redirect(`/chat/${redirectSlug}`)
-  this.reduxEmitter.showAlert({
-    level: 'warning',
-    type: alerts.MESSAGE_NOT_FOUND,
-    closeAfter: 6000,
-    isClosable: true
-  })
-}
-
-UI.prototype.onInvalidUrl = function(cause) {
-  page.redirect('/chat/')
-  this.reduxEmitter.showAlert({
-    level: 'warning',
-    type: cause,
-    closeAfter: 6000,
-    isClosable: true
-  })
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager() {
