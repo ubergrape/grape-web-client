@@ -36,7 +36,7 @@ let allSections = []
 function getItemFromSections(sections, fn) {
   let item
 
-  sections.some(section => {
+  sections.some((section) => {
     item = find(section.items, fn)
     return Boolean(item)
   })
@@ -56,8 +56,12 @@ function getItemFromSectionsById(sections, id) {
  * Mark currently focused item as not focused.
  */
 function unsetFocusedItem(sections) {
-  sections.forEach(section => {
-    section.items.forEach(item => item.focused = false)
+  sections.forEach((section) => {
+    section.items.forEach((item) => {
+      // TODO refactor without mutations
+      // eslint-disable-next-line no-param-reassign
+      item.focused = false
+    })
   })
 }
 
@@ -82,7 +86,9 @@ export function setFocusedItem(sections, id) {
 export function init() {
   if (!emoji.get()) return
 
-  EMOJI_META.forEach(data => {
+  allSections = []
+
+  EMOJI_META.forEach((data) => {
     let section = find(allSections, item => item.id === data.cat)
 
     if (!section) {
@@ -99,24 +105,26 @@ export function init() {
     section.itemNames.push(data.name)
   })
 
-  allSections = allSections.sort((section1, section2) => {
-    return EMOJI_CATEGORY_ORDER[section1.id] - EMOJI_CATEGORY_ORDER[section2.id]
-  })
+  allSections = allSections.sort((section1, section2) => (
+    EMOJI_CATEGORY_ORDER[section1.id] - EMOJI_CATEGORY_ORDER[section2.id]
+  ))
 
   // Populate emoji sections with items if we have them in js-emoji.
-  allSections.forEach(section => {
-    section.items = []
-    section.itemNames.forEach(name => {
+  allSections = allSections.map((section) => {
+    const nextSection = {...section, items: []}
+    nextSection.itemNames.forEach((name) => {
       const item = emoji.get(name)
-      if (item) section.items.push(item)
+      if (item) nextSection.items.push(item)
     })
+    return nextSection
   })
 
   allSections.push({
     id: 'grapemoji',
     label: 'grapemoji',
     selected: false,
-    items: values(emoji.getCustom())
+    items: values(emoji.getCustom()),
+    itemNames: []
   })
 }
 
@@ -124,14 +132,15 @@ export function getSections(search, facet = 'emoticons') {
   let ret = allSections
 
   if (search && facet === 'search') {
-    ret = ret.map(section => {
-      const items = section.items.filter(item => {
+    ret = ret.map((section) => {
+      const items = section.items.filter((item) => {
         if (item.name.indexOf(search) >= 0) return true
         const metaItem = EMOJI_META_MAP[item.name]
         if (!metaItem) return false
         return metaItem.aliases.some(alias => alias.indexOf(search) >= 0)
       })
       if (items.length) return {...section, items}
+      return null
     })
     ret = compact(ret)
   }
@@ -184,12 +193,4 @@ export function getTabs({hasSearch, selected, orgLogo}) {
   tab.selected = true
 
   return tabs
-}
-
-/**
- * Mark a tab at specified index as selected, unmark previously selected one.
- */
-export function setSelectedTab(tabs, index) {
-  tabs.forEach(tab => tab.selected = false)
-  tabs[index].selected = true
 }
