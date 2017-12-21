@@ -1,7 +1,7 @@
 import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
-import {push} from 'react-router-redux'
+import {push as pushRouter} from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
@@ -40,23 +40,27 @@ export function goTo(options) {
       payload: options
     })
     const {path, url, target} = options
+
     // If it is a URL and not a path, always open in a new window.
     if (url) {
       if (target) window.open(url, target)
       else location.href = url
-    } else if (path) {
-      if (conf.embed) {
-        // In the embdeded chat we open all URLs in a new window.
-        window.open(`${conf.server.serviceUrl}${path}`, '_blank')
-      }
-    // All /chat URLs are handled by the router.
-    } else if (path.substr(0, 5) === '/chat') {
-      // XXX resolve during router refactoring
-      // page(path)
-      // Locations outside of SPA.
-    } else {
-      location.pathname = path
+      return
     }
+
+    // In the embdeded chat we open all URLs in a new window.
+    if (path && conf.embed) {
+      window.open(`${conf.server.serviceUrl}${path}`, '_blank')
+    }
+
+    // All /chat URLs are handled by the router.
+    if (path.substr(0, 5) === '/chat') {
+      dispatch(pushRouter(path))
+      return
+    }
+
+    // Locations outside of SPA.
+    location.pathname = path
   }
 }
 
@@ -133,8 +137,7 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
 export const handleChannelNotFound = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
-  dispatch(setChannel(channel))
-  dispatch(push(`/chat/${channel.id}`))
+  dispatch(goTo({path: `/chat/${channel.id}`}))
   dispatch(showAlert({
     level: 'warning',
     type: alerts.CHANNEL_NOT_FOUND,
