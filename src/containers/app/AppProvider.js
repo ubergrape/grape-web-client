@@ -13,10 +13,10 @@ import {Login} from '../../components/login'
 import * as translations from '../../i18n'
 import conf from '../../conf'
 
-const AppOrLogin = ({show, children, ...rest}) => {
+const AppOrLogin = ({show, children, onChangeRoute, ...rest}) => {
   switch (show) {
     case 'app':
-      return children
+      return children({onChangeRoute})
     case 'login':
       return <Login {...rest} />
     default:
@@ -26,7 +26,8 @@ const AppOrLogin = ({show, children, ...rest}) => {
 
 const actionNames = {
   checkAuth: 'onCheckAuth',
-  loginFromEmbedded: 'onLogin'
+  loginFromEmbedded: 'onLogin',
+  handleChangeRoute: 'onChangeRoute'
 }
 
 const AppOrLoginConnected = connect(appSelector, mapActionsToProps(actionNames))(AppOrLogin)

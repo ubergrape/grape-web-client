@@ -9,8 +9,8 @@ import moment from 'moment'
 import conf from '../conf'
 import subscribe from './subscribe'
 import * as client from './client'
-import App from './App'
-import EmbeddedApp from './EmbeddedApp'
+import AppFull from './AppFull'
+import AppEmbedded from './AppEmbedded'
 
 let sheetsInsertionPoint
 let renderContainer
@@ -50,9 +50,9 @@ export function renderSheetsInsertionPoints() {
 
 export function render() {
   const renderApp = () => {
-    const Component = conf.embed ? EmbeddedApp : App
+    const App = conf.embed ? AppEmbedded : AppFull
     renderContainer = document.querySelector(conf.container)
-    ReactDom.render(React.createElement(Component), renderContainer)
+    ReactDom.render(React.createElement(App), renderContainer)
   }
 
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {

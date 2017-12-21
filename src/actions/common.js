@@ -1,21 +1,25 @@
 import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
+import {push} from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, usersSelector} from '../selectors'
+import {channelsSelector, channelSelector, usersSelector} from '../selectors'
 import * as api from '../utils/backend/api'
 import {
   normalizeChannelData,
   normalizeUserData,
-  removeBrokenPms
+  removeBrokenPms,
+  findLastUsedChannel
 } from './utils'
 import {
   ensureBrowserNotificationPermission,
   showToastNotification,
-  showIntro
+  showIntro,
+  showAlert
 } from './'
+import * as alerts from '../constants/alerts'
 
 export function error(err) {
   return (dispatch) => {
@@ -104,14 +108,39 @@ export function setUser(user) {
   }
 }
 
-export function setChannel(channel, messageId) {
-  return {
-    type: types.SET_CHANNEL,
-    payload: {
-      channel: normalizeChannelData(channel),
-      messageId
-    }
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const state = getState()
+  let nextChannel = channelId
+
+  if (typeof channelId === 'number') {
+    const channels = channelsSelector(state)
+    nextChannel = find(channels, {id: channelId})
   }
+
+  if (nextChannel) {
+    const currChannel = channelSelector(state)
+    // Has not changed.
+    if (currChannel && currChannel.id === nextChannel.id) {
+      return
+    }
+    dispatch({
+      type: types.SET_CHANNEL,
+      payload: {channel: nextChannel, messageId}
+    })
+  }
+}
+
+export const handleChannelNotFound = () => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const channel = findLastUsedChannel(channels)
+  dispatch(setChannel(channel))
+  dispatch(push(`/chat/${channel.id}`))
+  dispatch(showAlert({
+    level: 'warning',
+    type: alerts.CHANNEL_NOT_FOUND,
+    closeAfter: 6000,
+    isClosable: true
+  }))
 }
 
 export function setSettings(settings) {
@@ -177,22 +206,31 @@ export function goToAddIntegrations() {
   }
 }
 
-export function setInitialData(org) {
-  return (dispatch, getState) => {
-    api.searchUsers({orgId: org.id}).then((usersSearch) => {
-      dispatch(setUsers(usersSearch.results))
-      dispatch(setChannels([...org.channels]))
-
-      const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
-      dispatch(setOrg(cleanOrg))
-      dispatch(ensureBrowserNotificationPermission())
-      // Used by embedded chat.
-      if (conf.channelId) {
-        const channels = channelsSelector(getState())
-        const channel = find(channels, {id: conf.channelId})
-        dispatch(setChannel(channel))
-      }
-      dispatch({type: types.HANDLE_INITIAL_DATA})
-    })
+export const handleChangeRoute = params => (dispatch, getState) => {
+  if (params.channel) {
+    const [channelId, messageId] = params.channel.split(':')
+    const channels = channelsSelector(getState())
+    if (!find(channels, {id: channelId})) {
+      dispatch(handleChannelNotFound())
+    }
+    dispatch(setChannel(Number(channelId), messageId))
   }
+}
+
+export const setInitialData = org => (dispatch) => {
+  api.searchUsers({orgId: org.id}).then((usersSearch) => {
+    const channels = [...org.channels]
+
+    dispatch(setUsers(usersSearch.results))
+    dispatch(setChannels(channels))
+    dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
+    dispatch(ensureBrowserNotificationPermission())
+
+    // In embedded chat conf.channelId is defined.
+    const channel = conf.channelId || findLastUsedChannel(channels)
+
+    dispatch(setChannel(channel))
+
+    dispatch({type: types.HANDLE_INITIAL_DATA})
+  })
 }

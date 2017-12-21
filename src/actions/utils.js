@@ -317,3 +317,9 @@ export function roomNameFromUsers(users) {
     .join(', ')
     .slice(0, maxChannelNameLength - 1)
 }
+
+export const findLastUsedChannel = channels => (
+  channels
+    .filter(channel => channel.joined)
+    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
+)

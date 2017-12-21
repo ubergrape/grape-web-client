@@ -99,9 +99,9 @@ export default class History extends PureComponent {
   }
 
   componentDidUpdate() {
-    const {isLoadingInitialData, onLoad} = this.props
+    const {isLoadingInitialData, channel, onLoad} = this.props
 
-    if (this.needsInitialLoad && !isLoadingInitialData) {
+    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
       this.needsInitialLoad = false
       onLoad()
     }

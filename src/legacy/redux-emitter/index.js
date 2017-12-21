@@ -16,10 +16,6 @@ class ReduxEmitter extends Emitter {
     getBoundActions().setUser(user)
   }
 
-  onSelectChannel(channel, messageId) {
-    getBoundActions().setChannel(toCamel(channel.toJSON()), messageId)
-  }
-
   onSetSettings(settings) {
     getBoundActions().setSettings(toCamel(settings))
   }
