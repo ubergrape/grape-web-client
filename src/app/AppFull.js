@@ -78,7 +78,7 @@ export default class App extends PureComponent {
           >
             <AppContainer>
               <Route
-                path="/:channel"
+                path="/chat/:channel"
                 component={({match: {params}}) => (
                   <AppLayout
                     Aside={Aside}
@@ -97,7 +97,7 @@ export default class App extends PureComponent {
               />
             </AppContainer>
           </Router>
-          )}
+        )}
       </AppProvider>
     )
   }

@@ -208,12 +208,14 @@ export function goToAddIntegrations() {
 
 export const handleChangeRoute = params => (dispatch, getState) => {
   if (params.channel) {
-    const [channelId, messageId] = params.channel.split(':')
+    const channelSplit = params.channel.split(':')
+    const channelId = Number(channelSplit[0])
+    const messageId = channelSplit[1]
     const channels = channelsSelector(getState())
     if (!find(channels, {id: channelId})) {
       dispatch(handleChannelNotFound())
     }
-    dispatch(setChannel(Number(channelId), messageId))
+    dispatch(setChannel(channelId, messageId))
   }
 }
 
