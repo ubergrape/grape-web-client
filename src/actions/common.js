@@ -121,17 +121,18 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     nextChannel = find(channels, {id: channelId})
   }
 
-  if (nextChannel) {
-    const currChannel = channelSelector(state)
-    // Has not changed.
-    if (currChannel && currChannel.id === nextChannel.id) {
-      return
-    }
-    dispatch({
-      type: types.SET_CHANNEL,
-      payload: {channel: nextChannel, messageId}
-    })
+  if (!nextChannel) return
+
+  const currChannel = channelSelector(state)
+  // Has not changed.
+  if (currChannel && currChannel.id === nextChannel.id) {
+    return
   }
+
+  dispatch({
+    type: types.SET_CHANNEL,
+    payload: {channel: nextChannel, messageId}
+  })
 }
 
 export const handleChannelNotFound = () => (dispatch, getState) => {
@@ -210,16 +211,24 @@ export function goToAddIntegrations() {
 }
 
 export const handleChangeRoute = params => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+
   if (params.channel) {
     const channelSplit = params.channel.split(':')
     const channelId = Number(channelSplit[0])
     const messageId = channelSplit[1]
-    const channels = channelsSelector(getState())
-    if (!find(channels, {id: channelId})) {
-      dispatch(handleChannelNotFound())
+    if (find(channels, {id: channelId})) {
+      dispatch(setChannel(channelId, messageId))
+      return
     }
-    dispatch(setChannel(channelId, messageId))
+
+    dispatch(handleChannelNotFound())
+    return
   }
+
+  // When no channel defined, find one and go to it.
+  const channel = findLastUsedChannel(channels)
+  dispatch(goTo({path: `/chat/${channel.id}`}))
 }
 
 export const setInitialData = org => (dispatch) => {

@@ -58,6 +58,20 @@ const Globals = () => (
   </section>
 )
 
+const Layout = props => (
+  <AppLayout
+    Aside={Aside}
+    Header={HeaderProvider}
+    Alerts={AlertsProvider}
+    History={HistoryProvider}
+    Sidebar={SidebarProvider}
+    Globals={Globals}
+    FileUpload={FileUploadProvider}
+    Footer={FooterProvider}
+    {...props}
+  />
+)
+
 @injectSheet({
   '@global': {
     'html, body': {
@@ -78,17 +92,20 @@ export default class App extends PureComponent {
           >
             <AppContainer>
               <Route
-                path="/chat/:channel"
+                path="/chat"
+                exact
                 component={({match: {params}}) => (
-                  <AppLayout
-                    Aside={Aside}
-                    Header={HeaderProvider}
-                    Alerts={AlertsProvider}
-                    History={HistoryProvider}
-                    Sidebar={SidebarProvider}
-                    Globals={Globals}
-                    FileUpload={FileUploadProvider}
-                    Footer={FooterProvider}
+                  <Layout
+                    onDidMount={() => {
+                      onChangeRoute(params)
+                    }}
+                  />
+                )}
+              />
+              <Route
+                path="/chat/:channel/"
+                component={({match: {params}}) => (
+                  <Layout
                     onDidMount={() => {
                       onChangeRoute(params)
                     }}
