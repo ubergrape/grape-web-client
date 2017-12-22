@@ -73,10 +73,14 @@ export function reduceChannelUsersToId(channel) {
   if (history && typeof history === 'object') {
     history = channel.history.map(h => (h.id ? h.id : h))
   }
-  let users = channel.users
+
+  let {users} = channel
   if (users && typeof users === 'object') {
-    users = channel.users.map(u => (u.id ? u.id : u))
+    users = users
+      .filter(u => Boolean(u))
+      .map(u => (u.id ? u.id : u))
   }
+
   return {
     ...channel,
     // we don't use it atm. (and contains circular references)

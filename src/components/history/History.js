@@ -80,6 +80,10 @@ export default class History extends PureComponent {
     this.needsInitialLoad = true
   }
 
+  componentDidMount() {
+    this.load()
+  }
+
   componentWillReceiveProps(nextProps) {
     const {channel, selectedMessageId, messages} = nextProps
     // 1. It is initial load, we had no channel id.
@@ -99,12 +103,7 @@ export default class History extends PureComponent {
   }
 
   componentDidUpdate() {
-    const {isLoadingInitialData, channel, onLoad} = this.props
-
-    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
-      this.needsInitialLoad = false
-      onLoad()
-    }
+    this.load()
   }
 
   onRowsRendered = () => {
@@ -121,6 +120,15 @@ export default class History extends PureComponent {
       return {...row, isExpanded}
     })
     this.setState({rows})
+  }
+
+  load() {
+    const {isLoadingInitialData, channel, onLoad} = this.props
+
+    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
+      this.needsInitialLoad = false
+      onLoad()
+    }
   }
 
   renderRow = ({index, key, style}) => (

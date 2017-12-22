@@ -39,6 +39,7 @@ export function goTo(options) {
       type: types.GO_TO,
       payload: options
     })
+
     const {path, url, target} = options
 
     // If it is a URL and not a path, always open in a new window.
@@ -51,6 +52,7 @@ export function goTo(options) {
     // In the embdeded chat we open all URLs in a new window.
     if (path && conf.embed) {
       window.open(`${conf.server.serviceUrl}${path}`, '_blank')
+      return
     }
 
     // All /chat URLs are handled by the router.
@@ -59,7 +61,7 @@ export function goTo(options) {
       return
     }
 
-    // Locations outside of SPA.
+    // Locations outside of SPA open with full page reload.
     location.pathname = path
   }
 }
@@ -124,6 +126,7 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   if (!nextChannel) return
 
   const currChannel = channelSelector(state)
+
   // Has not changed.
   if (currChannel && currChannel.id === nextChannel.id) {
     return
@@ -131,7 +134,7 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
 
   dispatch({
     type: types.SET_CHANNEL,
-    payload: {channel: nextChannel, messageId}
+    payload: {channel: normalizeChannelData(nextChannel), messageId}
   })
 }
 
@@ -158,25 +161,22 @@ export function setSettings(settings) {
 
 export function goToMessage(message) {
   return (dispatch) => {
-    if (!conf.embed) {
-      dispatch({
-        type: types.GO_TO_MESSAGE,
-        payload: message
-      })
-    }
+    dispatch({
+      type: types.GO_TO_MESSAGE,
+      payload: message
+    })
     dispatch(goTo({path: parseUrl(message.link).pathname}))
   }
 }
 
-export function goToChannel(slug) {
+export function goToChannel(channelId) {
   return (dispatch) => {
-    if (!conf.embed) {
-      dispatch({
-        type: types.GO_TO_CHANNEL,
-        payload: slug
-      })
-    }
-    dispatch(goTo({path: `/chat/${slug}`}))
+    dispatch({
+      type: types.GO_TO_CHANNEL,
+      payload: channelId
+    })
+    dispatch(goTo({path: `/chat/${channelId}`}))
+    dispatch(setChannel(channelId))
   }
 }
 
@@ -212,7 +212,6 @@ export function goToAddIntegrations() {
 
 export const handleChangeRoute = params => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-
   if (params.channel) {
     const channelSplit = params.channel.split(':')
     const channelId = Number(channelSplit[0])
@@ -231,17 +230,15 @@ export const handleChangeRoute = params => (dispatch, getState) => {
   dispatch(goTo({path: `/chat/${channel.id}`}))
 }
 
-export const setInitialData = org => (dispatch) => {
+export const setInitialData = org => (dispatch, getState) => {
   api.searchUsers({orgId: org.id}).then((usersSearch) => {
-    const channels = [...org.channels]
-
     dispatch(setUsers(usersSearch.results))
-    dispatch(setChannels(channels))
+    dispatch(setChannels([...org.channels]))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
     // In embedded chat conf.channelId is defined.
-    const channel = conf.channelId || findLastUsedChannel(channels)
+    const channel = conf.channelId || findLastUsedChannel(channelsSelector(getState()))
 
     dispatch(setChannel(channel))
 
