@@ -20,7 +20,7 @@ export const usersSelector = createSelector(
 )
 
 export const activeUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => user.active)
+  usersSelector, users => users.filter(user => user.isActive)
 )
 
 export const invitedUsersSlector = createSelector(
@@ -28,7 +28,7 @@ export const invitedUsersSlector = createSelector(
 )
 
 export const deletedUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => !user.active)
+  usersSelector, users => users.filter(user => !user.isActive)
 )
 
 export const userSelector = createSelector(
@@ -495,7 +495,7 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => channels.length === 0 ||
-    !channel || (channel.type === 'pm' && !channel.users[0].active)
+    !channel || (channel.type === 'pm' && !channel.users[0].isActive)
 )
 
 export const footerSelector = createSelector(

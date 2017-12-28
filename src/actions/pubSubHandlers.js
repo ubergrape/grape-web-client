@@ -114,7 +114,7 @@ export function handleJoinOrg({user, organization: orgId}) {
         avatar,
         slug: `@${user.username}`,
         pm: null,
-        active: true,
+        isActive: true,
         status: 0
       }
     })

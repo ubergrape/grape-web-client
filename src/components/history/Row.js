@@ -60,7 +60,7 @@ export default class Row extends PureComponent {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
-    onGoToChannel: PropTypes.func.isRequired,
+    onGoToPmChannel: PropTypes.func.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
@@ -136,7 +136,7 @@ export default class Row extends PureComponent {
   render() {
     const {
       sheet: {classes},
-      user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
+      user, onGoToPmChannel, selectedMessageId, message, prevMessage, customEmojis,
       isLast, isGroupable, duplicates, onToggleExpander, onPin, onUnpin,
       isExpanded, isPm, style, key, onRemoveLinkAttachment, channel
     } = this.props
@@ -160,7 +160,7 @@ export default class Row extends PureComponent {
       channel,
       onPin,
       onUnpin,
-      onGoToChannel,
+      onGoToPmChannel,
       onToggleExpander,
       customEmojis,
       duplicates: duplicates.length,

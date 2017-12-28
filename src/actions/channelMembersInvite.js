@@ -74,7 +74,7 @@ export function createRoomFromPmAndInvite(users) {
       })
       .then(() => {
         if (newRoom) {
-          dispatch(goToChannel(newRoom.slug))
+          dispatch(goToChannel(newRoom.id))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

@@ -123,7 +123,7 @@ export function createRoomWithUsers(room, users) {
       .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
       .then(() => {
         if (newRoom) {
-          dispatch(goToChannel(newRoom.slug))
+          dispatch(goToChannel(newRoom.id))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

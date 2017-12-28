@@ -7,7 +7,7 @@ import {newConversationDialog as selector} from '../../selectors'
 import NewConversation from '../../components/new-conversation/NewConversation'
 
 const actionNames = [
-  'goToChannel',
+  'goToPmChannel',
   'createRoomWithUsers',
   'showInviteToOrg',
   'showNewConversation',

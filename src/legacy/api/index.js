@@ -53,7 +53,7 @@ API.prototype.sync = function API_sync() {
   }, (err, data) => {
     if (err) return this.emit('error', err)
     this.user = new models.User(data)
-    this.user.active = true
+    this.user.isActive = true
     this.settings = this.user.settings
     this.organizations = array(data.organizations.map(org => new models.Organization(org)))
     this.emit('changeUser', this.user)
@@ -153,7 +153,7 @@ API.prototype.subscribe = function API_subscribe() {
     const user = models.User.get(data.user)
     const index = self.organization.users.indexOf(user)
     if (user && ~index && data.organization === self.organization.id) {
-      user.active = false
+      user.isActive = false
       self.emit('deletedUser', user)
     }
   })

@@ -86,7 +86,7 @@ const renderNotification = (props) => {
   }
 
   createNotification(options, () => {
-    if (channel.id !== notification.channel.id) { onGoToChannel(notification.channel.slug) }
+    if (channel.id !== notification.channel.id) { onGoToChannel(notification.channel.id) }
   })
 }
 

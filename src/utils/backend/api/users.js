@@ -6,7 +6,13 @@ export const setShowIntro = (value = false) => rpc({
   args: [{showIntro: value}]
 })
 
-export const searchUsers = ({orgId, search = '', limit = 1500}) => rpc({
+export const getUsers = ({orgId, page = 1, pageSize = 1500}) => rpc({
+  ns: 'users',
+  action: 'get_users',
+  args: [orgId, page, pageSize]
+}, {camelize: true})
+
+export const searchUsers = ({orgId, search = '', limit}) => rpc({
   ns: 'search',
   action: 'search_users',
   args: [orgId, search, limit]

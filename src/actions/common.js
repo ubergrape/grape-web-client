@@ -5,7 +5,7 @@ import {push as pushRouter} from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, channelSelector, usersSelector} from '../selectors'
+import {channelsSelector, channelSelector, usersSelector, pmsSelector} from '../selectors'
 import * as api from '../utils/backend/api'
 import {
   normalizeChannelData,
@@ -180,6 +180,12 @@ export function goToChannel(channelId) {
   }
 }
 
+export const goToPmChannel = authorId => (dispatch, getState) => {
+  const channels = pmsSelector(getState())
+  const channel = find(channels, ({mate}) => mate.id === authorId)
+  dispatch(goToChannel(channel.id))
+}
+
 export function goToPayment() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_PAYMENT})
@@ -231,8 +237,8 @@ export const handleChangeRoute = params => (dispatch, getState) => {
 }
 
 export const setInitialData = org => (dispatch, getState) => {
-  api.searchUsers({orgId: org.id}).then((usersSearch) => {
-    dispatch(setUsers(usersSearch.results))
+  api.getUsers({orgId: org.id}).then((users) => {
+    dispatch(setUsers(users))
     dispatch(setChannels([...org.channels]))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
@@ -243,5 +249,8 @@ export const setInitialData = org => (dispatch, getState) => {
     dispatch(setChannel(channel))
 
     dispatch({type: types.HANDLE_INITIAL_DATA})
+  })
+  .catch((err) => {
+    dispatch(error(err))
   })
 }

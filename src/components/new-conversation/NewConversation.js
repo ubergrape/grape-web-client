@@ -40,7 +40,7 @@ export default class NewConversation extends PureComponent {
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
-    goToChannel: PropTypes.func.isRequired,
+    goToPmChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
     hideNewConversation: PropTypes.func.isRequired,
@@ -97,12 +97,12 @@ export default class NewConversation extends PureComponent {
 
   onCreate = () => {
     const {
-      listed, goToChannel, createRoomWithUsers, organization
+      listed, goToPmChannel, createRoomWithUsers, organization
     } = this.props
     const {name, color, icon, isPublic} = this.state
 
     if (listed.length === 1 && !name) {
-      goToChannel(listed[0].slug)
+      goToPmChannel(listed[0].id)
       return
     }
 

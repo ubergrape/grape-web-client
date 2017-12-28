@@ -16,7 +16,7 @@ const actionNames = {
   editMessage: 'onEdit',
   resendMessage: 'onResend',
   readMessage: 'onRead',
-  goToChannel: 'onGoToChannel',
+  goToPmChannel: 'onGoToPmChannel',
   showChannelMembersInvite: 'onInvite',
   goToAddIntegrations: 'onAddIntegration',
   showToastNotification: 'onCopyLink',

@@ -37,7 +37,7 @@ export default function reduce(state = initialState, action) {
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        active: false
+        isActive: false
       })
       return newState
     }
