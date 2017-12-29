@@ -19,6 +19,10 @@ export const usersSelector = createSelector(
   state => state.users, state => state
 )
 
+export const userSelector = createSelector(
+  state => state.user, state => state
+)
+
 export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isActive)
 )
@@ -29,10 +33,6 @@ export const invitedUsersSlector = createSelector(
 
 export const deletedUsersSelector = createSelector(
   usersSelector, users => users.filter(user => !user.isActive)
-)
-
-export const userSelector = createSelector(
-  usersSelector, users => find(users, 'current') || {}
 )
 
 export const initialChannelsSelector = createSelector(

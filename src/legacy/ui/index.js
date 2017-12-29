@@ -48,39 +48,6 @@ UI.prototype.requestPermission = function() {
   notify.requestPermission()
 }
 
-UI.prototype.setOrganization = function UI_setOrganization(org) {
-  this.org = org
-  this.emit('orgReady', this.org)
-}
-
-UI.prototype.setUser = function UI_setUser(user) {
-  // the first time setUser will be called it hopefully contains the current
-  // user and not another one
-  if (this.user === undefined || user.id === this.user.id) {
-    this.user = user
-    this.emit('setUser', user)
-  }
-}
-
-UI.prototype.setSettings = function UI_setSettings(settings) {
-  this.settings = settings
-
-  this.emit('settingsReady')
-
-  // javscript timezone should always override server timezone setting?
-  if (!this.settings.timezone || this.settings.timezone !== this.tz) {
-    this.emit('timezonechange', this.tz)
-  }
-}
-
-UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-  const self = this
-  const org = orgs.filter((o) => {
-    if (o.id === self.options.organizationId) return o
-  })[0]
-  this.emit('selectorganization', org)
-}
-
 UI.prototype.gotError = function UI_gotError(err) {
   this.reduxEmitter.showToastNotification(err.message)
 }

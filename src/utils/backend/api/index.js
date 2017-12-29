@@ -1,3 +1,4 @@
 export * from './main'
 export * from './pinning'
 export * from './users'
+export * from './org'

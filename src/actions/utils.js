@@ -83,18 +83,21 @@ export function reduceChannelUsersToId(channel) {
 
   return {
     ...channel,
-    // we don't use it atm. (and contains circular references)
-    readingStatus: null,
-    // @cvle: why we have this? I guess it's legacy stuff..
-    _readingStatus: null,
     creator,
     history,
     users
   }
 }
 
-export function normalizeChannelData(channel) {
-  return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
+const setJoined = (channel, userId) => ({
+  ...channel,
+  joined: channel.users.indexOf(userId) !== -1
+})
+
+export function normalizeChannelData(channel, userId) {
+  const normalized = nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
+  if (userId) return setJoined(normalized, userId)
+  return normalized
 }
 
 /**

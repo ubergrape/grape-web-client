@@ -3,10 +3,7 @@ import broker from 'broker'
 
 export default function pipeEvents(ui) {
   // ui
-  broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
-  broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
   broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
-  broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'selectchannel', ui, 'setRoomContext')
   broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
 

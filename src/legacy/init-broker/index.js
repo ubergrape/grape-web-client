@@ -1,16 +1,11 @@
 import broker from 'broker'
 
 export default function doBroker(ui, api) {
-  broker(api, 'change organization', ui, 'setOrganization')
-  broker(api, 'change organizations', ui, 'setOrganizations')
-  broker(api, 'changeUser', ui, 'setUser')
-  broker(api, 'change settings', ui, 'setSettings')
   broker(api, 'leftChannel', ui, 'leftChannel')
   broker(api, 'error', ui, 'gotError')
   broker(api, 'messageNotFound', ui, 'onMessageNotFound')
   broker(api, 'channelupdate', ui, 'channelUpdate')
 
-  broker(ui, 'selectorganization', api, 'setOrganization')
   broker(ui, 'kickMember', api, 'onKickMember')
   broker(ui, 'joinroom', api, 'joinRoom')
   broker(ui, 'leaveRoom', api, 'onLeaveRoom')
@@ -34,7 +29,6 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'newMessage', ui, 'newMessage')
   broker.pass(api, 'channelRead', ui, 'channelRead')
   broker.pass(api, 'newPMOpened', ui, 'newPMOpened')
-  broker.pass(api, 'changeUser', ui, 'changeUser')
   broker.pass(api, 'joinedChannel', ui, 'joinedChannel')
   broker.pass(api, 'leftChannel', ui, 'leftChannel')
   broker.pass(api, 'newRoomMember', ui, 'newRoomMember')

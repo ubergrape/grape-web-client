@@ -18,8 +18,6 @@ function API() {
   this.user = undefined
   // user settings
   this.settings = undefined
-  // list of all the organizations the user belongs to
-  this.organizations = undefined
   // the currently active organization
   this.organization = undefined
   // A channel for incomming events.
@@ -33,33 +31,9 @@ API.prototype.connect = function API_connect() {
   const channel = client().connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
-  // Resync the whole data if we got a new client id, because we might have
-  // missed some messages. This is related to the current serverside arch.
-  channel.on('set:id', () => {
-    this.sync()
-  })
-  channel.on('disconnected', () => {
-    this.emit('disconnected')
-  })
+
   channel.on('data', (data) => {
     this.in.emit(data.event, data)
-  })
-}
-
-API.prototype.sync = function API_sync() {
-  rpc({
-    ns: 'users',
-    action: 'get_profile'
-  }, (err, data) => {
-    if (err) return this.emit('error', err)
-    this.user = new models.User(data)
-    this.user.isActive = true
-    this.settings = this.user.settings
-    this.organizations = array(data.organizations.map(org => new models.Organization(org)))
-    this.emit('changeUser', this.user)
-    this.emit('change settings', this.settings)
-    this.emit('change organizations', this.organizations)
-    this.emit('connected')
   })
 }
 
@@ -273,60 +247,6 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
     room.users[0].pm = room
   }
   return room
-}
-
-/**
- * This sets the current active organization. It also joins it and loads the
- * organization details such as the users and rooms.
- */
-API.prototype.setOrganization = function API_setOrganization(_org, callback) {
-  if (!_org) return
-  callback || (callback = noop)
-  const self = this
-  // TODO: this should also leave any old organization
-  // first get the details
-  rpc({
-    ns: 'organizations',
-    action: 'get_organization',
-    args: [_org.id]
-  }, (err, res) => {
-    if (err) return self.emit('error', err)
-    const org = new models.Organization(res)
-    if (org.role == null) org.role = _org.role
-    org.users = res.users.map((u) => {
-      const user = models.User.get(u.id) || new models.User(u)
-      user.status = u.status
-      return user
-    })
-
-    const rooms = res.channels.map(self._newRoom.bind(self))
-    org.rooms = rooms.filter(r => r.type === 'room')
-    org.pms = rooms.filter(r => r.type === 'pm')
-    if (res.logo !== null) org.logo = res.logo
-    if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis
-    if (res.has_integrations !== null) org.has_integrations = res.has_integrations
-
-    org.inviter_role = res.inviter_role
-    // connect users and pms
-    org.pms.forEach((pm) => { pm.users[0].pm = pm })
-
-    // then join
-    rpc({
-      ns: 'organizations',
-      action: 'join',
-      clientId: client().id,
-      args: [org.id]
-    }, (err) => {
-      if (err) return self.emit('error', err)
-      self.organization = org
-      // put role and title in user object for consistency with other user objects
-      self.user.role = org.role
-      self.user.title = org.title
-      self.emit('change organization', org)
-      this.emit('changeUser', this.user)
-      callback()
-    })
-  })
 }
 
 API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {

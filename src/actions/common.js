@@ -5,7 +5,7 @@ import {push as pushRouter} from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, channelSelector, usersSelector, pmsSelector} from '../selectors'
+import {channelsSelector, channelSelector, usersSelector, userSelector, pmsSelector} from '../selectors'
 import * as api from '../utils/backend/api'
 import {
   normalizeChannelData,
@@ -66,13 +66,15 @@ export function goTo(options) {
   }
 }
 
-export function setChannels(channels) {
-  return {
+export const setChannels = channels => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  dispatch({
     type: types.SET_CHANNELS,
     payload: channels
       .filter(removeBrokenPms)
-      .map(normalizeChannelData)
-  }
+      .map(channel => normalizeChannelData(channel, user.id))
+  })
 }
 
 export function setUsers(users) {
@@ -101,16 +103,26 @@ export function trackAnalytics(name, options) {
   }
 }
 
-export function setUser(user) {
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_USER,
-      payload: user
-    })
+export const handleUserProfile = profile => (dispatch) => {
+  const {settings, organizations, ...user} = profile
 
-    if (user.settings.showIntro) {
-      dispatch(showIntro({via: 'onboarding'}))
-    }
+  dispatch({
+    type: types.SET_USER,
+    payload: user
+  })
+
+  dispatch({
+    type: types.SET_SETTINGS,
+    payload: settings
+  })
+
+  dispatch({
+    type: types.SET_ORGANIZATIONS,
+    payload: organizations
+  })
+
+  if (settings.showIntro) {
+    dispatch(showIntro({via: 'onboarding'}))
   }
 }
 
@@ -148,15 +160,6 @@ export const handleChannelNotFound = () => (dispatch, getState) => {
     closeAfter: 6000,
     isClosable: true
   }))
-}
-
-export function setSettings(settings) {
-  return {
-    type: types.SET_SETTINGS,
-    payload: {
-      settings
-    }
-  }
 }
 
 export function goToMessage(message) {
@@ -222,6 +225,7 @@ export const handleChangeRoute = params => (dispatch, getState) => {
     const channelSplit = params.channel.split(':')
     const channelId = Number(channelSplit[0])
     const messageId = channelSplit[1]
+
     if (find(channels, {id: channelId})) {
       dispatch(setChannel(channelId, messageId))
       return
@@ -236,10 +240,24 @@ export const handleChangeRoute = params => (dispatch, getState) => {
   dispatch(goTo({path: `/chat/${channel.id}`}))
 }
 
-export const setInitialData = org => (dispatch, getState) => {
-  api.getUsers({orgId: org.id}).then((users) => {
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch({
+    type: types.SET_INITIAL_DATA_LOADING,
+    payload: true
+  })
+  dispatch({type: types.REQUEST_ORG_DATA})
+  dispatch({type: types.REQUEST_USER_PROFILE})
+  dispatch({type: types.REQUEST_USERS})
+  dispatch({type: types.REQUEST_JOIN_ORG})
+  Promise.all([
+    api.getOrg(conf.organization.id),
+    api.getUsers({orgId: conf.organization.id}),
+    api.getUserProfile(),
+    api.joinOrg(conf.organization.id, clientId)
+  ]).then(([org, users, profile]) => {
     dispatch(setUsers(users))
-    dispatch(setChannels([...org.channels]))
+    dispatch(handleUserProfile(profile))
+    dispatch(setChannels(org.channels))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
@@ -248,7 +266,10 @@ export const setInitialData = org => (dispatch, getState) => {
 
     dispatch(setChannel(channel))
 
-    dispatch({type: types.HANDLE_INITIAL_DATA})
+    dispatch({
+      type: types.SET_INITIAL_DATA_LOADING,
+      payload: false
+    })
   })
   .catch((err) => {
     dispatch(error(err))

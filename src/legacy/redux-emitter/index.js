@@ -5,21 +5,6 @@ import getBoundActions from '../../app/boundActions'
 import * as alerts from '../../constants/alerts'
 
 class ReduxEmitter extends Emitter {
-  onOrgReady(org) {
-    // TODO: use raw data from api
-    // instead of mutated by old code at src/api
-    getBoundActions().setInitialData(toCamel(org.toJSON()))
-  }
-
-  onSetUser(userModel) {
-    const user = toCamel(userModel.toJSON())
-    getBoundActions().setUser(user)
-  }
-
-  onSetSettings(settings) {
-    getBoundActions().setSettings(toCamel(settings))
-  }
-
   onNewPMOpened(pm) {
     getBoundActions().createChannel(toCamel(pm))
   }

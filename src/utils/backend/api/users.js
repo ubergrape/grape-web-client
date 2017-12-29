@@ -1,5 +1,10 @@
 import rpc from '../rpc'
 
+export const getUserProfile = () => rpc({
+  ns: 'users',
+  action: 'get_profile'
+}, {camelize: true})
+
 export const setShowIntro = (value = false) => rpc({
   ns: 'users',
   action: 'set_profile',
