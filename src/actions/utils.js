@@ -100,14 +100,17 @@ export function normalizeChannelData(channel, userId) {
   return normalized
 }
 
-/**
- * TODO: remove this function when legacy models are no longer used
- */
-export function normalizeUserData(user) {
+export function normalizeUserData(user, organizations) {
+  const normalized = {...user}
+  // TODO
+  // Remove this when legacy models are no longer used.
   if (user.pm && typeof user.pm === 'object') {
-    return {...user, pm: normalizeChannelData(user.pm)}
+    normalized.pm = normalizeChannelData(user.pm)
   }
-  return user
+  if (Array.isArray(organizations)) {
+    normalized.role = find(organizations, {id: conf.organization.id}).role
+  }
+  return normalized
 }
 
 // Load a config and caches a promise based on org id.

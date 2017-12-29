@@ -108,7 +108,7 @@ export const handleUserProfile = profile => (dispatch) => {
 
   dispatch({
     type: types.SET_USER,
-    payload: user
+    payload: normalizeUserData(user, organizations)
   })
 
   dispatch({
