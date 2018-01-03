@@ -43,7 +43,7 @@ npm run start:proxy
 This will start a local web proxy at `0.0.0.0:3128` that redirects the assets of a chatgrape installation to the
 local assets. This is currently hard coded to support `staging` and `dev` instances.
 
-On your first run the certificate `.http-mitm-proxy/ca.pem` is created. You have to
+On your first run the certificate `.http-mitm-proxy/certs/ca.pem` is created. You have to
 install and trust this certifiate using your standard OS tools.
 
 Also install the `ca/chatgrape-labs.pem` certificate.
@@ -53,7 +53,11 @@ Also install the `ca/chatgrape-labs.pem` certificate.
 In order to use the web proxy you have to change your network settings to use
 the web proxy for both http and https.
 
+For Mac:
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
+
+For Windows (IE):
+![A configuration dialog for proxy settings](./proxy-ie.jpg)
 
 ## Trusting certificate on Firefox
 
@@ -66,7 +70,7 @@ Add all certificates here manually.
 ## Trusting certificate on Windows
 
 1. Open shell as an admin (right click in start menu).
-1. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
+2. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
 
 ## Parallels
 
