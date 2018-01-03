@@ -3,7 +3,6 @@ import expect from 'expect.js'
 
 import api from '..'
 import * as app from '../../app'
-import * as legacy from '../../legacy'
 import conf from '../../conf'
 import * as backend from '../../utils/backend/api/main'
 import getBoundActions from '../../app/boundActions'
@@ -13,12 +12,10 @@ const mockInit = () => {
   appMock.expects('init').once()
   appMock.expects('renderSheetsInsertionPoints').once()
   appMock.expects('render').once()
-  const legacyMock = sinon.mock(legacy)
-  legacyMock.expects('default').once()
   const confMock = sinon.mock(conf)
   confMock.expects('setup').once()
 
-  const all = [appMock, legacyMock, confMock]
+  const all = [appMock, confMock]
 
   return {
     verifyAndRestore: () => {

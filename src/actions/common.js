@@ -186,7 +186,7 @@ export function goToChannel(channelId) {
 export const goToPmChannel = authorId => (dispatch, getState) => {
   const channels = pmsSelector(getState())
   const channel = find(channels, ({mate}) => mate.id === authorId)
-  dispatch(goToChannel(channel.id))
+  dispatch(goToChannel(channel))
 }
 
 export function goToPayment() {

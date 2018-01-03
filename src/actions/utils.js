@@ -102,11 +102,6 @@ export function normalizeChannelData(channel, userId) {
 
 export function normalizeUserData(user, organizations) {
   const normalized = {...user}
-  // TODO
-  // Remove this when legacy models are no longer used.
-  if (user.pm && typeof user.pm === 'object') {
-    normalized.pm = normalizeChannelData(user.pm)
-  }
   if (Array.isArray(organizations)) {
     normalized.role = find(organizations, {id: conf.organization.id}).role
   }

@@ -44,8 +44,6 @@ const init = (config) => {
 
   app.init()
   app.renderSheetsInsertionPoints()
-  const initLegacy = require('../legacy').default
-  initLegacy()
   // We don't know if container is already in the tree.
   docReady.then(app.render)
 }

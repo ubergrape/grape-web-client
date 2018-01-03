@@ -2,7 +2,6 @@ import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import * as api from '../utils/backend/api'
-import reduxEmitter from '../legacy/redux-emitter'
 import {joinedRoomsSelector, userSelector, channelSelector, usersSelector} from '../selectors'
 import {
   normalizeChannelData,
@@ -21,16 +20,16 @@ export function createChannel(channel) {
 }
 
 export function leaveChannel(channelId) {
-  reduxEmitter.leaveChannel(channelId)
   return {
-    type: types.LEAVE_CHANNEL
+    type: types.LEAVE_CHANNEL,
+    payload: channelId
   }
 }
 
 export function kickMemberFromChannel(params) {
-  reduxEmitter.kickMemberFromChannel(params)
   return {
-    type: types.KICK_MEMBER_FROM_CHANNEL
+    type: types.KICK_MEMBER_FROM_CHANNEL,
+    payload: params
   }
 }
 
