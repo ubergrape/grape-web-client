@@ -57,7 +57,7 @@ For Mac:
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
 
 For Windows (IE):
-![A configuration dialog for proxy settings](./proxy-ie.jpg)
+![A configuration dialog for proxy settings](./proxy-ie.png)
 
 ## Trusting certificate on Firefox
 
