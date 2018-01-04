@@ -11,7 +11,7 @@ const {normalizeLinkText} = markdownIt()
 
 export default function GrapeObject({children, href, user}) {
   const options = getOptions(children[0], normalizeLinkText(href))
-  const {type, service} = options
+  const {id, type, service} = options
   let {url} = options
   let target
 
@@ -22,10 +22,11 @@ export default function GrapeObject({children, href, user}) {
   }
 
   if (type === 'user') {
-    const isSelf = `/chat/${user.slug}` === url
+    // TODO stop using strings in options.id, should be both same type.
+    const isSelf = user.id === Number(id)
     // Makes sure we have an "@" symbol.
     const name = create(type, options).content
-    return isSelf ? <Highlight>{name}</Highlight> : <a href={url} target={target}>{name}</a>
+    return isSelf ? <Highlight>{name}</Highlight> : <a href={`/chat/pm/${id}:${user.id}`} target={target}>{name}</a>
   }
 
   if (type !== 'room') target = '_blank'
@@ -45,6 +46,6 @@ GrapeObject.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
   user: PropTypes.shape({
-    slug: PropTypes.string.isRequired
+    id: PropTypes.number.isRequired
   }).isRequired
 }

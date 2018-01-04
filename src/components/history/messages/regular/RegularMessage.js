@@ -21,7 +21,7 @@ import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
 
-const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
+const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.id))
 
 const toggleMenuDropdown = state => ({isMenuDropdownOpened: !state.isMenuDropdownOpened})
 
@@ -59,8 +59,8 @@ export default class RegularMessage extends PureComponent {
      * message in the row.
      */
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      slug: PropTypes.string
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
     state: PropTypes.oneOf(messageDeliveryStates),

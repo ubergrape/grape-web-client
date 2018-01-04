@@ -176,14 +176,7 @@ export const normalizeMessage = (() => {
 
   function createLinkToMessage(channel, messageId) {
     const {serviceUrl} = conf.server
-    const {users} = channel
-    let {slug} = channel
-
-    if (channel.type === 'pm') {
-      slug = `${users[0].slug}/${users[1].slug}`
-    }
-
-    return `${serviceUrl}/chat/${slug}/${messageId}`
+    return `${serviceUrl}/chat/${channel.id}:${messageId}/`
   }
 
   function normalizeMentions(mentions) {
@@ -205,8 +198,7 @@ export const normalizeMessage = (() => {
     const avatar = msg.author.avatar || defaultAvatar
     const author = {
       id: msg.author.id,
-      name: msg.author.displayName || 'Deleted User',
-      slug: msg.author.username ? `@${msg.author.username}` : undefined
+      name: msg.author.displayName || 'Deleted User'
     }
 
     const channel = find(channels, {id: channelId})

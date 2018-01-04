@@ -112,7 +112,6 @@ export function handleJoinOrg({user, organization: orgId}) {
       payload: {
         ...user,
         avatar,
-        slug: `@${user.username}`,
         pm: null,
         isActive: true,
         status: 0
@@ -206,7 +205,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
 }
 
 export function handleUpateChannel({channel}) {
-  const updatable = ['id', 'type', 'name', 'slug', 'description', 'isPublic', 'color', 'icon']
+  const updatable = ['id', 'type', 'name', 'description', 'isPublic', 'color', 'icon']
   return {
     type: types.UPDATE_CHANNEL,
     payload: nullChannelIconToUndefined(pick(channel, updatable))

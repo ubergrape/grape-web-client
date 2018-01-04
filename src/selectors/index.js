@@ -63,7 +63,6 @@ export const channelsSelector = createSelector(
         return {
           ...channel,
           mate,
-          slug: mate.slug,
           name: mate.displayName,
           users: channelUsers
         }
@@ -106,9 +105,10 @@ export const activeUsersWithLastPmSelector = createSelector(
   [activeUsersSelector, activePmsSelector],
   (users, pms) => {
     const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
+
     return users.map(user => ({
       ...user,
-      pm: find(sortedPms, {slug: user.slug})
+      pm: find(sortedPms, {id: user.id})
     }))
   }
 )
@@ -357,7 +357,6 @@ function usersAsPms(users) {
   return users.map(user => ({
     type: 'pm',
     mate: user,
-    slug: user.slug,
     name: user.displayName
   }))
 }
@@ -375,8 +374,8 @@ export const navigationSelector = createSelector(
   (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
     const all = [...allRooms, ...usersAsPms(users)]
     const joined = [...joinedRooms, ...pms]
-    const unjoined = differenceBy(all, joined, 'slug')
-      .filter(({slug}) => slug !== user.slug)
+    const unjoined = differenceBy(all, joined, 'id')
+      .filter(({id}) => id !== user.id)
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)

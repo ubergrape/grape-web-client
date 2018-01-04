@@ -72,7 +72,7 @@ export default class User extends PureComponent {
 
   onSelectMember = () => {
     const {user, onOpen} = this.props
-    onOpen(user.slug)
+    onOpen(user.id)
   }
 
   renderDeleteButton() {

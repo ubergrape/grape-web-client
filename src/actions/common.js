@@ -183,10 +183,10 @@ export function goToChannel(channelId) {
   }
 }
 
-export const goToPmChannel = authorId => (dispatch, getState) => {
+export const goToPmChannel = userId => (dispatch, getState) => {
   const channels = pmsSelector(getState())
-  const channel = find(channels, ({mate}) => mate.id === authorId)
-  dispatch(goToChannel(channel))
+  const channel = find(channels, ({mate}) => mate.id === userId)
+  dispatch(goToChannel(channel.id))
 }
 
 export function goToPayment() {
@@ -219,9 +219,14 @@ export function goToAddIntegrations() {
   }
 }
 
-export const handleChangeRoute = params => (dispatch, getState) => {
+export const handleChangeRoute = ({route, params}) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  if (params.channel) {
+
+  if (route === 'pm') {
+    // XXX implement create channel route
+  }
+
+  if (route === 'channel') {
     const channelSplit = params.channel.split(':')
     const channelId = Number(channelSplit[0])
     const messageId = channelSplit[1]

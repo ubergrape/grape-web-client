@@ -36,12 +36,11 @@ export default class Group extends PureComponent {
 
   onClick = () => {
     const {
-      group: {slug, id},
-      onSelect,
-      type
+      group: {id},
+      onSelect
     } = this.props
 
-    onSelect(type === 'joined' ? id : slug)
+    onSelect(id)
   }
 
   render() {

@@ -197,7 +197,7 @@ export default class Navigation extends PureComponent {
         channel={channel}
         focused={focused}
         theme={{classes}}
-        key={channel.slug}
+        key={channel.id}
         onClick={() => this.goToChannel(channel)}
       />
     )
