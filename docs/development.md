@@ -57,9 +57,9 @@ the web proxy for both http and https.
 
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
 
-## For Windows (IE):
+### For Windows (IE):
 
-VirtualBox localhost address (from Mac): 10.0.2.2
+To access localhost in VirtualBox machine (from Mac), use: 10.0.2.2
 
 ![A configuration dialog for proxy settings](./proxy-ie.png)
 
