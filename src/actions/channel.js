@@ -26,11 +26,23 @@ export function leaveChannel(channelId) {
   }
 }
 
-export function kickMemberFromChannel(params) {
-  return {
-    type: types.KICK_MEMBER_FROM_CHANNEL,
+export const kickMemberFromChannel = params => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_KICK_MEMBER_FROM_CHANNEL,
     payload: params
-  }
+  })
+
+  const {channelId, userId} = params
+
+  return api
+    .kickMemberFromChannel(channelId, userId)
+    .then(() => {
+      dispatch({
+        type: types.KICK_MEMBER_FROM_CHANNEL,
+        payload: params
+      })
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function loadRoomInfo({channel}) {

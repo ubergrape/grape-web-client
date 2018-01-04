@@ -57,21 +57,6 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.REMOVE_USER_FROM_CHANNEL: {
-      const {user, channelId: id, isCurrentUser} = action.payload
-
-      const newState = [...state]
-      const index = findIndex(newState, {id})
-      if (index === -1) return state
-      const channel = newState[index]
-      newState.splice(index, 1, {
-        ...channel,
-        users: channel.users.filter(_id => _id !== user.id),
-        joined: isCurrentUser ? false : channel.joined
-      })
-      return newState
-    }
-
     case types.UPDATE_CHANNEL: {
       const {id, type} = action.payload
       const newState = [...state]
