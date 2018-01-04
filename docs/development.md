@@ -53,11 +53,11 @@ Also install the `ca/chatgrape-labs.pem` certificate.
 In order to use the web proxy you have to change your network settings to use
 the web proxy for both http and https.
 
-### For Mac
+#### For Mac
 
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
 
-### For Windows (IE):
+#### For Windows (IE)
 
 To access localhost in VirtualBox machine (from Mac), use: 10.0.2.2
 
