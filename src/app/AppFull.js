@@ -114,6 +114,17 @@ export default class App extends PureComponent {
                 )}
               />
               <Route
+                path="/chat/:channel"
+                exact
+                component={({match: {params}}) => (
+                  <Layout
+                    onDidMount={() => {
+                      onChangeRoute({route: 'channel', params})
+                    }}
+                  />
+                )}
+              />
+              <Route
                 path="/chat/:channel/:description"
                 exact
                 component={({match: {params}}) => (

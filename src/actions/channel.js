@@ -7,7 +7,7 @@ import {
   normalizeChannelData,
   roomNameFromUsers
 } from './utils'
-import {error, goToChannel, loadNotificationSettings} from './'
+import {error, goToChannel, goToLastUsedChannel, loadNotificationSettings} from './'
 
 export function createChannel(channel) {
   return {
@@ -19,11 +19,22 @@ export function createChannel(channel) {
   }
 }
 
-export function leaveChannel(channelId) {
-  return {
-    type: types.LEAVE_CHANNEL,
+export const leaveChannel = channelId => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_LEAVE_CHANNEL,
     payload: channelId
-  }
+  })
+
+  return api
+    .leaveChannel(channelId)
+    .then(() => {
+      dispatch({
+        type: types.LEAVE_CHANNEL,
+        payload: channelId
+      })
+      dispatch(goToLastUsedChannel())
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export const kickMemberFromChannel = params => (dispatch) => {

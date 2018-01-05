@@ -5,3 +5,9 @@ export const kickMemberFromChannel = (channelId, userId) => rpc({
   action: 'kick',
   args: [channelId, userId]
 })
+
+export const leaveChannel = channelId => rpc({
+  ns: 'channels',
+  action: 'leave',
+  args: [channelId]
+})

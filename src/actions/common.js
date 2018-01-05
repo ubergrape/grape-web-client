@@ -150,10 +150,14 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   })
 }
 
-export const handleChannelNotFound = () => (dispatch, getState) => {
+export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
   dispatch(goTo({path: `/chat/${channel.id}`}))
+}
+
+export const handleChannelNotFound = () => (dispatch) => {
+  dispatch(goToLastUsedChannel())
   dispatch(showAlert({
     level: 'warning',
     type: alerts.CHANNEL_NOT_FOUND,
@@ -240,9 +244,7 @@ export const handleChangeRoute = ({route, params}) => (dispatch, getState) => {
     return
   }
 
-  // When no channel defined, find one and go to it.
-  const channel = findLastUsedChannel(channels)
-  dispatch(goTo({path: `/chat/${channel.id}`}))
+  dispatch(goToLastUsedChannel())
 }
 
 export const loadInitialData = clientId => (dispatch, getState) => {
