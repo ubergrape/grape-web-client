@@ -1,7 +1,8 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: 'splash'
+  show: 'splash',
+  auth: 'nok'
 }
 
 export default function reduce(state = initialState, action) {
@@ -15,6 +16,7 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_AUTH_STATUS:
       return {
         ...state,
+        auth: payload,
         show: payload === 'ok' ? 'app' : 'login'
       }
     default:

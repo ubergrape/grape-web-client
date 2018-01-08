@@ -3,6 +3,7 @@ import * as api from '../utils/backend/api'
 import publicApi from '../api'
 import {type as connection} from '../utils/backend/client'
 import {disconnect} from '../app/client'
+import {appSelector} from '../selectors'
 import conf from '../conf'
 import {goTo} from './'
 
@@ -16,14 +17,17 @@ function handleAuthError(err) {
   }
 }
 
-export const checkAuth = () => (dispatch) => {
+export const checkAuth = () => (dispatch, getState) => {
   api
     .checkAuth()
     .then(() => {
-      dispatch({
-        type: types.HANDLE_AUTH_STATUS,
-        payload: 'ok'
-      })
+      const app = appSelector(getState())
+      if (app.auth === 'nok') {
+        dispatch({
+          type: types.HANDLE_AUTH_STATUS,
+          payload: 'ok'
+        })
+      }
       publicApi.setAuthStatus('authorized')
     })
     .catch((err) => {
