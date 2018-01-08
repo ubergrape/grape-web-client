@@ -4,6 +4,7 @@ import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 import indexBy from 'lodash/collection/indexBy'
+import omit from 'lodash/object/omit'
 
 import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
@@ -32,17 +33,7 @@ export function doesMessageChannelExist(msg, state) {
   return Boolean(channel)
 }
 
-/**
- * Change `null` value in `icon` property to `undefined`.
- *
- * TODO: remove this function when we
- * will get data only from backend and
- * not from old frontend architecture
- */
-export function nullChannelIconToUndefined(channel) {
-  if (channel.icon === null) return {...channel, icon: undefined}
-  return channel
-}
+const removeNullValues = channel => omit(channel, value => value === null)
 
 export function pinToFavorite(channel) {
   const {pin} = channel
@@ -95,13 +86,13 @@ const setJoined = (channel, userId) => ({
 })
 
 export function normalizeChannelData(channel, userId) {
-  const normalized = nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
+  const normalized = removeNullValues(pinToFavorite(reduceChannelUsersToId(channel)))
   if (userId) return setJoined(normalized, userId)
   return normalized
 }
 
 export function normalizeUserData(user, organizations) {
-  const normalized = {...user}
+  const normalized = removeNullValues({...user})
   if (Array.isArray(organizations)) {
     normalized.role = find(organizations, {id: conf.organization.id}).role
   }
