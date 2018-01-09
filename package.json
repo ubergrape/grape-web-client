@@ -136,10 +136,10 @@
     "webpack-dev-server": "^2.7.1"
   },
   "scripts": {
-    "all": "npm run test && npm run build:full && npm run build:embedded",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081 --hot --inline",
     "start:dev:embedded": "npm run start:dev -- --config embedded.webpack.js",
     "start:proxy": "node ./bin/proxy.js",
+    "build": "npm run clear:build && npm run build:lib && npm run build:full && npm run build:embedded",
     "build:full": "webpack --bail",
     "build:embedded": "npm run build:full -- --config embedded.webpack.js",
     "build:lib": "babel src --out-dir lib",
@@ -149,11 +149,11 @@
     "test:watch": "cross-env WATCH=true npm run test",
     "lint": "eslint ./src",
     "lint:staged": "lint-staged",
-    "clear": "rimraf '{node_modules,npm-shrinkwrap.json}'",
+    "clear:build": "rimraf '{dist,lib}'",
     "clear:i18n": "rimraf 'i18n/{src,export}'",
     "i18n:export": "npm run clear:i18n && npm run build && babel-node i18n/scripts/export.js",
-    "i18n:import": "npm run build && babel-node i18n/scripts/import.js",
-    "prepublishOnly": "cross-env NODE_ENV=production npm run all",
+    "i18n:import": "npm run clear:i18n && npm run build && babel-node i18n/scripts/import.js",
+    "prepublishOnly": "cross-env NODE_ENV=production npm run test && npm run build",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },
