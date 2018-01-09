@@ -136,7 +136,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "scripts": {
-    "all": "npm run test && npm run build:full",
+    "all": "npm run test && npm run build:full && npm run build:embedded",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081 --hot --inline",
     "start:dev:embedded": "npm run start:dev -- --config embedded.webpack.js",
     "start:proxy": "node ./bin/proxy.js",
