@@ -9,7 +9,7 @@ var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
-var VERSION = JSON.stringify(require('./package.json').version)
+var VERSION = require('./package.json').version
 
 var plugins = [
   new CopyFilesPlugin([{
@@ -78,8 +78,6 @@ module.exports = exports = {
 
 if (isDevServer) {
   exports.output.publicPath = '/static/app/'
-} else {
-  exports.output.publicPath = `https://unpkg.com/grape-web-client@${VERSION}/dist/app/`
 }
 
 if (NODE_ENV === 'production') {

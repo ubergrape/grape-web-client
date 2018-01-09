@@ -1,3 +1,4 @@
+import './public-path.js'
 import './polyfills'
 import api from './api'
 
