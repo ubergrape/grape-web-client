@@ -1,7 +1,7 @@
 import 'custom-event-polyfill'
 import 'innersvg-polyfill'
 
-if (global.Intl) {
+if (!global.Intl) {
   require.ensure([
     'intl',
     'intl/locale-data/jsonp/en.js',
