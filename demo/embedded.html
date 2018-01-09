@@ -3,7 +3,7 @@
 <head>
   <title>Embedded Grape Client</title>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="X-UA-Compatible" content="IE=10" />
   <meta name="viewport" content="width=device-width">
   <style>
     html, body {
@@ -21,13 +21,13 @@
   </style>
   <script>
   !function(d,s,c,n){n=d.createElement('script')
-  n.async=1,n.src=s,n.onload=c,d.head.appendChild(n)}(document,'https://unpkg.com/grape-web-client/dist/app/app.js',function(){
+  n.async=1,n.src=s,n.onload=c,d.head.appendChild(n)}(document,'https://unpkg.com/grape-web-client/dist/app/embedded.js',function(){
     grapeClient.embed({
       container: '#grape-client',
       channelId: 632,
       //channelId: 2253,
       orgId: 1,
-      serviceUrl: 'https://uebergrape.dev06.chatgrape.com'
+      serviceUrl: 'https://uebergrape.staging.chatgrape.com'
     })
   })
   </script>
