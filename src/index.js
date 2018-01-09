@@ -1,6 +1,4 @@
-import 'custom-event-polyfill'
-import 'innersvg-polyfill'
-
+import './polyfills'
 import api from './api'
 
 module.exports = api
