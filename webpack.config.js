@@ -26,8 +26,6 @@ var plugins = [
   new webpack.DefinePlugin({
     __DEV__: !NODE_ENV || NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
-    __IS_DEV_SERVER__: isDevServer,
-    __VERSION__: require('./package.json').version,
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   }),
