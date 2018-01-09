@@ -72,7 +72,10 @@ const embed = (options) => {
       organization: {
         id: options.orgId
       },
-      server: {serviceUrl: options.serviceUrl},
+      server: {
+        serviceUrl: options.serviceUrl,
+        staticPath: options.staticPath
+      },
       channelId: options.channelId,
       embed: true
     }))

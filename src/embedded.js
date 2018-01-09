@@ -1,4 +1,3 @@
-import './public-path'
 import './polyfills'
 import api from './api'
 
