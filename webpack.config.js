@@ -9,7 +9,6 @@ var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
-var VERSION = require('./package.json').version
 
 var plugins = [
   new CopyFilesPlugin([{
