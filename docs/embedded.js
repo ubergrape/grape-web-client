@@ -9,8 +9,8 @@
   document.body.appendChild(script)
 })({
   container: '#grape-client',
-  //channelId: 2253,
   channelId: 632,
+  //channelId: 2253,
   orgId: 1,
   serviceUrl: 'https://uebergrape.staging.chatgrape.com',
   staticUrl: 'https://unpkg.com/grape-web-client/dist/app/embedded.js',
