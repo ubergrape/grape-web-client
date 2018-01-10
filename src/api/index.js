@@ -66,16 +66,26 @@ const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
+  if (!window.Intl) {
+    // eslint-disable-next-line camelcase, no-underscore-dangle
+    window.__webpack_public_path__ = options.staticUrl.substr(0, options.staticUrl.lastIndexOf('/') + 1)
+    require.ensure([
+      'intl',
+      'intl/locale-data/jsonp/en.js',
+      'intl/locale-data/jsonp/de.js'
+    ], (require) => {
+      require('intl')
+      require('intl/locale-data/jsonp/en.js')
+      require('intl/locale-data/jsonp/de.js')
+    })
+  }
   loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
       organization: {
         id: options.orgId
       },
-      server: {
-        serviceUrl: options.serviceUrl,
-        staticPath: options.staticPath
-      },
+      server: {serviceUrl: options.serviceUrl},
       channelId: options.channelId,
       embed: true
     }))

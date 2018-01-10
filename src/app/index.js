@@ -6,7 +6,6 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import './publicPath'
 import conf from '../conf'
 import subscribe from './subscribe'
 import * as client from './client'
