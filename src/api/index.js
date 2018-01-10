@@ -68,7 +68,7 @@ const embed = (options) => {
   }
   if (!window.Intl) {
     // eslint-disable-next-line camelcase, no-underscore-dangle
-    window.__webpack_public_path__ = options.staticUrl.substr(0, options.staticUrl.lastIndexOf('/') + 1)
+    window.__webpack_public_path__ = `${options.staticUrl}app/`
     require.ensure([
       'intl',
       'intl/locale-data/jsonp/en.js',
@@ -85,7 +85,10 @@ const embed = (options) => {
       organization: {
         id: options.orgId
       },
-      server: {serviceUrl: options.serviceUrl},
+      server: {
+        serviceUrl: options.serviceUrl,
+        staticPath: options.staticUrl
+      },
       channelId: options.channelId,
       embed: true
     }))
