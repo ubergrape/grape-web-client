@@ -43,13 +43,13 @@ npm run start:proxy
 This will start a local web proxy at `0.0.0.0:3128` that redirects the assets of a chatgrape installation to the
 local assets. This is currently hard coded to support `staging` and `dev` instances.
 
-To access embedded version of Grape, go to: `http://localhost:8081/demo/embedded.html`
-On `demo/embedded.html`, change `serviceUrl` parameter to your `stage` or `dev` instance.
+To access embedded version of Grape, go to `http://localhost:8081/demo/embedded.html`
+In `demo/embedded.html`, change `serviceUrl` parameter to your `stage` or `dev` instance.
 
-To resolve CORS errors (Windows, IE, VirtaulBox), please follow [this](https://www.webdavsystem.com/ajax/programming/cross_origin_requests) guide. If, it's not helped - try [this](https://answers.microsoft.com/en-us/ie/forum/ie11-iewindows_10/cannot-watch-videos-on-internet-explorer-11/a3253887-b5c5-424c-91c1-ec9ed4b73b01).
+To resolve CORS errors (Windows, IE, VirtualBox), please follow [this](https://www.webdavsystem.com/ajax/programming/cross_origin_requests) guide. If it didn't help - try [this](https://answers.microsoft.com/en-us/ie/forum/ie11-iewindows_10/cannot-watch-videos-on-internet-explorer-11/a3253887-b5c5-424c-91c1-ec9ed4b73b01).
 
-On your first run the certificate `.http-mitm-proxy/certs/ca.pem` is created. You have to
-install and trust this certifiate using your standard OS tools.
+On your first run, the certificate `.http-mitm-proxy/certs/ca.pem` is created. You have to
+install and trust this certificate using your standard OS tools.
 
 Also install the `ca/chatgrape-labs.pem` certificate.
 
@@ -79,7 +79,7 @@ Add all certificates here manually.
 ## Trusting certificate on Windows
 
 1. Open shell as an admin (right click in start menu).
-2. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
+1. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
 
 ## Parallels
 
