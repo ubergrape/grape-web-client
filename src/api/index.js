@@ -70,6 +70,7 @@ const embed = (options) => {
   const intlPolyfill = new Promise((resolve) => {
     if (window.Intl) {
       resolve()
+      return
     }
 
     // eslint-disable-next-line camelcase, no-underscore-dangle
