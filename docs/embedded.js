@@ -6,7 +6,7 @@
     grapeClient.embed(options)
     if (options.onReady) options.onReady()
   }
-  document.body.appendChild(script)
+  document.head.appendChild(script)
 })({
   container: '#grape-client',
   channelId: 632,

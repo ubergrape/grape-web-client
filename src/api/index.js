@@ -67,7 +67,7 @@ const embed = (options) => {
     throw new Error('Missing serviceUrl option.')
   }
 
-  const loadIntlPolyfill = new Promise((resolve) => {
+  const intlPolyfill = new Promise((resolve) => {
     if (!window.Intl) {
       // eslint-disable-next-line camelcase, no-underscore-dangle
       window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
@@ -85,24 +85,21 @@ const embed = (options) => {
     resolve()
   })
 
-  const getConfig = new Promise((resolve) => {
-    loadConfig({serviceUrl: options.serviceUrl})
-      .then(res => merge({}, res, {
-        container: options.container,
-        organization: {
-          id: options.orgId
-        },
-        server: {
-          serviceUrl: options.serviceUrl,
-          staticPath: options.staticBaseUrl
-        },
-        channelId: options.channelId,
-        embed: true
-      }))
-      .then(res => resolve(res))
-  })
+  const getConfig = loadConfig({serviceUrl: options.serviceUrl})
+    .then(res => merge({}, res, {
+      container: options.container,
+      organization: {
+        id: options.orgId
+      },
+      server: {
+        serviceUrl: options.serviceUrl,
+        staticPath: options.staticBaseUrl
+      },
+      channelId: options.channelId,
+      embed: true
+    }))
 
-  Promise.all([loadIntlPolyfill, getConfig]).then((values) => {
+  Promise.all([intlPolyfill, getConfig]).then((values) => {
     init(values[1])
   })
 }
