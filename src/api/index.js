@@ -68,21 +68,22 @@ const embed = (options) => {
   }
 
   const intlPolyfill = new Promise((resolve) => {
-    if (!window.Intl) {
-      // eslint-disable-next-line camelcase, no-underscore-dangle
-      window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
-      require.ensure([
-        'intl',
-        'intl/locale-data/jsonp/en.js',
-        'intl/locale-data/jsonp/de.js'
-      ], (require) => {
-        require('intl')
-        require('intl/locale-data/jsonp/en.js')
-        require('intl/locale-data/jsonp/de.js')
-        resolve()
-      })
+    if (window.Intl) {
+      resolve()
     }
-    resolve()
+
+    // eslint-disable-next-line camelcase, no-underscore-dangle
+    window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
+    require.ensure([
+      'intl',
+      'intl/locale-data/jsonp/en.js',
+      'intl/locale-data/jsonp/de.js'
+    ], (require) => {
+      require('intl')
+      require('intl/locale-data/jsonp/en.js')
+      require('intl/locale-data/jsonp/de.js')
+      resolve()
+    })
   })
 
   const getConfig = loadConfig({serviceUrl: options.serviceUrl})
