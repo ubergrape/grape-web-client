@@ -9,7 +9,6 @@ export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, rej
   if (authToken) req.set('Authorization', `Token ${authToken}`)
   req.end((err, res) => {
     if (err) return reject(err)
-    delete res.body.server.staticPath
     return resolve(res.body)
   })
 })

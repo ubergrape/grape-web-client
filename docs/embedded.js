@@ -1,7 +1,7 @@
 (function(options) {
   const script = document.createElement('script')
   script.async = true
-  script.src = `${options.staticUrl}app/embedded.js`
+  script.src = `${options.staticBaseUrl}app/embedded.js`
   script.onload = function() {
     grapeClient.embed(options)
     if (options.onReady) options.onReady()
@@ -13,7 +13,7 @@
   //channelId: 2253,
   orgId: 1,
   serviceUrl: 'https://uebergrape.staging.chatgrape.com',
-  staticUrl: 'https://unpkg.com/grape-web-client/dist/',
+  staticBaseUrl: 'https://unpkg.com/grape-web-client/dist/',
   onReady: function() {
     console.log('Grape Client initialized')
   }

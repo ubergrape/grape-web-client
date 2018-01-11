@@ -66,33 +66,45 @@ const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
-  if (!window.Intl) {
-    // eslint-disable-next-line camelcase, no-underscore-dangle
-    window.__webpack_public_path__ = `${options.staticUrl}app/`
-    require.ensure([
-      'intl',
-      'intl/locale-data/jsonp/en.js',
-      'intl/locale-data/jsonp/de.js'
-    ], (require) => {
-      require('intl')
-      require('intl/locale-data/jsonp/en.js')
-      require('intl/locale-data/jsonp/de.js')
-    })
-  }
-  loadConfig({serviceUrl: options.serviceUrl})
-    .then(res => merge({}, res, {
-      container: options.container,
-      organization: {
-        id: options.orgId
-      },
-      server: {
-        serviceUrl: options.serviceUrl,
-        staticPath: options.staticUrl
-      },
-      channelId: options.channelId,
-      embed: true
-    }))
-    .then(init)
+
+  const loadIntlPolyfill = new Promise((resolve) => {
+    if (!window.Intl) {
+      // eslint-disable-next-line camelcase, no-underscore-dangle
+      window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
+      require.ensure([
+        'intl',
+        'intl/locale-data/jsonp/en.js',
+        'intl/locale-data/jsonp/de.js'
+      ], (require) => {
+        require('intl')
+        require('intl/locale-data/jsonp/en.js')
+        require('intl/locale-data/jsonp/de.js')
+        resolve()
+      })
+    }
+    resolve()
+  })
+
+  const getConfig = new Promise((resolve) => {
+    loadConfig({serviceUrl: options.serviceUrl})
+      .then(res => merge({}, res, {
+        container: options.container,
+        organization: {
+          id: options.orgId
+        },
+        server: {
+          serviceUrl: options.serviceUrl,
+          staticPath: options.staticBaseUrl
+        },
+        channelId: options.channelId,
+        embed: true
+      }))
+      .then(res => resolve(res))
+  })
+
+  Promise.all([loadIntlPolyfill, getConfig]).then((values) => {
+    init(values[1])
+  })
 }
 
 const show = (name, options) => {
