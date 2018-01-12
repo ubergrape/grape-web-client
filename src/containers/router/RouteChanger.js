@@ -10,9 +10,10 @@ export default class RouteChanger extends Component {
     children: PropTypes.element.isRequired,
     params: PropTypes.shape({
       mateId: PropTypes.string,
-      channel: PropTypes.string
+      channelId: PropTypes.string,
+      messageId: PropTypes.string
     }),
-    route: PropTypes.oneOf(['root', 'pm', 'channel'])
+    name: PropTypes.oneOf(['root', 'pm', 'channel'])
   }
 
   static defaultProps = {
@@ -20,7 +21,7 @@ export default class RouteChanger extends Component {
       mateId: '',
       channel: ''
     },
-    route: 'root'
+    name: 'root'
   }
 
   componentDidMount() {
@@ -36,11 +37,14 @@ export default class RouteChanger extends Component {
   onChangeRoute() {
     const {
       params,
-      route,
+      name,
       onChangeRoute
     } = this.props
 
-    onChangeRoute(mapParams(route, params))
+    onChangeRoute({
+      name,
+      params: mapParams(name, params)
+    })
   }
 
   render() {

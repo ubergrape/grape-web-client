@@ -1,24 +1,16 @@
 export default (route, params) => {
   switch (route) {
-    case 'pm': {
+    case 'pm':
       return {
-        name: 'pm',
-        params: {mateId: Number(params.mateId)}
+        mateId: Number(params.mateId)
       }
-    }
-    case 'channel': {
-      const channelSplit = params.channel.split(':')
+    case 'channel':
       return {
-        name: 'channel',
-        params: {
-          channelId: Number(channelSplit[0]),
-          messageId: channelSplit[1]
-        }
+        channelId: Number(params.channelId),
+        messageId: params.messageId
       }
-    }
     case 'root':
-    default: {
-      return {name: 'root'}
-    }
+    default:
+      return {}
   }
 }

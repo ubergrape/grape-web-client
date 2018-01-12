@@ -19,7 +19,7 @@ const Router = ({onChangeRoute, children}) => (
         exact
         render={({location, match}) => (
           <RouteChanger
-            route="root"
+            name="root"
             location={location}
             params={match.params}
             onChangeRoute={onChangeRoute}
@@ -33,7 +33,7 @@ const Router = ({onChangeRoute, children}) => (
         exact
         render={({location, match}) => (
           <RouteChanger
-            route="pm"
+            name="pm"
             location={location}
             params={match.params}
             onChangeRoute={onChangeRoute}
@@ -43,10 +43,10 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path="/chat/:channel(\d+)/:slug?"
+        path="/chat/:channelId(\d+):separator(:)?:messageId?/:slug?"
         render={({location, match}) => (
           <RouteChanger
-            route="channel"
+            name="channel"
             location={location}
             params={match.params}
             onChangeRoute={onChangeRoute}
