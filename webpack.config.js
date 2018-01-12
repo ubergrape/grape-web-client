@@ -33,7 +33,7 @@ var plugins = [
 ]
 
 module.exports = exports = {
-  entry: ['babel-polyfill', './src/api/index.js'],
+  entry: ['babel-polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist/app'),
     filename: 'app.js',

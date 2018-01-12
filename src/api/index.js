@@ -6,8 +6,6 @@
 import merge from 'lodash/object/merge'
 import Emitter from 'component-emitter'
 
-import 'custom-event-polyfill'
-import 'innersvg-polyfill'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 
@@ -162,4 +160,4 @@ class Api extends Emitter {
   }
 }
 
-module.exports = new Api()
+export default new Api()
