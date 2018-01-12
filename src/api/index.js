@@ -66,17 +66,45 @@ const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
-  loadConfig({serviceUrl: options.serviceUrl})
+
+  const intlPolyfill = new Promise((resolve) => {
+    if (window.Intl) {
+      resolve()
+      return
+    }
+
+    // eslint-disable-next-line camelcase, no-underscore-dangle
+    window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
+
+    require.ensure([
+      'intl',
+      'intl/locale-data/jsonp/en.js',
+      'intl/locale-data/jsonp/de.js'
+    ], (require) => {
+      require('intl')
+      require('intl/locale-data/jsonp/en.js')
+      require('intl/locale-data/jsonp/de.js')
+      resolve()
+    })
+  })
+
+  const config = loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
       organization: {
         id: options.orgId
       },
-      server: {serviceUrl: options.serviceUrl},
+      server: {
+        serviceUrl: options.serviceUrl,
+        staticPath: options.staticBaseUrl
+      },
       channelId: options.channelId,
       embed: true
     }))
-    .then(init)
+
+  Promise.all([intlPolyfill, config]).then((values) => {
+    init(values[1])
+  })
 }
 
 const show = (name, options) => {
