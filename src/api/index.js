@@ -88,7 +88,7 @@ const embed = (options) => {
     })
   })
 
-  const getConfig = loadConfig({serviceUrl: options.serviceUrl})
+  const config = loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
       organization: {
@@ -102,7 +102,7 @@ const embed = (options) => {
       embed: true
     }))
 
-  Promise.all([intlPolyfill, getConfig]).then((values) => {
+  Promise.all([intlPolyfill, config]).then((values) => {
     init(values[1])
   })
 }
