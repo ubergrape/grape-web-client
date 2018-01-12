@@ -75,6 +75,7 @@ const embed = (options) => {
 
     // eslint-disable-next-line camelcase, no-underscore-dangle
     window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
+
     require.ensure([
       'intl',
       'intl/locale-data/jsonp/en.js',
