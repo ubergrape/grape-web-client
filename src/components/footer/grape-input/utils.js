@@ -68,10 +68,11 @@ export function getUserSearchData(users, channelUsers, search) {
 
 
 export function getRoomsSearchData(rooms, channel, search) {
-  const result = rooms.map(({id, name, isPublic}) => ({
+  const result = rooms.map(({id, name, isPublic, slug}) => ({
     id,
     type: 'room',
     name,
+    slug,
     isPrivate: !isPublic,
     rank: getRank('room', search, name),
     currentRoom: id === channel.id

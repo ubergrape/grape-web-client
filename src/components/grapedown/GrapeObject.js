@@ -12,15 +12,11 @@ const {normalizeLinkText} = markdownIt()
 
 export default function GrapeObject({children, href, user}) {
   const options = getOptions(children[0], normalizeLinkText(href))
-  const {id, type, service} = options
+  const {id, type, service, slug} = options
   let {url} = options
   let target
 
   if (conf.embed) target = '_blank'
-
-  if (url[0] === '/') {
-    url = `${conf.server.serviceUrl}${url}`
-  }
 
   if (type === 'user') {
     // TODO stop using strings in options.id, should be both same type.
@@ -30,12 +26,29 @@ export default function GrapeObject({children, href, user}) {
     return isSelf ? <Highlight>{name}</Highlight> : <Link to={`/chat/pm/${id}`} target={target}>{name}</Link>
   }
 
-  if (type !== 'room') target = '_blank'
+  if (type === 'room') {
+    return (
+      <LinkWithIcon
+        url={`/chat/${id}/${slug}`}
+        icon="bell"
+        target={target}
+      >
+        {children}
+      </LinkWithIcon>
+    )
+  }
+
+
+  target = '_blank'
+
+  if (url[0] === '/') {
+    url = `${conf.server.serviceUrl}${url}`
+  }
 
   return (
     <LinkWithIcon
       url={url}
-      icon={type === 'room' ? 'bell' : service}
+      icon={service}
       target={target}
     >
       {children}

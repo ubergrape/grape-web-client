@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import {Link} from 'react-router-dom'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import icons from 'grape-web/lib/svg-icons/data'
@@ -54,10 +55,10 @@ export default class LinkWithIcon extends PureComponent {
     const style = {backgroundImage: `url(${this.getSvg()})`}
 
     return (
-      <a href={url} target={target} className={classes.link}>
+      <Link to={url} target={target} className={classes.link}>
         <span className={classes.icon} style={style} />
         {' '}{children}
-      </a>
+      </Link>
     )
   }
 }
