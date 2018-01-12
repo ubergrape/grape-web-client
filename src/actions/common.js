@@ -180,21 +180,35 @@ export function goToMessage(message) {
   }
 }
 
-export function goToChannel(channelId, options) {
-  return (dispatch) => {
+export function goToChannel(channelOrChannelId, options) {
+  return (dispatch, getState) => {
     dispatch({
       type: types.GO_TO_CHANNEL,
-      payload: channelId
+      payload: channelOrChannelId
     })
-    dispatch(goTo({...options, path: `/chat/${channelId}`}))
-    dispatch(setChannel(channelId))
+
+    let channel = channelOrChannelId
+
+    if (typeof channelOrChannelId === 'number') {
+      const channels = channelsSelector(getState())
+      channel = find(channels, ({id}) => id === channelOrChannelId)
+      // Assume we don't have always have all channels in the future.
+      if (!channel) channel = {id: channelOrChannelId}
+    }
+    const slug = channel.slug || channel.name
+
+    dispatch(goTo({
+      ...options,
+      path: `/chat/${channel.id}/${slug}`
+    }))
+    dispatch(setChannel(channel.id))
   }
 }
 
 export const goToPmChannel = (mateId, options) => (dispatch, getState) => {
   const channels = pmsSelector(getState())
   const channel = find(channels, ({mate}) => mate.id === mateId)
-  if (channel) dispatch(goToChannel(channel.id, options))
+  if (channel) dispatch(goToChannel(channel, options))
   else dispatch(handleChannelNotFound())
 }
 
