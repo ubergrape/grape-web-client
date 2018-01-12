@@ -19,6 +19,9 @@ export default function reduce(state = initialState, action) {
         auth: payload,
         show: payload === 'ok' ? 'app' : 'login'
       }
+    case types.HANDLE_CHANGE_ROUTE: {
+      return {...state, route: payload}
+    }
     default:
       return state
   }

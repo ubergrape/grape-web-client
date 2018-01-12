@@ -1,11 +1,14 @@
 import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
-import {push as pushRouter} from 'react-router-redux'
+import * as router from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, channelSelector, usersSelector, userSelector, pmsSelector} from '../selectors'
+import {
+  channelsSelector, channelSelector, usersSelector, userSelector, pmsSelector,
+  appSelector
+} from '../selectors'
 import * as api from '../utils/backend/api'
 import {
   normalizeChannelData,
@@ -57,7 +60,8 @@ export function goTo(options) {
 
     // All /chat URLs are handled by the router.
     if (path.substr(0, 5) === '/chat') {
-      dispatch(pushRouter(path))
+      if (options.replace) dispatch(router.replace(path))
+      else dispatch(router.push(path))
       return
     }
 
@@ -176,21 +180,22 @@ export function goToMessage(message) {
   }
 }
 
-export function goToChannel(channelId) {
+export function goToChannel(channelId, options) {
   return (dispatch) => {
     dispatch({
       type: types.GO_TO_CHANNEL,
       payload: channelId
     })
-    dispatch(goTo({path: `/chat/${channelId}`}))
+    dispatch(goTo({...options, path: `/chat/${channelId}`}))
     dispatch(setChannel(channelId))
   }
 }
 
-export const goToPmChannel = userId => (dispatch, getState) => {
+export const goToPmChannel = (mateId, options) => (dispatch, getState) => {
   const channels = pmsSelector(getState())
-  const channel = find(channels, ({mate}) => mate.id === userId)
-  dispatch(goToChannel(channel.id))
+  const channel = find(channels, ({mate}) => mate.id === mateId)
+  if (channel) dispatch(goToChannel(channel.id, options))
+  else dispatch(handleChannelNotFound())
 }
 
 export function goToPayment() {
@@ -223,28 +228,27 @@ export function goToAddIntegrations() {
   }
 }
 
-export const handleChangeRoute = ({route, params}) => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
+export const handleChangeRoute = ({name, params}) => (dispatch, getState) => {
+  dispatch({
+    type: types.HANDLE_CHANGE_ROUTE,
+    payload: {name, params}
+  })
 
-  if (route === 'pm') {
-    // XXX implement create channel route
-  }
-
-  if (route === 'channel') {
-    const channelSplit = params.channel.split(':')
-    const channelId = Number(channelSplit[0])
-    const messageId = channelSplit[1]
-
-    if (find(channels, {id: channelId})) {
-      dispatch(setChannel(channelId, messageId))
-      return
+  switch (name) {
+    case 'pm': {
+      dispatch(goToPmChannel(params.mateId, {replace: true}))
+      break
     }
-
-    dispatch(handleChannelNotFound())
-    return
+    case 'channel': {
+      const channels = channelsSelector(getState())
+      const channel = find(channels, {id: params.channelId})
+      if (channel) dispatch(setChannel(params.channelId, params.messageId))
+      else dispatch(handleChannelNotFound())
+      break
+    }
+    default:
+      dispatch(goToLastUsedChannel())
   }
-
-  dispatch(goToLastUsedChannel())
 }
 
 export const loadInitialData = clientId => (dispatch, getState) => {
@@ -277,6 +281,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       type: types.SET_INITIAL_DATA_LOADING,
       payload: false
     })
+
+    // On initial load route has changed, but data was not loaded,
+    // so we need to trigger it here again.
+    const {route} = appSelector(getState())
+    if (route) {
+      dispatch(handleChangeRoute(route))
+    }
   })
   .catch((err) => {
     dispatch(error(err))

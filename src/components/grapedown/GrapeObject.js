@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import markdownIt from 'markdown-it'
 import {getOptions, create} from 'grape-web/lib/grape-objects'
+import {Link} from 'react-router-dom'
 
 import LinkWithIcon from '../message-parts/LinkWithIcon'
 import Highlight from '../highlight/YellowHighlight'
@@ -26,7 +27,7 @@ export default function GrapeObject({children, href, user}) {
     const isSelf = user.id === Number(id)
     // Makes sure we have an "@" symbol.
     const name = create(type, options).content
-    return isSelf ? <Highlight>{name}</Highlight> : <a href={`/chat/pm/${id}:${user.id}`} target={target}>{name}</a>
+    return isSelf ? <Highlight>{name}</Highlight> : <Link to={`/chat/pm/${id}`} target={target}>{name}</Link>
   }
 
   if (type !== 'room') target = '_blank'

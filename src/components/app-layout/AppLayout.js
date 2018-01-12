@@ -72,8 +72,7 @@ export default class AppLayout extends PureComponent {
     Footer: PropTypes.func,
     Sidebar: PropTypes.func,
     Globals: PropTypes.func,
-    FileUpload: PropTypes.func,
-    onDidMount: PropTypes.func
+    FileUpload: PropTypes.func
   }
 
   static defaultProps = {
@@ -84,12 +83,7 @@ export default class AppLayout extends PureComponent {
     Footer: Noop,
     Sidebar: Noop,
     Globals: Noop,
-    FileUpload: Noop,
-    onDidMount: Noop
-  }
-
-  componentDidMount() {
-    this.props.onDidMount()
+    FileUpload: Noop
   }
 
   render() {

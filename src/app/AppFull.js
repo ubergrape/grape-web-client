@@ -1,8 +1,7 @@
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {Route} from 'react-router-dom'
-import Router from 'react-router-redux/ConnectedRouter'
 
+import {Router} from '../containers/router'
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
 import {HeaderProvider} from '../containers/header'
@@ -28,8 +27,6 @@ import {FileUploadProvider} from '../containers/file-upload'
 import {IntroProvider} from '../containers/intro'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
-import {AppContainer} from '../components/app-container'
-import history from './history'
 
 const Aside = ({className}) => (
   <aside className={className}>
@@ -58,20 +55,6 @@ const Globals = () => (
   </section>
 )
 
-const Layout = props => (
-  <AppLayout
-    Aside={Aside}
-    Header={HeaderProvider}
-    Alerts={AlertsProvider}
-    History={HistoryProvider}
-    Sidebar={SidebarProvider}
-    Globals={Globals}
-    FileUpload={FileUploadProvider}
-    Footer={FooterProvider}
-    {...props}
-  />
-)
-
 @injectSheet({
   '@global': {
     'html, body': {
@@ -85,57 +68,18 @@ export default class App extends PureComponent {
   render() {
     return (
       <AppProvider>
-        {({onChangeRoute}) => (
-          <Router
-            basename={'/chat'}
-            history={history}
-          >
-            <AppContainer>
-              <Route
-                path="/chat"
-                exact
-                component={({match: {params}}) => (
-                  <Layout
-                    onDidMount={() => {
-                      onChangeRoute({route: 'root', params})
-                    }}
-                  />
-                )}
-              />
-              <Route
-                path="/chat/pm/:users"
-                exact
-                component={({match: {params}}) => (
-                  <Layout
-                    onDidMount={() => {
-                      onChangeRoute({route: 'pm', params})
-                    }}
-                  />
-                )}
-              />
-              <Route
-                path="/chat/:channel"
-                exact
-                component={({match: {params}}) => (
-                  <Layout
-                    onDidMount={() => {
-                      onChangeRoute({route: 'channel', params})
-                    }}
-                  />
-                )}
-              />
-              <Route
-                path="/chat/:channel/:description"
-                exact
-                component={({match: {params}}) => (
-                  <Layout
-                    onDidMount={() => {
-                      onChangeRoute({route: 'channel', params})
-                    }}
-                  />
-                )}
-              />
-            </AppContainer>
+        {props => (
+          <Router {...props}>
+            <AppLayout
+              Aside={Aside}
+              Header={HeaderProvider}
+              Alerts={AlertsProvider}
+              History={HistoryProvider}
+              Sidebar={SidebarProvider}
+              Globals={Globals}
+              FileUpload={FileUploadProvider}
+              Footer={FooterProvider}
+            />
           </Router>
         )}
       </AppProvider>
