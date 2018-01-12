@@ -75,8 +75,8 @@ const embed = (options) => {
       return
     }
 
-    // eslint-disable-next-line camelcase, no-underscore-dangle
-    window.__webpack_public_path__ = `${options.staticBaseUrl}app/`
+    // eslint-disable-next-line camelcase, no-undef
+    __webpack_public_path__ = `${options.staticBaseUrl}app/`
 
     require.ensure([
       'intl',
