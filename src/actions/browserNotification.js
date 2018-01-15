@@ -1,5 +1,3 @@
-import notify from 'html5-desktop-notifications'
-
 import {orgSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
 import * as alerts from '../constants/alerts'
@@ -25,11 +23,15 @@ export function setNotificationSession() {
 export function enableNotifications() {
   return (dispatch) => {
     dispatch({type: types.ENABLE_BROWSER_NOTIFICATIONS})
-    notify.requestPermission((permission) => {
-      if (permission === notify.PERMISSION_GRANTED) {
-        dispatch(setNotificationSession())
-      }
-    })
+    if (Notification.permission === 'granted') {
+      dispatch(setNotificationSession())
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission((permission) => {
+        if (permission === 'granted') {
+          dispatch(setNotificationSession())
+        }
+      })
+    }
   }
 }
 
