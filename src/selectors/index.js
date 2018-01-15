@@ -355,6 +355,7 @@ function sortRecentChannels(a, b) {
 
 function usersAsPms(users) {
   return users.map(user => ({
+    id: user.id,
     type: 'pm',
     mate: user,
     name: user.displayName
