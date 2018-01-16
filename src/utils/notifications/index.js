@@ -1,5 +1,3 @@
-import notify from 'html5-desktop-notifications'
-
 export function shouldNotify({time, sourceChannelId, currentChannelId}) {
   const hasExpired = (new Date() - time) / 1000 > 60
 
@@ -20,9 +18,9 @@ export function shouldNotify({time, sourceChannelId, currentChannelId}) {
  * granted automatically.
  */
 export function shouldRequestPermission() {
+  if (!window.Notification) return false
   return (
-    notify.isSupported &&
-    notify.permissionLevel() === notify.PERMISSION_DEFAULT &&
-    (!window.external || !window.external.msIsSiteMode)
+    Notification.permission === 'default' &&
+    (!window.external || !window.external.msIsSiteMode())
   )
 }
