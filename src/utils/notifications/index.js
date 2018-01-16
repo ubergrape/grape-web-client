@@ -21,6 +21,6 @@ export function shouldRequestPermission() {
   if (!window.Notification) return false
   return (
     Notification.permission === 'default' &&
-    (!window.external || !window.external.msIsSiteMode)
+    (!window.external || !window.external.msIsSiteMode())
   )
 }
