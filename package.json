@@ -30,7 +30,7 @@
     "grape-browser": "^3.17.0",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^3.3.0",
-    "grape-web": "^1.6.0",
+    "grape-web": "^1.6.1",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",
     "innersvg-polyfill": "0.0.2",
