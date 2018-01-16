@@ -167,7 +167,7 @@ export const normalizeMessage = (() => {
 
   function createLinkToMessage(channel, messageId) {
     const {serviceUrl} = conf.server
-    return `${serviceUrl}/chat/${channel.id}:${messageId}/`
+    return `${serviceUrl}/chat/channel/${channel.id}:${messageId}/`
   }
 
   function normalizeMentions(mentions) {

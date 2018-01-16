@@ -43,7 +43,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path="/chat/:channelId(\d+):separator(:)?:messageId?/:slug?"
+        path="/chat/channel/:channelId:separator(:)?:messageId?/:slug?"
         render={({location, match}) => (
           <RouteChanger
             name="channel"

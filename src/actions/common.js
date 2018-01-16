@@ -1,15 +1,14 @@
-import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
-import * as router from 'react-router-redux'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, channelSelector, usersSelector, userSelector, pmsSelector,
+  channelsSelector, channelSelector, usersSelector, userSelector,
   appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
+import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
   normalizeUserData,
@@ -20,9 +19,10 @@ import {
   ensureBrowserNotificationPermission,
   showToastNotification,
   showIntro,
-  showAlert
+  showAlert,
+  goToLastUsedChannel,
+  handleChangeRoute
 } from './'
-import * as alerts from '../constants/alerts'
 
 export function error(err) {
   return (dispatch) => {
@@ -33,40 +33,6 @@ export function error(err) {
     dispatch(showToastNotification(err.message))
     // eslint-disable-next-line no-console
     console.error(err.stack)
-  }
-}
-
-export function goTo(options) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO,
-      payload: options
-    })
-
-    const {path, url, target} = options
-
-    // If it is a URL and not a path, always open in a new window.
-    if (url) {
-      if (target) window.open(url, target)
-      else location.href = url
-      return
-    }
-
-    // In the embdeded chat we open all URLs in a new window.
-    if (path && conf.embed) {
-      window.open(`${conf.server.serviceUrl}${path}`, '_blank')
-      return
-    }
-
-    // All /chat URLs are handled by the router.
-    if (path.substr(0, 5) === '/chat') {
-      if (options.replace) dispatch(router.replace(path))
-      else dispatch(router.push(path))
-      return
-    }
-
-    // Locations outside of SPA open with full page reload.
-    location.pathname = path
   }
 }
 
@@ -154,12 +120,6 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   })
 }
 
-export const goToLastUsedChannel = () => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
-  const channel = findLastUsedChannel(channels)
-  dispatch(goTo({path: `/chat/${channel.id}`}))
-}
-
 export const handleChannelNotFound = () => (dispatch) => {
   dispatch(goToLastUsedChannel())
   dispatch(showAlert({
@@ -168,55 +128,6 @@ export const handleChannelNotFound = () => (dispatch) => {
     closeAfter: 6000,
     isClosable: true
   }))
-}
-
-export function goToMessage(message) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_MESSAGE,
-      payload: message
-    })
-    dispatch(goTo({path: parseUrl(message.link).pathname}))
-  }
-}
-
-export function goToChannel(channelOrChannelId, options) {
-  return (dispatch, getState) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: channelOrChannelId
-    })
-
-    let channel = channelOrChannelId
-
-    if (typeof channelOrChannelId === 'number') {
-      const channels = channelsSelector(getState())
-      channel = find(channels, ({id}) => id === channelOrChannelId)
-      // Assume we don't have always have all channels in the future.
-      if (!channel) channel = {id: channelOrChannelId}
-    }
-    const slug = channel.slug || channel.name
-
-    dispatch(goTo({
-      ...options,
-      path: `/chat/${channel.id}/${slug}`
-    }))
-    dispatch(setChannel(channel.id))
-  }
-}
-
-export const goToPmChannel = (mateId, options) => (dispatch, getState) => {
-  const channels = pmsSelector(getState())
-  const channel = find(channels, ({mate}) => mate.id === mateId)
-  if (channel) dispatch(goToChannel(channel, options))
-  else dispatch(handleChannelNotFound())
-}
-
-export function goToPayment() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_PAYMENT})
-    dispatch(goTo({path: '/payment'}))
-  }
 }
 
 export function handleNotification(notification) {
@@ -232,36 +143,6 @@ export function handleNotification(notification) {
         inviter: find(users, {id: notification.inviterId})
       }
     })
-  }
-}
-
-export function goToAddIntegrations() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
-    dispatch(goTo({path: '/integrations'}))
-  }
-}
-
-export const handleChangeRoute = ({name, params}) => (dispatch, getState) => {
-  dispatch({
-    type: types.HANDLE_CHANGE_ROUTE,
-    payload: {name, params}
-  })
-
-  switch (name) {
-    case 'pm': {
-      dispatch(goToPmChannel(params.mateId, {replace: true}))
-      break
-    }
-    case 'channel': {
-      const channels = channelsSelector(getState())
-      const channel = find(channels, {id: params.channelId})
-      if (channel) dispatch(setChannel(params.channelId, params.messageId))
-      else dispatch(handleChannelNotFound())
-      break
-    }
-    default:
-      dispatch(goToLastUsedChannel())
   }
 }
 

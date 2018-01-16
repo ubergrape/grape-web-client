@@ -29,7 +29,7 @@ export default function GrapeObject({children, href, user}) {
   if (type === 'room') {
     return (
       <LinkWithIcon
-        url={`/chat/${id}/${slug}`}
+        url={`/chat/channel/${id}/${slug}`}
         icon="bell"
         target={target}
       >
