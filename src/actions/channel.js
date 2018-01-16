@@ -83,19 +83,14 @@ export function invitedToChannel(emailAddresses, channelId) {
   }
 }
 
-// This action isn't used yet, remove this comment after first use
-/**
- * Run api request to join channel
- * response is handled at app/subscribe.js with action handleJoinedChannel
- */
-export function joinChannel(options = {}) {
-  return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-
-    return api
-      .joinChannel(id)
-      .catch(err => dispatch(error(err)))
-  }
+export const joinChannel = id => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_JOIN_CHANNEL,
+    payload: id
+  })
+  api
+    .joinChannel(id)
+    .catch(err => dispatch(error(err)))
 }
 
 export function inviteToChannel(emailAddresses, options = {}) {
