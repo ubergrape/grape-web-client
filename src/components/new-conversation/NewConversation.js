@@ -40,12 +40,12 @@ export default class NewConversation extends PureComponent {
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
-    goToPmChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
     hideNewConversation: PropTypes.func.isRequired,
     filterNewConversation: PropTypes.func.isRequired,
     clearRoomCreateError: PropTypes.func.isRequired,
+    openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired
   }
 
@@ -97,26 +97,24 @@ export default class NewConversation extends PureComponent {
 
   onCreate = () => {
     const {
-      listed, goToPmChannel, createRoomWithUsers, organization
+      listed, openPm, createRoomWithUsers, organization
     } = this.props
     const {name, color, icon, isPublic} = this.state
 
     if (listed.length === 1 && !name) {
-      goToPmChannel(listed[0].id)
+      this.setState({saving: true})
+      openPm(listed[0].id)
       return
     }
 
-    const room = {
+    this.setState({saving: true})
+    createRoomWithUsers({
       name,
       icon,
       color,
       organization,
       isPublic
-    }
-
-    this.setState({saving: true}, () => {
-      createRoomWithUsers(room, listed)
-    })
+    }, listed)
   }
 
   onHide = () => {

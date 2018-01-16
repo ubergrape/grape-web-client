@@ -1,5 +1,6 @@
 import findIndex from 'lodash/array/findIndex'
 import includes from 'lodash/collection/includes'
+import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 
 const initialState = []
@@ -34,8 +35,13 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
-    case types.CREATE_NEW_CHANNEL:
-      return [...state, action.payload]
+    case types.CREATE_NEW_CHANNEL: {
+      const channel = action.payload
+      if (find(state, {id: channel.id})) {
+        return state
+      }
+      return [...state, channel]
+    }
 
     case types.ADD_USER_TO_CHANNEL: {
       const {user, channelId: id, isCurrentUser} = action.payload

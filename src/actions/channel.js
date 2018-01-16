@@ -2,7 +2,10 @@ import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import * as api from '../utils/backend/api'
-import {joinedRoomsSelector, userSelector, channelSelector, usersSelector} from '../selectors'
+import {
+  joinedRoomsSelector, userSelector, channelSelector, usersSelector,
+  orgSelector
+} from '../selectors'
 import {
   normalizeChannelData,
   roomNameFromUsers
@@ -70,7 +73,6 @@ export const loadChannelMembers = () => (dispatch, getState) => {
   })
 }
 
-
 export function invitedToChannel(emailAddresses, channelId) {
   return {
     type: types.INVITED_TO_CHANNEL,
@@ -123,6 +125,19 @@ export function clearRoomCreateError() {
   return {
     type: types.CLEAR_ROOM_CREATE_ERROR
   }
+}
+
+export const openPm = userId => (dispatch, getState) => {
+  const org = orgSelector(getState())
+  api
+    .openPm(org.id, userId)
+    .then((channel) => {
+      dispatch(createChannel(channel))
+      dispatch(goToChannel(channel.id))
+    })
+    .catch((err) => {
+      dispatch(handleRoomCreateError(err.message))
+    })
 }
 
 export function createRoomWithUsers(room, users) {
