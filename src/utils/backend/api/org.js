@@ -15,7 +15,7 @@ export const inviteToOrg = (orgId, settings) => rpc({
 export const getOrg = orgId => rpc({
   ns: 'organizations',
   action: 'get_organization',
-  args: [orgId]
+  args: [orgId, {return_users: false}]
 }, {camelize: true})
 
 export const joinOrg = (orgId, clientId) => rpc({
