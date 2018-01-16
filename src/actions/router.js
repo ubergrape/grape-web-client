@@ -68,7 +68,7 @@ export function goToChannel(channelOrChannelId, options) {
       // Assume we don't have always have all channels in the future.
       if (!channel) channel = {id: channelOrChannelId}
     }
-    const slug = channel.slug || channel.name
+    const slug = channel.slug || channel.mate.username
 
     dispatch(goTo({
       ...options,
