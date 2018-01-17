@@ -4,14 +4,12 @@ import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 import indexBy from 'lodash/collection/indexBy'
+import omit from 'lodash/object/omit'
 
 import staticUrl from '../utils/static-url'
 import {defaultAvatar} from '../constants/images'
 import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
-import {
-  usersSelector,
-  channelsSelector
-} from '../selectors'
+import {channelsSelector} from '../selectors'
 import * as api from '../utils/backend/api'
 import conf from '../conf'
 
@@ -35,17 +33,7 @@ export function doesMessageChannelExist(msg, state) {
   return Boolean(channel)
 }
 
-/**
- * Change `null` value in `icon` property to `undefined`.
- *
- * TODO: remove this function when we
- * will get data only from backend and
- * not from old frontend architecture
- */
-export function nullChannelIconToUndefined(channel) {
-  if (channel.icon === null) return {...channel, icon: undefined}
-  return channel
-}
+const removeNullValues = channel => omit(channel, value => value === null)
 
 export function pinToFavorite(channel) {
   const {pin} = channel
@@ -76,34 +64,39 @@ export function reduceChannelUsersToId(channel) {
   if (history && typeof history === 'object') {
     history = channel.history.map(h => (h.id ? h.id : h))
   }
-  let users = channel.users
+
+  let {users} = channel
   if (users && typeof users === 'object') {
-    users = channel.users.map(u => (u.id ? u.id : u))
+    users = users
+      .filter(u => Boolean(u))
+      .map(u => (u.id ? u.id : u))
   }
+
   return {
     ...channel,
-    // we don't use it atm. (and contains circular references)
-    readingStatus: null,
-    // @cvle: why we have this? I guess it's legacy stuff..
-    _readingStatus: null,
     creator,
     history,
     users
   }
 }
 
-export function normalizeChannelData(channel) {
-  return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
+const setJoined = (channel, userId) => ({
+  ...channel,
+  joined: channel.users.indexOf(userId) !== -1
+})
+
+export function normalizeChannelData(channel, userId) {
+  const normalized = removeNullValues(pinToFavorite(reduceChannelUsersToId(channel)))
+  if (userId) return setJoined(normalized, userId)
+  return normalized
 }
 
-/**
- * TODO: remove this function when legacy models are no longer used
- */
-export function normalizeUserData(user) {
-  if (user.pm && typeof user.pm === 'object') {
-    return {...user, pm: normalizeChannelData(user.pm)}
+export function normalizeUserData(user, organizations) {
+  const normalized = removeNullValues({...user})
+  if (Array.isArray(organizations)) {
+    normalized.role = find(organizations, {id: conf.organization.id}).role
   }
-  return user
+  return normalized
 }
 
 // Load a config and caches a promise based on org id.
@@ -174,14 +167,7 @@ export const normalizeMessage = (() => {
 
   function createLinkToMessage(channel, messageId) {
     const {serviceUrl} = conf.server
-    const {users} = channel
-    let {slug} = channel
-
-    if (channel.type === 'pm') {
-      slug = `${users[0].slug}/${users[1].slug}`
-    }
-
-    return `${serviceUrl}/chat/${slug}/${messageId}`
+    return `${serviceUrl}/chat/channel/${channel.id}:${messageId}/`
   }
 
   function normalizeMentions(mentions) {
@@ -194,29 +180,16 @@ export const normalizeMessage = (() => {
 
   function normalizeRegularMessage(msg, state, labelConfigs) {
     const channels = channelsSelector(state)
-    const users = usersSelector(state)
-
-    const {id, text, channel: channelId, pinned: isPinned} = msg
+    const {
+      id, text, channel: channelId, pinned: isPinned
+    } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
-    let author
-    let avatar
-
-    const fullAuthor = find(users, {id: msg.author.id})
-    if (fullAuthor) {
-      author = {
-        id: fullAuthor.id,
-        name: fullAuthor.displayName,
-        slug: fullAuthor.slug
-      }
-      avatar = fullAuthor.avatar
-    } else {
-      author = {
-        id: msg.author.id,
-        name: 'Deleted User'
-      }
-      avatar = defaultAvatar
+    const avatar = msg.author.avatar || defaultAvatar
+    const author = {
+      id: msg.author.id,
+      name: msg.author.displayName || 'Deleted User'
     }
 
     const channel = find(channels, {id: channelId})
@@ -332,3 +305,9 @@ export function roomNameFromUsers(users) {
     .join(', ')
     .slice(0, maxChannelNameLength - 1)
 }
+
+export const findLastUsedChannel = channels => (
+  channels
+    .filter(channel => channel.joined)
+    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
+)

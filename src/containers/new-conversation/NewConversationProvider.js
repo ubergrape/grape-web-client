@@ -7,7 +7,6 @@ import {newConversationDialog as selector} from '../../selectors'
 import NewConversation from '../../components/new-conversation/NewConversation'
 
 const actionNames = [
-  'goToChannel',
   'createRoomWithUsers',
   'showInviteToOrg',
   'showNewConversation',
@@ -15,7 +14,8 @@ const actionNames = [
   'addToNewConversation',
   'removeFromNewConversation',
   'filterNewConversation',
-  'clearRoomCreateError'
+  'clearRoomCreateError',
+  'openPm'
 ]
 
 const ConnectedNewConversation = connect(

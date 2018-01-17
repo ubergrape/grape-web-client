@@ -38,10 +38,6 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER:
       return {...state, user: payload}
-    case types.GO_TO_CHANNEL:
-      // Clicked on the current channel.
-      if (state.channel && payload === state.channel.slug) return state
-      return {...state, messages: []}
     case types.SET_CHANNEL:
       return {
         ...state,
@@ -84,6 +80,10 @@ export default function reduce(state = initialState, action) {
         showNoContent: false
       }
     }
+    case types.GO_TO_CHANNEL:
+      // Clicked on the current channel.
+      if (state.channel && payload === state.channel.id) return state
+      return {...state, messages: []}
     case types.CLEAR_HISTORY:
       return {...state, messages: []}
     case types.REQUEST_OLDER_HISTORY:

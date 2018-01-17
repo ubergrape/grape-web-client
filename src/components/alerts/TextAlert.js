@@ -18,7 +18,7 @@ export default class TextAlert extends PureComponent {
             defaultMessage="Reconnected successfully."
           />
         )
-      case types.URL_NOT_FOUND:
+      case types.CHANNEL_NOT_FOUND:
         return (
           <FormattedMessage
             id="noRoomFound"

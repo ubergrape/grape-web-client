@@ -98,7 +98,6 @@ export default class ChannelMembersInvite extends PureComponent {
     addToChannelMembersInvite: PropTypes.func.isRequired,
     removeFromChannelMembersInvite: PropTypes.func.isRequired,
     inviteToChannel: PropTypes.func.isRequired,
-    createRoomFromPmAndInvite: PropTypes.func.isRequired,
     hideChannelMembersInvite: PropTypes.func.isRequired,
     setInviteFilterValue: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
@@ -108,13 +107,12 @@ export default class ChannelMembersInvite extends PureComponent {
 
   onInvite = () => {
     const {
-      listed, inviteToChannel, createRoomFromPmAndInvite,
+      listed, inviteToChannel,
       hideChannelMembersInvite, channelType, showToastNotification
     } = this.props
 
     if (!listed.length) return
     if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
-    if (channelType === 'pm') createRoomFromPmAndInvite(listed)
     hideChannelMembersInvite()
     showToastNotification(<InviteSuccess invited={pluck(listed, 'displayName')} />)
   }
@@ -125,7 +123,7 @@ export default class ChannelMembersInvite extends PureComponent {
       intl: {formatMessage},
       channelType, setInviteFilterValue,
       addToChannelMembersInvite, removeFromChannelMembersInvite,
-      listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
+      listed, inviteToChannel, hideChannelMembersInvite,
       ...rest
     } = this.props
 

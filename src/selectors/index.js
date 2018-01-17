@@ -19,8 +19,12 @@ export const usersSelector = createSelector(
   state => state.users, state => state
 )
 
+export const userSelector = createSelector(
+  state => state.user, state => state
+)
+
 export const activeUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => user.active)
+  usersSelector, users => users.filter(user => user.isActive)
 )
 
 export const invitedUsersSlector = createSelector(
@@ -28,11 +32,7 @@ export const invitedUsersSlector = createSelector(
 )
 
 export const deletedUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => !user.active)
-)
-
-export const userSelector = createSelector(
-  usersSelector, users => find(users, 'current') || {}
+  usersSelector, users => users.filter(user => !user.isActive)
 )
 
 export const initialChannelsSelector = createSelector(
@@ -51,7 +51,12 @@ export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector, userSelector],
   (channels, users, user) => (
     channels.map((channel) => {
-      const channelUsers = channel.users.map(id => find(users, {id}))
+      const channelUsers = channel.users
+        .map(id => find(users, {id}))
+        // TODO
+        // Currently we have to remove users which are not loaded in `users`
+        .filter(Boolean)
+
       if (channel.type === 'room') {
         return {
           ...channel,
@@ -63,7 +68,6 @@ export const channelsSelector = createSelector(
         return {
           ...channel,
           mate,
-          slug: mate.slug,
           name: mate.displayName,
           users: channelUsers
         }
@@ -106,9 +110,10 @@ export const activeUsersWithLastPmSelector = createSelector(
   [activeUsersSelector, activePmsSelector],
   (users, pms) => {
     const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
+
     return users.map(user => ({
       ...user,
-      pm: find(sortedPms, {slug: user.slug})
+      pm: find(sortedPms, {id: user.id})
     }))
   }
 )
@@ -355,10 +360,11 @@ function sortRecentChannels(a, b) {
 
 function usersAsPms(users) {
   return users.map(user => ({
+    id: user.id,
     type: 'pm',
     mate: user,
-    slug: user.slug,
-    name: user.displayName
+    name: user.displayName,
+    joined: false
   }))
 }
 
@@ -375,8 +381,8 @@ export const navigationSelector = createSelector(
   (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
     const all = [...allRooms, ...usersAsPms(users)]
     const joined = [...joinedRooms, ...pms]
-    const unjoined = differenceBy(all, joined, 'slug')
-      .filter(({slug}) => slug !== user.slug)
+    const unjoined = differenceBy(all, joined, 'id')
+      .filter(({id}) => id !== user.id)
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
@@ -415,12 +421,17 @@ export const pinnedMessagesSelector = createSelector(
   state => state.pinnedMessages, state => state
 )
 
+export const channelMembersSelector = createSelector(
+  state => state.channelMembers, state => state
+)
+
 export const sidebarComponentSelector = createSelector(
   [
     sidebarSelector,
     roomInfoSelector,
     userProfileSelector,
     sharedFilesSelector,
+    channelMembersSelector,
     messageSearchWithChannels,
     mentionsWithChannels,
     userSelector,
@@ -428,7 +439,7 @@ export const sidebarComponentSelector = createSelector(
     pinnedMessagesSelector
   ],
   (
-    {show, showSubview}, room, pm, files, search, mentions, user,
+    {show, showSubview}, room, pm, files, members, search, mentions, user,
     labeledMessages, pinnedMessages
   ) => {
     const select = {show, showSubview, user}
@@ -448,7 +459,8 @@ export const sidebarComponentSelector = createSelector(
 
     const subviews = {
       files,
-      pinnedMessages
+      pinnedMessages,
+      members
     }
 
     return {
@@ -474,10 +486,11 @@ export const historySelector = createSelector(
 )
 
 export const historyComponentSelector = createSelector(
-  [historySelector, orgSelector],
-  (history, {customEmojis}) => ({
+  [historySelector, orgSelector, initialDataLoadingSelector],
+  (history, {customEmojis}, isLoadingInitialData) => ({
     ...omit(history, 'olderMessages', 'newerMessages'),
-    customEmojis
+    customEmojis,
+    isLoadingInitialData
   })
 )
 
@@ -488,7 +501,7 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => channels.length === 0 ||
-    !channel || (channel.type === 'pm' && !channel.users[0].active)
+    !channel || (channel.type === 'pm' && !channel.users[0].isActive)
 )
 
 export const footerSelector = createSelector(

@@ -65,14 +65,14 @@ const Noop = () => null
 export default class AppLayout extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    Aside: PropTypes.func.isRequired,
-    Header: PropTypes.func.isRequired,
-    Alerts: PropTypes.func.isRequired,
-    History: PropTypes.func.isRequired,
-    Footer: PropTypes.func.isRequired,
-    Sidebar: PropTypes.func.isRequired,
-    Globals: PropTypes.func.isRequired,
-    FileUpload: PropTypes.func.isRequired
+    Aside: PropTypes.func,
+    Header: PropTypes.func,
+    Alerts: PropTypes.func,
+    History: PropTypes.func,
+    Footer: PropTypes.func,
+    Sidebar: PropTypes.func,
+    Globals: PropTypes.func,
+    FileUpload: PropTypes.func
   }
 
   static defaultProps = {

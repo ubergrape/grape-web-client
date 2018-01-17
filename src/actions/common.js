@@ -1,20 +1,27 @@
-import page from 'page'
-import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, usersSelector} from '../selectors'
+import {
+  channelsSelector, channelSelector, usersSelector, userSelector,
+  appSelector
+} from '../selectors'
+import * as api from '../utils/backend/api'
+import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
   normalizeUserData,
-  removeBrokenPms
+  removeBrokenPms,
+  findLastUsedChannel
 } from './utils'
 import {
   ensureBrowserNotificationPermission,
   showToastNotification,
-  showIntro
+  showIntro,
+  showAlert,
+  goToLastUsedChannel,
+  handleChangeRoute
 } from './'
 
 export function error(err) {
@@ -29,36 +36,15 @@ export function error(err) {
   }
 }
 
-export function goTo(options) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO,
-      payload: options
-    })
-    const {path, url, target} = options
-    // If it is a URL and not a path, always open in a new window.
-    if (url) {
-      if (target) window.open(url, target)
-      else location.href = url
-    } else if (path) {
-      if (conf.embed) {
-        // In the embdeded chat we open all URLs in a new window.
-        window.open(`${conf.server.serviceUrl}${path}`, '_blank')
-      // All /chat URLs are handled by the router.
-      } else if (path.substr(0, 5) === '/chat') page(path)
-      // Locations outside of SPA.
-      else location.pathname = path
-    }
-  }
-}
+export const setChannels = channels => (dispatch, getState) => {
+  const user = userSelector(getState())
 
-export function setChannels(channels) {
-  return {
+  dispatch({
     type: types.SET_CHANNELS,
     payload: channels
       .filter(removeBrokenPms)
-      .map(normalizeChannelData)
-  }
+      .map(channel => normalizeChannelData(channel, user.id))
+  })
 }
 
 export function setUsers(users) {
@@ -87,67 +73,61 @@ export function trackAnalytics(name, options) {
   }
 }
 
-export function setUser(user) {
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_USER,
-      payload: user
-    })
+export const handleUserProfile = profile => (dispatch) => {
+  const {settings, organizations, ...user} = profile
 
-    if (user.settings.showIntro) {
-      dispatch(showIntro({via: 'onboarding'}))
-    }
-  }
-}
+  dispatch({
+    type: types.SET_USER,
+    payload: normalizeUserData(user, organizations)
+  })
 
-export function setChannel(channel, messageId) {
-  return {
-    type: types.SET_CHANNEL,
-    payload: {
-      channel: normalizeChannelData(channel),
-      messageId
-    }
-  }
-}
-
-export function setSettings(settings) {
-  return {
+  dispatch({
     type: types.SET_SETTINGS,
-    payload: {
-      settings
-    }
+    payload: settings
+  })
+
+  dispatch({
+    type: types.SET_ORGANIZATIONS,
+    payload: organizations
+  })
+
+  if (settings.showIntro) {
+    dispatch(showIntro({via: 'onboarding'}))
   }
 }
 
-export function goToMessage(message) {
-  return (dispatch) => {
-    if (!conf.embed) {
-      dispatch({
-        type: types.GO_TO_MESSAGE,
-        payload: message
-      })
-    }
-    dispatch(goTo({path: parseUrl(message.link).pathname}))
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const state = getState()
+  let nextChannel = channelId
+
+  if (typeof channelId === 'number') {
+    const channels = channelsSelector(state)
+    nextChannel = find(channels, {id: channelId})
   }
+
+  if (!nextChannel) return
+
+  const currChannel = channelSelector(state)
+
+  // Has not changed.
+  if (currChannel && currChannel.id === nextChannel.id) {
+    return
+  }
+
+  dispatch({
+    type: types.SET_CHANNEL,
+    payload: {channel: normalizeChannelData(nextChannel), messageId}
+  })
 }
 
-export function goToChannel(slug) {
-  return (dispatch) => {
-    if (!conf.embed) {
-      dispatch({
-        type: types.GO_TO_CHANNEL,
-        payload: slug
-      })
-    }
-    dispatch(goTo({path: `/chat/${slug}`}))
-  }
-}
-
-export function goToPayment() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_PAYMENT})
-    dispatch(goTo({path: '/payment'}))
-  }
+export const handleChannelNotFound = () => (dispatch) => {
+  dispatch(goToLastUsedChannel())
+  dispatch(showAlert({
+    level: 'warning',
+    type: alerts.CHANNEL_NOT_FOUND,
+    closeAfter: 6000,
+    isClosable: true
+  }))
 }
 
 export function handleNotification(notification) {
@@ -166,27 +146,45 @@ export function handleNotification(notification) {
   }
 }
 
-export function goToAddIntegrations() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
-    dispatch(goTo({path: '/integrations'}))
-  }
-}
-
-export function setInitialData(org) {
-  return (dispatch, getState) => {
-    dispatch(setUsers([...org.users]))
-    dispatch(setChannels([...org.channels]))
-
-    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
-    dispatch(setOrg(cleanOrg))
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch({
+    type: types.SET_INITIAL_DATA_LOADING,
+    payload: true
+  })
+  dispatch({type: types.REQUEST_ORG_DATA})
+  dispatch({type: types.REQUEST_USER_PROFILE})
+  dispatch({type: types.REQUEST_USERS})
+  dispatch({type: types.REQUEST_JOIN_ORG})
+  Promise.all([
+    api.getOrg(conf.organization.id),
+    api.getUsers({orgId: conf.organization.id}),
+    api.getUserProfile(),
+    api.joinOrg(conf.organization.id, clientId)
+  ]).then(([org, users, profile]) => {
+    dispatch(setUsers(users))
+    dispatch(handleUserProfile(profile))
+    dispatch(setChannels(org.channels))
+    dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
-    // Used by embedded chat.
-    if (conf.channelId) {
-      const channels = channelsSelector(getState())
-      const channel = find(channels, {id: conf.channelId})
-      dispatch(setChannel(channel))
+
+    // In embedded chat conf.channelId is defined.
+    const channel = conf.channelId || findLastUsedChannel(channelsSelector(getState()))
+
+    dispatch(setChannel(channel))
+
+    dispatch({
+      type: types.SET_INITIAL_DATA_LOADING,
+      payload: false
+    })
+
+    // On initial load route has changed, but data was not loaded,
+    // so we need to trigger it here again.
+    const {route} = appSelector(getState())
+    if (route) {
+      dispatch(handleChangeRoute(route))
     }
-    dispatch({type: types.HANDLE_INITIAL_DATA})
-  }
+  })
+  .catch((err) => {
+    dispatch(error(err))
+  })
 }

@@ -1,13 +1,11 @@
 import * as types from '../constants/actionTypes'
 
-const initialState = {
-  loading: true
-}
+const initialState = {}
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.SET_INITIAL_DATA_LOADING:
-      return {loading: action.payload}
+    case types.SET_USER:
+      return action.payload
     default:
       return state
   }

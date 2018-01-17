@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
+import {Router} from '../containers/router'
 import {OrgInfoProvider} from '../containers/org-info'
 import {NavigationProvider} from '../containers/navigation'
 import {HeaderProvider} from '../containers/header'
@@ -26,7 +27,6 @@ import {FileUploadProvider} from '../containers/file-upload'
 import {IntroProvider} from '../containers/intro'
 import {AppProvider} from '../containers/app'
 import {AppLayout} from '../components/app-layout'
-import {AppContainer} from '../components/app-container'
 
 const Aside = ({className}) => (
   <aside className={className}>
@@ -68,18 +68,20 @@ export default class App extends PureComponent {
   render() {
     return (
       <AppProvider>
-        <AppContainer>
-          <AppLayout
-            Aside={Aside}
-            Header={HeaderProvider}
-            Alerts={AlertsProvider}
-            History={HistoryProvider}
-            Footer={FooterProvider}
-            Sidebar={SidebarProvider}
-            Globals={Globals}
-            FileUpload={FileUploadProvider}
-          />
-        </AppContainer>
+        {props => (
+          <Router {...props}>
+            <AppLayout
+              Aside={Aside}
+              Header={HeaderProvider}
+              Alerts={AlertsProvider}
+              History={HistoryProvider}
+              Sidebar={SidebarProvider}
+              Globals={Globals}
+              FileUpload={FileUploadProvider}
+              Footer={FooterProvider}
+            />
+          </Router>
+        )}
       </AppProvider>
     )
   }

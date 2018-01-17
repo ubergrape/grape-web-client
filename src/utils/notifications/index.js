@@ -11,16 +11,6 @@ export function shouldNotify({time, sourceChannelId, currentChannelId}) {
   return true
 }
 
-/**
- * Only show notification alert in supported browsers and if user hasn't
- * accepted or declined notifications yet.
- * IE supports notifications in "SiteMode" only and in this mode permission is
- * granted automatically.
- */
-export function shouldRequestPermission() {
-  if (!window.Notification) return false
-  return (
-    Notification.permission === 'default' &&
-    (!window.external || !window.external.msIsSiteMode())
-  )
-}
+export const shouldRequestPermission = () => (
+  window.Notification && Notification.permission === 'default'
+)

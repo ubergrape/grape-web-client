@@ -2,13 +2,15 @@ import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import * as api from '../utils/backend/api'
-import reduxEmitter from '../legacy/redux-emitter'
-import {joinedRoomsSelector, userSelector, channelSelector} from '../selectors'
+import {
+  joinedRoomsSelector, userSelector, channelSelector, usersSelector,
+  orgSelector
+} from '../selectors'
 import {
   normalizeChannelData,
   roomNameFromUsers
 } from './utils'
-import {error, goToChannel, loadNotificationSettings} from './'
+import {error, goToChannel, goToLastUsedChannel, loadNotificationSettings} from './'
 
 export function createChannel(channel) {
   return {
@@ -20,22 +22,55 @@ export function createChannel(channel) {
   }
 }
 
-export function leaveChannel(channelId) {
-  reduxEmitter.leaveChannel(channelId)
-  return {
-    type: types.LEAVE_CHANNEL
-  }
+export const leaveChannel = channelId => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_LEAVE_CHANNEL,
+    payload: channelId
+  })
+
+  return api
+    .leaveChannel(channelId)
+    .then(() => {
+      dispatch({
+        type: types.LEAVE_CHANNEL,
+        payload: channelId
+      })
+      dispatch(goToLastUsedChannel())
+    })
+    .catch(err => dispatch(error(err)))
 }
 
-export function kickMemberFromChannel(params) {
-  reduxEmitter.kickMemberFromChannel(params)
-  return {
-    type: types.KICK_MEMBER_FROM_CHANNEL
-  }
+export const kickMemberFromChannel = params => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_KICK_MEMBER_FROM_CHANNEL,
+    payload: params
+  })
+
+  const {channelId, userId} = params
+
+  return api
+    .kickMemberFromChannel(channelId, userId)
+    .then(() => {
+      dispatch({
+        type: types.KICK_MEMBER_FROM_CHANNEL,
+        payload: params
+      })
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function loadRoomInfo({channel}) {
   return dispatch => dispatch(loadNotificationSettings({channel}))
+}
+
+export const loadChannelMembers = () => (dispatch, getState) => {
+  const state = getState()
+  const users = usersSelector(state)
+  const channel = channelSelector(state)
+  dispatch({
+    type: types.HANDLE_CHANNEL_MEMBERS,
+    payload: users.filter(user => Boolean(find(channel.users, {id: user.id})))
+  })
 }
 
 export function invitedToChannel(emailAddresses, channelId) {
@@ -48,19 +83,14 @@ export function invitedToChannel(emailAddresses, channelId) {
   }
 }
 
-// This action isn't used yet, remove this comment after first use
-/**
- * Run api request to join channel
- * response is handled at app/subscribe.js with action handleJoinedChannel
- */
-export function joinChannel(options = {}) {
-  return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-
-    return api
-      .joinChannel(id)
-      .catch(err => dispatch(error(err)))
-  }
+export const joinChannel = id => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_JOIN_CHANNEL,
+    payload: id
+  })
+  api
+    .joinChannel(id)
+    .catch(err => dispatch(error(err)))
 }
 
 export function inviteToChannel(emailAddresses, options = {}) {
@@ -92,6 +122,19 @@ export function clearRoomCreateError() {
   }
 }
 
+export const openPm = userId => (dispatch, getState) => {
+  const org = orgSelector(getState())
+  api
+    .openPm(org.id, userId)
+    .then((channel) => {
+      dispatch(createChannel(channel))
+      dispatch(goToChannel(channel.id))
+    })
+    .catch((err) => {
+      dispatch(handleRoomCreateError(err.message))
+    })
+}
+
 export function createRoomWithUsers(room, users) {
   return (dispatch, getState) => {
     dispatch(requestRoomCreate())
@@ -112,7 +155,7 @@ export function createRoomWithUsers(room, users) {
       .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
       .then(() => {
         if (newRoom) {
-          dispatch(goToChannel(newRoom.slug))
+          dispatch(goToChannel(newRoom.id))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

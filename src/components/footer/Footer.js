@@ -102,6 +102,7 @@ export default class Footer extends PureComponent {
       onSetTyping,
       onAddIntegration
     } = this.props
+
     return (
       <footer className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}>
         <div className={classes.above}>

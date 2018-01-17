@@ -49,6 +49,12 @@ export default function subscribe(channel) {
     }
   })
 
+  // Resync the whole data if we got a new client id, because we might have
+  // missed some messages. This is related to the current serverside arch.
+  channel.on('set:id', (clientId) => {
+    boundActions.loadInitialData(clientId)
+  })
+
   channel.on('unauthorized', (err) => {
     boundActions.handleAuthError(err)
   })

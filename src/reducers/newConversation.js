@@ -15,7 +15,8 @@ export default function reduce(state = initialState, action) {
         show: true
       }
     case types.HIDE_NEW_CONVERSATION:
-      return {...initialState}
+    case types.SET_CHANNEL:
+      return initialState
     case types.ADD_TO_NEW_CONVERSATION:
       return {
         ...state,
@@ -36,8 +37,6 @@ export default function reduce(state = initialState, action) {
         ...state,
         creatingRoom: true
       }
-    case types.SET_CHANNEL:
-      return initialState
     default:
       return state
   }

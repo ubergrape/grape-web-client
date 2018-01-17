@@ -11,22 +11,6 @@ export default function reduce(state = initialState, action) {
     case types.SET_USERS:
       return [...payload]
 
-    case types.SET_USER: {
-      const {id} = payload
-      return state.reduce((newState, user) => {
-        if (user.id === id) {
-          newState.push({...user, current: true})
-          return newState
-        }
-        if (user.current) {
-          newState.push({...user, current: false})
-          return newState
-        }
-        newState.push(user)
-        return newState
-      }, [])
-    }
-
     case types.ADD_USER_TO_ORG:
       return [...state, payload]
 
@@ -37,7 +21,7 @@ export default function reduce(state = initialState, action) {
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        active: false
+        isActive: false
       })
       return newState
     }

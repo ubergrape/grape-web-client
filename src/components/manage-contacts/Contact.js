@@ -37,10 +37,10 @@ export default class Contact extends PureComponent {
   onClick = () => {
     const {
       onSelect,
-      user: {slug}
+      user: {id}
     } = this.props
 
-    onSelect({slug})
+    onSelect({id})
   }
 
   render() {

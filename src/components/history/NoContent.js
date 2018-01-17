@@ -3,7 +3,6 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
-import find from 'lodash/collection/find'
 
 import {styles} from './noContentTheme'
 
@@ -138,9 +137,9 @@ export default class NoContent extends PureComponent {
       type: PropTypes.oneOf(['pm', 'room']).isRequired,
       name: PropTypes.string,
       isPublic: PropTypes.bool,
-      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
-    }).isRequired,
-    users: PropTypes.array.isRequired
+      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+      mate: PropTypes.shape({})
+    }).isRequired
   }
 
   static defaultProps = {
@@ -155,7 +154,6 @@ export default class NoContent extends PureComponent {
   render() {
     const {
       channel,
-      users,
       classes,
       onAddIntegration
     } = this.props
@@ -172,8 +170,6 @@ export default class NoContent extends PureComponent {
       )
     }
 
-    const mate = find(users, {id: channel.users[0]})
-
-    return <PmContent classes={classes} mate={mate} />
+    return <PmContent classes={classes} mate={channel.mate} />
   }
 }

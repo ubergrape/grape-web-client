@@ -13,8 +13,10 @@ import {createRowsState} from './utils'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
-  const scrollTo = map[props.scrollTo]
-  return {rows, scrollTo}
+  return {
+    rows,
+    scrollTo: map[props.scrollTo]
+  }
 }
 
 @injectSheet({
@@ -47,7 +49,8 @@ export default class History extends PureComponent {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number
+    minimumBatchSize: PropTypes.number,
+    isLoadingInitialData: PropTypes.bool
   }
 
   static defaultProps = {
@@ -62,6 +65,7 @@ export default class History extends PureComponent {
     onInvite: noop,
     onAddIntegration: noop,
     showNoContent: false,
+    isLoadingInitialData: false,
     user: null,
     channel: null,
     users: [],
@@ -73,10 +77,15 @@ export default class History extends PureComponent {
   constructor(props) {
     super(props)
     this.state = createState({}, props)
+    this.needsInitialLoad = true
+  }
+
+  componentDidMount() {
+    this.load()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, onLoad, selectedMessageId, messages} = nextProps
+    const {channel, selectedMessageId, messages} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -84,13 +93,17 @@ export default class History extends PureComponent {
     const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
 
     if (selectedMessageHasChanged || channelHasChanged) {
-      onLoad()
+      this.needsInitialLoad = true
       return
     }
 
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
+  }
+
+  componentDidUpdate() {
+    this.load()
   }
 
   onRowsRendered = () => {
@@ -107,6 +120,15 @@ export default class History extends PureComponent {
       return {...row, isExpanded}
     })
     this.setState({rows})
+  }
+
+  load() {
+    const {isLoadingInitialData, channel, onLoad} = this.props
+
+    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
+      this.needsInitialLoad = false
+      onLoad()
+    }
   }
 
   renderRow = ({index, key, style}) => (

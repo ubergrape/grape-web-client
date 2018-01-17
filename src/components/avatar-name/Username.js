@@ -4,8 +4,9 @@ import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
-import style from './userStyle'
+import {defaultAvatar} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
+import style from './userStyle'
 
 const Status = ({classes, status, borderColor}) => (
   <i
@@ -27,10 +28,10 @@ Status.defaultProps = {
 @injectSheet(style)
 export default class Username extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
+    avatar: PropTypes.string,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string,
     className: PropTypes.string
@@ -40,7 +41,8 @@ export default class Username extends PureComponent {
     theme: {classes: {}},
     className: undefined,
     statusBorderColor: undefined,
-    status: undefined
+    status: undefined,
+    avatar: defaultAvatar
   }
 
   render() {
@@ -49,7 +51,7 @@ export default class Username extends PureComponent {
       avatar,
       status,
       statusBorderColor,
-      sheet: {classes},
+      classes,
       theme,
       className
     } = this.props

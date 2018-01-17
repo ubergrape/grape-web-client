@@ -9,7 +9,6 @@ import ChannelMembersInvite from '../../components/channel-members-invite/Channe
 const actionNames = [
   'showInviteToOrg',
   'inviteToChannel',
-  'createRoomFromPmAndInvite',
   'hideChannelMembersInvite',
   'addToChannelMembersInvite',
   'removeFromChannelMembersInvite',
