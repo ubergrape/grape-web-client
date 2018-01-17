@@ -1,6 +1,7 @@
 {
   "extends": "eslint-config-ubergrape",
   "globals": {
-    "__STATIC_PATH__": true
+    "__STATIC_PATH__": true,
+    "__EMBEDDED__": true
   }
 }

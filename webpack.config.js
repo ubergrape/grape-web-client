@@ -7,6 +7,7 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
+var EMBEDDED = process.env.EMBEDDED
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
 
@@ -27,6 +28,7 @@ var plugins = [
     __DEV__: !NODE_ENV || NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
+    __EMBEDDED__: JSON.stringify(EMBEDDED),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   }),
   new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/)
