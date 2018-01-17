@@ -358,7 +358,8 @@ function usersAsPms(users) {
     id: user.id,
     type: 'pm',
     mate: user,
-    name: user.displayName
+    name: user.displayName,
+    joined: false
   }))
 }
 

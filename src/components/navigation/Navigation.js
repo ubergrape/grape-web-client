@@ -42,6 +42,7 @@ export default class Navigation extends PureComponent {
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
     goToChannel: PropTypes.func.isRequired,
+    openPm: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
     showManageContacts: PropTypes.func.isRequired,
@@ -129,10 +130,6 @@ export default class Navigation extends PureComponent {
     }
   }
 
-  onSelectFiltered = (channel) => {
-    this.goToChannel(channel)
-  }
-
   onChangeFilter = ({target}) => {
     const {value} = target
     const filtered = this.state.fuseJoined.search(value)
@@ -167,7 +164,7 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.onSelectFiltered(this.state.focusedChannel)
+        this.goToChannel(this.state.focusedChannel)
         e.preventDefault()
         break
       default:
@@ -176,12 +173,19 @@ export default class Navigation extends PureComponent {
 
   goToChannel = (channel) => {
     if (this.props.channel.id === channel.id) return
-    this.props.goToChannel(channel.id)
+
     this.setState({
       filter: '',
       filtered: [],
       focusedChannel: null
     })
+
+    if (channel.type === 'pm' && !channel.joined) {
+      this.props.openPm(channel.mate.id)
+      return
+    }
+
+    this.props.goToChannel(channel.id)
   }
 
   renderFilteredChannel = (params) => {
@@ -216,7 +220,7 @@ export default class Navigation extends PureComponent {
           theme={{classes}}
           ref={this.onFilteredListRef}
           renderItem={this.renderFilteredChannel}
-          onSelect={this.onSelectFiltered}
+          onSelect={this.goToChannel}
           onFocus={this.onFocusFiltered}
           onMouseOver={this.onFocusFiltered}
         />

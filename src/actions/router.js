@@ -66,9 +66,9 @@ export function goToChannel(channelOrChannelId, options) {
       const channels = channelsSelector(getState())
       channel = find(channels, ({id}) => id === channelOrChannelId)
       // Assume we don't have always have all channels in the future.
-      if (!channel) channel = {id: channelOrChannelId}
+      if (!channel) channel = {id: channelOrChannelId, slug: ''}
     }
-    const slug = channel.slug || channel.mate.username
+    const slug = channel.slug == null ? channel.mate.username : channel.slug
 
     dispatch(goTo({
       ...options,
