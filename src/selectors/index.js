@@ -51,7 +51,12 @@ export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector, userSelector],
   (channels, users, user) => (
     channels.map((channel) => {
-      const channelUsers = channel.users.map(id => find(users, {id}))
+      const channelUsers = channel.users
+        .map(id => find(users, {id}))
+        // TODO
+        // Currently we have to remove users which are not loaded in `users`
+        .filter(Boolean)
+
       if (channel.type === 'room') {
         return {
           ...channel,
