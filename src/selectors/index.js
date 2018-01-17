@@ -63,8 +63,10 @@ export const channelsSelector = createSelector(
           users: channelUsers
         }
       }
+
       if (channel.type === 'pm') {
         const mate = find(channelUsers, _user => _user.id !== user.id)
+        if (!mate) return null
         return {
           ...channel,
           mate,
@@ -74,7 +76,10 @@ export const channelsSelector = createSelector(
       }
 
       return channel
-    })
+    // TODO
+    // Currently we have to remove users which are not loaded in `users`
+    // This case handles pm channels.
+    }).filter(Boolean)
   )
 )
 
