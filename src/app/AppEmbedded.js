@@ -29,7 +29,7 @@ export default class AppEmbedded extends PureComponent {
   render() {
     return (
       <AppProvider>
-        {() =>
+        {() => (
           <FakeRouter>
             <AppContainer>
               <AppLayout
@@ -42,7 +42,7 @@ export default class AppEmbedded extends PureComponent {
               />
             </AppContainer>
           </FakeRouter>
-        }
+        )}
       </AppProvider>
     )
   }

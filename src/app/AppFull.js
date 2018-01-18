@@ -68,7 +68,7 @@ export default class App extends PureComponent {
   render() {
     return (
       <AppProvider>
-        {props =>
+        {props => (
           <Router {...props}>
             <AppLayout
               Aside={Aside}
@@ -81,7 +81,7 @@ export default class App extends PureComponent {
               Footer={FooterProvider}
             />
           </Router>
-        }
+        )}
       </AppProvider>
     )
   }

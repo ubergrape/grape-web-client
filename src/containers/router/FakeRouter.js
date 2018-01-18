@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import createHistory from 'history/createBrowserHistory'
+import history from '../../app/history'
 
 class FakeRouter extends PureComponent {
   static childContextTypes = {
@@ -8,7 +8,6 @@ class FakeRouter extends PureComponent {
   };
 
   getChildContext() {
-    const history = createHistory()
     return {
       router: {
         history: {
