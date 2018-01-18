@@ -10,11 +10,13 @@ import {
   normalizeChannelData,
   roomNameFromUsers
 } from './utils'
-import {error, goToChannel, goToLastUsedChannel, loadNotificationSettings} from './'
+import {
+  error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser
+} from './'
 
-export function createChannel(channel) {
+export function addChannel(channel) {
   return {
-    type: types.CREATE_NEW_CHANNEL,
+    type: types.ADD_CHANNEL,
     payload: {
       ...normalizeChannelData(channel),
       unread: channel.unread || 0
@@ -124,10 +126,19 @@ export function clearRoomCreateError() {
 
 export const openPm = userId => (dispatch, getState) => {
   const org = orgSelector(getState())
-  api
-    .openPm(org.id, userId)
-    .then((channel) => {
-      dispatch(createChannel(channel))
+
+  dispatch({
+    type: types.REQUEST_OPEN_PM,
+    payload: userId
+  })
+
+  Promise.all([
+    api.getUser(org.id, userId),
+    api.openPm(org.id, userId)
+  ])
+    .then(([user, channel]) => {
+      dispatch(addUser(user))
+      dispatch(addChannel(channel))
       dispatch(goToChannel(channel.id))
     })
     .catch((err) => {

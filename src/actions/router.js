@@ -7,7 +7,7 @@ import * as types from '../constants/actionTypes'
 import {channelsSelector, pmsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
 
-import {setChannel, handleChannelNotFound} from './'
+import {setChannel, handleChannelNotFound, openPm} from './'
 
 export function goTo(options) {
   return (dispatch) => {
@@ -82,7 +82,7 @@ export const goToPmChannel = (mateId, options) => (dispatch, getState) => {
   const channels = pmsSelector(getState())
   const channel = find(channels, ({mate}) => mate.id === mateId)
   if (channel) dispatch(goToChannel(channel, options))
-  else dispatch(handleChannelNotFound())
+  else dispatch(openPm(mateId))
 }
 
 export const goToLastUsedChannel = () => (dispatch, getState) => {

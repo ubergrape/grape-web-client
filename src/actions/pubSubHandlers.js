@@ -2,7 +2,6 @@ import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
-import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {
   orgSelector,
   usersSelector,
@@ -18,11 +17,12 @@ import {
 } from './utils'
 import {
   goTo,
-  createChannel,
+  addChannel,
   addSharedFiles,
   removeSharedFiles,
   addMention,
-  removeMention
+  removeMention,
+  addUser
 } from './'
 
 export function handleNewMessage(message) {
@@ -98,25 +98,11 @@ export function handleReadChannel({user: userId, channel: channelId}) {
 
 export function handleJoinOrg({user, organization: orgId}) {
   return (dispatch, getState) => {
-    const state = getState()
-    const users = usersSelector(state)
-    const org = orgSelector(state)
+    const org = orgSelector(getState())
 
-    const userInUsers = find(users, ({id}) => id === user.id)
-    if (userInUsers || org.id !== orgId) return
+    if (org.id !== orgId) return
 
-    const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
-
-    dispatch({
-      type: types.ADD_USER_TO_ORG,
-      payload: {
-        ...user,
-        avatar,
-        pm: null,
-        isActive: true,
-        status: 0
-      }
-    })
+    dispatch(addUser(user))
   }
 }
 
@@ -163,7 +149,7 @@ export function handleMembershipUpdate({membership}) {
 }
 
 export function handleNewChannel({channel}) {
-  return createChannel(channel)
+  return addChannel(channel)
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
