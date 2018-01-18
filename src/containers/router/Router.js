@@ -15,14 +15,6 @@ const Router = ({onChangeRoute, children}) => (
   >
     <Container>
       <Route
-        path=""
-        exact
-        render={() => {
-          if (__EMBEDDED__) return children
-          return null
-        }}
-      />
-      <Route
         path="/chat"
         exact
         render={({location, match}) => (
