@@ -18,16 +18,15 @@ export function canShowBrowser(prevState = {}, nextState) {
 
   if (nextState.isLoading) return true
 
-  const isClosed = !prevState.browser
   const isSearch = browser === 'search'
-  const noResults = !data || isEmpty(data.results)
+  const noResults = !data || isEmpty(data)
   const hasSearch = query && query.search.length > 0
   const closedBySpace = hasSearch && query.search[query.search.length - 1] === ' '
 
   const isDataList = browser === 'emojiSuggest' || browser === 'user'
-  if (isDataList && isEmpty(data)) return false
+  if (isDataList && noResults) return false
 
-  if (isClosed && noResults && hasSearch) return false
+  if (hasSearch && noResults) return false
 
   if (isSearch && noResults && closedBySpace) return false
 
