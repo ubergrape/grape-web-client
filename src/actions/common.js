@@ -103,13 +103,13 @@ export const handleUserProfile = profile => (dispatch) => {
   }
 }
 
-export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState) => {
   const state = getState()
-  let nextChannel = channelId
+  let nextChannel = channelOrChannelId
 
-  if (typeof channelId === 'number') {
+  if (typeof channelOrChannelId === 'number') {
     const channels = channelsSelector(state)
-    nextChannel = find(channels, {id: channelId})
+    nextChannel = find(channels, {id: channelOrChannelId})
   }
 
   if (!nextChannel) return

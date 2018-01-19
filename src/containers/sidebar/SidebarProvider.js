@@ -11,7 +11,7 @@ const actionNames = [
   'showSidebarSubview',
   'leaveChannel',
   'goToChannel',
-  'goToPmChannel',
+  'openPm',
   'kickMemberFromChannel',
   'showChannelMembersInvite',
   'loadSharedFiles',

@@ -4,10 +4,10 @@ import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, pmsSelector} from '../selectors'
+import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
 
-import {setChannel, handleChannelNotFound, openPm} from './'
+import {setChannel, openPm, openChannel} from './'
 
 export function goTo(options) {
   return (dispatch) => {
@@ -78,13 +78,6 @@ export function goToChannel(channelOrChannelId, options) {
   }
 }
 
-export const goToPmChannel = (mateId, options) => (dispatch, getState) => {
-  const channels = pmsSelector(getState())
-  const channel = find(channels, ({mate}) => mate.id === mateId)
-  if (channel) dispatch(goToChannel(channel, options))
-  else dispatch(openPm(mateId))
-}
-
 export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
@@ -105,7 +98,7 @@ export function goToAddIntegrations() {
   }
 }
 
-export const handleChangeRoute = ({name, params}) => (dispatch, getState) => {
+export const handleChangeRoute = ({name, params}) => (dispatch) => {
   dispatch({
     type: types.HANDLE_CHANGE_ROUTE,
     payload: {name, params}
@@ -113,14 +106,12 @@ export const handleChangeRoute = ({name, params}) => (dispatch, getState) => {
 
   switch (name) {
     case 'pm': {
-      dispatch(goToPmChannel(params.mateId, {replace: true}))
+      // We have yet to find the pm channel using user id and replace current route.
+      dispatch(openPm(params.mateId, {replace: true}))
       break
     }
     case 'channel': {
-      const channels = channelsSelector(getState())
-      const channel = find(channels, {id: params.channelId})
-      if (channel) dispatch(setChannel(params.channelId, params.messageId))
-      else dispatch(handleChannelNotFound())
+      dispatch(openChannel(params.channelId, params.messageId))
       break
     }
     default:

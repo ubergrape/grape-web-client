@@ -3,15 +3,16 @@ import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector, userSelector, channelSelector, usersSelector,
-  orgSelector
+  joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
+  usersSelector, orgSelector, pmsSelector
 } from '../selectors'
 import {
   normalizeChannelData,
   roomNameFromUsers
 } from './utils'
 import {
-  error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser
+  error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser,
+  setChannel, handleChannelNotFound
 } from './'
 
 export function addChannel(channel) {
@@ -124,8 +125,15 @@ export function clearRoomCreateError() {
   }
 }
 
-export const openPm = userId => (dispatch, getState) => {
+export const openPm = (userId, options) => (dispatch, getState) => {
   const org = orgSelector(getState())
+  const channels = pmsSelector(getState())
+  const foundChannel = find(channels, ({mate}) => mate.id === userId)
+
+  if (foundChannel) {
+    dispatch(goToChannel(foundChannel, options))
+    return
+  }
 
   dispatch({
     type: types.REQUEST_OPEN_PM,
@@ -139,12 +147,48 @@ export const openPm = userId => (dispatch, getState) => {
     .then(([user, channel]) => {
       dispatch(addUser(user))
       dispatch(addChannel(channel))
-      dispatch(goToChannel(channel.id))
+      // Using id because after adding, channel was normalized.
+      dispatch(goToChannel(channel.id, options))
     })
     .catch((err) => {
       dispatch(handleRoomCreateError(err.message))
     })
 }
+
+export const openChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const foundChannel = find(channels, {id: channelId})
+  if (foundChannel) {
+    dispatch(setChannel(foundChannel, messageId))
+    return
+  }
+
+  dispatch({
+    type: types.REQUEST_CHANNEL_AND_USERS,
+    payload: {channelId, messageId}
+  })
+
+  const org = orgSelector(getState())
+
+  api
+    .getChannel(channelId)
+    .then(channel => Promise.all([
+      channel,
+      api.getUsers({orgId: org.id, userIds: channel.users})
+    ]))
+    .then(([channel, users]) => {
+      users.forEach((user) => {
+        dispatch(addUser(user))
+      })
+      dispatch(addChannel(channel))
+      dispatch(setChannel(channel, messageId))
+    })
+    .catch(() => {
+      dispatch(handleChannelNotFound())
+    })
+}
+
+window.api = api
 
 export function createRoomWithUsers(room, users) {
   return (dispatch, getState) => {
