@@ -39,10 +39,6 @@ export const initialChannelsSelector = createSelector(
   state => state.channels, state => state
 )
 
-export const otherActiveUsersSelector = createSelector(
-  activeUsersSelector, users => users.filter(user => !user.current)
-)
-
 /**
  * Fill the `initialChannelsSelector` with user objects
  * instead of user ID's.
@@ -111,8 +107,13 @@ export const currentPmsSelector = createSelector(
   pmsSelector, pms => find(pms, 'current') || {}
 )
 
+const activeUsersWithoutCurrSelector = createSelector(
+  [activeUsersSelector, userSelector],
+  (users, currUser) => users.filter(user => user.id !== currUser.id)
+)
+
 export const activeUsersWithLastPmSelector = createSelector(
-  [activeUsersSelector, activePmsSelector],
+  [activeUsersWithoutCurrSelector, activePmsSelector],
   (users, pms) => {
     const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
 
@@ -291,7 +292,7 @@ export const newConversationDialog = createSelector(
     isInviter,
     organization,
     error,
-    users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
+    users: differenceBy(users, newConversation.listed, 'id')
   })
 )
 
@@ -519,7 +520,7 @@ export const footerComponentSelector = createSelector(
     footerSelector,
     orgSelector,
     historySelector,
-    otherActiveUsersSelector,
+    activeUsersWithoutCurrSelector,
     roomsSelector,
     isChannelDisabledSelector
   ],
@@ -547,10 +548,9 @@ export const toastNotificationSelector = createSelector(
 export const manageContactsSelector = createSelector(
   [
     state => state.manageContacts,
-    activeUsersSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
+    activeUsersWithoutCurrSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
   ],
-  ({show, activeFilter}, allActiveUsers, invitedUsers, deletedUsers) => {
-    const activeUsers = allActiveUsers.filter(user => !user.current)
+  ({show, activeFilter}, activeUsers, invitedUsers, deletedUsers) => {
     const contacts = {
       active: activeUsers,
       invited: invitedUsers,
