@@ -188,8 +188,6 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     })
 }
 
-window.api = api
-
 export function createRoomWithUsers(room, users) {
   return (dispatch, getState) => {
     dispatch(requestRoomCreate())
