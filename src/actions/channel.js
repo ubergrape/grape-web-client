@@ -1,6 +1,7 @@
 import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
+import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
   joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
@@ -12,7 +13,7 @@ import {
 } from './utils'
 import {
   error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser,
-  setChannel, handleChannelNotFound
+  setChannel, handleBadChannel
 } from './'
 
 export function addChannel(channel) {
@@ -128,6 +129,14 @@ export function clearRoomCreateError() {
 export const openPm = (userId, options) => (dispatch, getState) => {
   const org = orgSelector(getState())
   const channels = pmsSelector(getState())
+  const currUser = userSelector(getState())
+
+  // An attempt to open a conversation with own user.
+  if (currUser.id === userId) {
+    dispatch(handleBadChannel(alerts.MESSAGE_TO_SELF))
+    return
+  }
+
   const foundChannel = find(channels, ({mate}) => mate.id === userId)
 
   if (foundChannel) {
@@ -184,7 +193,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       dispatch(setChannel(channel, messageId))
     })
     .catch(() => {
-      dispatch(handleChannelNotFound())
+      dispatch(handleBadChannel())
     })
 }
 

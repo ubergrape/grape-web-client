@@ -121,11 +121,11 @@ export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState
   })
 }
 
-export const handleChannelNotFound = () => (dispatch) => {
+export const handleBadChannel = alertType => (dispatch) => {
   dispatch(goToLastUsedChannel())
   dispatch(showAlert({
     level: 'warning',
-    type: alerts.CHANNEL_NOT_FOUND,
+    type: alertType || alerts.CHANNEL_NOT_FOUND,
     closeAfter: 6000,
     isClosable: true
   }))
