@@ -74,7 +74,7 @@ export const styles = ({palette}) => ({
 })
 
 const itemClickHandler = (panel, {sidebar, hideSidebar, showSidebar}) => (
-  sidebar === panel ? hideSidebar : showSidebar.bind(null, panel)
+  sidebar === panel ? hideSidebar : () => showSidebar(panel)
 )
 
 function Items(props) {

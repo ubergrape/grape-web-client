@@ -31,6 +31,7 @@
     "image-zoom": "ubergrape/image-zoom",
     "innersvg-polyfill": "0.0.2",
     "intl": "^1.2.5",
+    "is-circular": "^1.0.1",
     "join-strings-in-array": "^0.0.4",
     "jss": "^9.3.3",
     "jss-isolate": "^5.0.0",

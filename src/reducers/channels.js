@@ -35,7 +35,7 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
-    case types.CREATE_NEW_CHANNEL: {
+    case types.ADD_CHANNEL: {
       const channel = action.payload
       if (find(state, {id: channel.id})) {
         return state

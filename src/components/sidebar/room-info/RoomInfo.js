@@ -66,7 +66,7 @@ export default class RoomInfo extends PureComponent {
     onShowSubview: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
-    goToPmChannel: PropTypes.func.isRequired,
+    openPm: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
     setRoomDescription: PropTypes.func.isRequired,
     setRoomPrivacy: PropTypes.func.isRequired,
@@ -139,7 +139,7 @@ export default class RoomInfo extends PureComponent {
 
   renderMembers = () => {
     const {
-      channel, goToAddIntegrations, user, goToPmChannel,
+      channel, goToAddIntegrations, user, openPm,
       kickMemberFromChannel, subview: {users}, onLoadMembers
     } = this.props
 
@@ -155,7 +155,7 @@ export default class RoomInfo extends PureComponent {
         <ChannelMembers
           channel={channel}
           onLoad={onLoadMembers}
-          onOpen={goToPmChannel}
+          onOpen={openPm}
           onKick={kickMemberFromChannel}
           currUser={user}
           users={users}

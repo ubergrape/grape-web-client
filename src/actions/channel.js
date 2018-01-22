@@ -1,20 +1,24 @@
 import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
+import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector, userSelector, channelSelector, usersSelector,
-  orgSelector
+  joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
+  usersSelector, orgSelector, pmsSelector
 } from '../selectors'
 import {
   normalizeChannelData,
   roomNameFromUsers
 } from './utils'
-import {error, goToChannel, goToLastUsedChannel, loadNotificationSettings} from './'
+import {
+  error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser,
+  setChannel, handleBadChannel
+} from './'
 
-export function createChannel(channel) {
+export function addChannel(channel) {
   return {
-    type: types.CREATE_NEW_CHANNEL,
+    type: types.ADD_CHANNEL,
     payload: {
       ...normalizeChannelData(channel),
       unread: channel.unread || 0
@@ -122,16 +126,74 @@ export function clearRoomCreateError() {
   }
 }
 
-export const openPm = userId => (dispatch, getState) => {
+export const openPm = (userId, options) => (dispatch, getState) => {
   const org = orgSelector(getState())
-  api
-    .openPm(org.id, userId)
-    .then((channel) => {
-      dispatch(createChannel(channel))
-      dispatch(goToChannel(channel.id))
+  const channels = pmsSelector(getState())
+  const currUser = userSelector(getState())
+
+  // An attempt to open a conversation with own user.
+  if (currUser.id === userId) {
+    dispatch(handleBadChannel(alerts.MESSAGE_TO_SELF))
+    return
+  }
+
+  const foundChannel = find(channels, ({mate}) => mate.id === userId)
+
+  if (foundChannel) {
+    dispatch(goToChannel(foundChannel, options))
+    return
+  }
+
+  dispatch({
+    type: types.REQUEST_OPEN_PM,
+    payload: userId
+  })
+
+  Promise.all([
+    api.getUser(org.id, userId),
+    api.openPm(org.id, userId)
+  ])
+    .then(([user, channel]) => {
+      dispatch(addUser(user))
+      dispatch(addChannel(channel))
+      // Using id because after adding, channel was normalized.
+      dispatch(goToChannel(channel.id, options))
     })
     .catch((err) => {
       dispatch(handleRoomCreateError(err.message))
+    })
+}
+
+export const openChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const foundChannel = find(channels, {id: channelId})
+  if (foundChannel) {
+    dispatch(setChannel(foundChannel, messageId))
+    return
+  }
+
+  dispatch({
+    type: types.REQUEST_CHANNEL_AND_USERS,
+    payload: {channelId, messageId}
+  })
+
+  const org = orgSelector(getState())
+
+  api
+    .getChannel(channelId)
+    .then(channel => Promise.all([
+      channel,
+      api.getUsers({orgId: org.id, userIds: channel.users})
+    ]))
+    .then(([channel, users]) => {
+      users.forEach((user) => {
+        dispatch(addUser(user))
+      })
+      dispatch(addChannel(channel))
+      dispatch(setChannel(channel, messageId))
+    })
+    .catch(() => {
+      dispatch(handleBadChannel())
     })
 }
 

@@ -7,7 +7,7 @@ import {manageContactsSelector as selector} from '../../selectors'
 import {ManageContactsDialog} from '../../components/manage-contacts'
 
 const actionNames = {
-  goToPmChannel: 'onSelectUser',
+  openPm: 'onSelectUser',
   setManageContactsFilter: 'onSelectFilter',
   hideManageContacts: 'onHide'
 }

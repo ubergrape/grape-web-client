@@ -4,8 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, channelSelector, usersSelector, userSelector,
-  appSelector
+  channelsSelector, usersSelector, userSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -54,6 +53,13 @@ export function setUsers(users) {
   }
 }
 
+export const addUser = user => (dispatch) => {
+  dispatch({
+    type: types.ADD_USER_TO_ORG,
+    payload: normalizeUserData(user)
+  })
+}
+
 export function setOrg(org) {
   return {
     type: types.SET_ORG,
@@ -96,35 +102,30 @@ export const handleUserProfile = profile => (dispatch) => {
   }
 }
 
-export const setChannel = (channelId, messageId) => (dispatch, getState) => {
-  const state = getState()
-  let nextChannel = channelId
+export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState) => {
+  let nextChannel = channelOrChannelId
 
-  if (typeof channelId === 'number') {
-    const channels = channelsSelector(state)
-    nextChannel = find(channels, {id: channelId})
+  if (typeof channelOrChannelId === 'number') {
+    const channels = channelsSelector(getState())
+    nextChannel = find(channels, {id: channelOrChannelId})
   }
 
   if (!nextChannel) return
 
-  const currChannel = channelSelector(state)
-
-  // Has not changed.
-  if (currChannel && currChannel.id === nextChannel.id) {
-    return
-  }
-
   dispatch({
     type: types.SET_CHANNEL,
-    payload: {channel: normalizeChannelData(nextChannel), messageId}
+    payload: {
+      channel: normalizeChannelData(nextChannel),
+      messageId
+    }
   })
 }
 
-export const handleChannelNotFound = () => (dispatch) => {
+export const handleBadChannel = alertType => (dispatch) => {
   dispatch(goToLastUsedChannel())
   dispatch(showAlert({
     level: 'warning',
-    type: alerts.CHANNEL_NOT_FOUND,
+    type: alertType || alerts.CHANNEL_NOT_FOUND,
     closeAfter: 6000,
     isClosable: true
   }))

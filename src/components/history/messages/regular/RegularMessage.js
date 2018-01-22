@@ -48,7 +48,7 @@ export default class RegularMessage extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     onResend: PropTypes.func.isRequired,
-    onGoToPmChannel: PropTypes.func.isRequired,
+    onOpenPm: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
@@ -87,7 +87,7 @@ export default class RegularMessage extends PureComponent {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onGoToPmChannel: noop,
+    onOpenPm: noop,
     onCopyLink: noop,
     onQuote: noop,
     onRemoveLinkAttachment: noop,
@@ -121,9 +121,9 @@ export default class RegularMessage extends PureComponent {
     this.body = ref
   }
 
-  onGoToPmChannel = () => {
-    const {onGoToPmChannel, author} = this.props
-    onGoToPmChannel(author.id)
+  onOpenPm = () => {
+    const {onOpenPm, author} = this.props
+    onOpenPm(author.id)
   }
 
   onResend = (e) => {
@@ -178,7 +178,7 @@ export default class RegularMessage extends PureComponent {
 
     const Bubble = getBubble({isSelected, isPinned, isOwn})
 
-    const onGoToPmChannel = canPm(this.props) ? this.onGoToPmChannel : undefined
+    const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
 
     const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
     let onRemoveLinkAttachment
@@ -188,7 +188,7 @@ export default class RegularMessage extends PureComponent {
 
     return (
       <div className={classes.message}>
-        {author && <Author {...this.props} onClickAuthor={onGoToPmChannel} />}
+        {author && <Author {...this.props} onClickAuthor={onOpenPm} />}
         <div
           className={classes.row}
           onMouseEnter={this.onMouseEnter}
@@ -198,8 +198,8 @@ export default class RegularMessage extends PureComponent {
             {avatar &&
               <Avatar
                 src={avatar}
-                className={onGoToPmChannel ? classes.clickable : ''}
-                onClick={onGoToPmChannel}
+                className={onOpenPm ? classes.clickable : ''}
+                onClick={onOpenPm}
               />
             }
           </div>

@@ -1,15 +1,19 @@
 import {createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import thunk from 'redux-thunk'
 import {routerReducer, routerMiddleware} from 'react-router-redux'
-import * as reducers from '../reducers'
 import history from './history'
+import * as reducers from '../reducers'
+import detectCircular from '../middleware/detectCircular'
 
 let store
-
 const middleware = [
   applyMiddleware(thunk),
   applyMiddleware(routerMiddleware(history))
 ]
+
+if (__DEV__) {
+  middleware.push(applyMiddleware(detectCircular))
+}
 
 /* eslint-disable no-underscore-dangle */
 if (__DEV__ && window && window.__REDUX_DEVTOOLS_EXTENSION__) {

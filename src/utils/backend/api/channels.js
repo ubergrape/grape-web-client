@@ -29,3 +29,9 @@ export const loadPinnedMessages = channelId => rpc({
   action: 'get_pinned_messages',
   args: [channelId]
 })
+
+export const getChannel = channelId => rpc({
+  ns: 'channels',
+  action: 'get',
+  args: [channelId]
+}, {camelize: true})

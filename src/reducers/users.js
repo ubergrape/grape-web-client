@@ -11,9 +11,12 @@ export default function reduce(state = initialState, action) {
     case types.SET_USERS:
       return [...payload]
 
-    case types.ADD_USER_TO_ORG:
-      return [...state, payload]
-
+    case types.ADD_USER_TO_ORG: {
+      if (findIndex(state, {id: payload.id}) === -1) {
+        return [...state, payload]
+      }
+      return state
+    }
     case types.REMOVE_USER_FROM_ORG: {
       const newState = [...state]
       const index = findIndex(newState, {id: payload})

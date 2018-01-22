@@ -7,7 +7,7 @@ import indexBy from 'lodash/collection/indexBy'
 import omit from 'lodash/object/omit'
 
 import staticUrl from '../utils/static-url'
-import {defaultAvatar} from '../constants/images'
+import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
 import {channelsSelector} from '../selectors'
 import * as api from '../utils/backend/api'
@@ -92,10 +92,18 @@ export function normalizeChannelData(channel, userId) {
 }
 
 export function normalizeUserData(user, organizations) {
-  const normalized = removeNullValues({...user})
+  const normalized = removeNullValues({
+    ...user,
+    avatar: user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar),
+    isActive: true,
+    status: 0,
+    pm: null
+  })
+
   if (Array.isArray(organizations)) {
     normalized.role = find(organizations, {id: conf.organization.id}).role
   }
+
   return normalized
 }
 
