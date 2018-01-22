@@ -8,6 +8,7 @@ import Emitter from 'component-emitter'
 
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
+import rpc from '../utils/backend/rpc'
 
 let resolveAppReady
 
@@ -144,6 +145,7 @@ class Api extends Emitter {
   resume = resume
   suspend = suspend
   authStatus = 'unauthorized'
+  rpc = rpc
 
   setAuthStatus(nextStatus) {
     if (nextStatus === this.authStatus) return

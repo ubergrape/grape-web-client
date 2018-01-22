@@ -1,10 +1,8 @@
 import React, {PureComponent} from 'react'
-import colors from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 import Normalize from 'grape-web/lib/components/normalize'
 
 import {baseUrl as fontsBaseUrl} from '../../constants/fonts'
-import conf from '../../conf'
 
 const getFontFace = ({family, style = 'normal', weight = 400, formats = ['woff2', 'woff', 'ttf']}) => ({
   fontFamily: `"${family}"`,
@@ -31,8 +29,7 @@ const getFontFace = ({family, style = 'normal', weight = 400, formats = ['woff2'
   appContainer: {
     display: 'block',
     position: 'relative',
-    height: '100%',
-    border: [conf.embed ? 1 : 0, 'solid', colors.grayBlueLighter]
+    height: '100%'
   }
 })
 export default class AppContainer extends PureComponent {
