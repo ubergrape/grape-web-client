@@ -4,8 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, channelSelector, usersSelector, userSelector,
-  appSelector
+  channelsSelector, usersSelector, userSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -104,26 +103,21 @@ export const handleUserProfile = profile => (dispatch) => {
 }
 
 export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState) => {
-  const state = getState()
   let nextChannel = channelOrChannelId
 
   if (typeof channelOrChannelId === 'number') {
-    const channels = channelsSelector(state)
+    const channels = channelsSelector(getState())
     nextChannel = find(channels, {id: channelOrChannelId})
   }
 
   if (!nextChannel) return
 
-  const currChannel = channelSelector(state)
-
-  // Has not changed.
-  if (currChannel && currChannel.id === nextChannel.id) {
-    return
-  }
-
   dispatch({
     type: types.SET_CHANNEL,
-    payload: {channel: normalizeChannelData(nextChannel), messageId}
+    payload: {
+      channel: normalizeChannelData(nextChannel),
+      messageId
+    }
   })
 }
 
