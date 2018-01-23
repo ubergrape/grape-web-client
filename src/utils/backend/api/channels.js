@@ -59,3 +59,39 @@ export const getPinnedChannels = orgId => rpc({
   action: 'get_pins',
   args: [orgId]
 }, {camelize: true})
+
+export const addChannelToFavorites = channelId => rpc({
+  ns: 'channels',
+  action: 'set_pin',
+  args: [channelId]
+})
+
+export const removeChannelFromFavorites = channelId => rpc({
+  ns: 'channels',
+  action: 'remove_pin',
+  args: [channelId]
+})
+
+export const loadHistory = (channelId, options = {}) => rpc({
+  ns: 'channels',
+  action: 'get_history',
+  args: [channelId, options]
+}, {camelize: true})
+
+/**
+ * Load history at a position of specified message id.
+ */
+export const loadHistoryAt = (channelId, messageId, options = {}) => {
+  // Amount of messages before the passed message id.
+  const before = Math.round(options.limit / 2)
+  // Amount of messages after the passed message id.
+  const after = before
+  // Return an error when message id not found, otherwise return fallback results.
+  const strict = true
+
+  return rpc({
+    ns: 'channels',
+    action: 'focus_message',
+    args: [channelId, messageId, before, after, strict]
+  }, {camelize: true})
+}

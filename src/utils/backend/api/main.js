@@ -207,40 +207,6 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
   })
 }
 
-export function addToFavorite(channelId) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'set_pin',
-        args: [channelId]
-      },
-      {camelize: true},
-      (err) => {
-        if (err) return reject(err)
-        return resolve()
-      }
-    )
-  })
-}
-
-export function removeFromFavorite(channelId) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'remove_pin',
-        args: [channelId]
-      },
-      {camelize: true},
-      (err) => {
-        if (err) return reject(err)
-        return resolve()
-      }
-    )
-  })
-}
-
 export function checkAuth() {
   return new Promise((resolve, reject) => {
     const {serviceUrl, authToken} = conf.server
@@ -251,46 +217,6 @@ export function checkAuth() {
     req.end((err) => {
       if (err) return reject(err)
       return resolve()
-    })
-  })
-}
-
-export function loadHistory(channelId, options = {}) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'channels',
-      action: 'get_history',
-      args: [channelId, options]
-    },
-    {camelize: true},
-    (err, res) => {
-      if (err) return reject(err)
-      return resolve(res)
-    })
-  })
-}
-
-/**
- * Load history at a position of specified message id.
- */
-export function loadHistoryAt(channelId, messageId, options = {}) {
-  return new Promise((resolve, reject) => {
-    // Amount of messages before the passed message id.
-    const before = Math.round(options.limit / 2)
-    // Amount of messages after the passed message id.
-    const after = before
-    // Return an error when message id not found, otherwise return fallback results.
-    const strict = true
-
-    rpc({
-      ns: 'channels',
-      action: 'focus_message',
-      args: [channelId, messageId, before, after, strict]
-    },
-    {camelize: true},
-    (err, res) => {
-      if (err) return reject(err)
-      return resolve(res)
     })
   })
 }
