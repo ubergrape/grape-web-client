@@ -5,15 +5,15 @@ import noop from 'lodash/utility/noop'
  */
 export function createNotification({title, content, icon}, callback = noop) {
   if (!window.Notification) return
-  const n = new Notification(title, {
+  const notification = new Notification(title, {
     icon,
     body: content,
-    silent: true,
-    onclick: () => {
-      window.focus()
-      n.close()
-      callback()
-    }
+    silent: true
+  })
+  notification.addEventListener('click', () => {
+    callback()
+    window.focus()
+    notification.close()
   })
 }
 
