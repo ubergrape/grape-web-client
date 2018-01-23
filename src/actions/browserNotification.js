@@ -16,7 +16,11 @@ export function setNotificationSession() {
       type: types.REQUEST_BROWSER_NOTIFICATION_SESSION,
       payload: options
     })
-    api.setNotificationSession(options).catch(error)
+    api
+      .setNotificationSession(options)
+      .catch((err) => {
+        dispatch(error(err))
+      })
   }
 }
 
