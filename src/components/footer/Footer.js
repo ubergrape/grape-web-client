@@ -66,6 +66,7 @@ export default class Footer extends PureComponent {
 
   render() {
     const {
+      disabled,
       classes,
       channels,
       channel,
@@ -74,7 +75,6 @@ export default class Footer extends PureComponent {
       showBrowser,
       customEmojis,
       images,
-      disabled,
       search,
       autocomplete,
       users,

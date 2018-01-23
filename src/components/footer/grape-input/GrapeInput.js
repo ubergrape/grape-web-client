@@ -25,6 +25,10 @@ const messages = defineMessages({
     id: 'editMessagePlaceholder',
     defaultMessage: 'Enter a message …'
   },
+  placeholderDisabled: {
+    id: 'disabledMessagePlaceholder',
+    defaultMessage: 'This user has been deleted. Messaging is disabled.'
+  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC'
@@ -38,9 +42,7 @@ const styles = {
     position: 'relative'
   },
   wrapperDisabled: {
-    pointerEvents: 'none',
-    filter: 'grayscale(100%)',
-    opacity: 0.4
+    pointerEvents: 'none'
   },
   editMessage: {
     position: 'absolute',
@@ -388,7 +390,10 @@ export default class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(messages.placeholder)}
+            placeholder={formatMessage(disabled ?
+              messages.placeholderDisabled :
+              messages.placeholder)
+            }
             disabled={disabled}
             focused={this.state.focused}
             customEmojis={customEmojis}

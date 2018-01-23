@@ -570,6 +570,17 @@ export const fileUploadSelector = createSelector(
   state => state.fileUpload, state => state
 )
 
+export const fileUploadComponentSelector = createSelector(
+  [
+    fileUploadSelector,
+    isChannelDisabledSelector
+  ],
+  (fileUpload, isChannelDisabled) => ({
+    ...fileUpload,
+    disabled: isChannelDisabled
+  })
+)
+
 export const manageGroupsSelector = createSelector(
   [
     state => state.manageGroups,

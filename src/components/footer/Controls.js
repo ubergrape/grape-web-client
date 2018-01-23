@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
 import {bigger} from 'grape-theme/dist/fonts'
+import grey from 'material-ui/colors/grey'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
@@ -16,14 +17,19 @@ const AttachmentButton = (props) => {
 
   // Upload click will be handled using public API.
   if (onOpenFileDialog) {
-    return <span className={classes.attachment} onClick={onOpenFileDialog} />
+    return (
+      <span
+        className={disabled ? classes.attachmentDisabled : classes.attachment}
+        onClick={onOpenFileDialog}
+      />
+    )
   }
 
   return (
     <Dropzone
-      className={classes.attachment}
+      className={disabled ? classes.attachmentDisabled : classes.attachment}
       maxSize={maxFileSize}
-      disableClick={disabled}
+      disabled={disabled}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     />
@@ -37,6 +43,11 @@ const AttachmentButton = (props) => {
     iconOnly: true
   }
 
+  const iconOptionsDisabled = {
+    color: grey[300],
+    iconOnly: true
+  }
+
   return {
     controls: {
       extend: bigger,
@@ -47,13 +58,28 @@ const AttachmentButton = (props) => {
       padding: controlSpacing,
       fontSize: 'inherit'
     },
+    attachmentDisabled: {
+      extend: buttonIcon('paperclip', iconOptionsDisabled),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    },
     emoji: {
       extend: buttonIcon('smileOpen', iconOptions),
       padding: controlSpacing,
       fontSize: 'inherit'
     },
+    emojiDisabled: {
+      extend: buttonIcon('smileOpen', iconOptionsDisabled),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    },
     search: {
       extend: buttonIcon('windowSearch', iconOptions),
+      padding: controlSpacing,
+      fontSize: 'inherit'
+    },
+    searchDisabled: {
+      extend: buttonIcon('windowSearch', iconOptionsDisabled),
       padding: controlSpacing,
       fontSize: 'inherit'
     }
@@ -108,8 +134,18 @@ export default class Controls extends PureComponent {
           onDropAccepted={this.onDropAccepted}
           onDropRejected={this.onDropRejected}
         />
-        <button className={classes.emoji} onClick={this.onToggleEmojiBrowser} disabled={disabled} />
-        <button className={classes.search} onClick={this.onShowSearchBrowser} disabled={disabled} />
+        <button
+          className={
+            disabled ? classes.emojiDisabled : classes.emoji
+          }
+          onClick={this.onToggleEmojiBrowser} disabled={disabled}
+        />
+        <button
+          className={
+            disabled ? classes.searchDisabled : classes.search
+          }
+          onClick={this.onShowSearchBrowser} disabled={disabled}
+        />
         <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
