@@ -8,7 +8,7 @@ import {RoomDeleteDialog} from '../../components/room-delete'
 
 const actionNames = {
   hideRoomDeleteDialog: 'onHide',
-  deleteRoom: 'onDelete'
+  deleteChannel: 'onDelete'
 }
 
 const ConnectedRoomDeleteDialog = connect(

@@ -119,6 +119,11 @@ export function requestAutocomplete({search, filters}) {
       searches = [api.autocomplete(orgId, search)]
     }
 
+    dispatch({
+      type: types.REQUEST_AUTOCOMPLETE,
+      payload: {search, filters}
+    })
+
     Promise
       .all(searches)
       .then(res => dispatch({
@@ -126,23 +131,18 @@ export function requestAutocomplete({search, filters}) {
         payload: mergeSearchResults(res)
       }))
       .catch(err => dispatch(error(err)))
-
-    dispatch({
-      type: types.REQUEST_AUTOCOMPLETE,
-      payload: {search, filters}
-    })
   }
 }
 
 export function setTyping({channel, typing}) {
   return (dispatch) => {
-    api
-      .setTyping({channel, typing})
-      .catch(err => dispatch(error(err)))
-
     dispatch({
       type: types.SET_TYPING,
       payload: {channel, typing}
     })
+
+    api
+      .setTyping(channel.id, typing)
+      .catch(err => dispatch(error(err)))
   }
 }

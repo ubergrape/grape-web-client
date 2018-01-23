@@ -4,7 +4,7 @@ import expect from 'expect.js'
 import api from '..'
 import * as app from '../../app'
 import conf from '../../conf'
-import * as backend from '../../utils/backend/api/main'
+import * as backend from '../../utils/backend/api/xhr'
 import getBoundActions from '../../app/boundActions'
 
 const mockInit = () => {
