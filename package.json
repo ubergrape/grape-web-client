@@ -47,6 +47,7 @@
     "moment-timezone": "^0.5.4",
     "mousetrap": "^1.5.3",
     "pick-react-known-prop": "0.0.1",
+    "pretty-bytes": "^4.0.2",
     "prop-types": "^15.5.10",
     "raven-js": "^1.1.22",
     "react": "^15.3.0",
@@ -129,7 +130,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "scripts": {
-    "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081 --hot --inline",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --port 8081 --inline",
     "start:dev:embedded": "npm run start:dev -- --config embedded.webpack.js",
     "start:proxy": "node ./bin/proxy.js",
     "build": "npm run clear:build && npm run build:lib && npm run build:full && npm run build:embedded",
