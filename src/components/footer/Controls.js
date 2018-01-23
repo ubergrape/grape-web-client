@@ -29,7 +29,7 @@ const AttachmentButton = (props) => {
     <Dropzone
       className={disabled ? classes.attachmentDisabled : classes.attachment}
       maxSize={maxFileSize}
-      disabledClick={disabled}
+      disableClick={disabled}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     />
