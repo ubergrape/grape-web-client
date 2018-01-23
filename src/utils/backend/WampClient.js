@@ -8,7 +8,6 @@ import prettyBytes from 'pretty-bytes'
 const log = debug('ws')
 const prefix = 'http://domain/'
 const pingInterval = 10000
-const {time, timeEnd} = console
 
 export default class WampClient {
   constructor(options = {}) {
@@ -106,10 +105,9 @@ export default class WampClient {
 
     if (log.enabled) {
       const originCallback = callback
-      const marker = `Call time ${args[0]}`
-      time(marker)
+      const start = Date.now()
       callback = (...callbackArgs) => {
-        timeEnd(marker)
+        log('response time %sms', Date.now() - start)
         originCallback(...callbackArgs)
       }
     }
@@ -177,7 +175,7 @@ export default class WampClient {
 
   onSocketMessage = (message) => {
     if (log.enabled) {
-      log('socket message size', prettyBytes(message.length))
+      log('socket message size %s', prettyBytes(message.length))
     }
   }
 }
