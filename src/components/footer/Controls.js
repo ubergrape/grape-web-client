@@ -19,7 +19,8 @@ const AttachmentButton = (props) => {
   if (onOpenFileDialog) {
     return (
       <span
-        className={disabled ? classes.attachmentDisabled : classes.attachment}
+        className={`${classes.attachment}
+          ${disabled ? classes.attachmentDisabled : classes.attachmentEnabled}`}
         onClick={onOpenFileDialog}
       />
     )
@@ -54,34 +55,34 @@ const AttachmentButton = (props) => {
       flexShrink: 0
     },
     attachment: {
-      extend: buttonIcon('paperclip', iconOptions),
       padding: controlSpacing,
       fontSize: 'inherit'
+    },
+    attachmentEnabled: {
+      extend: buttonIcon('paperclip', iconOptions)
     },
     attachmentDisabled: {
-      extend: buttonIcon('paperclip', iconOptionsDisabled),
-      padding: controlSpacing,
-      fontSize: 'inherit'
+      extend: buttonIcon('paperclip', iconOptionsDisabled)
     },
     emoji: {
-      extend: buttonIcon('smileOpen', iconOptions),
       padding: controlSpacing,
       fontSize: 'inherit'
+    },
+    emojiEnabled: {
+      extend: buttonIcon('smileOpen', iconOptions)
     },
     emojiDisabled: {
-      extend: buttonIcon('smileOpen', iconOptionsDisabled),
-      padding: controlSpacing,
-      fontSize: 'inherit'
+      extend: buttonIcon('smileOpen', iconOptionsDisabled)
     },
     search: {
-      extend: buttonIcon('windowSearch', iconOptions),
       padding: controlSpacing,
       fontSize: 'inherit'
     },
+    searchEnabled: {
+      extend: buttonIcon('windowSearch', iconOptions)
+    },
     searchDisabled: {
-      extend: buttonIcon('windowSearch', iconOptionsDisabled),
-      padding: controlSpacing,
-      fontSize: 'inherit'
+      extend: buttonIcon('windowSearch', iconOptionsDisabled)
     }
   }
 })
@@ -135,15 +136,13 @@ export default class Controls extends PureComponent {
           onDropRejected={this.onDropRejected}
         />
         <button
-          className={
-            disabled ? classes.emojiDisabled : classes.emoji
-          }
+          className={`${classes.emoji}
+            ${disabled ? classes.emojiDisabled : classes.emojiEnabled}`}
           onClick={this.onToggleEmojiBrowser} disabled={disabled}
         />
         <button
-          className={
-            disabled ? classes.searchDisabled : classes.search
-          }
+          className={`${classes.search}
+            ${disabled ? classes.searchDisabled : classes.searchEnabled}`}
           onClick={this.onShowSearchBrowser} disabled={disabled}
         />
         <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
