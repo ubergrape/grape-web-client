@@ -2,7 +2,6 @@ import request from 'superagent'
 
 import conf from '../../../conf'
 import rpc from '../rpc'
-import {sequenceToSettings, settingsToSequence} from '../notification'
 
 export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, reject) => {
   const req = request.get(`${serviceUrl}/api/chat/config/`)
@@ -129,32 +128,6 @@ export function checkAuth() {
   })
 }
 
-export function setNotificationSetting(orgId, channelId, settings) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'notifications',
-      action: 'update_settings',
-      args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
-    }, (err) => {
-      if (err) return reject(err)
-      return resolve()
-    })
-  })
-}
-
-export function getNotificationSettings(orgId, channelId) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'notifications',
-      action: 'get_settings',
-      args: [`${orgId}:${channelId}`]
-    }, (err, sequence) => {
-      if (err) return reject(err)
-      return resolve(sequenceToSettings(sequence))
-    })
-  })
-}
-
 export const uploadFile = (orgId, file) => (
   request
     .post(`${conf.server.serviceUrl}${conf.server.uploadPath}`)
@@ -192,17 +165,3 @@ export const loadLabelsConfig = orgId => (
     })
   })
 )
-
-export function setNotificationSession({orgId, clientId}) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'notifications',
-      action: 'set_notification_session',
-      clientId,
-      args: [orgId]
-    }, (err) => {
-      if (err) return reject(err)
-      return resolve()
-    })
-  })
-}
