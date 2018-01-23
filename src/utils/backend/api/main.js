@@ -115,98 +115,6 @@ export function setRoomIcon(id, icon) {
   })
 }
 
-export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'search',
-        action: 'get_mentions',
-        args: [
-          id,
-          showRoomMentions ? null : 'user',
-          limit,
-          offsetDate
-        ]
-      },
-      {camelize: true},
-      (err, mentions) => {
-        if (err) return reject(err)
-        return resolve(mentions)
-      }
-    )
-  })
-}
-
-export function searchMessages({query, id, limit, offsetDate, types}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'search',
-        action: 'search',
-        args: [
-          query,
-          id,
-          types.join(','),
-          limit,
-          offsetDate
-        ]
-      },
-      {camelize: true},
-      (err, messages) => {
-        if (err) return reject(err)
-        return resolve(messages)
-      }
-    )
-  })
-}
-
-export function searchMessagesInChannel({query, orgId, channelId, limit, offsetDate, types}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'search',
-        action: 'search_channel',
-        args: [
-          query,
-          orgId,
-          channelId,
-          types.join(','),
-          limit,
-          offsetDate
-        ]
-      },
-      {camelize: true},
-      (err, messages) => {
-        if (err) return reject(err)
-        return resolve(messages)
-      }
-    )
-  })
-}
-
-export function searchFiles({orgId, channelId, own, limit, offset}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'search',
-        action: 'search_files',
-        args: [
-          orgId,
-          channelId,
-          own,
-          limit,
-          offset
-        ]
-      },
-      {camelize: true},
-      (err, files) => {
-        if (err) return reject(err)
-        return resolve(files)
-      }
-    )
-  })
-}
-
 export function checkAuth() {
   return new Promise((resolve, reject) => {
     const {serviceUrl, authToken} = conf.server
@@ -284,31 +192,6 @@ export const loadLabelsConfig = orgId => (
     })
   })
 )
-
-export function autocomplete(orgId, text, options = {}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'search',
-        action: 'autocomplete',
-        args: [
-          text,
-          orgId,
-          options.showAll || false,
-          // Amount of results per section.
-          15,
-          // Return external services too.
-          true
-        ]
-      },
-      {camelize: true},
-      (err, res) => {
-        if (err) return reject(err)
-        return resolve(res)
-      }
-    )
-  })
-}
 
 export function setNotificationSession({orgId, clientId}) {
   return new Promise((resolve, reject) => {
