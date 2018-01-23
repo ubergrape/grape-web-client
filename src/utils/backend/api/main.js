@@ -256,19 +256,6 @@ export const uploadFile = (orgId, file) => (
     .withCredentials()
 )
 
-export function removeLinkAttachments(channelId, messageId, sourceUrl, type) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'channels',
-      action: 'delete_attachment',
-      args: [channelId, messageId, sourceUrl, type]
-    }, (err) => {
-      if (err) return reject(err)
-      return resolve()
-    })
-  })
-}
-
 export const loadLabeledMessages = (orgId, options = {}) => (
   new Promise((resolve, reject) => {
     rpc({
@@ -318,22 +305,6 @@ export function autocomplete(orgId, text, options = {}) {
       (err, res) => {
         if (err) return reject(err)
         return resolve(res)
-      }
-    )
-  })
-}
-
-export function setTyping({channel, typing}) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'set_typing',
-        args: [channel.id, typing]
-      },
-      (err) => {
-        if (err) return reject(err)
-        return resolve()
       }
     )
   })

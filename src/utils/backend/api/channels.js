@@ -133,3 +133,15 @@ export const readMessage = (channelId, messageId) => rpc({
   action: 'read',
   args: [channelId, messageId]
 })
+
+export const removeLinkAttachments = (channelId, messageId, sourceUrl, type) => rpc({
+  ns: 'channels',
+  action: 'delete_attachment',
+  args: [channelId, messageId, sourceUrl, type]
+})
+
+export const setTyping = (channelId, isTyping) => rpc({
+  ns: 'channels',
+  action: 'set_typing',
+  args: [channelId, isTyping]
+})
