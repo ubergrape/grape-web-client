@@ -329,9 +329,9 @@ export function hideRoomDeleteDialog() {
   }
 }
 
-export function deleteRoom({roomId, roomName}) {
+export function deleteChannel({roomId, roomName}) {
   return dispatch => api
-      .deleteRoom(roomId, roomName)
+      .deleteChannel(roomId, roomName)
       .catch(err => dispatch(error(err)))
 }
 

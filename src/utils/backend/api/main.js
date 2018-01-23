@@ -47,20 +47,6 @@ export function renameRoom(id, name) {
   })
 }
 
-export function deleteRoom(id, name) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'channels',
-      action: 'delete',
-      args: [id, name]
-    },
-    (err) => {
-      if (err) return reject(err)
-      return resolve()
-    })
-  })
-}
-
 export function setRoomDescription(id, description) {
   return new Promise((resolve, reject) => {
     rpc(

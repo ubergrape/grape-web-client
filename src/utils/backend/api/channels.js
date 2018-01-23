@@ -35,3 +35,9 @@ export const getChannel = channelId => rpc({
   action: 'get',
   args: [channelId]
 }, {camelize: true})
+
+export const deleteChannel = (channelId, name) => rpc({
+  ns: 'channels',
+  action: 'delete',
+  args: [channelId, name]
+})
