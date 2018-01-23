@@ -47,3 +47,9 @@ export const joinChannel = channelId => rpc({
   action: 'join',
   args: [channelId]
 })
+
+export const inviteToChannel = (emailAddresses, channelId) => rpc({
+  ns: 'channels',
+  action: 'invite',
+  args: [channelId, emailAddresses]
+})

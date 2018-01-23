@@ -115,22 +115,6 @@ export function setRoomIcon(id, icon) {
   })
 }
 
-export function inviteToChannel(emailAddresses, channelId) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'invite',
-        args: [channelId, emailAddresses]
-      },
-      (err) => {
-        if (err) return reject(err)
-        return resolve()
-      }
-    )
-  })
-}
-
 export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}) {
   return new Promise((resolve, reject) => {
     rpc(
