@@ -53,3 +53,9 @@ export const inviteToChannel = (emailAddresses, channelId) => rpc({
   action: 'invite',
   args: [channelId, emailAddresses]
 })
+
+export const getPinnedChannels = orgId => rpc({
+  ns: 'channels',
+  action: 'get_pins',
+  args: [orgId]
+}, {camelize: true})

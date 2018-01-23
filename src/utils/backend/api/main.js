@@ -207,23 +207,6 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
   })
 }
 
-export function getFavorites(orgId) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'get_pins',
-        args: [orgId]
-      },
-      {camelize: true},
-      (err, favorites) => {
-        if (err) return reject(err)
-        return resolve(favorites)
-      }
-    )
-  })
-}
-
 export function addToFavorite(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
