@@ -95,3 +95,41 @@ export const loadHistoryAt = (channelId, messageId, options = {}) => {
     args: [channelId, messageId, before, after, strict]
   }, {camelize: true})
 }
+
+export const removeMessage = (channelId, messageId) => rpc({
+  ns: 'channels',
+  action: 'delete_message',
+  args: [channelId, messageId]
+})
+
+export const updateMessage = (channelId, messageId, text) => rpc({
+  ns: 'channels',
+  action: 'update_message',
+  args: [channelId, messageId, text]
+})
+
+export const postMessage = (channelId, text = '', options) => {
+  let optionsArg = options
+
+  if (optionsArg.attachments) {
+    optionsArg = {...optionsArg}
+    // If an id is already given, like for e.g. in case of file uploads,
+    // backend expect an attachment to be the id.
+    // Otherwise it expects an attachment object.
+    optionsArg.attachments = optionsArg.attachments.map(
+      attachment => (attachment.id ? attachment.id : attachment)
+    )
+  }
+
+  return rpc({
+    ns: 'channels',
+    action: 'post',
+    args: [channelId, text, optionsArg]
+  })
+}
+
+export const readMessage = (channelId, messageId) => rpc({
+  ns: 'channels',
+  action: 'read',
+  args: [channelId, messageId]
+})
