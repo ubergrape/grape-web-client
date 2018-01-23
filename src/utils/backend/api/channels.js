@@ -41,3 +41,9 @@ export const deleteChannel = (channelId, name) => rpc({
   action: 'delete',
   args: [channelId, name]
 })
+
+export const joinChannel = channelId => rpc({
+  ns: 'channels',
+  action: 'join',
+  args: [channelId]
+})

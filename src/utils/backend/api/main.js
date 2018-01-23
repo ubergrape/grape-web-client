@@ -115,22 +115,6 @@ export function setRoomIcon(id, icon) {
   })
 }
 
-export function joinChannel(channelId) {
-  return new Promise((resolve, reject) => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'join',
-        args: [channelId]
-      },
-      (err) => {
-        if (err) return reject(err)
-        return resolve()
-      }
-    )
-  })
-}
-
 export function inviteToChannel(emailAddresses, channelId) {
   return new Promise((resolve, reject) => {
     rpc(
