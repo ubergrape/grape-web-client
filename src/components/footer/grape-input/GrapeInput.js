@@ -380,7 +380,6 @@ export default class GrapeInput extends PureComponent {
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
-
     return (
       <GlobalEvent event="keydown" handler={this.onKeyDown}>
         <div className={cn(classes.wrapper, {[classes.wrapperDisabled]: disabled})}>

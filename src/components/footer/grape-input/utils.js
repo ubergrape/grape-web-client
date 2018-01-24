@@ -37,7 +37,7 @@ export function getEmojiSearchData(emoji, search) {
 }
 
 export function getUserSearchData(users, channelUsers, search) {
-  const result = users.map((user) => {
+  return users.map((user) => {
     let name
 
     if (user.displayName) {
@@ -59,8 +59,6 @@ export function getUserSearchData(users, channelUsers, search) {
       type: 'user'
     }
   })
-
-  return result
 }
 
 
