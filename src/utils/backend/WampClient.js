@@ -46,7 +46,6 @@ export default class WampClient {
     this.socket = new WebSocket(this.url)
     this.socket.on('error', this.onSocketError)
     this.socket.on('close', this.onSocketClose)
-    this.socket.on('message', this.onSocketMessage)
     this.wamp = new Wamp(
       this.socket,
       {omitSubscribe: true},
@@ -107,7 +106,12 @@ export default class WampClient {
       const originCallback = callback
       const start = Date.now()
       callback = (...callbackArgs) => {
-        log('response time %s %sms', args[0], Date.now() - start)
+        log(
+          'stats %s %s ms %s',
+          args[0],
+          Date.now() - start,
+          prettyBytes(JSON.stringify(callbackArgs[1]).length)
+        )
         originCallback(...callbackArgs)
       }
     }
@@ -171,11 +175,5 @@ export default class WampClient {
     log('socket close', event)
     this.close()
     this.reopen()
-  }
-
-  onSocketMessage = (message) => {
-    if (log.enabled) {
-      log('socket message size %s', prettyBytes(message.length))
-    }
   }
 }
