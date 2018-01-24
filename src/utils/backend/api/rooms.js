@@ -1,9 +1,15 @@
 import rpc from '../rpc'
 
-export const createRoom = room => rpc({
+export const createRoom = roomId => rpc({
   ns: 'rooms',
   action: 'create',
-  args: [room]
+  args: [roomId]
+}, {camelize: true})
+
+export const listMembers = roomId => rpc({
+  ns: 'rooms',
+  action: 'list_members',
+  args: [roomId]
 }, {camelize: true})
 
 export const renameRoom = (id, name) => rpc({

@@ -106,12 +106,8 @@ export default class WampClient {
       const originCallback = callback
       const start = Date.now()
       callback = (...callbackArgs) => {
-        log(
-          'stats %s %s ms %s',
-          args[0],
-          Date.now() - start,
-          prettyBytes(JSON.stringify(callbackArgs[1]).length)
-        )
+        const size = callbackArgs[1] ? JSON.stringify(callbackArgs[1]).length : 0
+        log('stats %s %s ms %s', args[0], Date.now() - start, prettyBytes(size))
         originCallback(...callbackArgs)
       }
     }
