@@ -1,6 +1,6 @@
 import snakeCase from 'lodash/string/snakeCase'
 import camelCase from 'lodash/string/camelCase'
-import isObject from 'lodash/lang/isObject'
+import isPlainObject from 'lodash/lang/isPlainObject'
 import mapKeys from 'lodash/object/mapKeys'
 import mapValues from 'lodash/object/mapValues'
 
@@ -9,11 +9,11 @@ const mapKeysDeep = (object, callback) => {
     return object.map(innerObject => mapKeysDeep(innerObject, callback))
   }
 
-  if (isObject(object)) {
+  if (isPlainObject(object)) {
     return mapValues(
-        mapKeys(object, callback),
-        value => mapKeysDeep(value, callback)
-      )
+      mapKeys(object, callback),
+      value => mapKeysDeep(value, callback)
+    )
   }
 
   return object
