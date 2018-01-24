@@ -93,11 +93,10 @@ export function normalizeChannelData(channel, userId) {
 
 export function normalizeUserData(user, organizations) {
   const normalized = removeNullValues({
-    ...user,
-    avatar: user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar),
     isActive: true,
     status: 0,
-    pm: null
+    ...user,
+    avatar: user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
   })
 
   if (Array.isArray(organizations)) {
