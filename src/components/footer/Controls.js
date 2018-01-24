@@ -28,7 +28,8 @@ const AttachmentButton = (props) => {
 
   return (
     <Dropzone
-      className={disabled ? classes.attachmentDisabled : classes.attachment}
+      className={`${classes.attachment}
+        ${disabled ? classes.attachmentDisabled : classes.attachmentEnabled}`}
       maxSize={maxFileSize}
       disableClick={disabled}
       onDropAccepted={onDropAccepted}
@@ -55,34 +56,37 @@ const AttachmentButton = (props) => {
       flexShrink: 0
     },
     attachment: {
-      padding: controlSpacing,
       fontSize: 'inherit'
     },
     attachmentEnabled: {
-      extend: buttonIcon('paperclip', iconOptions)
+      extend: buttonIcon('paperclip', iconOptions),
+      padding: controlSpacing
     },
     attachmentDisabled: {
-      extend: buttonIcon('paperclip', iconOptionsDisabled)
+      extend: buttonIcon('paperclip', iconOptionsDisabled),
+      padding: controlSpacing
     },
     emoji: {
-      padding: controlSpacing,
       fontSize: 'inherit'
     },
     emojiEnabled: {
-      extend: buttonIcon('smileOpen', iconOptions)
+      extend: buttonIcon('smileOpen', iconOptions),
+      padding: controlSpacing
     },
     emojiDisabled: {
-      extend: buttonIcon('smileOpen', iconOptionsDisabled)
+      extend: buttonIcon('smileOpen', iconOptionsDisabled),
+      padding: controlSpacing
     },
     search: {
-      padding: controlSpacing,
       fontSize: 'inherit'
     },
     searchEnabled: {
-      extend: buttonIcon('windowSearch', iconOptions)
+      extend: buttonIcon('windowSearch', iconOptions),
+      padding: controlSpacing
     },
     searchDisabled: {
-      extend: buttonIcon('windowSearch', iconOptionsDisabled)
+      extend: buttonIcon('windowSearch', iconOptionsDisabled),
+      padding: controlSpacing
     }
   }
 })
