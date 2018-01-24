@@ -249,7 +249,7 @@ export default class GrapeInput extends PureComponent {
         break
       case '@':
         onSearchChannels(org, search, 10)
-        onSearchUsers(org, search)
+        onSearchUsers(org, search, 10)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
