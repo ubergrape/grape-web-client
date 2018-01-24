@@ -7,7 +7,7 @@ import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
 
-import {setChannel, openPm, openChannel} from './'
+import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
 export function goTo(options) {
   return (dispatch) => {
@@ -81,7 +81,8 @@ export function goToChannel(channelOrChannelId, options) {
 export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
-  dispatch(goToChannel(channel))
+  if (channel) dispatch(goToChannel(channel))
+  else dispatch(handleBadChannel())
 }
 
 export function goToPayment() {

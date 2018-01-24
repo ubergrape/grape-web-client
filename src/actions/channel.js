@@ -177,20 +177,35 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     payload: {channelId, messageId}
   })
 
-  const org = orgSelector(getState())
-
   api
     .getChannel(channelId)
-    .then(channel => Promise.all([
-      channel,
-      api.getUsers({orgId: org.id, userIds: channel.users})
-    ]))
+    .then((channel) => {
+      if (channel.type === 'pm') {
+        const currUser = userSelector(getState())
+        const users = [currUser, channel.partner]
+        const userIds = [users[0].id, users[1].id]
+        return [
+          {...channel, users: userIds},
+          users
+        ]
+      }
+
+      // TODO we will have to load th room members here once we get rid
+      // of `org.channels`. Right now all joined channels are loaded.
+      return []
+    })
     .then(([channel, users]) => {
-      users.forEach((user) => {
-        dispatch(addUser(user))
-      })
-      dispatch(addChannel(channel))
-      dispatch(setChannel(channel, messageId))
+      if (channel && users) {
+        users.forEach((user) => {
+          dispatch(addUser(user))
+        })
+        dispatch(addChannel(channel))
+        dispatch(setChannel(channel, messageId))
+        return
+      }
+
+      // It should be a channel user didn't join yet.
+      dispatch(joinChannel(channelId))
     })
     .catch(() => {
       dispatch(handleBadChannel())
