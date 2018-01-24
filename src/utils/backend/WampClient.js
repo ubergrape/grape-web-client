@@ -107,7 +107,7 @@ export default class WampClient {
       const originCallback = callback
       const start = Date.now()
       callback = (...callbackArgs) => {
-        log('response time %sms', Date.now() - start)
+        log('response time %s %sms', args[0], Date.now() - start)
         originCallback(...callbackArgs)
       }
     }
