@@ -6,6 +6,12 @@ export const searchUsers = ({orgId, search = '', limit}) => rpc({
   args: [orgId, search, limit]
 }, {camelize: true})
 
+export const searchChannels = ({orgId, search = '', limit}) => rpc({
+  ns: 'search',
+  action: 'search_channels',
+  args: [orgId, search, limit]
+}, {camelize: true})
+
 export const getMentions = ({id, limit, options: {showRoomMentions}, offsetDate}) => rpc({
   ns: 'search',
   action: 'get_mentions',

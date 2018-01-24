@@ -16,16 +16,17 @@ export default class Footer extends PureComponent {
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    org: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
-    rooms: PropTypes.array.isRequired,
-    users: PropTypes.array.isRequired,
     search: PropTypes.string,
     autocomplete: PropTypes.object,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
+    usersToMention: PropTypes.array,
+    channelsToMention: PropTypes.array,
     onShowMarkdownTips: PropTypes.func.isRequired,
     onCleanupTyping: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
@@ -45,16 +46,21 @@ export default class Footer extends PureComponent {
     onOpenFileDialog: PropTypes.func,
     onEditMessageSend: PropTypes.func.isRequired,
     onEditMessageAbort: PropTypes.func.isRequired,
-    onAddIntegration: PropTypes.func.isRequired
+    onAddIntegration: PropTypes.func.isRequired,
+    onSearchUsers: PropTypes.func.isRequired,
+    onSearchChannels: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     disabled: false,
+    org: {},
     targetMessage: undefined,
     quoteMessage: undefined,
     search: '',
     services: [],
     servicesStats: {},
+    usersToMention: [],
+    channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
     onOpenFileDialog: undefined
@@ -69,6 +75,7 @@ export default class Footer extends PureComponent {
       classes,
       channels,
       channel,
+      org,
       targetMessage,
       quoteMessage,
       showBrowser,
@@ -77,10 +84,10 @@ export default class Footer extends PureComponent {
       disabled,
       search,
       autocomplete,
-      users,
-      rooms,
       services,
       servicesStats,
+      usersToMention,
+      channelsToMention,
       onCleanupTyping,
       onShowMarkdownTips,
       onUploadFiles,
@@ -100,7 +107,9 @@ export default class Footer extends PureComponent {
       onRequestAutocompleteServices,
       onRequestAutocompleteServicesStats,
       onSetTyping,
-      onAddIntegration
+      onAddIntegration,
+      onSearchUsers,
+      onSearchChannels
     } = this.props
 
     return (
@@ -123,17 +132,18 @@ export default class Footer extends PureComponent {
           <GrapeInput
             customEmojis={customEmojis}
             images={images}
-            rooms={rooms}
             channel={channel}
+            org={org}
             targetMessage={targetMessage}
             quoteMessage={quoteMessage}
             disabled={disabled}
             showBrowser={showBrowser}
             search={search}
-            users={users}
             autocomplete={autocomplete}
             services={services}
             servicesStats={servicesStats}
+            usersToMention={usersToMention}
+            channelsToMention={channelsToMention}
             onShowEmojiBrowser={onShowEmojiBrowser}
             onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
             onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
@@ -149,6 +159,8 @@ export default class Footer extends PureComponent {
             onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
             onSetTyping={onSetTyping}
             onAddIntegration={onAddIntegration}
+            onSearchUsers={onSearchUsers}
+            onSearchChannels={onSearchChannels}
           />
           <Controls
             disabled={disabled}

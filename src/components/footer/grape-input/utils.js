@@ -60,23 +60,22 @@ export function getUserSearchData(users, channelUsers, search) {
     }
   })
 
-  // Do the search.
-  return result.filter(user =>
-    user.name.toLowerCase().indexOf(search) >= 0 ||
-    user.username.toLowerCase().indexOf(search) >= 0)
+  return result
 }
 
 
 export function getRoomsSearchData(rooms, channel, search) {
-  const result = rooms.map(({id, name, isPublic, slug}) => ({
-    id,
-    type: 'room',
-    name,
-    slug,
-    isPrivate: !isPublic,
-    rank: getRank('room', search, name),
-    currentRoom: id === channel.id
-  }))
+  const result = rooms
+    .filter(({name}) => name)
+    .map(({id, name, isPublic, slug}) => ({
+      id,
+      type: 'room',
+      name,
+      slug,
+      isPrivate: !isPublic,
+      rank: getRank('room', search, name),
+      currentRoom: id === channel.id
+    }))
 
   // Add current room as `@room` if its not a pm channel.
   if (channel.type === 'room') {
@@ -88,8 +87,7 @@ export function getRoomsSearchData(rooms, channel, search) {
     result.push(current)
   }
 
-  // Do the search.
-  return result.filter(room => room.name.toLowerCase().indexOf(search) >= 0)
+  return result
 }
 
 function isImage(mime) {

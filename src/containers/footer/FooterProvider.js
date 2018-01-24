@@ -25,7 +25,9 @@ const actionNames = {
   requestAutocompleteServices: 'onRequestAutocompleteServices',
   requestAutocompleteServicesStats: 'onRequestAutocompleteServicesStats',
   setTyping: 'onSetTyping',
-  goToAddIntegrations: 'onAddIntegration'
+  goToAddIntegrations: 'onAddIntegration',
+  searchUsers: 'onSearchUsers',
+  searchChannels: 'onSearchChannels'
 }
 
 const ConnectedFooter = connect(
