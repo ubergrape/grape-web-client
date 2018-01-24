@@ -11,10 +11,12 @@ export const setShowIntro = (value = false) => rpc({
   args: [{showIntro: value}]
 })
 
-export const getUsers = ({orgId, page = 1, pageSize = 2000, userIds}) => rpc({
+export const getUsers = ({orgId, page = 1, pageSize = 2000, userIds = []}) => rpc({
   ns: 'users',
   action: 'get_users',
-  args: [orgId, page, pageSize, userIds]
+  args: [
+    orgId, page, pageSize, userIds.length && userIds.filter(Boolean)
+  ].filter(Boolean)
 }, {camelize: true})
 
 export const getUser = (orgId, userId) => rpc({
