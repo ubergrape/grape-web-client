@@ -509,8 +509,11 @@ export const markdownTipsSelector = createSelector(
 
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
-  (channel, channels) => channels.length === 0 ||
-    !channel || (channel.type === 'pm' && !channel.users[0].isActive)
+  (channel, channels) => (
+    channels.length === 0 ||
+    !channel ||
+    (channel.type === 'pm' && !channel.users[0].isActive)
+  )
 )
 
 export const footerSelector = createSelector(
