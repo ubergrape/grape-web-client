@@ -162,7 +162,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   Promise.all([
     api.getOrg(conf.organization.id),
     api.getUsers({orgId: conf.organization.id}),
-    api.getUserProfile(),
+    api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
   ]).then(([org, users, profile]) => {
     dispatch(setUsers(users))
