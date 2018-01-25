@@ -47,8 +47,8 @@ export default class Footer extends PureComponent {
     onEditMessageSend: PropTypes.func.isRequired,
     onEditMessageAbort: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    onSearchUsers: PropTypes.func.isRequired,
-    onSearchChannels: PropTypes.func.isRequired
+    onSearchUsersToMention: PropTypes.func.isRequired,
+    onSearchChannelsToMention: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -108,8 +108,8 @@ export default class Footer extends PureComponent {
       onRequestAutocompleteServicesStats,
       onSetTyping,
       onAddIntegration,
-      onSearchUsers,
-      onSearchChannels
+      onSearchUsersToMention,
+      onSearchChannelsToMention
     } = this.props
 
     return (
@@ -159,8 +159,8 @@ export default class Footer extends PureComponent {
             onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
             onSetTyping={onSetTyping}
             onAddIntegration={onAddIntegration}
-            onSearchUsers={onSearchUsers}
-            onSearchChannels={onSearchChannels}
+            onSearchUsersToMention={onSearchUsersToMention}
+            onSearchChannelsToMention={onSearchChannelsToMention}
           />
           <Controls
             disabled={disabled}

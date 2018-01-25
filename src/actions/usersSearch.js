@@ -1,7 +1,7 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 
-export const searchUsers = (org, search, limit) => (dispatch) => {
+export const searchUsersToMention = (org, search, limit) => (dispatch) => {
   api.searchUsers({
     orgId: org.id,
     search,

@@ -106,8 +106,8 @@ export default class GrapeInput extends PureComponent {
     onRequestAutocompleteServices: PropTypes.func.isRequired,
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    onSearchUsers: PropTypes.func.isRequired,
-    onSearchChannels: PropTypes.func.isRequired
+    onSearchUsersToMention: PropTypes.func.isRequired,
+    onSearchChannelsToMention: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -235,7 +235,7 @@ export default class GrapeInput extends PureComponent {
     const {
       org, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
       onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete,
-      onSearchUsers, onSearchChannels
+      onSearchUsersToMention, onSearchChannelsToMention
     } = this.props
 
     switch (trigger) {
@@ -248,8 +248,8 @@ export default class GrapeInput extends PureComponent {
         onShowSearchBrowser(search)
         break
       case '@':
-        onSearchChannels(org, search, 10)
-        onSearchUsers(org, search, 10)
+        onSearchChannelsToMention(org, search, 10)
+        onSearchUsersToMention(org, search, 10)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
