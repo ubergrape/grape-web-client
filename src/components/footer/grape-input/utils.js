@@ -34,46 +34,55 @@ export function getEmojiSearchData(emoji, search) {
   }))
 }
 
-export function getUserSearchData(users, channelUsers, search) {
-  const members = users.map((user) => {
-    let name
 
-    if (user.displayName) {
-      name = user.displayName
-    } else if (user.firstName) {
-      name = user.firstName
-      if (user.lastName) name += ` ${user.lastName}`
-    } else {
-      name = user.username
-    }
-
-    return {
-      id: user.id,
-      name,
-      username: user.username,
-      iconURL: user.avatar,
-      inRoom: channelUsers.some(channelUser => channelUser.username === user.username),
-      rank: getRank('user', search, name, user.username),
-      type: 'user'
-    }
-  })
-
-  return members
-}
-
-
-export function getRoomsSearchData(rooms, channel, search) {
-  const result = rooms
-    .filter(({name}) => name)
-    .map(({id, name, isPrivate, slug}) => ({
+export function getRoomsAndUserSearchData(mentions, channel) {
+  const result = mentions
+    .map(({
       id,
-      type: 'room',
       name,
-      slug,
+      displayName,
+      firstName,
+      lastName,
+      username,
+      type,
+      user,
+      avatar,
       isPrivate,
-      rank: getRank('room', search, name),
-      currentRoom: id === channel.id
-    }))
+      slug
+    }, i) => {
+      if (type === 'user') {
+        let nameForUser
+
+        if (displayName) {
+          nameForUser = displayName
+        } else if (firstName) {
+          nameForUser = firstName
+          if (lastName) nameForUser += ` ${lastName}`
+        } else {
+          nameForUser = username
+        }
+
+        return {
+          id,
+          name: nameForUser,
+          username,
+          iconURL: avatar,
+          inRoom: channel.users.some(mention => mention.username === username),
+          rank: mentions.length - (i + 1),
+          type: 'user'
+        }
+      }
+
+      return ({
+        id,
+        type: 'room',
+        name,
+        slug,
+        isPrivate,
+        rank: mentions.length - (i + 1),
+        currentRoom: id === channel.id
+      })
+    })
 
   // Add current room as `@room` if its not a pm channel.
   if (channel.type === 'room') {
@@ -83,7 +92,7 @@ export function getRoomsSearchData(rooms, channel, search) {
       name: 'room',
       slug: channel.slug,
       isPrivate: !channel.isPublic,
-      rank: 3,
+      rank: 10,
       currentRoom: true
     }
     result.push(current)
@@ -91,6 +100,7 @@ export function getRoomsSearchData(rooms, channel, search) {
 
   return result
 }
+
 
 function isImage(mime) {
   return String(mime).substr(0, 5) === 'image'

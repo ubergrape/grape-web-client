@@ -25,7 +25,6 @@ export default class Footer extends PureComponent {
     autocomplete: PropTypes.object,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
-    usersToMention: PropTypes.array,
     channelsToMention: PropTypes.array,
     onShowMarkdownTips: PropTypes.func.isRequired,
     onCleanupTyping: PropTypes.func.isRequired,
@@ -47,7 +46,6 @@ export default class Footer extends PureComponent {
     onEditMessageSend: PropTypes.func.isRequired,
     onEditMessageAbort: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    onSearchUsersToMention: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired
   }
 
@@ -59,7 +57,6 @@ export default class Footer extends PureComponent {
     search: '',
     services: [],
     servicesStats: {},
-    usersToMention: [],
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
@@ -86,7 +83,6 @@ export default class Footer extends PureComponent {
       autocomplete,
       services,
       servicesStats,
-      usersToMention,
       channelsToMention,
       onCleanupTyping,
       onShowMarkdownTips,
@@ -108,7 +104,6 @@ export default class Footer extends PureComponent {
       onRequestAutocompleteServicesStats,
       onSetTyping,
       onAddIntegration,
-      onSearchUsersToMention,
       onSearchChannelsToMention
     } = this.props
 
@@ -142,7 +137,6 @@ export default class Footer extends PureComponent {
             autocomplete={autocomplete}
             services={services}
             servicesStats={servicesStats}
-            usersToMention={usersToMention}
             channelsToMention={channelsToMention}
             onShowEmojiBrowser={onShowEmojiBrowser}
             onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
@@ -159,7 +153,6 @@ export default class Footer extends PureComponent {
             onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
             onSetTyping={onSetTyping}
             onAddIntegration={onAddIntegration}
-            onSearchUsersToMention={onSearchUsersToMention}
             onSearchChannelsToMention={onSearchChannelsToMention}
           />
           <Controls

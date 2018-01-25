@@ -26,7 +26,6 @@ const actionNames = {
   requestAutocompleteServicesStats: 'onRequestAutocompleteServicesStats',
   setTyping: 'onSetTyping',
   goToAddIntegrations: 'onAddIntegration',
-  searchUsersToMention: 'onSearchUsersToMention',
   searchChannelsToMention: 'onSearchChannelsToMention'
 }
 

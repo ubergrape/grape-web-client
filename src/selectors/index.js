@@ -23,10 +23,6 @@ export const userSelector = createSelector(
   state => state.user, state => state
 )
 
-export const usersToMentionSelector = createSelector(
-  state => state.usersSearch.usersToMention, state => state
-)
-
 export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isActive)
 )
@@ -529,14 +525,12 @@ export const footerComponentSelector = createSelector(
     orgSelector,
     historySelector,
     isChannelDisabledSelector,
-    usersToMentionSelector,
     channelsToMentionSelector
   ],
   (
     typingNotification,
     footer, org, history,
     isChannelDisabled,
-    usersToMention,
     channelsToMention
   ) => ({
     ...typingNotification,
@@ -546,7 +540,6 @@ export const footerComponentSelector = createSelector(
     customEmojis: org.customEmojis,
     images: {...images, orgLogo: org.logo},
     disabled: isChannelDisabled,
-    usersToMention,
     channelsToMention
   })
 )

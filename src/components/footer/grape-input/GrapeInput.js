@@ -12,8 +12,7 @@ import cn from 'classnames'
 
 import {
   getEmojiSearchData,
-  getUserSearchData,
-  getRoomsSearchData,
+  getRoomsAndUserSearchData,
   getImageAttachments,
   formatQuote
 } from './utils'
@@ -89,7 +88,6 @@ export default class GrapeInput extends PureComponent {
     autocomplete: PropTypes.object,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
-    usersToMention: PropTypes.array,
     channelsToMention: PropTypes.array,
     onCreateMessage: PropTypes.func.isRequired,
     onUpdateMessage: PropTypes.func.isRequired,
@@ -106,7 +104,6 @@ export default class GrapeInput extends PureComponent {
     onRequestAutocompleteServices: PropTypes.func.isRequired,
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    onSearchUsersToMention: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired
   }
 
@@ -235,7 +232,7 @@ export default class GrapeInput extends PureComponent {
     const {
       org, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
       onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete,
-      onSearchUsersToMention, onSearchChannelsToMention
+      onSearchChannelsToMention
     } = this.props
 
     switch (trigger) {
@@ -249,7 +246,6 @@ export default class GrapeInput extends PureComponent {
         break
       case '@':
         onSearchChannelsToMention(org, search, 10)
-        onSearchUsersToMention(org, search, 10)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
@@ -295,7 +291,6 @@ export default class GrapeInput extends PureComponent {
       servicesStats,
       onRequestAutocompleteServices,
       onAddIntegration,
-      usersToMention,
       channelsToMention
     } = this.props
 
@@ -319,10 +314,7 @@ export default class GrapeInput extends PureComponent {
           browser,
           setTrigger: true,
           maxSuggestions: 12,
-          data: [
-            ...getUserSearchData(usersToMention, channel.users, search),
-            ...getRoomsSearchData(channelsToMention, channel, search)
-          ]
+          data: getRoomsAndUserSearchData(channelsToMention, channel)
         }
       }
       case 'search': {
