@@ -292,6 +292,18 @@ export function markAsUnsent(message) {
   }
 }
 
+export function readMessage({channelId, messageId}) {
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_READ_MESSAGE,
+      payload: messageId
+    })
+    api
+      .readMessage(channelId, messageId)
+      .catch(err => dispatch(error(err)))
+  }
+}
+
 export function createMessage({channelId, text, attachments = []}) {
   return (dispatch, getState) => {
     const state = getState()
@@ -317,11 +329,14 @@ export function createMessage({channelId, text, attachments = []}) {
       attachments
     }
 
+    dispatch(markAsUnsent(message))
+
     api
       .postMessage(channelId, text, options)
+      .then((messageId) => {
+        dispatch(readMessage({channelId, messageId}))
+      })
       .catch(err => dispatch(error(err)))
-
-    dispatch(markAsUnsent(message))
   }
 }
 
@@ -346,18 +361,6 @@ export function resendMessage(message) {
       payload: message
     })
     dispatch(markAsUnsent(message))
-  }
-}
-
-export function readMessage({channelId, messageId}) {
-  return (dispatch) => {
-    dispatch({
-      type: types.REQUEST_READ_MESSAGE,
-      payload: messageId
-    })
-    api
-      .readMessage(channelId, messageId)
-      .catch(err => dispatch(error(err)))
   }
 }
 
