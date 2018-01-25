@@ -104,20 +104,16 @@ export const handleUserProfile = profile => (dispatch) => {
   }
 }
 
-export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState) => {
-  let nextChannel = channelOrChannelId
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const channel = find(channels, {id: channelId})
 
-  if (typeof channelOrChannelId === 'number') {
-    const channels = channelsSelector(getState())
-    nextChannel = find(channels, {id: channelOrChannelId})
-  }
-
-  if (!nextChannel) return
+  if (!channel) return
 
   dispatch({
     type: types.SET_CHANNEL,
     payload: {
-      channel: normalizeChannelData(nextChannel),
+      channel: normalizeChannelData(channel),
       messageId
     }
   })
@@ -172,9 +168,9 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     dispatch(ensureBrowserNotificationPermission())
 
     // In embedded chat conf.channelId is defined.
-    const channel = conf.channelId || findLastUsedChannel(channelsSelector(getState()))
+    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
 
-    dispatch(setChannel(channel))
+    dispatch(setChannel(channelId))
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,

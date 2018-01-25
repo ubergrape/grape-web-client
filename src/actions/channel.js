@@ -168,7 +168,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const foundChannel = find(channels, {id: channelId})
   if (foundChannel) {
-    dispatch(setChannel(foundChannel, messageId))
+    dispatch(setChannel(foundChannel.id, messageId))
     return
   }
 
@@ -200,7 +200,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
           dispatch(addUser(user))
         })
         dispatch(addChannel(channel))
-        dispatch(setChannel(channel, messageId))
+        dispatch(setChannel(channel.id, messageId))
         return
       }
 

@@ -52,8 +52,8 @@ export const channelsSelector = createSelector(
     return channels.map((channel) => {
       const channelUsers = channel.users
         .map(id => usersMap[id])
-        // TODO
-        // Currently we have to remove users which are not loaded in `users`
+        // TODO remove it once no logic left which assumes we have all channels and users.
+        // Currently we have to remove users which are not loaded in `users`.
         .filter(Boolean)
 
       if (channel.type === 'room') {
@@ -75,9 +75,8 @@ export const channelsSelector = createSelector(
       }
 
       return channel
-    // TODO
-    // Currently we have to remove users which are not loaded in `users`
-    // This case handles pm channels.
+    // TODO remove it once no logic left which assumes we have all channels and users.
+    // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
   }
 )
