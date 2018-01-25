@@ -38,11 +38,13 @@ export function error(err) {
 export const setChannels = channels => (dispatch, getState) => {
   const user = userSelector(getState())
 
+  const payload = channels
+    .filter(removeBrokenPms)
+    .map(channel => normalizeChannelData(channel, user.id))
+
   dispatch({
     type: types.SET_CHANNELS,
-    payload: channels
-      .filter(removeBrokenPms)
-      .map(channel => normalizeChannelData(channel, user.id))
+    payload
   })
 }
 
@@ -156,6 +158,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch({type: types.REQUEST_USER_PROFILE})
   dispatch({type: types.REQUEST_USERS})
   dispatch({type: types.REQUEST_JOIN_ORG})
+
   Promise.all([
     api.getOrg(conf.organization.id),
     api.getUsers({orgId: conf.organization.id}),

@@ -5,6 +5,7 @@ import omit from 'lodash/object/omit'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 import sortBy from 'lodash/collection/sortBy'
+import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
 export const appSelector = createSelector(
@@ -45,10 +46,12 @@ export const initialChannelsSelector = createSelector(
  */
 export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector, userSelector],
-  (channels, users, user) => (
-    channels.map((channel) => {
+  (channels, users, user) => {
+    // Important optimization when users array is long.
+    const usersMap = indexBy(users, 'id')
+    return channels.map((channel) => {
       const channelUsers = channel.users
-        .map(id => find(users, {id}))
+        .map(id => usersMap[id])
         // TODO
         // Currently we have to remove users which are not loaded in `users`
         .filter(Boolean)
@@ -76,7 +79,7 @@ export const channelsSelector = createSelector(
     // Currently we have to remove users which are not loaded in `users`
     // This case handles pm channels.
     }).filter(Boolean)
-  )
+  }
 )
 
 export const channelSelector = createSelector(
