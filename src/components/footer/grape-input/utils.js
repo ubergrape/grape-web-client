@@ -1,6 +1,4 @@
 import startsWith from 'lodash/string/startsWith'
-import includes from 'lodash/collection/includes'
-import find from 'lodash/collection/find'
 import get from 'lodash/object/get'
 import {defineMessages} from 'react-intl'
 
@@ -37,7 +35,7 @@ export function getEmojiSearchData(emoji, search) {
 }
 
 export function getUserSearchData(users, channelUsers, search) {
-  return users.map((user) => {
+  const members = users.map((user) => {
     let name
 
     if (user.displayName) {
@@ -54,23 +52,25 @@ export function getUserSearchData(users, channelUsers, search) {
       name,
       username: user.username,
       iconURL: user.avatar,
-      inRoom: includes(channelUsers, user),
+      inRoom: channelUsers.some(channelUser => channelUser.username === user.username),
       rank: getRank('user', search, name, user.username),
       type: 'user'
     }
   })
+
+  return members
 }
 
 
 export function getRoomsSearchData(rooms, channel, search) {
   const result = rooms
     .filter(({name}) => name)
-    .map(({id, name, isPublic, slug}) => ({
+    .map(({id, name, isPrivate, slug}) => ({
       id,
       type: 'room',
       name,
       slug,
-      isPrivate: !isPublic,
+      isPrivate,
       rank: getRank('room', search, name),
       currentRoom: id === channel.id
     }))
@@ -78,9 +78,13 @@ export function getRoomsSearchData(rooms, channel, search) {
   // Add current room as `@room` if its not a pm channel.
   if (channel.type === 'room') {
     const current = {
-      ...find(result, 'currentRoom'),
+      id: channel.id,
+      type: 'room',
       name: 'room',
-      rank: 3
+      slug: channel.slug,
+      isPrivate: !channel.isPublic,
+      rank: 3,
+      currentRoom: true
     }
     result.push(current)
   }
