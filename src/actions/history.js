@@ -308,7 +308,7 @@ export function createMessage({channelId, text, attachments = []}) {
     }, state)
 
     dispatch({
-      type: types.HANDLE_OUTGOING_MESSAGE,
+      type: types.REQUEST_POST_MESSAGE,
       payload: message
     })
 
