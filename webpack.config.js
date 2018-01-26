@@ -44,7 +44,10 @@ module.exports = exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        include: [
+          'src',
+          'node_modules/pretty-bytes'
+        ].map(dir =>  path.resolve(__dirname, 'src'))
       },
       {
         test: /.svg$/,
