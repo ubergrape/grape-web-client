@@ -47,7 +47,7 @@ module.exports = exports = {
         include: [
           'src',
           'node_modules/pretty-bytes'
-        ].map(dir =>  path.resolve(__dirname, 'src'))
+        ].map(dir =>  path.resolve(__dirname, dir))
       },
       {
         test: /.svg$/,
