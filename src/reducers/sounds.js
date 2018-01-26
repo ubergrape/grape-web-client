@@ -14,7 +14,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         channel: payload.channel
       }
-    case types.HANDLE_NOTIFICATION:
+    case types.HANDLE_NOTIFICATION: {
       const notify = shouldNotify({
         time: Date.now(),
         sourceChannelId: payload.channelId,
@@ -27,9 +27,10 @@ export default function reduce(state = initialState, action) {
         ...state,
         active: payload.dispatcher.includes('mention') ? 'mention' : 'messageIn'
       }
+    }
     case types.END_SOUND:
       return {...state, active: null}
-    case types.HANDLE_OUTGOING_MESSAGE:
+    case types.REQUEST_POST_MESSAGE:
       // Currently sounds for outgoing messages are disabled, because
       // we still have no setting for on/off for this.
       // return {...state, active: 'messageOut'}

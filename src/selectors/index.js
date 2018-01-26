@@ -5,6 +5,7 @@ import omit from 'lodash/object/omit'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 import sortBy from 'lodash/collection/sortBy'
+import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
 export const appSelector = createSelector(
@@ -45,12 +46,14 @@ export const initialChannelsSelector = createSelector(
  */
 export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector, userSelector],
-  (channels, users, user) => (
-    channels.map((channel) => {
+  (channels, users, user) => {
+    // Important optimization when users array is long.
+    const usersMap = indexBy(users, 'id')
+    return channels.map((channel) => {
       const channelUsers = channel.users
-        .map(id => find(users, {id}))
-        // TODO
-        // Currently we have to remove users which are not loaded in `users`
+        .map(id => usersMap[id])
+        // TODO remove it once no logic left which assumes we have all channels and users.
+        // Currently we have to remove users which are not loaded in `users`.
         .filter(Boolean)
 
       if (channel.type === 'room') {
@@ -72,11 +75,10 @@ export const channelsSelector = createSelector(
       }
 
       return channel
-    // TODO
-    // Currently we have to remove users which are not loaded in `users`
-    // This case handles pm channels.
+    // TODO remove it once no logic left which assumes we have all channels and users.
+    // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
-  )
+  }
 )
 
 export const channelSelector = createSelector(
@@ -506,8 +508,11 @@ export const markdownTipsSelector = createSelector(
 
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
-  (channel, channels) => channels.length === 0 ||
-    !channel || (channel.type === 'pm' && !channel.users[0].isActive)
+  (channel, channels) => (
+    channels.length === 0 ||
+    !channel ||
+    (channel.type === 'pm' && !channel.users[0].isActive)
+  )
 )
 
 export const footerSelector = createSelector(

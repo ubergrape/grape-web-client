@@ -10,7 +10,7 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.EDIT_MESSAGE:
       return {...state, targetMessage: action.payload.id}
-    case types.HANDLE_OUTGOING_MESSAGE:
+    case types.REQUEST_POST_MESSAGE:
     case types.SET_CHANNEL:
     case types.EDIT_MESSAGE_ABORT:
       return {...state, targetMessage: null}

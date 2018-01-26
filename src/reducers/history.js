@@ -123,7 +123,7 @@ export default function reduce(state = initialState, action) {
         messages: markLastMessageAsRead(state.messages, userId)
       }
     }
-    case types.HANDLE_OUTGOING_MESSAGE:
+    case types.REQUEST_POST_MESSAGE:
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
       if (state.channel && payload.channelId !== state.channel.id) {
