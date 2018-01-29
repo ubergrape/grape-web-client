@@ -12,7 +12,7 @@ import cn from 'classnames'
 
 import {
   getEmojiSearchData,
-  getRoomsAndUserSearchData,
+  searchChannelsToMention,
   getImageAttachments,
   formatQuote
 } from './utils'
@@ -245,7 +245,7 @@ export default class GrapeInput extends PureComponent {
         onShowSearchBrowser(search)
         break
       case '@':
-        onSearchChannelsToMention(org, search, 10)
+        onSearchChannelsToMention(org, search, 11)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
@@ -314,7 +314,7 @@ export default class GrapeInput extends PureComponent {
           browser,
           setTrigger: true,
           maxSuggestions: 12,
-          data: getRoomsAndUserSearchData(channelsToMention, channel)
+          data: searchChannelsToMention(channelsToMention, channel)
         }
       }
       case 'search': {

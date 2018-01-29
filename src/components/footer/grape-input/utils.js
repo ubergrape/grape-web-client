@@ -35,14 +35,12 @@ export function getEmojiSearchData(emoji, search) {
 }
 
 
-export function getRoomsAndUserSearchData(mentions, channel) {
+export function searchChannelsToMention(mentions, channel) {
   const result = mentions
     .map(({
       id,
       name,
       displayName,
-      firstName,
-      lastName,
       username,
       type,
       user,
@@ -51,20 +49,9 @@ export function getRoomsAndUserSearchData(mentions, channel) {
       slug
     }, i) => {
       if (type === 'user') {
-        let nameForUser
-
-        if (displayName) {
-          nameForUser = displayName
-        } else if (firstName) {
-          nameForUser = firstName
-          if (lastName) nameForUser += ` ${lastName}`
-        } else {
-          nameForUser = username
-        }
-
         return {
           id,
-          name: nameForUser,
+          name: displayName,
           username,
           iconURL: avatar,
           inRoom: channel.users.some(mention => mention.username === username),
@@ -92,7 +79,7 @@ export function getRoomsAndUserSearchData(mentions, channel) {
       name: 'room',
       slug: channel.slug,
       isPrivate: !channel.isPublic,
-      rank: 10,
+      rank: 11,
       currentRoom: true
     }
     result.push(current)
