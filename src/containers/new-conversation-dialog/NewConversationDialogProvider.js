@@ -4,7 +4,7 @@ import {Provider, connect} from 'react-redux'
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
 import {newConversationDialog as selector} from '../../selectors'
-import NewConversation from '../../components/new-conversation/NewConversation'
+import {NewConversationDialog} from '../../components/new-conversation-dialog'
 
 const actionNames = [
   'createRoomWithUsers',
@@ -18,16 +18,16 @@ const actionNames = [
   'openPm'
 ]
 
-const ConnectedNewConversation = connect(
+const ConnectedNewConversationDialog = connect(
   selector,
   mapActionsToProps(actionNames)
-)(NewConversation)
+)(NewConversationDialog)
 
-export default class NewConversationProvider extends PureComponent {
+export default class NewConversationDialogProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedNewConversation />
+        <ConnectedNewConversationDialog />
       </Provider>
     )
   }

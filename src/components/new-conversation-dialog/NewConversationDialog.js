@@ -33,7 +33,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class NewConversation extends PureComponent {
+export default class NewConversationDialog extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
