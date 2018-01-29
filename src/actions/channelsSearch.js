@@ -3,10 +3,7 @@ import * as types from '../constants/actionTypes'
 import {error} from './'
 
 export const searchChannelsToMention = (...args) => (dispatch) => {
-  dispatch({
-    type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION,
-    payload: args
-  })
+  dispatch({type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION, payload: args})
   api.searchChannels({
     orgId: args.id,
     search: args.search,
