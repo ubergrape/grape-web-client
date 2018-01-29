@@ -4,7 +4,8 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector
+  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
+  pmsSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -38,11 +39,13 @@ export function error(err) {
 export const setChannels = channels => (dispatch, getState) => {
   const user = userSelector(getState())
 
+  const payload = channels
+    .filter(removeBrokenPms)
+    .map(channel => normalizeChannelData(channel, user.id))
+
   dispatch({
     type: types.SET_CHANNELS,
-    payload: channels
-      .filter(removeBrokenPms)
-      .map(channel => normalizeChannelData(channel, user.id))
+    payload
   })
 }
 
@@ -102,20 +105,16 @@ export const handleUserProfile = profile => (dispatch) => {
   }
 }
 
-export const setChannel = (channelOrChannelId, messageId) => (dispatch, getState) => {
-  let nextChannel = channelOrChannelId
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const channel = find(channels, {id: channelId})
 
-  if (typeof channelOrChannelId === 'number') {
-    const channels = channelsSelector(getState())
-    nextChannel = find(channels, {id: channelOrChannelId})
-  }
-
-  if (!nextChannel) return
+  if (!channel) return
 
   dispatch({
     type: types.SET_CHANNEL,
     payload: {
-      channel: normalizeChannelData(nextChannel),
+      channel: normalizeChannelData(channel),
       messageId
     }
   })
@@ -156,10 +155,11 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch({type: types.REQUEST_USER_PROFILE})
   dispatch({type: types.REQUEST_USERS})
   dispatch({type: types.REQUEST_JOIN_ORG})
+
   Promise.all([
     api.getOrg(conf.organization.id),
     api.getUsers({orgId: conf.organization.id}),
-    api.getUserProfile(),
+    api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
   ]).then(([org, users, profile]) => {
     dispatch(setUsers(users))
@@ -168,10 +168,17 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
-    // In embedded chat conf.channelId is defined.
-    const channel = conf.channelId || findLastUsedChannel(channelsSelector(getState()))
+    if (!joinedRoomsSelector(getState()).length && !pmsSelector(getState()).length) {
+      dispatch(error(
+        new Error('This account has neither joined rooms nor pm channels. This state is currently not supported.')
+      ))
+      return
+    }
 
-    dispatch(setChannel(channel))
+    // In embedded chat conf.channelId is defined.
+    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+
+    dispatch(setChannel(channelId))
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,

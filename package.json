@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.0.0-pre.12",
+  "version": "1.0.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -49,7 +49,7 @@
     "pick-react-known-prop": "0.0.1",
     "pretty-bytes": "^4.0.2",
     "prop-types": "^15.5.10",
-    "raven-js": "^1.1.22",
+    "raven-js": "^3.22.1",
     "react": "^15.3.0",
     "react-addons-shallow-compare": "^15.6.0",
     "react-dom": "^15.3.0",
