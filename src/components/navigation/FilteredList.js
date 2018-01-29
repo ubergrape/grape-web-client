@@ -16,6 +16,10 @@ export default class FilteredList extends PureComponent {
     this.list.focus(direction)
   }
 
+  listRef = (list) => {
+    this.list = list
+  }
+
   render() {
     const {
       filter,
@@ -43,9 +47,7 @@ export default class FilteredList extends PureComponent {
         {...this.props}
         items={filtered}
         focused={focusedChannel || filtered[0]}
-        ref={(list) => {
-          this.list = list
-        }}
+        ref={this.listRef}
       />
     )
   }
