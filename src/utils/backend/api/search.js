@@ -1,6 +1,6 @@
 import rpc from '../rpc'
 
-export const searchUsers = ({orgId, search = '', limit}) => rpc({
+export const searchUsers = ({orgId, search = '', limit = 50}) => rpc({
   ns: 'search',
   action: 'search_users',
   args: [orgId, search, limit]

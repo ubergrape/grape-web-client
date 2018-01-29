@@ -290,15 +290,15 @@ export const isInviterSelector = createSelector(
 
 export const newConversationDialog = createSelector(
   [
-    newConversationSelector, orgSelector, activeUsersWithLastPmSelector,
+    newConversationSelector, orgSelector,
     isInviterSelector, createRoomErrorSelector
   ],
-  (newConversation, {id: organization}, users, isInviter, error) => ({
+  (newConversation, {id: organization}, isInviter, error) => ({
     ...newConversation,
     isInviter,
     organization,
     error,
-    users: differenceBy(users, newConversation.listed, 'id')
+    users: differenceBy(newConversation.found, newConversation.listed, 'id')
   })
 )
 
