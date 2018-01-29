@@ -1,6 +1,7 @@
 export app from './app'
 export org from './org'
 export channels from './channels'
+export channelsSearch from './channelsSearch'
 export users from './users'
 export user from './user'
 export organizations from './organizations'

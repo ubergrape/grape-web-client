@@ -12,8 +12,7 @@ import cn from 'classnames'
 
 import {
   getEmojiSearchData,
-  getUserSearchData,
-  getRoomsSearchData,
+  searchChannelsToMention,
   getImageAttachments,
   formatQuote
 } from './utils'
@@ -77,19 +76,19 @@ export default class GrapeInput extends PureComponent {
   static propTypes = {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
+    org: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     channel: PropTypes.object.isRequired,
-    rooms: PropTypes.array.isRequired,
     classes: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired,
     disabled: PropTypes.bool,
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
     search: PropTypes.string,
     autocomplete: PropTypes.object,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
+    channelsToMention: PropTypes.array,
     onCreateMessage: PropTypes.func.isRequired,
     onUpdateMessage: PropTypes.func.isRequired,
     onSetTyping: PropTypes.func.isRequired,
@@ -104,16 +103,20 @@ export default class GrapeInput extends PureComponent {
     onRequestAutocomplete: PropTypes.func.isRequired,
     onRequestAutocompleteServices: PropTypes.func.isRequired,
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
-    onAddIntegration: PropTypes.func.isRequired
+    onAddIntegration: PropTypes.func.isRequired,
+    onSearchChannelsToMention: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     disabled: false,
+    org: {},
     targetMessage: null,
     quoteMessage: null,
     search: '',
     services: [],
     servicesStats: {},
+    usersToMention: [],
+    channelsToMention: [],
     customEmojis: {},
     autocomplete: {}
   }
@@ -227,8 +230,9 @@ export default class GrapeInput extends PureComponent {
   onComplete = (data) => {
     const {filters, search, query, trigger} = data
     const {
-      showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
-      onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete
+      org, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
+      onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete,
+      onSearchChannelsToMention
     } = this.props
 
     switch (trigger) {
@@ -241,6 +245,7 @@ export default class GrapeInput extends PureComponent {
         onShowSearchBrowser(search)
         break
       case '@':
+        onSearchChannelsToMention(org, search, 11)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
@@ -279,15 +284,14 @@ export default class GrapeInput extends PureComponent {
   getBrowserProps(browser) {
     const {
       showBrowser,
-      users,
       channel,
-      rooms,
       search,
       autocomplete,
       services,
       servicesStats,
       onRequestAutocompleteServices,
-      onAddIntegration
+      onAddIntegration,
+      channelsToMention
     } = this.props
 
     switch (showBrowser) {
@@ -310,10 +314,7 @@ export default class GrapeInput extends PureComponent {
           browser,
           setTrigger: true,
           maxSuggestions: 12,
-          data: [
-            ...getUserSearchData(users, channel.users, search),
-            ...getRoomsSearchData(rooms, channel, search)
-          ]
+          data: searchChannelsToMention(channelsToMention, channel)
         }
       }
       case 'search': {

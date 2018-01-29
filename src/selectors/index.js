@@ -85,6 +85,10 @@ export const channelSelector = createSelector(
   channelsSelector, channels => find(channels, 'current') || {}
 )
 
+export const channelsToMentionSelector = createSelector(
+  state => state.channelsSearch.channelsToMention, state => state
+)
+
 export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
@@ -525,19 +529,23 @@ export const footerComponentSelector = createSelector(
     footerSelector,
     orgSelector,
     historySelector,
-    activeUsersWithoutCurrSelector,
-    roomsSelector,
-    isChannelDisabledSelector
+    isChannelDisabledSelector,
+    channelsToMentionSelector
   ],
-  (typingNotification, footer, org, history, users, rooms, isChannelDisabled) => ({
+  (
+    typingNotification,
+    footer, org, history,
+    isChannelDisabled,
+    channelsToMention
+  ) => ({
     ...typingNotification,
     ...footer,
+    org,
     targetMessage: find(history.messages, {id: footer.targetMessage}),
     customEmojis: org.customEmojis,
     images: {...images, orgLogo: org.logo},
-    users,
-    rooms,
-    disabled: isChannelDisabled
+    disabled: isChannelDisabled,
+    channelsToMention
   })
 )
 
