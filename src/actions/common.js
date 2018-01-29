@@ -4,7 +4,8 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector
+  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
+  pmsSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -166,6 +167,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     dispatch(setChannels(org.channels))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
+
+    if (!joinedRoomsSelector(getState()).length && !pmsSelector(getState()).length) {
+      dispatch(error(
+        new Error('This account has neither joined rooms nor pm channels. This state is currently not supported.')
+      ))
+      return
+    }
 
     // In embedded chat conf.channelId is defined.
     const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
