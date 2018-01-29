@@ -5,9 +5,9 @@ import {error} from './'
 export const searchChannelsToMention = (...args) => (dispatch) => {
   dispatch({type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION, payload: args})
   api.searchChannels({
-    orgId: args.id,
-    search: args.search,
-    limit: args.limit
+    orgId: args[0].id,
+    search: args[1],
+    limit: args[2]
   }).then((channels) => {
     dispatch({
       type: types.HANDLE_CHANNELS_TO_MENTION,
