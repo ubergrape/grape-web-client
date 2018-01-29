@@ -42,11 +42,12 @@ export default class FilteredList extends PureComponent {
       )
     }
 
+    const items = filtered.concat(filteredUnJoined)
     return (
       <List
         {...this.props}
-        items={filtered}
-        focused={focusedChannel || filtered[0]}
+        items={items}
+        focused={focusedChannel || items[0]}
         ref={this.onRefList}
       />
     )
