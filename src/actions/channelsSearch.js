@@ -2,12 +2,15 @@ import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import {error} from './'
 
-export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
-  dispatch({type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION})
+export const searchChannelsToMention = (...args) => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION,
+    payload: args
+  })
   api.searchChannels({
-    orgId: org.id,
-    search,
-    limit
+    orgId: args.id,
+    search: args.search,
+    limit: args.limit
   }).then((channels) => {
     dispatch({
       type: types.HANDLE_CHANNELS_TO_MENTION,
