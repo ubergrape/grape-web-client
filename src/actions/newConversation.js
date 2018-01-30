@@ -40,11 +40,14 @@ export const searchUsers = search => (dispatch, getState) => {
 
   api
     .searchUsers({orgId: org.id, search})
-    .then(({results}) => results.map(normalizeUserData))
-    .then((users) => {
+    .then(({results, q}) => ({
+      search: q,
+      users: results.map(normalizeUserData)
+    }))
+    .then((payload) => {
       dispatch({
         type: types.HANDLE_SEARCH_USERS,
-        payload: users
+        payload
       })
     })
     .catch((err) => {

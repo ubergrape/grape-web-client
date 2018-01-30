@@ -33,11 +33,16 @@ export default function reduce(state = initialState, action) {
         ...state,
         filter: action.payload
       }
-    case types.HANDLE_SEARCH_USERS:
+    case types.HANDLE_SEARCH_USERS: {
+      const {search, users} = action.payload
+      // Filter has changed while we have been waiting for result, ignore the result.
+      if (state.filter !== search) return state
+
       return {
         ...state,
-        found: action.payload
+        found: users
       }
+    }
     case types.REQUEST_ROOM_CREATE:
       return {
         ...state,
