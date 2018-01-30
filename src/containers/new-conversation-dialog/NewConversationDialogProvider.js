@@ -13,7 +13,7 @@ const actionNames = [
   'hideNewConversation',
   'addToNewConversation',
   'removeFromNewConversation',
-  'filterNewConversation',
+  'searchUsers',
   'clearRoomCreateError',
   'openPm'
 ]
