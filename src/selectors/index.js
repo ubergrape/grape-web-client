@@ -558,27 +558,6 @@ export const toastNotificationSelector = createSelector(
   (toastNotification, sidebar) => ({...toastNotification, sidebar: sidebar.show})
 )
 
-export const manageContactsSelector = createSelector(
-  [
-    state => state.manageContacts,
-    activeUsersWithoutCurrSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
-  ],
-  ({show, activeFilter}, activeUsers, invitedUsers, deletedUsers) => {
-    const contacts = {
-      active: activeUsers,
-      invited: invitedUsers,
-      deleted: deletedUsers
-    }
-    const users = sortBy(contacts[activeFilter] || [], 'displayName')
-
-    return {
-      show,
-      activeFilter,
-      users
-    }
-  }
-)
-
 export const fileUploadSelector = createSelector(
   state => state.fileUpload, state => state
 )
