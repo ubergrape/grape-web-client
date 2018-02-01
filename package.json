@@ -15,5 +15,6 @@
     "build": "./bin/build",
     "clean": "rm -fr ./dist/*",
     "prepublishOnly": "npm run all"
-  }
+  },
+  "files": ["dist"]
 }
