@@ -4,7 +4,7 @@ import {FormattedMessage} from 'react-intl'
 import List from 'material-ui/List'
 import injectSheet from 'grape-web/lib/jss'
 
-import {Contacts as ContactsText, Groups as GroupsText} from '../i18n/i18n'
+import {Groups as GroupsText} from '../i18n/i18n'
 import {Beacon} from '../intro'
 import Action from './Action'
 
@@ -23,7 +23,6 @@ const styles = () => ({
 function Actions(props) {
   const {
     onNewConversation,
-    onContacts,
     onManageGroups,
     classes
   } = props
@@ -37,20 +36,13 @@ function Actions(props) {
             description="*Describe NewConversation*: this is used in Navigation"
             defaultMessage="New Conversation"
           >
-            {renderText}
-          </FormattedMessage>
-        )}
-      </Action>
-      <Action icon="users" onClick={onContacts}>
-        {({renderText}) => (
-          <ContactsText>
             {(...children) => (
               <span>
                 {renderText(children)}
                 <Beacon id="pm" placement="right" shift={beaconShift} />
               </span>
             )}
-          </ContactsText>
+          </FormattedMessage>
         )}
       </Action>
       <Action icon="conversations" onClick={onManageGroups}>
@@ -71,7 +63,6 @@ function Actions(props) {
 
 Actions.propTypes = {
   classes: PropTypes.object.isRequired,
-  onContacts: PropTypes.func.isRequired,
   onNewConversation: PropTypes.func.isRequired,
   onManageGroups: PropTypes.func.isRequired
 }

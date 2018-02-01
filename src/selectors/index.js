@@ -290,15 +290,15 @@ export const isInviterSelector = createSelector(
 
 export const newConversationDialog = createSelector(
   [
-    newConversationSelector, orgSelector, activeUsersWithLastPmSelector,
+    newConversationSelector, orgSelector,
     isInviterSelector, createRoomErrorSelector
   ],
-  (newConversation, {id: organization}, users, isInviter, error) => ({
+  (newConversation, {id: organization}, isInviter, error) => ({
     ...newConversation,
     isInviter,
     organization,
     error,
-    users: differenceBy(users, newConversation.listed, 'id')
+    users: differenceBy(newConversation.found, newConversation.listed, 'id')
   })
 )
 
@@ -556,27 +556,6 @@ export const soundsSelector = createSelector(
 export const toastNotificationSelector = createSelector(
   [state => state.toastNotification, sidebarSelector],
   (toastNotification, sidebar) => ({...toastNotification, sidebar: sidebar.show})
-)
-
-export const manageContactsSelector = createSelector(
-  [
-    state => state.manageContacts,
-    activeUsersWithoutCurrSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
-  ],
-  ({show, activeFilter}, activeUsers, invitedUsers, deletedUsers) => {
-    const contacts = {
-      active: activeUsers,
-      invited: invitedUsers,
-      deleted: deletedUsers
-    }
-    const users = sortBy(contacts[activeFilter] || [], 'displayName')
-
-    return {
-      show,
-      activeFilter,
-      users
-    }
-  }
 )
 
 export const fileUploadSelector = createSelector(

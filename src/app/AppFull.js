@@ -19,7 +19,6 @@ import {AlertsProvider} from '../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../containers/markdown-tips'
 import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
-import {ManageContactsDialogProvider} from '../containers/manage-contacts'
 import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
@@ -40,7 +39,6 @@ const Globals = () => (
     <BillingWarningProvider />
     <ChannelMembersInviteProvider />
     <NewConversationDialogProvider />
-    <ManageContactsDialogProvider />
     <ManageGroupsDialogProvider />
     <InviteToOrgProvider />
     <NotificationSettingsProvider />
