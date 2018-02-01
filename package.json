@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.17.2",
+  "version": "3.17.3",
   "main": "lib/index.js",
   "engines": {
     "node": "6.10.2"
@@ -97,5 +97,7 @@
     ]
   },
   "pre-commit": "lint:staged",
-  "files": ["lib"]
+  "files": [
+    "lib"
+  ]
 }
