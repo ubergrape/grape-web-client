@@ -79,5 +79,7 @@
     "sg": "styleguidist server",
     "prepublishOnly": "npm run all"
   },
-  "files": ["lib"]
+  "files": [
+    "lib"
+  ]
 }
