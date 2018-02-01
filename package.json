@@ -78,5 +78,6 @@
     "test:watch": "NODE_ENV=test karma start",
     "sg": "styleguidist server",
     "prepublishOnly": "npm run all"
-  }
+  },
+  "files": ["lib"]
 }
