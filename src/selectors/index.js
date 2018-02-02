@@ -89,6 +89,10 @@ export const channelsToMentionSelector = createSelector(
   state => state.channelsSearch.channelsToMention, state => state
 )
 
+export const foundChannelsSelector = createSelector(
+  state => state.channelsSearch.foundChannels, state => state
+)
+
 export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
@@ -370,30 +374,17 @@ function sortRecentChannels(a, b) {
   return bCompareValue - aCompareValue
 }
 
-function usersAsPms(users) {
-  return users.map(user => ({
-    id: user.id,
-    type: 'pm',
-    mate: user,
-    name: user.displayName,
-    joined: false
-  }))
-}
-
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     navigationPmsSelector,
     channelSelector,
     initialDataLoadingSelector,
-    roomsSelector,
-    activeUsersSelector,
-    userSelector
+    userSelector,
+    foundChannelsSelector
   ],
-  (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
-    const all = [...allRooms, ...usersAsPms(users)]
+  (joinedRooms, pms, channel, isLoading, user, foundChannels) => {
     const joined = [...joinedRooms, ...pms]
-    const unjoined = differenceBy(all, joined, 'id')
       .filter(({id}) => id !== user.id)
     const recent = joined
       .filter(_channel => !_channel.favorited)
@@ -404,11 +395,11 @@ export const navigationSelector = createSelector(
 
     return {
       joined,
-      unjoined,
       recent,
       favorited,
       isLoading,
-      channel
+      channel,
+      foundChannels
     }
   }
 )

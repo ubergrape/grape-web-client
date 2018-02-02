@@ -7,9 +7,7 @@ export default class FilteredList extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
-    filtered: PropTypes.array.isRequired,
-    filteredUnJoined: PropTypes.array.isRequired,
-    focusedChannel: PropTypes.any.isRequired
+    foundChannels: PropTypes.array.isRequired
   }
 
   onRefList = (list) => {
@@ -23,13 +21,11 @@ export default class FilteredList extends PureComponent {
   render() {
     const {
       filter,
-      filtered,
-      filteredUnJoined,
-      focusedChannel,
+      foundChannels,
       theme
     } = this.props
     const {classes} = theme
-    if (!filtered.length && !filteredUnJoined.length) {
+    if (!foundChannels.length) {
       return (
         <div className={classes.notFound}>
           <FormattedMessage
@@ -42,12 +38,11 @@ export default class FilteredList extends PureComponent {
       )
     }
 
-    const items = filtered.concat(filteredUnJoined)
     return (
       <List
         {...this.props}
-        items={items}
-        focused={focusedChannel || items[0]}
+        items={foundChannels}
+        focused={foundChannels[0]}
         ref={this.onRefList}
       />
     )
