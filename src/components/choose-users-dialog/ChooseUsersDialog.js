@@ -56,7 +56,7 @@ const messages = defineMessages({
 export default class ChooseUsersDialog extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     onHide: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
@@ -88,7 +88,7 @@ export default class ChooseUsersDialog extends PureComponent {
   }
 
   renderItem = ({item, focused}) => {
-    const {sheet: {classes}} = this.props
+    const {classes} = this.props
     const {displayName, avatar, status, id} = item
 
     let className = classes.user
@@ -107,7 +107,7 @@ export default class ChooseUsersDialog extends PureComponent {
   }
 
   renderEmptyItems = () => {
-    const {sheet: {classes}} = this.props
+    const {classes} = this.props
 
     return (
       <div className={classes.note}>
@@ -120,7 +120,7 @@ export default class ChooseUsersDialog extends PureComponent {
   }
 
   renderNotFound = () => {
-    const {sheet: {classes}, filter} = this.props
+    const {classes, filter} = this.props
 
     return (
       <div className={classes.note}>
@@ -136,7 +136,7 @@ export default class ChooseUsersDialog extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       intl: {formatMessage},
       show, filter, listed, title,
       children, isInviter,

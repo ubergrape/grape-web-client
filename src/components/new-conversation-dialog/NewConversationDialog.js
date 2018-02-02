@@ -33,9 +33,9 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class NewConversation extends PureComponent {
+export default class NewConversationDialog extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
@@ -43,14 +43,16 @@ export default class NewConversation extends PureComponent {
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
     hideNewConversation: PropTypes.func.isRequired,
-    filterNewConversation: PropTypes.func.isRequired,
+    searchUsers: PropTypes.func.isRequired,
     clearRoomCreateError: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
-    listed: PropTypes.array.isRequired
+    listed: PropTypes.array.isRequired,
+    show: PropTypes.bool
   }
 
   static defaultProps = {
-    organization: null
+    organization: null,
+    show: false
   }
 
   constructor(props) {
@@ -77,6 +79,12 @@ export default class NewConversation extends PureComponent {
     }
 
     this.setState({saving: false})
+  }
+
+  componentDidUpdate(prevProps) {
+    const {show, searchUsers} = this.props
+    // Initial population first time dialog was showed.
+    if (show && !prevProps.show) searchUsers('')
   }
 
   onSetRoomIcon = (icon) => {
@@ -131,7 +139,7 @@ export default class NewConversation extends PureComponent {
   }
 
   renderSettings = () => {
-    const {sheet: {classes}, clearRoomCreateError} = this.props
+    const {classes, clearRoomCreateError} = this.props
     const {focusedInput, error, isPublic, saving, name, color, icon} = this.state
 
     return (
@@ -158,7 +166,7 @@ export default class NewConversation extends PureComponent {
 
   renderFooter() {
     const {
-      sheet: {classes},
+      classes,
       listed
     } = this.props
     const {name} = this.state
@@ -178,7 +186,7 @@ export default class NewConversation extends PureComponent {
 
   render() {
     const {
-      sheet: {classes}, filterNewConversation,
+      classes, searchUsers,
       addToNewConversation, removeFromNewConversation,
       organization, intl: {formatMessage},
       ...chooseUsersProps
@@ -195,7 +203,7 @@ export default class NewConversation extends PureComponent {
         onHide={this.onHide}
         onClickList={this.onClickList}
         isFilterFocused={focusedInput !== 'name'}
-        onChangeFilter={value => filterNewConversation(value)}
+        onChangeFilter={searchUsers}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}
       >

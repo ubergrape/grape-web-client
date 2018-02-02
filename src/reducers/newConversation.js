@@ -4,7 +4,8 @@ const initialState = {
   show: false,
   filter: '',
   creatingRoom: false,
-  listed: []
+  listed: [],
+  found: []
 }
 
 export default function reduce(state = initialState, action) {
@@ -27,11 +28,21 @@ export default function reduce(state = initialState, action) {
         ...state,
         listed: state.listed.filter(member => member.id !== action.payload.id)
       }
-    case types.FILTER_NEW_CONVERSATION:
+    case types.REQUEST_SEARCH_USERS:
       return {
         ...state,
         filter: action.payload
       }
+    case types.HANDLE_SEARCH_USERS: {
+      const {search, users} = action.payload
+      // Filter has changed while we have been waiting for result, ignore the result.
+      if (state.filter !== search) return state
+
+      return {
+        ...state,
+        found: users
+      }
+    }
     case types.REQUEST_ROOM_CREATE:
       return {
         ...state,

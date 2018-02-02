@@ -45,7 +45,6 @@ export default class Navigation extends PureComponent {
     openPm: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
-    showManageContacts: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     joined: PropTypes.array.isRequired,
@@ -253,7 +252,7 @@ export default class Navigation extends PureComponent {
 
   renderNavigation() {
     const {
-      isLoading, classes, showManageContacts, showNewConversation,
+      isLoading, classes, showNewConversation,
       showManageGroups
     } = this.props
     if (isLoading) return null
@@ -261,7 +260,6 @@ export default class Navigation extends PureComponent {
       <div className={classes.navigationWrapper}>
         {!this.state.filter && (
           <Actions
-            onContacts={showManageContacts}
             onNewConversation={showNewConversation}
             onManageGroups={showManageGroups}
           />

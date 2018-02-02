@@ -85,6 +85,10 @@ export const channelSelector = createSelector(
   channelsSelector, channels => find(channels, 'current') || {}
 )
 
+export const channelsToMentionSelector = createSelector(
+  state => state.channelsSearch.channelsToMention, state => state
+)
+
 export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
@@ -286,15 +290,15 @@ export const isInviterSelector = createSelector(
 
 export const newConversationDialog = createSelector(
   [
-    newConversationSelector, orgSelector, activeUsersWithLastPmSelector,
+    newConversationSelector, orgSelector,
     isInviterSelector, createRoomErrorSelector
   ],
-  (newConversation, {id: organization}, users, isInviter, error) => ({
+  (newConversation, {id: organization}, isInviter, error) => ({
     ...newConversation,
     isInviter,
     organization,
     error,
-    users: differenceBy(users, newConversation.listed, 'id')
+    users: differenceBy(newConversation.found, newConversation.listed, 'id')
   })
 )
 
@@ -525,19 +529,23 @@ export const footerComponentSelector = createSelector(
     footerSelector,
     orgSelector,
     historySelector,
-    activeUsersWithoutCurrSelector,
-    roomsSelector,
-    isChannelDisabledSelector
+    isChannelDisabledSelector,
+    channelsToMentionSelector
   ],
-  (typingNotification, footer, org, history, users, rooms, isChannelDisabled) => ({
+  (
+    typingNotification,
+    footer, org, history,
+    isChannelDisabled,
+    channelsToMention
+  ) => ({
     ...typingNotification,
     ...footer,
+    org,
     targetMessage: find(history.messages, {id: footer.targetMessage}),
     customEmojis: org.customEmojis,
     images: {...images, orgLogo: org.logo},
-    users,
-    rooms,
-    disabled: isChannelDisabled
+    disabled: isChannelDisabled,
+    channelsToMention
   })
 )
 
@@ -548,27 +556,6 @@ export const soundsSelector = createSelector(
 export const toastNotificationSelector = createSelector(
   [state => state.toastNotification, sidebarSelector],
   (toastNotification, sidebar) => ({...toastNotification, sidebar: sidebar.show})
-)
-
-export const manageContactsSelector = createSelector(
-  [
-    state => state.manageContacts,
-    activeUsersWithoutCurrSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
-  ],
-  ({show, activeFilter}, activeUsers, invitedUsers, deletedUsers) => {
-    const contacts = {
-      active: activeUsers,
-      invited: invitedUsers,
-      deleted: deletedUsers
-    }
-    const users = sortBy(contacts[activeFilter] || [], 'displayName')
-
-    return {
-      show,
-      activeFilter,
-      users
-    }
-  }
 )
 
 export const fileUploadSelector = createSelector(

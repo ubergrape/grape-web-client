@@ -9,7 +9,7 @@ import {HistoryProvider} from '../containers/history'
 import {SidebarProvider} from '../containers/sidebar'
 import {BillingWarningProvider} from '../containers/billing-warning'
 import {ChannelMembersInviteProvider} from '../containers/channel-members-invite'
-import {NewConversationProvider} from '../containers/new-conversation'
+import {NewConversationDialogProvider} from '../containers/new-conversation-dialog'
 import {InviteToOrgProvider} from '../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../containers/notification-settings'
 import {ToastNotificationProvider} from '../containers/toast-notification'
@@ -19,7 +19,6 @@ import {AlertsProvider} from '../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../containers/markdown-tips'
 import {FooterProvider} from '../containers/footer'
 import {SoundsProvider} from '../containers/sounds'
-import {ManageContactsDialogProvider} from '../containers/manage-contacts'
 import {ManageGroupsDialogProvider} from '../containers/manage-groups'
 import {LinkAttachmentRemoveDialogProvider} from '../containers/link-attachment-remove-dialog'
 import {RoomDeleteDialogProvider} from '../containers/room-delete'
@@ -39,8 +38,7 @@ const Globals = () => (
   <section>
     <BillingWarningProvider />
     <ChannelMembersInviteProvider />
-    <NewConversationProvider />
-    <ManageContactsDialogProvider />
+    <NewConversationDialogProvider />
     <ManageGroupsDialogProvider />
     <InviteToOrgProvider />
     <NotificationSettingsProvider />

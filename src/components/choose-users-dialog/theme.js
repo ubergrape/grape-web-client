@@ -12,8 +12,7 @@ export const styles = {
   },
   list: {
     display: 'block',
-    minHeight: 100,
-    maxHeight: '25vh'
+    height: 150
   },
   orgInvite: {
     display: 'block',
@@ -36,6 +35,7 @@ export const styles = {
     backgroundColor: grayBlueLighter
   },
   note: {
-    margin: 10
+    composes: '$list',
+    padding: 20
   }
 }

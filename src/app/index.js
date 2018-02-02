@@ -29,18 +29,19 @@ export const suspend = () => {
 }
 
 export function init() {
-  addLocaleData([...en, ...de])
-  moment.locale(conf.user.languageCode)
-
   Raven.config(conf.server.sentryJsDsn).install()
-  Raven.setUser({
+  Raven.setUserContext({
     email: conf.user.email,
     id: conf.user.id,
     username: conf.user.username,
     organization: conf.organization.subdomain,
     organizationID: conf.organization.id
   })
-  subscribe(resume())
+  Raven.context(() => {
+    addLocaleData([...en, ...de])
+    moment.locale(conf.user.languageCode)
+    subscribe(resume())
+  })
 }
 
 export function renderSheetsInsertionPoints() {

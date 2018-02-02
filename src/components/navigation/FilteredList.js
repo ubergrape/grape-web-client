@@ -9,11 +9,15 @@ export default class FilteredList extends PureComponent {
     filter: PropTypes.string.isRequired,
     filtered: PropTypes.array.isRequired,
     filteredUnJoined: PropTypes.array.isRequired,
-    focusedChannel: PropTypes.any
+    focusedChannel: PropTypes.any.isRequired
+  }
+
+  onRefList = (list) => {
+    this.list = list
   }
 
   focus(direction) {
-    this.refs.list.focus(direction)
+    this.list.focus(direction)
   }
 
   render() {
@@ -38,13 +42,12 @@ export default class FilteredList extends PureComponent {
       )
     }
 
-    const items = filtered.concat(filteredUnJoined)
     return (
       <List
         {...this.props}
-        items={items}
-        focused={focusedChannel || items[0]}
-        ref="list"
+        items={filtered}
+        focused={focusedChannel || filtered[0]}
+        ref={this.onRefList}
       />
     )
   }
