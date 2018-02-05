@@ -36,15 +36,21 @@ const defaultRoomIconTheme = {
 
 function RoomIcon(props) {
   const {
-    name, classes, theme: userTheme, className,
+    classes, theme: userTheme, className,
     isPrivate, showPrivateStatus
   } = props
+
+  let {name} = props
 
   const {
     color, backgroundColor,
     size,
     statusSize, statusBorderWidth, statusBorderColor
   } = {...defaultRoomIconTheme, ...userTheme}
+
+  if (name === null || !name) {
+    name = defaultIconSlug
+  }
 
   return (
     <Avatar
@@ -105,7 +111,10 @@ RoomIcon.propTypes = {
     color: PropTypes.string,
     backgroundColor: PropTypes.string
   }).isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    React.PropTypes.oneOf([null])
+  ]).isRequired,
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
   showPrivateStatus: PropTypes.bool.isRequired

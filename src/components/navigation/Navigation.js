@@ -41,6 +41,7 @@ export default class Navigation extends PureComponent {
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
     foundChannels: PropTypes.array.isRequired,
+    searchingChannels: PropTypes.bool.isRequired,
     goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
@@ -201,7 +202,7 @@ export default class Navigation extends PureComponent {
 
   renderList() {
     const {
-      classes, favorited, recent, foundChannels, intl: {formatMessage}
+      classes, favorited, recent, foundChannels, intl: {formatMessage}, searchingChannels
     } = this.props
     const {shift, filter} = this.state
     const recentList = recent.length > shift ? recent.slice(0, shift) : recent
@@ -213,6 +214,7 @@ export default class Navigation extends PureComponent {
           theme={{classes}}
           filter={filter}
           ref={this.onFilteredListRef}
+          searchingChannels={searchingChannels}
           foundChannels={foundChannels}
           renderItem={this.renderFilteredChannel}
           onSelect={this.goToChannel}

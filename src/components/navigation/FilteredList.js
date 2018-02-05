@@ -7,7 +7,8 @@ export default class FilteredList extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
-    foundChannels: PropTypes.array.isRequired
+    foundChannels: PropTypes.array.isRequired,
+    searchingChannels: PropTypes.bool.isRequired
   }
 
   onRefList = (list) => {
@@ -22,9 +23,20 @@ export default class FilteredList extends PureComponent {
     const {
       filter,
       foundChannels,
+      searchingChannels,
       theme
     } = this.props
     const {classes} = theme
+    if (searchingChannels) {
+      return (
+        <div className={classes.notFound}>
+          <FormattedMessage
+            id="searchPropleAndGroups"
+            defaultMessage="Search people and groups…"
+          />
+        </div>
+      )
+    }
     if (!foundChannels.length) {
       return (
         <div className={classes.notFound}>
