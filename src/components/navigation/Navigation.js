@@ -162,8 +162,14 @@ export default class Navigation extends PureComponent {
       focusedChannel: null
     })
 
-    if (channel.type === 'pm' && !channel.joined) {
+
+    if ((channel.type === 'pm') && !channel.joined) {
       this.props.openPm(channel.mate.id)
+      return
+    }
+
+    if (channel.type === 'user') {
+      this.props.openPm(channel.id)
       return
     }
 
