@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -22,10 +22,10 @@
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
     "fuse.js": "^2.2.0",
-    "grape-browser": "^3.17.2",
+    "grape-browser": "^3.17.3",
     "grape-js-emoji": "^0.0.1",
-    "grape-theme": "^3.3.0",
-    "grape-web": "^1.6.2",
+    "grape-theme": "^3.3.1",
+    "grape-web": "^1.6.3",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",
@@ -157,5 +157,8 @@
       "git add"
     ]
   },
-  "pre-commit": "lint:staged"
+  "pre-commit": "lint:staged",
+  "files": [
+    "dist"
+  ]
 }
