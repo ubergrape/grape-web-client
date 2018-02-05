@@ -5,7 +5,6 @@ import {error} from './'
 
 export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
   dispatch({type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION})
-
   api.searchChannels({
     orgId: org.id,
     search,
