@@ -10,7 +10,8 @@ const actionNames = [
   'showNewConversation',
   'showManageGroups',
   'goToChannel',
-  'openPm'
+  'openPm',
+  'joinChannel'
 ]
 
 const ConnectedNavigation = connect(
