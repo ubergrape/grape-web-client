@@ -97,6 +97,10 @@ export const searchingChannelsSelector = createSelector(
   state => state.channelsSearch.searchingChannels, state => state
 )
 
+export const focusedChannelSelector = createSelector(
+  state => state.channelsSearch.focusedChannel, state => state
+)
+
 export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
@@ -386,9 +390,19 @@ export const navigationSelector = createSelector(
     initialDataLoadingSelector,
     userSelector,
     foundChannelsSelector,
-    searchingChannelsSelector
+    searchingChannelsSelector,
+    focusedChannelSelector
   ],
-  (joinedRooms, pms, channel, isLoading, user, foundChannels, searchingChannels) => {
+  (
+    joinedRooms,
+    pms,
+    channel,
+    isLoading,
+    user,
+    foundChannels,
+    searchingChannels,
+    focusedChannel
+  ) => {
     const joined = [...joinedRooms, ...pms]
       .filter(({id}) => id !== user.id)
     const recent = joined
@@ -405,7 +419,8 @@ export const navigationSelector = createSelector(
       isLoading,
       channel,
       foundChannels,
-      searchingChannels
+      searchingChannels,
+      focusedChannel
     }
   }
 )

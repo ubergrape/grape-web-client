@@ -8,7 +8,12 @@ export default class FilteredList extends PureComponent {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
     foundChannels: PropTypes.array.isRequired,
+    focusedChannel: PropTypes.any,
     searchingChannels: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    focusedChannel: undefined
   }
 
   onRefList = (list) => {
@@ -23,6 +28,7 @@ export default class FilteredList extends PureComponent {
     const {
       filter,
       foundChannels,
+      focusedChannel,
       searchingChannels,
       theme
     } = this.props
@@ -54,7 +60,7 @@ export default class FilteredList extends PureComponent {
       <List
         {...this.props}
         items={foundChannels}
-        focused={foundChannels[0]}
+        focused={focusedChannel}
         ref={this.onRefList}
       />
     )

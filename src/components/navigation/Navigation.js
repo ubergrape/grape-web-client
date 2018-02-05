@@ -42,12 +42,14 @@ export default class Navigation extends PureComponent {
     shortcuts: PropTypes.array.isRequired,
     foundChannels: PropTypes.array.isRequired,
     searchingChannels: PropTypes.bool.isRequired,
+    focusedChannel: PropTypes.object.isRequired,
     goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
     searchChannels: PropTypes.func.isRequired,
+    focusChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
@@ -111,27 +113,19 @@ export default class Navigation extends PureComponent {
 
   onChangeFilter = ({target}) => {
     const {value} = target
-    const {foundChannels} = this.props
 
     this.setState({
-      filter: value,
-      focusedChannel: foundChannels[0] || null
+      filter: value
     })
   }
 
   onFocusFiltered = (channel) => {
-    this.setState({focusedChannel: channel})
+    this.props.focusChannel(channel)
   }
 
   onKeyUp = (e) => {
     const {value} = e.target
     const keyName = keyname(e.keyCode)
-
-    this.setState({
-      filter: value
-    })
-
-    this.props.searchChannels(value, 10000)
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -147,10 +141,15 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.goToChannel(this.state.focusedChannel)
+        this.goToChannel(this.props.focusedChannel)
         e.preventDefault()
         break
       default:
+        this.props.searchChannels(value, 10000)
+        this.setState({
+          filter: value
+        })
+        break
     }
   }
 
@@ -159,8 +158,7 @@ export default class Navigation extends PureComponent {
 
     this.setState({
       filter: '',
-      filtered: [],
-      focusedChannel: null
+      filtered: []
     })
 
 
@@ -202,7 +200,8 @@ export default class Navigation extends PureComponent {
 
   renderList() {
     const {
-      classes, favorited, recent, foundChannels, intl: {formatMessage}, searchingChannels
+      classes, favorited, recent, foundChannels,
+      intl: {formatMessage}, searchingChannels, focusedChannel
     } = this.props
     const {shift, filter} = this.state
     const recentList = recent.length > shift ? recent.slice(0, shift) : recent
@@ -214,6 +213,7 @@ export default class Navigation extends PureComponent {
           theme={{classes}}
           filter={filter}
           ref={this.onFilteredListRef}
+          focusedChannel={focusedChannel}
           searchingChannels={searchingChannels}
           foundChannels={foundChannels}
           renderItem={this.renderFilteredChannel}
