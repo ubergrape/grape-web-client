@@ -20,20 +20,20 @@ export default class Filter extends PureComponent {
     intl: intlShape.isRequired,
     value: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    onKeyUp: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
   }
 
   render() {
     const {formatMessage} = this.props.intl
     const {classes} = this.props.theme
-    const {value, onKeyUp, onChange} = this.props
+    const {value, onKeyDown, onChange} = this.props
 
     return (
       <input
         type="search"
         value={value}
-        onKeyUp={onKeyUp}
+        onKeyDown={onKeyDown}
         onChange={onChange}
         placeholder={formatMessage(messages.placeholder)}
         className={classes.filterInput}

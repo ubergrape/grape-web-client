@@ -114,6 +114,7 @@ export default class Navigation extends PureComponent {
   onChangeFilter = ({target}) => {
     const {value} = target
 
+    this.props.searchChannels(value, 10000)
     this.setState({
       filter: value
     })
@@ -123,8 +124,7 @@ export default class Navigation extends PureComponent {
     this.props.focusChannel(channel)
   }
 
-  onKeyUp = (e) => {
-    const {value} = e.target
+  onKeyDown = (e) => {
     const keyName = keyname(e.keyCode)
 
     if (keyName === 'esc' && !this.filter.value) {
@@ -145,11 +145,6 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       default:
-        this.props.searchChannels(value, 10000)
-        this.setState({
-          filter: value
-        })
-        break
     }
   }
 
@@ -287,7 +282,7 @@ export default class Navigation extends PureComponent {
             ref={this.onFilterRef}
             value={this.state.filter}
             theme={{classes}}
-            onKeyUp={this.onKeyUp}
+            onKeyDown={this.onKeyDown}
             onChange={this.onChangeFilter}
           />
         </div>
