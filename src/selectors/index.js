@@ -567,9 +567,9 @@ export const fileUploadComponentSelector = createSelector(
     fileUploadSelector,
     isChannelDisabledSelector
   ],
-  (fileUpload, isChannelDisabled) => ({
+  (fileUpload, disabled) => ({
     ...fileUpload,
-    disabled: isChannelDisabled
+    disabled
   })
 )
 
@@ -581,9 +581,7 @@ export const manageGroupsSelector = createSelector(
   ],
   ({show, activeFilter}, allRooms, joinedRooms) => {
     const unsorted = (
-      activeFilter === 'joined' ?
-        joinedRooms :
-        differenceBy(allRooms, joinedRooms, 'id')
+      activeFilter === 'joined' ? joinedRooms : differenceBy(allRooms, joinedRooms, 'id')
     )
 
     const groups = sortBy(unsorted, 'name')

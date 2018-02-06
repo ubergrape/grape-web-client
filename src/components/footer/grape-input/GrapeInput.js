@@ -371,6 +371,7 @@ export default class GrapeInput extends PureComponent {
       intl: {formatMessage}
     } = this.props
     let browserProps = {}
+    const {placeholderDisabled, placeholder} = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -391,10 +392,7 @@ export default class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(disabled ?
-              messages.placeholderDisabled :
-              messages.placeholder)
-            }
+            placeholder={formatMessage(disabled ? placeholderDisabled : placeholder)}
             disabled={disabled}
             focused={this.state.focused}
             customEmojis={customEmojis}
