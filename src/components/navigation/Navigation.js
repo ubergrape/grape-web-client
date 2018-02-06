@@ -43,6 +43,7 @@ export default class Navigation extends PureComponent {
     shortcuts: PropTypes.array.isRequired,
     goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
+    joinChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
@@ -184,6 +185,10 @@ export default class Navigation extends PureComponent {
       return
     }
 
+    if (channel.type === 'room' && channel.isPublic && !channel.joined) {
+      this.props.joinChannel(channel.id)
+    }
+
     this.props.goToChannel(channel.id)
   }
 
@@ -200,7 +205,7 @@ export default class Navigation extends PureComponent {
         channel={channel}
         focused={focused}
         theme={{classes}}
-        key={channel.id}
+        key={channel.type + channel.id}
         onClick={() => this.goToChannel(channel)}
       />
     )
