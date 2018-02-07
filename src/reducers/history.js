@@ -3,6 +3,7 @@ import findIndex from 'lodash/array/findIndex'
 import uniq from 'lodash/array/uniq'
 
 import * as types from '../constants/actionTypes'
+import conf from '../conf'
 
 const initialState = {
   messages: [],
@@ -52,7 +53,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         ...payload,
-        showNoContent: payload.messages.length === 0
+        showNoContent: payload.messages.length === 0 && !conf.embed
       }
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload

@@ -10,7 +10,6 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
-import conf from '../../conf'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -154,7 +153,7 @@ export default class History extends PureComponent {
     // in order to respond immediately to users action with empty screen and
     // show messages later.
     if (!rows.length) {
-      if (showNoContent && !conf.embed) {
+      if (showNoContent) {
         return (
           <NoContent
             channel={channel}
