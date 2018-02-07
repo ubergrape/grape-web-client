@@ -47,11 +47,3 @@ export const searchChannels = (search, limit) => (dispatch, getState) => {
     })
   }).catch(err => dispatch(error(err)))
 }
-
-export function focusChannel(channel) {
-  return dispatch =>
-    dispatch({
-      type: types.SET_FOCUSED_CHANNEL,
-      payload: channel
-    })
-}

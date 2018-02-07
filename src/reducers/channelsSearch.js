@@ -5,8 +5,7 @@ const initialState = {
   foundChannels: [],
   searchMention: '',
   searchChannels: '',
-  searchingChannels: false,
-  focusedChannel: {}
+  searchingChannels: false
 }
 
 export default function reduce(state = initialState, action) {
@@ -26,7 +25,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         foundChannels: results,
-        focusedChannel: results[0] || {},
         searchingChannels: false
       }
     }
@@ -36,12 +34,6 @@ export default function reduce(state = initialState, action) {
         searchChannels: payload,
         searchingChannels: true
       }
-    case types.SET_FOCUSED_CHANNEL: {
-      return {
-        ...state,
-        focusedChannel: payload
-      }
-    }
     default:
       return state
   }

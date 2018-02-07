@@ -42,25 +42,19 @@ export default class Navigation extends PureComponent {
     shortcuts: PropTypes.array.isRequired,
     foundChannels: PropTypes.array.isRequired,
     searchingChannels: PropTypes.bool.isRequired,
-    focusedChannel: PropTypes.object.isRequired,
     goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
     searchChannels: PropTypes.func.isRequired,
-    focusChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
-    recent: PropTypes.array.isRequired,
-    step: PropTypes.number.isRequired,
-    bottomOffset: PropTypes.number.isRequired
+    recent: PropTypes.array.isRequired
   }
 
   static defaultProps = {
-    step: 10,
-    bottomOffset: 5,
     shortcuts: ['mod+k'],
     isLoading: false
   }
@@ -68,22 +62,33 @@ export default class Navigation extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      bottomOffset: 5,
+      step: 10,
       shift: 20,
-      filter: ''
+      filter: '',
+      focusedChannel: {}
     }
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
   }
 
   componentWillReceiveProps(nextProps) {
-    const {shift, filter} = this.state
-    const {recent, step} = nextProps
+    const {shift, filter, step} = this.state
+    const {recent} = nextProps
     if (filter || recent.length < shift) return
 
     if (this.listsContainer.offsetHeight &&
       this.listsContainer.offsetHeight < this.navigation.offsetHeight) {
       this.setState({
         shift: shift + step
+      })
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.foundChannels !== nextProps.foundChannels) {
+      this.setState({
+        focusedChannel: nextProps.foundChannels[0] || {}
       })
     }
   }
@@ -99,14 +104,13 @@ export default class Navigation extends PureComponent {
   }
 
   onScroll = (e) => {
-    const {recent, bottomOffset} = this.props
-    const {shift} = this.state
-    if (shift >= recent.length) return
+    const {shift, bottomOffset, step} = this.state
+    if (shift >= this.props.recent.length) return
 
     const {offsetHeight, scrollTop, scrollHeight} = e.target
     if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
       this.setState({
-        shift: shift + this.props.step
+        shift: shift + step
       })
     }
   }
@@ -120,8 +124,10 @@ export default class Navigation extends PureComponent {
     })
   }
 
-  onFocusFiltered = (channel) => {
-    this.props.focusChannel(channel)
+  onFocusFiltered = (focusedChannel) => {
+    this.setState({
+      focusedChannel
+    })
   }
 
   onKeyDown = (e) => {
@@ -141,7 +147,7 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.goToChannel(this.props.focusedChannel)
+        this.goToChannel(this.state.focusedChannel)
         e.preventDefault()
         break
       default:
@@ -153,9 +159,9 @@ export default class Navigation extends PureComponent {
 
     this.setState({
       filter: '',
-      filtered: []
+      filtered: [],
+      focusedChannel: {}
     })
-
 
     if ((channel.type === 'pm') && !channel.joined) {
       this.props.openPm(channel.mate.id)
@@ -196,9 +202,9 @@ export default class Navigation extends PureComponent {
   renderList() {
     const {
       classes, favorited, recent, foundChannels,
-      intl: {formatMessage}, searchingChannels, focusedChannel
+      intl: {formatMessage}, searchingChannels
     } = this.props
-    const {shift, filter} = this.state
+    const {shift, filter, focusedChannel} = this.state
     const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     if (this.state.filter) {
