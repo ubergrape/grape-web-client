@@ -14,6 +14,7 @@ import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
 import mdNotification from '../../utils/markdown-it-plugins/notification'
 import {shouldNotify} from '../../utils/notifications'
 import {dispatchers} from '../../constants/notification'
+import conf from '../../conf'
 
 const messages = defineMessages({
   pm: {
@@ -124,7 +125,7 @@ export default class BrowserNotification extends PureComponent {
   componentWillUpdate(nextProps) {
     const {channel, notification} = nextProps
 
-    if (!channel || !notification) return
+    if (!channel || !notification || conf.embed) return
 
     const isNew = notification !== this.props.notification
     const notify = shouldNotify({
