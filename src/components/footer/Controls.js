@@ -64,19 +64,19 @@ const AttachmentButton = (props) => {
       padding: controlSpacing
     },
     attachmentIcon: {
-      extend: ({disabled}) => buttonIcon('paperclip', disabled ? iconOptions : iconOptionsDisabled)
+      extend: ({disabled}) => buttonIcon('paperclip', disabled ? iconOptionsDisabled : iconOptions)
     },
     emoji: {
       padding: controlSpacing
     },
     emojiIcon: {
-      extend: ({disabled}) => buttonIcon('smileOpen', disabled ? iconOptions : iconOptionsDisabled)
+      extend: ({disabled}) => buttonIcon('smileOpen', disabled ? iconOptionsDisabled : iconOptions)
     },
     search: {
       padding: controlSpacing
     },
     searchIcon: {
-      extend: ({disabled}) => buttonIcon('windowSearch', disabled ? iconOptions : iconOptionsDisabled)
+      extend: ({disabled}) => buttonIcon('windowSearch', disabled ? iconOptionsDisabled : iconOptions)
     }
   }
 })

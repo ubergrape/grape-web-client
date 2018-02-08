@@ -2,7 +2,7 @@ import createInlineIcon from '../inline-icon/createWithoutBefore'
 import reset from './reset'
 
 /**
- * Creates a mixin which adds an icon to a button.
+ * Creates a mixin which adds an icon to an element without before pseudo-selector.
  */
 export default function create(name, options = {}) {
   const icon = createInlineIcon(name, options)
