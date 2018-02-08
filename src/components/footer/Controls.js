@@ -6,7 +6,7 @@ import {bigger} from 'grape-theme/dist/fonts'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
-import buttonIcon from '../button/icon'
+import buttonIcon from '../button/iconWithoutBefore'
 import {controlSpacing} from './constants'
 
 const AttachmentButton = (props) => {
@@ -17,21 +17,29 @@ const AttachmentButton = (props) => {
   // Upload click will be handled using public API.
   if (onOpenFileDialog) {
     return (
-      <span
+      <div
         className={classes.attachment}
-        onClick={onOpenFileDialog}
-      />
+      >
+        <span
+          className={classes.attachmentIcon}
+          onClick={onOpenFileDialog}
+        />
+      </div>
     )
   }
 
   return (
-    <Dropzone
+    <div
       className={classes.attachment}
-      maxSize={maxFileSize}
-      disableClick={disabled}
-      onDropAccepted={onDropAccepted}
-      onDropRejected={onDropRejected}
-    />
+    >
+      <Dropzone
+        className={classes.attachmentIcon}
+        maxSize={maxFileSize}
+        disableClick={disabled}
+        onDropAccepted={onDropAccepted}
+        onDropRejected={onDropRejected}
+      />
+    </div>
   )
 }
 
@@ -53,19 +61,22 @@ const AttachmentButton = (props) => {
       flexShrink: 0
     },
     attachment: {
-      extend: ({disabled}) => buttonIcon('paperclip', disabled ? iconOptions : iconOptionsDisabled),
-      fontSize: 'inherit',
       padding: controlSpacing
+    },
+    attachmentIcon: {
+      extend: ({disabled}) => buttonIcon('paperclip', disabled ? iconOptions : iconOptionsDisabled)
     },
     emoji: {
-      extend: ({disabled}) => buttonIcon('smileOpen', disabled ? iconOptions : iconOptionsDisabled),
-      fontSize: 'inherit',
       padding: controlSpacing
     },
+    emojiIcon: {
+      extend: ({disabled}) => buttonIcon('smileOpen', disabled ? iconOptions : iconOptionsDisabled)
+    },
     search: {
-      extend: ({disabled}) => buttonIcon('windowSearch', disabled ? iconOptions : iconOptionsDisabled),
-      fontSize: 'inherit',
       padding: controlSpacing
+    },
+    searchIcon: {
+      extend: ({disabled}) => buttonIcon('windowSearch', disabled ? iconOptions : iconOptionsDisabled)
     }
   }
 })
@@ -121,11 +132,15 @@ export default class Controls extends PureComponent {
         <button
           className={classes.emoji}
           onClick={this.onToggleEmojiBrowser} disabled={disabled}
-        />
+        >
+          <span className={classes.emojiIcon} />
+        </button>
         <button
           className={classes.search}
           onClick={this.onShowSearchBrowser} disabled={disabled}
-        />
+        >
+          <span className={classes.searchIcon} />
+        </button>
         <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
