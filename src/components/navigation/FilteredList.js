@@ -9,7 +9,11 @@ export default class FilteredList extends PureComponent {
     filter: PropTypes.string.isRequired,
     filtered: PropTypes.array.isRequired,
     filteredUnJoined: PropTypes.array.isRequired,
-    focusedChannel: PropTypes.any.isRequired
+    focusedChannel: PropTypes.object
+  }
+
+  static defaultProps = {
+    focusedChannel: undefined
   }
 
   onRefList = (list) => {
@@ -26,9 +30,9 @@ export default class FilteredList extends PureComponent {
       filtered,
       filteredUnJoined,
       focusedChannel,
-      theme
+      theme: {classes}
     } = this.props
-    const {classes} = theme
+
     if (!filtered.length && !filteredUnJoined.length) {
       return (
         <div className={classes.notFound}>
