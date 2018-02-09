@@ -13,7 +13,6 @@ import * as types from '../../constants/alerts'
 import AutoHide from './AutoHide'
 import TextAlert from './TextAlert'
 import NotificationsAlert from './NotificationsAlert'
-import conf from '../../conf'
 
 @injectSheet({
   alert: {
@@ -124,9 +123,6 @@ export default class Alert extends PureComponent {
   render() {
     const {classes, alert, onHide} = this.props
 
-    if (alert.type === types.NOTIFICATIONS_REMINDER && conf.embed) {
-      return null
-    }
     return (
       <div className={cn(classes.alert, classes[`${alert.level}Container`])} key={alert.type}>
         <AutoHide

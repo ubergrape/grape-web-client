@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes'
+import conf from '../conf'
 
 const initialState = {
   alerts: []
@@ -12,10 +13,10 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_ALERT:
       alerts = state.alerts.filter(stateAlert => stateAlert.type !== payload.type)
       alerts.push(payload)
+      alerts = alerts.filter(alert => alert.type !== types.NOTIFICATIONS_REMINDER && !conf.embed)
       return {
         alerts
       }
-
     case types.HIDE_ALERT:
       alerts = state.alerts.filter(stateAlert => stateAlert.type !== payload.type)
       return {
