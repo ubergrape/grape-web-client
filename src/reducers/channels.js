@@ -2,6 +2,7 @@ import findIndex from 'lodash/array/findIndex'
 import includes from 'lodash/collection/includes'
 import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
+import conf from '../conf'
 
 const initialState = []
 
@@ -72,7 +73,7 @@ export default function reduce(state = initialState, action) {
       channels.splice(index, 1, {
         ...channel,
         users: channel.users.filter(id => id !== user.id),
-        joined: false
+        joined: conf.user.id !== user.id
       })
       return channels
     }
