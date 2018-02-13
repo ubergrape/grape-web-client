@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import {blue, white} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import noop from 'lodash/utility/noop'
-import Chip from 'material-ui/Chip'
+import Chip from 'grape-web/lib/components/chip'
 
 @injectSheet({
   chip: {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import {FormattedMessage} from 'react-intl'
 

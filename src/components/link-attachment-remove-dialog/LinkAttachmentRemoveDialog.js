@@ -10,7 +10,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 
 import Dialog from '../dialog/Dialog'
 import {styles} from './theme'

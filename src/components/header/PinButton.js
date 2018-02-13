@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import sizes from 'grape-theme/dist/sizes'
 

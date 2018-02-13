@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import MenuList from 'material-ui/Menu/MenuList'
-import Divider from 'material-ui/Divider'
+import MenuList from 'grape-web/lib/components/menu/menuList'
+import Divider from 'grape-web/lib/components/divider'
 import noop from 'lodash/utility/noop'
 
 import conf from '../../conf'

@@ -8,7 +8,7 @@ import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import cn from 'classnames'
 import color from 'color'
 import noop from 'lodash/utility/noop'
-import Chip from 'material-ui/Chip'
+import Chip from 'grape-web/lib/components/chip'
 
 import {Grapedown} from '../../grapedown'
 import Header from '../../message-parts/Header'

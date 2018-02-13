@@ -4,7 +4,7 @@ import fonts from 'grape-theme/dist/fonts'
 import injectSheet from 'grape-web/lib/jss'
 import {spacer} from 'grape-theme/dist/sizes'
 import {FormattedMessage} from 'react-intl'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 import {rgba} from 'css-functions'
 
 import {Done} from '../i18n'

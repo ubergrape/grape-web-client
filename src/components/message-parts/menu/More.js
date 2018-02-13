@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
-import Divider from 'material-ui/Divider'
-import MenuList from 'material-ui/Menu/MenuList'
+import Divider from 'grape-web/lib/components/divider'
+import MenuList from 'grape-web/lib/components/menu/menuList'
 import injectSheet from 'grape-web/lib/jss'
 
-import Popover from 'material-ui/Popover'
+import Popover from 'grape-web/lib/components/popover'
 import PopoverItem from './PopoverItem'
 import MenuItem from './MenuItem'
 

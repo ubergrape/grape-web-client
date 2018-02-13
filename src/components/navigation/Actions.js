@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
-import List from 'material-ui/List'
+import List from 'grape-web/lib/components/list/list'
 import injectSheet from 'grape-web/lib/jss'
 
 import {Groups as GroupsText} from '../i18n/i18n'
