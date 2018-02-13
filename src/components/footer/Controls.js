@@ -3,10 +3,12 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
 import {bigger} from 'grape-theme/dist/fonts'
+import IconButton from 'material-ui/IconButton'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
-import buttonIcon from '../button/iconWithoutBefore'
+import buttonIcon from '../button/icon'
 import {controlSpacing} from './constants'
 
 const AttachmentButton = (props) => {
@@ -17,29 +19,32 @@ const AttachmentButton = (props) => {
   // Upload click will be handled using public API.
   if (onOpenFileDialog) {
     return (
-      <div
+      <IconButton
         className={classes.attachment}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
       >
-        <span
-          className={classes.attachmentIcon}
-          onClick={onOpenFileDialog}
-        />
-      </div>
+        <Icon name="paperclip" />
+      </IconButton>
     )
   }
 
   return (
-    <div
+    <Dropzone
       className={classes.attachment}
+      maxSize={maxFileSize}
+      disableClick={disabled}
+      onDropAccepted={onDropAccepted}
+      onDropRejected={onDropRejected}
     >
-      <Dropzone
-        className={classes.attachmentIcon}
-        maxSize={maxFileSize}
-        disableClick={disabled}
-        onDropAccepted={onDropAccepted}
-        onDropRejected={onDropRejected}
-      />
-    </div>
+      <IconButton
+        className={classes.attachment}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
+      >
+        <Icon name="paperclip" />
+      </IconButton>
+    </Dropzone>
   )
 }
 
@@ -52,7 +57,9 @@ const AttachmentButton = (props) => {
 
   const iconOptionsDisabled = {
     color: palette.grey[300],
-    iconOnly: true
+    iconOnly: true,
+    cursor: 'default',
+    pointerEvents: 'none'
   }
 
   return {
@@ -60,24 +67,18 @@ const AttachmentButton = (props) => {
       extend: bigger,
       flexShrink: 0
     },
-    attachment: {
+    attachment: ({disabled}) => ({
+      ...buttonIcon('paperclip', disabled ? iconOptionsDisabled : iconOptions),
       padding: controlSpacing
-    },
-    attachmentIcon: {
-      extend: ({disabled}) => buttonIcon('paperclip', disabled ? iconOptionsDisabled : iconOptions)
-    },
-    emoji: {
+    }),
+    emoji: ({disabled}) => ({
+      ...buttonIcon('smileOpen', disabled ? iconOptionsDisabled : iconOptions),
       padding: controlSpacing
-    },
-    emojiIcon: {
-      extend: ({disabled}) => buttonIcon('smileOpen', disabled ? iconOptionsDisabled : iconOptions)
-    },
-    search: {
+    }),
+    search: ({disabled}) => ({
+      ...buttonIcon('windowSearch', disabled ? iconOptionsDisabled : iconOptions),
       padding: controlSpacing
-    },
-    searchIcon: {
-      extend: ({disabled}) => buttonIcon('windowSearch', disabled ? iconOptionsDisabled : iconOptions)
-    }
+    })
   }
 })
 export default class Controls extends PureComponent {
@@ -129,18 +130,20 @@ export default class Controls extends PureComponent {
           onDropAccepted={this.onDropAccepted}
           onDropRejected={this.onDropRejected}
         />
-        <button
+        <IconButton
           className={classes.emoji}
-          onClick={this.onToggleEmojiBrowser} disabled={disabled}
+          onClick={this.onToggleEmojiBrowser}
+          disabled={disabled}
         >
-          <span className={classes.emojiIcon} />
-        </button>
-        <button
+          <Icon name="smileOpen" />
+        </IconButton>
+        <IconButton
           className={classes.search}
-          onClick={this.onShowSearchBrowser} disabled={disabled}
+          onClick={this.onShowSearchBrowser}
+          disabled={disabled}
         >
-          <span className={classes.searchIcon} />
-        </button>
+          <Icon name="windowSearch" />
+        </IconButton>
         <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
