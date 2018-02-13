@@ -8,8 +8,6 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
-import buttonIcon from '../button/icon'
-import {controlSpacing} from './constants'
 
 const AttachmentButton = (props) => {
   const {
@@ -48,39 +46,30 @@ const AttachmentButton = (props) => {
   )
 }
 
-@injectSheet(({palette}) => {
-  const iconOptions = {
-    color: palette.text.primary,
-    hoverColor: palette.secondary.A200,
-    iconOnly: true
+@injectSheet(({palette}) => ({
+  controls: {
+    extend: bigger,
+    flexShrink: 0
+  },
+  attachment: {
+    '&:hover': {
+      isolate: false,
+      color: palette.secondary.A200
+    }
+  },
+  emoji: {
+    '&:hover': {
+      isolate: false,
+      color: palette.secondary.A200
+    }
+  },
+  search: {
+    '&:hover': {
+      isolate: false,
+      color: palette.secondary.A200
+    }
   }
-
-  const iconOptionsDisabled = {
-    color: palette.grey[300],
-    iconOnly: true,
-    cursor: 'default',
-    pointerEvents: 'none'
-  }
-
-  return {
-    controls: {
-      extend: bigger,
-      flexShrink: 0
-    },
-    attachment: ({disabled}) => ({
-      ...buttonIcon('paperclip', disabled ? iconOptionsDisabled : iconOptions),
-      padding: controlSpacing
-    }),
-    emoji: ({disabled}) => ({
-      ...buttonIcon('smileOpen', disabled ? iconOptionsDisabled : iconOptions),
-      padding: controlSpacing
-    }),
-    search: ({disabled}) => ({
-      ...buttonIcon('windowSearch', disabled ? iconOptionsDisabled : iconOptions),
-      padding: controlSpacing
-    })
-  }
-})
+}))
 export default class Controls extends PureComponent {
   static propTypes = {
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
