@@ -9,7 +9,7 @@ import {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'searchPropleAndGroups',
+    id: 'searchPeopleAndGroups',
     defaultMessage: 'Search people and groups…'
   }
 })
