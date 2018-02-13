@@ -28,22 +28,25 @@ export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
 
 export const searchChannels = (search, limit) => (dispatch, getState) => {
   dispatch({
-    type: types.REQUEST_SEARCH_FOUND_CHANNELS,
+    type: types.REQUEST_SEARCH_CHANNELS_FOR_NAV,
     payload: search
   })
 
   const org = orgSelector(getState())
-  api.searchChannels({
-    orgId: org.id,
-    search,
-    limit
-  }).then((channels) => {
-    dispatch({
-      type: types.HANDLE_FOUND_CHANNELS,
-      payload: {
-        search: channels.q,
-        results: channels.results
-      }
+  api
+    .searchChannels({
+      orgId: org.id,
+      search,
+      limit
     })
-  }).catch(err => dispatch(error(err)))
+    .then((channels) => {
+      dispatch({
+        type: types.HANDLE_FOUND_CHANNELS,
+        payload: {
+          search: channels.q,
+          results: channels.results
+        }
+      })
+    })
+    .catch(err => dispatch(error(err)))
 }

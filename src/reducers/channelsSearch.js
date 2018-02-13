@@ -28,7 +28,7 @@ export default function reduce(state = initialState, action) {
         searchingChannels: false
       }
     }
-    case types.REQUEST_SEARCH_FOUND_CHANNELS:
+    case types.REQUEST_SEARCH_CHANNELS_FOR_NAV:
       return {
         ...state,
         searchChannels: payload,

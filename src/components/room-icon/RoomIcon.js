@@ -111,17 +111,14 @@ RoomIcon.propTypes = {
     color: PropTypes.string,
     backgroundColor: PropTypes.string
   }).isRequired,
-  name: PropTypes.oneOfType([
-    PropTypes.string,
-    React.PropTypes.oneOf([null])
-  ]),
+  name: PropTypes.string,
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
   showPrivateStatus: PropTypes.bool.isRequired
 }
 
 RoomIcon.defaultProps = {
-  name: defaultIconSlug,
+  name: null,
   className: '',
   isPrivate: false,
   showPrivateStatus: false

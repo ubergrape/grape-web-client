@@ -12,8 +12,7 @@ import {
 import {
   normalizeMessage,
   countMentions,
-  pinToFavorite,
-  nullChannelIconToUndefined
+  pinToFavorite
 } from './utils'
 import {
   goTo,
@@ -194,7 +193,7 @@ export function handleUpateChannel({channel}) {
   const updatable = ['id', 'type', 'name', 'description', 'isPublic', 'color', 'icon', 'slug']
   return {
     type: types.UPDATE_CHANNEL,
-    payload: nullChannelIconToUndefined(pick(channel, updatable))
+    payload: pick(channel, updatable)
   }
 }
 
