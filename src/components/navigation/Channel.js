@@ -3,9 +3,9 @@ import React, {PureComponent} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/utility/noop'
 
+import {userStatusMap} from '../../constants/app'
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
-import {userStatusMap} from '../../constants/app'
 
 const maxUnread = 99
 
@@ -50,7 +50,7 @@ function Room(props) {
 
 
 function Pm(props) {
-  const {classes, channel: {mate}} = props
+  const {classes, channel: {mate, avatar, status, displayName}} = props
   const theme = {
     classes: {
       name: classes.channelName,
@@ -62,9 +62,9 @@ function Pm(props) {
     <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
-        avatar={mate.avatar}
-        status={userStatusMap[mate.status]}
-        name={mate.displayName}
+        avatar={avatar || mate.avatar}
+        status={userStatusMap[status] || userStatusMap[mate.status]}
+        name={displayName || mate.displayName}
         theme={theme}
       />
       <Unread {...props} />
@@ -77,6 +77,7 @@ function ChannelPicker(props) {
     case 'room':
       return <Room {...props} />
     case 'pm':
+    case 'user':
       return <Pm {...props} />
     default:
       return null

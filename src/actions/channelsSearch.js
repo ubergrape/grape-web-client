@@ -1,5 +1,6 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import {orgSelector} from '../selectors'
 import {error} from './'
 
 export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
@@ -19,6 +20,31 @@ export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
         payload: {
           search: q,
           results
+        }
+      })
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+export const searchChannels = (search, limit) => (dispatch, getState) => {
+  dispatch({
+    type: types.REQUEST_SEARCH_CHANNELS_FOR_NAV,
+    payload: search
+  })
+
+  const org = orgSelector(getState())
+  api
+    .searchChannels({
+      orgId: org.id,
+      search,
+      limit
+    })
+    .then((channels) => {
+      dispatch({
+        type: types.HANDLE_FOUND_CHANNELS,
+        payload: {
+          search: channels.q,
+          results: channels.results
         }
       })
     })

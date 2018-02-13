@@ -6,7 +6,7 @@ export const searchUsers = ({orgId, search = '', limit = 50}) => rpc({
   args: [orgId, search, limit]
 }, {camelize: true})
 
-export const searchChannels = ({orgId, search = '', limit}) => rpc({
+export const searchChannels = ({orgId, search = '', limit = 50}) => rpc({
   ns: 'search',
   action: 'search_channels',
   args: [orgId, search, limit]
