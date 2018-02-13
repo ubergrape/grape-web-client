@@ -18,7 +18,7 @@ const AttachmentButton = (props) => {
   if (onOpenFileDialog) {
     return (
       <IconButton
-        className={classes.controlIcon}
+        className={classes.button}
         onClick={onOpenFileDialog}
         disabled={disabled}
       >
@@ -29,14 +29,14 @@ const AttachmentButton = (props) => {
 
   return (
     <Dropzone
-      className={classes.controlIcon}
+      className={classes.button}
       maxSize={maxFileSize}
       disableClick={disabled}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     >
       <IconButton
-        className={classes.controlIcon}
+        className={classes.button}
         onClick={onOpenFileDialog}
         disabled={disabled}
       >
@@ -51,7 +51,7 @@ const AttachmentButton = (props) => {
     extend: bigger,
     flexShrink: 0
   },
-  controlIcon: {
+  button: {
     '&:hover': {
       isolate: false,
       color: palette.secondary.A200
@@ -108,14 +108,14 @@ export default class Controls extends PureComponent {
           onDropRejected={this.onDropRejected}
         />
         <IconButton
-          className={classes.controlIcon}
+          className={classes.button}
           onClick={this.onToggleEmojiBrowser}
           disabled={disabled}
         >
           <Icon name="smileOpen" />
         </IconButton>
         <IconButton
-          className={classes.controlIcon}
+          className={classes.button}
           onClick={this.onShowSearchBrowser}
           disabled={disabled}
         >
