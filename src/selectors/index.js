@@ -524,11 +524,13 @@ export const markdownTipsSelector = createSelector(
 
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
-  (channel, channels) => (
-    channels.length === 0 ||
-    !channel ||
-    (channel.type === 'pm' && !channel.users[0].isActive)
-  )
+  (channel, channels) => {
+    if (channel) return channel.type === 'pm' && !channel.mate.isActive
+    return (
+      channels.length === 0 ||
+      !channel
+    )
+  }
 )
 
 export const footerSelector = createSelector(
@@ -574,6 +576,17 @@ export const fileUploadSelector = createSelector(
   state => state.fileUpload, state => state
 )
 
+export const fileUploadComponentSelector = createSelector(
+  [
+    fileUploadSelector,
+    isChannelDisabledSelector
+  ],
+  (fileUpload, disabled) => ({
+    ...fileUpload,
+    disabled
+  })
+)
+
 export const manageGroupsSelector = createSelector(
   [
     state => state.manageGroups,
@@ -582,9 +595,7 @@ export const manageGroupsSelector = createSelector(
   ],
   ({show, activeFilter}, allRooms, joinedRooms) => {
     const unsorted = (
-      activeFilter === 'joined' ?
-        joinedRooms :
-        differenceBy(allRooms, joinedRooms, 'id')
+      activeFilter === 'joined' ? joinedRooms : differenceBy(allRooms, joinedRooms, 'id')
     )
 
     const groups = sortBy(unsorted, 'name')

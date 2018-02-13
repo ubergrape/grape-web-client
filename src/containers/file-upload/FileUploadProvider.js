@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {fileUploadSelector} from '../../selectors'
+import {fileUploadComponentSelector} from '../../selectors'
 import getStore from '../../app/store'
 import {FileUpload} from '../../components/file-upload'
 
@@ -14,7 +14,7 @@ const actionNames = {
 }
 
 const ConnectedFileUpload = connect(
-  fileUploadSelector,
+  fileUploadComponentSelector,
   mapActionsToProps(actionNames)
 )(FileUpload)
 

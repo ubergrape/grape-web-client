@@ -38,6 +38,7 @@ export default {
   "fileUploadTitleFinished": "Upload abgeschlossen",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit}mb.",
   "editMessagePlaceholder": "Nachricht eingeben …",
+  "disabledMessagePlaceholder": "Dieser Benutzer wurde gelöscht. Messaging ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um die Bearbeitung zu beenden.",
   "quoteFooter": "- {author} ([Originalnachricht]({messageUrl}))",
