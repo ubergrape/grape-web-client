@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import {pickHTMLProps} from 'pick-react-known-prop'
+
 import {
   defineMessages,
   intlShape,
@@ -9,7 +9,7 @@ import {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'searchPropleAndGroups',
+    id: 'searchPeopleAndGroups',
     defaultMessage: 'Search people and groups…'
   }
 })
@@ -18,7 +18,7 @@ const messages = defineMessages({
 export default class Filter extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
-    filter: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
@@ -27,10 +27,14 @@ export default class Filter extends PureComponent {
   render() {
     const {formatMessage} = this.props.intl
     const {classes} = this.props.theme
+    const {value, onKeyDown, onChange} = this.props
+
     return (
       <input
-        {...pickHTMLProps(this.props)}
         type="search"
+        value={value}
+        onKeyDown={onKeyDown}
+        onChange={onChange}
         placeholder={formatMessage(messages.placeholder)}
         className={classes.filterInput}
       />
