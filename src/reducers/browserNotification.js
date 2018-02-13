@@ -8,9 +8,10 @@ export default function reduce(state = initialState, action) {
 
   switch (action.type) {
     case types.SET_CHANNEL:
-      return {...state, channel: payload.channel, showNotification: !conf.embed}
+      return {...state, channel: payload.channel}
     case types.HANDLE_NOTIFICATION:
-      return {...state, notification: payload, showNotification: !conf.embed}
+      if (conf.embed) return state
+      return {...state, notification: payload}
     default:
       return state
   }

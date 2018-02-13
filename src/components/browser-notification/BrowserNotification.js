@@ -98,7 +98,6 @@ export default class BrowserNotification extends PureComponent {
     /* eslint-disable react/no-unused-prop-types */
     intl: intlShape.isRequired,
     onGoToChannel: PropTypes.func,
-    showNotification: PropTypes.bool,
     /* eslint-enable react/no-unused-prop-types */
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
@@ -119,14 +118,13 @@ export default class BrowserNotification extends PureComponent {
   static defaultProps = {
     channel: undefined,
     notification: undefined,
-    showNotification: true,
     onGoToChannel: noop
   }
 
   componentWillUpdate(nextProps) {
-    const {channel, notification, showNotification} = nextProps
+    const {channel, notification} = nextProps
 
-    if (!channel || !notification || !showNotification) return
+    if (!channel || !notification) return
 
     const isNew = notification !== this.props.notification
     const notify = shouldNotify({
