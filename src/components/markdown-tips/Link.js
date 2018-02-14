@@ -5,7 +5,7 @@ import {FormattedMessage} from 'react-intl'
 import {gray} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import cn from 'classnames'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 
 @injectSheet({
   link: {

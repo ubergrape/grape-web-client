@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 
 @injectSheet({
   notificationAlert: {

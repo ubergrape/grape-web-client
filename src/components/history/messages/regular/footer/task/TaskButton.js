@@ -1,6 +1,6 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 
 import Tooltip from '../../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'

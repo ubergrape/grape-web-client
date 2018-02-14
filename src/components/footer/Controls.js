@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
 import {bigger} from 'grape-theme/dist/fonts'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
 import {maxSize as maxFileSize} from '../file-upload'

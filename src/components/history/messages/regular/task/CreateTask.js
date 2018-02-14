@@ -7,13 +7,13 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import FormGroup from 'material-ui/Form/FormGroup'
-import FormControl from 'material-ui/Form/FormControl'
-import FormLabel from 'material-ui/Form/FormLabel'
-import Input from 'material-ui/Input'
-import List from 'material-ui/List'
-import Button from 'material-ui/Button'
-import Divider from 'material-ui/Divider'
+import FormGroup from 'grape-web/lib/components/form/formGroup'
+import FormControl from 'grape-web/lib/components/form/formControl'
+import FormLabel from 'grape-web/lib/components/form/formLabel'
+import Input from 'grape-web/lib/components/input'
+import List from 'grape-web/lib/components/list/list'
+import Button from 'grape-web/lib/components/button'
+import Divider from 'grape-web/lib/components/divider'
 import {small} from 'grape-theme/dist/fonts'
 
 import {Enter} from '../../../../i18n'

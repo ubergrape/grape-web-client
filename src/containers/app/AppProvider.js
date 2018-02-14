@@ -2,8 +2,8 @@ import React, {PureComponent} from 'react'
 import {Provider as ReduxProvider, connect} from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {ThemeProvider, JssProvider, jss} from 'grape-web/lib/jss'
+import StyleProvider from 'grape-web/lib/theme-provider'
+import {JssProvider, jss} from 'grape-web/lib/jss'
 import {IntlProvider} from 'react-intl'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -37,16 +37,14 @@ export default class AppProvider extends PureComponent {
     return (
       <ReduxProvider store={getStore()}>
         <JssProvider jss={jss}>
-          <ThemeProvider theme={theme}>
-            <MuiThemeProvider theme={theme}>
-              <IntlProvider
-                locale={conf.user.languageCode}
-                messages={translations[conf.user.languageCode]}
-              >
-                <AppOrLoginConnected {...this.props} />
-              </IntlProvider>
-            </MuiThemeProvider>
-          </ThemeProvider>
+          <StyleProvider theme={theme}>
+            <IntlProvider
+              locale={conf.user.languageCode}
+              messages={translations[conf.user.languageCode]}
+            >
+              <AppOrLoginConnected {...this.props} />
+            </IntlProvider>
+          </StyleProvider>
         </JssProvider>
       </ReduxProvider>
     )

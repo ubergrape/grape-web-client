@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import BaseIconButton from 'material-ui/IconButton'
+import BaseIconButton from 'grape-web/lib/components/icon-button'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import {smaller} from 'grape-theme/dist/fonts'

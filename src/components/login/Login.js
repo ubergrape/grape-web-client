@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'

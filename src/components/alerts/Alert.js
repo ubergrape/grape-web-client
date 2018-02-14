@@ -7,7 +7,7 @@ import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 import {white, green, indigo, blue, yellow} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 
 import * as types from '../../constants/alerts'
 import AutoHide from './AutoHide'

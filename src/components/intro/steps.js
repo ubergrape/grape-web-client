@@ -2,7 +2,7 @@ import React from 'react'
 import {white, blue, green, orange, purple} from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 
 import {mascot} from '../../constants/images'
 import View from './View'

@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import MenuItem from 'material-ui/Menu/MenuItem'
+import MenuItem from 'grape-web/lib/components/menu/menuItem'
 import fonts from 'grape-theme/dist/fonts'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 

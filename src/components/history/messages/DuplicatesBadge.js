@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {gold, white} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import Chip from 'material-ui/Chip'
+import Chip from 'grape-web/lib/components/chip'
 
 @injectSheet({
   badge: {
