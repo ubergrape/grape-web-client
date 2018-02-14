@@ -6,10 +6,10 @@ export const createRoom = roomId => rpc({
   args: [roomId]
 }, {camelize: true})
 
-export const listMembers = roomId => rpc({
+export const listMembers = (roomId, options = {limit: 300}) => rpc({
   ns: 'rooms',
   action: 'list_members',
-  args: [roomId]
+  args: [roomId, options]
 }, {camelize: true})
 
 export const renameRoom = (id, name) => rpc({
