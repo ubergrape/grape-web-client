@@ -5,10 +5,11 @@ import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
   joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
-  usersSelector, orgSelector, pmsSelector
+  orgSelector, pmsSelector
 } from '../selectors'
 import {
   normalizeChannelData,
+  normalizeUserData,
   roomNameFromUsers
 } from './utils'
 import {
@@ -68,13 +69,24 @@ export function loadRoomInfo({channel}) {
 }
 
 export const loadChannelMembers = () => (dispatch, getState) => {
-  const state = getState()
-  const users = usersSelector(state)
-  const channel = channelSelector(state)
+  const channel = channelSelector(getState())
+
   dispatch({
-    type: types.HANDLE_CHANNEL_MEMBERS,
-    payload: users.filter(user => Boolean(find(channel.users, {id: user.id})))
+    type: types.REQUEST_CHANNEL_MEMBERS,
+    payload: channel.id
   })
+
+  api
+    .listMembers(channel.id)
+    .then(res => res.results)
+    .then(users => users.map(normalizeUserData))
+    .then((payload) => {
+      dispatch({
+        type: types.HANDLE_CHANNEL_MEMBERS,
+        payload
+      })
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function invitedToChannel(emailAddresses, channelId) {
