@@ -86,19 +86,15 @@ export const channelSelector = createSelector(
 )
 
 export const channelsToMentionSelector = createSelector(
-  state => state.channelsSearch.channelsToMention, state => state
+  state => state.footer.channelsToMention, state => state
 )
 
 export const foundChannelsSelector = createSelector(
-  state => state.channelsSearch.foundChannels, state => state
+  state => state.navigation.foundChannels, state => state
 )
 
 export const searchingChannelsSelector = createSelector(
-  state => state.channelsSearch.searchingChannels, state => state
-)
-
-export const focusedChannelSelector = createSelector(
-  state => state.channelsSearch.focusedChannel, state => state
+  state => state.navigation.searchingChannels, state => state
 )
 
 export const roomsSelector = createSelector(
@@ -390,8 +386,7 @@ export const navigationSelector = createSelector(
     initialDataLoadingSelector,
     userSelector,
     foundChannelsSelector,
-    searchingChannelsSelector,
-    focusedChannelSelector
+    searchingChannelsSelector
   ],
   (
     joinedRooms,
@@ -400,8 +395,7 @@ export const navigationSelector = createSelector(
     isLoading,
     user,
     foundChannels,
-    searchingChannels,
-    focusedChannel
+    searchingChannels
   ) => {
     const joined = [...joinedRooms, ...pms]
       .filter(({id}) => id !== user.id)
@@ -419,8 +413,7 @@ export const navigationSelector = createSelector(
       isLoading,
       channel,
       foundChannels,
-      searchingChannels,
-      focusedChannel
+      searchingChannels
     }
   }
 )

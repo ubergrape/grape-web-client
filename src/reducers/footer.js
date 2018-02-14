@@ -1,6 +1,8 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
+  channelsToMention: [],
+  searchMention: '',
   showBrowser: false,
   editMessage: null,
   quoteMessage: null
@@ -28,6 +30,14 @@ export default function reduce(state = initialState, action) {
       return {...state, showBrowser: 'search', search: action.payload}
     case types.HIDE_BROWSER:
       return {...state, showBrowser: false, autocomplete: null}
+    case types.HANDLE_CHANNELS_TO_MENTION: {
+      const {search, results} = action.payload
+      if (search !== state.searchMention) return state
+      return {...state, channelsToMention: results}
+    }
+    case types.REQUEST_SEARCH_CHANNELS_TO_MENTION: {
+      return {...state, searchMention: action.payload}
+    }
     case types.HANDLE_AUTOCOMPLETE:
       return {...state, autocomplete: action.payload}
     case types.HANDLE_AUTOCOMPLETE_SERVICES:
