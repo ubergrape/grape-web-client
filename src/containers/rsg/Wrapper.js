@@ -1,6 +1,6 @@
 import React from 'react'
 import theme from 'grape-web/lib/mui-theme'
-import ThemeProvider from 'grape-web/lib/mui-theme-provider'
+import ThemeProvider from 'grape-web/lib/components/theme-provider'
 
 import {IntlProvider} from '../../components/i18n'
 import {renderSheetsInsertionPoints} from '../../app'

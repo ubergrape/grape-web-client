@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {Provider as ReduxProvider, connect} from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
-import StyleProvider from 'grape-web/lib/theme-provider'
+import ThemeProvider from 'grape-web/lib/components/theme-provider'
 import {JssProvider, jss} from 'grape-web/lib/jss'
 import {IntlProvider} from 'react-intl'
 
@@ -37,14 +37,14 @@ export default class AppProvider extends PureComponent {
     return (
       <ReduxProvider store={getStore()}>
         <JssProvider jss={jss}>
-          <StyleProvider theme={theme}>
+          <ThemeProvider theme={theme}>
             <IntlProvider
               locale={conf.user.languageCode}
               messages={translations[conf.user.languageCode]}
             >
               <AppOrLoginConnected {...this.props} />
             </IntlProvider>
-          </StyleProvider>
+          </ThemeProvider>
         </JssProvider>
       </ReduxProvider>
     )
