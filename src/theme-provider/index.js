@@ -1,8 +1,8 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {ThemeProvider as JssThemeProvider} from 'react-jss'
+import {ThemeProvider as JssThemeProvider} from '../jss'
 
-const StyleProvider = ({theme, children}) => (
+const ThemeProvider = ({theme, children}) => (
   <JssThemeProvider theme={theme}>
     <MuiThemeProvider theme={theme}>
       {children}
@@ -10,4 +10,4 @@ const StyleProvider = ({theme, children}) => (
   </JssThemeProvider>
 )
 
-export default StyleProvider
+export default ThemeProvider
