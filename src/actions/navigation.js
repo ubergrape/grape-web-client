@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 import {orgSelector} from '../selectors'
 import {error} from './'
 
-export const searchChannels = (search, limit) => (dispatch, getState) => {
+export const searchChannelsForNavigation = (search, limit) => (dispatch, getState) => {
   dispatch({
     type: types.REQUEST_SEARCH_CHANNELS_FOR_NAV,
     payload: search

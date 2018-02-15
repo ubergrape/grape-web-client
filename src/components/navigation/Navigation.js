@@ -47,7 +47,7 @@ export default class Navigation extends PureComponent {
     joinChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
-    searchChannels: PropTypes.func.isRequired,
+    searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
@@ -118,7 +118,7 @@ export default class Navigation extends PureComponent {
   onChangeFilter = ({target}) => {
     const {value} = target
 
-    this.props.searchChannels(value, 10000)
+    this.props.searchChannelsForNavigation(value, 10000)
     this.setState({
       filter: value
     })
