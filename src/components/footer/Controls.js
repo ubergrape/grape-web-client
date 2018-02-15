@@ -22,14 +22,14 @@ const AttachmentButton = (props) => {
         onClick={onOpenFileDialog}
         disabled={disabled}
       >
-        <Icon name="paperclip" />
+        <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     )
   }
 
   return (
     <Dropzone
-      className={classes.button}
+      className={classes.dropzone}
       maxSize={maxFileSize}
       disableClick={disabled}
       onDropAccepted={onDropAccepted}
@@ -40,7 +40,7 @@ const AttachmentButton = (props) => {
         onClick={onOpenFileDialog}
         disabled={disabled}
       >
-        <Icon name="paperclip" />
+        <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     </Dropzone>
   )
@@ -52,11 +52,19 @@ const AttachmentButton = (props) => {
     flexShrink: 0
   },
   button: {
+    padding: 5,
+    width: 29,
+    height: 29,
     '&:hover': {
       isolate: false,
       color: palette.secondary.A200
     }
-  }
+  },
+  contolIcon: {
+    width: 19,
+    height: 19
+  },
+  dropzone: {}
 }))
 export default class Controls extends PureComponent {
   static propTypes = {
@@ -112,14 +120,14 @@ export default class Controls extends PureComponent {
           onClick={this.onToggleEmojiBrowser}
           disabled={disabled}
         >
-          <Icon name="smileOpen" />
+          <Icon className={classes.contolIcon} name="smileOpen" />
         </IconButton>
         <IconButton
           className={classes.button}
           onClick={this.onShowSearchBrowser}
           disabled={disabled}
         >
-          <Icon name="windowSearch" />
+          <Icon className={classes.contolIcon} name="windowSearch" />
         </IconButton>
         <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
