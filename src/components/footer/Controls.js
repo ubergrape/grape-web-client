@@ -5,6 +5,7 @@ import Dropzone from 'react-dropzone'
 import {bigger} from 'grape-theme/dist/fonts'
 import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+import {iconSize, buttonSize} from './constants'
 
 import {maxSize as maxFileSize} from '../file-upload'
 import {Beacon} from '../intro'
@@ -52,17 +53,16 @@ const AttachmentButton = (props) => {
     flexShrink: 0
   },
   button: {
-    padding: 5,
-    width: 29,
-    height: 29,
+    width: buttonSize,
+    height: buttonSize,
     '&:hover': {
       isolate: false,
       color: palette.secondary.A200
     }
   },
   contolIcon: {
-    width: 19,
-    height: 19
+    width: iconSize,
+    height: iconSize
   },
   dropzone: {}
 }))
