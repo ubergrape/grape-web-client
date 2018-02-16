@@ -9,7 +9,7 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   const {payload} = action
   switch (action.type) {
-    case types.HANDLE_FOUND_CHANNELS: {
+    case types.HANDLE_FOUND_CHANNELS_FOR_NAV: {
       const {search, results} = payload
       if (search !== state.searchChannels) return state
       return {

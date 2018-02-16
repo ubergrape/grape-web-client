@@ -18,7 +18,7 @@ export const searchChannelsForNavigation = (search, limit) => (dispatch, getStat
     })
     .then(({q, results}) => {
       dispatch({
-        type: types.HANDLE_FOUND_CHANNELS,
+        type: types.HANDLE_FOUND_CHANNELS_FOR_NAV,
         payload: {
           search: q,
           results
