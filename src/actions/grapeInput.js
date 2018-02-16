@@ -134,6 +134,29 @@ export function requestAutocomplete({search, filters}) {
   }
 }
 
+export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION,
+    payload: search
+  })
+  api
+    .searchChannels({
+      orgId: org.id,
+      search,
+      limit
+    })
+    .then(({q, results}) => {
+      dispatch({
+        type: types.HANDLE_CHANNELS_TO_MENTION,
+        payload: {
+          search: q,
+          results
+        }
+      })
+    })
+    .catch(err => dispatch(error(err)))
+}
+
 export function setTyping({channel, typing}) {
   return (dispatch) => {
     dispatch({
