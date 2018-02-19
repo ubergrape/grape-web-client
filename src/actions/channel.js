@@ -4,7 +4,7 @@ import {maxChannelDescriptionLength} from '../constants/app'
 import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
+  roomsSelector, userSelector, channelSelector, channelsSelector,
   orgSelector, pmsSelector
 } from '../selectors'
 import {
@@ -149,7 +149,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     return
   }
 
-  const foundChannel = find(channels, ({mate}) => mate.id === userId)
+  const foundChannel = find(channels, ({partner}) => partner.id === userId)
 
   if (foundChannel) {
     dispatch(goToChannel(foundChannel, options))
@@ -342,7 +342,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(joinedRoomsSelector(getState()), {id})
+    const room = find(roomsSelector(getState()), {id})
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room

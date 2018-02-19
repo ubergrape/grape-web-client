@@ -4,7 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
+  channelsSelector, usersSelector, userSelector, appSelector, roomsSelector,
   pmsSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
@@ -36,12 +36,12 @@ export function error(err) {
   }
 }
 
-export const setChannels = channels => (dispatch, getState) => {
+export const setChannels = (channels, type) => (dispatch, getState) => {
   const user = userSelector(getState())
-
   const payload = channels
     .filter(removeBrokenPms)
     .map(channel => normalizeChannelData(channel, user.id))
+    .map(channel => ({...channel, type}))
 
   dispatch({
     type: types.SET_CHANNELS,
@@ -158,17 +158,18 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getUsers({orgId: conf.organization.id}),
+    api.getPmOverview(conf.organization.id),
+    api.getRoomsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
-  ]).then(([org, users, profile]) => {
-    dispatch(setUsers(users))
+  ]).then(([org, channels, rooms, profile]) => {
+    dispatch(setChannels(channels, 'pm'))
+    dispatch(setChannels(rooms, 'room'))
     dispatch(handleUserProfile(profile))
-    dispatch(setChannels(org.channels))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
-    if (!joinedRoomsSelector(getState()).length && !pmsSelector(getState()).length) {
+    if (!roomsSelector(getState()).length && !pmsSelector(getState()).length) {
       dispatch(error(
         new Error('This account has neither joined rooms nor pm channels. This state is currently not supported.')
       ))

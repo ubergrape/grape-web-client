@@ -6,6 +6,12 @@ export const createRoom = roomId => rpc({
   args: [roomId]
 }, {camelize: true})
 
+export const getRoomsOverview = orgId => rpc({
+  ns: 'rooms',
+  action: 'get_overview',
+  args: [orgId]
+}, {camelize: true})
+
 export const listMembers = (roomId, options = {limit: 300}) => rpc({
   ns: 'rooms',
   action: 'list_members',

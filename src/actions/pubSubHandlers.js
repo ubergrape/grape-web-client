@@ -7,7 +7,7 @@ import {
   usersSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector
+  roomsSelector
 } from '../selectors'
 import {
   normalizeMessage,
@@ -29,7 +29,7 @@ export function handleNewMessage(message) {
     const state = getState()
     const nMessage = normalizeMessage(message, state)
     const user = userSelector(state)
-    const rooms = joinedRoomsSelector(state)
+    const rooms = roomsSelector(state)
     const mentionsCount = countMentions(nMessage, user, rooms)
 
     if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
@@ -184,7 +184,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
       }
     })
 
-    const rooms = joinedRoomsSelector(getState())
+    const rooms = roomsSelector(getState())
     if (!rooms.length) dispatch(goTo({path: '/chat'}))
   }
 }
