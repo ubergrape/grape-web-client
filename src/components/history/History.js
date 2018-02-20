@@ -10,6 +10,7 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
+import {Loading, Communication} from '../i18n'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -171,9 +172,11 @@ export default class History extends PureComponent {
     if (embedded && isLoadingInitialData) {
       return (
         <div className={classes.loading}>
-          <span className={classes.title}>Loading...</span>
+          <span className={classes.title}>
+            <Loading />
+          </span>
           <span className={classes.text}>
-            Communicating with Grape universe, this may take a moment
+            <Communication />
           </span>
         </div>
       )

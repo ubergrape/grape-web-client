@@ -14,6 +14,7 @@ export default {
   "noMessageFound": "We could not find the message you were looking for.",
   "cannotMessageYourself": "You cannot message yourself.",
   "loadingChatHistory": "Loading your chat history…",
+  "loading": "Loading…",
   "reconnectingAlert": "Lost connection to the server — trying to reconnect.",
   "grapeTrial": "Grape Trial",
   "continueTrial": "Continue Trial",
@@ -235,5 +236,6 @@ export default {
   "email": "Email",
   "skype": "Skype",
   "phone": "Phone",
-  "aboutUserTitle": "About this user"
+  "aboutUserTitle": "About this user",
+  "communication": "Communicating with Grape universe, this may take a moment"
 }

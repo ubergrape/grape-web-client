@@ -17,6 +17,7 @@ export default {
   "cannotMessageYourself": "Sie können keine Nachrichten an sich selber schreiben.",
   "enterMessagePlaceholder": "Nachricht eingeben …",
   "loadingChatHistory": "Konversationsverlauf wird geladen...",
+  "loading": "Wird geladen...",
   "reconnectingAlert": "Verbindung zum Server verloren - versuche wieder zu verbinden. ",
   "grapeTrial": "Grape Testphase",
   "continueTrial": "Test fortsetzen",
@@ -241,5 +242,6 @@ export default {
   "email": "E-Mail",
   "skype": "Skype",
   "phone": "Telefon",
-  "aboutUserTitle": "Über diesen Nutzer"
+  "aboutUserTitle": "Über diesen Nutzer",
+  "communication": "Communicating with Grape universe, this may take a moment"
 }
