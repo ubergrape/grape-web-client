@@ -50,7 +50,7 @@ function Room(props) {
 
 
 function Pm(props) {
-  const {classes, channel: {partner}} = props
+  const {classes, channel, channel: {partner}} = props
   const theme = {
     classes: {
       name: classes.channelName,
@@ -62,9 +62,9 @@ function Pm(props) {
     <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
-        avatar={partner.avatar}
-        status={userStatusMap[partner.status]}
-        name={partner.displayName}
+        avatar={partner ? partner.avatar : channel.avatar}
+        status={partner ? userStatusMap[partner.status] : userStatusMap[channel.status]}
+        name={partner ? partner.displayName : channel.displayName}
         theme={theme}
       />
       <Unread {...props} />

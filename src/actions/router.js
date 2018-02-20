@@ -104,7 +104,6 @@ export const handleChangeRoute = ({name, params}) => (dispatch) => {
     type: types.HANDLE_CHANGE_ROUTE,
     payload: {name, params}
   })
-
   switch (name) {
     case 'pm': {
       // We have yet to find the pm channel using user id and replace current route.

@@ -5,7 +5,7 @@ import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
   roomsSelector, userSelector, channelSelector, channelsSelector,
-  orgSelector, pmsSelector
+  orgSelector, pmsSelector, initialDataLoadingSelector
 } from '../selectors'
 import {
   normalizeChannelData,
@@ -17,12 +17,14 @@ import {
   setChannel, handleBadChannel
 } from './'
 
-export function addChannel(channel) {
+export const addChannel = channel => (dispatch, getState) => {
+  const initialDataLoading = initialDataLoadingSelector(getState())
   return {
     type: types.ADD_CHANNEL,
     payload: {
       ...normalizeChannelData(channel),
-      unread: channel.unread || 0
+      unread: channel.unread || 0,
+      initialDataLoading
     }
   }
 }

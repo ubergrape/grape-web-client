@@ -25,7 +25,8 @@ export const userSelector = createSelector(
 )
 
 export const activeUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => user.isActive)
+  // usersSelector, users => users.filter(user => user.isActive)
+  usersSelector, users => users.map(() => true)
 )
 
 export const invitedUsersSlector = createSelector(
@@ -33,7 +34,8 @@ export const invitedUsersSlector = createSelector(
 )
 
 export const deletedUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => !user.isActive)
+  // usersSelector, users => users.filter(user => !user.isActive)
+  usersSelector, users => users.map(() => false)
 )
 
 export const initialChannelsSelector = createSelector(
@@ -349,7 +351,7 @@ export const navigationPmsSelector = createSelector(
   [pmsSelector],
   pms => (
     pms.filter(pm => (
-      pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+      pm.lastMessage || pm.temporaryInNavigation || pm.favorited
     ))
   )
 )
@@ -515,14 +517,16 @@ export const markdownTipsSelector = createSelector(
 )
 
 export const isChannelDisabledSelector = createSelector(
-  [channelSelector, channelsSelector],
-  (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.isActive
-    return (
-      channels.length === 0 ||
-      !channel
-    )
-  }
+  // [channelSelector, channelsSelector],
+  // (channel, channels) => {
+  //   if (channel) return channel.type === 'pm' && !channel.isActive
+  //   return (
+  //     channels.length === 0 ||
+  //     !channel
+  //   )
+  // }
+  state => state,
+  () => false
 )
 
 export const footerSelector = createSelector(
