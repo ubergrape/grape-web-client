@@ -19,15 +19,33 @@ function createState(state, props) {
   }
 }
 
-@injectSheet({
+@injectSheet(({palette}) => ({
   history: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0
+  },
+  loading: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '100px 55px 0'
+  },
+  title: {
+    textAlign: 'center',
+    color: palette.grey[800],
+    fontSize: 17,
+    fontWeight: 600
+  },
+  text: {
+    textAlign: 'center',
+    color: palette.grey[800],
+    paddingTop: 20,
+    fontSize: 15,
+    lineHeight: '150%'
   }
-})
+}))
 export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -50,7 +68,8 @@ export default class History extends PureComponent {
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     minimumBatchSize: PropTypes.number,
-    isLoadingInitialData: PropTypes.bool
+    isLoadingInitialData: PropTypes.bool,
+    embedded: PropTypes.bool
   }
 
   static defaultProps = {
@@ -66,6 +85,7 @@ export default class History extends PureComponent {
     onAddIntegration: noop,
     showNoContent: false,
     isLoadingInitialData: false,
+    embedded: false,
     user: null,
     channel: null,
     users: [],
@@ -143,9 +163,21 @@ export default class History extends PureComponent {
   render() {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
+      embedded, isLoadingInitialData
     } = this.props
     const {rows, scrollTo} = this.state
+
+    if (embedded && isLoadingInitialData) {
+      return (
+        <div className={classes.loading}>
+          <span className={classes.title}>Loading...</span>
+          <span className={classes.text}>
+            Communicating with Grape universe, this may take a moment
+          </span>
+        </div>
+      )
+    }
 
     if (!user || !channel) return null
 

@@ -16,6 +16,10 @@ export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
 
+export const embeddedSeletor = createSelector(
+  state => state.embedded, state => state
+)
+
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -503,11 +507,12 @@ export const historySelector = createSelector(
 )
 
 export const historyComponentSelector = createSelector(
-  [historySelector, orgSelector, initialDataLoadingSelector],
-  (history, {customEmojis}, isLoadingInitialData) => ({
+  [historySelector, orgSelector, initialDataLoadingSelector, embeddedSeletor],
+  (history, {customEmojis}, isLoadingInitialData, embedded) => ({
     ...omit(history, 'olderMessages', 'newerMessages'),
     customEmojis,
-    isLoadingInitialData
+    isLoadingInitialData,
+    embedded
   })
 )
 
