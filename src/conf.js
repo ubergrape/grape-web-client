@@ -41,7 +41,7 @@ class Config {
       embed: Boolean(localStorage.embed),
       channelId: localStorage.channelId ? Number(localStorage.channelId) : null,
       forceLongpolling: Boolean(localStorage.forceLongpolling),
-      server: {serviceUrl: location.origin}
+      server: {serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : location.origin}
     })
   }
 
