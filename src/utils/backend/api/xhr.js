@@ -3,7 +3,9 @@ import request from 'superagent'
 import conf from '../../../conf'
 
 export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, reject) => {
-  const req = request.get(`${serviceUrl}/api/chat/config/`)
+  const req = request
+    .get(`${serviceUrl}/api/chat/config/`)
+    .withCredentials()
   if (authToken) req.set('Authorization', `Token ${authToken}`)
   req.end((err, res) => {
     if (err) return reject(err)
