@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {spacer} from 'grape-theme/dist/sizes'
+import fonts from 'grape-theme/dist/fonts'
 
 import {Loading, Communication} from '../i18n'
 
@@ -13,14 +14,14 @@ import {Loading, Communication} from '../i18n'
   title: {
     textAlign: 'center',
     color: palette.grey[800],
-    fontSize: 17,
+    fontSize: fonts.big,
     fontWeight: 600
   },
   text: {
     textAlign: 'center',
     color: palette.grey[800],
     paddingTop: spacer.l,
-    fontSize: 15,
+    fontSize: fonts.normal,
     lineHeight: '150%'
   }
 }))
