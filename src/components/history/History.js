@@ -69,8 +69,7 @@ export default class History extends PureComponent {
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     minimumBatchSize: PropTypes.number,
-    isLoadingInitialData: PropTypes.bool,
-    embedded: PropTypes.bool
+    isLoadingInitialData: PropTypes.bool
   }
 
   static defaultProps = {
@@ -86,7 +85,6 @@ export default class History extends PureComponent {
     onAddIntegration: noop,
     showNoContent: false,
     isLoadingInitialData: false,
-    embedded: false,
     user: null,
     channel: null,
     users: [],
@@ -165,11 +163,11 @@ export default class History extends PureComponent {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
       onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
-      embedded, isLoadingInitialData
+      isLoadingInitialData
     } = this.props
     const {rows, scrollTo} = this.state
 
-    if (embedded && isLoadingInitialData) {
+    if (isLoadingInitialData) {
       return (
         <div className={classes.loading}>
           <span className={classes.title}>
