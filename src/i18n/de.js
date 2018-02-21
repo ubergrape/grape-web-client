@@ -86,7 +86,7 @@ export default {
   "groupInfo": "Gruppeninformation",
   "userProfile": "Profil",
   "loading": "Wird geladen...",
-  "communication": "In Verbindung mit dem Trauben-Universum kann dies einen Moment dauern",
+  "communication": "Setz mich mit dem Grape Universum in Verbindung, das kann einen Moment dauern.",
   "grapeTeam": "Grape Team",
   "introHlWelcome": "Willkommen",
   "introTextWelcome": "Grape ist eine Messaging Lösung für Teams und hilft Ihren MitarbeiterInnen, effizienter, unterhaltsamer und produktiver zusammenzuarbeiten.",
