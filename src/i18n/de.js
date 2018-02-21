@@ -17,7 +17,6 @@ export default {
   "cannotMessageYourself": "Sie können keine Nachrichten an sich selber schreiben.",
   "enterMessagePlaceholder": "Nachricht eingeben …",
   "loadingChatHistory": "Konversationsverlauf wird geladen...",
-  "loading": "Wird geladen...",
   "reconnectingAlert": "Verbindung zum Server verloren - versuche wieder zu verbinden. ",
   "grapeTrial": "Grape Testphase",
   "continueTrial": "Test fortsetzen",
@@ -39,7 +38,6 @@ export default {
   "fileUploadTitleFinished": "Upload abgeschlossen",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit}mb.",
   "editMessagePlaceholder": "Nachricht eingeben …",
-  "disabledMessagePlaceholder": "Dieser Benutzer wurde gelöscht. Messaging ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um die Bearbeitung zu beenden.",
   "quoteFooter": "- {author} ([Originalnachricht]({messageUrl}))",
@@ -87,6 +85,8 @@ export default {
   "pinnedMesages": "Angepinnte Nachrichten",
   "groupInfo": "Gruppeninformation",
   "userProfile": "Profil",
+  "loading": "Wird geladen...",
+  "communication": "In Verbindung mit dem Trauben-Universum kann dies einen Moment dauern",
   "grapeTeam": "Grape Team",
   "introHlWelcome": "Willkommen",
   "introTextWelcome": "Grape ist eine Messaging Lösung für Teams und hilft Ihren MitarbeiterInnen, effizienter, unterhaltsamer und produktiver zusammenzuarbeiten.",
@@ -242,6 +242,5 @@ export default {
   "email": "E-Mail",
   "skype": "Skype",
   "phone": "Telefon",
-  "aboutUserTitle": "Über diesen Nutzer",
-  "communication": "Communicating with Grape universe, this may take a moment"
+  "aboutUserTitle": "Über diesen Nutzer"
 }

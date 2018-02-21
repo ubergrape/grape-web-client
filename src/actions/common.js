@@ -151,7 +151,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     type: types.SET_INITIAL_DATA_LOADING,
     payload: true
   })
-
   dispatch({type: types.REQUEST_ORG_DATA})
   dispatch({type: types.REQUEST_USER_PROFILE})
   dispatch({type: types.REQUEST_USERS})
