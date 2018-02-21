@@ -10,6 +10,7 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
+import LoadingText from './LoadingText'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -143,9 +144,12 @@ export default class History extends PureComponent {
   render() {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
+      isLoadingInitialData
     } = this.props
     const {rows, scrollTo} = this.state
+
+    if (isLoadingInitialData) return <LoadingText />
 
     if (!user || !channel) return null
 
