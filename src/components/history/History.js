@@ -11,7 +11,6 @@ import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
 import LoadingText from './LoadingText'
-import {loadingSpacingSides, loadingSpacingTop, loadingTextSpacingTop} from './constants'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -21,33 +20,15 @@ function createState(state, props) {
   }
 }
 
-@injectSheet(({palette}) => ({
+@injectSheet({
   history: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0
-  },
-  loading: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: [loadingSpacingTop, loadingSpacingSides, 0]
-  },
-  title: {
-    textAlign: 'center',
-    color: palette.grey[800],
-    fontSize: 17,
-    fontWeight: 600
-  },
-  text: {
-    textAlign: 'center',
-    color: palette.grey[800],
-    paddingTop: loadingTextSpacingTop,
-    fontSize: 15,
-    lineHeight: '150%'
   }
-}))
+})
 export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -168,7 +149,7 @@ export default class History extends PureComponent {
     } = this.props
     const {rows, scrollTo} = this.state
 
-    if (isLoadingInitialData) return <LoadingText classes={classes} />
+    if (isLoadingInitialData) return <LoadingText />
 
     if (!user || !channel) return null
 
