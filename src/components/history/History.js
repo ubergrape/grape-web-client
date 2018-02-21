@@ -10,7 +10,8 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
-import {Loading, Communication} from '../i18n'
+import LoadingText from './LoadingText'
+import {loadingSpacingSides, loadingSpacingTop, loadingTextSpacingTop} from './constants'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
@@ -31,7 +32,7 @@ function createState(state, props) {
   loading: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '100px 55px 0'
+    padding: [loadingSpacingTop, loadingSpacingSides, 0]
   },
   title: {
     textAlign: 'center',
@@ -42,7 +43,7 @@ function createState(state, props) {
   text: {
     textAlign: 'center',
     color: palette.grey[800],
-    paddingTop: 20,
+    paddingTop: loadingTextSpacingTop,
     fontSize: 15,
     lineHeight: '150%'
   }
@@ -167,18 +168,7 @@ export default class History extends PureComponent {
     } = this.props
     const {rows, scrollTo} = this.state
 
-    if (isLoadingInitialData) {
-      return (
-        <div className={classes.loading}>
-          <span className={classes.title}>
-            <Loading />
-          </span>
-          <span className={classes.text}>
-            <Communication />
-          </span>
-        </div>
-      )
-    }
+    if (isLoadingInitialData) return <LoadingText classes={classes} />
 
     if (!user || !channel) return null
 
