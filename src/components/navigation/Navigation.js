@@ -19,10 +19,6 @@ import Actions from './Actions'
 import {styles} from './theme'
 
 const messages = defineMessages({
-  channelHeader: {
-    id: 'noConversationYet',
-    defaultMessage: 'No conversation yet'
-  },
   favorites: {
     id: 'favorites',
     defaultMessage: 'Favorites'
@@ -182,14 +178,12 @@ export default class Navigation extends PureComponent {
 
   renderFilteredChannel = (params) => {
     const {item: channel, focused} = params
-    const {classes, intl: {formatMessage}, foundChannels} = this.props
-    const isFirstInUnJoined = channel === foundChannels[0]
+    const {classes} = this.props
 
     return (
       <Channel
         {...this.props}
         {...this.state}
-        header={isFirstInUnJoined ? formatMessage(messages.channelHeader) : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}
