@@ -14,14 +14,14 @@ import {Loading, Communication} from '../i18n'
   title: {
     textAlign: 'center',
     color: palette.grey[800],
-    fontSize: fonts.big,
+    extend: fonts.big,
     fontWeight: 600
   },
   text: {
     textAlign: 'center',
     color: palette.grey[800],
     paddingTop: spacer.l,
-    fontSize: fonts.normal,
+    extend: fonts.normal,
     lineHeight: '150%'
   }
 }))
