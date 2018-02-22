@@ -155,7 +155,6 @@ export default {
   "newConversation": "New Conversation",
   "searchPeopleAndGroups": "Search people and groups…",
   "nothingThatMatches": "There's nothing that matches",
-  "noConversationYet": "No conversation yet",
   "favorites": "Favorites",
   "recent": "Recent",
   "enterGroupName": "Enter group name",
