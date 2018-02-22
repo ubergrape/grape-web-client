@@ -22,6 +22,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         activeFilter: action.payload
       }
+    case types.HANDLE_MANAGE_GROUPS_CHANNELS:
+      return {
+        ...state,
+        groups: action.payload
+      }
     default:
       return state
   }

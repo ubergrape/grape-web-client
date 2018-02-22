@@ -20,13 +20,12 @@ export const loadManageGroupsChannels = filter => (dispatch, getState) => {
   })
 
   api
-    .getRooms(org.id)
-    .then((res) => {
+    .getRooms(org.id, {joined: filter === 'joined'})
+    .then((channels) => {
       dispatch({
         type: types.HANDLE_MANAGE_GROUPS_CHANNELS,
-        payload: res
+        payload: channels
       })
-      // console.log(111, res)
     })
     .catch(err => dispatch(error(err)))
 }

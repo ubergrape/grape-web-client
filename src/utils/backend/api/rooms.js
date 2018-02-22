@@ -42,8 +42,8 @@ export const setRoomIcon = (roomId, icon) => rpc({
   args: [roomId, icon]
 })
 
-export const getRooms = (orgId, {includeJoined, page, pageSize} = {}) => rpc({
+export const getRooms = (orgId, {joined, page, pageSize = 2000} = {}) => rpc({
   ns: 'rooms',
   action: 'get_rooms',
-  args: [orgId, includeJoined, page, pageSize]
+  args: [orgId, {joined, page, pageSize}]
 }, {camelize: true})
