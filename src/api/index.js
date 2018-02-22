@@ -94,10 +94,10 @@ const embed = (options) => {
         id: options.orgId
       },
       server: {
-        serviceUrl: options.serviceUrl,
+        serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : options.serviceUrl,
         staticPath: options.staticBaseUrl
       },
-      channelId: options.channelId,
+      channelId: localStorage.channelId ? Number(localStorage.channelId) : options.channelId,
       embed: true
     }))
 
