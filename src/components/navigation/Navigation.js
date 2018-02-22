@@ -178,7 +178,7 @@ export default class Navigation extends PureComponent {
 
   renderFilteredChannel = (params) => {
     const {item: channel, focused} = params
-    const classes = this.props
+    const {classes} = this.props
 
     return (
       <Channel
