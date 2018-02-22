@@ -6,7 +6,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import injectSheet from 'grape-web/lib/jss'
+import injectclasses from 'grape-web/lib/jss'
 import capitalize from 'lodash/string/capitalize'
 
 import Dialog from '../dialog/Dialog'
@@ -32,23 +32,46 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
+@injectclasses(styles)
 @injectIntl
 export default class ManageGroupsDialog extends PureComponent {
   static propTypes = {
-    activeFilter: PropTypes.string.isRequired,
-    children: PropTypes.node,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     onHide: PropTypes.func.isRequired,
     onSelectFilter: PropTypes.func.isRequired,
     onJoin: PropTypes.func.isRequired,
     onLeave: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     createNewGroup: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     groups: PropTypes.arrayOf(
       PropTypes.object.isRequired
-    ).isRequired
+    ),
+    activeFilter: PropTypes.string
+  }
+
+  static defaultProps = {
+    groups: [],
+    activeFilter: 'joinable'
+  }
+
+  componentDidUpdate(prevProps) {
+    const {activeFilter, onLoad, show} = this.props
+
+    if (show && !prevProps.show) {
+      onLoad(activeFilter)
+    }
+  }
+
+  onCreate = () => {
+    const {
+      onHide,
+      createNewGroup
+    } = this.props
+
+    onHide()
+    createNewGroup()
   }
 
   renderGroupsList(groups) {
@@ -91,20 +114,10 @@ export default class ManageGroupsDialog extends PureComponent {
     )
   }
 
-  onCreate = () => {
-    const {
-      onHide,
-      createNewGroup
-    } = this.props
-
-    onHide()
-    createNewGroup()
-  }
-
   renderTitle() {
     const {
       intl: {formatMessage},
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -126,7 +139,7 @@ export default class ManageGroupsDialog extends PureComponent {
       show,
       onHide,
       groups,
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
