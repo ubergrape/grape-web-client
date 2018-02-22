@@ -166,7 +166,6 @@ export default {
   "newConversation": "Neue Konversation",
   "searchPropleAndGroups": "Gruppen und Mitarbeiter suchen...\n",
   "nothingThatMatches": "Keine passenden Ergebnisse",
-  "noConversationYet": "Noch keine Nachrichten",
   "favorites": "Favoriten",
   "recent": "Aktuell",
   "enterGroupName": "Gruppe benennen ",
