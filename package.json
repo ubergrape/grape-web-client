@@ -21,7 +21,6 @@
     "custom-event-polyfill": "^0.2.1",
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
-    "fuse.js": "^2.2.0",
     "grape-browser": "^3.17.3",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^3.3.1",
