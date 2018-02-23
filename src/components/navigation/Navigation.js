@@ -128,6 +128,7 @@ export default class Navigation extends PureComponent {
 
   onKeyDown = (e) => {
     const keyName = keyname(e.keyCode)
+    const {foundChannels} = this.props
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -143,7 +144,9 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.goToChannel(this.state.focusedChannel)
+        if (foundChannels.length && this.state.filter) {
+          this.goToChannel(this.state.focusedChannel)
+        }
         e.preventDefault()
         break
       default:
