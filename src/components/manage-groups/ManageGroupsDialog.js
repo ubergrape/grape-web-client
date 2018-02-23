@@ -20,7 +20,7 @@ const messages = defineMessages({
     defaultMessage: 'Manage Groups',
     description: 'Manage Groups Dialog: dialog title'
   },
-  linkJoinable: {
+  linkUnjoined: {
     id: 'manageGroupsLinkJoinable',
     defaultMessage: 'Groups you can join',
     description: 'Manage Groups Dialog: show joinable groups link'
@@ -53,7 +53,7 @@ export default class ManageGroupsDialog extends PureComponent {
 
   static defaultProps = {
     groups: [],
-    activeFilter: 'joinable'
+    activeFilter: 'unjoined'
   }
 
   componentDidUpdate(prevProps) {
@@ -142,6 +142,8 @@ export default class ManageGroupsDialog extends PureComponent {
       classes
     } = this.props
 
+    if (!show) return null
+
     return (
       <Dialog
         show={show}
@@ -149,7 +151,7 @@ export default class ManageGroupsDialog extends PureComponent {
         title={this.renderTitle()}
       >
         <TabsNav>
-          {this.renderFilterLink({filter: 'joinable'})}
+          {this.renderFilterLink({filter: 'unjoined'})}
           {this.renderFilterLink({filter: 'joined'})}
         </TabsNav>
         <div className={classes.container}>

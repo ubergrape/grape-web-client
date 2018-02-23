@@ -20,7 +20,8 @@ export default function reducer(state = initialState, action) {
     case types.SELECT_MANAGE_GROUPS_FILTER:
       return {
         ...state,
-        activeFilter: action.payload
+        activeFilter: action.payload,
+        groups: []
       }
     case types.HANDLE_MANAGE_GROUPS_CHANNELS:
       return {
