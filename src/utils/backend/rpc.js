@@ -49,10 +49,12 @@ export default function (data, ...args) {
   }
   if (!options) options = {}
 
-  log('req', data)
+  const fData = toSnake(data)
+
+  log('req', fData)
 
   return new Promise((resolve, reject) => {
-    rpc(toSnake(data), (err, res) => {
+    rpc(fData, (err, res) => {
       // eslint-disable-next-line no-param-reassign
       if (err && !err.message) err.message = 'Unexpected Server Error'
       const fRes = res && options.camelize ? toCamel(res) : res
