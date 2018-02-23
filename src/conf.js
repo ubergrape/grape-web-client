@@ -45,11 +45,27 @@ class Config {
     })
   }
 
-  setup(conf) {
-    merge(this, conf)
+  generateServiceUrl(conf) {
     if (conf.server && conf.server.serviceUrl) {
       Object.assign(this.server, parseServiceUrl(conf.server.serviceUrl))
     }
+  }
+
+  mergeLocalStorageWithConf(conf) {
+    if (localStorage) {
+      merge(this, {
+        channelId: localStorage.channelId ? Number(localStorage.channelId) : conf.channelId,
+        server: {
+          serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : conf.server.serviceUrl
+        }
+      })
+    }
+  }
+
+  setup(conf) {
+    merge(this, conf)
+    this.mergeLocalStorageWithConf(conf)
+    this.generateServiceUrl(conf)
   }
 }
 
