@@ -42,8 +42,8 @@ export const setRoomIcon = (roomId, icon) => rpc({
   args: [roomId, icon]
 })
 
-export const getRooms = (orgId, {roomsState, page, pageSize = 2000} = {}) => rpc({
+export const getRooms = (orgId, {membership, page, pageSize = 2000} = {}) => rpc({
   ns: 'rooms',
   action: 'get_rooms',
-  args: [orgId, {roomsState, page, pageSize}]
+  args: [orgId, {membership, page, pageSize}]
 }, {camelize: true})
