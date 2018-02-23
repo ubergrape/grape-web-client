@@ -6,7 +6,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import injectclasses from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import capitalize from 'lodash/string/capitalize'
 
 import Dialog from '../dialog/Dialog'
@@ -32,7 +32,7 @@ const messages = defineMessages({
   }
 })
 
-@injectclasses(styles)
+@injectSheet(styles)
 @injectIntl
 export default class ManageGroupsDialog extends PureComponent {
   static propTypes = {
