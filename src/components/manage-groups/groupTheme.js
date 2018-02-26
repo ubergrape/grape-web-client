@@ -35,7 +35,7 @@ export const styles = {
   joined: {
     extend: [buttonDanger, btn]
   },
-  joinable: {
+  unjoined: {
     extend: [buttonPrimary, btn]
   }
 }

@@ -20,7 +20,7 @@ export default class Roomname extends PureComponent {
     isPublic: PropTypes.bool,
     showPrivateStatus: PropTypes.bool,
     showRoomInfo: PropTypes.bool,
-    users: PropTypes.array,
+    membersCount: PropTypes.number,
     className: PropTypes.string,
     theme: PropTypes.object
   }
@@ -29,6 +29,7 @@ export default class Roomname extends PureComponent {
     name: '',
     className: undefined,
     creatorUser: undefined,
+    membersCount: undefined,
     icon: undefined,
     color: '#f00',
     statusBorderColor: '#fff',
@@ -37,14 +38,13 @@ export default class Roomname extends PureComponent {
     showPrivateStatus: false,
     showRoomInfo: false,
     isPublic: false,
-    users: [],
     theme: {classes: {}}
   }
 
   render() {
     const {
       name, icon, color: backgroundColor,
-      creatorUser, users, showRoomInfo,
+      creatorUser, membersCount, showRoomInfo,
       statusBorderColor, isPublic, showPrivateStatus,
       classes, className,
       theme
@@ -66,8 +66,8 @@ export default class Roomname extends PureComponent {
           {showRoomInfo && (
             <ul className={classes.info}>
               <li>
-                <span className={classes.usersCountIcon} />
-                {users.length}
+                <span className={classes.membersCountIcon} />
+                {membersCount}
               </li>
               {creatorUser && (
                 <li className={classes.creator}>
