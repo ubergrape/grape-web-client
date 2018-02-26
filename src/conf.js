@@ -1,46 +1,63 @@
-const merge = require('lodash/object/merge')
+import merge from 'lodash/object/merge'
+import parseUrl from 'grape-web/lib/parse-url'
 
-function Config(conf) {
-  this.isLoaded = false
-  this.init()
-  if (conf) this.setup(conf)
+const parseServiceUrl = (url) => {
+  const {protocol, host} = parseUrl(url)
+  return {
+    wsUrl: `${protocol === 'http:' ? 'ws' : 'wss'}://${host}/ws`,
+    host
+  }
 }
 
-/**
- * Setup defaults.
- */
-Config.prototype.init = function () {
-  if (!this.forceLongpolling && localStorage.forceLongpolling) {
-    this.forceLongpolling = true
-  }
-
-  // TODO remove this in #4066
-  this.newHistory = true
-
-  this.constants = {
+class Config {
+  constants = {
     roles: {
       ROLE_USER: 0,
       ROLE_ADMIN: 1,
       ROLE_OWNER: 2
     }
   }
-
-  this.user = {
+  user = {
     languageCode: 'en'
   }
-  this.organization = {}
-  this.server = {
-    loginPath: '/accounts/login',
-    host: localStorage.host || window.location.host,
-    protocol: window.location.protocol
+  organization = {}
+  forceLongpolling = false
+  embed = null
+  channelId = null
+  server = {
+    wsUrl: null,
+    pubsubUrl: null,
+    sentryJsDsn: null,
+    serviceUrl: location.origin,
+    host: null,
+    uploadPath: null,
+    staticPath: null,
+    authToken: null
   }
-  const wsProtocol = this.server.protocol === 'http:' ? 'ws:' : 'wss:'
-  this.server.wsUrl = `${wsProtocol}//${this.server.host}/ws`
+  container = '#grape-client'
+
+  constructor() {
+    this.setup()
+  }
+
+  transform() {
+    Object.assign(this.server, parseServiceUrl(this.server.serviceUrl))
+  }
+
+  mergeFromLocalStorage() {
+    if (localStorage.embed) this.embed = Boolean(localStorage.embed)
+    if (localStorage.channelId) this.channelId = Number(localStorage.channelId)
+    if (localStorage.forceLongpolling) {
+      this.forceLongpolling = Boolean(localStorage.forceLongpolling)
+    }
+    if (localStorage.serviceUrl) this.server.serviceUrl = localStorage.serviceUrl
+  }
+
+  setup(conf) {
+    merge(this, conf)
+    this.mergeFromLocalStorage()
+    this.transform()
+  }
 }
 
-Config.prototype.setup = function (conf) {
-  merge(this, conf)
-  this.isLoaded = true
-}
-
-module.exports = new Config(window.CHATGRAPE_CONFIG)
+export default new Config()

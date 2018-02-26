@@ -2,17 +2,20 @@ import {grayBlue, grayBlueLighter} from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 
 import button from '../../button/default'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 
 export default {
   messageSearch: {
+    display: 'block',
     padding: spacing
   },
   separatorDate: {
     background: grayBlueLighter
   },
   loadMoreContainer: {
-    textAlign: 'center'
+    display: 'block',
+    textAlign: 'center',
+    marginTop: spacing
   },
   channel: {
     extend: small,

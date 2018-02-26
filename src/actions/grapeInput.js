@@ -1,7 +1,7 @@
 import uniq from 'lodash/array/uniq'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {error} from './common'
+import {error} from './'
 
 export function showEmojiBrowser() {
   return (dispatch) => {
@@ -119,6 +119,11 @@ export function requestAutocomplete({search, filters}) {
       searches = [api.autocomplete(orgId, search)]
     }
 
+    dispatch({
+      type: types.REQUEST_AUTOCOMPLETE,
+      payload: {search, filters}
+    })
+
     Promise
       .all(searches)
       .then(res => dispatch({
@@ -126,23 +131,41 @@ export function requestAutocomplete({search, filters}) {
         payload: mergeSearchResults(res)
       }))
       .catch(err => dispatch(error(err)))
-
-    dispatch({
-      type: types.REQUEST_AUTOCOMPLETE,
-      payload: {search, filters}
-    })
   }
+}
+
+export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
+  dispatch({
+    type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION,
+    payload: search
+  })
+  api
+    .searchChannels({
+      orgId: org.id,
+      search,
+      limit
+    })
+    .then(({q, results}) => {
+      dispatch({
+        type: types.HANDLE_CHANNELS_TO_MENTION,
+        payload: {
+          search: q,
+          results
+        }
+      })
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function setTyping({channel, typing}) {
   return (dispatch) => {
-    api
-      .setTyping({channel, typing})
-      .catch(err => dispatch(error(err)))
-
     dispatch({
       type: types.SET_TYPING,
       payload: {channel, typing}
     })
+
+    api
+      .setTyping(channel.id, typing)
+      .catch(err => dispatch(error(err)))
   }
 }

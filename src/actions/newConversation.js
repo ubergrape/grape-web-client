@@ -1,4 +1,8 @@
 import * as types from '../constants/actionTypes'
+import {orgSelector} from '../selectors'
+import * as api from '../utils/backend/api'
+import {error} from './'
+import {normalizeUserData} from './utils'
 
 export function showNewConversation() {
   return {
@@ -26,9 +30,27 @@ export function removeFromNewConversation(user) {
   }
 }
 
-export function filterNewConversation(value) {
-  return {
-    type: types.FILTER_NEW_CONVERSATION,
-    payload: value
-  }
+export const searchUsers = search => (dispatch, getState) => {
+  dispatch({
+    type: types.REQUEST_SEARCH_USERS,
+    payload: search
+  })
+
+  const org = orgSelector(getState())
+
+  api
+    .searchUsers({orgId: org.id, search})
+    .then(({results, q}) => ({
+      search: q,
+      users: results.map(normalizeUserData)
+    }))
+    .then((payload) => {
+      dispatch({
+        type: types.HANDLE_SEARCH_USERS,
+        payload
+      })
+    })
+    .catch((err) => {
+      dispatch(error(err))
+    })
 }

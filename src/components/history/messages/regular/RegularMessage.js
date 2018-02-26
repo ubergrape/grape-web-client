@@ -2,14 +2,16 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import cn from 'classnames'
 
-import {constants} from '../../../../conf'
+import conf from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
-import Grapedown from '../../../grapedown/Grapedown'
+import {Grapedown} from '../../../grapedown'
 import {LinkAttachments} from '../../../message-parts'
 import {defaultAvatar} from '../../../../constants/images'
+import {messageDeliveryStates} from '../../../../constants/app'
 
-import {OwnBubble, MateBubble, SelectedBubble} from './Bubbles'
+import getBubble from './getBubble'
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
 import {styles} from './regularMessageTheme'
@@ -19,7 +21,9 @@ import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
 
-const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.slug))
+const canPm = ({isPm, isOwn, author}) => (isPm ? false : Boolean(!isOwn && author && author.id))
+
+const toggleMenuDropdown = state => ({isMenuDropdownOpened: !state.isMenuDropdownOpened})
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
@@ -34,6 +38,7 @@ export default class RegularMessage extends PureComponent {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
+    isPinned: PropTypes.bool.isRequired,
     /* eslint-disable react/no-unused-prop-types */
     userTime: PropTypes.string.isRequired,
     isPm: PropTypes.bool.isRequired,
@@ -43,8 +48,10 @@ export default class RegularMessage extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     onResend: PropTypes.func.isRequired,
-    onGoToChannel: PropTypes.func.isRequired,
+    onOpenPm: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
+    onPin: PropTypes.func.isRequired,
+    onUnpin: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
     /**
@@ -52,11 +59,11 @@ export default class RegularMessage extends PureComponent {
      * message in the row.
      */
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      slug: PropTypes.string
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
-    state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
+    state: PropTypes.oneOf(messageDeliveryStates),
     nlp: PropTypes.object,
     id: PropTypes.string.isRequired,
     channelId: PropTypes.number.isRequired
@@ -71,6 +78,7 @@ export default class RegularMessage extends PureComponent {
     isOwn: false,
     isSelected: false,
     isPm: false,
+    isPinned: false,
     duplicates: 0,
     attachments: [],
     linkAttachments: [],
@@ -79,20 +87,20 @@ export default class RegularMessage extends PureComponent {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onGoToChannel: noop,
+    onOpenPm: noop,
     onCopyLink: noop,
     onQuote: noop,
     onRemoveLinkAttachment: noop,
     time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
-    state: null,
-    nlp: null
+    state: undefined,
+    nlp: undefined
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {isMenuOpened: false}
+  state = {
+    isMenuOpened: false,
+    isMenuDropdownOpened: false
   }
 
   onMouseEnter = () => {
@@ -100,7 +108,9 @@ export default class RegularMessage extends PureComponent {
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
+    if (!this.state.isMenuDropdownOpened) {
+      this.setState({isMenuOpened: false})
+    }
   }
 
   onRefContent = (ref) => {
@@ -111,14 +121,29 @@ export default class RegularMessage extends PureComponent {
     this.body = ref
   }
 
-  onGoToChannel = () => {
-    const {onGoToChannel, author} = this.props
-    onGoToChannel(author.slug)
+  onOpenPm = () => {
+    const {onOpenPm, author} = this.props
+    onOpenPm(author.id)
   }
 
   onResend = (e) => {
     e.preventDefault()
     this.props.onResend()
+  }
+
+  onPin = () => {
+    const {id, channelId} = this.props
+    this.props.onPin({messageId: id, channelId})
+  }
+
+  onUnpin = () => {
+    const {id, channelId} = this.props
+    this.props.onUnpin({messageId: id, channelId})
+  }
+
+  onToggleMenuDropdown = (isMenuDropdownOpened) => {
+    if (isMenuDropdownOpened != null) this.setState({isMenuDropdownOpened})
+    else this.setState(toggleMenuDropdown)
   }
 
   getContentNode = () => this.content
@@ -145,35 +170,25 @@ export default class RegularMessage extends PureComponent {
   render() {
     const {
       author, user, time, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, attachments, customEmojis, duplicates,
+      state, isOwn, isSelected, isPinned, attachments, customEmojis, duplicates,
       classes, linkAttachments, nlp
     } = this.props
 
-    const {isMenuOpened} = this.state
+    const {isMenuOpened, isMenuDropdownOpened} = this.state
 
-    let Bubble
-    if (isSelected) {
-      Bubble = SelectedBubble
-    } else {
-      Bubble = isOwn ? OwnBubble : MateBubble
-    }
+    const Bubble = getBubble({isSelected, isPinned, isOwn})
 
-    const onGoToChannel = canPm(this.props) ? this.onGoToChannel : undefined
+    const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
 
-    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
-    let onRemoveLinkAttachment = null
+    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
+    let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
-    }
-    const attachmentsProps = {
-      attachments: linkAttachments,
-      onRemove: onRemoveLinkAttachment,
-      isAdmin
     }
 
     return (
       <div className={classes.message}>
-        {author && <Author {...this.props} onClickAuthor={onGoToChannel} />}
+        {author && <Author {...this.props} onClickAuthor={onOpenPm} />}
         <div
           className={classes.row}
           onMouseEnter={this.onMouseEnter}
@@ -183,8 +198,8 @@ export default class RegularMessage extends PureComponent {
             {avatar &&
               <Avatar
                 src={avatar}
-                className={onGoToChannel ? classes.clickable : ''}
-                onClick={onGoToChannel}
+                className={onOpenPm ? classes.clickable : ''}
+                onClick={onOpenPm}
               />
             }
           </div>
@@ -192,10 +207,10 @@ export default class RegularMessage extends PureComponent {
             <Bubble hasArrow={hasBubbleArrow}>
               <div
                 ref={this.onRefContent}
-                className={[
+                className={cn(
                   classes.content,
-                  state === 'pending' || state === 'unsent' ? classes.disabled : ''
-                ].join(' ')}
+                  (state === 'pending' || state === 'unsent') && classes.disabled
+                )}
               >
                 {children && (
                   <Grapedown
@@ -206,18 +221,33 @@ export default class RegularMessage extends PureComponent {
                 )}
                 {attachments.map(this.renderAttachment)}
               </div>
-              {isMenuOpened && <Menu {...this.props} getContentNode={this.getContentNode} />}
+              {isMenuOpened && (
+                <Menu
+                  {...this.props}
+                  onSelect={this.onSelectMenuItem}
+                  hasAttachments={attachments.length !== 0}
+                  isDropdownOpened={isMenuDropdownOpened}
+                  getContentNode={this.getContentNode}
+                  onPin={this.onPin}
+                  onUnpin={this.onUnpin}
+                  onToggleDropdown={this.onToggleMenuDropdown}
+                />
+              )}
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
             { /* We are migrating towards using link attachments only */
               !attachments.length && linkAttachments.length > 0 && (
-                <LinkAttachments {...attachmentsProps} />
+                <LinkAttachments
+                  attachments={linkAttachments}
+                  isAdmin={isAdmin}
+                  onRemove={onRemoveLinkAttachment}
+                />
               )
             }
           </div>
         </div>
-        <DeliveryState state={state} time={time} classes={classes} />
+        <DeliveryState state={state} time={time} />
         {state === 'unsent' && <UnsentWarning classes={classes} onResend={this.onResend} />}
       </div>
     )

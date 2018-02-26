@@ -5,30 +5,37 @@ import link from '../button/link'
 
 export const styles = {
   wrapper: {
+    display: 'block',
     position: 'relative',
     padding: 15,
-    borderTop: `3px solid ${grayBlueLighter}`
+    borderTop: [3, 'solid', grayBlueLighter]
   },
   list: {
-    minHeight: 100,
-    maxHeight: '25vh'
+    display: 'block',
+    height: 150
   },
   orgInvite: {
-    marginTop: 5,
-    textAlign: 'right'
+    display: 'block',
+    textAlign: 'right',
+    marginTop: 5
   },
   orgInviteButton: {
     extend: [link, small]
   },
   user: {
-    padding: '4px 8px',
+    display: 'block',
+    padding: [4, 8],
     borderRadius: 3,
-    cursor: 'pointer'
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer'
+    }
   },
   focusedUser: {
     backgroundColor: grayBlueLighter
   },
   note: {
-    margin: 10
+    composes: '$list',
+    padding: 20
   }
 }

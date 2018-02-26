@@ -3,17 +3,17 @@ import noop from 'lodash/utility/noop'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector, labeledMessagesSelector} from '../selectors'
-import {error} from './common'
 import {normalizeMessage, loadLabelsConfigCached} from './utils'
+import {error} from './'
 
 export const loadLabeledMessages = (options = {}, callback = noop) => (
   (dispatch, getState) => {
     const state = getState()
     const orgId = orgSelector(state).id
-    const {currentChannelOnly, filter} = labeledMessagesSelector(state)
+    const {options: {currentChannelOnly}, filter} = labeledMessagesSelector(state)
     let reqOptions = {...options, labels: filter === 'all' ? null : [filter]}
 
-    if (currentChannelOnly) {
+    if (currentChannelOnly.status) {
       reqOptions = {...reqOptions, channel: channelSelector(state).id}
     }
 
@@ -64,4 +64,3 @@ export const selectLabeledMessagesFilter = ({name}) => (
     })
   }
 )
-

@@ -1,13 +1,8 @@
-let context = require.context('./src', true, /tests/)
+const BluebirdPromise = require('bluebird')
 
-window.CHATGRAPE_CONFIG = {
-  staticPath: 'http://example/',
-  constants: {
-    roles: {
-      ROLE_USER: 0,
-      ROLE_ADMIN: 1,
-      ROLE_OWNER: 2
-    }
-  }
-}
+// For tests we need a synchronouse promises resolution.
+BluebirdPromise.setScheduler(fn => fn())
+window.Promise = BluebirdPromise
+
+let context = require.context('./src', true, /tests/)
 context.keys().forEach(context)

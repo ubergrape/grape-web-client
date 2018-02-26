@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 import cn from 'classnames'
 
 

@@ -4,10 +4,10 @@ import injectSheet from 'grape-web/lib/jss'
 import {intlShape, FormattedMessage} from 'react-intl'
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 import moment from 'moment'
-import Button from 'material-ui/Button'
+import Button from 'grape-web/lib/components/button'
 
 import DateSeparator from '../../message-parts/DateSeparator'
-import {spacing} from '../sidebar-panel/theme'
+import {spacing} from '../constants'
 import Message from './Message'
 
 const messagePropType = PropTypes.shape({

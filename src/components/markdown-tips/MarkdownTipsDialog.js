@@ -6,10 +6,10 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import {borderDefault} from 'grape-theme/dist/web-colors'
 
 import Dialog from '../dialog/Dialog'
 import MarkdownTips from './MarkdownTips'
-import {styles} from './markdownTipsDialogTheme'
 
 const messages = defineMessages({
   title: {
@@ -18,7 +18,19 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
+@injectSheet({
+  root: {
+    display: 'block',
+    padding: 20,
+    borderTop: {
+      width: 3,
+      style: 'solid',
+      color: borderDefault
+    },
+    maxHeight: '80vh',
+    overflowY: 'auto'
+  }
+})
 @injectIntl
 export default class MarkdownTipsDialog extends PureComponent {
   static propTypes = {
@@ -42,7 +54,7 @@ export default class MarkdownTipsDialog extends PureComponent {
         onHide={onHide}
         title={formatMessage(messages.title)}
       >
-        <div className={classes.wrapper}>
+        <div className={classes.root}>
           <MarkdownTips />
         </div>
       </Dialog>

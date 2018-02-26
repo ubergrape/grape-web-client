@@ -4,8 +4,7 @@ import {normal} from 'grape-theme/dist/fonts'
 export const styles = {
   container: {
     display: 'inline-flex',
-    alignItems: 'center',
-    color: grayBombay
+    alignItems: 'center'
   },
   link: {
     color: grayBombay,
@@ -21,6 +20,7 @@ export const styles = {
   },
   text: {
     lineHeight: 'normal',
-    marginTop: 2
+    marginTop: 2,
+    color: grayBombay
   }
 }

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
@@ -19,12 +20,16 @@ export default class Roomname extends PureComponent {
     isPublic: PropTypes.bool,
     showPrivateStatus: PropTypes.bool,
     showRoomInfo: PropTypes.bool,
-    users: PropTypes.array
+    membersCount: PropTypes.number,
+    className: PropTypes.string,
+    theme: PropTypes.object
   }
 
   static defaultProps = {
     name: '',
-    creatorUser: null,
+    className: undefined,
+    creatorUser: undefined,
+    membersCount: undefined,
     icon: undefined,
     color: '#f00',
     statusBorderColor: '#fff',
@@ -33,19 +38,20 @@ export default class Roomname extends PureComponent {
     showPrivateStatus: false,
     showRoomInfo: false,
     isPublic: false,
-    users: []
+    theme: {classes: {}}
   }
 
   render() {
     const {
       name, icon, color: backgroundColor,
-      creatorUser, users, showRoomInfo,
+      creatorUser, membersCount, showRoomInfo,
       statusBorderColor, isPublic, showPrivateStatus,
-      classes
+      classes, className,
+      theme
     } = this.props
 
     return (
-      <div className={classes.avatarName}>
+      <div className={cn(classes.avatarName, theme.classes.avatarName, className)}>
         <Icon
           name={icon}
           theme={{
@@ -55,13 +61,13 @@ export default class Roomname extends PureComponent {
           showPrivateStatus={showPrivateStatus}
           isPrivate={!isPublic}
         />
-        <div className={classes.name}>
+        <div className={cn(classes.name, theme.classes.name)}>
           {name}
           {showRoomInfo && (
             <ul className={classes.info}>
               <li>
-                <span className={classes.usersCountIcon} />
-                {users.length}
+                <span className={classes.membersCountIcon} />
+                {membersCount}
               </li>
               {creatorUser && (
                 <li className={classes.creator}>

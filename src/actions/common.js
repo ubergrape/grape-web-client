@@ -1,37 +1,52 @@
-import page from 'page'
-import parseUrl from 'grape-web/lib/parse-url'
 import omit from 'lodash/object/omit'
+import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
+  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
+  pmsSelector
+} from '../selectors'
+import * as api from '../utils/backend/api'
+import * as alerts from '../constants/alerts'
+import {
   normalizeChannelData,
   normalizeUserData,
   removeBrokenPms,
-  roomNameFromUsers
+  findLastUsedChannel
 } from './utils'
-import reduxEmitter from '../legacy/redux-emitter'
-import * as api from '../utils/backend/api'
-import {type as connection} from '../utils/backend/client'
-import {channelSelector, userSelector} from '../selectors'
+import {
+  ensureBrowserNotificationPermission,
+  showToastNotification,
+  showIntro,
+  showAlert,
+  goToLastUsedChannel,
+  handleChangeRoute
+} from './'
 
 export function error(err) {
-  console.error(err.stack) // eslint-disable-line no-console
-  reduxEmitter.showError(err)
-  // This action don't have reducer yet
-  return {
-    type: types.HANDLE_ERROR,
-    payload: error
+  return (dispatch) => {
+    dispatch({
+      type: types.HANDLE_ERROR,
+      payload: error
+    })
+    dispatch(showToastNotification(err.message))
+    // eslint-disable-next-line no-console
+    console.error(err.stack)
   }
 }
 
-export function setChannels(channels) {
-  return {
+export const setChannels = channels => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  const payload = channels
+    .filter(removeBrokenPms)
+    .map(channel => normalizeChannelData(channel, user.id))
+
+  dispatch({
     type: types.SET_CHANNELS,
-    payload: channels
-      .filter(removeBrokenPms)
-      .map(normalizeChannelData)
-  }
+    payload
+  })
 }
 
 export function setUsers(users) {
@@ -39,6 +54,13 @@ export function setUsers(users) {
     type: types.SET_USERS,
     payload: users.map(normalizeUserData)
   }
+}
+
+export const addUser = user => (dispatch) => {
+  dispatch({
+    type: types.ADD_USER_TO_ORG,
+    payload: normalizeUserData(user)
+  })
 }
 
 export function setOrg(org) {
@@ -60,271 +82,117 @@ export function trackAnalytics(name, options) {
   }
 }
 
-export function showTutorial(options) {
-  return (dispatch) => {
-    dispatch({type: types.SHOW_TUTORIAL})
-    // FIXME: this should be deleted when Intro.js would be refactored
-    // https://github.com/ubergrape/chatgrape/issues/4056
-    reduxEmitter.showIntro(options)
-    dispatch(trackAnalytics('Started Tutorial', options))
-  }
-}
+export const handleUserProfile = profile => (dispatch) => {
+  const {settings, organizations, ...user} = profile
 
-export function setInitialData(org) {
-  return (dispatch) => {
-    dispatch(setUsers([...org.users]))
-    dispatch(setChannels([...org.channels]))
-
-    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
-    dispatch(setOrg(cleanOrg))
-    setTimeout(() => {
-      dispatch(showTutorial({via: 'onboarding'}))
-    }, 1000)
-    dispatch({type: types.HANDLE_INITIAL_DATA})
-  }
-}
-
-export function createChannel(channel) {
-  return {
-    type: types.CREATE_NEW_CHANNEL,
-    payload: {
-      ...normalizeChannelData(channel),
-      unread: channel.unread || 0
-    }
-  }
-}
-
-export function setUser(user) {
-  return {
+  dispatch({
     type: types.SET_USER,
-    payload: user
+    payload: normalizeUserData(user, organizations)
+  })
+
+  dispatch({
+    type: types.SET_SETTINGS,
+    payload: settings
+  })
+
+  dispatch({
+    type: types.SET_ORGANIZATIONS,
+    payload: organizations
+  })
+
+  if (settings.showIntro) {
+    dispatch(showIntro({via: 'onboarding'}))
   }
 }
 
-export function setChannel(channel, messageId) {
-  return {
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const channel = find(channels, {id: channelId})
+
+  if (!channel) return
+
+  dispatch({
     type: types.SET_CHANNEL,
     payload: {
       channel: normalizeChannelData(channel),
       messageId
     }
-  }
+  })
 }
 
-export function setSettings(settings) {
-  return {
-    type: types.SET_SETTINGS,
-    payload: {
-      settings
-    }
-  }
-}
-
-export function setSidebarIsLoading(isLoading) {
-  return {
-    type: types.SET_SIDEBAR_IS_LOADING,
-    payload: {
-      isLoading
-    }
-  }
-}
-
-export function goToMessage(message) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_MESSAGE,
-      payload: message
-    })
-    page(parseUrl(message.link).pathname)
-  }
-}
-
-// TODO use goTo action creator
-export function goToPayment() {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_PAYMENT
-    })
-    location.pathname = '/payment'
-  }
-}
-
-export function leaveChannel(channelId) {
-  reduxEmitter.leaveChannel(channelId)
-  return {
-    type: types.LEAVE_CHANNEL
-  }
-}
-
-export function goToChannel(slug) {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: slug
-    })
-    page(`/chat/${slug}`)
-  }
-}
-
-export function kickMemberFromChannel(params) {
-  reduxEmitter.kickMemberFromChannel(params)
-  return {
-    type: types.KICK_MEMBER_FROM_CHANNEL
-  }
-}
-
-export function enableNotifications() {
-  reduxEmitter.enableNotifications()
-  // This action don't have reducer yet
-  return {
-    type: types.ENABLE_NOTIFICATIONS
-  }
+export const handleBadChannel = alertType => (dispatch) => {
+  dispatch(goToLastUsedChannel())
+  dispatch(showAlert({
+    level: 'warning',
+    type: alertType || alerts.CHANNEL_NOT_FOUND,
+    closeAfter: 6000,
+    isClosable: true
+  }))
 }
 
 export function handleNotification(notification) {
-  return {
-    type: types.HANDLE_NOTIFICATION,
-    payload: notification
-  }
-}
-
-export function invitedToChannel(emailAddresses, channelId) {
-  return {
-    type: types.INVITED_TO_CHANNEL,
-    payload: {
-      emailAddresses,
-      channelId
-    }
-  }
-}
-
-// This action isn't used yet, remove this comment after first use
-/**
- * Run api request to join channel
- * response is handled at app/subscribe.js with action handleJoinedChannel
- */
-export function joinChannel(options = {}) {
   return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-
-    return api
-      .joinChannel(id)
-      .catch(err => dispatch(error(err)))
-  }
-}
-
-export function inviteToChannel(emailAddresses, options = {}) {
-  return (dispatch, getState) => {
-    const id = options.id || channelSelector(getState()).id
-    return api
-      .inviteToChannel(emailAddresses, id)
-      .then(() => dispatch(invitedToChannel(emailAddresses, id)))
-      .catch(err => dispatch(error(err)))
-  }
-}
-
-// TODO use goTo action creator
-function handleAuthError(err) {
-  return (dispatch) => {
+    const state = getState()
+    const channels = channelsSelector(state)
+    const users = usersSelector(state)
     dispatch({
-      type: types.AUTH_ERROR,
-      payload: err
+      type: types.HANDLE_NOTIFICATION,
+      payload: {
+        ...notification,
+        channel: find(channels, {id: notification.channelId}),
+        inviter: find(users, {id: notification.inviterId})
+      }
     })
-    location.href = conf.server.loginPath
   }
 }
 
-export function handleConnectionError(err) {
-  return (dispatch) => {
-    dispatch({
-      type: types.CONNECTION_ERROR,
-      payload: err
-    })
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch({
+    type: types.SET_INITIAL_DATA_LOADING,
+    payload: true
+  })
+  dispatch({type: types.REQUEST_ORG_DATA})
+  dispatch({type: types.REQUEST_USER_PROFILE})
+  dispatch({type: types.REQUEST_USERS})
+  dispatch({type: types.REQUEST_JOIN_ORG})
 
-    if (connection === 'ws') {
-      api
-        .checkAuth()
-        .catch((authErr) => {
-          if (authErr.status === 401) {
-            dispatch(handleAuthError(authErr))
-          }
-        })
+  Promise.all([
+    api.getOrg(conf.organization.id),
+    api.getUsers({orgId: conf.organization.id}),
+    api.getUserProfile(conf.organization.id),
+    api.joinOrg(conf.organization.id, clientId)
+  ]).then(([org, users, profile]) => {
+    dispatch(setUsers(users))
+    dispatch(handleUserProfile(profile))
+    dispatch(setChannels(org.channels))
+    dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
+    dispatch(ensureBrowserNotificationPermission())
+
+    if (!joinedRoomsSelector(getState()).length && !pmsSelector(getState()).length) {
+      dispatch(error(
+        new Error('This account has neither joined rooms nor pm channels. This state is currently not supported.')
+      ))
       return
     }
 
-    if (err.status === 401) {
-      dispatch(handleAuthError(err))
+    // In embedded chat conf.channelId is defined.
+    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+
+    dispatch(setChannel(channelId))
+
+    dispatch({
+      type: types.SET_INITIAL_DATA_LOADING,
+      payload: false
+    })
+
+    // On initial load route has changed, but data was not loaded,
+    // so we need to trigger it here again.
+    const {route} = appSelector(getState())
+    if (route) {
+      dispatch(handleChangeRoute(route))
     }
-  }
-}
-
-// TODO use goTo action creator
-export function goToAddIntegrations() {
-  return (dispatch) => {
-    dispatch({
-      type: types.GO_TO_ADD_INTEGRATIONS
-    })
-    location.pathname = '/integrations'
-  }
-}
-
-export function requestRoomCreate() {
-  return {
-    type: types.REQUEST_ROOM_CREATE
-  }
-}
-
-export function handleRoomCreateError(message) {
-  return {
-    type: types.HANDLE_ROOM_CREATE_ERROR,
-    payload: message
-  }
-}
-
-export function clearRoomCreateError() {
-  return {
-    type: types.CLEAR_ROOM_CREATE_ERROR
-  }
-}
-
-export function createRoomWithUsers(room, users) {
-  return (dispatch, getState) => {
-    dispatch(requestRoomCreate())
-
-    const user = userSelector(getState())
-    const emailAddresses = users.map(({email}) => email)
-    let newRoom
-
-    return api
-      .createRoom({
-        ...room,
-        name: room.name || roomNameFromUsers([user, ...users])
-      })
-      .then((_newRoom) => {
-        newRoom = _newRoom
-        return api.joinChannel(newRoom.id)
-      })
-      .then(() => (newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null))
-      .then(() => {
-        if (newRoom) {
-          page(`/chat/${newRoom.slug}`)
-          dispatch(invitedToChannel(emailAddresses, newRoom.id))
-        }
-      })
-      .catch((err) => {
-        dispatch(handleRoomCreateError(err.message))
-      })
-  }
-}
-
-export function goTo(options) {
-  const {path, url, target} = options
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_LOCATION,
-      payload: options
-    })
-    if (path) location.pathname = path
-    if (url) window.open(url, target)
-  }
+  })
+  .catch((err) => {
+    dispatch(error(err))
+  })
 }

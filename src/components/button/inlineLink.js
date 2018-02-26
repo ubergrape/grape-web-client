@@ -2,6 +2,10 @@ import link from './link'
 
 export default {
   ...link,
+  display: 'inline',
   fontSize: 'inherit',
-  color: 'inherit'
+  '&:hover': {
+    ...link['&:hover'],
+    textDecoration: 'underline'
+  }
 }

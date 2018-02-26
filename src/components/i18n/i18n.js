@@ -47,23 +47,21 @@ export function ShowLess() {
   )
 }
 
-export function Contacts() {
-  return (
-    <FormattedMessage
-      id="contacts"
-      defaultMessage="Contacts"
-    />
-  )
-}
+export const Contacts = props => (
+  <FormattedMessage
+    {...props}
+    id="contacts"
+    defaultMessage="Contacts"
+  />
+)
 
-export function Groups() {
-  return (
-    <FormattedMessage
-      id="groups"
-      defaultMessage="Groups"
-    />
-  )
-}
+export const Groups = props => (
+  <FormattedMessage
+    {...props}
+    id="groups"
+    defaultMessage="Groups"
+  />
+)
 
 export function Description() {
   return (
@@ -111,3 +109,45 @@ export const InviteSuccess = ({invited}) => (
 InviteSuccess.propTypes = {
   invited: PropTypes.arrayOf(PropTypes.string)
 }
+
+export const SharedFiles = () => (
+  <FormattedMessage
+    id="sharedFiles"
+    defaultMessage="Shared Files"
+  />
+)
+
+export const PinnedMessages = () => (
+  <FormattedMessage
+    id="pinnedMesages"
+    defaultMessage="Pinned Messages"
+  />
+)
+
+export const GroupInfo = () => (
+  <FormattedMessage
+    id="groupInfo"
+    defaultMessage="Group Info"
+  />
+)
+
+export const UserProfile = () => (
+  <FormattedMessage
+    id="userProfile"
+    defaultMessage="User Profile"
+  />
+)
+
+export const Loading = () => (
+  <FormattedMessage
+    id="loading"
+    defaultMessage="Loading..."
+  />
+)
+
+export const Communication = () => (
+  <FormattedMessage
+    id="communication"
+    defaultMessage="Communicating with Grape universe, this may take a moment"
+  />
+)

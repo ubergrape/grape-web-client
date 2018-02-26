@@ -1,12 +1,19 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import cn from 'classnames'
 
-import {styles} from './headerTheme'
 import Author from './Author'
 import Time from './Time'
 
-@injectSheet(styles)
+@injectSheet({
+  header: {
+    display: 'flex',
+    overflow: 'hidden',
+    width: '100%',
+    alignItems: 'baseline'
+  }
+})
 export default class Header extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -40,7 +47,7 @@ export default class Header extends PureComponent {
     } = this.props
     const {classes} = sheet
     return (
-      <header className={`${classes.header} ${theme.classes.header} ${className}`}>
+      <header className={cn(classes.header, theme.classes.header, className)}>
         <Author
           onClick={onClickAuthor}
           author={author}

@@ -7,11 +7,12 @@ import {manageGroupsSelector as selector} from '../../selectors'
 import {ManageGroupsDialog} from '../../components/manage-groups'
 
 const actionNames = {
-  goToChannel: 'onJoin',
+  joinChannel: 'onJoin',
   leaveChannel: 'onLeave',
-  setManageGroupsFilter: 'onSelectFilter',
+  selectManageGroupsFilter: 'onSelectFilter',
   hideManageGroups: 'onHide',
-  showNewConversation: 'createNewGroup'
+  showNewConversation: 'createNewGroup',
+  loadManageGroupsChannels: 'onLoad'
 }
 
 const ConnectedManageGroupsDialog = connect(

@@ -6,48 +6,63 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import {organization, user, server} from '../conf'
-import {create as createClient} from '../utils/backend/client'
+import conf from '../conf'
 import subscribe from './subscribe'
-import App from './App'
+import * as client from './client'
+import AppFull from './AppFull'
+import AppEmbedded from './AppEmbedded'
 
-const {languageCode: locale, email, username, id: userId} = user
+let sheetsInsertionPoint
+let renderContainer
+let isSuspended = true
+
+export const resume = () => {
+  if (!isSuspended) return null
+  isSuspended = false
+  return client.connect()
+}
+
+export const suspend = () => {
+  if (isSuspended) return
+  isSuspended = true
+  client.suspend()
+}
 
 export function init() {
-  addLocaleData([...en, ...de])
-  moment.locale(locale)
-
-  Raven.config(server.sentryJsDsn).install()
-  Raven.setUser({
-    email,
-    id: userId,
-    username,
-    organization: organization.subdomain,
-    organizationID: organization.id
+  Raven.config(conf.server.sentryJsDsn).install()
+  Raven.setUserContext({
+    email: conf.user.email,
+    id: conf.user.id,
+    username: conf.user.username,
+    organization: conf.organization.subdomain,
+    organizationID: conf.organization.id
   })
-  subscribe(createClient().connect())
+  Raven.context(() => {
+    addLocaleData([...en, ...de])
+    moment.locale(conf.user.languageCode)
+    subscribe(resume())
+  })
 }
 
 export function renderSheetsInsertionPoints() {
-  document.head.appendChild(document.createComment('jss-theme-reactor'))
-  document.head.appendChild(document.createComment('grape-jss'))
-}
-
-function internalRender() {
-  const container = document.createElement('div')
-  container.className = 'grape-web-client'
-  document.body.appendChild(container)
-  ReactDom.render(<App />, container)
+  sheetsInsertionPoint = document.createComment('grape-jss')
+  document.head.appendChild(sheetsInsertionPoint)
 }
 
 export function render() {
+  const renderApp = () => {
+    const App = conf.embed ? AppEmbedded : AppFull
+    renderContainer = document.querySelector(conf.container)
+    ReactDom.render(React.createElement(App), renderContainer)
+  }
+
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {
     const before = performance.now()
-    internalRender()
+    renderApp()
     const diff = performance.now() - before
     // eslint-disable-next-line no-console
     console.log(`Initial render took ${diff}ms`)
   } else {
-    internalRender()
+    renderApp()
   }
 }

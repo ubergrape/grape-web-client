@@ -8,9 +8,11 @@ import Navigation from '../../components/navigation/Navigation'
 
 const actionNames = [
   'showNewConversation',
-  'showManageContacts',
   'showManageGroups',
-  'goToChannel'
+  'goToChannel',
+  'openPm',
+  'joinChannel',
+  'searchChannelsForNavigation'
 ]
 
 const ConnectedNavigation = connect(

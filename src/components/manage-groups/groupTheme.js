@@ -16,17 +16,26 @@ export const styles = {
     display: 'flex',
     padding: [10, horizontalSpacing],
     '&:hover, &:focus': {
+      isolate: false,
       backgroundColor: link,
-      color: white
+      '& $name': {
+        isolate: false,
+        color: white
+      },
+      '&, & *': {
+        isolate: false,
+        cursor: 'pointer'
+      }
     }
   },
+  name: {},
   group: {
     flex: 1
   },
   joined: {
     extend: [buttonDanger, btn]
   },
-  joinable: {
+  unjoined: {
     extend: [buttonPrimary, btn]
   }
 }

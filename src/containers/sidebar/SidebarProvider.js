@@ -8,13 +8,17 @@ import {Sidebar} from '../../components/sidebar'
 
 const actionNames = [
   'hideSidebar',
+  'showSidebarSubview',
   'leaveChannel',
   'goToChannel',
+  'openPm',
   'kickMemberFromChannel',
   'showChannelMembersInvite',
   'loadSharedFiles',
+  'loadPinnedMessages',
   'loadMentions',
   'loadRoomInfo',
+  'loadChannelMembers',
   'loadLabeledMessages',
   'selectLabeledMessagesFilter',
   'goToMessage',
@@ -30,7 +34,9 @@ const actionNames = [
   'clearRoomRenameError',
   'showRoomDeleteDialog',
   'goToAddIntegrations',
-  'showNotificationSettings'
+  'showNotificationSettings',
+  'openSharedFile',
+  'unpinMessage'
 ]
 
 const ConnectedSidebar = connect(

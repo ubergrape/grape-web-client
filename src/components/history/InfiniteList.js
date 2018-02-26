@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
+import List from 'react-virtualized/dist/es/List'
+import AutoSizer from 'react-virtualized/dist/es/AutoSizer'
+import CellMeasurer from 'react-virtualized/dist/es/CellMeasurer'
 import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
@@ -10,9 +12,19 @@ import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
 
 import {lastRowBottomSpace} from './rowTheme'
-import {styles} from './infiniteListTheme'
 
-@injectSheet(styles)
+@injectSheet({
+  grid: {
+    position: 'relative',
+    // Without this property, Chrome repaints the entire Grid any time a new row or column is added.
+    // Firefox only repaints the new row or column (regardless of this property).
+    // Safari and IE don't support the property at all.
+    willChange: 'transform',
+    overflowY: 'auto',
+    outline: 'none',
+    WebkitOverflowScrolling: 'touch'
+  }
+})
 export default class InfiniteList extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,

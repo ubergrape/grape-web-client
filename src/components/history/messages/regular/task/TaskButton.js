@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'grape-web/lib/components/icon-button'
 import color from 'color'
 import {grayLight, white} from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'

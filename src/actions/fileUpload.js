@@ -3,11 +3,11 @@ import random from 'lodash/number/random'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector, channelSelector, toastNotificationSelector} from '../selectors'
-import {createMessage} from './history'
 import {
   showToastNotification,
-  updateToastNotification
-} from './toastNotification'
+  updateToastNotification,
+  createMessage
+} from './'
 
 function uploadFile(file) {
   return (dispatch, getState) => {
@@ -21,8 +21,16 @@ function uploadFile(file) {
       payload: {id, name: file.name}
     })
 
-    api
-      .uploadFile(org.id, file)
+    const onError = (err) => {
+      dispatch({
+        type: types.HANDLE_FILE_UPLOAD_ERROR,
+        payload: {id, err}
+      })
+    }
+
+    const upload = api.uploadFile(org.id, file)
+
+    upload
       .on('progress', (e) => {
         // It is undefined at the end.
         if (e.percent === undefined) return
@@ -32,19 +40,19 @@ function uploadFile(file) {
           payload: {id, progress: e.percent}
         })
       })
-      .on('error', (err) => {
-        dispatch({
-          type: types.HANDLE_FILE_UPLOAD_ERROR,
-          payload: {id, err}
-        })
-      })
+      .on('error', onError)
       .on('response', (res) => {
-        if (res.error) return
-        const message = createMessage({
+        if (res.error || !res.body) {
+          dispatch({
+            type: types.HANDLE_FILE_UPLOAD_ERROR,
+            payload: {id, err: res.error || new Error('Bad response.')}
+          })
+          return
+        }
+        dispatch(createMessage({
           channelId: channel.id,
           attachments: [res.body]
-        })
-        dispatch(message)
+        }))
       })
       .on('end', () => {
         dispatch({
@@ -52,12 +60,18 @@ function uploadFile(file) {
           payload: {id}
         })
       })
-      .end()
+
+    upload.end()
+
+    // Should be in the lib itself.
+    upload.xhr.addEventListener('error', () => {
+      onError(new Error('An unknown error happened.'))
+    })
   }
 }
 
 export function uploadFiles({files}) {
-  return dispatch => {
+  return (dispatch) => {
     files.forEach((file) => {
       dispatch(uploadFile(file))
     })
@@ -71,7 +85,8 @@ function showOrUpdateNotification(message, options) {
     const {notifications} = toastNotificationSelector(getState())
     const notification = find(notifications, {key})
     if (notification) {
-      return dispatch(updateToastNotification(key, message, options))
+      dispatch(updateToastNotification(key, message, options))
+      return
     }
     dispatch(showToastNotification(message, {
       ...options,
@@ -86,7 +101,8 @@ export function rejectFiles({files}) {
     type: types.HANDLE_REJECTED_FILES,
     payload: files.map(file => ({
       id: random(1e5),
-      name: file.name
+      name: file.name || 'Noname',
+      error: 'Rejected'
     }))
   }
 }
@@ -98,8 +114,17 @@ export function showUploadNotification({message, ...options}) {
 }
 
 export function hideUploadNotification() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(showOrUpdateNotification(null, {dismissAfter: 3000}))
     dispatch({type: types.HANDLE_UPLOAD_COMPLETE})
+  }
+}
+
+export function setOpenFileDialogHandler(fn) {
+  return (dispatch) => {
+    dispatch({
+      type: types.SET_OPEN_FILE_DIALOG_HANDLER,
+      payload: fn
+    })
   }
 }

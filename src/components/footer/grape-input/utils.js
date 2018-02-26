@@ -1,6 +1,4 @@
 import startsWith from 'lodash/string/startsWith'
-import includes from 'lodash/collection/includes'
-import find from 'lodash/collection/find'
 import get from 'lodash/object/get'
 import {defineMessages} from 'react-intl'
 
@@ -36,61 +34,60 @@ export function getEmojiSearchData(emoji, search) {
   }))
 }
 
-export function getUserSearchData(users, channelUsers, search) {
-  const result = users.map((user) => {
-    let name
 
-    if (user.displayName) {
-      name = user.displayName
-    } else if (user.firstName) {
-      name = user.firstName
-      if (user.lastName) name += ` ${user.lastName}`
-    } else {
-      name = user.username
-    }
-
-    return {
-      id: user.id,
+export function searchChannelsToMention(mentions, channel) {
+  const result = mentions
+    .map(({
+      id,
       name,
-      username: user.username,
-      iconURL: user.avatar,
-      inRoom: includes(channelUsers, user),
-      rank: getRank('user', search, name, user.username),
-      type: 'user'
-    }
-  })
+      displayName,
+      username,
+      type,
+      user,
+      avatar,
+      isPrivate,
+      slug
+    }, i) => {
+      if (type === 'user') {
+        return {
+          id,
+          name: displayName,
+          username,
+          iconURL: avatar,
+          inRoom: channel.users.some(mention => mention.username === username),
+          rank: mentions.length - (i + 1),
+          type: 'user'
+        }
+      }
 
-  // Do the search.
-  return result.filter(user =>
-    user.name.toLowerCase().indexOf(search) >= 0 ||
-    user.username.toLowerCase().indexOf(search) >= 0)
-}
-
-
-export function getRoomsSearchData(rooms, channel, search) {
-  const result = rooms.map(({id, name, slug, isPublic}) => ({
-    id,
-    type: 'room',
-    name,
-    slug,
-    isPrivate: !isPublic,
-    rank: getRank('room', search, name),
-    currentRoom: id === channel.id
-  }))
+      return ({
+        id,
+        type: 'room',
+        name,
+        slug,
+        isPrivate,
+        rank: mentions.length - (i + 1),
+        currentRoom: id === channel.id
+      })
+    })
 
   // Add current room as `@room` if its not a pm channel.
   if (channel.type === 'room') {
     const current = {
-      ...find(result, 'currentRoom'),
+      id: channel.id,
+      type: 'room',
       name: 'room',
-      rank: 3
+      slug: channel.slug,
+      isPrivate: !channel.isPublic,
+      rank: 11,
+      currentRoom: true
     }
     result.push(current)
   }
 
-  // Do the search.
-  return result.filter(room => room.name.toLowerCase().indexOf(search) >= 0)
+  return result
 }
+
 
 function isImage(mime) {
   return String(mime).substr(0, 5) === 'image'
@@ -132,7 +129,7 @@ export const formatQuote = ({intl: {formatMessage}, message: {text, author, link
 
   const footer = formatMessage(messages.quoteFooter, {
     messageUrl: link,
-    author: author.slug ? `[${author.name}](/chat/${author.slug})` : author.name
+    author: author.name
   })
 
   return `\n\n${quote}\n\n${footer}`

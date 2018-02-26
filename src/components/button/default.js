@@ -4,11 +4,13 @@ import sizes from 'grape-theme/dist/sizes'
 
 export default {
   ...fonts.normal,
+  outline: 'none',
   background: white,
   color: gray,
   border: [1, 'solid', grayBombay],
   borderRadius: sizes.borderRadius.big,
   padding: [4, 14],
+  cursor: 'pointer',
   transition: [
     ['background 0.3s'],
     ['border-color 0.3s'],

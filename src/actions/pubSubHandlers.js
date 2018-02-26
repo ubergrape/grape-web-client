@@ -1,19 +1,7 @@
-import page from 'page'
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
-import {defaultAvatar, invitedAvatar} from '../constants/images'
-import {
-  normalizeMessage,
-  countMentions,
-  pinToFavorite,
-  nullChannelIconToUndefined
-} from './utils'
-import {addSharedFiles, removeSharedFiles} from './sharedFiles'
-import {addMention, removeMention} from './mentions'
-import {createChannel} from './common'
-
 import {
   orgSelector,
   usersSelector,
@@ -21,6 +9,20 @@ import {
   channelSelector,
   joinedRoomsSelector
 } from '../selectors'
+import {
+  normalizeMessage,
+  countMentions,
+  pinToFavorite
+} from './utils'
+import {
+  goTo,
+  addChannel,
+  addSharedFiles,
+  removeSharedFiles,
+  addMention,
+  removeMention,
+  addUser
+} from './'
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
@@ -95,26 +97,11 @@ export function handleReadChannel({user: userId, channel: channelId}) {
 
 export function handleJoinOrg({user, organization: orgId}) {
   return (dispatch, getState) => {
-    const state = getState()
-    const users = usersSelector(state)
-    const org = orgSelector(state)
+    const org = orgSelector(getState())
 
-    const userInUsers = find(users, ({id}) => id === user.id)
-    if (userInUsers || org.id !== orgId) return
+    if (org.id !== orgId) return
 
-    const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
-
-    dispatch({
-      type: types.ADD_USER_TO_ORG,
-      payload: {
-        ...user,
-        avatar,
-        slug: `@${user.username}`,
-        pm: null,
-        active: true,
-        status: 0
-      }
-    })
+    dispatch(addUser(user))
   }
 }
 
@@ -156,12 +143,12 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) location.pathname = '/'
+    if (userId === user.id) dispatch(goTo({path: '/'}))
   }
 }
 
 export function handleNewChannel({channel}) {
-  return createChannel(channel)
+  return addChannel(channel)
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
@@ -198,15 +185,15 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) page('/chat/')
+    if (!rooms.length) dispatch(goTo({path: '/chat'}))
   }
 }
 
 export function handleUpateChannel({channel}) {
-  const updatable = ['id', 'type', 'name', 'slug', 'description', 'isPublic', 'color', 'icon']
+  const updatable = ['id', 'type', 'name', 'description', 'isPublic', 'color', 'icon', 'slug']
   return {
     type: types.UPDATE_CHANNEL,
-    payload: nullChannelIconToUndefined(pick(channel, updatable))
+    payload: pick(channel, updatable)
   }
 }
 
@@ -217,7 +204,7 @@ export function handleRemoveRoom({channel: id}) {
       type: types.REMOVE_ROOM,
       payload: id
     })
-    if (id === currentId) page('/chat/')
+    if (id === currentId) dispatch(goTo({path: '/chat'}))
   }
 }
 

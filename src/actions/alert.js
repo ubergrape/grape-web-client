@@ -5,7 +5,11 @@ import {alertsSelector} from '../selectors'
 
 const delayedTimeoutIds = {}
 
-export function showAlert({level, type, closeAfter, minLifeTime = 1000, delay}) {
+export function showAlert(options) {
+  const {
+    level, type, closeAfter, minLifeTime = 1000, delay, isClosable
+  } = options
+
   const action = {
     type: types.SHOW_ALERT,
     payload: {
@@ -13,7 +17,8 @@ export function showAlert({level, type, closeAfter, minLifeTime = 1000, delay}) 
       type,
       timestamp: Date.now(),
       closeAfter,
-      minLifeTime
+      minLifeTime,
+      isClosable
     }
   }
 

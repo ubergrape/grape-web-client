@@ -1,11 +1,9 @@
-import 'es6-promise'
 import {render} from 'react-dom'
 import {createElement} from 'react'
-import History from '../History'
 import random from 'lodash/number/random'
 import moment from 'moment-timezone'
 
-import 'image-zoom/dist/imagezoom.css'
+import History from '../History'
 
 const log = console.log.bind(console) // eslint-disable-line no-console
 
@@ -30,16 +28,16 @@ const textParts = [
   '<button>Button</button>'
 ]
 const createMessage = (i, options = {}) => {
-  const time = options.time || new Date(now + i * 1000 * 60 * 60)
+  const time = options.time || new Date(now + (i * 1000 * 60 * 60))
   return {
     type: 'regular',
     id: random(100000000),
     link: 'link-to-message',
     author: {
       id: random(2) === 1 ? userId : i,
-      name: 'Author-' + i
+      name: `Author-${i}`
     },
-    text: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
+    text: `${i} - ${textParts.slice(0, random(textParts.length)).join('\n')}`,
     avatar: 'avatar.gif',
     time,
     userTime: random(2) === 1 ? moment(time).format() : moment(time).tz('America/Los_Angeles').format(),
@@ -53,8 +51,8 @@ for (let i = 0; i < 5; i++) {
       id: 'authora',
       name: 'Author A'
     },
-    text: 'within 5 min from the same user-' + i,
-    time: new Date(now + i * 1000 * 60)
+    text: `within 5 min from the same user-${i}`,
+    time: new Date(now + (i * 1000 * 60))
   }))
 }
 
@@ -69,12 +67,12 @@ const maxRange = messages.length
 const range = [messages.length - frameSize, maxRange]
 // To start from beginning.
 // const range = [0, frameSize]
-let fragment = messages.slice.apply(messages, range)
+let fragment = messages.slice(...range)
 let isLoading = false
 let update
 
 function onLoad({startIndex, stopIndex}) {
-  if (isLoading) return null
+  if (isLoading) return
 
   isLoading = true
   setTimeout(() => {
@@ -90,7 +88,7 @@ function onLoad({startIndex, stopIndex}) {
       range[1] = Math.min(range[1] + stopIndex, maxRange)
     }
 
-    fragment = messages.slice.apply(messages, range)
+    fragment = messages.slice(...range)
     update()
     isLoading = false
   })

@@ -3,6 +3,7 @@ import findIndex from 'lodash/array/findIndex'
 import uniq from 'lodash/array/uniq'
 
 import * as types from '../constants/actionTypes'
+import conf from '../conf'
 
 const initialState = {
   messages: [],
@@ -38,10 +39,6 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER:
       return {...state, user: payload}
-    case types.GO_TO_CHANNEL:
-      // Clicked on the current channel.
-      if (state.channel && payload === state.channel.slug) return state
-      return {...state, messages: []}
     case types.SET_CHANNEL:
       return {
         ...state,
@@ -56,7 +53,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         ...payload,
-        showNoContent: payload.messages.length === 0
+        showNoContent: payload.messages.length === 0 && !conf.embed
       }
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
@@ -84,7 +81,11 @@ export default function reduce(state = initialState, action) {
         showNoContent: false
       }
     }
-    case types.REQUEST_LATEST_HISTORY:
+    case types.GO_TO_CHANNEL:
+      // Clicked on the current channel.
+      if (state.channel && payload === state.channel.id) return state
+      return {...state, messages: []}
+    case types.CLEAR_HISTORY:
       return {...state, messages: []}
     case types.REQUEST_OLDER_HISTORY:
       return {...state, olderMessages: payload.promise}
@@ -123,7 +124,7 @@ export default function reduce(state = initialState, action) {
         messages: markLastMessageAsRead(state.messages, userId)
       }
     }
-    case types.HANDLE_OUTGOING_MESSAGE:
+    case types.REQUEST_POST_MESSAGE:
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
       if (state.channel && payload.channelId !== state.channel.id) {

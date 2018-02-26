@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 
-import {constants} from '../../../../conf'
-import BaseMenu from '../../../message-parts/Menu'
+import conf from '../../../../conf'
+import {Menu as BaseMenu} from '../../../message-parts'
 
 const handlerMap = {
   copyLink: 'onCopyLink',
@@ -26,7 +26,6 @@ export default class Menu extends PureComponent {
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired
-    /* eslint-enable react/no-unused-prop-types */
   }
 
   onSelectMenuItem = ({name}) => {
@@ -39,7 +38,7 @@ export default class Menu extends PureComponent {
     const items = [...baseItems]
 
     if (
-      user.role >= constants.roles.ROLE_ADMIN ||
+      user.role >= conf.constants.roles.ROLE_ADMIN ||
       channel.creator === user.id
     ) {
       items.push('remove')

@@ -33,8 +33,13 @@
 
 <!-- Who will use this feature? For e.g. Grape devs, End-users, Partners -->
 
-#### Description
+#### Problem
 
+<!-- Which problem will this feature solve -->
+
+#### Solution
+
+<!-- How will it solve that problem? -->
 
 #### Pros
 

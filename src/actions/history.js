@@ -6,10 +6,13 @@ import * as api from '../utils/backend/api'
 import {
   userSelector, channelSelector, historySelector, orgSelector
 } from '../selectors'
-import {error} from './common'
-import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 import {normalizeMessage, filterEmptyMessage, loadLabelsConfigCached} from './utils'
+import {
+  error,
+  showAlert,
+  hideAlertByType
+} from './'
 
 function normalizeMessages(messages, state) {
   return messages
@@ -17,9 +20,15 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
-function loadLatest() {
+// Clearing is used to enhance perceptional performance when clicked
+// on a navigation in order to react immediately.
+function loadLatest(options = {clear: true}) {
   return (dispatch, getState) => {
     const {minimumBatchSize: limit, channel} = historySelector(getState())
+
+    if (options.clear) {
+      dispatch({type: types.CLEAR_HISTORY})
+    }
 
     dispatch({
       type: types.REQUEST_LATEST_HISTORY,
@@ -128,7 +137,7 @@ function loadNewer(params) {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages: normalizeMessages(res.reverse(), getState()),
+            messages: normalizeMessages(res, getState()),
             isScrollBack: false
           }
         })
@@ -175,10 +184,10 @@ function loadFragment() {
   }
 }
 
-export function loadHistory() {
+export function loadHistory(options) {
   return (dispatch, getState) => {
     const {selectedMessageId} = historySelector(getState())
-    dispatch(selectedMessageId ? loadFragment() : loadLatest())
+    dispatch(selectedMessageId ? loadFragment() : loadLatest(options))
   }
 }
 
@@ -189,8 +198,11 @@ export {loadLatest as loadLatestHistory}
  * May be called many of times in a row.
  */
 export function loadMoreHistory(params) {
-  return (dispatch) => {
-    dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+  return (dispatch, getState) => {
+    const {messages} = historySelector(getState())
+    if (params.startIndex < 0) dispatch(loadOlder(params))
+    else if (messages.length) dispatch(loadNewer(params))
+    else dispatch(loadLatest())
   }
 }
 
@@ -280,6 +292,18 @@ export function markAsUnsent(message) {
   }
 }
 
+export function readMessage({channelId, messageId}) {
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_READ_MESSAGE,
+      payload: messageId
+    })
+    api
+      .readMessage(channelId, messageId)
+      .catch(err => dispatch(error(err)))
+  }
+}
+
 export function createMessage({channelId, text, attachments = []}) {
   return (dispatch, getState) => {
     const state = getState()
@@ -296,7 +320,7 @@ export function createMessage({channelId, text, attachments = []}) {
     }, state)
 
     dispatch({
-      type: types.HANDLE_OUTGOING_MESSAGE,
+      type: types.REQUEST_POST_MESSAGE,
       payload: message
     })
 
@@ -305,11 +329,14 @@ export function createMessage({channelId, text, attachments = []}) {
       attachments
     }
 
+    dispatch(markAsUnsent(message))
+
     api
       .postMessage(channelId, text, options)
+      .then((messageId) => {
+        dispatch(readMessage({channelId, messageId}))
+      })
       .catch(err => dispatch(error(err)))
-
-    dispatch(markAsUnsent(message))
   }
 }
 
@@ -334,18 +361,6 @@ export function resendMessage(message) {
       payload: message
     })
     dispatch(markAsUnsent(message))
-  }
-}
-
-export function readMessage({channelId, messageId}) {
-  return (dispatch) => {
-    dispatch({
-      type: types.REQUEST_READ_MESSAGE,
-      payload: messageId
-    })
-    api
-      .readMessage(channelId, messageId)
-      .catch(err => dispatch(error(err)))
   }
 }
 

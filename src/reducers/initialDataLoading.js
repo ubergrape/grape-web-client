@@ -6,8 +6,8 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.HANDLE_INITIAL_DATA:
-      return {loading: false}
+    case types.SET_INITIAL_DATA_LOADING:
+      return {loading: action.payload}
     default:
       return state
   }

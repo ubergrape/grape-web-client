@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
-  activeFilter: 'joinable'
+  groups: []
 }
 
 export default function reducer(state = initialState, action) {
@@ -17,10 +17,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         show: false
       }
-    case types.SET_MANAGE_GROUPS_FILTER:
+    case types.SELECT_MANAGE_GROUPS_FILTER:
       return {
         ...state,
-        activeFilter: action.payload
+        activeFilter: action.payload,
+        groups: []
+      }
+    case types.HANDLE_MANAGE_GROUPS_CHANNELS:
+      return {
+        ...state,
+        groups: action.payload
       }
     default:
       return state

@@ -7,25 +7,43 @@ export default class FilteredList extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
-    filtered: PropTypes.array.isRequired,
-    filteredUnJoined: PropTypes.array.isRequired,
-    focusedChannel: PropTypes.any
+    foundChannels: PropTypes.array.isRequired,
+    focusedChannel: PropTypes.object,
+    searchingChannels: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    focusedChannel: undefined
+  }
+
+  onRefList = (list) => {
+    this.list = list
   }
 
   focus(direction) {
-    this.refs.list.focus(direction)
+    this.list.focus(direction)
   }
 
   render() {
     const {
       filter,
-      filtered,
-      filteredUnJoined,
+      foundChannels,
       focusedChannel,
+      searchingChannels,
       theme
     } = this.props
     const {classes} = theme
-    if (!filtered.length && !filteredUnJoined.length) {
+    if (searchingChannels) {
+      return (
+        <div className={classes.notFound}>
+          <FormattedMessage
+            id="searchPeopleAndGroups"
+            defaultMessage="Search people and groups…"
+          />
+        </div>
+      )
+    }
+    if (!foundChannels.length) {
       return (
         <div className={classes.notFound}>
           <FormattedMessage
@@ -38,13 +56,12 @@ export default class FilteredList extends PureComponent {
       )
     }
 
-    const items = filtered.concat(filteredUnJoined)
     return (
       <List
         {...this.props}
-        items={items}
-        focused={focusedChannel || items[0]}
-        ref="list"
+        items={foundChannels}
+        focused={focusedChannel}
+        ref={this.onRefList}
       />
     )
   }

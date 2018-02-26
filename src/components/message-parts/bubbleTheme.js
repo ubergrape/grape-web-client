@@ -11,7 +11,7 @@ export const styles = {
     maxWidth: '100%'
   },
   bubbleWithArrow: {
-    extend: 'bubble',
+    composes: '$bubble',
     '&:before': {
       position: 'absolute',
       top: 14,
@@ -25,23 +25,11 @@ export const styles = {
   },
   content: {
     extend: normal,
+    display: 'block',
     position: 'relative',
     background: white,
     borderRadius,
-    padding: '5px 13px',
-    wordBreak: 'break-word',
-    '& > pre': {
-      lineHeight: 1
-    },
-    '& > pre > code': {
-      lineHeight: normal.lineHeight,
-      verticalAlign: 'middle'
-    },
-    '& > p, > pre': {
-      marginTop: normal.fontSize / 2,
-      '&:first-child': {
-        marginTop: 0
-      }
-    }
+    padding: [5, 13],
+    wordBreak: 'break-word'
   }
 }

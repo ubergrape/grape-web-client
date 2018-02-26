@@ -1,12 +1,14 @@
 import {toCamel} from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
+import conf from '../conf'
 import getStore from './store'
 import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
   const boundActions = getBoundActions()
   let showReconnectedAlert = false
+  let isSuspended = false
 
   channel.on('connected', () => {
     if (showReconnectedAlert) {
@@ -18,19 +20,48 @@ export default function subscribe(channel) {
       })
     }
     showReconnectedAlert = true
+    isSuspended = false
+  })
+
+  channel.on('suspend', () => {
+    isSuspended = true
+    showReconnectedAlert = false
   })
 
   channel.on('disconnected', () => {
-    boundActions.showAlert({
-      level: 'danger',
-      type: alerts.CONNECTION_LOST
-    })
+    if (!isSuspended) {
+      boundActions.showAlert({
+        level: 'danger',
+        type: alerts.CONNECTION_LOST
+      })
+    }
+
+    // TODO investigate why only embedded mode is not reloading history on connect
+    // On the other hand full mode does it too many times.
+    if (isSuspended && conf.embed) {
+      channel.once('connected', () => {
+        // We don't want to clear the history when client was suspended
+        // over an API and then reconnected.
+        // Clearing is used to enhance perceptional performance when clicked
+        // on a navigation in order to react immediately.
+        boundActions.loadHistory({clear: false})
+      })
+    }
+  })
+
+  // Resync the whole data if we got a new client id, because we might have
+  // missed some messages. This is related to the current serverside arch.
+  channel.on('set:id', (clientId) => {
+    boundActions.loadInitialData(clientId)
+  })
+
+  channel.on('unauthorized', (err) => {
+    boundActions.handleAuthError(err)
   })
 
   channel.on('data', (data) => {
     const cData = toCamel(data)
     switch (cData.event) {
-
       case 'notification.new':
         boundActions.handleNotification(cData)
         break
@@ -48,7 +79,9 @@ export default function subscribe(channel) {
         break
       case 'channel.typing':
         boundActions.handleTypingNotification(
-            selectors.setTypingSelector(getStore().getState()), cData)
+          selectors.setTypingSelector(getStore().getState()),
+          cData
+        )
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
@@ -68,29 +101,24 @@ export default function subscribe(channel) {
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
-
       case 'organization.joined':
         boundActions.handleJoinOrg(cData)
         break
       case 'organization.left':
         boundActions.handleLeftOrg(cData)
         break
-
       case 'user.status':
         boundActions.handleUserStatusChange(cData)
         break
       case 'user.updated':
         boundActions.handleUserUpdate(cData)
         break
-
       case 'membership.updated':
         boundActions.handleMembershipUpdate(cData)
         break
-
       case 'pins.changed':
         boundActions.handleFavoriteChange(cData)
         break
-
       default:
     }
   })

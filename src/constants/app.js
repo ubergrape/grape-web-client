@@ -10,3 +10,5 @@ export const userStatusMap = {
 }
 
 export const maxLinkAttachments = 5
+
+export const messageDeliveryStates = ['pending', 'sent', 'unsent', 'read']

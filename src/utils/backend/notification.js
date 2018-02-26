@@ -4,18 +4,11 @@ import filter from 'lodash/collection/filter'
 import every from 'lodash/collection/every'
 import warning from 'warning'
 
-// All available transports.
-const transports = ['desktop', 'push', 'email']
-
-// All available dispatchers.
-const dispatchers = ['message', 'pm', 'mention', 'group_mention', 'room_invite', 'activity']
-
-// All mention dispatchers.
-const mentionDispatchers = ['mention', 'group_mention']
+import {transports, dispatchers} from '../../constants/notification'
 
 function createSequence(value, predicate = noop) {
   return transports.reduce((sequence, transport) => {
-    dispatchers.forEach(dispatcher => {
+    dispatchers.all.forEach((dispatcher) => {
       const setting = {
         transport,
         dispatcher,
@@ -35,8 +28,8 @@ function createResetSequence(transport) {
 // Create a sequence which enables all mentions.
 function createAnyMentionSequence(transport) {
   const sequence = createSequence(false, setting => setting.transport === transport)
-  return sequence.map(setting => {
-    if (mentionDispatchers.includes(setting.dispatcher)) {
+  return sequence.map((setting) => {
+    if (dispatchers.mentions.includes(setting.dispatcher)) {
       return {...setting, active: true}
     }
 
@@ -47,7 +40,7 @@ function createAnyMentionSequence(transport) {
 // Create a sequence which enables direct mentions only.
 function createDirectMentionSequence(transport) {
   const sequence = createSequence(false, setting => setting.transport === transport)
-  return sequence.map(setting => {
+  return sequence.map((setting) => {
     if (setting.dispatcher === 'mention') {
       return {...setting, active: true}
     }

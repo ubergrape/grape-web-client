@@ -3,7 +3,6 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
-import find from 'lodash/collection/find'
 
 import {styles} from './noContentTheme'
 
@@ -20,6 +19,21 @@ Illustration.propTypes = {
   type: PropTypes.oneOf(['private', 'public', 'pm']).isRequired
 }
 
+const text = {
+  public: (
+    <FormattedMessage
+      id="roomIsPublic"
+      defaultMessage="This group is public. Every member can join and read the history."
+    />
+  ),
+  private: (
+    <FormattedMessage
+      id="roomIsPrivate"
+      defaultMessage="This group is private. Only invited members can see and join this group."
+    />
+  )
+}
+
 function RoomContent(props) {
   const {
     name,
@@ -28,24 +42,6 @@ function RoomContent(props) {
     onAddIntegration,
     onInvite
   } = props
-
-  let text
-
-  if (isPublic) {
-    text = (
-      <FormattedMessage
-        id="roomIsPublic"
-        defaultMessage="This group is public. Every member can join and read the history."
-      />
-    )
-  } else {
-    text = (
-      <FormattedMessage
-        id="roomIsPrivate"
-        defaultMessage="This group is private. Only invited members can see and join this group."
-      />
-    )
-  }
 
   return (
     <div className={classes.noContent}>
@@ -59,7 +55,7 @@ function RoomContent(props) {
           />
         </h2>
         <p className={classes.text}>
-          {text}
+          {text[isPublic ? 'public' : 'private']}
         </p>
         <button
           onClick={onInvite}
@@ -141,9 +137,9 @@ export default class NoContent extends PureComponent {
       type: PropTypes.oneOf(['pm', 'room']).isRequired,
       name: PropTypes.string,
       isPublic: PropTypes.bool,
-      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
-    }).isRequired,
-    users: PropTypes.array.isRequired
+      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+      mate: PropTypes.shape({})
+    }).isRequired
   }
 
   static defaultProps = {
@@ -158,7 +154,6 @@ export default class NoContent extends PureComponent {
   render() {
     const {
       channel,
-      users,
       classes,
       onAddIntegration
     } = this.props
@@ -175,8 +170,6 @@ export default class NoContent extends PureComponent {
       )
     }
 
-    const mate = find(users, {id: channel.users[0]})
-
-    return <PmContent classes={classes} mate={mate} />
+    return <PmContent classes={classes} mate={channel.mate} />
   }
 }

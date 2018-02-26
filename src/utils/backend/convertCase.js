@@ -1,18 +1,34 @@
 import snakeCase from 'lodash/string/snakeCase'
 import camelCase from 'lodash/string/camelCase'
-import Converter from './Converter'
+import isPlainObject from 'lodash/lang/isPlainObject'
+import mapKeys from 'lodash/object/mapKeys'
+import mapValues from 'lodash/object/mapValues'
 
+const mapKeysDeep = (object, callback) => {
+  if (Array.isArray(object)) {
+    return object.map(innerObject => mapKeysDeep(innerObject, callback))
+  }
+
+  if (isPlainObject(object)) {
+    return mapValues(
+      mapKeys(object, callback),
+      value => mapKeysDeep(value, callback)
+    )
+  }
+
+  return object
+}
 
 /**
  * Converts all obj keys to snake case.
  */
-export function toSnake(obj) {
-  return new Converter(obj, snakeCase).convert()
-}
+export const toSnake = object => (
+  mapKeysDeep(object, (value, key) => snakeCase(key))
+)
 
 /**
  * Converts all obj keys to camel case.
  */
-export function toCamel(obj) {
-  return new Converter(obj, camelCase).convert()
-}
+export const toCamel = object => (
+   mapKeysDeep(object, (value, key) => camelCase(key))
+ )
