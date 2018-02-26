@@ -164,7 +164,6 @@ export default {
   "quoteMessage": "Zitieren",
   "localTime": "Lokale Zeit",
   "newConversation": "Neue Konversation",
-  "searchPropleAndGroups": "Gruppen und Mitarbeiter suchen...\n",
   "nothingThatMatches": "Keine passenden Ergebnisse",
   "favorites": "Favoriten",
   "recent": "Aktuell",
