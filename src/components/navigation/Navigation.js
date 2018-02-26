@@ -61,8 +61,7 @@ export default class Navigation extends PureComponent {
       bottomOffset: 5,
       step: 10,
       shift: 20,
-      filter: '',
-      focusedChannel: undefined
+      filter: ''
     }
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
