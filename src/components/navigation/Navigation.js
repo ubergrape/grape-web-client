@@ -83,7 +83,7 @@ export default class Navigation extends PureComponent {
   componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
       this.setState({
-        focusedChannel: nextProps.foundChannels[0] || undefined
+        focusedChannel: nextProps.foundChannels[0]
       })
     }
   }
