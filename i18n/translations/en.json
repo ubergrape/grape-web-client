@@ -97,6 +97,8 @@
   "pinnedMesages": "Pinned Messages",
   "groupInfo": "Group Info",
   "userProfile": "User Profile",
+  "loading": "Loading...",
+  "communication": "Communicating with Grape universe, this may take a moment",
   "introHlWelcome": "Welcome",
   "_introHlWelcome.comment": "Intro welcome hl.",
   "introTextWelcome": "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.",

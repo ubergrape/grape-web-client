@@ -97,6 +97,8 @@
   "pinnedMesages": "Angepinnte Nachrichten",
   "groupInfo": "Gruppeninformation",
   "userProfile": "Profil",
+  "loading": "Lade...",
+  "communication": "Kontaktiere das Grape Universum, dies könnte einen Moment dauern",
   "introHlWelcome": "Willkommen",
   "_introHlWelcome.comment": "Intro welcome hl.",
   "introTextWelcome": "Grape ist eine Messaging Lösung für Teams und hilft Ihren MitarbeiterInnen, effizienter, unterhaltsamer und produktiver zusammenzuarbeiten.",
