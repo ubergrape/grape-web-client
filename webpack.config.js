@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
@@ -29,7 +30,8 @@ var plugins = [
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   }),
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/)
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/),
+  new DuplicatePackageCheckerPlugin()
 ]
 
 module.exports = exports = {

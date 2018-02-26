@@ -87,6 +87,7 @@
     "cpy-cli": "^1.0.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.15.6",
+    "duplicate-package-checker-webpack-plugin": "^2.1.0",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-config-ubergrape": "^4.2.0",
