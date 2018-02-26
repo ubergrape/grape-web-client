@@ -62,7 +62,7 @@ export default class Navigation extends PureComponent {
       step: 10,
       shift: 20,
       filter: '',
-      focusedChannel: {}
+      focusedChannel: undefined
     }
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
@@ -84,7 +84,7 @@ export default class Navigation extends PureComponent {
   componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
       this.setState({
-        focusedChannel: nextProps.foundChannels[0] || {}
+        focusedChannel: nextProps.foundChannels[0] || undefined
       })
     }
   }
@@ -128,7 +128,7 @@ export default class Navigation extends PureComponent {
 
   onKeyDown = (e) => {
     const keyName = keyname(e.keyCode)
-    const {foundChannels} = this.props
+    const {focusedChannel} = this.state
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -144,8 +144,8 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        if (foundChannels.length && this.state.filter) {
-          this.goToChannel(this.state.focusedChannel)
+        if (focusedChannel) {
+          this.goToChannel(focusedChannel)
         }
         e.preventDefault()
         break
@@ -159,7 +159,7 @@ export default class Navigation extends PureComponent {
     this.setState({
       filter: '',
       filtered: [],
-      focusedChannel: {}
+      focusedChannel: undefined
     })
 
     if ((channel.type === 'pm') && !channel.joined) {

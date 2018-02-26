@@ -8,8 +8,12 @@ export default class FilteredList extends PureComponent {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
     foundChannels: PropTypes.array.isRequired,
-    focusedChannel: PropTypes.object.isRequired,
+    focusedChannel: PropTypes.object,
     searchingChannels: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    focusedChannel: undefined
   }
 
   onRefList = (list) => {
