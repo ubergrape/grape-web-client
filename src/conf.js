@@ -28,7 +28,7 @@ class Config {
     wsUrl: null,
     pubsubUrl: null,
     sentryJsDsn: null,
-    serviceUrl: null,
+    serviceUrl: location.origin,
     host: null,
     uploadPath: null,
     staticPath: null,
@@ -37,33 +37,26 @@ class Config {
   container = '#grape-client'
 
   constructor() {
-    this.setup({
-      embed: Boolean(localStorage.embed),
-      channelId: Number(localStorage.channelId),
-      forceLongpolling: Boolean(localStorage.forceLongpolling),
-      server: {serviceUrl: location.origin}
-    })
+    this.setup()
   }
 
-  transformations(conf) {
-    if (conf.server && conf.server.serviceUrl) {
-      Object.assign(this.server, parseServiceUrl(conf.server.serviceUrl))
-    }
+  transform() {
+    Object.assign(this.server, parseServiceUrl(this.server.serviceUrl))
   }
 
   mergeFromLocalStorage() {
-    merge(this, {
-      channelId: localStorage.channelId ? Number(localStorage.channelId) : this.channelId,
-      server: {
-        serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : this.server.serviceUrl
-      }
-    })
+    if (localStorage.embed) this.embed = Boolean(localStorage.embed)
+    if (localStorage.channelId) this.channelId = Number(localStorage.channelId)
+    if (localStorage.forceLongpolling) {
+      this.forceLongpolling = Boolean(localStorage.forceLongpolling)
+    }
+    if (localStorage.serviceUrl) this.server.serviceUrl = localStorage.serviceUrl
   }
 
   setup(conf) {
     merge(this, conf)
     this.mergeFromLocalStorage()
-    this.transformations(conf)
+    this.transform()
   }
 }
 
