@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
-import List from 'material-ui/List'
+import List from 'grape-web/lib/components/list/list'
 
 import Header from './Header'
 import Item from './TaskListItem'

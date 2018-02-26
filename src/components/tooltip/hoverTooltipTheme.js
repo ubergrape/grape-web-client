@@ -43,7 +43,11 @@ export const styles = {
     display: 'inline-block'
   },
   tooltip: {
+    display: 'block',
     lineHeight: 1,
     whiteSpace: 'nowrap'
+  },
+  childrenWrapper: {
+    verticalAlign: 'middle'
   }
 }

@@ -3,9 +3,20 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import {styles} from './rowTheme.js'
-
-@injectSheet(styles)
+@injectSheet({
+  row: {
+    display: 'block',
+    margin: 0
+  },
+  rowSpaced: {
+    display: 'block',
+    marginTop: 8,
+    '&:first-child': {
+      isolate: false,
+      marginTop: 0
+    }
+  }
+})
 export default class Row extends PureComponent {
   static propTypes = {
     children: PropTypes.node,

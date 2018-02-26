@@ -1,5 +1,7 @@
 import fonts from 'grape-theme/dist/fonts'
-import colors from 'grape-theme/dist/base-colors'
+import {white, grayLight} from 'grape-theme/dist/base-colors'
+import prefixSelector from 'grape-web/lib/jss-utils/prefixSelector'
+
 import * as grayTheme from '../input/theme/gray'
 
 const commonInput = {
@@ -13,7 +15,11 @@ const commonInput = {
   outline: 'none',
   border: 'none',
   resize: 'none',
-  textOverflow: 'ellipsis'
+  overflow: 'hidden',
+  [`&${prefixSelector('::input-placeholder')}`]: {
+    isolate: false,
+    color: grayLight
+  }
 }
 
 const theme = {
@@ -23,7 +29,7 @@ const theme = {
 
 const inputStyle = {
   ...commonInput,
-  background: colors.white
+  background: white
 }
 
 const content = {
@@ -51,6 +57,7 @@ export const string = {
       ...commonInput,
       background: 'transparent',
       cursor: 'text',
+      textOverflow: 'ellipsis',
       '&:hover': {
         isolate: false,
         background: 'rgba(255,255,255,0.5)'

@@ -10,3 +10,7 @@ export function shouldNotify({time, sourceChannelId, currentChannelId}) {
 
   return true
 }
+
+export const shouldRequestPermission = () => (
+  window.Notification && Notification.permission === 'default'
+)

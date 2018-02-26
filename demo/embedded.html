@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Embedded Grape Client</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=10" />
+  <meta name="viewport" content="width=device-width">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #grape-client {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="grape-client"></div>
+  <script>
+    (function(a){var b=document.createElement("script");b.async=1;b.src=a.staticBaseUrl+"app/embedded.js";b.onload=function(){grapeClient.embed(a);if(a.onReady)a.onReady()};document.head.appendChild(b)})({
+      container: '#grape-client',
+      channelId: 632,
+      //channelId: 2253,
+      orgId: 1,
+      serviceUrl: 'https://uebergrape.staging.chatgrape.com',
+      staticBaseUrl: 'https://unpkg.com/grape-web-client/dist/',
+      onReady: function() {
+        console.log('Grape Client initialized')
+      }
+    })
+  </script>
+</body>
+</html>

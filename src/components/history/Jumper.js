@@ -23,7 +23,7 @@ const contrast = 'rgba(255,255,255,0.75)'
     extend: buttonIcon('arrowDown', {color: gainsboroDark, iconOnly: true}),
     position: 'absolute',
     fontSize: size,
-    bottom: 20,
+    bottom: 50,
     left: '50%',
     width: dimension,
     height: dimension,

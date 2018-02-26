@@ -5,7 +5,7 @@ var assign = require('lodash/object/assign')
 module.exports = function (config) {
   config.set({
     browsers: ['Chrome'],
-    singleRun: process.env.NODE_ENV !== 'test',
+    singleRun: !process.env.WATCH,
     files: [
       'tests.webpack.js'
     ],

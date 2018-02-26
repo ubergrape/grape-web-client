@@ -11,7 +11,7 @@ import Roomname from '../avatar-name/Roomname'
 import {styles} from './groupTheme'
 
 const messages = defineMessages({
-  joinable: {
+  unjoined: {
     id: 'manageGroupsJoinableBtn',
     defaultMessage: 'join',
     description: 'Manage Groups Dialog: join button label'
@@ -29,27 +29,25 @@ export default class Group extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     group: PropTypes.object.isRequired,
-    sheet: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired
+    classes: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   }
 
   onClick = () => {
     const {
-      group: {slug, id},
-      onSelect,
-      type
+      group: {id},
+      onSelect
     } = this.props
 
-    onSelect(
-      type === 'joined' ? id : slug
-    )
+    onSelect(id)
   }
 
   render() {
     const {
       group,
       intl: {formatMessage},
-      sheet: {classes},
+      classes,
       type
     } = this.props
     return (
@@ -59,6 +57,7 @@ export default class Group extends PureComponent {
             {...group}
             showPrivateStatus
             showRoomInfo
+            theme={{classes}}
           />
         </div>
         <button className={classes[type]} onClick={this.onClick}>

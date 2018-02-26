@@ -13,6 +13,7 @@ const {
 
 export const styles = {
   filterArea: {
+    display: 'block',
     overflow: 'auto',
     maxHeight: 85,
     padding: '0 10px',

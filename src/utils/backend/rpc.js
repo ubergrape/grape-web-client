@@ -45,14 +45,22 @@ export default function (data, ...args) {
   let callback = args[1]
   if (typeof options === 'function') {
     callback = options
-    options = {}
+    options = null
   }
-  const cData = toSnake(data)
-  log('req', cData)
-  rpc(cData, (err, res) => {
-    if (!callback) return
-    // eslint-disable-next-line no-param-reassign
-    if (err && !err.message) err.message = 'Unexpected Server Error'
-    callback(err, options.camelize && res ? toCamel(res) : res)
+  if (!options) options = {}
+
+  const fData = toSnake(data)
+
+  log('req', fData)
+
+  return new Promise((resolve, reject) => {
+    rpc(fData, (err, res) => {
+      // eslint-disable-next-line no-param-reassign
+      if (err && !err.message) err.message = 'Unexpected Server Error'
+      const fRes = res && options.camelize ? toCamel(res) : res
+      if (err) reject(err)
+      else resolve(fRes)
+      if (callback) callback(err, fRes)
+    })
   })
 }

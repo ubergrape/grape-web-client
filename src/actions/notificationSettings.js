@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector} from '../selectors'
-import {error} from './common'
+import {error} from './'
 
 export function loadNotificationSettings({channel}) {
   return (dispatch, getState) => {
@@ -14,13 +14,13 @@ export function loadNotificationSettings({channel}) {
 
     api
       .getNotificationSettings(org.id, channel.id)
-      .then(settings => {
+      .then((settings) => {
         dispatch({
           type: types.HANDLE_NOTIFICATION_SETTINGS,
           payload: settings
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(error(err))
       })
   }
@@ -40,7 +40,7 @@ export function setNotificationSetting(channel, options) {
       .then(() => {
         dispatch(loadNotificationSettings({channel}))
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(error(err))
       })
   }

@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {orgSelector} from '../selectors'
-import {error} from './common'
+import {error} from './'
 
 export function showInviteToOrg() {
   return {
@@ -19,7 +19,7 @@ export function getInviteToOrgLink() {
   return (dispatch, getState) => {
     api
       .getInviteToOrgLink(orgSelector(getState()).id)
-      .then(link => {
+      .then((link) => {
         dispatch({
           type: types.SET_INVITE_TO_ORG_LINK,
           payload: link
@@ -33,11 +33,11 @@ export function inviteToOrg(options, callback) {
   return (dispatch, getState) => {
     api
       .inviteToOrg(orgSelector(getState()).id, options)
-      .then(res => {
+      .then((res) => {
         dispatch(hideInviteToOrg())
         callback(res)
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: types.HANDLE_INVITE_TO_ORG_ERROR,
           payload: err

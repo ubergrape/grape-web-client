@@ -1,6 +1,6 @@
 import {grayLight, gray} from 'grape-theme/dist/base-colors'
 import {link} from 'grape-theme/dist/web-colors'
-import {small} from 'grape-theme/dist/fonts'
+import fonts from 'grape-theme/dist/fonts'
 
 import buttonIcon from '../button/icon'
 
@@ -26,16 +26,16 @@ const globeActive = createGlobeIcon({color: link})
 export const styles = {
   time: {
     display: 'inline-block',
-    color: grayLight,
     flexShrink: 0
   },
   timeContainer: {
-    extend: [small],
+    extend: fonts.small,
     textTransform: 'uppercase',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    color: grayLight
   },
   timeContainerHoverable: {
-    extend: 'timeContainer',
+    composes: '$timeContainer',
     cursor: 'pointer',
     '&:hover': {
       isolate: false,
@@ -50,13 +50,17 @@ export const styles = {
     whiteSpace: 'nowrap'
   },
   userTimeText: {
+    extend: fonts.small,
+    color: grayLight
   },
   userTimeTime: {
+    composes: '$userTimeText',
     color: gray
   },
   globe,
   globeActive,
   tooltip: {
-    marginTop: -5
+    marginTop: 15,
+    marginLeft: -17
   }
 }

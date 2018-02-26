@@ -17,7 +17,7 @@ export default class HoverTooltip extends PureComponent {
   static propTypes = {
     message: PropTypes.node,
     children: PropTypes.node.isRequired,
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     align: PropTypes.oneOf(['left', 'right', 'center']),
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
     inline: PropTypes.bool.isRequired,
@@ -36,10 +36,7 @@ export default class HoverTooltip extends PureComponent {
     message: null
   }
 
-  constructor() {
-    super()
-    this.state = initialState
-  }
+  state = initialState
 
   componentWillReceiveProps({disabled}) {
     if (disabled && this.state.show) this.setState(initialState)
@@ -66,7 +63,7 @@ export default class HoverTooltip extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       message, children, align,
       placement, inline, arrowMargin
     } = this.props
@@ -74,18 +71,18 @@ export default class HoverTooltip extends PureComponent {
     if (!message) return null
 
     const position = theme[placement + capitalize(align)]
+
     return (
-      <div
-        className={classes[`wrapper${inline ? 'Inline' : ''}`]}
-      >
+      <div className={classes[`wrapper${inline ? 'Inline' : ''}`]}>
         <span
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
+          className={classes.childrenWrapper}
         >
           {children}
         </span>
         <div className={classes.tooltip}>
-          {this.state.show &&
+          {this.state.show && (
             <BlackTooltip
               style={position}
               placement={placement}
@@ -93,7 +90,7 @@ export default class HoverTooltip extends PureComponent {
             >
               {message}
             </BlackTooltip>
-          }
+          )}
         </div>
       </div>
     )

@@ -15,10 +15,10 @@ function Tooltip(props) {
     theme,
     children,
     onClick,
-    style: containerStyle,
     placement,
     arrowOffsetLeft,
-    arrowOffsetTop
+    arrowOffsetTop,
+    shift
   } = props
   const {arrowSize, borderSize} = theme
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
@@ -32,11 +32,18 @@ function Tooltip(props) {
   const pointerContainerStyle = {...placementStyle, left, top}
   const bodyStyle = getBodyMargin(arrowSize, placement)
 
+  const {style} = props
+
+  if (shift) {
+    if (shift.left && style.left != null) style.left += shift.left
+    if (shift.top > 0 && style.top != null) style.top += shift.top
+  }
+
   return (
     <div
       onClick={onClick}
       className={`${sheet.classes.tooltip} ${theme.classes.tooltip || ''}`}
-      style={containerStyle}
+      style={style}
     >
       <i
         className={`${sheet.classes.arrow} ${theme.classes.arrow || ''}`}
@@ -75,18 +82,24 @@ Tooltip.propTypes = {
     })
   }).isRequired,
   style: PropTypes.object,
-  placement: PropTypes.string.isRequired,
+  placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom']),
   arrowOffsetLeft: offsetType,
   arrowOffsetTop: offsetType,
   onClick: PropTypes.func,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  shift: PropTypes.shape({
+    top: PropTypes.number,
+    left: PropTypes.number
+  })
 }
 
 Tooltip.defaultProps = {
-  style: null,
-  arrowOffsetLeft: null,
-  arrowOffsetTop: null,
-  onClick: null
+  placement: 'right',
+  shift: undefined,
+  style: undefined,
+  arrowOffsetLeft: undefined,
+  arrowOffsetTop: undefined,
+  onClick: undefined
 }
 
 export default injectSheet(styles)(Tooltip)

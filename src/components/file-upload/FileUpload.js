@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import Dropzone from '@ubergrape/react-dropzone'
+import Dropzone from 'react-dropzone'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import DropOverlay from './DropOverlay'
@@ -10,6 +10,7 @@ import {maxSize} from './constants'
 
 export default class FileUpload extends PureComponent {
   static propTypes = {
+    disabled: PropTypes.bool,
     dropZoneStyle: PropTypes.object.isRequired,
     onUpload: PropTypes.func.isRequired,
     onReject: PropTypes.func.isRequired,
@@ -20,15 +21,17 @@ export default class FileUpload extends PureComponent {
   }
 
   static defaultProps = {
+    disabled: false,
     // We pass nothing to avoid default styles.
     dropZoneStyle: {}
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isDragging: false
-    }
+  state = {isDragging: false}
+
+  onDragStart = (e) => {
+    // Avoid uploads triggered by d&d of DOM elements. For e.g. anchors and images
+    // are draggable by default.
+    e.preventDefault()
   }
 
   onDragEnter = () => {
@@ -58,6 +61,7 @@ export default class FileUpload extends PureComponent {
 
   render() {
     const {
+      disabled,
       children,
       dropZoneStyle,
       uploads,
@@ -70,8 +74,10 @@ export default class FileUpload extends PureComponent {
       <Dropzone
         disableClick
         disablePreview
+        disabled={disabled}
         style={dropZoneStyle}
         onDrop={this.onDragDone}
+        onDragStart={this.onDragStart}
         onDragEnter={this.onDragEnter}
         onDragLeave={this.onDragDone}
         onDropAccepted={this.onAccept}

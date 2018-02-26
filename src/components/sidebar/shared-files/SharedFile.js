@@ -3,7 +3,6 @@ import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import icons from 'grape-web/lib/svg-icons/data'
-import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
@@ -22,16 +21,19 @@ export default class SharedFile extends PureComponent {
     url: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     author: PropTypes.string,
-    thumbnailUrl: PropTypes.string
+    thumbnailUrl: PropTypes.string,
+    onOpen: PropTypes.func
   }
 
   static defaultProps = {
-    author: null,
-    thumbnailUrl: null
+    author: undefined,
+    thumbnailUrl: undefined,
+    onOpen: noop
   }
 
   onOpen = () => {
-    openUrl(this.props.url, false)
+    const {onOpen, url} = this.props
+    onOpen({url})
   }
 
   setPreviewRef = (ref) => {

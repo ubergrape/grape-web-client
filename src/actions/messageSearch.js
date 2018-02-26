@@ -1,8 +1,8 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {messageSearchSelector, orgSelector, channelSelector} from '../selectors'
-import {setSidebarIsLoading, error} from './common'
 import {normalizeMessage, doesMessageChannelExist} from './utils'
+import {setSidebarIsLoading, error} from './'
 
 export function updateMessageSearchQuery(nextQuery) {
   return (dispatch, getState) => {

@@ -3,11 +3,12 @@ import React from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import {white, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
 import {icon as iconSize} from 'grape-theme/dist/sizes'
 
-import {defaultRoomIconSlug} from '../../constants/images'
+import {defaultIconSlug} from '../../constants/channel'
 import Avatar from '../avatar/Avatar'
 
 const StatusIcon = ({classes, borderWidth, borderColor, size}) => (
@@ -28,16 +29,18 @@ const defaultRoomIconTheme = {
   statusSize: 14,
   statusBorderWidth: 1,
   statusBorderColor: white,
-  size: iconSize.l,
+  size: iconSize.xl,
   color: white,
   backgroundColor: colors[0]
 }
 
 function RoomIcon(props) {
   const {
-    name, classes, theme: userTheme, className,
+    classes, theme: userTheme, className,
     isPrivate, showPrivateStatus
   } = props
+
+  let {name} = props
 
   const {
     color, backgroundColor,
@@ -45,18 +48,24 @@ function RoomIcon(props) {
     statusSize, statusBorderWidth, statusBorderColor
   } = {...defaultRoomIconTheme, ...userTheme}
 
-  const src = getColoredIcon({name: `room${capitalize(name)}`, color})
+  if (name === null || !name) {
+    name = defaultIconSlug
+  }
 
   return (
     <Avatar
-      src={src}
       className={className}
       style={{
+        color,
         backgroundColor,
         width: size,
         height: size
       }}
     >
+      <Icon
+        name={`room${capitalize(name)}`}
+        className={classes.icon}
+      />
       {isPrivate && showPrivateStatus &&
         <StatusIcon
           classes={classes}
@@ -82,8 +91,13 @@ export default injectSheet({
       color: grayBlueDark,
       position: ['50%', '50%'],
       repeat: 'no-repeat',
-      size: '70%'
+      size: '50%'
     }
+  },
+  icon: {
+    isolate: false,
+    width: '100%',
+    height: '100%'
   }
 })(RoomIcon)
 
@@ -97,14 +111,14 @@ RoomIcon.propTypes = {
     color: PropTypes.string,
     backgroundColor: PropTypes.string
   }).isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
   showPrivateStatus: PropTypes.bool.isRequired
 }
 
 RoomIcon.defaultProps = {
-  name: defaultRoomIconSlug,
+  name: null,
   className: '',
   isPrivate: false,
   showPrivateStatus: false

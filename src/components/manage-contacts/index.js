@@ -1,1 +1,0 @@
-export ManageContactsDialog from './ManageContactsDialog'

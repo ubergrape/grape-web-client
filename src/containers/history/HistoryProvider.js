@@ -16,12 +16,14 @@ const actionNames = {
   editMessage: 'onEdit',
   resendMessage: 'onResend',
   readMessage: 'onRead',
-  goToChannel: 'onGoToChannel',
+  openPm: 'onOpenPm',
   showChannelMembersInvite: 'onInvite',
   goToAddIntegrations: 'onAddIntegration',
   showToastNotification: 'onCopyLink',
   quoteMessage: 'onQuote',
-  showRemoveLinkAttachments: 'onRemoveLinkAttachment'
+  showRemoveLinkAttachments: 'onRemoveLinkAttachment',
+  pinMessage: 'onPin',
+  unpinMessage: 'onUnpin'
 }
 
 const ConnectedHistory = connect(

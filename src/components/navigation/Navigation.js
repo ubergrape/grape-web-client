@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
-import Fuse from 'fuse.js'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import injectSheet from 'grape-web/lib/jss'
@@ -16,14 +15,10 @@ import Filter from './Filter'
 import List from './List'
 import FilteredList from './FilteredList'
 import Channel from './Channel'
-import ManageButtons from './ManageButtons'
+import Actions from './Actions'
 import {styles} from './theme'
 
 const messages = defineMessages({
-  channelHeader: {
-    id: 'noConversationYet',
-    defaultMessage: 'No conversation yet'
-  },
   favorites: {
     id: 'favorites',
     defaultMessage: 'Favorites'
@@ -38,23 +33,24 @@ const messages = defineMessages({
 @injectIntl
 export default class Navigation extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
+    foundChannels: PropTypes.array.isRequired,
+    searchingChannels: PropTypes.bool.isRequired,
     goToChannel: PropTypes.func.isRequired,
+    openPm: PropTypes.func.isRequired,
+    joinChannel: PropTypes.func.isRequired,
+    showManageGroups: PropTypes.func.isRequired,
+    showNewConversation: PropTypes.func.isRequired,
+    searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    joined: PropTypes.array.isRequired,
-    unjoined: PropTypes.array.isRequired, // eslint-disable-line react/no-unused-prop-types
     favorited: PropTypes.array.isRequired,
-    recent: PropTypes.array.isRequired,
-    step: PropTypes.number.isRequired,
-    bottomOffset: PropTypes.number.isRequired
+    recent: PropTypes.array.isRequired
   }
 
   static defaultProps = {
-    step: 10,
-    bottomOffset: 5,
     shortcuts: ['mod+k'],
     isLoading: false
   }
@@ -62,44 +58,32 @@ export default class Navigation extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      bottomOffset: 5,
+      step: 10,
       shift: 20,
-      filter: '',
-      filtered: [],
-      filteredUnJoined: []
+      filter: ''
     }
-    this.filter = null
-    this.filteredList = null
-    this.listsContainer = null
-    this.navigation = null
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.joined !== this.props.joined) {
-      this.setState({
-        fuseJoined: new Fuse(
-          nextProps.joined,
-          {keys: ['name'], threshold: 0.3}
-        ),
-        fuseUnJoined: new Fuse(
-          nextProps.unjoined,
-          {keys: ['name'], threshold: 0.3}
-        )
-      })
-    }
-
-    const {shift, filter} = this.state
-    const {recent, step} = nextProps
+    const {shift, filter, step} = this.state
+    const {recent} = nextProps
     if (filter || recent.length < shift) return
 
-    if (
-      this.listsContainer &&
-      this.listsContainer.offsetHeight &&
-      this.listsContainer.offsetHeight < this.navigation.offsetHeight
-    ) {
+    if (this.listsContainer.offsetHeight &&
+      this.listsContainer.offsetHeight < this.navigation.offsetHeight) {
       this.setState({
         shift: shift + step
+      })
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.foundChannels !== nextProps.foundChannels) {
+      this.setState({
+        focusedChannel: nextProps.foundChannels[0]
       })
     }
   }
@@ -115,40 +99,35 @@ export default class Navigation extends PureComponent {
   }
 
   onScroll = (e) => {
-    const {recent, bottomOffset} = this.props
-    if (this.state.shift >= recent.length) return
+    const {shift, bottomOffset, step} = this.state
+    if (shift >= this.props.recent.length) return
 
     const {offsetHeight, scrollTop, scrollHeight} = e.target
     if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
       this.setState({
-        shift: this.state.shift + this.props.step
+        shift: shift + step
       })
     }
   }
 
-  onSelectFiltered = (channel) => {
-    this.goToChannel(channel)
-  }
-
   onChangeFilter = ({target}) => {
     const {value} = target
-    const filtered = this.state.fuseJoined.search(value)
-    const filteredUnJoined = this.state.fuseUnJoined.search(value)
 
+    this.props.searchChannelsForNavigation(value, 10000)
     this.setState({
-      filtered,
-      filteredUnJoined,
-      filter: value,
-      focusedChannel: filtered.concat(filteredUnJoined)[0]
+      filter: value
     })
   }
 
-  onFocusFiltered = (channel) => {
-    this.setState({focusedChannel: channel})
+  onFocusFiltered = (focusedChannel) => {
+    this.setState({
+      focusedChannel
+    })
   }
 
-  onKeyDownFilter = (e) => {
+  onKeyDown = (e) => {
     const keyName = keyname(e.keyCode)
+    const {focusedChannel} = this.state
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -164,7 +143,9 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.onSelectFiltered(this.state.focusedChannel)
+        if (focusedChannel) {
+          this.goToChannel(focusedChannel)
+        }
         e.preventDefault()
         break
       default:
@@ -174,56 +155,71 @@ export default class Navigation extends PureComponent {
   goToChannel = (channel) => {
     if (this.props.channel.id === channel.id) return
 
-    this.props.goToChannel(channel.slug || channel.mate.slug)
     this.setState({
       filter: '',
       filtered: [],
-      focusedChannel: null
+      focusedChannel: undefined
     })
+
+    if ((channel.type === 'pm') && !channel.joined) {
+      this.props.openPm(channel.mate.id)
+      return
+    }
+
+    if (channel.type === 'user') {
+      this.props.openPm(channel.id)
+      return
+    }
+
+    if (channel.type === 'room' && channel.isPublic && !channel.joined) {
+      this.props.joinChannel(channel.id)
+    }
+
+    this.props.goToChannel(channel.id)
   }
 
   renderFilteredChannel = (params) => {
     const {item: channel, focused} = params
-    const {classes} = this.props.sheet
-    const {formatMessage} = this.props.intl
-    const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
+    const {classes} = this.props
 
     return (
       <Channel
         {...this.props}
         {...this.state}
-        header={isFirstInUnJoined ? formatMessage(messages.channelHeader) : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}
-        key={channel.slug}
+        key={channel.type + channel.id}
         onClick={() => this.goToChannel(channel)}
       />
     )
   }
 
   renderList() {
-    const {classes} = this.props.sheet
+    const {
+      classes, favorited, recent, foundChannels,
+      intl: {formatMessage}, searchingChannels
+    } = this.props
+    const {shift, filter, focusedChannel} = this.state
+    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     if (this.state.filter) {
       return (
         <FilteredList
           {...this.props}
-          {...this.state}
           theme={{classes}}
+          filter={filter}
           ref={this.onFilteredListRef}
+          focusedChannel={focusedChannel}
+          searchingChannels={searchingChannels}
+          foundChannels={foundChannels}
           renderItem={this.renderFilteredChannel}
-          onSelect={this.onSelectFiltered}
+          onSelect={this.goToChannel}
           onFocus={this.onFocusFiltered}
           onMouseOver={this.onFocusFiltered}
         />
       )
     }
-
-    const {recent, intl} = this.props
-    const {formatMessage} = intl
-    const {shift} = this.state
-    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     return (
       <div>
@@ -233,7 +229,7 @@ export default class Navigation extends PureComponent {
           title={formatMessage(messages.favorites)}
           type="favorites"
           theme={{classes}}
-          list={this.props.favorited}
+          list={favorited}
           goToChannel={this.goToChannel}
         />
         <List
@@ -250,22 +246,26 @@ export default class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    if (this.props.isLoading) return null
-    const {classes} = this.props.sheet
+    const {
+      isLoading, classes, showNewConversation,
+      showManageGroups
+    } = this.props
+    if (isLoading) return null
     return (
       <div className={classes.navigationWrapper}>
-        <ManageButtons
-          {...this.props}
-          {...this.state}
-          theme={{classes}}
-        />
+        {!this.state.filter && (
+          <Actions
+            onNewConversation={showNewConversation}
+            onManageGroups={showManageGroups}
+          />
+        )}
         {this.renderList()}
       </div>
     )
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {classes} = this.props
 
     return (
       <div className={classes.wrapper}>
@@ -281,11 +281,10 @@ export default class Navigation extends PureComponent {
         <div className={classes.filter}>
           <Filter
             {...this.props}
-            {...this.state}
             ref={this.onFilterRef}
             value={this.state.filter}
             theme={{classes}}
-            onKeyDown={this.onKeyDownFilter}
+            onKeyDown={this.onKeyDown}
             onChange={this.onChangeFilter}
           />
         </div>

@@ -2,79 +2,65 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
+import Button from 'grape-web/lib/components/button'
 
-import {CloseLower as Close} from '../i18n/i18n'
-import style from './alertStyle'
-
-@injectSheet(style)
+@injectSheet({
+  notificationAlert: {
+    color: 'inherit',
+    font: 'inherit'
+  }
+})
 export default class NotificationsAlert extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    alert: PropTypes.object.isRequired,
-    enableNotifications: PropTypes.func,
-    hideAlert: PropTypes.func
+    classes: PropTypes.object.isRequired,
+    onEnableNotifications: PropTypes.func,
+    onHide: PropTypes.func,
+    buttonClass: PropTypes.string
   }
 
-  onEnableNotifications(alert) {
-    this.props.enableNotifications()
-    this.props.hideAlert(alert)
+  static defaultProps = {
+    onEnableNotifications: noop,
+    onHide: noop,
+    buttonClass: undefined
+  }
+
+  onEnableNotifications = () => {
+    const {onHide, onEnableNotifications} = this.props
+    onEnableNotifications()
+    onHide()
   }
 
   render() {
-    const {alert} = this.props
-    const {classes} = this.props.sheet
-    const onEnableNotifications = this.onEnableNotifications.bind(this, alert) // TODO #120
+    const {classes, buttonClass} = this.props
+
     return (
-      <span
-        className={classes.layout}
-      >
-        <span
-          className={classes.mainCol}
+      <div className={classes.notificationAlert}>
+        <FormattedMessage
+          id="initialGreeting"
+          defaultMessage="Hey there!"
+        />
+        {' '}
+        <FormattedMessage
+          id="enableNotificationsRequest"
+          defaultMessage="Please enable desktop notifications"
+        />
+        {' '}
+        <FormattedMessage
+          id="notificationsExplanation"
+          defaultMessage="so your team members can reach you on Grape."
+        />
+        {' '}
+        <Button
+          className={buttonClass}
+          onClick={this.onEnableNotifications}
         >
           <FormattedMessage
-            id="initialGreeting"
-            defaultMessage="Hey there!"
+            id="enableNotifications"
+            defaultMessage="Enable notifications"
           />
-          {' '}
-          <button
-            className={classes.buttonLink}
-            onClick={onEnableNotifications}
-          >
-            <FormattedMessage
-              id="enableNotificationsRequest"
-              defaultMessage="Please enable desktop notifications"
-            />
-          </button>
-          {' '}
-          <FormattedMessage
-            id="notificationsExplanation"
-            defaultMessage="so your team members can reach you on Grape."
-          />
-        </span>
-        <span
-          className={classes.secondaryCol}
-        >
-          <button
-            className={`${classes.actionButton} ${classes[`${alert.level}Button`]}`}
-            onClick={onEnableNotifications}
-          >
-            <FormattedMessage
-              id="enableNotifications"
-              defaultMessage="Enable notifications"
-            />
-          </button>
-        </span>
-        <span
-          className={classes.secondaryCol}
-        >
-          <button
-            className={classes.buttonLink}
-            onClick={/* TODO #120 */this.props.hideAlert.bind(null, alert)}
-          >
-            <Close />
-          </button>
-        </span>
-      </span>
+        </Button>
+      </div>
     )
   }
 }

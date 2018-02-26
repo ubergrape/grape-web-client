@@ -2,9 +2,15 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './fieldTheme.js'
-
-@injectSheet(styles)
+@injectSheet({
+  root: {
+    display: 'block',
+    flex: 1
+  },
+  title: {
+    fontWeight: 'bold'
+  }
+})
 export default class Field extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -20,7 +26,7 @@ export default class Field extends PureComponent {
     } = this.props
 
     return (
-      <div className={classes.field}>
+      <div className={classes.root}>
         <div className={classes.title}>{title}</div>
         <div className={classes.value}>{value}</div>
       </div>

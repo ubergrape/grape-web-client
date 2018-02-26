@@ -165,11 +165,11 @@ export default class MainSettings extends PureComponent {
   render() {
     const {classes} = this.props
     return (
-      <div className={classes.mainSettings}>
+      <section className={classes.mainSettings}>
         {this.renderSettings()}
         {this.renderRoomName()}
         {this.renderAdditionalActions()}
-      </div>
+      </section>
     )
   }
 }

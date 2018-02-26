@@ -10,15 +10,25 @@ import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
-import {styles} from './historyTheme'
+import LoadingText from './LoadingText'
 
 function createState(state, props) {
   const {rows, map} = createRowsState(state.rows, props.messages, props)
-  const scrollTo = map[props.scrollTo]
-  return {rows, scrollTo}
+  return {
+    rows,
+    scrollTo: map[props.scrollTo]
+  }
 }
 
-@injectSheet(styles)
+@injectSheet({
+  history: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  }
+})
 export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -40,7 +50,8 @@ export default class History extends PureComponent {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number
+    minimumBatchSize: PropTypes.number,
+    isLoadingInitialData: PropTypes.bool
   }
 
   static defaultProps = {
@@ -55,6 +66,7 @@ export default class History extends PureComponent {
     onInvite: noop,
     onAddIntegration: noop,
     showNoContent: false,
+    isLoadingInitialData: false,
     user: null,
     channel: null,
     users: [],
@@ -66,10 +78,15 @@ export default class History extends PureComponent {
   constructor(props) {
     super(props)
     this.state = createState({}, props)
+    this.needsInitialLoad = true
+  }
+
+  componentDidMount() {
+    this.load()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, onLoad, selectedMessageId, messages} = nextProps
+    const {channel, selectedMessageId, messages} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -77,13 +94,17 @@ export default class History extends PureComponent {
     const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
 
     if (selectedMessageHasChanged || channelHasChanged) {
-      onLoad()
+      this.needsInitialLoad = true
       return
     }
 
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
+  }
+
+  componentDidUpdate() {
+    this.load()
   }
 
   onRowsRendered = () => {
@@ -102,6 +123,15 @@ export default class History extends PureComponent {
     this.setState({rows})
   }
 
+  load() {
+    const {isLoadingInitialData, channel, onLoad} = this.props
+
+    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
+      this.needsInitialLoad = false
+      onLoad()
+    }
+  }
+
   renderRow = ({index, key, style}) => (
     <Row
       {...this.state.rows[index]}
@@ -114,9 +144,12 @@ export default class History extends PureComponent {
   render() {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
+      isLoadingInitialData
     } = this.props
     const {rows, scrollTo} = this.state
+
+    if (isLoadingInitialData) return <LoadingText />
 
     if (!user || !channel) return null
 

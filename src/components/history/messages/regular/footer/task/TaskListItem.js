@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import ListItem from 'material-ui/List/ListItem'
+import ListItem from 'grape-web/lib/components/list/listItem'
 
 import TaskIcon from './TaskIcon'
 import IconButton from './IconButton'

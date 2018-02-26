@@ -1,46 +1,36 @@
-import * as types from '../constants/actionTypes'
 import findIndex from 'lodash/array/findIndex'
+
+import * as types from '../constants/actionTypes'
 
 const initialState = []
 
 export default function reduce(state = initialState, action) {
+  const {payload} = action
+
   switch (action.type) {
     case types.SET_USERS:
-      return [...action.payload]
+      return [...payload]
 
-    case types.SET_USER: {
-      const {id} = action.payload
-      return state.reduce((newState, user) => {
-        if (user.id === id) {
-          newState.push({...user, current: true})
-          return newState
-        }
-        if (user.current) {
-          newState.push({...user, current: false})
-          return newState
-        }
-        newState.push(user)
-        return newState
-      }, [])
+    case types.ADD_USER_TO_ORG: {
+      if (findIndex(state, {id: payload.id}) === -1) {
+        return [...state, payload]
+      }
+      return state
     }
-
-    case types.ADD_USER_TO_ORG:
-      return [...state, action.payload]
-
     case types.REMOVE_USER_FROM_ORG: {
       const newState = [...state]
-      const index = findIndex(newState, {id: action.payload})
+      const index = findIndex(newState, {id: payload})
       if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        active: false
+        isActive: false
       })
       return newState
     }
 
     case types.CHANGE_USER_STATUS: {
-      const {userId: id, status} = action.payload
+      const {userId: id, status} = payload
 
       const newState = [...state]
       const index = findIndex(newState, {id})
@@ -54,8 +44,6 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_USER: {
-      const {payload} = action
-
       const newState = [...state]
       const index = findIndex(newState, {id: payload.id})
       if (index === -1) return state
@@ -70,7 +58,7 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_MEMBERSHIP: {
-      const {userId: id, update} = action.payload
+      const {userId: id, update} = payload
 
       const newState = [...state]
       const index = findIndex(newState, {id})

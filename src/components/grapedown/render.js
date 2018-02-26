@@ -2,7 +2,7 @@ import {mdReact} from 'markdown-react-js'
 import emoji from 'markdown-it-emoji'
 import pick from 'lodash/object/pick'
 import {defineMessages} from 'react-intl'
-import newlines from './markdown-it-newlines'
+import forcebreak from '../../utils/markdown-it-plugins/forcebreak'
 
 import {
   renderTag,
@@ -44,7 +44,7 @@ class Renderer {
         inline: this.renderInline,
         image: this.renderInlineImage
       },
-      plugins: [emoji, newlines]
+      plugins: [emoji, forcebreak]
     })
   }
 

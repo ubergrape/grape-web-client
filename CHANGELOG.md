@@ -1,5 +1,17 @@
 ## Release next (2017-xx-xx)
 
+## Release 0.55.3 (2017-06-30)
+
+### Fixes
+
+- Fix a rendering issue with room icons in navigation #466
+- Fix scroll down after clicking on a deep link to a message #484
+
+### Chore changes
+
+- Migrate notifications #492
+- Remove unused legacy libraries and styles
+
 ## Release 0.55.2 (2017-06-21)
 
 - Fix room icon size in room icon picker.

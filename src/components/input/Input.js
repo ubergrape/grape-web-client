@@ -8,7 +8,6 @@ import {pickHTMLProps} from 'pick-react-known-prop'
 import cn from 'classnames'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
-import {styles} from './theme'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 
@@ -18,7 +17,12 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  */
 // TODO: move this component to grape-ui library
 // https://github.com/ubergrape/chatgrape/issues/4384
-@injectSheet(styles)
+@injectSheet({
+  input: {
+    isolate: false,
+    position: 'relative'
+  }
+})
 export default class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -89,7 +93,7 @@ export default class Input extends PureComponent {
     const {error, theme, sheet} = this.props
     const {classes, arrowOffset, tooltipOffset, placement} = theme
     return (
-      <span className={sheet.classes.wrapper}>
+      <span className={sheet.classes.input}>
         {this.renderInput()}
         {error &&
           <Tooltip

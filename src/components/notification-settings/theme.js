@@ -1,5 +1,6 @@
 import {grayBlueLighter, grayLight, grayDark, green} from 'grape-theme/dist/base-colors'
 import {smaller, normal} from 'grape-theme/dist/fonts'
+import {borderRadius} from 'grape-theme/dist/sizes'
 
 import createInlineIcon from '../inline-icon/create'
 import buttonPrimary from '../button/primary'
@@ -15,21 +16,22 @@ const createIcon = name => createInlineIcon(name, {
 
 export const styles = {
   notificationSettings: {
-    borderTop: `3px solid ${grayBlueLighter}`
+    borderTop: [3, 'solid', grayBlueLighter]
   },
   section: {
     paddingTop: padding,
     paddingBottom: padding,
-    borderBottom: `1px solid ${grayBlueLighter}`
+    borderBottom: [1, 'solid', grayBlueLighter]
   },
   setting: {
     paddingLeft: padding,
     paddingRight: padding
   },
   groupedSetting: {
-    extend: 'setting',
+    composes: '$setting',
     paddingBottom: padding,
     '&:last-child': {
+      isolate: false,
       paddingBottom: 0
     }
   },
@@ -37,7 +39,7 @@ export const styles = {
     display: 'inline-block',
     width: 22
   },
-  titleIconMuteAll: createIcon('bellSlashOpen'),
+  titleIconMuteAll: createIcon('bellMuted'),
   titleIconDesktop: createIcon('laptop'),
   titleIconPush: createIcon('mobile'),
   titleHeadline: {
@@ -67,7 +69,13 @@ export const styles = {
   select: {
     // Chrome on windows creates an optical margin when text is too large.
     display: 'block',
-    width: '50%'
+    appearance: 'menulist',
+    border: {
+      width: 1,
+      style: 'solid',
+      color: grayBlueLighter,
+      radius: borderRadius.big
+    }
   },
   allMutedHint: {
     extend: normal,

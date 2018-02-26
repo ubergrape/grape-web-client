@@ -4,13 +4,13 @@ import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import Avatar from '../../../avatar/Avatar'
-import Grapedown from '../../../grapedown/Grapedown'
+import {Grapedown} from '../../../grapedown'
 import Header from '../../../message-parts/Header'
 
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
 import {styles} from '../baseMessageTheme'
-import {ActivityBubble, SelectedBubble} from './Bubbles'
+import {ActivityBubble, SelectedBubble} from './bubbles'
 import Expander from './Expander'
 import Menu from './Menu'
 

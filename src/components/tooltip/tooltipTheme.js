@@ -3,7 +3,9 @@ import {zIndex} from '../../utils/z-index'
 export const styles = {
   tooltip: {
     position: 'absolute',
-    zIndex: zIndex('tooltip')
+    zIndex: zIndex('tooltip'),
+    whiteSpace: 'inherit',
+    lineHeight: 0
   },
   arrow: {
     position: 'absolute',

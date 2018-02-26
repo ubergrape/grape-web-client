@@ -3,32 +3,49 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
+import noop from 'lodash/utility/noop'
 
-import {styles} from './theme'
 import TagsInput from '../tags-input/TagsInput'
 
-@injectSheet(styles)
+@injectSheet({
+  list: {
+    display: 'block',
+    marginTop: 20
+  }
+})
 export default class FilterableList extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     isFilterFocused: PropTypes.bool.isRequired,
     listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
     filter: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    onSelect: PropTypes.func.isRequired,
-    onRemoveSelected: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    renderItem: PropTypes.func.isRequired,
-    renderSelected: PropTypes.func.isRequired,
-    renderNotFound: PropTypes.func.isRequired,
-    renderEmptyItems: PropTypes.func.isRequired,
+    onSelect: PropTypes.func,
+    onClick: PropTypes.func,
+    onRemoveSelected: PropTypes.func,
+    onChange: PropTypes.func,
+    renderItem: PropTypes.func,
+    renderSelected: PropTypes.func,
+    renderNotFound: PropTypes.func,
+    renderEmptyItems: PropTypes.func,
     children: PropTypes.element
   }
 
   static defaultProps = {
-    isFilterFocused: true
+    listClassName: undefined,
+    placeholder: undefined,
+    children: null,
+    isFilterFocused: true,
+    onSelect: noop,
+    onClick: noop,
+    onRemoveSelected: noop,
+    onChange: noop,
+    renderItem: noop,
+    renderSelected: noop,
+    renderNotFound: noop,
+    renderEmptyItems: noop
   }
 
   constructor(props) {
@@ -50,22 +67,22 @@ export default class FilterableList extends PureComponent {
   }
 
   onKeyDown = (e) => {
-    const {list} = this.refs
     switch (keyname(e.keyCode)) {
       case 'up':
-        list.focus('prev')
+        this.list.focus('prev')
         e.preventDefault()
         break
       case 'down':
-        list.focus('next')
+        this.list.focus('next')
         e.preventDefault()
         break
-      case 'enter':
+      case 'enter': {
         const {focusedItem} = this.state
         if (!focusedItem) return
         this.onSelectItem(focusedItem)
         e.preventDefault()
         break
+      }
       default:
     }
   }
@@ -74,6 +91,10 @@ export default class FilterableList extends PureComponent {
     this.setState({
       focusedItem: item
     })
+  }
+
+  onRefList = (ref) => {
+    this.list = ref
   }
 
   clearFilter() {
@@ -108,7 +129,7 @@ export default class FilterableList extends PureComponent {
     const {focusedItem} = this.state
     return (
       <List
-        ref="list"
+        ref={this.onRefList}
         className={this.props.listClassName}
         items={items}
         renderItem={renderItem}
@@ -122,7 +143,7 @@ export default class FilterableList extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      classes,
       children,
       selected,
       filter,
@@ -147,9 +168,7 @@ export default class FilterableList extends PureComponent {
           className={classes.filterArea}
         />
         {children}
-        <div
-          className={classes.list}
-        >
+        <div className={classes.list}>
           {this.renderList()}
         </div>
       </div>

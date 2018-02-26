@@ -4,8 +4,9 @@ import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
-import style from './userStyle'
+import {defaultAvatar} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
+import style from './userStyle'
 
 const Status = ({classes, status, borderColor}) => (
   <i
@@ -20,45 +21,48 @@ Status.propTypes = {
   status: PropTypes.string.isRequired
 }
 
-Status.defaultPros = {
+Status.defaultProps = {
   borderColor: white
 }
 
 @injectSheet(style)
 export default class Username extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    showStatus: PropTypes.bool,
+    avatar: PropTypes.string,
     status: PropTypes.string,
-    statusBorderColor: PropTypes.string
+    statusBorderColor: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
-    showStatus: true,
-    theme: {classes: {}}
+    theme: {classes: {}},
+    className: undefined,
+    statusBorderColor: undefined,
+    status: undefined,
+    avatar: defaultAvatar
   }
 
   render() {
     const {
       name,
       avatar,
-      showStatus,
       status,
       statusBorderColor,
-      sheet: {classes},
-      theme
+      classes,
+      theme,
+      className
     } = this.props
 
     return (
-      <span className={cn(classes.avatarName, theme.classes.avatarName)}>
+      <span className={cn(classes.avatarName, theme.classes.avatarName, className)}>
         <Avatar
           src={avatar}
           className={cn(classes.avatar, theme.classes.avatar)}
         >
-          {showStatus &&
+          {status &&
             <Status
               classes={classes}
               status={status}

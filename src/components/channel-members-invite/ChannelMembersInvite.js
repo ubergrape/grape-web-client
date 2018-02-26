@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import injectSheet from 'grape-web/lib/jss'
 import pluck from 'lodash/collection/pluck'
 import {
   FormattedMessage,
@@ -8,10 +7,13 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import {white} from 'grape-theme/dist/base-colors'
+import injectSheet from 'grape-web/lib/jss'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import {InviteSuccess} from '../i18n/i18n'
-import {styles} from './theme'
+import buttonPrimary from '../button/primary'
+import buttonIcon from '../button/icon'
 
 const messages = defineMessages({
   pm: {
@@ -70,7 +72,24 @@ InviteButton.propTypes = {
   onClick: PropTypes.func.isRequired
 }
 
-@injectSheet(styles)
+@injectSheet({
+  submit: {
+    display: 'block',
+    marginTop: 20,
+    textAlign: 'right'
+  },
+  buttonInvite: {
+    extend: [
+      buttonIcon('invite', {color: white}),
+      buttonPrimary
+    ],
+    '&:disabled': {
+      isolate: false,
+      opacity: 0.5,
+      pointerEvents: 'none'
+    }
+  }
+})
 @injectIntl
 export default class ChannelMembersInvite extends PureComponent {
   static propTypes = {
@@ -79,7 +98,6 @@ export default class ChannelMembersInvite extends PureComponent {
     addToChannelMembersInvite: PropTypes.func.isRequired,
     removeFromChannelMembersInvite: PropTypes.func.isRequired,
     inviteToChannel: PropTypes.func.isRequired,
-    createRoomFromPmAndInvite: PropTypes.func.isRequired,
     hideChannelMembersInvite: PropTypes.func.isRequired,
     setInviteFilterValue: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
@@ -89,13 +107,12 @@ export default class ChannelMembersInvite extends PureComponent {
 
   onInvite = () => {
     const {
-      listed, inviteToChannel, createRoomFromPmAndInvite,
+      listed, inviteToChannel,
       hideChannelMembersInvite, channelType, showToastNotification
     } = this.props
 
     if (!listed.length) return
     if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
-    if (channelType === 'pm') createRoomFromPmAndInvite(listed)
     hideChannelMembersInvite()
     showToastNotification(<InviteSuccess invited={pluck(listed, 'displayName')} />)
   }
@@ -106,7 +123,7 @@ export default class ChannelMembersInvite extends PureComponent {
       intl: {formatMessage},
       channelType, setInviteFilterValue,
       addToChannelMembersInvite, removeFromChannelMembersInvite,
-      listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
+      listed, inviteToChannel, hideChannelMembersInvite,
       ...rest
     } = this.props
 

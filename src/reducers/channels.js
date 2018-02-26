@@ -1,6 +1,8 @@
 import findIndex from 'lodash/array/findIndex'
 import includes from 'lodash/collection/includes'
+import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
+import conf from '../conf'
 
 const initialState = []
 
@@ -34,8 +36,13 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
-    case types.CREATE_NEW_CHANNEL:
-      return [...state, action.payload]
+    case types.ADD_CHANNEL: {
+      const channel = action.payload
+      if (find(state, {id: channel.id})) {
+        return state
+      }
+      return [...state, channel]
+    }
 
     case types.ADD_USER_TO_CHANNEL: {
       const {user, channelId: id, isCurrentUser} = action.payload
@@ -58,18 +65,17 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
-      const {user, channelId: id, isCurrentUser} = action.payload
-
-      const newState = [...state]
-      const index = findIndex(newState, {id})
+      const {channelId, user} = action.payload
+      const index = findIndex(state, {id: channelId})
       if (index === -1) return state
-      const channel = newState[index]
-      newState.splice(index, 1, {
+      const channels = [...state]
+      const channel = state[index]
+      channels.splice(index, 1, {
         ...channel,
-        users: channel.users.filter(_id => _id !== user.id),
-        joined: isCurrentUser ? false : channel.joined
+        users: channel.users.filter(id => id !== user.id),
+        joined: conf.user.id !== user.id
       })
-      return newState
+      return channels
     }
 
     case types.UPDATE_CHANNEL: {

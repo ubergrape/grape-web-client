@@ -6,6 +6,7 @@ import jsEmoji, {
   getEmojiSliceStyle,
   style
 } from '../emoji/emoji'
+import conf from '../../conf'
 
 import {
   isChatUrl,
@@ -28,7 +29,7 @@ export function renderTag(tag, props, children) {
     if (isGrapeUrl(nextProps.href)) {
       return createElement(GrapeObject, nextProps, children)
     }
-    if (!isChatUrl(nextProps.href)) {
+    if (conf.embed || !isChatUrl(nextProps.href)) {
       nextProps = {...nextProps, target: '_blank'}
     }
   }
@@ -55,9 +56,11 @@ export function renderInlineImage(href, text) {
  * Coverts known `:emoji:`-strings in to the image.
  */
 export function renderEmoji(markup) {
+  // In case some client sends an emoji web client doesn't know.
   const image = jsEmoji.map.colons[markup]
+  if (!image) return `:${markup}:`
   const styles = getEmojiSliceStyle(image)
-  if (!image || !styles) return `:${markup}:`
+  if (!styles) return `:${markup}:`
 
   return [[
     'span',

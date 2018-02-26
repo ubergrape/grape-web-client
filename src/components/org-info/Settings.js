@@ -2,12 +2,14 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+import sizes from 'grape-theme/dist/sizes'
 
 import Dropdown from '../dropdown/Dropdown'
 import Tooltip from '../tooltip/HoverTooltip'
+import {iconSize} from '../header'
 import Menu from './Menu'
-import {styles} from './settingsTheme'
 
 const SettingsButton = ({classes, onClick, onButtonRef}) => (
   <Tooltip
@@ -18,24 +20,39 @@ const SettingsButton = ({classes, onClick, onButtonRef}) => (
       />
     )}
   >
-    <button
-      className={classes.settingsButton}
-      onClick={onClick}
-      ref={onButtonRef}
-    >
-      <Icon name="cog" className={classes.settingsButtonIcon} />
-    </button>
+    <IconButton onClick={onClick} rootRef={onButtonRef} className={classes.button}>
+      <Icon name="cog" className={classes.buttonIcon} />
+    </IconButton>
   </Tooltip>
 )
 
 const toggleMenu = state => ({showMenu: !state.showMenu})
 
-@injectSheet(styles)
+@injectSheet(({palette}) => ({
+  settings: {
+    position: 'relative',
+    flexShrink: 0
+  },
+  button: {
+    display: 'flex',
+    width: iconSize + 16,
+    height: iconSize + 16,
+    marginRight: sizes.spacer.s
+  },
+  buttonIcon: {
+    isolate: false,
+    color: palette.text.primary,
+    '&:hover': {
+      isolate: false,
+      color: palette.secondary.A200
+    }
+  }
+}))
 export default class Settings extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
-    onShowTutorial: PropTypes.func.isRequired
+    onShowIntro: PropTypes.func.isRequired
   }
 
   state = {showMenu: false}
@@ -60,9 +77,9 @@ export default class Settings extends PureComponent {
     this.props.onInvite()
   }
 
-  onShowTutorial = () => {
+  onShowIntro = () => {
     this.onHideMenu()
-    this.props.onShowTutorial({
+    this.props.onShowIntro({
       via: 'user menu',
       force: true
     })
@@ -93,7 +110,7 @@ export default class Settings extends PureComponent {
             <Menu
               {...menuProps}
               onInvite={this.onInvite}
-              onShowTutorial={this.onShowTutorial}
+              onShowIntro={this.onShowIntro}
             />
           </Dropdown>
         }

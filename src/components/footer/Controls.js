@@ -1,12 +1,71 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Dropzone from '@ubergrape/react-dropzone'
+import Dropzone from 'react-dropzone'
+import {bigger} from 'grape-theme/dist/fonts'
+import IconButton from 'grape-web/lib/components/icon-button'
+import Icon from 'grape-web/lib/svg-icons/Icon'
+import {iconSize, buttonSize} from './constants'
 
 import {maxSize as maxFileSize} from '../file-upload'
-import {styles} from './controlsTheme'
+import {Beacon} from '../intro'
 
-@injectSheet(styles)
+const AttachmentButton = (props) => {
+  const {
+    classes, disabled, onDropAccepted, onDropRejected, onOpenFileDialog
+  } = props
+
+  // Upload click will be handled using public API.
+  if (onOpenFileDialog) {
+    return (
+      <IconButton
+        className={classes.button}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
+      >
+        <Icon className={classes.contolIcon} name="paperclip" />
+      </IconButton>
+    )
+  }
+
+  return (
+    <Dropzone
+      className={classes.dropzone}
+      maxSize={maxFileSize}
+      disableClick={disabled}
+      onDropAccepted={onDropAccepted}
+      onDropRejected={onDropRejected}
+    >
+      <IconButton
+        className={classes.button}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
+      >
+        <Icon className={classes.contolIcon} name="paperclip" />
+      </IconButton>
+    </Dropzone>
+  )
+}
+
+@injectSheet(({palette}) => ({
+  controls: {
+    extend: bigger,
+    flexShrink: 0
+  },
+  button: {
+    width: buttonSize,
+    height: buttonSize,
+    '&:hover': {
+      isolate: false,
+      color: palette.secondary.A200
+    }
+  },
+  contolIcon: {
+    width: iconSize,
+    height: iconSize
+  },
+  dropzone: {}
+}))
 export default class Controls extends PureComponent {
   static propTypes = {
     showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
@@ -16,18 +75,20 @@ export default class Controls extends PureComponent {
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
-    onRejectFiles: PropTypes.func.isRequired
+    onRejectFiles: PropTypes.func.isRequired,
+    onOpenFileDialog: PropTypes.func
   }
 
   static defaultProps = {
-    disabled: false
+    disabled: false,
+    onOpenFileDialog: undefined
   }
 
-  onSelectFiles = (files) => {
+  onDropAccepted = (files) => {
     this.props.onUpload({files})
   }
 
-  onRejectFiles = (files) => {
+  onDropRejected = (files) => {
     this.props.onRejectFiles({files})
   }
 
@@ -44,18 +105,31 @@ export default class Controls extends PureComponent {
   }
 
   render() {
-    const {classes, disabled} = this.props
+    const {classes, disabled, onOpenFileDialog} = this.props
     return (
       <div className={classes.controls}>
-        <Dropzone
-          className={classes.attachment}
-          onDropAccepted={this.onSelectFiles}
-          onDropRejected={this.onRejectFiles}
-          maxSize={maxFileSize}
-          disableClick={disabled}
+        <AttachmentButton
+          classes={classes}
+          disabled={disabled}
+          onOpenFileDialog={onOpenFileDialog}
+          onDropAccepted={this.onDropAccepted}
+          onDropRejected={this.onDropRejected}
         />
-        <button className={classes.emoji} onClick={this.onToggleEmojiBrowser} disabled={disabled} />
-        <button className={classes.search} onClick={this.onShowSearchBrowser} disabled={disabled} />
+        <IconButton
+          className={classes.button}
+          onClick={this.onToggleEmojiBrowser}
+          disabled={disabled}
+        >
+          <Icon className={classes.contolIcon} name="smileOpen" />
+        </IconButton>
+        <IconButton
+          className={classes.button}
+          onClick={this.onShowSearchBrowser}
+          disabled={disabled}
+        >
+          <Icon className={classes.contolIcon} name="windowSearch" />
+        </IconButton>
+        <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
       </div>
     )
   }
