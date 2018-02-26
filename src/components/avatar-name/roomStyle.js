@@ -23,7 +23,7 @@ export default {
     color: 'inherit',
     display: 'flex'
   },
-  usersCountIcon: createIcon({name: 'users', width: '1.4em'}),
+  membersCountIcon: createIcon({name: 'users', width: '1.4em'}),
   creator: {
     color: 'inherit',
     marginLeft: 10
