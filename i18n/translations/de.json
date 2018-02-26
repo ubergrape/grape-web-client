@@ -160,8 +160,6 @@
   "_loginHint.comment": "Embedded chat login view hint.",
   "loginSubmit": "Jetzt anmelden",
   "_loginSubmit.comment": "Embedded chat login view submit button.",
-  "manageContactsInfoDeleted": "Archivierte Konversationen mit gelöschten Nutzern",
-  "_manageContactsInfoDeleted.comment": "Manage Contacts Dialog: deleted users text",
   "manageGroupsJoinableBtn": "beitreten",
   "_manageGroupsJoinableBtn.comment": "Manage Groups Dialog: join button label",
   "manageGroupsJoinedBtn": "verlassen",

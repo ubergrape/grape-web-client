@@ -119,7 +119,6 @@ export default {
   "loginHeadline": "Treten Sie dem Chat bei!",
   "loginHint": "Bitte melden Sie sich an, um an der Kommunikation teilzunehmen.",
   "loginSubmit": "Jetzt anmelden",
-  "manageContactsInfoDeleted": "Archivierte Konversationen mit gelöschten Nutzern",
   "manageGroupsJoinableBtn": "beitreten",
   "manageGroupsJoinedBtn": "verlassen",
   "manageGroupsDialogTitle": "Gruppen",
