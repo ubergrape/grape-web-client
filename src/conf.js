@@ -39,33 +39,31 @@ class Config {
   constructor() {
     this.setup({
       embed: Boolean(localStorage.embed),
-      channelId: localStorage.channelId ? Number(localStorage.channelId) : null,
+      channelId: Number(localStorage.channelId),
       forceLongpolling: Boolean(localStorage.forceLongpolling),
-      server: {serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : location.origin}
+      server: {serviceUrl: location.origin}
     })
   }
 
-  generateServiceUrl(conf) {
+  transformations(conf) {
     if (conf.server && conf.server.serviceUrl) {
       Object.assign(this.server, parseServiceUrl(conf.server.serviceUrl))
     }
   }
 
-  mergeLocalStorageWithConf(conf) {
-    if (localStorage) {
-      merge(this, {
-        channelId: localStorage.channelId ? Number(localStorage.channelId) : conf.channelId,
-        server: {
-          serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : conf.server.serviceUrl
-        }
-      })
-    }
+  mergeFromLocalStorage() {
+    merge(this, {
+      channelId: localStorage.channelId ? Number(localStorage.channelId) : this.channelId,
+      server: {
+        serviceUrl: localStorage.serviceUrl ? localStorage.serviceUrl : this.server.serviceUrl
+      }
+    })
   }
 
   setup(conf) {
     merge(this, conf)
-    this.mergeLocalStorageWithConf(conf)
-    this.generateServiceUrl(conf)
+    this.mergeFromLocalStorage()
+    this.transformations(conf)
   }
 }
 
