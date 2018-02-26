@@ -4,7 +4,6 @@
   "initialGreeting": "Hey there!",
   "enableNotificationsRequest": "Please enable desktop notifications",
   "notificationsExplanation": "so your team members can reach you on Grape.",
-  "reload": "reload",
   "enableNotifications": "Enable notifications",
   "reconnectAlert": "Reconnected successfully.",
   "noRoomFound": "We could not find what you were looking for - the room might have been deleted, renamed or moved.",
