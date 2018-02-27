@@ -7,11 +7,13 @@ import icons from 'grape-web/lib/svg-icons/data'
 import webColors from 'grape-theme/dist/web-colors'
 
 import inlineLink from '../button/inlineLink'
+import FakeLinkWithIcon from './FakeLinkWithIcon'
 
 @injectSheet({
   link: {
-    extends: inlineLink,
+    ...inlineLink,
     wordBreak: 'break-word',
+    cursor: 'pointer',
     '&:hover': {
       ...inlineLink['&:hover'],
       textDecoration: 'none',
@@ -33,12 +35,14 @@ export default class LinkWithIcon extends PureComponent {
     url: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     icon: PropTypes.string.isRequired,
-    target: PropTypes.string
+    target: PropTypes.string,
+    fakeLink: PropTypes.bool
   }
 
   static defaultProps = {
     icon: 'file',
-    target: null
+    target: null,
+    fakeLink: false
   }
 
   getSvg() {
@@ -50,9 +54,20 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   render() {
-    const {url, children, classes, target} = this.props
+    const {url, children, classes, target, fakeLink} = this.props
 
     const style = {backgroundImage: `url(${this.getSvg()})`}
+
+    if (fakeLink) {
+      return (
+        <FakeLinkWithIcon
+          classes={classes}
+        >
+          <span className={classes.icon} style={style} />
+          {' '}{children}
+        </FakeLinkWithIcon>
+      )
+    }
 
     return (
       <Link to={url} target={target} className={classes.link}>

@@ -27,6 +27,17 @@ export default function GrapeObject({children, href, user}) {
   }
 
   if (type === 'room') {
+    if (Number(options.id) === conf.channelId && conf.embed) {
+      return (
+        <LinkWithIcon
+          url={`/chat/channel/${id}/${slug}`}
+          fakeLink
+          icon="bell"
+        >
+          {children}
+        </LinkWithIcon>
+      )
+    }
     return (
       <LinkWithIcon
         url={`/chat/channel/${id}/${slug}`}
