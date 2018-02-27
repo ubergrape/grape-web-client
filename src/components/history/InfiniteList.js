@@ -9,9 +9,9 @@ import noop from 'lodash/utility/noop'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
-import RowsCache, {cache} from './RowsCache'
 
 import {lastRowBottomSpace} from './rowTheme'
+import RowsCache from './RowsCache'
 
 @injectSheet({
   grid: {
@@ -45,9 +45,8 @@ export default class InfiniteList extends PureComponent {
     onRowsRendered: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.cache = new RowsCache(props.rows)
+  componentDidMount() {
+    this.cache.setRows(this.props.rows)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,22 +65,34 @@ export default class InfiniteList extends PureComponent {
     // Compare additionally with a locally cached width, because
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
-      cache.clear()
+      this.cache.clearAll()
       this.list.recomputeRowHeights()
     }
     this.prevWidth = width
   }
 
+  cache = new RowsCache({fixedWidth: true})
+
   isRowLoaded = index => Boolean(this.props.rows[index])
 
   scrollToRow = (index) => { this.list.scrollToRow(index) }
 
-  renderRowForCellMeasurer = ({rowIndex: index}) => this.props.renderRow({index})
+  renderRow = ({index, key, parent, style}) => (
+    <CellMeasurer
+      cache={this.cache}
+      parent={parent}
+      columnIndex={0}
+      key={key}
+      rowIndex={index}
+    >
+      {this.props.renderRow({index, key, style})}
+    </CellMeasurer>
+  )
 
   render() {
     const {
       onRowsRendered, onLoadMore, onTouchTopEdge, onScroll,
-      scrollTo, renderRow, rows, minimumBatchSize,
+      scrollTo, rows, minimumBatchSize,
       classes
     } = this.props
 
@@ -101,53 +112,44 @@ export default class InfiniteList extends PureComponent {
         }) => (
           <AutoSizer onResize={this.onResizeViewport}>
             {({width, height}) => (
-              <CellMeasurer
-                cellSizeCache={this.cache}
-                cellRenderer={this.renderRowForCellMeasurer}
-                columnCount={1}
-                rowCount={rows.length}
-                width={width}
+              <AutoScroll
+                rows={rows}
+                height={height}
+                scrollToIndex={scrollToRow}
+                minEndThreshold={lastRowBottomSpace}
+                scrollToRow={this.scrollToRow}
               >
-                {({getRowHeight}) => (
-                  <AutoScroll
-                    rows={rows}
+                {({
+                  onScroll: onScrollInAutoScroll,
+                  scrollToAlignment,
+                  scrollToIndex,
+                  onRowsRendered: onRowsRenderedInAutoScroll
+                }) => (
+                  <List
+                    deferredMeasurementCache={this.cache}
+                    className={classes.grid}
+                    scrollToIndex={scrollToIndex}
+                    scrollToAlignment={scrollToAlignment}
+                    onRowsRendered={(params) => {
+                      onRowsRenderedInAutoScroll(params)
+                      onRowsRenderedInInfiniteLoader(params)
+                      onRowsRendered(params)
+                    }}
+                    onScroll={(params) => {
+                      onScroll(params)
+                      onScrollInAutoScroll(params)
+                      onScrollInInfiniteLoader(params)
+                    }}
+                    width={width}
                     height={height}
-                    scrollToIndex={scrollToRow}
-                    minEndThreshold={lastRowBottomSpace}
-                    scrollToRow={this.scrollToRow}
-                  >
-                    {({
-                      onScroll: onScrollInAutoScroll,
-                      scrollToAlignment,
-                      scrollToIndex,
-                      onRowsRendered: onRowsRenderedInAutoScroll
-                    }) => (
-                      <List
-                        className={classes.grid}
-                        scrollToIndex={scrollToIndex}
-                        scrollToAlignment={scrollToAlignment}
-                        onRowsRendered={(params) => {
-                          onRowsRenderedInAutoScroll(params)
-                          onRowsRenderedInInfiniteLoader(params)
-                          onRowsRendered(params)
-                        }}
-                        onScroll={(params) => {
-                          onScroll(params)
-                          onScrollInAutoScroll(params)
-                          onScrollInInfiniteLoader(params)
-                        }}
-                        width={width}
-                        height={height}
-                        rowCount={rows.length}
-                        rowHeight={getRowHeight}
-                        rowRenderer={renderRow}
-                        overscanRowCount={5}
-                        ref={this.onRefList}
-                      />
-                    )}
-                  </AutoScroll>
+                    rowCount={rows.length}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    overscanRowCount={5}
+                    ref={this.onRefList}
+                  />
                 )}
-              </CellMeasurer>
+              </AutoScroll>
             )}
           </AutoSizer>
         )}
