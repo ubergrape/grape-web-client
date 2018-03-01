@@ -43,6 +43,16 @@ export function goTo(options) {
   }
 }
 
+export function goToMessageEmbedded(channelId, messageId) {
+  return (dispatch) => {
+    dispatch({
+      type: types.GO_TO_MESSAGE,
+      payload: messageId
+    })
+    dispatch(openChannel(channelId, messageId))
+  }
+}
+
 export function goToMessage(message) {
   return (dispatch) => {
     dispatch({

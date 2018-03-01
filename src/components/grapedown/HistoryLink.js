@@ -1,6 +1,5 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {Link} from 'react-router-dom'
 
 import inlineLink from '../button/inlineLink'
 
@@ -10,14 +9,13 @@ const styles = () => ({
   }
 })
 
-const HistoryLink = ({classes, target, href}) => (
-  <Link
-    to={href}
-    target={target}
+const HistoryLink = ({classes, href, onClick, channelId, messageId}) => (
+  <span
     className={classes.link}
+    onClick={() => onClick(channelId, messageId)}
   >
     {href}
-  </Link>
+  </span>
 )
 
 export default injectSheet(styles)(HistoryLink)

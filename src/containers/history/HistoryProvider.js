@@ -22,6 +22,7 @@ const actionNames = {
   showToastNotification: 'onCopyLink',
   quoteMessage: 'onQuote',
   showRemoveLinkAttachments: 'onRemoveLinkAttachment',
+  goToMessageEmbedded: 'goToMessageEmbedded',
   pinMessage: 'onPin',
   unpinMessage: 'onUnpin'
 }

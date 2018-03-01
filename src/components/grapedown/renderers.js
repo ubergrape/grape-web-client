@@ -42,7 +42,9 @@ export function renderTag(tag, props, children) {
           <HistoryLink
             key={nextProps.key}
             href={nextProps.href}
-            target={nextProps.target}
+            channelId={Number(match.params.channelId)}
+            messageId={match.params.messageId}
+            onClick={nextProps.goToMessageEmbedded}
           />
         )
       }
