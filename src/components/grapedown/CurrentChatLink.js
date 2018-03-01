@@ -9,7 +9,7 @@ const styles = () => ({
   }
 })
 
-const HistoryLink = ({classes, href, onClick, channelId, messageId}) => (
+const CurrentChatLink = ({classes, href, onClick, channelId, messageId}) => (
   <span
     className={classes.link}
     onClick={() => onClick(channelId, messageId)}
@@ -18,4 +18,4 @@ const HistoryLink = ({classes, href, onClick, channelId, messageId}) => (
   </span>
 )
 
-export default injectSheet(styles)(HistoryLink)
+export default injectSheet(styles)(CurrentChatLink)

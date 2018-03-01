@@ -8,7 +8,7 @@ import jsEmoji, {
   style
 } from '../emoji/emoji'
 import conf from '../../conf'
-import HistoryLink from './HistoryLink'
+import CurrentChatLink from './CurrentChatLink'
 
 import {
   isChatUrl,
@@ -39,7 +39,7 @@ export function renderTag(tag, props, children) {
       })
       if (Number(match.params.channelId) === conf.channelId) {
         return (
-          <HistoryLink
+          <CurrentChatLink
             key={nextProps.key}
             href={nextProps.href}
             channelId={Number(match.params.channelId)}
