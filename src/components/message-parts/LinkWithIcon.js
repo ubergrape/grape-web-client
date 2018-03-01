@@ -7,7 +7,6 @@ import icons from 'grape-web/lib/svg-icons/data'
 import webColors from 'grape-theme/dist/web-colors'
 
 import inlineLink from '../button/inlineLink'
-import FakeLinkWithIcon from './FakeLinkWithIcon'
 
 @injectSheet({
   link: {
@@ -32,7 +31,7 @@ import FakeLinkWithIcon from './FakeLinkWithIcon'
 export default class LinkWithIcon extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    url: PropTypes.string.isRequired,
+    url: PropTypes.string,
     children: PropTypes.node.isRequired,
     icon: PropTypes.string.isRequired,
     target: PropTypes.string,
@@ -40,6 +39,7 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   static defaultProps = {
+    url: '',
     icon: 'file',
     target: null,
     fakeLink: false
@@ -60,12 +60,10 @@ export default class LinkWithIcon extends PureComponent {
 
     if (fakeLink) {
       return (
-        <FakeLinkWithIcon
-          classes={classes}
-        >
+        <span className={classes.link}>
           <span className={classes.icon} style={style} />
           {' '}{children}
-        </FakeLinkWithIcon>
+        </span>
       )
     }
 
