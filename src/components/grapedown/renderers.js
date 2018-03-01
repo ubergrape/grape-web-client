@@ -32,9 +32,7 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, nextProps, children)
     }
     if (conf.embed && isChatUrl(nextProps.href)) {
-      let pathname = new URL(nextProps.href).pathname
-      pathname = pathname.substring(0, pathname.length - 1)
-      const match = matchPath(pathname, {
+      const match = matchPath(new URL(nextProps.href).pathname, {
         path: '/chat/channel/:channelId(\\d+):separator(:)?:messageId?/:slug?'
       })
       if (Number(match.params.channelId) === conf.channelId) {
