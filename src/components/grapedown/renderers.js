@@ -1,12 +1,14 @@
-import {createElement} from 'react'
+import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
+import {matchPath} from 'react-router-dom'
 
 import jsEmoji, {
   getEmojiSliceStyle,
   style
 } from '../emoji/emoji'
 import conf from '../../conf'
+import HistoryLink from './HistoryLink'
 
 import {
   isChatUrl,
@@ -28,6 +30,22 @@ export function renderTag(tag, props, children) {
   if (tag === 'a') {
     if (isGrapeUrl(nextProps.href)) {
       return createElement(GrapeObject, nextProps, children)
+    }
+    if (conf.embed && isChatUrl(nextProps.href)) {
+      let pathname = new URL(nextProps.href).pathname
+      pathname = pathname.substring(0, pathname.length - 1)
+      const match = matchPath(pathname, {
+        path: '/chat/channel/:channelId(\\d+):separator(:)?:messageId?/:slug?'
+      })
+      if (Number(match.params.channelId) === conf.channelId) {
+        return (
+          <HistoryLink
+            key={nextProps.key}
+            href={nextProps.href}
+            target={nextProps.target}
+          />
+        )
+      }
     }
     if (conf.embed || !isChatUrl(nextProps.href)) {
       nextProps = {...nextProps, target: '_blank'}
