@@ -17,17 +17,16 @@ import GrapeObject from './GrapeObject'
 import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
-  const nextProps = props
+  const {href, key, forcebreak} = props
 
-  if (tag === 'br' && nextProps.forcebreak) {
-    return createElement(LineBreak, {key: nextProps.key})
+  if (tag === 'br' && forcebreak) {
+    return createElement(LineBreak, {key})
   }
 
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
-    const {href, key} = nextProps
-    if (isGrapeUrl(nextProps.href)) {
-      return createElement(GrapeObject, nextProps, children)
+    if (isGrapeUrl(href)) {
+      return createElement(GrapeObject, props, children)
     }
     return (
       <Link to={href} key={key}>
@@ -38,7 +37,7 @@ export function renderTag(tag, props, children) {
 
   return createElement(
     tag,
-    omit(nextProps, nonStandardProps),
+    omit(props, nonStandardProps),
     children && children.length ? children : undefined
   )
 }

@@ -19,27 +19,26 @@ class FakeRouter extends PureComponent {
     return {
       router: {
         history: {
-          push: to => this.identifyLink(to),
-          replace: to => this.identifyLink(to),
+          push: to => this.adressLink(to),
+          replace: to => this.adressLink(to),
           createHref: history.createHref
         }
       }
     }
   }
 
-  identifyLink = (to) => {
+  adressLink = (to) => {
     if (isChatUrl(to)) {
       const match = matchPath(parseUrl(to).pathname, {
         path: channelRoute
       })
-      if (Number(match.params.channelId) === conf.channelId) {
-        this.props.goTo(Number(match.params.channelId), match.params.messageId)
-      } else {
-        window.open(to)
+      const channelId = Number(match.params.channelId)
+      if (channelId === conf.channelId) {
+        return this.props.goToMessage(channelId, match.params.messageId)
       }
-    } else {
-      window.open(`${conf.server.serviceUrl}${to}`)
+      return window.open(to)
     }
+    return window.open(`${conf.server.serviceUrl}${to}`)
   }
 
   render() {
@@ -49,7 +48,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  goToMessageEmbedded: 'goTo'
+  goToMessageEmbedded: 'goToMessage'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)
