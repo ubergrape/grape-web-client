@@ -5,7 +5,7 @@ import ConnectedRouter from 'react-router-redux/ConnectedRouter'
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
-import {channelRoute} from './routes'
+import {channelRoute} from '../../constants/routes'
 
 const Container = withRouter(AppContainer)
 

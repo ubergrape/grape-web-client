@@ -2,6 +2,7 @@ import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
 import {matchPath} from 'react-router-dom'
+import parseUrl from 'grape-web/lib/parse-url'
 
 import jsEmoji, {
   getEmojiSliceStyle,
@@ -9,7 +10,7 @@ import jsEmoji, {
 } from '../emoji/emoji'
 import conf from '../../conf'
 import CurrentChatLink from './CurrentChatLink'
-import {channelRoute} from '../../containers/router/routes'
+import {channelRoute} from '../../constants/routes'
 
 import {
   isChatUrl,
@@ -33,9 +34,7 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, nextProps, children)
     }
     if (conf.embed && isChatUrl(nextProps.href)) {
-      const parser = document.createElement('a')
-      parser.href = nextProps.href
-      const match = matchPath(parser.pathname, {
+      const match = matchPath(parseUrl(nextProps.href).pathname, {
         path: channelRoute
       })
       if (Number(match.params.channelId) === conf.channelId) {
