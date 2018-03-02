@@ -30,10 +30,7 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, nextProps, children)
     }
     return (
-      <Link
-        to={href}
-        key={key}
-      >
+      <Link to={href} key={key}>
         {children}
       </Link>
     )

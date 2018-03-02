@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 
 import LinkWithIcon from '../message-parts/LinkWithIcon'
 import Highlight from '../highlight/YellowHighlight'
+import conf from '../../conf'
 
 const {normalizeLinkText} = markdownIt()
 
@@ -34,7 +35,7 @@ export default function GrapeObject({children, href, user}) {
   }
 
   if (url[0] === '/') {
-    url = `${url}`
+    url = `${conf.server.serviceUrl}${url}`
   }
 
   return (

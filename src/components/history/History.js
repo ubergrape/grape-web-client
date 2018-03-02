@@ -135,9 +135,9 @@ export default class History extends PureComponent {
   renderRow = ({index, key, style}) => (
     <Row
       {...this.state.rows[index]}
+      key={key}
       style={style}
       onToggleExpander={this.onToggleExpander}
-      key={key}
     />
   )
 
