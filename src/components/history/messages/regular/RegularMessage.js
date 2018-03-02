@@ -50,7 +50,6 @@ export default class RegularMessage extends PureComponent {
     onResend: PropTypes.func.isRequired,
     onOpenPm: PropTypes.func.isRequired,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
-    goToMessageEmbedded: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -172,7 +171,7 @@ export default class RegularMessage extends PureComponent {
     const {
       author, user, time, avatar, children, hasBubbleArrow,
       state, isOwn, isSelected, isPinned, attachments, customEmojis, duplicates,
-      classes, linkAttachments, nlp, goToMessageEmbedded
+      classes, linkAttachments, nlp
     } = this.props
 
     const {isMenuOpened, isMenuDropdownOpened} = this.state
@@ -218,7 +217,6 @@ export default class RegularMessage extends PureComponent {
                     text={children}
                     user={user}
                     customEmojis={customEmojis}
-                    goToMessageEmbedded={goToMessageEmbedded}
                   />
                 )}
                 {attachments.map(this.renderAttachment)}

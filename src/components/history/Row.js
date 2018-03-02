@@ -75,7 +75,6 @@ export default class Row extends PureComponent {
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
-    goToMessageEmbedded: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired
   }
@@ -139,8 +138,7 @@ export default class Row extends PureComponent {
       sheet: {classes},
       user, onOpenPm, selectedMessageId, message, prevMessage, customEmojis,
       isLast, isGroupable, duplicates, onToggleExpander, onPin, onUnpin,
-      isExpanded, isPm, style, key, onRemoveLinkAttachment, channel,
-      goToMessageEmbedded
+      isExpanded, isPm, style, key, onRemoveLinkAttachment, channel
     } = this.props
 
     let separator = null
@@ -175,8 +173,7 @@ export default class Row extends PureComponent {
       onResend: this.onResend,
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
-      onRemoveLinkAttachment,
-      goToMessageEmbedded
+      onRemoveLinkAttachment
     }
 
     if (message.type === 'activity') {

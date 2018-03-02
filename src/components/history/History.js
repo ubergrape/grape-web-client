@@ -38,7 +38,6 @@ export default class History extends PureComponent {
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
-    goToMessageEmbedded: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool.isRequired,
@@ -136,10 +135,9 @@ export default class History extends PureComponent {
   renderRow = ({index, key, style}) => (
     <Row
       {...this.state.rows[index]}
-      key={key}
       style={style}
       onToggleExpander={this.onToggleExpander}
-      goToMessageEmbedded={this.props.goToMessageEmbedded}
+      key={key}
     />
   )
 

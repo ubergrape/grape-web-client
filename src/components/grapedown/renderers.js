@@ -1,19 +1,14 @@
 import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
-import {matchPath} from 'react-router-dom'
-import parseUrl from 'grape-web/lib/parse-url'
+import {Link} from 'react-router-dom'
 
 import jsEmoji, {
   getEmojiSliceStyle,
   style
 } from '../emoji/emoji'
-import conf from '../../conf'
-import CurrentChatLink from './CurrentChatLink'
-import {channelRoute} from '../../constants/routes'
 
 import {
-  isChatUrl,
   nonStandardProps,
   replaceCustomEmojis
 } from './utils'
@@ -22,7 +17,7 @@ import GrapeObject from './GrapeObject'
 import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
-  let nextProps = props
+  const nextProps = props
 
   if (tag === 'br' && nextProps.forcebreak) {
     return createElement(LineBreak, {key: nextProps.key})
@@ -30,28 +25,18 @@ export function renderTag(tag, props, children) {
 
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
+    const {href, key} = nextProps
     if (isGrapeUrl(nextProps.href)) {
       return createElement(GrapeObject, nextProps, children)
     }
-    if (conf.embed && isChatUrl(nextProps.href)) {
-      const match = matchPath(parseUrl(nextProps.href).pathname, {
-        path: channelRoute
-      })
-      if (Number(match.params.channelId) === conf.channelId) {
-        return (
-          <CurrentChatLink
-            key={nextProps.key}
-            href={nextProps.href}
-            channelId={Number(match.params.channelId)}
-            messageId={match.params.messageId}
-            onClick={nextProps.goToMessageEmbedded}
-          />
-        )
-      }
-    }
-    if (conf.embed || !isChatUrl(nextProps.href)) {
-      nextProps = {...nextProps, target: '_blank'}
-    }
+    return (
+      <Link
+        to={href}
+        key={key}
+      >
+        {children}
+      </Link>
+    )
   }
 
   return createElement(
@@ -67,7 +52,7 @@ export function renderTag(tag, props, children) {
 export function renderInlineImage(href, text) {
   return [[
     'a',
-    {href, alt: text, target: '_blank'},
+    {href, alt: text},
     ['text', text]
   ]]
 }

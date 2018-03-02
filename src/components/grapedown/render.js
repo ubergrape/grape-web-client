@@ -42,7 +42,8 @@ class Renderer {
       convertRules: {
         emoji: this.renderEmoji,
         inline: this.renderInline,
-        image: this.renderInlineImage
+        image: this.renderInlineImage,
+        link: this.renderLinks
       },
       plugins: [emoji, forcebreak]
     })

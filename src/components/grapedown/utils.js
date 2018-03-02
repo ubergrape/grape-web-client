@@ -11,7 +11,7 @@ export function isChatUrl(url) {
   return urlObj.host === host && urlObj.pathname.indexOf('/chat') === 0
 }
 
-export const nonStandardProps = ['user', 'customEmojis', 'forcebreak', 'goToMessageEmbedded']
+export const nonStandardProps = ['user', 'customEmojis', 'forcebreak']
 
 /**
  * Coverts `:emoji:`-strings that are in `customEmojis` map in to the images.
