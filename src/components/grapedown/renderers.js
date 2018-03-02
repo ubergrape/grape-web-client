@@ -9,6 +9,7 @@ import jsEmoji, {
 } from '../emoji/emoji'
 import conf from '../../conf'
 import CurrentChatLink from './CurrentChatLink'
+import {channelRoute} from '../../containers/router/routes'
 
 import {
   isChatUrl,
@@ -32,8 +33,10 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, nextProps, children)
     }
     if (conf.embed && isChatUrl(nextProps.href)) {
-      const match = matchPath(new URL(nextProps.href).pathname, {
-        path: '/chat/channel/:channelId(\\d+):separator(:)?:messageId?/:slug?'
+      const parser = document.createElement('a')
+      parser.href = nextProps.href
+      const match = matchPath(parser.pathname, {
+        path: channelRoute
       })
       if (Number(match.params.channelId) === conf.channelId) {
         return (

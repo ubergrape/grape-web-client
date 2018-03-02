@@ -1,10 +1,10 @@
-var merge = require('lodash/internal/baseMerge')
+var merge = require('lodash/object/merge')
 var webpackConfig = require('./webpack.config')
 
 module.exports = merge(webpackConfig, {
   entry: {
-    embedded: './src/embedded.js',
-    app: './src/index.js'
+    embedded: ['babel-polyfill', './src/embedded.js'],
+    app: ['babel-polyfill', './src/index.js']
   },
   output: {
     filename: '[name].js'
