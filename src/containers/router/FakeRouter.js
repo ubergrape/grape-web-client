@@ -48,7 +48,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  goToMessageEmbedded: 'goToMessage'
+  goToEmbeddedMessage: 'goToMessage'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)
