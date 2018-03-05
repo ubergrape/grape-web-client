@@ -7,14 +7,15 @@ import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
-import {channelRoute} from '../constants/routes'
+import {channelRoute, pmRoute} from '../constants/routes'
 import {isChatUrl} from '../components/grapedown/utils'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
 const goToFromEmbedded = path => (dispatch) => {
   const {pathname, hostname} = parseUrl(path)
-  const match = matchPath(pathname, {path: channelRoute})
+  const match = matchPath(pathname, {path: channelRoute}) ||
+    matchPath(pathname, {path: pmRoute})
   // Open link in new tab, if it's outgoing link, or if link not leads to chat.
   if (!match) {
     window.open(path)
