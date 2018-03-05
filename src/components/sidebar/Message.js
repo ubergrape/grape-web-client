@@ -95,7 +95,8 @@ export default class Message extends Component {
       classes,
       message: {author, time, avatar},
       renderMenu, onMouseEnter, onMouseLeave, onRefContent,
-      className, children
+      className,
+      children
     } = this.props
 
     return (

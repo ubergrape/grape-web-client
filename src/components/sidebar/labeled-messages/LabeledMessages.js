@@ -145,9 +145,9 @@ export default class LabeledMessages extends PureComponent {
   renderRow = ({index, style}) => {
     const {
       intl,
-      onSelect,
       messages,
       user,
+      onSelect,
       onLoad,
       newMessagesAmount
     } = this.props
