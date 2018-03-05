@@ -12,13 +12,17 @@ import {isChatUrl} from '../components/grapedown/utils'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
-export const onEmbeddedUrlChange = to => (dispatch) => {
-  dispatch({type: types.REQUEST_EMBEDDED_URL_CHANGE})
-  const match = matchPath(parseUrl(to).pathname, {
-    path: channelRoute
-  })
+/*
+Handling paths for embedded chat
+1) Open link in new tab, if link  have host name
+2) Open link in new tab, if it's outgoing link. Or if link not lead to chat.
+3) We need go over new tab, if link lead outside of current channel
+*/
+const goToFromEmbedded = path => (dispatch) => {
+  const {pathname, hostname} = parseUrl(path)
+  const match = matchPath(pathname, {path: channelRoute})
   if (!match) {
-    window.open(to)
+    window.open(path)
     return
   }
   const channelId = Number(match.params.channelId)
@@ -26,11 +30,16 @@ export const onEmbeddedUrlChange = to => (dispatch) => {
     dispatch(openChannel(channelId, match.params.messageId))
     return
   }
-  if (match && !isChatUrl(to)) {
-    window.open(`${conf.server.serviceUrl}${to}`)
+  // '/chat/channelId:messageId'
+  if (match && !isChatUrl(path)) {
+    if (location.hostname !== hostname) {
+      window.open(path)
+      return
+    }
+    window.open(`${conf.server.serviceUrl}${path}`)
     return
   }
-  window.open(to)
+  window.open(path)
 }
 
 export function goTo(options) {
@@ -49,9 +58,8 @@ export function goTo(options) {
       return
     }
 
-    // In the embdeded chat we open all URLs in a new window.
     if (path && conf.embed) {
-      dispatch(onEmbeddedUrlChange(path))
+      dispatch(goToFromEmbedded(path))
       return
     }
 

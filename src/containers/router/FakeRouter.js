@@ -22,7 +22,7 @@ class FakeRouter extends PureComponent {
     }
   }
 
-  onUrlChange = to => this.props.onUrlChange(to)
+  onUrlChange = path => this.props.goTo({path})
 
   render() {
     const {children} = this.props
@@ -31,7 +31,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  onEmbeddedUrlChange: 'onUrlChange'
+  goTo: 'goTo'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)

@@ -163,7 +163,7 @@ export default class LabeledMessages extends PureComponent {
         key={`${message.id}-row`}
         style={style}
         user={user}
-        onSelect={() => onSelect(message)}
+        onSelect={onSelect}
         onRefresh={onLoad}
       />
     )
