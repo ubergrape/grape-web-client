@@ -28,17 +28,18 @@ class FakeRouter extends PureComponent {
   }
 
   getChildContext() {
-    const {openChannel} = this.props
     return {
       router: {
         history: {
-          push: to => onUrlChange(to, openChannel),
-          replace: to => onUrlChange(to, openChannel),
+          push: this.onUrlChange,
+          replace: this.onUrlChange,
           createHref: history.createHref
         }
       }
     }
   }
+
+  onUrlChange = to => onUrlChange(to, this.props.openChannel)
 
   render() {
     const {children} = this.props
