@@ -5,6 +5,7 @@ import ConnectedRouter from 'react-router-redux/ConnectedRouter'
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
+import {channelRoute} from '../../constants/routes'
 
 const Container = withRouter(AppContainer)
 
@@ -43,7 +44,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path="/chat/channel/:channelId(\d+):separator(:)?:messageId?/:slug?"
+        path={channelRoute}
         render={({location, match}) => (
           <RouteChanger
             name="channel"

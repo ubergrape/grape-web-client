@@ -10,8 +10,9 @@ import inlineLink from '../button/inlineLink'
 
 @injectSheet({
   link: {
-    extends: inlineLink,
+    ...inlineLink,
     wordBreak: 'break-word',
+    cursor: 'pointer',
     '&:hover': {
       ...inlineLink['&:hover'],
       textDecoration: 'none',
@@ -30,15 +31,16 @@ import inlineLink from '../button/inlineLink'
 export default class LinkWithIcon extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    url: PropTypes.string.isRequired,
+    url: PropTypes.string,
     children: PropTypes.node.isRequired,
     icon: PropTypes.string.isRequired,
-    target: PropTypes.string
+    fakeLink: PropTypes.bool
   }
 
   static defaultProps = {
+    url: '',
     icon: 'file',
-    target: null
+    fakeLink: false
   }
 
   getSvg() {
@@ -50,12 +52,21 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   render() {
-    const {url, children, classes, target} = this.props
+    const {url, children, classes, fakeLink} = this.props
 
     const style = {backgroundImage: `url(${this.getSvg()})`}
 
+    if (fakeLink) {
+      return (
+        <span className={classes.link}>
+          <span className={classes.icon} style={style} />
+          {' '}{children}
+        </span>
+      )
+    }
+
     return (
-      <Link to={url} target={target} className={classes.link}>
+      <Link to={url} className={classes.link}>
         <span className={classes.icon} style={style} />
         {' '}{children}
       </Link>
