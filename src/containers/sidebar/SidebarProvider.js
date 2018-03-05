@@ -36,7 +36,8 @@ const actionNames = [
   'goToAddIntegrations',
   'showNotificationSettings',
   'openSharedFile',
-  'unpinMessage'
+  'unpinMessage',
+  'openChannel'
 ]
 
 const ConnectedSidebar = connect(

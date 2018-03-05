@@ -10,35 +10,34 @@ import {channelRoute} from '../../constants/routes'
 import conf from '../../conf'
 import {isChatUrl} from '../../components/grapedown/utils'
 
+export const onUrlChange = (to, openChannel) => {
+  if (!isChatUrl(to)) return window.open(`${conf.server.serviceUrl}${to}`)
+  const match = matchPath(parseUrl(to).pathname, {
+    path: channelRoute
+  })
+  const channelId = Number(match.params.channelId)
+  if (channelId === conf.channelId) {
+    return openChannel(channelId, match.params.messageId)
+  }
+  return window.open(to)
+}
+
 class FakeRouter extends PureComponent {
   static childContextTypes = {
     router: PropTypes.object.isRequired
   }
 
   getChildContext() {
+    const {openChannel} = this.props
     return {
       router: {
         history: {
-          push: to => this.adressLink(to),
-          replace: to => this.adressLink(to),
+          push: to => onUrlChange(to, openChannel),
+          replace: to => onUrlChange(to, openChannel),
           createHref: history.createHref
         }
       }
     }
-  }
-
-  adressLink = (to) => {
-    if (isChatUrl(to)) {
-      const match = matchPath(parseUrl(to).pathname, {
-        path: channelRoute
-      })
-      const channelId = Number(match.params.channelId)
-      if (channelId === conf.channelId) {
-        return this.props.goToMessage(channelId, match.params.messageId)
-      }
-      return window.open(to)
-    }
-    return window.open(`${conf.server.serviceUrl}${to}`)
   }
 
   render() {
@@ -48,7 +47,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  goToEmbeddedMessage: 'goToMessage'
+  openChannel: 'openChannel'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)

@@ -18,6 +18,8 @@ import Row from './Row'
 import NoContent from './NoContent'
 import Filter from './Filter'
 import TrainingModeHint from './TrainingModeHint'
+import {onUrlChange} from '../../../containers/router/FakeRouter'
+import conf from '../../../conf'
 
 const translations = defineMessages({
   title: {
@@ -49,6 +51,7 @@ export default class LabeledMessages extends PureComponent {
     onSelect: PropTypes.func,
     onClose: PropTypes.func,
     onSelectFilter: PropTypes.func,
+    openChannel: PropTypes.func,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         time: PropTypes.instanceOf(Date).isRequired
@@ -71,6 +74,7 @@ export default class LabeledMessages extends PureComponent {
     onClose: noop,
     onSelect: noop,
     onSelectFilter: noop,
+    openChannel: noop,
     messages: [],
     user: {},
     channel: {},
@@ -140,6 +144,12 @@ export default class LabeledMessages extends PureComponent {
     this.cellMeasurer = ref
   }
 
+  onSelectMessage = (message) => {
+    const {onSelect, openChannel} = this.props
+    if (conf.embed) return onUrlChange(message.link, openChannel)
+    return onSelect(message)
+  }
+
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
   renderRow = ({index, style}) => {
@@ -147,7 +157,6 @@ export default class LabeledMessages extends PureComponent {
       intl,
       messages,
       user,
-      onSelect,
       onLoad,
       newMessagesAmount
     } = this.props
@@ -163,7 +172,7 @@ export default class LabeledMessages extends PureComponent {
         key={`${message.id}-row`}
         style={style}
         user={user}
-        onSelect={onSelect}
+        onSelect={() => this.onSelectMessage(message)}
         onRefresh={onLoad}
       />
     )

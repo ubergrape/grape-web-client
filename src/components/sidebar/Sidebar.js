@@ -57,6 +57,7 @@ const Content = (props) => {
     selectLabeledMessagesFilter,
     openSharedFile,
     unpinMessage,
+    openChannel,
     options,
     ...rest
   } = props
@@ -101,6 +102,7 @@ const Content = (props) => {
             handler: toggleShowRoomMentions
           }]}
           showRoomMentions={options.showRoomMentions.status}
+          openChannel={openChannel}
           show={show}
           onLoad={loadMentions}
           onClose={hideSidebar}
@@ -126,6 +128,7 @@ const Content = (props) => {
           ]}
           currentChannelOnly={options.currentChannelOnly.status}
           searchActivities={options.searchActivities.status}
+          openChannel={openChannel}
           show={show}
           onLoad={searchMessages}
           onClose={hideSidebar}
@@ -142,6 +145,7 @@ const Content = (props) => {
             label: formatMessage(messages.currentConversationOption),
             handler: toggleSearchOnlyInChannel
           }]}
+          openChannel={openChannel}
           onClose={hideSidebar}
           onLoad={loadLabeledMessages}
           onSelect={goToMessage}
@@ -164,6 +168,7 @@ Content.propTypes = {
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
   unpinMessage: PropTypes.func.isRequired,
+  openChannel: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
     false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'
