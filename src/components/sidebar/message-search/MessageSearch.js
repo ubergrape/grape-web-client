@@ -25,7 +25,6 @@ export default class MessageSearch extends PureComponent {
     intl: intlShape.isRequired,
     onSelect: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    openChannel: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     currentChannelOnly: PropTypes.bool.isRequired,
@@ -161,7 +160,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderMessage(message) {
-    const {query, user, customEmojis, intl, openChannel} = this.props
+    const {query, user, customEmojis, intl} = this.props
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
       user,
@@ -174,7 +173,6 @@ export default class MessageSearch extends PureComponent {
         message={message}
         key={message.id}
         onSelect={this.onSelect}
-        openChannel={openChannel}
       >
         <GrapedownWithSearch text={message.text} />
       </Message>

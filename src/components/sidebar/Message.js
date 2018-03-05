@@ -9,8 +9,6 @@ import Avatar from '../avatar/Avatar'
 import Header from '../message-parts/Header'
 import Bubble from '../message-parts/Bubble'
 import contentStyles from '../message-parts/contentStyles'
-import {onUrlChange} from '../../containers/router/FakeRouter'
-import conf from '../../conf'
 
 const arrowWidth = 7
 const marginRight = 10
@@ -75,7 +73,6 @@ export default class Message extends Component {
     onMouseEnter: PropTypes.func,
     onRefContent: PropTypes.func,
     renderMenu: PropTypes.func,
-    openChannel: PropTypes.func,
     className: PropTypes.string
   }
 
@@ -84,15 +81,13 @@ export default class Message extends Component {
     onMouseLeave: noop,
     onMouseEnter: noop,
     renderMenu: noop,
-    openChannel: noop,
     onRefContent: undefined,
     className: undefined
   }
 
   onSelectMessage = () => {
-    const {message, onSelect, openChannel} = this.props
-    if (conf.embed) return onUrlChange(message.link, openChannel)
-    return onSelect(message)
+    const {message, onSelect} = this.props
+    onSelect(message)
   }
 
   render() {
@@ -100,8 +95,7 @@ export default class Message extends Component {
       classes,
       message: {author, time, avatar},
       renderMenu, onMouseEnter, onMouseLeave, onRefContent,
-      className,
-      children
+      className, children
     } = this.props
 
     return (

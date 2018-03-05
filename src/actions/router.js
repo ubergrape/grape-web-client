@@ -1,13 +1,37 @@
 import parseUrl from 'grape-web/lib/parse-url'
 import * as router from 'react-router-redux'
 import find from 'lodash/collection/find'
+import {matchPath} from 'react-router-dom'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
+import {channelRoute} from '../constants/routes'
+import {isChatUrl} from '../components/grapedown/utils'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
+
+export const onEmbeddedUrlChange = to => (dispatch) => {
+  dispatch({type: types.REQUEST_EMBEDDED_URL_CHANGE})
+  const match = matchPath(parseUrl(to).pathname, {
+    path: channelRoute
+  })
+  if (!match) {
+    window.open(to)
+    return
+  }
+  const channelId = Number(match.params.channelId)
+  if (channelId === conf.channelId) {
+    dispatch(openChannel(channelId, match.params.messageId))
+    return
+  }
+  if (match && !isChatUrl(to)) {
+    window.open(`${conf.server.serviceUrl}${to}`)
+    return
+  }
+  window.open(to)
+}
 
 export function goTo(options) {
   return (dispatch) => {
@@ -27,7 +51,7 @@ export function goTo(options) {
 
     // In the embdeded chat we open all URLs in a new window.
     if (path && conf.embed) {
-      window.open(`${conf.server.serviceUrl}${path}`, '_blank')
+      dispatch(onEmbeddedUrlChange(path))
       return
     }
 

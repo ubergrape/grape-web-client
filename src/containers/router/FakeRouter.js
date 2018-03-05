@@ -1,26 +1,9 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
-import {matchPath} from 'react-router-dom'
-import parseUrl from 'grape-web/lib/parse-url'
 import {mapActionsToProps} from '../../app/redux'
 
 import history from '../../app/history'
-import {channelRoute} from '../../constants/routes'
-import conf from '../../conf'
-import {isChatUrl} from '../../components/grapedown/utils'
-
-export const onUrlChange = (to, openChannel) => {
-  if (!isChatUrl(to)) return window.open(`${conf.server.serviceUrl}${to}`)
-  const match = matchPath(parseUrl(to).pathname, {
-    path: channelRoute
-  })
-  const channelId = Number(match.params.channelId)
-  if (channelId === conf.channelId) {
-    return openChannel(channelId, match.params.messageId)
-  }
-  return window.open(to)
-}
 
 class FakeRouter extends PureComponent {
   static childContextTypes = {
@@ -39,7 +22,7 @@ class FakeRouter extends PureComponent {
     }
   }
 
-  onUrlChange = to => onUrlChange(to, this.props.openChannel)
+  onUrlChange = to => this.props.onUrlChange(to)
 
   render() {
     const {children} = this.props
@@ -48,7 +31,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  openChannel: 'openChannel'
+  onEmbeddedUrlChange: 'onUrlChange'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)
