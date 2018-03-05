@@ -12,30 +12,29 @@ import {isChatUrl} from '../components/grapedown/utils'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
-/*
-Handling paths for embedded chat
-1) Open link in new tab, if link  have host name
-2) Open link in new tab, if it's outgoing link. Or if link not lead to chat.
-3) We need go over new tab, if link lead outside of current channel
-*/
 const goToFromEmbedded = path => (dispatch) => {
   const {pathname, hostname} = parseUrl(path)
   const match = matchPath(pathname, {path: channelRoute})
+  // Open link in new tab, if it's outgoing link, or if link not leads to chat.
   if (!match) {
     window.open(path)
     return
   }
   const channelId = Number(match.params.channelId)
+  // Open link in the same window, because channelId of parsed link and opened chanelId similar
   if (channelId === conf.channelId) {
     dispatch(openChannel(channelId, match.params.messageId))
     return
   }
-  // '/chat/channelId:messageId'
   if (match && !isChatUrl(path)) {
+    // Open in a new tab when external website link pathname is similar to channelRoute constant
+    // like 'github.com/chat/3'
     if (location.hostname !== hostname) {
       window.open(path)
       return
     }
+    // '/chat/channelId:messageId'
+    // For example mentions of a channel. Like '@Office'.
     window.open(`${conf.server.serviceUrl}${path}`)
     return
   }
