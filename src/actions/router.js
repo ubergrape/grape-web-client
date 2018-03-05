@@ -24,7 +24,10 @@ const goToFromEmbedded = path => (dispatch) => {
   const channelId = Number(match.params.channelId)
   // Open link in the same window, because channelId of parsed link and opened chanelId similar
   if (channelId === conf.channelId) {
-    dispatch(openChannel(channelId, match.params.messageId))
+    // Go to message in current channel, if messageId exist
+    if (match.params.messageId) {
+      dispatch(openChannel(channelId, match.params.messageId))
+    }
     return
   }
   if (match && !isChatUrl(path)) {
