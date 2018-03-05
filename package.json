@@ -90,7 +90,7 @@
     "duplicate-package-checker-webpack-plugin": "^2.1.0",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-ubergrape": "^4.2.0",
+    "eslint-config-ubergrape": "^4.3.0",
     "eslint-plugin-babel": "^2.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
