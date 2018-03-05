@@ -34,14 +34,12 @@ export default class LinkWithIcon extends PureComponent {
     url: PropTypes.string,
     children: PropTypes.node.isRequired,
     icon: PropTypes.string.isRequired,
-    target: PropTypes.string,
     fakeLink: PropTypes.bool
   }
 
   static defaultProps = {
     url: '',
     icon: 'file',
-    target: null,
     fakeLink: false
   }
 
@@ -54,7 +52,7 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   render() {
-    const {url, children, classes, target, fakeLink} = this.props
+    const {url, children, classes, fakeLink} = this.props
 
     const style = {backgroundImage: `url(${this.getSvg()})`}
 
@@ -68,7 +66,7 @@ export default class LinkWithIcon extends PureComponent {
     }
 
     return (
-      <Link to={url} target={target} className={classes.link}>
+      <Link to={url} className={classes.link}>
         <span className={classes.icon} style={style} />
         {' '}{children}
       </Link>
