@@ -35,10 +35,14 @@ var plugins = [
   new DuplicatePackageCheckerPlugin()
 ]
 
+var app = ['babel-polyfill', './src/index.js']
+var embedded = ['babel-polyfill', './src/embedded.js']
+
 module.exports = exports = {
-  entry: {
-    embedded: APP === 'full' ? [] : ['babel-polyfill', './src/embedded.js'],
-    app: APP === 'embedded' ? [] : ['babel-polyfill', './src/index.js']
+  entry: () => {
+    if (APP === 'full') return {app}
+    if (APP === 'embedded') return {embedded}
+    return {app, embedded}
   },
   output: {
     path: path.resolve(__dirname, 'dist/app'),
