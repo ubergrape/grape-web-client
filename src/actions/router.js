@@ -16,23 +16,30 @@ const goToFromEmbedded = path => (dispatch) => {
   const {pathname, hostname} = parseUrl(path)
   const match = matchPath(pathname, {path: channelRoute}) ||
     matchPath(pathname, {path: pmRoute})
-  // Open link in new tab, if it's outgoing link, or if link not leads to chat.
+  // We need to open a new window if the path path doesn't match those routes in embedded mode.
   if (!match) {
     window.open(path)
     return
   }
   const {channelId, mateId, messageId} = match.params
-  const currentId = Number(channelId) || Number(mateId)
+  // When mention another people, open link to pm in new tab
+  if (mateId) {
+    window.open(`${conf.server.serviceUrl}${path}`)
+    return
+  }
   // Open link in the same window, because channelId of parsed link and opened chanelId similar
-  if (currentId === conf.channelId) {
+  if (Number(channelId) === conf.channelId) {
+    // We need open external links like `https://github.com/chat/channel/channelId` with same channelId
+    // in new tab.
     if (!isChatUrl(path)) {
       window.open(path)
       return
     }
-    // When link don't have messageId for current channel link, do nothing
-    // Examples: `@room`, `https://github.com/chat/channel/channelId`
+    /* When path doesn't contain a messageId, we don't have to do anything,
+    because we are already in this channel
+    Examples: @room, https://github.com/chat/channel/channelId */
     if (!messageId) return
-    dispatch(openChannel(currentId, messageId))
+    dispatch(openChannel(Number(channelId), messageId))
     return
   }
   if (match && !isChatUrl(path)) {
