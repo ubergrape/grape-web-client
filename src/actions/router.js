@@ -55,10 +55,12 @@ export function goToMessage(message) {
 
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: channelOrChannelId
-    })
+    if (!conf.embed) {
+      dispatch({
+        type: types.GO_TO_CHANNEL,
+        payload: channelOrChannelId
+      })
+    }
 
     let channel = channelOrChannelId
 
@@ -74,7 +76,7 @@ export function goToChannel(channelOrChannelId, options) {
       ...options,
       path: `/chat/channel/${channel.id}/${slug}`
     }))
-    dispatch(setChannel(channel.id))
+    if (!conf.embed) dispatch(setChannel(channel.id))
   }
 }
 
