@@ -29,15 +29,15 @@ const goToFromEmbedded = path => (dispatch) => {
       window.open(path)
       return
     }
-    if (messageId) {
-      dispatch(openChannel(currentId, messageId))
-      return
-    }
+    // When link don't have messageId for current channel link, do nothing
+    // Examples: `@room`, `https://github.com/chat/channel/channelId`
+    if (!messageId) return
+    dispatch(openChannel(currentId, messageId))
     return
   }
   if (match && !isChatUrl(path)) {
     // Open in a new tab when external website link pathname is similar to channelRoute constant,
-    // but hostnames is diferent. Like a 'github.com/chat/3'
+    // but hostnames is diferent. Like a 'github.com/chat/channelId'
     if (location.hostname !== hostname) {
       window.open(path)
       return
