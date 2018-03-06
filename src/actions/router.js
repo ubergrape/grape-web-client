@@ -29,8 +29,8 @@ const goToFromEmbedded = path => (dispatch) => {
   }
   // Open link in the same window, because channelId of parsed link and opened chanelId similar
   if (Number(channelId) === conf.channelId) {
-    // We need open external links like `https://github.com/chat/channel/channelId` with same channelId
-    // in new tab.
+    // We need open external links like `https://github.com/chat/channel/channelId`
+    // with same channelId as curent channel in new tab.
     if (!isChatUrl(path)) {
       window.open(path)
       return
