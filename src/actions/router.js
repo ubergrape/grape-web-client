@@ -43,13 +43,14 @@ const goToFromEmbedded = path => (dispatch) => {
     return
   }
   if (match && !isChatUrl(path)) {
-    // Open in a new tab when external website link pathname is similar to channelRoute constant,
-    // but hostnames is diferent. Like a 'github.com/chat/channelId'
+    /* In case pathname matches channelRoute but the hostname doesn't
+    correspond the current location.
+    E.g. https://github.com/chat/channel/channelId */
     if (location.hostname !== hostname) {
       window.open(path)
       return
     }
-    // '/chat/channelId:messageId'
+    // /chat/channel/channelId:messageId
     // For example mentions of a channel. Like an '@Office'.
     window.open(`${conf.server.serviceUrl}${path}`)
     return
