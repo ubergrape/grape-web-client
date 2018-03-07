@@ -12,7 +12,7 @@ export default (pathOrUrl, options) => {
   } = options
   const {pathname, hostname} = parseUrl(pathOrUrl)
   if (hostname && hostname !== parseUrl(serviceUrl).hostname) {
-    onExternal(pathOrUrl, 'grape')
+    onExternal(pathOrUrl, '_blank')
     return
   }
   if (pathname === loginPath) {
