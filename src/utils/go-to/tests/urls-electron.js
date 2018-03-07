@@ -61,16 +61,15 @@ describe.only('goTo with url in electron mode', () => {
 
   it('should call onExternal callback if URL leads to external website', () => {
     const {map, called, args} = callbacks()
-    goTo('https://github.com/', {
+    goTo('https://github.com', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'electron',
       ...map
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com']
+      args: ['https://github.com', 'grape']
     })
   })
 
@@ -79,13 +78,12 @@ describe.only('goTo with url in electron mode', () => {
     goTo('https://github.com/chat/channel/6009', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'electron',
       ...map
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/channel/6009']
+      args: ['https://github.com/chat/channel/6009', 'grape']
     })
   })
 
@@ -94,13 +92,12 @@ describe.only('goTo with url in electron mode', () => {
     goTo('https://github.com/chat/pm/200', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'electron',
       ...map
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/pm/200']
+      args: ['https://github.com/chat/pm/200', 'grape']
     })
   })
 
@@ -109,7 +106,6 @@ describe.only('goTo with url in electron mode', () => {
     goTo('https://grape.io/accounts/login', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'electron',
       ...map
     })

@@ -64,7 +64,6 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://github.com', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
@@ -79,13 +78,12 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://github.com/chat/channel/6009', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/channel/6009']
+      args: ['https://github.com/chat/channel/6009', 'grape']
     })
   })
 
@@ -94,13 +92,12 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://github.com/chat/pm/200', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/pm/200']
+      args: ['https://github.com/chat/pm/200', 'grape']
     })
   })
 
@@ -109,7 +106,6 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://grape.io/accounts/login', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
@@ -124,7 +120,6 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://grape.io/accounts/logout', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
@@ -141,7 +136,6 @@ describe.only('goTo with url in embedded mode', () => {
     goTo('https://grape.io/accounts/xxx', {
       currChannel: 2000,
       serviceUrl: 'https://grape.io',
-      locationHostName: 'https://grape.io',
       mode: 'embedded',
       ...map
     })
