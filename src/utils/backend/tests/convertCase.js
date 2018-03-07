@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {toCamel, toSnake} from '../convertCase'
 
-describe.only('convertCase', () => {
+describe('convertCase', () => {
   describe('toSnake', () => {
     it('should convert flat object', () => {
       expect(toSnake({aA: 1})).to.eql({a_a: 1})
