@@ -25,7 +25,10 @@ describe.only('goTo with path in embedded mode', () => {
     })
     expect({called, args}).to.eql({
       called: {onExternal: 0, onRedirect: 0, onSilentChange: 1, onUpdateRouter: 0},
-      args: ['/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003']
+      args: ['/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003', {
+        channelId: 6009,
+        messageId: '3d062f7810d411e8aa120242ac1d0003'
+      }]
     })
   })
 
@@ -81,7 +84,7 @@ describe.only('goTo with path in embedded mode', () => {
     // We can implement logout without redirect.
     expect({called, args}).to.eql({
       called: {onExternal: 0, onRedirect: 0, onSilentChange: 1, onUpdateRouter: 0},
-      args: ['/accounts/logout']
+      args: ['/accounts/logout', {}]
     })
   })
 

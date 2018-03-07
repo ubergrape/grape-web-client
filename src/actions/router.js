@@ -1,93 +1,44 @@
-import parseUrl from 'grape-web/lib/parse-url'
 import * as router from 'react-router-redux'
 import find from 'lodash/collection/find'
-import {matchPath} from 'react-router-dom'
+import get from 'lodash/object/get'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
-import {channelRoute, pmRoute} from '../constants/routes'
-import {isChatUrl} from '../components/grapedown/utils'
+import utilGoTo from '../utils/go-to'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
-const goToFromEmbedded = path => (dispatch) => {
-  const {pathname, hostname} = parseUrl(path)
-  const match = matchPath(pathname, {path: channelRoute}) ||
-    matchPath(pathname, {path: pmRoute})
-  // We need to open a new window if the path path doesn't match those routes in embedded mode.
-  if (!match) {
-    window.open(path)
-    return
-  }
-  const {channelId, mateId, messageId} = match.params
-  // When mention another people, open link to pm in new tab
-  if (mateId) {
-    window.open(`${conf.server.serviceUrl}${path}`)
-    return
-  }
-  // Open link in the same window, because channelId of parsed link and opened chanelId similar
-  if (Number(channelId) === conf.channelId) {
-    // We need open external links like `https://github.com/chat/channel/channelId`
-    // with same channelId as curent channel in new tab.
-    if (!isChatUrl(path)) {
-      window.open(path)
-      return
-    }
-    /* When path doesn't contain a messageId, we don't have to do anything,
-    because we are already in this channel
-    Examples: @room, https://github.com/chat/channel/channelId */
-    if (!messageId) return
-    dispatch(openChannel(Number(channelId), messageId))
-    return
-  }
-  if (match && !isChatUrl(path)) {
-    /* In case pathname matches channelRoute but the hostname doesn't
-    correspond the current location.
-    E.g. https://github.com/chat/channel/channelId */
-    if (location.hostname !== hostname) {
-      window.open(path)
-      return
-    }
-    // /chat/channel/channelId:messageId
-    // For example mentions of a channel. Like an '@Office'.
-    window.open(`${conf.server.serviceUrl}${path}`)
-    return
-  }
-  window.open(path)
+const getMode = () => {
+  let mode = conf.embed ? 'embedded' : 'full'
+  if (get(window, 'process.versions.electron')) mode = 'electron'
+  return mode
 }
 
-export function goTo(options) {
+export function goTo(pathOrUrl, options = {}) {
   return (dispatch) => {
     dispatch({
       type: types.GO_TO,
       payload: options
     })
 
-    const {path, url, target} = options
-
-    // If it is a URL and not a path, always open in a new window.
-    if (url) {
-      if (target) window.open(url, target)
-      else location.href = url
-      return
-    }
-
-    if (path && conf.embed) {
-      dispatch(goToFromEmbedded(path))
-      return
-    }
-
-    // All /chat URLs are handled by the router.
-    if (path.substr(0, 5) === '/chat') {
-      if (options.replace) dispatch(router.replace(path))
-      else dispatch(router.push(path))
-      return
-    }
-
-    // Locations outside of SPA open with full page reload.
-    location.pathname = path
+    utilGoTo(pathOrUrl, {
+      serviceUrl: conf.server.serviceUrl,
+      mode: getMode(),
+      currChannel: conf.channelId,
+      replace: options.replace,
+      onExternal: (url, target) => {
+        window.open(url, target)
+      },
+      onRedirect: (url) => { location.href = url },
+      onSilentChange: (path, {channelId, messageId}) => {
+        dispatch(openChannel(channelId, messageId))
+      },
+      onUpdateRouter: (path, method) => {
+        dispatch(router[method](path))
+      }
+    })
   }
 }
 
@@ -97,7 +48,7 @@ export function goToMessage(message) {
       type: types.GO_TO_MESSAGE,
       payload: message
     })
-    dispatch(goTo({path: parseUrl(message.link).href}))
+    dispatch(goTo(message.link))
   }
 }
 
@@ -118,10 +69,7 @@ export function goToChannel(channelOrChannelId, options) {
     }
     const slug = channel.slug == null ? channel.mate.username : channel.slug
 
-    dispatch(goTo({
-      ...options,
-      path: `/chat/channel/${channel.id}/${slug}`
-    }))
+    dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     dispatch(setChannel(channel.id))
   }
 }
@@ -136,14 +84,14 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
 export function goToPayment() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_PAYMENT})
-    dispatch(goTo({path: '/payment'}))
+    dispatch(goTo('/payment'))
   }
 }
 
 export function goToAddIntegrations() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
-    dispatch(goTo({path: '/integrations'}))
+    dispatch(goTo('/integrations'))
   }
 }
 

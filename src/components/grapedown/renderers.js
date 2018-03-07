@@ -8,8 +8,6 @@ import jsEmoji, {
   style
 } from '../emoji/emoji'
 
-import conf from '../../conf'
-
 import {
   nonStandardProps,
   replaceCustomEmojis
@@ -30,13 +28,11 @@ export function renderTag(tag, props, children) {
     if (isGrapeUrl(href)) {
       return createElement(GrapeObject, props, children)
     }
-    if (conf.embed) {
-      return (
-        <Link to={href} key={key}>
-          {children}
-        </Link>
-      )
-    }
+    return (
+      <Link to={href} key={key}>
+        {children}
+      </Link>
+    )
   }
 
   return createElement(

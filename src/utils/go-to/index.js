@@ -21,7 +21,7 @@ export default (pathOrUrl, options) => {
   }
   if (pathname === logoutPath) {
     if (mode === 'embedded') {
-      onSilentChange(pathname)
+      onSilentChange(pathname, {})
       return
     }
     onRedirect(`${serviceUrl}${pathname}`)
@@ -34,7 +34,10 @@ export default (pathOrUrl, options) => {
       if (Number(channelId) === currChannel) {
         if (!messageId) return
         if (mode === 'embedded') {
-          onSilentChange(pathname)
+          onSilentChange(pathname, {
+            channelId: Number(channelId),
+            messageId
+          })
           return
         }
         onUpdateRouter(pathname, 'push')

@@ -22,7 +22,7 @@ class FakeRouter extends PureComponent {
     }
   }
 
-  onUrlChange = path => this.props.goTo({path})
+  onUrlChange = path => this.props.goTo(path)
 
   render() {
     const {children} = this.props

@@ -69,7 +69,7 @@ describe.only('goTo with url in electron mode', () => {
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com', 'grape']
+      args: ['https://github.com', '_blank']
     })
   })
 
@@ -83,7 +83,7 @@ describe.only('goTo with url in electron mode', () => {
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/channel/6009', 'grape']
+      args: ['https://github.com/chat/channel/6009', '_blank']
     })
   })
 
@@ -97,7 +97,7 @@ describe.only('goTo with url in electron mode', () => {
     })
     expect({called, args}).to.eql({
       called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
-      args: ['https://github.com/chat/pm/200', 'grape']
+      args: ['https://github.com/chat/pm/200', '_blank']
     })
   })
 
