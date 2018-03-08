@@ -14,15 +14,13 @@ class FakeRouter extends PureComponent {
     return {
       router: {
         history: {
-          push: this.onUrlChange,
-          replace: this.onUrlChange,
+          push: this.props.onChangeRoute,
+          replace: this.props.onChangeRoute,
           createHref: history.createHref
         }
       }
     }
   }
-
-  onUrlChange = path => this.props.goTo(path)
 
   render() {
     const {children} = this.props
@@ -31,7 +29,7 @@ class FakeRouter extends PureComponent {
 }
 
 const actionNames = {
-  goTo: 'goTo'
+  goTo: 'onChangeRoute'
 }
 
 export default connect(null, mapActionsToProps(actionNames))(FakeRouter)

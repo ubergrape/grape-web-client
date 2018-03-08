@@ -80,11 +80,6 @@ export default class Row extends PureComponent {
     this.props.onRefresh()
   }
 
-  onSelectMessage = () => {
-    const {message, onSelect} = this.props
-    onSelect(message)
-  }
-
   dateSeparatorTheme = {
     date: this.props.classes.separatorDate
   }
@@ -97,6 +92,7 @@ export default class Row extends PureComponent {
       intl,
       style,
       user,
+      onSelect,
       className,
       newMessagesAmount
     } = this.props
@@ -128,7 +124,7 @@ export default class Row extends PureComponent {
           key={`${message.id}-message`}
           intl={intl}
           className={classes.message}
-          onSelect={this.onSelectMessage}
+          onSelect={onSelect}
           user={user}
         />
       </div>

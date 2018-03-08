@@ -5,7 +5,7 @@ import ConnectedRouter from 'react-router-redux/ConnectedRouter'
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
-import {channelRoute, pmRoute} from '../../constants/routes'
+import {channel, pm} from '../../constants/routes'
 
 const Container = withRouter(AppContainer)
 
@@ -30,7 +30,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path={pmRoute}
+        path={pm}
         exact
         render={({location, match}) => (
           <RouteChanger
@@ -44,7 +44,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path={channelRoute}
+        path={channel}
         render={({location, match}) => (
           <RouteChanger
             name="channel"
