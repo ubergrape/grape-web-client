@@ -45,15 +45,11 @@ const onChannel = (pathOrUrl, options) => {
   const {channelId, messageId} = channelMatch.params
   if (Number(channelId) === currChannel) {
     if (!messageId) return
-    if (mode === 'embedded') {
-      onSilentChange(pathname, {
-        channelId: Number(channelId),
-        messageId,
-        type: 'channel'
-      })
-      return
-    }
-    onUpdateRouter(pathname, 'push')
+    onSilentChange(pathname, {
+      channelId: Number(channelId),
+      messageId,
+      type: 'channel'
+    })
     return
   }
   if (mode === 'embedded') {

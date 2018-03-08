@@ -17,7 +17,7 @@ describe.only('goTo with url in electron mode', () => {
     })
   })
 
-  it('should call onUpdateRouter callback if URL contains messageId and channel is current', () => {
+  it('should call onSilentChange callback if URL contains messageId and channel is current', () => {
     const {map, called, args} = callbacks()
     goTo('https://grape.io/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003', {
       currChannel: 6009,
@@ -26,8 +26,12 @@ describe.only('goTo with url in electron mode', () => {
       ...map
     })
     expect({called, args}).to.eql({
-      called: {onExternal: 0, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 1},
-      args: ['/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003', 'push']
+      called: {onExternal: 0, onRedirect: 0, onSilentChange: 1, onUpdateRouter: 0},
+      args: ['/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003', {
+        channelId: 6009,
+        messageId: '3d062f7810d411e8aa120242ac1d0003',
+        type: 'channel'
+      }]
     })
   })
 
