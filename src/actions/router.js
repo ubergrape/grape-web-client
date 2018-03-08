@@ -28,9 +28,7 @@ export function goTo(pathOrUrl, options = {}) {
       mode: getMode(),
       currChannel: conf.channelId,
       replace: options.replace,
-      onExternal: (url, target) => {
-        window.open(url, target)
-      },
+      onExternal: window.open,
       onRedirect: (url) => { location.href = url },
       onSilentChange: (path, {channelId, messageId}) => {
         dispatch(openChannel(channelId, messageId))
