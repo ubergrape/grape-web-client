@@ -23,7 +23,8 @@ const onLogout = (pathOrUrl, options) => {
 
 const onPm = (pathOrUrl, options) => {
   const {
-    onExternal, onRedirect, onUpdateRouter, mode, serviceUrl, hostname, pathname
+    onExternal, onRedirect, onSilentChange, mode, serviceUrl, hostname, pathname,
+    pmMatch
   } = options
   if (mode === 'embedded' || (hostname && mode !== 'full')) {
     onExternal(`${serviceUrl}${pathname}`, 'grape')
@@ -33,7 +34,7 @@ const onPm = (pathOrUrl, options) => {
     onRedirect(`${serviceUrl}${pathname}`)
     return
   }
-  onUpdateRouter(pathname, 'replace')
+  onSilentChange(pathname, {mateId: pmMatch.params.mateId, type: 'pm'})
 }
 
 const onChannel = (pathOrUrl, options) => {
@@ -47,7 +48,8 @@ const onChannel = (pathOrUrl, options) => {
     if (mode === 'embedded') {
       onSilentChange(pathname, {
         channelId: Number(channelId),
-        messageId
+        messageId,
+        type: 'channel'
       })
       return
     }
@@ -75,7 +77,8 @@ const onChat = (pathOrUrl, options) => {
   if (pmMatch) {
     onPm(pathOrUrl, {
       ...options,
-      hostname
+      hostname,
+      pmMatch
     })
   }
 }

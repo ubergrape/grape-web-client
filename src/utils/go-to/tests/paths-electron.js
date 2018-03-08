@@ -109,7 +109,7 @@ describe.only('goTo with path in electron mode', () => {
     })
   })
 
-  it('should call onUpdateRouter callback if the path leads to /chat/pm and replace is true', () => {
+  it('should call onSilentChange callback if the path leads to /chat/pm and replace is true', () => {
     const {map, called, args} = callbacks()
     // We need replace: true, to not store current path in browser's history
     goTo('/chat/pm/200', {
@@ -120,8 +120,8 @@ describe.only('goTo with path in electron mode', () => {
       ...map
     })
     expect({called, args}).to.eql({
-      called: {onExternal: 0, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 1},
-      args: ['/chat/pm/200', 'replace']
+      called: {onExternal: 0, onRedirect: 0, onSilentChange: 1, onUpdateRouter: 0},
+      args: ['/chat/pm/200', {mateId: '200', type: 'pm'}]
     })
   })
 })

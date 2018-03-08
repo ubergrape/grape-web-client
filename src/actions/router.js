@@ -30,8 +30,9 @@ export function goTo(pathOrUrl, options = {}) {
       replace: options.replace,
       onExternal: window.open,
       onRedirect: (url) => { location.href = url },
-      onSilentChange: (path, {channelId, messageId}) => {
-        dispatch(openChannel(channelId, messageId))
+      onSilentChange: (path, {channelId, messageId, mateId, type}) => {
+        if (type === 'channel') dispatch(openChannel(channelId, messageId))
+        else dispatch(openPm(mateId))
       },
       onUpdateRouter: (path, method) => {
         history[method === 'replace' ? 'originalReplace' : 'originalPush'](path)

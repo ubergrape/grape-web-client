@@ -120,8 +120,8 @@ describe.only('goTo with path in full mode', () => {
       ...map
     })
     expect({called, args}).to.eql({
-      called: {onExternal: 0, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 1},
-      args: ['/chat/pm/200', 'replace']
+      called: {onExternal: 0, onRedirect: 0, onSilentChange: 1, onUpdateRouter: 0},
+      args: ['/chat/pm/200', {mateId: '200', type: 'pm'}]
     })
   })
 })
