@@ -3,74 +3,115 @@ import {matchPath} from 'react-router-dom'
 
 import {channel, pm} from '../../constants/routes'
 
+const onForeign = (pathOrUrl, {onExternal}) => {
+  onExternal(pathOrUrl, '_blank')
+}
+
+const onLogin = (pathOrUrl, options) => {
+  const {serviceUrl, pathname, onRedirect} = options
+  onRedirect(`${serviceUrl}${pathname}`)
+}
+
+const onLogout = (pathOrUrl, options) => {
+  const {onSilentChange, onRedirect, mode, pathname, serviceUrl} = options
+  if (mode === 'embedded') {
+    onSilentChange(pathname, {})
+    return
+  }
+  onRedirect(`${serviceUrl}${pathname}`)
+}
+
+const onPm = (pathOrUrl, options) => {
+  const {
+    onExternal, onRedirect, onUpdateRouter, mode, serviceUrl, hostname, pathname
+  } = options
+  if (mode === 'embedded' || (hostname && mode !== 'full')) {
+    onExternal(`${serviceUrl}${pathname}`, 'grape')
+    return
+  }
+  if (hostname && mode === 'full') {
+    onRedirect(`${serviceUrl}${pathname}`)
+    return
+  }
+  onUpdateRouter(pathname, 'replace')
+}
+
+const onChannel = (pathOrUrl, options) => {
+  const {
+    onExternal, onSilentChange, onUpdateRouter, mode, serviceUrl, pathname,
+    currChannel, channelMatch
+  } = options
+  const {channelId, messageId} = channelMatch.params
+  if (Number(channelId) === currChannel) {
+    if (!messageId) return
+    if (mode === 'embedded') {
+      onSilentChange(pathname, {
+        channelId: Number(channelId),
+        messageId
+      })
+      return
+    }
+    onUpdateRouter(pathname, 'push')
+    return
+  }
+  if (mode === 'embedded') {
+    onExternal(`${serviceUrl}${pathname}`, 'grape')
+    return
+  }
+  onUpdateRouter(pathname, 'push')
+}
+
+const onChat = (pathOrUrl, options) => {
+  const {pathname, hostname} = options
+  const channelMatch = matchPath(pathname, {path: channel})
+  if (channelMatch) {
+    onChannel(pathOrUrl, {
+      ...options,
+      channelMatch
+    })
+    return
+  }
+  const pmMatch = matchPath(pathname, {path: pm})
+  if (pmMatch) {
+    onPm(pathOrUrl, {
+      ...options,
+      hostname
+    })
+  }
+}
+
+const onRootAndFull = (pathOrUrl, options) => {
+  const {onExternal, onRedirect, mode, pathname, serviceUrl} = options
+  if (mode === 'embedded') {
+    onExternal(`${serviceUrl}${pathname}`, 'grape')
+    return
+  }
+  onRedirect(`${serviceUrl}${pathname}`)
+}
+
 export default (pathOrUrl, options) => {
   const loginPath = '/accounts/login'
   const logoutPath = '/accounts/logout'
-  const {
-    onExternal, onRedirect, onSilentChange, onUpdateRouter, currChannel,
-    mode, serviceUrl
-  } = options
+  const {onExternal, mode, serviceUrl} = options
   const {pathname, hostname} = parseUrl(pathOrUrl)
   if (hostname && hostname !== parseUrl(serviceUrl).hostname) {
-    onExternal(pathOrUrl, '_blank')
+    onForeign(pathOrUrl, options)
     return
   }
   if (pathname === loginPath) {
-    onRedirect(`${serviceUrl}${pathname}`)
+    onLogin(pathOrUrl, {...options, pathname})
     return
   }
   if (pathname === logoutPath) {
-    if (mode === 'embedded') {
-      onSilentChange(pathname, {})
-      return
-    }
-    onRedirect(`${serviceUrl}${pathname}`)
+    onLogout(pathOrUrl, {...options, pathname})
     return
   }
   if (pathname.substr(0, 5) === '/chat') {
-    const channelMatch = matchPath(pathname, {path: channel})
-    if (channelMatch) {
-      const {channelId, messageId} = channelMatch.params
-      if (Number(channelId) === currChannel) {
-        if (!messageId) return
-        if (mode === 'embedded') {
-          onSilentChange(pathname, {
-            channelId: Number(channelId),
-            messageId
-          })
-          return
-        }
-        onUpdateRouter(pathname, 'push')
-        return
-      }
-      if (mode === 'embedded') {
-        onExternal(`${serviceUrl}${pathname}`, 'grape')
-        return
-      }
-      onUpdateRouter(pathname, 'push')
-      return
-    }
-    const pmMatch = matchPath(pathname, {path: pm})
-    if (pmMatch) {
-      if (mode === 'embedded' || (hostname && mode !== 'full')) {
-        onExternal(`${serviceUrl}${pathname}`, 'grape')
-        return
-      }
-      if (hostname && mode === 'full') {
-        onRedirect(`${serviceUrl}${pathname}`)
-        return
-      }
-      onUpdateRouter(pathname, 'replace')
-      return
-    }
+    onChat(pathOrUrl, {...options, hostname, pathname})
     return
   }
   if (pathname === '/' || mode === 'full') {
-    if (mode === 'embedded') {
-      onExternal(`${serviceUrl}${pathname}`, 'grape')
-      return
-    }
-    onRedirect(`${serviceUrl}${pathname}`)
+    onRootAndFull(pathOrUrl, {...options, pathname})
     return
   }
   onExternal(`${serviceUrl}${pathname}`, 'grape')
