@@ -6,20 +6,13 @@ import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
 import {channelRoute, pmRoute} from '../../constants/routes'
-import getBoundActions from '../../app/boundActions'
 
 const Container = withRouter(AppContainer)
-
-const fakeHistory = {
-  ...history,
-  push: (url) => { getBoundActions().goTo(url) },
-  replace: (url) => { getBoundActions().goTo(url, {replace: true}) }
-}
 
 const Router = ({onChangeRoute, children}) => (
   <ConnectedRouter
     basename={'/chat'}
-    history={fakeHistory}
+    history={history}
   >
     <Container>
       <Route

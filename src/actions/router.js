@@ -1,4 +1,3 @@
-import * as router from 'react-router-redux'
 import find from 'lodash/collection/find'
 import get from 'lodash/object/get'
 
@@ -7,6 +6,7 @@ import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
 import utilGoTo from '../utils/go-to'
+import history from '../app/history'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
@@ -36,7 +36,7 @@ export function goTo(pathOrUrl, options = {}) {
         dispatch(openChannel(channelId, messageId))
       },
       onUpdateRouter: (path, method) => {
-        dispatch(router[method](path))
+        history[method === 'replace' ? 'originalReplace' : 'originalPush'](path)
       }
     })
   }
