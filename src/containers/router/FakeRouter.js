@@ -1,18 +1,21 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
+import {connect} from 'react-redux'
+import {mapActionsToProps} from '../../app/redux'
+
 import history from '../../app/history'
 
 class FakeRouter extends PureComponent {
   static childContextTypes = {
     router: PropTypes.object.isRequired
-  };
+  }
 
   getChildContext() {
     return {
       router: {
         history: {
-          push: history.push,
-          replace: history.replace,
+          push: this.props.onChangeRoute,
+          replace: this.props.onChangeRoute,
           createHref: history.createHref
         }
       }
@@ -25,4 +28,8 @@ class FakeRouter extends PureComponent {
   }
 }
 
-export default FakeRouter
+const actionNames = {
+  goTo: 'onChangeRoute'
+}
+
+export default connect(null, mapActionsToProps(actionNames))(FakeRouter)

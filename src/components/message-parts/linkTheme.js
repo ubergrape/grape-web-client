@@ -7,6 +7,7 @@ export const styles = {
     textDecoration: 'none',
     color: link,
     wordBreak: 'break-word',
+    cursor: 'pointer',
     '&:hover': {
       isolate: false,
       textDecoration: 'none',

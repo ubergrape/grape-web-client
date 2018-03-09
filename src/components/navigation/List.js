@@ -25,7 +25,6 @@ export default function List(props) {
             onClick={() => goToChannel(channel)}
             channel={channel}
           />
-
         ))}
       </div>
     </div>

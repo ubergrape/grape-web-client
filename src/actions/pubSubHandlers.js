@@ -143,7 +143,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) dispatch(goTo({path: '/'}))
+    if (userId === user.id) dispatch(goTo('/'))
   }
 }
 
@@ -185,7 +185,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo({path: '/chat'}))
+    if (!rooms.length) dispatch(goTo('/chat'))
   }
 }
 
@@ -204,7 +204,7 @@ export function handleRemoveRoom({channel: id}) {
       type: types.REMOVE_ROOM,
       payload: id
     })
-    if (id === currentId) dispatch(goTo({path: '/chat'}))
+    if (id === currentId) dispatch(goTo('/chat'))
   }
 }
 
