@@ -1,11 +1,10 @@
 import React from 'react'
-import {Route, withRouter} from 'react-router-dom'
 import ConnectedRouter from 'react-router-redux/ConnectedRouter'
+import {channel, pm, Route, withRouter} from 'grape-web/lib/router'
 
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
-import {channel, pm} from '../../constants/routes'
 
 const Container = withRouter(AppContainer)
 

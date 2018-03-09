@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
-import {Link} from 'react-router-dom'
+import {Link} from 'grape-web/lib/router'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import icons from 'grape-web/lib/svg-icons/data'

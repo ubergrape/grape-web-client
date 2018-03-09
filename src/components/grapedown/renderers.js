@@ -1,7 +1,7 @@
 import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
-import {Link} from 'react-router-dom'
+import {Link} from 'grape-web/lib/router'
 
 import jsEmoji, {
   getEmojiSliceStyle,

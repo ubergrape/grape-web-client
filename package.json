@@ -54,7 +54,6 @@
     "react-intl": "^2.4.0",
     "react-overlays": "^0.7.0",
     "react-redux": "^4.0.0",
-    "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-virtualized": "^8.11.4",
     "redux": "^3.0.4",

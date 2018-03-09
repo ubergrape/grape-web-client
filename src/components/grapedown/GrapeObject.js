@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import markdownIt from 'markdown-it'
 import {getOptions, create} from 'grape-web/lib/grape-objects'
-import {Link} from 'react-router-dom'
+import {Link} from 'grape-web/lib/router'
 
 import LinkWithIcon from '../message-parts/LinkWithIcon'
 import Highlight from '../highlight/YellowHighlight'

@@ -1,20 +1,14 @@
 import find from 'lodash/collection/find'
-import get from 'lodash/object/get'
+import openUrl from 'grape-web/lib/x-platform/open-url'
+import getMode from 'grape-web/lib/x-platform/mode'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
-import utilGoTo from '../utils/go-to'
 import * as history from '../app/history'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
-
-const getMode = () => {
-  let mode = conf.embed ? 'embedded' : 'full'
-  if (get(window, 'process.versions.electron')) mode = 'electron'
-  return mode
-}
 
 export function goTo(pathOrUrl, options = {}) {
   return (dispatch) => {
@@ -23,9 +17,9 @@ export function goTo(pathOrUrl, options = {}) {
       payload: options
     })
 
-    utilGoTo(pathOrUrl, {
+    openUrl(pathOrUrl, {
       serviceUrl: conf.server.serviceUrl,
-      mode: getMode(),
+      mode: getMode(conf),
       currChannel: conf.channelId,
       replace: options.replace,
       onExternal: window.open,
