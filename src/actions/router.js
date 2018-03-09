@@ -1,6 +1,5 @@
 import find from 'lodash/collection/find'
-import openUrl from 'grape-web/lib/x-platform/open-url'
-import getMode from 'grape-web/lib/x-platform/mode'
+import {openUrl, getMode} from 'grape-web/lib/x-platform'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'

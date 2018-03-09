@@ -1,6 +1,5 @@
 import React from 'react'
-import ConnectedRouter from 'react-router-redux/ConnectedRouter'
-import {channel, pm, Route, withRouter} from 'grape-web/lib/router'
+import {routes, Route, withRouter, ConnectedRouter} from 'grape-web/lib/router'
 
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
@@ -29,7 +28,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path={pm}
+        path={routes.pm}
         exact
         render={({location, match}) => (
           <RouteChanger
@@ -43,7 +42,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path={channel}
+        path={routes.channel}
         render={({location, match}) => (
           <RouteChanger
             name="channel"
