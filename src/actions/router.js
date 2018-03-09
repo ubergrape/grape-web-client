@@ -6,7 +6,7 @@ import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
 import utilGoTo from '../utils/go-to'
-import history from '../app/history'
+import * as history from '../app/history'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
@@ -35,7 +35,7 @@ export function goTo(pathOrUrl, options = {}) {
         else dispatch(openPm(mateId))
       },
       onUpdateRouter: (path, method) => {
-        history[method === 'replace' ? 'originalReplace' : 'originalPush'](path)
+        history[method](path)
       }
     })
   }

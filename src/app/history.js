@@ -2,8 +2,10 @@ import createHistory from 'history/createBrowserHistory'
 import getBoundActions from './boundActions'
 
 const history = createHistory()
-history.originalPush = history.push
-history.originalReplace = history.replace
+
+export const push = history.push
+export const replace = history.replace
+
 history.push = (url) => {
   getBoundActions().goTo(url)
 }
