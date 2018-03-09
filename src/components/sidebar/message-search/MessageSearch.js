@@ -169,11 +169,7 @@ export default class MessageSearch extends PureComponent {
     })
 
     return (
-      <Message
-        message={message}
-        key={message.id}
-        onSelect={this.onSelect}
-      >
+      <Message message={message} key={message.id} onSelect={this.onSelect}>
         <GrapedownWithSearch text={message.text} />
       </Message>
     )
