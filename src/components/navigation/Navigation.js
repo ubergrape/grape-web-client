@@ -113,7 +113,7 @@ export default class Navigation extends PureComponent {
   onChangeFilter = ({target}) => {
     const {value} = target
 
-    this.props.searchChannelsForNavigation(value, 10000)
+    this.props.searchChannelsForNavigation(value)
     this.setState({
       filter: value
     })
