@@ -1,13 +1,9 @@
-import pick from 'lodash/object/pick'
-import mapValues from 'lodash/object/mapValues'
+import parse from 'mdurl/parse'
 
-const parser = document.createElement('a')
-
-const components = [
-  'hash', 'host', 'hostname', 'href', 'pathname', 'port', 'protocol', 'search'
-]
-
-export default function parse(url) {
-  parser.href = encodeURI(url)
-  return mapValues(pick(parser, components), decodeURIComponent)
+export default (url) => {
+  const parsed = parse(url)
+  return {
+    ...parsed,
+    host: parsed.port ? `${parsed.hostname}:${parsed.port}` : parsed.hostname
+  }
 }

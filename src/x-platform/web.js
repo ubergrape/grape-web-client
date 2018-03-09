@@ -20,10 +20,4 @@ export function createNotification({title, content, icon}, callback = noop) {
 /**
  * Open an url in browser.
  */
-export function openUrl(url, blank = true) {
-  if (blank) {
-    window.open(url)
-    return
-  }
-  window.location.href = url
-}
+export openUrl from './open-url'

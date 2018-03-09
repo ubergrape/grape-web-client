@@ -1,6 +1,7 @@
 import noop from 'lodash/utility/noop'
 import random from 'lodash/number/random'
 import emoji from 'grape-js-emoji'
+import get from 'lodash/object/get'
 
 import {openUrl, createNotification as createWebNotification} from './web'
 
@@ -86,3 +87,5 @@ export function addBadge(text) {
 export function removeBadge() {
   electron.ipcRenderer.send('removeBadge')
 }
+
+export const isElectron = get(window, 'process.versions.electron')
