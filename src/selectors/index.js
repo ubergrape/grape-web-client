@@ -104,6 +104,10 @@ export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
 
+export const favoritedSelector = createSelector(
+  state => state.favorited, state => state
+)
+
 export const roomDeleteSelector = createSelector(
   state => state.roomDelete, state => state
 )
@@ -382,6 +386,7 @@ export const navigationSelector = createSelector(
   [
     roomsSelector,
     navigationPmsSelector,
+    favoritedSelector,
     channelSelector,
     initialDataLoadingSelector,
     userSelector,
@@ -391,6 +396,7 @@ export const navigationSelector = createSelector(
   (
     rooms,
     pms,
+    favs,
     channel,
     isLoading,
     user,
@@ -402,9 +408,9 @@ export const navigationSelector = createSelector(
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = joined
-      .filter(_channel => _channel.favorited)
-      .sort((a, b) => b.favorited.order - a.favorited.order)
+    const favorited = joined.filter(_channel =>
+      favs.some(({channelId}) => channelId === _channel.id)
+    )
 
     return {
       joined,

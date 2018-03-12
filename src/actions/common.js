@@ -49,6 +49,13 @@ export const setChannels = (channels, type) => (dispatch, getState) => {
   })
 }
 
+export const setFavorited = payload => (dispatch) => {
+  dispatch({
+    type: types.SET_FAVORITED,
+    payload
+  })
+}
+
 export function setUsers(users) {
   return {
     type: types.SET_USERS,
@@ -160,11 +167,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.getOrg(conf.organization.id),
     api.getPmOverview(conf.organization.id),
     api.getRoomsOverview(conf.organization.id),
+    api.getPinnedChannels(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
-  ]).then(([org, channels, rooms, profile]) => {
+  ]).then(([org, channels, rooms, favorites, profile]) => {
     dispatch(setChannels(channels, 'pm'))
     dispatch(setChannels(rooms, 'room'))
+    dispatch(setFavorited(favorites))
     dispatch(handleUserProfile(profile))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
