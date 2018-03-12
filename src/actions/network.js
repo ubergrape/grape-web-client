@@ -13,7 +13,7 @@ function handleAuthError(err) {
       type: types.AUTH_ERROR,
       payload: err
     })
-    dispatch(goTo({path: '/accounts/login'}))
+    dispatch(goTo('/accounts/login'))
   }
 }
 

@@ -7,14 +7,7 @@ import render from './render'
 @injectIntl
 export default class Grapedown extends PureComponent {
   static propTypes = {
-    text: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    customEmojis: PropTypes.object.isRequired
-  }
-
-  static defaultProps = {
-    user: {},
-    customEmojis: {}
+    text: PropTypes.string.isRequired
   }
 
   render() {
