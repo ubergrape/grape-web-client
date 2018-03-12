@@ -182,7 +182,11 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const foundChannel = find(channels, {id: channelId})
   if (foundChannel) {
-    dispatch(setChannel(foundChannel.id, messageId))
+    const {id, type, isPublic, joined} = foundChannel
+    if (type === 'room' && isPublic && !joined) {
+      dispatch(joinChannel(id))
+    }
+    dispatch(setChannel(id, messageId))
     return
   }
 

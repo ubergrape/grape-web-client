@@ -11,7 +11,7 @@ import Roomname from '../avatar-name/Roomname'
 import {styles} from './groupTheme'
 
 const messages = defineMessages({
-  joinable: {
+  unjoined: {
     id: 'manageGroupsJoinableBtn',
     defaultMessage: 'join',
     description: 'Manage Groups Dialog: join button label'

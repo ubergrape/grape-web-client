@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import thunk from 'redux-thunk'
-import {routerReducer, routerMiddleware} from 'react-router-redux'
+import {routerReducer, routerMiddleware} from 'grape-web/lib/router'
 import history from './history'
 import * as reducers from '../reducers'
 import detectCircular from '../middleware/detectCircular'

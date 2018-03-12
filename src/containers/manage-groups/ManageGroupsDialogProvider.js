@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -9,9 +9,10 @@ import {ManageGroupsDialog} from '../../components/manage-groups'
 const actionNames = {
   joinChannel: 'onJoin',
   leaveChannel: 'onLeave',
-  setManageGroupsFilter: 'onSelectFilter',
+  selectManageGroupsFilter: 'onSelectFilter',
   hideManageGroups: 'onHide',
-  showNewConversation: 'createNewGroup'
+  showNewConversation: 'createNewGroup',
+  loadManageGroupsChannels: 'onLoad'
 }
 
 const ConnectedManageGroupsDialog = connect(
@@ -19,12 +20,8 @@ const ConnectedManageGroupsDialog = connect(
   mapActionsToProps(actionNames)
 )(ManageGroupsDialog)
 
-export default class ManageGroupsDialogProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedManageGroupsDialog />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedManageGroupsDialog />
+  </Provider>
+)

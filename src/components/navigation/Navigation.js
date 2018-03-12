@@ -19,10 +19,6 @@ import Actions from './Actions'
 import {styles} from './theme'
 
 const messages = defineMessages({
-  channelHeader: {
-    id: 'noConversationYet',
-    defaultMessage: 'No conversation yet'
-  },
   favorites: {
     id: 'favorites',
     defaultMessage: 'Favorites'
@@ -65,8 +61,7 @@ export default class Navigation extends PureComponent {
       bottomOffset: 5,
       step: 10,
       shift: 20,
-      filter: '',
-      focusedChannel: {}
+      filter: ''
     }
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
@@ -88,7 +83,7 @@ export default class Navigation extends PureComponent {
   componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
       this.setState({
-        focusedChannel: nextProps.foundChannels[0] || {}
+        focusedChannel: nextProps.foundChannels[0]
       })
     }
   }
@@ -118,7 +113,7 @@ export default class Navigation extends PureComponent {
   onChangeFilter = ({target}) => {
     const {value} = target
 
-    this.props.searchChannelsForNavigation(value, 10000)
+    this.props.searchChannelsForNavigation(value)
     this.setState({
       filter: value
     })
@@ -132,6 +127,7 @@ export default class Navigation extends PureComponent {
 
   onKeyDown = (e) => {
     const keyName = keyname(e.keyCode)
+    const {focusedChannel} = this.state
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -147,7 +143,9 @@ export default class Navigation extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        this.goToChannel(this.state.focusedChannel)
+        if (focusedChannel) {
+          this.goToChannel(focusedChannel)
+        }
         e.preventDefault()
         break
       default:
@@ -160,7 +158,7 @@ export default class Navigation extends PureComponent {
     this.setState({
       filter: '',
       filtered: [],
-      focusedChannel: {}
+      focusedChannel: undefined
     })
 
     if ((channel.type === 'pm') && !channel.joined) {
@@ -182,14 +180,12 @@ export default class Navigation extends PureComponent {
 
   renderFilteredChannel = (params) => {
     const {item: channel, focused} = params
-    const {classes, intl: {formatMessage}, foundChannels} = this.props
-    const isFirstInUnJoined = channel === foundChannels[0]
+    const {classes} = this.props
 
     return (
       <Channel
         {...this.props}
         {...this.state}
-        header={isFirstInUnJoined ? formatMessage(messages.channelHeader) : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}

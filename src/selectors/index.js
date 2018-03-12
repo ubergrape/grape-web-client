@@ -4,7 +4,6 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
-import sortBy from 'lodash/collection/sortBy'
 import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
@@ -584,31 +583,7 @@ export const fileUploadComponentSelector = createSelector(
 )
 
 export const manageGroupsSelector = createSelector(
-  [
-    state => state.manageGroups,
-    roomsSelector
-  ],
-  ({show, activeFilter}, allRooms) => {
-    const groups = sortBy(allRooms, 'name')
-      .map((group) => {
-        if (group.users) {
-          const creatorUser = group.users.filter(
-            user => user.id === group.creator
-          )[0]
-          return {
-            ...group,
-            creatorUser
-          }
-        }
-        return group
-      })
-
-    return {
-      show,
-      activeFilter,
-      groups
-    }
-  }
+  state => state.manageGroups, state => state
 )
 
 export const linkAttachmentsSelector = createSelector(

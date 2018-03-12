@@ -4,9 +4,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
+var APP = process.env.APP
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
 
@@ -29,14 +31,21 @@ var plugins = [
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   }),
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/)
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/),
+  new DuplicatePackageCheckerPlugin()
 ]
 
 module.exports = exports = {
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: () => {
+    var app = ['babel-polyfill', './src/index.js']
+    var embedded = ['babel-polyfill', './src/embedded.js']
+    if (APP === 'full') return {app}
+    if (APP === 'embedded') return {embedded}
+    return {app, embedded}
+  },
   output: {
     path: path.resolve(__dirname, 'dist/app'),
-    filename: 'app.js',
+    filename: '[name].js',
     library: 'grapeClient'
   },
   module: {

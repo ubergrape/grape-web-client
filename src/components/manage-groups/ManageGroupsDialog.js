@@ -20,7 +20,7 @@ const messages = defineMessages({
     defaultMessage: 'Manage Groups',
     description: 'Manage Groups Dialog: dialog title'
   },
-  linkJoinable: {
+  linkUnjoined: {
     id: 'manageGroupsLinkJoinable',
     defaultMessage: 'Groups you can join',
     description: 'Manage Groups Dialog: show joinable groups link'
@@ -36,19 +36,42 @@ const messages = defineMessages({
 @injectIntl
 export default class ManageGroupsDialog extends PureComponent {
   static propTypes = {
-    activeFilter: PropTypes.string.isRequired,
-    children: PropTypes.node,
+    classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     onHide: PropTypes.func.isRequired,
     onSelectFilter: PropTypes.func.isRequired,
     onJoin: PropTypes.func.isRequired,
     onLeave: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     createNewGroup: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     groups: PropTypes.arrayOf(
       PropTypes.object.isRequired
-    ).isRequired
+    ),
+    activeFilter: PropTypes.string
+  }
+
+  static defaultProps = {
+    groups: [],
+    activeFilter: 'unjoined'
+  }
+
+  componentDidUpdate(prevProps) {
+    const {activeFilter, onLoad, show} = this.props
+
+    if (show && !prevProps.show) {
+      onLoad(activeFilter)
+    }
+  }
+
+  onCreate = () => {
+    const {
+      onHide,
+      createNewGroup
+    } = this.props
+
+    onHide()
+    createNewGroup()
   }
 
   renderGroupsList(groups) {
@@ -91,20 +114,10 @@ export default class ManageGroupsDialog extends PureComponent {
     )
   }
 
-  onCreate = () => {
-    const {
-      onHide,
-      createNewGroup
-    } = this.props
-
-    onHide()
-    createNewGroup()
-  }
-
   renderTitle() {
     const {
       intl: {formatMessage},
-      sheet: {classes}
+      classes
     } = this.props
 
     return (
@@ -126,8 +139,10 @@ export default class ManageGroupsDialog extends PureComponent {
       show,
       onHide,
       groups,
-      sheet: {classes}
+      classes
     } = this.props
+
+    if (!show) return null
 
     return (
       <Dialog
@@ -136,7 +151,7 @@ export default class ManageGroupsDialog extends PureComponent {
         title={this.renderTitle()}
       >
         <TabsNav>
-          {this.renderFilterLink({filter: 'joinable'})}
+          {this.renderFilterLink({filter: 'unjoined'})}
           {this.renderFilterLink({filter: 'joined'})}
         </TabsNav>
         <div className={classes.container}>

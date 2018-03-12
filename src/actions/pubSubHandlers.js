@@ -7,7 +7,7 @@ import {
   usersSelector,
   userSelector,
   channelSelector,
-  roomsSelector
+  joinedRoomsSelector
 } from '../selectors'
 import {
   normalizeMessage,
@@ -29,7 +29,7 @@ export function handleNewMessage(message) {
     const state = getState()
     const nMessage = normalizeMessage(message, state)
     const user = userSelector(state)
-    const rooms = roomsSelector(state)
+    const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(nMessage, user, rooms)
 
     if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
@@ -143,7 +143,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) dispatch(goTo({path: '/'}))
+    if (userId === user.id) dispatch(goTo('/'))
   }
 }
 
@@ -184,8 +184,8 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
       }
     })
 
-    const rooms = roomsSelector(getState())
-    if (!rooms.length) dispatch(goTo({path: '/chat'}))
+    const rooms = joinedRoomsSelector(getState())
+    if (!rooms.length) dispatch(goTo('/chat'))
   }
 }
 
@@ -204,7 +204,7 @@ export function handleRemoveRoom({channel: id}) {
       type: types.REMOVE_ROOM,
       payload: id
     })
-    if (id === currentId) dispatch(goTo({path: '/chat'}))
+    if (id === currentId) dispatch(goTo('/chat'))
   }
 }
 

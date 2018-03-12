@@ -137,3 +137,17 @@ export const UserProfile = () => (
     defaultMessage="User Profile"
   />
 )
+
+export const Loading = () => (
+  <FormattedMessage
+    id="loading"
+    defaultMessage="Loading..."
+  />
+)
+
+export const Communication = () => (
+  <FormattedMessage
+    id="communication"
+    defaultMessage="Communicating with Grape universe, this may take a moment"
+  />
+)
