@@ -104,6 +104,10 @@ export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
 
+export const joinedRoomsSelector = createSelector(
+  roomsSelector, rooms => rooms.filter(room => room.joined)
+)
+
 export const favoritedSelector = createSelector(
   state => state.favorited, state => state
 )

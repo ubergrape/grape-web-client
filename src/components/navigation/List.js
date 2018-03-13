@@ -19,14 +19,12 @@ export default function List(props) {
       <h2 className={`${classes.title} ${classes[type]}`}>{title}</h2>
       <div className={classes.list}>
         {list.map(channel => (
-          <div>
-            <Channel
-              {...props}
-              key={channel.id ? channel.type + channel.id : `fav${channel.channelId}`}
-              onClick={() => goToChannel(channel)}
-              channel={channel}
-            />
-          </div>
+          <Channel
+            {...props}
+            key={channel.type + channel.id}
+            onClick={() => goToChannel(channel)}
+            channel={channel}
+          />
         ))}
       </div>
     </div>
