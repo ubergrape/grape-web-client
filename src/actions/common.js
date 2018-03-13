@@ -4,7 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector, roomsSelector,
+  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
   pmsSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
@@ -38,6 +38,7 @@ export function error(err) {
 
 export const setChannels = (channels, type) => (dispatch, getState) => {
   const user = userSelector(getState())
+
   const payload = channels
     .filter(removeBrokenPms)
     .map(channel => normalizeChannelData(channel, user.id))
@@ -178,7 +179,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
-    if (!roomsSelector(getState()).length && !pmsSelector(getState()).length) {
+    if (!joinedRoomsSelector(getState()).length && !pmsSelector(getState()).length) {
       dispatch(error(
         new Error('This account has neither joined rooms nor pm channels. This state is currently not supported.')
       ))

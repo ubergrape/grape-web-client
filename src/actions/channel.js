@@ -4,7 +4,7 @@ import {maxChannelDescriptionLength} from '../constants/app'
 import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
-  roomsSelector, userSelector, channelSelector, channelsSelector,
+  joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
   orgSelector, pmsSelector, initialDataLoadingSelector
 } from '../selectors'
 import {
@@ -348,7 +348,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(roomsSelector(getState()), {id})
+    const room = find(joinedRoomsSelector(getState()), {id})
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room
