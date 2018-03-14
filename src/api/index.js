@@ -9,6 +9,7 @@ import Emitter from 'component-emitter'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
+import ie10Polyfills from './ie10Polyfills'
 
 let resolveAppReady
 
@@ -80,28 +81,7 @@ const embed = (options) => {
       embed: true
     }))
 
-  const ie10Polyfills = new Promise((resolve) => {
-    if (window.Intl && location.origin) {
-      resolve()
-      return
-    }
-
-    // eslint-disable-next-line camelcase, no-undef
-    __webpack_public_path__ = `${options.staticBaseUrl}app/`
-
-    require.ensure([
-      'intl',
-      'intl/locale-data/jsonp/en.js',
-      'intl/locale-data/jsonp/de.js'
-    ], (require) => {
-      require('intl')
-      require('intl/locale-data/jsonp/en.js')
-      require('intl/locale-data/jsonp/de.js')
-      resolve()
-    })
-  })
-
-  Promise.all([config, ie10Polyfills]).then((values) => {
+  Promise.all([config, ie10Polyfills(options)]).then((values) => {
     init(values[0])
   })
 }
