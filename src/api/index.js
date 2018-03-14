@@ -81,9 +81,7 @@ const embed = (options) => {
       embed: true
     }))
 
-  ie10Polyfills(options)
-
-  Promise.all([config, ie10Polyfills]).then((values) => {
+  Promise.all([config, ie10Polyfills(options)]).then((values) => {
     init(values[0])
   })
 }
