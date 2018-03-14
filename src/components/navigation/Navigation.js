@@ -162,7 +162,7 @@ export default class Navigation extends PureComponent {
     })
 
     if ((channel.type === 'pm') && !channel.joined) {
-      this.props.openPm(channel.mate.id)
+      this.props.openPm(channel.partner.id)
       return
     }
 

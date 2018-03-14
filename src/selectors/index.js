@@ -24,7 +24,8 @@ export const userSelector = createSelector(
 )
 
 export const activeUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => user.isActive)
+  // usersSelector, users => users.filter(user => user.isActive)
+  usersSelector, users => users.map(() => true)
 )
 
 export const invitedUsersSlector = createSelector(
@@ -32,7 +33,8 @@ export const invitedUsersSlector = createSelector(
 )
 
 export const deletedUsersSelector = createSelector(
-  usersSelector, users => users.filter(user => !user.isActive)
+  // usersSelector, users => users.filter(user => !user.isActive)
+  usersSelector, users => users.map(() => false)
 )
 
 export const initialChannelsSelector = createSelector(
@@ -49,27 +51,29 @@ export const channelsSelector = createSelector(
     // Important optimization when users array is long.
     const usersMap = indexBy(users, 'id')
     return channels.map((channel) => {
-      const channelUsers = channel.users
-        .map(id => usersMap[id])
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Currently we have to remove users which are not loaded in `users`.
-        .filter(Boolean)
+      if (channel.users) {
+        const channelUsers = channel.users
+          .map(id => usersMap[id])
+          // TODO remove it once no logic left which assumes we have all channels and users.
+          // Currently we have to remove users which are not loaded in `users`.
+          .filter(Boolean)
 
-      if (channel.type === 'room') {
-        return {
-          ...channel,
-          users: channelUsers
+        if (channel.type === 'room') {
+          return {
+            ...channel,
+            users: channelUsers
+          }
         }
-      }
 
-      if (channel.type === 'pm') {
-        const mate = find(channelUsers, _user => _user.id !== user.id)
-        if (!mate) return null
-        return {
-          ...channel,
-          mate,
-          name: mate.displayName,
-          users: channelUsers
+        if (channel.type === 'pm') {
+          const mate = find(channelUsers, _user => _user.id !== user.id)
+          if (!mate) return null
+          return {
+            ...channel,
+            mate,
+            name: mate.displayName,
+            users: channelUsers
+          }
         }
       }
 
@@ -104,6 +108,10 @@ export const joinedRoomsSelector = createSelector(
   roomsSelector, rooms => rooms.filter(room => room.joined)
 )
 
+export const favoritedSelector = createSelector(
+  state => state.favorited, state => state
+)
+
 export const roomDeleteSelector = createSelector(
   state => state.roomDelete, state => state
 )
@@ -128,7 +136,8 @@ const activeUsersWithoutCurrSelector = createSelector(
 export const activeUsersWithLastPmSelector = createSelector(
   [activeUsersWithoutCurrSelector, activePmsSelector],
   (users, pms) => {
-    const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
+    const sortedPms = pms.sort((a, b) =>
+      new Date(a.lastMessage.time) - new Date(b.lastMessage.time))
 
     return users.map(user => ({
       ...user,
@@ -179,7 +188,7 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({...pm.mate})
+  pm => ({...pm.partner})
 )
 
 const notificationSettingsSelector = createSelector(
@@ -272,7 +281,7 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const unreadChannelsSelector = createSelector(
-  [joinedRoomsSelector, activePmsSelector, channelSelector],
+  [roomsSelector, activePmsSelector, channelSelector],
   (rooms, pms, channel) => ({
     amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
     channelName: channel.name || (channel.users && channel.users[0].displayName)
@@ -280,7 +289,7 @@ export const unreadChannelsSelector = createSelector(
 )
 
 export const unreadMentionsAmountSelector = createSelector(
-  [joinedRoomsSelector, activePmsSelector],
+  [roomsSelector, activePmsSelector],
   (rooms, pms) => (
     rooms
       .concat(pms)
@@ -349,7 +358,7 @@ export const navigationPmsSelector = createSelector(
   [pmsSelector],
   pms => (
     pms.filter(pm => (
-      pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+      pm.lastMessage || pm.temporaryInNavigation || pm.favorited
     ))
   )
 )
@@ -365,13 +374,13 @@ function sortRecentChannels(a, b) {
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
   } else {
-    aCompareValue = a.latestMessageTime || unixToIsoTimestamp(a.created)
+    aCompareValue = new Date(a.lastMessage.time) || unixToIsoTimestamp(a.created)
   }
 
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue = b.latestMessageTime || unixToIsoTimestamp(b.created)
+    bCompareValue = new Date(b.lastMessage.time) || unixToIsoTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue
@@ -379,8 +388,9 @@ function sortRecentChannels(a, b) {
 
 export const navigationSelector = createSelector(
   [
-    joinedRoomsSelector,
+    roomsSelector,
     navigationPmsSelector,
+    favoritedSelector,
     channelSelector,
     initialDataLoadingSelector,
     userSelector,
@@ -388,22 +398,23 @@ export const navigationSelector = createSelector(
     searchingChannelsSelector
   ],
   (
-    joinedRooms,
+    rooms,
     pms,
+    favs,
     channel,
     isLoading,
     user,
     foundChannels,
     searchingChannels
   ) => {
-    const joined = [...joinedRooms, ...pms]
+    const joined = [...rooms, ...pms]
       .filter(({id}) => id !== user.id)
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = joined
-      .filter(_channel => _channel.favorited)
-      .sort((a, b) => b.favorited.order - a.favorited.order)
+    const favorited = joined.filter(_channel =>
+      favs.some(({channelId}) => channelId === _channel.id)
+    )
 
     return {
       joined,
@@ -515,14 +526,16 @@ export const markdownTipsSelector = createSelector(
 )
 
 export const isChannelDisabledSelector = createSelector(
-  [channelSelector, channelsSelector],
-  (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.mate.isActive
-    return (
-      channels.length === 0 ||
-      !channel
-    )
-  }
+  // [channelSelector, channelsSelector],
+  // (channel, channels) => {
+  //   if (channel) return channel.type === 'pm' && !channel.isActive
+  //   return (
+  //     channels.length === 0 ||
+  //     !channel
+  //   )
+  // }
+  state => state,
+  () => false
 )
 
 export const footerSelector = createSelector(

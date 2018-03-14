@@ -36,15 +36,23 @@ export function error(err) {
   }
 }
 
-export const setChannels = channels => (dispatch, getState) => {
+export const setChannels = (channels, type) => (dispatch, getState) => {
   const user = userSelector(getState())
 
   const payload = channels
     .filter(removeBrokenPms)
     .map(channel => normalizeChannelData(channel, user.id))
+    .map(channel => ({...channel, type}))
 
   dispatch({
     type: types.SET_CHANNELS,
+    payload
+  })
+}
+
+export const setFavorited = payload => (dispatch) => {
+  dispatch({
+    type: types.SET_FAVORITED,
     payload
   })
 }
@@ -158,13 +166,16 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getUsers({orgId: conf.organization.id}),
+    api.getPmOverview(conf.organization.id),
+    api.getRoomsOverview(conf.organization.id),
+    api.getPinnedChannels(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
-  ]).then(([org, users, profile]) => {
-    dispatch(setUsers(users))
+  ]).then(([org, channels, rooms, favorites, profile]) => {
+    dispatch(setChannels(channels, 'pm'))
+    dispatch(setChannels(rooms, 'room'))
+    dispatch(setFavorited(favorites))
     dispatch(handleUserProfile(profile))
-    dispatch(setChannels(org.channels))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 

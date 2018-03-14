@@ -9,11 +9,10 @@ const initialState = []
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_CHANNELS:
-      return [...action.payload]
+      return [...state, ...action.payload]
 
     case types.SET_CHANNEL: {
       const {id, type} = action.payload.channel
-
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
           const newChannel = {...channel, current: true}
@@ -21,7 +20,7 @@ export default function reduce(state = initialState, action) {
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
           // for the current session lifetime.
-          if (type === 'pm' && !channel.firstMessageTime) {
+          if (type === 'pm' && !channel.lastMessage) {
             newChannel.temporaryInNavigation = Date.now()
           }
           newState.push(newChannel)
@@ -37,8 +36,8 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.ADD_CHANNEL: {
-      const channel = action.payload
-      if (find(state, {id: channel.id})) {
+      const {channel, initialDataLoading} = action.payload
+      if (initialDataLoading || find(state, {id: channel.id})) {
         return state
       }
       return [...state, channel]
