@@ -1,5 +1,5 @@
-export const intlPolyfill = options => new Promise((resolve) => {
-  if (window.Intl) {
+export default options => new Promise((resolve) => {
+  if (window.Intl && location.origin) {
     resolve()
     return
   }

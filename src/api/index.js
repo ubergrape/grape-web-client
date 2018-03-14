@@ -9,7 +9,7 @@ import Emitter from 'component-emitter'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
-import {intlPolyfill} from './ie10Polyfills'
+import ie10Polyfills from './ie10Polyfills'
 
 let resolveAppReady
 
@@ -81,9 +81,9 @@ const embed = (options) => {
       embed: true
     }))
 
-  intlPolyfill(options)
+  ie10Polyfills(options)
 
-  Promise.all([config, intlPolyfill]).then((values) => {
+  Promise.all([config, ie10Polyfills]).then((values) => {
     init(values[0])
   })
 }
