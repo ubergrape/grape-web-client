@@ -87,6 +87,23 @@ const embed = (options) => {
     })
   })
 
+  const locationOriginPolyfill = new Promise((resolve) => {
+    if (location.origin) {
+      resolve()
+      return
+    }
+
+    // eslint-disable-next-line camelcase, no-undef
+    __webpack_public_path__ = `${options.staticBaseUrl}app/`
+
+    require.ensure([
+      'window-location-origin'
+    ], (require) => {
+      require('window-location-origin')
+      resolve()
+    })
+  })
+
   const config = loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
@@ -101,8 +118,8 @@ const embed = (options) => {
       embed: true
     }))
 
-  Promise.all([intlPolyfill, config]).then((values) => {
-    init(values[1])
+  Promise.all([config, intlPolyfill, locationOriginPolyfill]).then((values) => {
+    init(values[0])
   })
 }
 
