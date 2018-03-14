@@ -18,20 +18,3 @@ export const intlPolyfill = options => new Promise((resolve) => {
     resolve()
   })
 })
-
-export const locationOriginPolyfill = options => new Promise((resolve) => {
-  if (location.origin) {
-    resolve()
-    return
-  }
-
-  // eslint-disable-next-line camelcase, no-undef
-  __webpack_public_path__ = `${options.staticBaseUrl}app/`
-
-  require.ensure([
-    'window-location-origin'
-  ], (require) => {
-    require('window-location-origin')
-    resolve()
-  })
-})

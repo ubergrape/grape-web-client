@@ -9,7 +9,7 @@ import Emitter from 'component-emitter'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
-import {intlPolyfill, locationOriginPolyfill} from './embedPolyfills'
+import {intlPolyfill} from './ie10Polyfills'
 
 let resolveAppReady
 
@@ -83,9 +83,7 @@ const embed = (options) => {
 
   intlPolyfill(options)
 
-  locationOriginPolyfill(options)
-
-  Promise.all([config, intlPolyfill, locationOriginPolyfill]).then((values) => {
+  Promise.all([config, intlPolyfill]).then((values) => {
     init(values[0])
   })
 }
