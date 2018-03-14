@@ -9,6 +9,7 @@ import Emitter from 'component-emitter'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
+import {intlPolyfill, locationOriginPolyfill} from './embedPolyfills'
 
 let resolveAppReady
 
@@ -66,44 +67,6 @@ const embed = (options) => {
     throw new Error('Missing serviceUrl option.')
   }
 
-  const intlPolyfill = new Promise((resolve) => {
-    if (window.Intl) {
-      resolve()
-      return
-    }
-
-    // eslint-disable-next-line camelcase, no-undef
-    __webpack_public_path__ = `${options.staticBaseUrl}app/`
-
-    require.ensure([
-      'intl',
-      'intl/locale-data/jsonp/en.js',
-      'intl/locale-data/jsonp/de.js'
-    ], (require) => {
-      require('intl')
-      require('intl/locale-data/jsonp/en.js')
-      require('intl/locale-data/jsonp/de.js')
-      resolve()
-    })
-  })
-
-  const locationOriginPolyfill = new Promise((resolve) => {
-    if (location.origin) {
-      resolve()
-      return
-    }
-
-    // eslint-disable-next-line camelcase, no-undef
-    __webpack_public_path__ = `${options.staticBaseUrl}app/`
-
-    require.ensure([
-      'window-location-origin'
-    ], (require) => {
-      require('window-location-origin')
-      resolve()
-    })
-  })
-
   const config = loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
       container: options.container,
@@ -117,6 +80,10 @@ const embed = (options) => {
       channelId: options.channelId,
       embed: true
     }))
+
+  intlPolyfill(options)
+
+  locationOriginPolyfill(options)
 
   Promise.all([config, intlPolyfill, locationOriginPolyfill]).then((values) => {
     init(values[0])
