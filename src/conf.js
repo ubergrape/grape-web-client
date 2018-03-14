@@ -36,10 +36,6 @@ class Config {
   }
   container = '#grape-client'
 
-  constructor() {
-    this.setup()
-  }
-
   transform() {
     Object.assign(this.server, parseServiceUrl(this.server.serviceUrl))
   }
