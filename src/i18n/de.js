@@ -153,7 +153,7 @@ export default {
   "quoteMessage": "Zitieren",
   "localTime": "Lokale Zeit",
   "newConversation": "Neue Konversation",
-  "searchPeopleAndGroups": "Leute und Gruppen suchen...",
+  "searchPeopleAndGroups": "Mitarbeiter und Gruppen durchsuchen...",
   "nothingThatMatches": "Keine passenden Ergebnisse für ",
   "favorites": "Favoriten",
   "recent": "Aktuell",
