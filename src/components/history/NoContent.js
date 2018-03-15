@@ -90,7 +90,7 @@ RoomContent.propTypes = {
 
 function PmContent(props) {
   const {
-    mate,
+    partner,
     classes
   } = props
 
@@ -102,7 +102,7 @@ function PmContent(props) {
           <FormattedMessage
             id="welcomeToPm"
             defaultMessage="Private messages with {mate}"
-            values={{mate: mate.displayName}}
+            values={{partner: partner.displayName}}
           />
         </h2>
         <p className={classes.text}>
@@ -110,7 +110,7 @@ function PmContent(props) {
             id="pmIntro"
             defaultMessage="This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
             values={{
-              mate: mate.displayName,
+              partner: partner.displayName,
               br: <br />
             }}
           />
@@ -121,7 +121,7 @@ function PmContent(props) {
 }
 
 PmContent.propTypes = {
-  mate: PropTypes.shape({
+  partner: PropTypes.shape({
     displayName: PropTypes.string.isRequired
   }).isRequired,
   classes: PropTypes.object.isRequired
@@ -170,6 +170,6 @@ export default class NoContent extends PureComponent {
       )
     }
 
-    return <PmContent classes={classes} mate={channel.mate} />
+    return <PmContent classes={classes} partner={channel.partner} />
   }
 }

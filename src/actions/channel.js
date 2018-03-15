@@ -149,8 +149,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     return
   }
 
-  const foundChannel = find(channels, ({mate}) => mate.id === userId)
-
+  const foundChannel = find(channels, ({partner}) => partner.id === userId)
   if (foundChannel) {
     dispatch(goToChannel(foundChannel, options))
     return

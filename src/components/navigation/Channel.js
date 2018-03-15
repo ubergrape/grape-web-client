@@ -64,9 +64,9 @@ function Pm(props) {
     <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
-        avatar={partner.avatar || avatar}
+        avatar={partner ? partner.avatar : avatar}
         status={partner ? userStatusMap[partner.status] : userStatusMap[status]}
-        name={partner.displayName || displayName}
+        name={partner ? partner.displayName : displayName}
         theme={theme}
       />
       <Unread {...props} />
