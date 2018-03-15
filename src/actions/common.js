@@ -49,11 +49,11 @@ export const setChannels = channels => (dispatch, getState) => {
   })
 }
 
-export function setUsers(users) {
-  return {
+export const setUsers = users => (dispatch) => {
+  dispatch({
     type: types.SET_USERS,
     payload: users.map(normalizeUserData)
-  }
+  })
 }
 
 export const addUser = user => (dispatch) => {
@@ -158,13 +158,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getUsers({orgId: conf.organization.id}),
+    api.getPmOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
   ]).then(([org, users, profile]) => {
-    dispatch(setUsers(users))
     dispatch(handleUserProfile(profile))
     dispatch(setChannels(org.channels))
+    dispatch(setUsers(users))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 

@@ -52,7 +52,7 @@ function Room(props) {
 function Pm(props) {
   // Prop `mate` might be not present if rendered over navigation search.
   // TODO this can be done in a more consistent way.
-  const {classes, channel: {mate, avatar, status, displayName}} = props
+  const {classes, channel: {partner, avatar, status, displayName}} = props
   const theme = {
     classes: {
       name: classes.channelName,
@@ -64,9 +64,9 @@ function Pm(props) {
     <div className={classes.channelInner}>
       <Username
         statusBorderColor={colors.grayBlueLighter}
-        avatar={avatar || mate.avatar}
-        status={mate ? userStatusMap[mate.status] : userStatusMap[status]}
-        name={displayName || mate.displayName}
+        avatar={partner.avatar || avatar}
+        status={partner ? userStatusMap[partner.status] : userStatusMap[status]}
+        name={partner.displayName || displayName}
         theme={theme}
       />
       <Unread {...props} />

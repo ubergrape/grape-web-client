@@ -4,7 +4,6 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
-import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
 export const appSelector = createSelector(
@@ -44,13 +43,12 @@ export const initialChannelsSelector = createSelector(
  * instead of user ID's.
  */
 export const channelsSelector = createSelector(
-  [initialChannelsSelector, usersSelector, userSelector],
-  (channels, users, user) => {
+  [initialChannelsSelector, usersSelector],
+  (channels, users) =>
     // Important optimization when users array is long.
-    const usersMap = indexBy(users, 'id')
-    return channels.map((channel) => {
+    channels.map((channel) => {
       const channelUsers = channel.users
-        .map(id => usersMap[id])
+        .map(id => users[id])
         // TODO remove it once no logic left which assumes we have all channels and users.
         // Currently we have to remove users which are not loaded in `users`.
         .filter(Boolean)
@@ -63,13 +61,11 @@ export const channelsSelector = createSelector(
       }
 
       if (channel.type === 'pm') {
-        const mate = find(channelUsers, _user => _user.id !== user.id)
+        const mate = find(users, _user => _user.id === channel.id)
         if (!mate) return null
         return {
-          ...channel,
-          mate,
-          name: mate.displayName,
-          users: channelUsers
+          ...mate,
+          ...channel
         }
       }
 
@@ -77,7 +73,6 @@ export const channelsSelector = createSelector(
     // TODO remove it once no logic left which assumes we have all channels and users.
     // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
-  }
 )
 
 export const channelSelector = createSelector(
@@ -517,7 +512,7 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.mate.isActive
+    if (channel) return channel.type === 'pm' && !channel.isActive
     return (
       channels.length === 0 ||
       !channel
