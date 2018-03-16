@@ -4,6 +4,9 @@ import {goTo} from './'
 
 export const loginFromEmbedded = () => (dispatch) => {
   dispatch({type: types.LOGIN_FROM_EMBEDDED})
-  const url = `${conf.server.serviceUrl}/accounts/login/?next=${location.href}`
-  dispatch(goTo(url))
+  if (conf.organization.sso_enabled) {
+    dispatch(goTo(`${conf.server.serviceUrl}/sso/sso?next=/chat/`))
+    return
+  }
+  dispatch(goTo(`${conf.server.serviceUrl}/accounts/login/?next=${location.href}`))
 }
