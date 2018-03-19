@@ -6,6 +6,7 @@
 import merge from 'lodash/object/merge'
 import Emitter from 'component-emitter'
 
+import {version} from '../../package.json'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
@@ -61,6 +62,8 @@ const suspend = () => {
     app.suspend()
   })
 }
+
+const clientVersion = () => version
 
 const embed = (options) => {
   if (!options.serviceUrl) {
@@ -124,6 +127,7 @@ class Api extends Emitter {
   setOpenFileDialogHandler = setOpenFileDialogHandler
   resume = resume
   suspend = suspend
+  version = clientVersion()
   authStatus = 'unauthorized'
   rpc = rpc
 
