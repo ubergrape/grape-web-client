@@ -7,6 +7,15 @@ const onForeign = (pathOrUrl, {onExternal}) => {
   onExternal(pathOrUrl, '_blank')
 }
 
+const onSso = (pathOrUrl, options) => {
+  const {onRedirect, onExternal, mode} = options
+  if (mode === 'embedded') {
+    onRedirect(pathOrUrl)
+    return
+  }
+  onExternal(pathOrUrl, '_blank')
+}
+
 const onLogin = (pathOrUrl, options) => {
   const {serviceUrl, pathname, onRedirect} = options
   onRedirect(`${serviceUrl}${pathname}`)
@@ -91,10 +100,15 @@ const onRootAndFull = (pathOrUrl, options) => {
 export default (pathOrUrl, options) => {
   const loginPath = '/accounts/login'
   const logoutPath = '/accounts/logout'
+  const ssoPath = '/sso/sso'
   const {onExternal, mode, serviceUrl} = options
   const {pathname, hostname} = parseUrl(pathOrUrl)
   if (hostname && hostname !== parseUrl(serviceUrl).hostname) {
     onForeign(pathOrUrl, options)
+    return
+  }
+  if (pathname === ssoPath) {
+    onSso(pathOrUrl, {...options})
     return
   }
   if (pathname === loginPath) {

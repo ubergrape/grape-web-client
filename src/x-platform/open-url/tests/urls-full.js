@@ -105,7 +105,21 @@ describe('goTo with url in full mode', () => {
     })
   })
 
-  it('should call onExternal callback if URL leads to login page', () => {
+  it('should call onExternal callback if URL with query param leads to sso page', () => {
+    const {map, called, args} = callbacks()
+    goTo('https://grape.io/sso/sso?next=/chat', {
+      currChannel: 2000,
+      serviceUrl: 'https://grape.io/sso/sso?next=/chat',
+      mode: 'full',
+      ...map
+    })
+    expect({called, args}).to.eql({
+      called: {onExternal: 1, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0},
+      args: ['https://grape.io/sso/sso?next=/chat', '_blank']
+    })
+  })
+
+  it('should call onRedirect callback if URL leads to login page', () => {
     const {map, called, args} = callbacks()
     goTo('https://grape.io/accounts/login', {
       currChannel: 2000,
@@ -119,7 +133,7 @@ describe('goTo with url in full mode', () => {
     })
   })
 
-  it('should call onExternal callback if URL leads to logout page', () => {
+  it('should call onRedirect callback if URL leads to logout page', () => {
     const {map, called, args} = callbacks()
     goTo('https://grape.io/accounts/logout', {
       currChannel: 2000,
