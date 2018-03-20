@@ -105,6 +105,20 @@ describe('goTo with url in embedded mode', () => {
     })
   })
 
+  it('should call onRedirect callback if URL with query param leads to sso page', () => {
+    const {map, called, args} = callbacks()
+    goTo('https://grape.io/sso/sso?next=/chat', {
+      currChannel: 2000,
+      serviceUrl: 'https://grape.io/sso/sso?next=/chat',
+      mode: 'embedded',
+      ...map
+    })
+    expect({called, args}).to.eql({
+      called: {onExternal: 0, onRedirect: 1, onSilentChange: 0, onUpdateRouter: 0},
+      args: ['https://grape.io/sso/sso?next=/chat']
+    })
+  })
+
   it('should call onRedirect callback if URL leads to login page', () => {
     const {map, called, args} = callbacks()
     goTo('https://grape.io/accounts/login', {
