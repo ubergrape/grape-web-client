@@ -63,8 +63,6 @@ const suspend = () => {
   })
 }
 
-const clientVersion = () => version
-
 const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
@@ -127,7 +125,7 @@ class Api extends Emitter {
   setOpenFileDialogHandler = setOpenFileDialogHandler
   resume = resume
   suspend = suspend
-  version = clientVersion()
+  version = version
   authStatus = 'unauthorized'
   rpc = rpc
 
