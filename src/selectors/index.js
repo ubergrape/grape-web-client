@@ -47,16 +47,14 @@ export const channelsSelector = createSelector(
   (channels, users) =>
     // Important optimization when users array is long.
     channels.map((channel) => {
-      const channelUsers = channel.users
-        .map(id => users[id])
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Currently we have to remove users which are not loaded in `users`.
-        .filter(Boolean)
-
       if (channel.type === 'room') {
         return {
           ...channel,
-          users: channelUsers
+          users: channel.users
+            .map(id => users[id])
+            // TODO remove it once no logic left which assumes we have all channels and users.
+            // Currently we have to remove users which are not loaded in `users`.
+            .filter(Boolean)
         }
       }
 
@@ -174,7 +172,7 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({...pm.mate})
+  pm => ({...pm.partner})
 )
 
 const notificationSettingsSelector = createSelector(
@@ -487,8 +485,8 @@ export const headerSelector = createSelector(
     orgSelector, favoriteSelector, channelSelector, sidebarSelector,
     unreadMentionsAmountSelector, userProfileSelector
   ],
-  ({features}, favorite, channel, {show: sidebar}, mentions, mate) => ({
-    favorite, channel, sidebar, mentions, mate, features
+  ({features}, favorite, channel, {show: sidebar}, mentions, partner) => ({
+    favorite, channel, sidebar, mentions, partner, features
   })
 )
 

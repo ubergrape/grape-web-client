@@ -38,7 +38,8 @@ const tabs = [
         defaultMessage="About this user"
         description="User profile sidebar, about user title."
       />
-    )
+    ),
+    onSelect: 'userInfoClick'
   },
   {
     name: 'files',
@@ -67,9 +68,12 @@ export default class UserProfile extends PureComponent {
     onLoadSharedFiles: PropTypes.func.isRequired,
     onOpenSharedFile: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
+    getUser: PropTypes.func.isRequired,
     onLoadPinnedMessages: PropTypes.func.isRequired,
     onSelectPinnedMessage: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string,
     status: PropTypes.number,
     avatar: PropTypes.string,
     displayName: PropTypes.string,
@@ -82,6 +86,7 @@ export default class UserProfile extends PureComponent {
     displayName: undefined,
     status: undefined,
     subview: undefined,
+    email: undefined,
     showSubview: 'pinnedMessages'
   }
 
@@ -98,6 +103,11 @@ export default class UserProfile extends PureComponent {
 
   onChangeTab = (index) => {
     this.props.onShowSubview(tabs[index].name)
+  }
+
+  userInfoClick = () => {
+    const {getUser, email, id} = this.props
+    if (!email) getUser(id)
   }
 
   renderAbout = () => (
@@ -167,6 +177,7 @@ export default class UserProfile extends PureComponent {
           tabs={tabs}
           title={tab.title}
           body={this[tab.render]()}
+          onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}
         />
       </SidebarPanel>
     )

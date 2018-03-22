@@ -101,14 +101,14 @@ function PmContent(props) {
         <h2 className={classes.title}>
           <FormattedMessage
             id="welcomeToPm"
-            defaultMessage="Private messages with {mate}"
+            defaultMessage="Private messages with {partner}"
             values={{partner: partner.displayName}}
           />
         </h2>
         <p className={classes.text}>
           <FormattedMessage
             id="pmIntro"
-            defaultMessage="This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
+            defaultMessage="This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you."
             values={{
               partner: partner.displayName,
               br: <br />
@@ -137,8 +137,7 @@ export default class NoContent extends PureComponent {
       type: PropTypes.oneOf(['pm', 'room']).isRequired,
       name: PropTypes.string,
       isPublic: PropTypes.bool,
-      users: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-      mate: PropTypes.shape({})
+      partner: PropTypes.shape({})
     }).isRequired
   }
 

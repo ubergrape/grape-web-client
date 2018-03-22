@@ -63,6 +63,13 @@ export const addUser = user => (dispatch) => {
   })
 }
 
+export const updateUserPartnerInfo = userInfo => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_USER_PARTNER_INFO,
+    payload: userInfo
+  })
+}
+
 export function setOrg(org) {
   return {
     type: types.SET_ORG,

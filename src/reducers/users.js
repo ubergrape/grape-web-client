@@ -17,6 +17,13 @@ export default function reduce(state = initialState, action) {
       }
       return state
     }
+    case types.UPDATE_USER_PARTNER_INFO: {
+      const newState = [...state]
+      const index = findIndex(newState, {id: payload.pm})
+      if (index === -1) return state
+      newState[index].partner = payload
+      return newState
+    }
     case types.REMOVE_USER_FROM_ORG: {
       const newState = [...state]
       const index = findIndex(newState, {id: payload})

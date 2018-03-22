@@ -101,9 +101,6 @@ export default function subscribe(channel) {
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
-      case 'organization.joined':
-        boundActions.handleJoinOrg(cData)
-        break
       case 'organization.left':
         boundActions.handleLeftOrg(cData)
         break

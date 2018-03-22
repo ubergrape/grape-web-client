@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -36,7 +36,8 @@ const actionNames = [
   'goToAddIntegrations',
   'showNotificationSettings',
   'openSharedFile',
-  'unpinMessage'
+  'unpinMessage',
+  'getUser'
 ]
 
 const ConnectedSidebar = connect(
@@ -44,12 +45,10 @@ const ConnectedSidebar = connect(
   mapActionsToProps(actionNames)
 )(Sidebar)
 
-export default class SidebarProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedSidebar {...this.props} />
-      </Provider>
-    )
-  }
-}
+const SidebarProvider = props => (
+  <Provider store={getStore()}>
+    <ConnectedSidebar {...props} />
+  </Provider>
+)
+
+export default SidebarProvider

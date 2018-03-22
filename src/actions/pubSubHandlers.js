@@ -20,8 +20,7 @@ import {
   addSharedFiles,
   removeSharedFiles,
   addMention,
-  removeMention,
-  addUser
+  removeMention
 } from './'
 
 export function handleNewMessage(message) {
@@ -92,16 +91,6 @@ export function handleReadChannel({user: userId, channel: channelId}) {
         channelId
       }
     })
-  }
-}
-
-export function handleJoinOrg({user, organization: orgId}) {
-  return (dispatch, getState) => {
-    const org = orgSelector(getState())
-
-    if (org.id !== orgId) return
-
-    dispatch(addUser(user))
   }
 }
 

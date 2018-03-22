@@ -109,6 +109,13 @@ export const joinChannel = id => (dispatch) => {
     .catch(err => dispatch(error(err)))
 }
 
+export const updateChannelPartnerInfo = channel => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_CHANNEL_PARTNER_INFO,
+    payload: channel
+  })
+}
+
 export function inviteToChannel(emailAddresses, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
@@ -160,12 +167,11 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     payload: userId
   })
 
-  Promise.all([
-    api.getUser(org.id, userId),
-    api.openPm(org.id, userId)
-  ])
-    .then(([user, channel]) => {
-      dispatch(addUser(user))
+  api
+    .openPm(org.id, userId)
+    .then(({id}) => api.getChannel(id))
+    .then((channel) => {
+      dispatch(addUser(channel))
       dispatch(addChannel(channel))
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
