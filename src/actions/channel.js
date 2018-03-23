@@ -167,12 +167,20 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     payload: userId
   })
 
+  let channelUsers
+
   api
     .openPm(org.id, userId)
-    .then(({id}) => api.getChannel(id))
+    .then(({id, users}) => {
+      channelUsers = users
+      return api.getChannel(id)
+    })
     .then((channel) => {
       dispatch(addUser(channel))
-      dispatch(addChannel(channel))
+      dispatch(addChannel({
+        ...channel,
+        users: channelUsers
+      }))
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
     })

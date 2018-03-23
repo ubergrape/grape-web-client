@@ -24,17 +24,6 @@ export default function reduce(state = initialState, action) {
       newState[index].partner = payload
       return newState
     }
-    case types.REMOVE_USER_FROM_ORG: {
-      const newState = [...state]
-      const index = findIndex(newState, {id: payload})
-      if (index === -1) return state
-      const user = newState[index]
-      newState.splice(index, 1, {
-        ...user,
-        isActive: false
-      })
-      return newState
-    }
 
     case types.CHANGE_USER_STATUS: {
       const {userId: id, status} = payload

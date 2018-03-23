@@ -94,19 +94,6 @@ export function handleReadChannel({user: userId, channel: channelId}) {
   }
 }
 
-export function handleLeftOrg({user: userId, organization: orgId}) {
-  return (dispatch, getState) => {
-    const org = orgSelector(getState())
-
-    if (org.id !== orgId) return
-
-    dispatch({
-      type: types.REMOVE_USER_FROM_ORG,
-      payload: userId
-    })
-  }
-}
-
 export function handleMembershipUpdate({membership}) {
   return (dispatch, getState) => {
     const {
@@ -162,7 +149,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     const users = usersSelector(getState())
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
+    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
 
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
