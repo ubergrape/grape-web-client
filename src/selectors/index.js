@@ -47,15 +47,10 @@ export const channelsSelector = createSelector(
   (channels, users) =>
     // Important optimization when users array is long.
     channels.map((channel) => {
-      const channelUsers = channel.users
-        .map(id => users[id])
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Currently we have to remove users which are not loaded in `users`.
-        .filter(Boolean)
       if (channel.type === 'room') {
         return {
           ...channel,
-          users: channelUsers
+          users: channel.users
         }
       }
 
@@ -66,7 +61,7 @@ export const channelsSelector = createSelector(
           ...channel,
           ...user,
           name: user.partner.displayName,
-          users: channelUsers
+          users: channel.users
         }
       }
 
