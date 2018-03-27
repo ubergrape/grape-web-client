@@ -5,7 +5,7 @@ import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
   channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
-  pmsSelector
+  pmsSelector, orgSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -21,7 +21,9 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  handleChangeRoute
+  handleChangeRoute,
+  addChannel,
+  handleRoomCreateError
 } from './'
 
 export function error(err) {
@@ -61,6 +63,30 @@ export const addUser = user => (dispatch) => {
     type: types.ADD_USER_TO_ORG,
     payload: normalizeUserData(user)
   })
+}
+
+export const addNewUser = userId => (dispatch, getState) => {
+  const org = orgSelector(getState())
+
+  let channelUsers
+
+  return api
+    .openPm(org.id, userId)
+    .then(({id, users}) => {
+      channelUsers = users
+      return api.getChannel(id)
+    })
+    .then((channel) => {
+      dispatch(addUser(channel))
+      dispatch(addChannel({
+        ...channel,
+        users: channelUsers
+      }))
+      return channel
+    })
+    .catch((err) => {
+      dispatch(handleRoomCreateError(err.message))
+    })
 }
 
 export const updateUserPartnerInfo = userInfo => (dispatch) => {
@@ -142,6 +168,20 @@ export function handleNotification(notification) {
     const state = getState()
     const channels = channelsSelector(state)
     const users = usersSelector(state)
+    if (!find(channels, {id: notification.channelId})) {
+      dispatch(addNewUser(notification.author.id))
+        .then((channel) => {
+          dispatch({
+            type: types.HANDLE_NOTIFICATION,
+            payload: {
+              ...notification,
+              channel,
+              inviter: find(users, {id: notification.inviterId})
+            }
+          })
+        })
+      return
+    }
     dispatch({
       type: types.HANDLE_NOTIFICATION,
       payload: {

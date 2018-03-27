@@ -44,8 +44,7 @@ export const initialChannelsSelector = createSelector(
  */
 export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector],
-  (channels, users) =>
-    // Important optimization when users array is long.
+  (channels, users) => (
     channels.map((channel) => {
       if (channel.type === 'room') {
         return {
@@ -58,8 +57,8 @@ export const channelsSelector = createSelector(
         const user = find(users, _user => _user.id === channel.id)
         if (!user) return null
         return {
-          ...channel,
           ...user,
+          ...channel,
           name: user.partner.displayName,
           users: channel.users
         }
@@ -69,6 +68,7 @@ export const channelsSelector = createSelector(
     // TODO remove it once no logic left which assumes we have all channels and users.
     // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
+  )
 )
 
 export const channelSelector = createSelector(

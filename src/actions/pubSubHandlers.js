@@ -1,5 +1,6 @@
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
+import findIndex from 'lodash/array/findIndex'
 
 import * as types from '../constants/actionTypes'
 import {
@@ -20,52 +21,65 @@ import {
   addSharedFiles,
   removeSharedFiles,
   addMention,
-  removeMention
+  removeMention,
+  addNewUser
 } from './'
 
-export function handleNewMessage(message) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const nMessage = normalizeMessage(message, state)
-    const user = userSelector(state)
-    const rooms = joinedRoomsSelector(state)
-    const mentionsCount = countMentions(nMessage, user, rooms)
+export const addNewMessage = message => (dispatch, getState) => {
+  const state = getState()
+  const user = userSelector(state)
+  const rooms = joinedRoomsSelector(state)
+  const nMessage = normalizeMessage(message, state)
+  const mentionsCount = countMentions(nMessage, user, rooms)
 
-    if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
-    if (mentionsCount) dispatch(addMention(nMessage))
+  if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
+  if (mentionsCount) dispatch(addMention(nMessage))
+  dispatch({
+    type: types.UPDATE_CHANNEL_STATS,
+    payload: {
+      message: nMessage,
+      mentionsCount,
+      isCurrentUser: user.id === nMessage.author.id
+    }
+  })
+  // We remove a message first, because if user sends a message, it is
+  // added immediately, with a generated clientsideId.
+  // Then we receive the same message from the server which might contain
+  // additional information and a server-side id.
+  dispatch({
+    type: types.REMOVE_MESSAGE,
+    payload: message.clientsideId
+  })
+  dispatch({
+    type: types.ADD_NEW_MESSAGE,
+    payload: nMessage
+  })
 
+  // Mark own message as sent.
+  if (nMessage.author.id === user.id) {
     dispatch({
-      type: types.UPDATE_CHANNEL_STATS,
+      type: types.MARK_MESSAGE_AS_SENT,
       payload: {
-        message: nMessage,
-        mentionsCount,
-        isCurrentUser: user.id === nMessage.author.id
+        messageId: nMessage.id,
+        channelId: nMessage.channelId
       }
     })
-    // We remove a message first, because if user sends a message, it is
-    // added immediately, with a generated clientsideId.
-    // Then we receive the same message from the server which might contain
-    // additional information and a server-side id.
-    dispatch({
-      type: types.REMOVE_MESSAGE,
-      payload: message.clientsideId
-    })
-    dispatch({
-      type: types.ADD_NEW_MESSAGE,
-      payload: nMessage
-    })
-
-    // Mark own message as sent.
-    if (nMessage.author.id === user.id) {
-      dispatch({
-        type: types.MARK_MESSAGE_AS_SENT,
-        payload: {
-          messageId: nMessage.id,
-          channelId: nMessage.channelId
-        }
-      })
-    }
   }
+}
+
+export const handleNewMessage = message => (dispatch, getState) => {
+  const state = getState()
+  const channels = channelSelector(state)
+  const user = userSelector(state)
+
+  if (message.author.id === user.id || findIndex(channels, {id: message.author.id}) !== -1) {
+    dispatch(addNewMessage(message))
+    return
+  }
+  dispatch(addNewUser(message.author.id))
+    .then(() => {
+      dispatch(addNewMessage(message))
+    })
 }
 
 export function handleRemovedMessage({id}) {
@@ -150,15 +164,16 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
     const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
-
-    dispatch({
-      type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: {
-        channelId,
-        user,
-        isCurrentUser
-      }
-    })
+    if (user) {
+      dispatch({
+        type: types.REMOVE_USER_FROM_CHANNEL,
+        payload: {
+          channelId,
+          user,
+          isCurrentUser
+        }
+      })
+    }
 
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))
