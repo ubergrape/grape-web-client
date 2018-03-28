@@ -8,7 +8,8 @@ import {
   usersSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector
+  joinedRoomsSelector,
+  channelsSelector
 } from '../selectors'
 import {
   normalizeMessage,
@@ -25,7 +26,7 @@ import {
   addNewUser
 } from './'
 
-export const addNewMessage = message => (dispatch, getState) => {
+const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
   const rooms = joinedRoomsSelector(state)
@@ -177,6 +178,34 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
 
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))
+  }
+}
+
+const newNotification = (notification, channel) => (dispatch, getState) => {
+  const users = usersSelector(getState())
+  dispatch({
+    type: types.HANDLE_NOTIFICATION,
+    payload: {
+      ...notification,
+      channel,
+      inviter: find(users, {id: notification.inviterId})
+    }
+  })
+}
+
+export function handleNotification(notification) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const channels = channelsSelector(state)
+    const channel = find(channels, {id: notification.channelId})
+    if (channel) {
+      newNotification(notification, channel)
+      return
+    }
+    dispatch(addNewUser(notification.author.id))
+      .then((addedChannel) => {
+        newNotification(notification, addedChannel)
+      })
   }
 }
 

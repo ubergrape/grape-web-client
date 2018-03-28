@@ -4,7 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
+  channelsSelector, userSelector, appSelector, joinedRoomsSelector,
   pmsSelector, orgSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
@@ -161,36 +161,6 @@ export const handleBadChannel = alertType => (dispatch) => {
     closeAfter: 6000,
     isClosable: true
   }))
-}
-
-export function handleNotification(notification) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const channels = channelsSelector(state)
-    const users = usersSelector(state)
-    if (!find(channels, {id: notification.channelId})) {
-      dispatch(addNewUser(notification.author.id))
-        .then((channel) => {
-          dispatch({
-            type: types.HANDLE_NOTIFICATION,
-            payload: {
-              ...notification,
-              channel,
-              inviter: find(users, {id: notification.inviterId})
-            }
-          })
-        })
-      return
-    }
-    dispatch({
-      type: types.HANDLE_NOTIFICATION,
-      payload: {
-        ...notification,
-        channel: find(channels, {id: notification.channelId}),
-        inviter: find(users, {id: notification.inviterId})
-      }
-    })
-  }
 }
 
 export const loadInitialData = clientId => (dispatch, getState) => {
