@@ -199,12 +199,12 @@ export function handleNotification(notification) {
     const channels = channelsSelector(state)
     const channel = find(channels, {id: notification.channelId})
     if (channel) {
-      newNotification(notification, channel)
+      dispatch(newNotification(notification, channel))
       return
     }
     dispatch(addNewUser(notification.author.id))
       .then((addedChannel) => {
-        newNotification(notification, addedChannel)
+        dispatch(newNotification(notification, addedChannel))
       })
   }
 }
