@@ -113,13 +113,14 @@ const Contacts = ({classes, email, skypeUsername, skypeForBusiness, phoneNumber}
 
 Contacts.propTypes = {
   classes: PropTypes.object.isRequired,
-  email: PropTypes.string.isRequired,
+  email: PropTypes.string,
   skypeUsername: PropTypes.string,
   skypeForBusiness: PropTypes.string,
   phoneNumber: PropTypes.string
 }
 
 Contacts.defaultProps = {
+  email: undefined,
   skypeUsername: undefined,
   skypeForBusiness: undefined,
   phoneNumber: undefined

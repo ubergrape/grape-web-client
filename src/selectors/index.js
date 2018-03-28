@@ -4,7 +4,6 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
-import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
 export const appSelector = createSelector(
@@ -44,32 +43,24 @@ export const initialChannelsSelector = createSelector(
  * instead of user ID's.
  */
 export const channelsSelector = createSelector(
-  [initialChannelsSelector, usersSelector, userSelector],
-  (channels, users, user) => {
-    // Important optimization when users array is long.
-    const usersMap = indexBy(users, 'id')
-    return channels.map((channel) => {
-      const channelUsers = channel.users
-        .map(id => usersMap[id])
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Currently we have to remove users which are not loaded in `users`.
-        .filter(Boolean)
-
+  [initialChannelsSelector, usersSelector],
+  (channels, users) => (
+    channels.map((channel) => {
       if (channel.type === 'room') {
         return {
           ...channel,
-          users: channelUsers
+          users: channel.users
         }
       }
 
       if (channel.type === 'pm') {
-        const mate = find(channelUsers, _user => _user.id !== user.id)
-        if (!mate) return null
+        const user = find(users, _user => _user.id === channel.id)
+        if (!user) return null
         return {
+          ...user,
           ...channel,
-          mate,
-          name: mate.displayName,
-          users: channelUsers
+          name: user.partner.displayName,
+          users: channel.users
         }
       }
 
@@ -77,7 +68,7 @@ export const channelsSelector = createSelector(
     // TODO remove it once no logic left which assumes we have all channels and users.
     // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
-  }
+  )
 )
 
 export const channelSelector = createSelector(
@@ -179,7 +170,7 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({...pm.mate})
+  pm => ({...pm.partner})
 )
 
 const notificationSettingsSelector = createSelector(
@@ -492,8 +483,8 @@ export const headerSelector = createSelector(
     orgSelector, favoriteSelector, channelSelector, sidebarSelector,
     unreadMentionsAmountSelector, userProfileSelector
   ],
-  ({features}, favorite, channel, {show: sidebar}, mentions, mate) => ({
-    favorite, channel, sidebar, mentions, mate, features
+  ({features}, favorite, channel, {show: sidebar}, mentions, partner) => ({
+    favorite, channel, sidebar, mentions, partner, features
   })
 )
 
@@ -517,7 +508,7 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.mate.isActive
+    if (channel) return channel.type === 'pm' && !channel.isActive
     return (
       channels.length === 0 ||
       !channel

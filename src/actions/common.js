@@ -4,8 +4,8 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
-  pmsSelector
+  channelsSelector, userSelector, appSelector, joinedRoomsSelector,
+  pmsSelector, orgSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -21,7 +21,9 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  handleChangeRoute
+  handleChangeRoute,
+  addChannel,
+  handleRoomCreateError
 } from './'
 
 export function error(err) {
@@ -49,17 +51,48 @@ export const setChannels = channels => (dispatch, getState) => {
   })
 }
 
-export function setUsers(users) {
-  return {
+export const setUsers = users => (dispatch) => {
+  dispatch({
     type: types.SET_USERS,
     payload: users.map(normalizeUserData)
-  }
+  })
 }
 
 export const addUser = user => (dispatch) => {
   dispatch({
     type: types.ADD_USER_TO_ORG,
     payload: normalizeUserData(user)
+  })
+}
+
+export const addNewUser = userId => (dispatch, getState) => {
+  const org = orgSelector(getState())
+
+  let channelUsers
+
+  return api
+    .openPm(org.id, userId)
+    .then(({id, users}) => {
+      channelUsers = users
+      return api.getChannel(id)
+    })
+    .then((channel) => {
+      dispatch(addUser(channel))
+      dispatch(addChannel({
+        ...channel,
+        users: channelUsers
+      }))
+      return channel
+    })
+    .catch((err) => {
+      dispatch(handleRoomCreateError(err.message))
+    })
+}
+
+export const updateUserPartnerInfo = userInfo => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_USER_PARTNER_INFO,
+    payload: userInfo
   })
 }
 
@@ -130,22 +163,6 @@ export const handleBadChannel = alertType => (dispatch) => {
   }))
 }
 
-export function handleNotification(notification) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const channels = channelsSelector(state)
-    const users = usersSelector(state)
-    dispatch({
-      type: types.HANDLE_NOTIFICATION,
-      payload: {
-        ...notification,
-        channel: find(channels, {id: notification.channelId}),
-        inviter: find(users, {id: notification.inviterId})
-      }
-    })
-  }
-}
-
 export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
@@ -158,13 +175,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getUsers({orgId: conf.organization.id}),
+    api.getPmOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
   ]).then(([org, users, profile]) => {
-    dispatch(setUsers(users))
     dispatch(handleUserProfile(profile))
     dispatch(setChannels(org.channels))
+    dispatch(setUsers(users))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 

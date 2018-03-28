@@ -109,6 +109,13 @@ export const joinChannel = id => (dispatch) => {
     .catch(err => dispatch(error(err)))
 }
 
+export const updateChannelPartnerInfo = channel => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_CHANNEL_PARTNER_INFO,
+    payload: channel
+  })
+}
+
 export function inviteToChannel(emailAddresses, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
@@ -149,8 +156,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     return
   }
 
-  const foundChannel = find(channels, ({mate}) => mate.id === userId)
-
+  const foundChannel = find(channels, ({partner}) => partner.id === userId)
   if (foundChannel) {
     dispatch(goToChannel(foundChannel, options))
     return
@@ -161,13 +167,20 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     payload: userId
   })
 
-  Promise.all([
-    api.getUser(org.id, userId),
-    api.openPm(org.id, userId)
-  ])
-    .then(([user, channel]) => {
-      dispatch(addUser(user))
-      dispatch(addChannel(channel))
+  let channelUsers
+
+  api
+    .openPm(org.id, userId)
+    .then(({id, users}) => {
+      channelUsers = users
+      return api.getChannel(id)
+    })
+    .then((channel) => {
+      dispatch(addUser(channel))
+      dispatch(addChannel({
+        ...channel,
+        users: channelUsers
+      }))
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
     })

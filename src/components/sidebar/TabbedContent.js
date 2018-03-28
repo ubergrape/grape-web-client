@@ -61,6 +61,7 @@ export default class TabbedContent extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    onSelect: PropTypes.func,
     tabs: PropTypes.arrayOf(PropTypes.shape({
       icon: PropTypes.string.isRequired
     })).isRequired,
@@ -72,7 +73,8 @@ export default class TabbedContent extends PureComponent {
   static defaultProps = {
     index: 0,
     title: undefined,
-    body: undefined
+    body: undefined,
+    onSelect: undefined
   }
 
   onChange = (e, index) => {
@@ -80,7 +82,7 @@ export default class TabbedContent extends PureComponent {
   }
 
   render() {
-    const {index, classes, tabs, title, body} = this.props
+    const {index, classes, tabs, title, body, onSelect} = this.props
 
     const tabClasses = {rootInheritSelected: classes.tabSelected}
 
@@ -98,6 +100,7 @@ export default class TabbedContent extends PureComponent {
               icon={<Icon name={icon} className={classes.icon} />}
               className={classes.tab}
               classes={tabClasses}
+              onClick={onSelect}
             />
           ))}
         </Tabs>
