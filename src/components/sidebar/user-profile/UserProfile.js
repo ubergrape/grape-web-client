@@ -39,7 +39,7 @@ const tabs = [
         description="User profile sidebar, about user title."
       />
     ),
-    onSelect: 'userInfoClick'
+    onSelect: 'onUserInfoClick'
   },
   {
     name: 'files',
@@ -105,7 +105,7 @@ export default class UserProfile extends PureComponent {
     this.props.onShowSubview(tabs[index].name)
   }
 
-  userInfoClick = () => {
+  onUserInfoClick = () => {
     const {getUser, email, id} = this.props
     if (!email) getUser(id)
   }

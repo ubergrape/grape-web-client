@@ -167,19 +167,16 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     payload: userId
   })
 
-  let channelUsers
-
   api
     .openPm(org.id, userId)
-    .then(({id, users}) => {
-      channelUsers = users
-      return api.getChannel(id)
-    })
-    .then((channel) => {
+    .then(({id, users}) =>
+      Promise.all([users, api.getChannel(id)])
+    )
+    .then(([users, channel]) => {
       dispatch(addUser(channel))
       dispatch(addChannel({
         ...channel,
-        users: channelUsers
+        users
       }))
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
@@ -210,8 +207,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then((channel) => {
       if (channel.type === 'pm') {
-        const currUser = userSelector(getState())
-        const users = [currUser, channel.partner]
+        const users = [channel.partner]
         const userIds = [users[0].id, users[1].id]
         return [
           {...channel, users: userIds},

@@ -14,6 +14,10 @@ export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
 
+/**
+ * Fills by pm objects from pm get_overview
+ * https://uebergrape.staging.chatgrape.com/doc/chat_api/rpc.html#chat.rpc.PM.get_overview
+ */
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -39,8 +43,8 @@ export const initialChannelsSelector = createSelector(
 )
 
 /**
- * Fill the `initialChannelsSelector` with user objects
- * instead of user ID's.
+ * Fill the `initialChannelsSelector` with pm objects
+ * instead of pm ID's.
  */
 export const channelsSelector = createSelector(
   [initialChannelsSelector, usersSelector],

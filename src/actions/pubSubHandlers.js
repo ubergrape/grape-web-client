@@ -203,7 +203,8 @@ export function handleNotification(notification) {
       return
     }
     dispatch(addNewUser(notification.author.id))
-      .then((addedChannel) => {
+      .then(() => {
+        const addedChannel = find(channels, {id: notification.channelId})
         dispatch(newNotification(notification, addedChannel))
       })
   }

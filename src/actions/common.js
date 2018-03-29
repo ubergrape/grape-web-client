@@ -68,21 +68,17 @@ export const addUser = user => (dispatch) => {
 export const addNewUser = userId => (dispatch, getState) => {
   const org = orgSelector(getState())
 
-  let channelUsers
-
   return api
     .openPm(org.id, userId)
-    .then(({id, users}) => {
-      channelUsers = users
-      return api.getChannel(id)
-    })
-    .then((channel) => {
+    .then(({id, users}) =>
+      Promise.all([users, api.getChannel(id)])
+    )
+    .then(([users, channel]) => {
       dispatch(addUser(channel))
       dispatch(addChannel({
         ...channel,
-        users: channelUsers
+        users
       }))
-      return channel
     })
     .catch((err) => {
       dispatch(handleRoomCreateError(err.message))
@@ -175,7 +171,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getPmOverview(conf.organization.id),
+    api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
   ]).then(([org, users, profile]) => {

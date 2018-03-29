@@ -2,7 +2,7 @@ import publicApi from '../api'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import conf from '../conf'
-import {updateUserPartnerInfo, updateChannelPartnerInfo} from './'
+import {updateUserPartnerInfo, updateChannelPartnerInfo, error} from './'
 
 export function setSidebarIsLoading(isLoading) {
   return {
@@ -39,6 +39,9 @@ export const getUser = userId => (dispatch) => {
     .then((res) => {
       dispatch(updateUserPartnerInfo(res))
       dispatch(updateChannelPartnerInfo(res))
+    })
+    .catch((err) => {
+      dispatch(error(err))
     })
 }
 
