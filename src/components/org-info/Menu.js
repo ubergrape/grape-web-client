@@ -30,6 +30,7 @@ export default class Menu extends PureComponent {
     onInvite: PropTypes.func.isRequired,
     onShowIntro: PropTypes.func.isRequired,
     inviterRole: PropTypes.number.isRequired,
+    supportLink: PropTypes.string.isRequired,
     user: PropTypes.shape({
       role: PropTypes.number.isRequired
     }).isRequired
@@ -47,6 +48,7 @@ export default class Menu extends PureComponent {
       classes,
       onInvite,
       onShowIntro,
+      supportLink,
       user,
       inviterRole
     } = this.props
@@ -77,7 +79,7 @@ export default class Menu extends PureComponent {
       <AccountSettingsItem key={++key} />,
       <NotificationSettingsItem key={++key} />,
       <TutorialItem onClick={onShowIntro} key={++key} />,
-      <SupportItem key={++key} />,
+      <SupportItem href={supportLink} key={++key} />,
       <SwitchOrganizationsItem key={++key} />,
       <Divider key={++key} />,
       <LogoutItem key={++key} />

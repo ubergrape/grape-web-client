@@ -94,10 +94,10 @@ export const TutorialItem = props => (
   </Item>
 )
 
-export const SupportItem = () => (
+export const SupportItem = ({href}) => (
   <Item
     icon="help"
-    href="http://support.grape.io"
+    href={href}
     target="grape-support"
   >
     <FormattedMessage
