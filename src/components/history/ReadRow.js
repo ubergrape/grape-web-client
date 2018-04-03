@@ -23,10 +23,20 @@ export default class ReadRow extends PureComponent {
     children: noop
   }
 
+  componentDidMount() {
+    this.onFocusListener = window.addEventListener('focus', () => {
+      this.onReadDebounced(this.lastVisibleMessageId)
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.channelId !== this.props.channelId) {
       this.lastReadRow = undefined
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('focus', this.onFocusListener)
   }
 
   onRowsRendered = ({stopIndex}) => {
@@ -44,10 +54,17 @@ export default class ReadRow extends PureComponent {
   }
 
   onReadDebounced = debounce((messageId) => {
-    this.props.onRead({
-      channelId: this.props.channelId,
-      messageId
-    })
+    // In case the window is not focused and the user receives a message we don't want
+    // to mark it as read, but store last rendered messages to mark it as read once the
+    // user focuses the window again.
+    if (document.hasFocus()) {
+      this.props.onRead({
+        channelId: this.props.channelId,
+        messageId
+      })
+    } else {
+      this.lastVisibleMessageId = messageId
+    }
   }, 1000)
 
   render() {
