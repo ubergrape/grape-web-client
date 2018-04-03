@@ -207,7 +207,8 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then((channel) => {
       if (channel.type === 'pm') {
-        const users = [channel.partner]
+        const currUser = userSelector(getState())
+        const users = [currUser, channel.partner]
         const userIds = [users[0].id, users[1].id]
         return [
           {...channel, users: userIds},
@@ -232,9 +233,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       // It should be a channel user didn't join yet.
       dispatch(joinChannel(channelId))
     })
-    .catch(() => {
-      dispatch(handleBadChannel())
-    })
+    .catch(() => dispatch(handleBadChannel()))
 }
 
 export function createRoomWithUsers(room, users) {
