@@ -115,23 +115,6 @@ export const currentPmsSelector = createSelector(
   pmsSelector, pms => find(pms, 'current') || {}
 )
 
-const activeUsersWithoutCurrSelector = createSelector(
-  [activeUsersSelector, userSelector],
-  (users, currUser) => users.filter(user => user.id !== currUser.id)
-)
-
-export const activeUsersWithLastPmSelector = createSelector(
-  [activeUsersWithoutCurrSelector, activePmsSelector],
-  (users, pms) => {
-    const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
-
-    return users.map(user => ({
-      ...user,
-      pm: find(sortedPms, {id: user.id})
-    }))
-  }
-)
-
 export const invitedUsersWithPmSlector = createSelector(
   invitedUsersSlector, users => users.filter(user => user.pm)
 )
@@ -312,6 +295,9 @@ export const inviteDialogSelector = createSelector(
   ],
   (channel, inviteChannelMemebers, isInviter) => ({
     ...inviteChannelMemebers,
+    users: inviteChannelMemebers.users.filter(user =>
+      !channel.users.some(id => id === user.id)
+    ),
     isInviter,
     channelType: channel.type
   })

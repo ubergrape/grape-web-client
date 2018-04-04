@@ -23,9 +23,7 @@ export default class TagsInput extends PureComponent {
   constructor(props) {
     super(props)
 
-    this.state = {
-      filter: ''
-    }
+    this.state = {filter: ''}
   }
 
   componentDidMount() {
