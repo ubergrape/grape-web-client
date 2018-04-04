@@ -308,13 +308,11 @@ export const inviteDialogSelector = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
-    activeUsersWithLastPmSelector,
     isInviterSelector
   ],
-  (channel, inviteChannelMemebers, allUsers, isInviter) => ({
+  (channel, inviteChannelMemebers, isInviter) => ({
     ...inviteChannelMemebers,
     isInviter,
-    users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
     channelType: channel.type
   })
 )
