@@ -13,6 +13,7 @@ const actionNames = [
   'goToChannel',
   'openPm',
   'kickMemberFromChannel',
+  'searchUsersToInvite',
   'showChannelMembersInvite',
   'loadSharedFiles',
   'loadPinnedMessages',

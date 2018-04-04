@@ -1,6 +1,7 @@
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
+import * as api from '../utils/backend/api'
 
 import * as types from '../constants/actionTypes'
 import {
@@ -142,21 +143,38 @@ export function handleNewChannel({channel}) {
   return addChannel(channel)
 }
 
+const addUserToChannel = payload => (dispatch) => {
+  dispatch({
+    type: types.ADD_USER_TO_CHANNEL,
+    payload
+  })
+}
+
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
     const users = usersSelector(getState())
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-    dispatch({
-      type: types.ADD_USER_TO_CHANNEL,
-      payload: {
-        channelId,
-        user,
-        isCurrentUser
-      }
-    })
+    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
+
+    // If user exist in get_overview call
+    if (user) {
+      dispatch(addUserToChannel({channelId, user, isCurrentUser}))
+      return
+    }
+    api
+      .getUser(orgSelector(getState()).id, userId)
+      .then((foundedUser) => {
+        dispatch(addUserToChannel({channelId, user: foundedUser, isCurrentUser}))
+      })
   }
+}
+
+const removeUserFromChannel = payload => (dispatch) => {
+  dispatch({
+    type: types.REMOVE_USER_FROM_CHANNEL,
+    payload
+  })
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
@@ -165,15 +183,16 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
     const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
+
+    // If user exist in get_overview call
     if (user) {
-      dispatch({
-        type: types.REMOVE_USER_FROM_CHANNEL,
-        payload: {
-          channelId,
-          user,
-          isCurrentUser
-        }
-      })
+      dispatch(removeUserFromChannel({channelId, user, isCurrentUser}))
+    } else {
+      api
+        .getUser(orgSelector(getState()).id, userId)
+        .then((foundedUser) => {
+          dispatch(removeUserFromChannel({channelId, user: foundedUser, isCurrentUser}))
+        })
     }
 
     const rooms = joinedRoomsSelector(getState())

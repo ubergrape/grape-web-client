@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import debounce from 'lodash/function/debounce'
 
 import {styles} from './theme'
 
@@ -13,19 +14,30 @@ export default class TagsInput extends PureComponent {
     onChange: PropTypes.func.isRequired,
     renderTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
-    focused: PropTypes.bool,
-    list: PropTypes.array,
-    value: PropTypes.string,
-    className: PropTypes.string,
-    placeholder: PropTypes.string
+    focused: PropTypes.bool.isRequired,
+    list: PropTypes.array.isRequired,
+    value: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {filter: ''}
   }
 
   componentDidMount() {
-    if (this.props.focused) this.refs.input.focus()
+    if (this.props.focused) this.input.focus()
+  }
+
+  componentWillUpdate(prevProps) {
+    if (prevProps.list.length !== this.props.list.length) {
+      this.setState({filter: ''})
+    }
   }
 
   componentDidUpdate() {
-    const {input, filterArea, inputRuler, filterRuler} = this.refs
+    const {input, filterArea, inputRuler, filterRuler} = this
     if (!input) return
     if (this.props.focused) input.focus()
 
@@ -40,8 +52,13 @@ export default class TagsInput extends PureComponent {
     filterArea.style.height = filterRuler.offsetHeight
   }
 
+  onInputRef = (ref) => { this.input = ref }
+  onInputRulerRef = (ref) => { this.inputRuler = ref }
+  onFilterAreaRef = (ref) => { this.filterArea = ref }
+  onFilterRulerRef = (ref) => { this.filterRuler = ref }
+
   onBlur = () => {
-    if (this.props.focused) this.refs.input.focus()
+    if (this.props.focused) this.input.focus()
   }
 
   onKeyDown = (e) => {
@@ -52,18 +69,23 @@ export default class TagsInput extends PureComponent {
     this.props.onKeyDown(e)
   }
 
+  onChangeDebounce = debounce(() => {
+    this.props.onChange(this.input.value)
+  }, 500)
+
   onChange = () => {
-    this.props.onChange(this.refs.input.value)
+    this.setState({filter: this.input.value})
+    this.onChangeDebounce()
   }
 
-  onDeleteTag(item) {
+  onDeleteTag = (item) => {
     this.props.deleteTag(item)
   }
 
   deleteLastItem() {
     const {list, deleteTag} = this.props
     if (!list.length) return
-    const {selectionStart, selectionEnd} = this.refs.input
+    const {selectionStart, selectionEnd} = this.input
     if (selectionStart + selectionEnd !== 0) return
 
     deleteTag(list[list.length - 1])
@@ -71,8 +93,9 @@ export default class TagsInput extends PureComponent {
 
   renderPlaceholder() {
     const {classes} = this.props.sheet
-    const {placeholder, value, list} = this.props
-    if (!placeholder || value || list.length) return null
+    const {placeholder, value} = this.props
+    const inputValue = this.input ? this.input.value : value
+    if (inputValue) return null
     return (
       <span className={classes.placeholder}>{placeholder}</span>
     )
@@ -80,27 +103,26 @@ export default class TagsInput extends PureComponent {
 
   renderInput() {
     const {
-      sheet: {classes},
-      value
+      sheet: {classes}
     } = this.props
 
     return (
       <span>
         {this.renderPlaceholder()}
         <input
-          ref="input"
+          ref={this.onInputRef}
           className={classes.input}
           onBlur={this.onBlur}
           onKeyDown={this.onKeyDown}
           onChange={this.onChange}
-          value={value}
+          value={this.state.filter}
         />
         <span
-          ref="inputRuler"
+          ref={this.onInputRulerRef}
           className={classes.inputRuler}
           aria-hidden
         >
-          {value}
+          {this.state.filter}
         </span>
       </span>
     )
@@ -109,22 +131,22 @@ export default class TagsInput extends PureComponent {
   renderTags() {
     const {list, sheet} = this.props
     if (!list.length) return null
-    return list.map((item, i) => (
+    return list.map(item => (
       <button
-        key={i}
+        key={item.email}
         className={sheet.classes.token}
-        onClick={/* TODO #120 */this.onDeleteTag.bind(this, item)}
+        onClick={() => this.onDeleteTag(item)}
       >
         {this.props.renderTag(item)}
       </button>
-      ))
+    ))
   }
 
   render() {
     const {classes} = this.props.sheet
     return (
-      <div ref="filterArea" className={classes.filterArea}>
-        <div ref="filterRuler" className={classes.filterRuler}>
+      <div ref={this.onFilterAreaRef} className={classes.filterArea}>
+        <div ref={this.onFilterRulerRef} className={classes.filterRuler}>
           {this.renderTags()}
           {this.renderInput()}
         </div>
