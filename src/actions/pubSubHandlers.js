@@ -164,8 +164,8 @@ export function handleJoinedChannel({user: userId, channel: channelId}) {
     }
     api
       .getUser(orgSelector(getState()).id, userId)
-      .then((foundedUser) => {
-        dispatch(addUserToChannel({channelId, user: foundedUser, isCurrentUser}))
+      .then((foundUser) => {
+        dispatch(addUserToChannel({channelId, user: foundUser, isCurrentUser}))
       })
   }
 }
@@ -190,8 +190,8 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     } else {
       api
         .getUser(orgSelector(getState()).id, userId)
-        .then((foundedUser) => {
-          dispatch(removeUserFromChannel({channelId, user: foundedUser, isCurrentUser}))
+        .then((foundUser) => {
+          dispatch(removeUserFromChannel({channelId, user: foundUser, isCurrentUser}))
         })
     }
 
@@ -248,14 +248,24 @@ export function handleRemoveRoom({channel: id}) {
   }
 }
 
-export function handleUserStatusChange({status, user: userId}) {
-  return {
+const changeUserStatue = payload => (dispatch) => {
+  dispatch({
     type: types.CHANGE_USER_STATUS,
-    payload: {
-      status,
-      userId
-    }
+    payload
+  })
+}
+
+export const handleUserStatusChange = ({status, user: userId}) => (dispatch, getState) => {
+  const users = usersSelector(getState())
+  const user = find(users, {id: userId})
+  if (user) {
+    dispatch(changeUserStatue({status, userId}))
+    return
   }
+  dispatch(addNewUser(userId))
+    .then(() => {
+      dispatch(changeUserStatue({status, userId}))
+    })
 }
 
 export function handleUserUpdate({user}) {
