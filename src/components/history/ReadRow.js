@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 
 export default class ReadRow extends PureComponent {
   static propTypes = {
@@ -23,20 +24,10 @@ export default class ReadRow extends PureComponent {
     children: noop
   }
 
-  componentDidMount() {
-    this.onFocusListener = window.addEventListener('focus', () => {
-      this.onReadDebounced(this.lastVisibleMessageId)
-    })
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.channelId !== this.props.channelId) {
       this.lastReadRow = undefined
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('focus', this.onFocusListener)
   }
 
   onRowsRendered = ({stopIndex}) => {
@@ -51,6 +42,10 @@ export default class ReadRow extends PureComponent {
       // We debounce it to reduce the amount of "read" events.
       this.onReadDebounced(row.id)
     }
+  }
+
+  onFocus = () => {
+    this.onReadDebounced(this.lastVisibleMessageId)
   }
 
   onReadDebounced = debounce((messageId) => {
@@ -68,6 +63,10 @@ export default class ReadRow extends PureComponent {
   }, 1000)
 
   render() {
-    return this.props.children({onRowsRendered: this.onRowsRendered})
+    return (
+      <GlobalEvent event="focus" handler={this.onFocus}>
+        {this.props.children({onRowsRendered: this.onRowsRendered})}
+      </GlobalEvent>
+    )
   }
 }
