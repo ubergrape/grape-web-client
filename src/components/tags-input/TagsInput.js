@@ -69,13 +69,13 @@ export default class TagsInput extends PureComponent {
     this.props.onKeyDown(e)
   }
 
-  onChangeDebounce = debounce(() => {
+  onChangeDebounced = debounce(() => {
     this.props.onChange(this.input.value)
   }, 500)
 
   onChange = () => {
     this.setState({filter: this.input.value})
-    this.onChangeDebounce()
+    this.onChangeDebounced()
   }
 
   onDeleteTag = (item) => {

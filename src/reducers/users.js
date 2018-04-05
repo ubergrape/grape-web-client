@@ -29,12 +29,15 @@ export default function reduce(state = initialState, action) {
       const {userId: id, status} = payload
 
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, ({partner: {id: userId}}) => userId === id)
       if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        status
+        partner: {
+          ...user.partner,
+          status
+        }
       })
       return newState
     }

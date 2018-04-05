@@ -30,7 +30,7 @@ export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isActive)
 )
 
-export const invitedUsersSlector = createSelector(
+export const invitedUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isOnlyInvited)
 )
 
@@ -116,7 +116,7 @@ export const currentPmsSelector = createSelector(
 )
 
 export const invitedUsersWithPmSlector = createSelector(
-  invitedUsersSlector, users => users.filter(user => user.pm)
+  invitedUsersSelector, users => users.filter(user => user.pm)
 )
 
 export const deletedUsersWithPmSelector = createSelector(
@@ -228,8 +228,8 @@ export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
 
-export const inviteChannelMemebersSelector = createSelector(
-  state => state.inviteChannelMemebers, state => state
+export const inviteChannelMembersSelector = createSelector(
+  state => state.inviteChannelMembers, state => state
 )
 
 export const newConversationSelector = createSelector(
@@ -290,12 +290,12 @@ export const newConversationDialog = createSelector(
 export const inviteDialogSelector = createSelector(
   [
     channelSelector,
-    inviteChannelMemebersSelector,
+    inviteChannelMembersSelector,
     isInviterSelector
   ],
-  (channel, inviteChannelMemebers, isInviter) => ({
-    ...inviteChannelMemebers,
-    users: inviteChannelMemebers.users.filter(user =>
+  (channel, inviteChannelMembers, isInviter) => ({
+    ...inviteChannelMembers,
+    users: inviteChannelMembers.users.filter(user =>
       !channel.users.some(id => id === user.id)
     ),
     isInviter,
