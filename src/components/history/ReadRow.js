@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 
 export default class ReadRow extends PureComponent {
   static propTypes = {
@@ -43,14 +44,29 @@ export default class ReadRow extends PureComponent {
     }
   }
 
+  onFocus = () => {
+    this.onReadDebounced(this.lastVisibleMessageId)
+  }
+
   onReadDebounced = debounce((messageId) => {
-    this.props.onRead({
-      channelId: this.props.channelId,
-      messageId
-    })
+    // In case the window is not focused and the user receives a message we don't want
+    // to mark it as read, but store last rendered messages to mark it as read once the
+    // user focuses the window again.
+    if (document.hasFocus()) {
+      this.props.onRead({
+        channelId: this.props.channelId,
+        messageId
+      })
+    } else {
+      this.lastVisibleMessageId = messageId
+    }
   }, 1000)
 
   render() {
-    return this.props.children({onRowsRendered: this.onRowsRendered})
+    return (
+      <GlobalEvent event="focus" handler={this.onFocus}>
+        {this.props.children({onRowsRendered: this.onRowsRendered})}
+      </GlobalEvent>
+    )
   }
 }
