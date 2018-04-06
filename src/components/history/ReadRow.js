@@ -16,13 +16,14 @@ export default class ReadRow extends PureComponent {
       })
     ).isRequired,
     onRead: PropTypes.func.isRequired,
-    selectedMessageId: PropTypes.string.isRequired,
+    selectedMessageId: PropTypes.string,
     children: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     onRead: noop,
-    children: noop
+    children: noop,
+    selectedMessageId: undefined
   }
 
   componentWillReceiveProps(nextProps) {
