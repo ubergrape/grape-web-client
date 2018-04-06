@@ -16,6 +16,7 @@ export default class ReadRow extends PureComponent {
       })
     ).isRequired,
     onRead: PropTypes.func.isRequired,
+    selectedMessageId: PropTypes.string.isRequired,
     children: PropTypes.func.isRequired
   }
 
@@ -45,7 +46,11 @@ export default class ReadRow extends PureComponent {
   }
 
   onFocus = () => {
-    this.onReadDebounced(this.lastVisibleMessageId)
+    const {rows, selectedMessageId} = this.props
+    // lastVisibleMessageId can be undefined in case you just opened a chat from unfocused state.
+    // In that case we will get selectedMessageId (if out path contain messageId) or
+    // will pick last message from channel and mark it as read
+    this.onReadDebounced(this.lastVisibleMessageId || selectedMessageId || rows[rows.length - 1].id)
   }
 
   onReadDebounced = debounce((messageId) => {
