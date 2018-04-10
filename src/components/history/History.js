@@ -145,7 +145,7 @@ export default class History extends PureComponent {
     const {
       sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
       onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
-      isLoadingInitialData
+      isLoadingInitialData, selectedMessageId
     } = this.props
     const {rows, scrollTo} = this.state
 
@@ -177,6 +177,7 @@ export default class History extends PureComponent {
           rows={rows}
           channelId={channel.id}
           onRead={onRead}
+          selectedMessageId={selectedMessageId}
         >
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
             <Jumper onJump={onJump}>
