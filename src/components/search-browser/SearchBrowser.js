@@ -80,7 +80,8 @@ export default class SearchBrowser extends PureComponent {
     onChange: PropTypes.func,
     onShowServices: PropTypes.func,
     onUpdateInput: PropTypes.func,
-    onSelectItem: PropTypes.func
+    onSelectItem: PropTypes.func,
+    goTo: PropTypes.func
   }
 
   static defaultProps = {
@@ -122,7 +123,8 @@ export default class SearchBrowser extends PureComponent {
     onShowServices: noop,
     onUpdateInput: noop,
     onLoadServicesStats: noop,
-    onSelectItem: noop
+    onSelectItem: noop,
+    goTo: noop
   }
 
   state = {}
@@ -278,10 +280,10 @@ export default class SearchBrowser extends PureComponent {
   onExecAction = () => {
     const {
       onExecAction, onReset, onSelectItem,
-      focusedResult: result, focusedAction: action
+      focusedResult: result, focusedAction: action, goTo
     } = this.props
 
-    onExecAction({result, action})
+    onExecAction({result, action}, goTo)
 
     if (action.type === 'insert') {
       onReset()
