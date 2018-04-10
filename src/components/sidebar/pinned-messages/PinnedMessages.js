@@ -26,6 +26,7 @@ export default class PinnedMessages extends PureComponent {
     classes: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
@@ -57,7 +58,11 @@ export default class PinnedMessages extends PureComponent {
   }
 
   render() {
-    const {classes, items, onSelect, onUnpin, user} = this.props
+    const {classes, items, onSelect, onUnpin, user, isLoading} = this.props
+
+    if (isLoading) {
+      return <div>Loading …</div>
+    }
 
     return (
       <div className={classes[items.length ? 'root' : 'rootEmpty']}>
