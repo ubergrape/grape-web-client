@@ -5,6 +5,7 @@ import Spinner from 'grape-web/lib/components/spinner'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import find from 'lodash/collection/find'
+import debounce from 'lodash/function/debounce'
 import {
   defineMessages,
   intlShape,
@@ -249,19 +250,22 @@ export default class SearchBrowser extends PureComponent {
     })
   }
 
-  onChangeInput = ({value, search, filters, query}) => {
-    const {
-      onReset, onChange, onShowServices, onShowResults, onUpdateInput,
-      onLoadServicesStats,
-      services
-    } = this.props
-
+  onChange = ({value, search, filters, query}) => {
+    const {onUpdateInput, onReset} = this.props
     if (!value) {
       onReset()
       return
     }
-
     onUpdateInput({value, search, filters})
+    this.onChangeInput({search, filters, query})
+  }
+
+  onChangeInput = debounce(({search, filters, query}) => {
+    const {
+      onChange, onShowServices, onShowResults,
+      onLoadServicesStats,
+      services
+    } = this.props
 
     if (query.trigger === SERVICES_TRIGGER) {
       onShowServices({query, services})
@@ -273,7 +277,7 @@ export default class SearchBrowser extends PureComponent {
         filters: filters.map(filter => find(services, {id: filter}).key)
       })
     }
-  }
+  }, 500)
 
   onExecAction = () => {
     const {
@@ -373,7 +377,7 @@ export default class SearchBrowser extends PureComponent {
           tokens={tokens}
           onDidMount={this.onMountInput}
           onKeyDown={this.onKeyDown}
-          onChange={this.onChangeInput}
+          onChange={this.onChange}
           onBlur={this.onBlur}
         />
         {body.element}
