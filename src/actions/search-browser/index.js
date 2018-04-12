@@ -1,5 +1,3 @@
-import {openUrl} from 'grape-web/lib/x-platform'
-
 import {
   formatGroupedResults,
   findIndexBySelector,
@@ -79,14 +77,14 @@ export function blurSearchBrowserAction() {
   }
 }
 
-export function execSearchBrowserAction({result, action}) {
+export function execSearchBrowserAction({result, action}, goTo) {
   return (dispatch) => {
     dispatch({
       type: types.EXEC_SEARCH_BROWSER_ACTION,
       payload: {result, action}
     })
 
-    if (action.type === 'open') openUrl(result.url)
+    if (action.type === 'open') goTo(result.url)
   }
 }
 

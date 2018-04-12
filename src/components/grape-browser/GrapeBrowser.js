@@ -64,7 +64,8 @@ export default class GrapeBrowser extends PureComponent {
     onChange: PropTypes.func,
     onResize: PropTypes.func,
     onLoadServices: PropTypes.func,
-    onLoadServicesStats: PropTypes.func
+    onLoadServicesStats: PropTypes.func,
+    goTo: PropTypes.func
   }
 
   static defaultProps = {
@@ -98,7 +99,8 @@ export default class GrapeBrowser extends PureComponent {
     onChange: noop,
     onResize: noop,
     onLoadServices: noop,
-    onLoadServicesStats: noop
+    onLoadServicesStats: noop,
+    goTo: noop
   }
 
   constructor(props) {
@@ -382,7 +384,8 @@ export default class GrapeBrowser extends PureComponent {
       isLoading,
       onLoadServices,
       onLoadServicesStats,
-      onAddIntegration
+      onAddIntegration,
+      goTo
     } = this.props
 
     if (browser === 'search') {
@@ -401,6 +404,7 @@ export default class GrapeBrowser extends PureComponent {
           onLoadServices={onLoadServices}
           onLoadServicesStats={onLoadServicesStats}
           onDidMount={this.onDidMountBrowser}
+          goTo={goTo}
         />
       )
     }

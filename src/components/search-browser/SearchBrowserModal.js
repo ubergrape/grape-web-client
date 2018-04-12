@@ -43,12 +43,14 @@ export default class SearchBrowserModal extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onAbort: PropTypes.func,
-    onReset: PropTypes.func
+    onReset: PropTypes.func,
+    goTo: PropTypes.func
   }
 
   static defaultProps = {
     onAbort: noop,
-    onReset: noop
+    onReset: noop,
+    goTo: noop
   }
 
   onAbort = () => {
@@ -58,7 +60,7 @@ export default class SearchBrowserModal extends PureComponent {
   }
 
   render() {
-    const {classes, ...rest} = this.props
+    const {classes, goTo, ...rest} = this.props
     return (
       <Modal
         show
@@ -71,6 +73,7 @@ export default class SearchBrowserModal extends PureComponent {
             {...rest}
             className={classes.browser}
             onAbort={this.onAbort}
+            goTo={goTo}
           />
         </Normalize>
       </Modal>
