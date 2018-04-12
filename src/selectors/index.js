@@ -15,7 +15,8 @@ export const initialDataLoadingSelector = createSelector(
 )
 
 /**
- * Fills by pm objects from pm get_overview
+ * state.users is not necessarily a list of all users in the organisation
+ * since it gets filled by pm objects from pm get_overview
  * https://uebergrape.staging.chatgrape.com/doc/chat_api/rpc.html#chat.rpc.PM.get_overview
  */
 export const usersSelector = createSelector(
