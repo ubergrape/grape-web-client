@@ -1,4 +1,7 @@
 import * as types from '../constants/actionTypes'
+import * as api from '../utils/backend/api'
+import {orgSelector} from '../selectors'
+import {error} from './'
 
 export function showChannelMembersInvite() {
   return {
@@ -26,9 +29,25 @@ export function removeFromChannelMembersInvite(user) {
   }
 }
 
-export function setInviteFilterValue(value) {
-  return {
+export const searchUsersToInvite = value => (dispatch, getState) => {
+  dispatch({
     type: types.FILTER_CHANNEL_MEMBERS_INVITE,
     payload: value
-  }
+  })
+
+  api
+    .searchUsers({
+      orgId: orgSelector(getState()).id,
+      search: value,
+      limit: 30
+    })
+    .then(({results}) => {
+      dispatch({
+        type: types.FOUND_USERS_TO_INVITE,
+        payload: results
+      })
+    })
+    .catch((err) => {
+      dispatch(error(err))
+    })
 }

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -12,7 +12,7 @@ const actionNames = [
   'hideChannelMembersInvite',
   'addToChannelMembersInvite',
   'removeFromChannelMembersInvite',
-  'setInviteFilterValue',
+  'searchUsersToInvite',
   'showToastNotification'
 ]
 
@@ -21,12 +21,8 @@ const ConnectedChannelMembersInvite = connect(
   mapActionsToProps(actionNames)
 )(ChannelMembersInvite)
 
-export default class ChannelMembersInviteProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedChannelMembersInvite />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedChannelMembersInvite />
+  </Provider>
+)

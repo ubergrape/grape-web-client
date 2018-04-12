@@ -61,7 +61,7 @@ export function goToChannel(channelOrChannelId, options) {
       // Assume we don't have always have all channels in the future.
       if (!channel) channel = {id: channelOrChannelId, slug: ''}
     }
-    const slug = channel.slug == null ? channel.mate.username : channel.slug
+    const slug = channel.slug == null ? channel.partner.username : channel.slug
 
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     if (!conf.embed) dispatch(setChannel(channel.id))
