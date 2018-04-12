@@ -315,10 +315,11 @@ export const inviteToOrgDialog = createSelector(
 
 export const orgInfoSelector = createSelector(
   [orgSelector, initialDataLoadingSelector, userSelector],
-  (org, isLoading, user) => ({
-    logo: org.logo,
-    name: org.name,
-    inviterRole: org.inviterRole,
+  ({logo, name, inviterRole, supportLink}, isLoading, user) => ({
+    logo,
+    name,
+    inviterRole,
+    supportLink,
     isLoading,
     user
   })

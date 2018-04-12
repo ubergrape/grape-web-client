@@ -54,7 +54,7 @@ export function searchChannelsToMention(mentions, channel) {
           name: displayName,
           username,
           iconURL: avatar,
-          inRoom: channel.users.some(mention => mention.username === username),
+          inRoom: channel.users.some(userId => userId === id),
           rank: mentions.length - (i + 1),
           type: 'user'
         }

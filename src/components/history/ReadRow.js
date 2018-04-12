@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
+import GlobalEvent from 'grape-web/lib/components/global-event'
 
 export default class ReadRow extends PureComponent {
   static propTypes = {
@@ -15,12 +16,14 @@ export default class ReadRow extends PureComponent {
       })
     ).isRequired,
     onRead: PropTypes.func.isRequired,
+    selectedMessageId: PropTypes.string,
     children: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     onRead: noop,
-    children: noop
+    children: noop,
+    selectedMessageId: undefined
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,14 +46,33 @@ export default class ReadRow extends PureComponent {
     }
   }
 
+  onFocus = () => {
+    const {rows, selectedMessageId} = this.props
+    // lastVisibleMessageId can be undefined in case you just opened a chat from unfocused state.
+    // In that case we will get selectedMessageId (if out path contain messageId) or
+    // will pick last message from channel and mark it as read
+    this.onReadDebounced(this.lastVisibleMessageId || selectedMessageId || rows[rows.length - 1].id)
+  }
+
   onReadDebounced = debounce((messageId) => {
-    this.props.onRead({
-      channelId: this.props.channelId,
-      messageId
-    })
+    // In case the window is not focused and the user receives a message we don't want
+    // to mark it as read, but store last rendered messages to mark it as read once the
+    // user focuses the window again.
+    if (document.hasFocus()) {
+      this.props.onRead({
+        channelId: this.props.channelId,
+        messageId
+      })
+    } else {
+      this.lastVisibleMessageId = messageId
+    }
   }, 1000)
 
   render() {
-    return this.props.children({onRowsRendered: this.onRowsRendered})
+    return (
+      <GlobalEvent event="focus" handler={this.onFocus}>
+        {this.props.children({onRowsRendered: this.onRowsRendered})}
+      </GlobalEvent>
+    )
   }
 }
