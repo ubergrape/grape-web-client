@@ -37,7 +37,8 @@ import {FormattedMessage, injectIntl} from 'react-intl'
     composes: '$spacer',
     extend: fonts.small,
     color: gray,
-    textAlign: 'center'
+    textAlign: 'center',
+    width: '100%' // necessary for IE11 to make sure the text doesn't get cut off
   },
   button: {
     isolate: false,
