@@ -296,9 +296,11 @@ export const inviteDialogSelector = createSelector(
   ],
   (channel, inviteChannelMembers, isInviter) => ({
     ...inviteChannelMembers,
-    users: inviteChannelMembers.users.filter(user =>
-      !channel.users.some(id => id === user.id)
-    ),
+    users: inviteChannelMembers.users
+      // Sift users which already participate in channel
+      .filter(user => !channel.users.some(id => id === user.id))
+      // Sift users which picked to be invited
+      .filter(user => !inviteChannelMembers.listed.some(({id}) => id === user.id)),
     isInviter,
     channelType: channel.type
   })
