@@ -24,6 +24,7 @@ export default class ActivityMessage extends PureComponent {
     children: PropTypes.node.isRequired,
     duplicates: PropTypes.number.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -94,7 +95,7 @@ export default class ActivityMessage extends PureComponent {
   render() {
     const {
       sheet: {classes}, user, author, time, avatar, title, children, duplicates,
-      isExpanded, hasBubbleArrow, attachments, isSelected
+      isExpanded, hasBubbleArrow, attachments, isSelected, customEmojis
     } = this.props
 
     const Bubble = isSelected ? SelectedBubble : ActivityBubble
@@ -122,8 +123,8 @@ export default class ActivityMessage extends PureComponent {
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
               <div className={classes.content} ref={this.onRefContent}>
-                <Grapedown text={title} user={user} />
-                <Grapedown text={children} user={user} />
+                <Grapedown customEmojis={customEmojis} text={title} user={user} />
+                <Grapedown customEmojis={customEmojis} text={children} user={user} />
                 {attachments.map(this.renderAttachment)}
               </div>
             </Expander>

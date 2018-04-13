@@ -1,15 +1,14 @@
-import {createElement} from 'react'
+import React, {createElement} from 'react'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
+import {Link} from 'grape-web/lib/router'
 
 import jsEmoji, {
   getEmojiSliceStyle,
   style
 } from '../emoji/emoji'
-import conf from '../../conf'
 
 import {
-  isChatUrl,
   nonStandardProps,
   replaceCustomEmojis
 } from './utils'
@@ -18,25 +17,27 @@ import GrapeObject from './GrapeObject'
 import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
-  let nextProps = props
+  const {href, key, forcebreak} = props
 
-  if (tag === 'br' && nextProps.forcebreak) {
-    return createElement(LineBreak, {key: nextProps.key})
+  if (tag === 'br' && forcebreak) {
+    return createElement(LineBreak, {key})
   }
 
   // Open link in a new window if it is not a grape url.
   if (tag === 'a') {
-    if (isGrapeUrl(nextProps.href)) {
-      return createElement(GrapeObject, nextProps, children)
+    if (isGrapeUrl(href)) {
+      return createElement(GrapeObject, props, children)
     }
-    if (conf.embed || !isChatUrl(nextProps.href)) {
-      nextProps = {...nextProps, target: '_blank'}
-    }
+    return (
+      <Link to={href} key={key}>
+        {children}
+      </Link>
+    )
   }
 
   return createElement(
     tag,
-    omit(nextProps, nonStandardProps),
+    omit(props, nonStandardProps),
     children && children.length ? children : undefined
   )
 }
@@ -47,7 +48,7 @@ export function renderTag(tag, props, children) {
 export function renderInlineImage(href, text) {
   return [[
     'a',
-    {href, alt: text, target: '_blank'},
+    {href, alt: text},
     ['text', text]
   ]]
 }

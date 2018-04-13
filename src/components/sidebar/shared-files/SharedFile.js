@@ -33,7 +33,7 @@ export default class SharedFile extends PureComponent {
 
   onOpen = () => {
     const {onOpen, url} = this.props
-    onOpen({url})
+    onOpen(url)
   }
 
   setPreviewRef = (ref) => {

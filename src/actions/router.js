@@ -1,45 +1,36 @@
-import parseUrl from 'grape-web/lib/parse-url'
-import * as router from 'react-router-redux'
 import find from 'lodash/collection/find'
+import {openUrl, getMode} from 'grape-web/lib/x-platform'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {channelsSelector} from '../selectors'
 import {findLastUsedChannel} from './utils'
+import * as history from '../app/history'
 
 import {setChannel, openPm, openChannel, handleBadChannel} from './'
 
-export function goTo(options) {
+export function goTo(pathOrUrl, options = {}) {
   return (dispatch) => {
     dispatch({
       type: types.GO_TO,
       payload: options
     })
 
-    const {path, url, target} = options
-
-    // If it is a URL and not a path, always open in a new window.
-    if (url) {
-      if (target) window.open(url, target)
-      else location.href = url
-      return
-    }
-
-    // In the embdeded chat we open all URLs in a new window.
-    if (path && conf.embed) {
-      window.open(`${conf.server.serviceUrl}${path}`, '_blank')
-      return
-    }
-
-    // All /chat URLs are handled by the router.
-    if (path.substr(0, 5) === '/chat') {
-      if (options.replace) dispatch(router.replace(path))
-      else dispatch(router.push(path))
-      return
-    }
-
-    // Locations outside of SPA open with full page reload.
-    location.pathname = path
+    openUrl(pathOrUrl, {
+      serviceUrl: conf.server.serviceUrl,
+      mode: getMode(conf),
+      currChannel: conf.channelId,
+      replace: options.replace,
+      onExternal: window.open,
+      onRedirect: (url) => { location.href = url },
+      onSilentChange: (path, {channelId, messageId, mateId, type}) => {
+        if (type === 'channel') dispatch(openChannel(channelId, messageId))
+        else dispatch(openPm(mateId))
+      },
+      onUpdateRouter: (path, method) => {
+        history[method](path)
+      }
+    })
   }
 }
 
@@ -49,16 +40,18 @@ export function goToMessage(message) {
       type: types.GO_TO_MESSAGE,
       payload: message
     })
-    dispatch(goTo({path: parseUrl(message.link).pathname}))
+    dispatch(goTo(message.link))
   }
 }
 
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
-    dispatch({
-      type: types.GO_TO_CHANNEL,
-      payload: channelOrChannelId
-    })
+    if (!conf.embed) {
+      dispatch({
+        type: types.GO_TO_CHANNEL,
+        payload: channelOrChannelId
+      })
+    }
 
     let channel = channelOrChannelId
 
@@ -68,13 +61,10 @@ export function goToChannel(channelOrChannelId, options) {
       // Assume we don't have always have all channels in the future.
       if (!channel) channel = {id: channelOrChannelId, slug: ''}
     }
-    const slug = channel.slug == null ? channel.mate.username : channel.slug
+    const slug = channel.slug == null ? channel.partner.username : channel.slug
 
-    dispatch(goTo({
-      ...options,
-      path: `/chat/channel/${channel.id}/${slug}`
-    }))
-    dispatch(setChannel(channel.id))
+    dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
+    if (!conf.embed) dispatch(setChannel(channel.id))
   }
 }
 
@@ -88,14 +78,14 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
 export function goToPayment() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_PAYMENT})
-    dispatch(goTo({path: '/payment'}))
+    dispatch(goTo('/payment'))
   }
 }
 
 export function goToAddIntegrations() {
   return (dispatch) => {
     dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
-    dispatch(goTo({path: '/integrations'}))
+    dispatch(goTo('/integrations'))
   }
 }
 

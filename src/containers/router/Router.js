@@ -1,6 +1,5 @@
 import React from 'react'
-import {Route, withRouter} from 'react-router-dom'
-import ConnectedRouter from 'react-router-redux/ConnectedRouter'
+import {routes, Route, withRouter, ConnectedRouter} from 'grape-web/lib/router'
 
 import {AppContainer} from '../../components/app-container'
 import history from '../../app/history'
@@ -29,7 +28,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path="/chat/pm/:mateId"
+        path={routes.pm}
         exact
         render={({location, match}) => (
           <RouteChanger
@@ -43,7 +42,7 @@ const Router = ({onChangeRoute, children}) => (
         )}
       />
       <Route
-        path="/chat/channel/:channelId(\d+):separator(:)?:messageId?/:slug?"
+        path={routes.channel}
         render={({location, match}) => (
           <RouteChanger
             name="channel"

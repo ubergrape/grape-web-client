@@ -4,7 +4,6 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
-import indexBy from 'lodash/collection/indexBy'
 import * as images from '../constants/images'
 
 export const appSelector = createSelector(
@@ -15,6 +14,11 @@ export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
 
+/**
+ * state.users is not necessarily a list of all users in the organisation
+ * since it gets filled by pm objects from pm get_overview
+ * https://uebergrape.staging.chatgrape.com/doc/chat_api/rpc.html#chat.rpc.PM.get_overview
+ */
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -27,7 +31,7 @@ export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isActive)
 )
 
-export const invitedUsersSlector = createSelector(
+export const invitedUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.isOnlyInvited)
 )
 
@@ -40,36 +44,28 @@ export const initialChannelsSelector = createSelector(
 )
 
 /**
- * Fill the `initialChannelsSelector` with user objects
- * instead of user ID's.
+ * Fill the `initialChannelsSelector` with pm objects
+ * instead of pm ID's.
  */
 export const channelsSelector = createSelector(
-  [initialChannelsSelector, usersSelector, userSelector],
-  (channels, users, user) => {
-    // Important optimization when users array is long.
-    const usersMap = indexBy(users, 'id')
-    return channels.map((channel) => {
-      const channelUsers = channel.users
-        .map(id => usersMap[id])
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Currently we have to remove users which are not loaded in `users`.
-        .filter(Boolean)
-
+  [initialChannelsSelector, usersSelector],
+  (channels, users) => (
+    channels.map((channel) => {
       if (channel.type === 'room') {
         return {
           ...channel,
-          users: channelUsers
+          users: channel.users
         }
       }
 
       if (channel.type === 'pm') {
-        const mate = find(channelUsers, _user => _user.id !== user.id)
-        if (!mate) return null
+        const user = find(users, _user => _user.id === channel.id)
+        if (!user) return null
         return {
+          ...user,
           ...channel,
-          mate,
-          name: mate.displayName,
-          users: channelUsers
+          name: user.partner.displayName,
+          users: channel.users
         }
       }
 
@@ -77,7 +73,7 @@ export const channelsSelector = createSelector(
     // TODO remove it once no logic left which assumes we have all channels and users.
     // Handles pm channels when mate user was not found in `users`.
     }).filter(Boolean)
-  }
+  )
 )
 
 export const channelSelector = createSelector(
@@ -120,25 +116,8 @@ export const currentPmsSelector = createSelector(
   pmsSelector, pms => find(pms, 'current') || {}
 )
 
-const activeUsersWithoutCurrSelector = createSelector(
-  [activeUsersSelector, userSelector],
-  (users, currUser) => users.filter(user => user.id !== currUser.id)
-)
-
-export const activeUsersWithLastPmSelector = createSelector(
-  [activeUsersWithoutCurrSelector, activePmsSelector],
-  (users, pms) => {
-    const sortedPms = pms.sort((a, b) => a.latestMessageTime - b.latestMessageTime)
-
-    return users.map(user => ({
-      ...user,
-      pm: find(sortedPms, {id: user.id})
-    }))
-  }
-)
-
 export const invitedUsersWithPmSlector = createSelector(
-  invitedUsersSlector, users => users.filter(user => user.pm)
+  invitedUsersSelector, users => users.filter(user => user.pm)
 )
 
 export const deletedUsersWithPmSelector = createSelector(
@@ -179,7 +158,7 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({...pm.mate})
+  pm => ({...pm.partner})
 )
 
 const notificationSettingsSelector = createSelector(
@@ -250,8 +229,8 @@ export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
 
-export const inviteChannelMemebersSelector = createSelector(
-  state => state.inviteChannelMemebers, state => state
+export const inviteChannelMembersSelector = createSelector(
+  state => state.inviteChannelMembers, state => state
 )
 
 export const newConversationSelector = createSelector(
@@ -312,14 +291,15 @@ export const newConversationDialog = createSelector(
 export const inviteDialogSelector = createSelector(
   [
     channelSelector,
-    inviteChannelMemebersSelector,
-    activeUsersWithLastPmSelector,
+    inviteChannelMembersSelector,
     isInviterSelector
   ],
-  (channel, inviteChannelMemebers, allUsers, isInviter) => ({
-    ...inviteChannelMemebers,
+  (channel, inviteChannelMembers, isInviter) => ({
+    ...inviteChannelMembers,
+    users: inviteChannelMembers.users.filter(user =>
+      !channel.users.some(id => id === user.id)
+    ),
     isInviter,
-    users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
     channelType: channel.type
   })
 )
@@ -336,10 +316,11 @@ export const inviteToOrgDialog = createSelector(
 
 export const orgInfoSelector = createSelector(
   [orgSelector, initialDataLoadingSelector, userSelector],
-  (org, isLoading, user) => ({
-    logo: org.logo,
-    name: org.name,
-    inviterRole: org.inviterRole,
+  ({logo, name, inviterRole, supportLink}, isLoading, user) => ({
+    logo,
+    name,
+    inviterRole,
+    supportLink,
     isLoading,
     user
   })
@@ -492,8 +473,8 @@ export const headerSelector = createSelector(
     orgSelector, favoriteSelector, channelSelector, sidebarSelector,
     unreadMentionsAmountSelector, userProfileSelector
   ],
-  ({features}, favorite, channel, {show: sidebar}, mentions, mate) => ({
-    favorite, channel, sidebar, mentions, mate, features
+  ({features}, favorite, channel, {show: sidebar}, mentions, partner) => ({
+    favorite, channel, sidebar, mentions, partner, features
   })
 )
 
@@ -517,7 +498,7 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.mate.isActive
+    if (channel) return channel.type === 'pm' && !channel.isActive
     return (
       channels.length === 0 ||
       !channel

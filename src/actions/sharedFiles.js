@@ -105,12 +105,12 @@ export function removeSharedFiles(messageId) {
   }
 }
 
-export function openSharedFile(opts) {
+export function openSharedFile(url) {
   return (dispatch) => {
     dispatch({
       type: types.OPEN_SHARED_FILE,
-      payload: opts
+      payload: url
     })
-    dispatch(goTo(opts))
+    dispatch(goTo(url))
   }
 }

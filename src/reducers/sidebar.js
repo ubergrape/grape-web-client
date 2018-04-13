@@ -19,7 +19,7 @@ export default function reduce(state = initialState, action) {
       const {type} = payload.channel
       const {show} = state
       if (type !== show && channelTypes.includes(show)) {
-        return {...state, show: type, showSubview: undefined}
+        return {...state, show: type, showSubview: 'pinnedMessages'}
       }
       return state
     }

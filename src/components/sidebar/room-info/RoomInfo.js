@@ -57,6 +57,7 @@ export default class RoomInfo extends PureComponent {
     showSubview: PropTypes.string,
     subview: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
+    searchUsersToInvite: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
     onOpenSharedFile: PropTypes.func,
     onLoadSharedFiles: PropTypes.func.isRequired,
@@ -101,6 +102,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   onInvite = () => {
+    this.props.searchUsersToInvite('')
     this.props.showChannelMembersInvite(this.props.channel)
   }
 
