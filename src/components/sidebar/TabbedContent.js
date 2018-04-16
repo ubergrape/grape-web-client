@@ -31,11 +31,11 @@ import Title from './Title'
     color: palette.text.secondary,
     opacity: 1
   },
-  // tabInherit: {
-  //   '@media (min-width: 960px)': {
-  //     minWidth: 40
-  //   }
-  // },
+  tabInherit: {
+    '@media (min-width: 960px)': {
+      minWidth: 40
+    }
+  },
   tabSelected: {
     color: palette.secondary.A200
   },
