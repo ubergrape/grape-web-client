@@ -106,7 +106,8 @@ export default class GrapeInput extends PureComponent {
     onRequestAutocompleteServices: PropTypes.func.isRequired,
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    onSearchChannelsToMention: PropTypes.func.isRequired
+    onSearchChannelsToMention: PropTypes.func.isRequired,
+    goTo: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -367,7 +368,7 @@ export default class GrapeInput extends PureComponent {
     const {
       classes, customEmojis, images, showBrowser, targetMessage,
       disabled, onEditPreviousMessage, onHideBrowser,
-      onRequestAutocompleteServicesStats,
+      onRequestAutocompleteServicesStats, goTo,
       intl: {formatMessage}
     } = this.props
     let browserProps = {}
@@ -404,6 +405,7 @@ export default class GrapeInput extends PureComponent {
             onSubmit={this.onSubmit}
             onDidMount={this.onGrapeBrowserRef}
             onChange={this.onChange}
+            goTo={goTo}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
             {...browserProps}
           />

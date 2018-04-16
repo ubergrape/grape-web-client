@@ -1,5 +1,6 @@
 import request from 'superagent'
 
+import {toCamel} from '../convertCase'
 import conf from '../../../conf'
 
 export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, reject) => {
@@ -9,7 +10,7 @@ export const loadConfig = ({serviceUrl, authToken}) => new Promise((resolve, rej
   if (authToken) req.set('Authorization', `Token ${authToken}`)
   req.end((err, res) => {
     if (err) return reject(err)
-    return resolve(res.body)
+    return resolve(toCamel(res.body))
   })
 })
 

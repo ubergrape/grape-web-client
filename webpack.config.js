@@ -8,6 +8,7 @@ var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-p
 
 var NODE_ENV = process.env.NODE_ENV
 var STATIC_PATH = process.env.STATIC_PATH
+var APP = process.env.APP
 var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 var ANALIZE = process.env.ANALIZE
 
@@ -35,10 +36,16 @@ var plugins = [
 ]
 
 module.exports = exports = {
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: () => {
+    var app = ['babel-polyfill', './src/index.js']
+    var embedded = ['babel-polyfill', './src/embedded.js']
+    if (APP === 'full') return {app}
+    if (APP === 'embedded') return {embedded}
+    return {app, embedded}
+  },
   output: {
     path: path.resolve(__dirname, 'dist/app'),
-    filename: 'app.js',
+    filename: '[name].js',
     library: 'grapeClient'
   },
   module: {

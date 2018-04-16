@@ -91,6 +91,15 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
+    case types.UPDATE_CHANNEL_PARTNER_INFO: {
+      const {pm} = action.payload
+      const newState = [...state]
+      const index = findIndex(newState, {id: pm})
+      if (index === -1) return state
+      newState[index].partner = action.payload
+      return newState
+    }
+
     case types.REMOVE_ROOM: {
       return state.filter(({type, id}) => !(type === 'room' && id === action.payload))
     }

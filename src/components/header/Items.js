@@ -83,7 +83,7 @@ function Items(props) {
     onChangeMessageSearch,
     requestAddChannelToFavorites,
     requestRemoveChannelFromFavorites,
-    mate,
+    partner,
     favorite,
     mentions,
     sidebar,
@@ -106,7 +106,7 @@ function Items(props) {
       <li className={classes.title}>
         <Title
           channel={channel}
-          mate={mate}
+          partner={partner}
         />
         {channel.hasPinnedMessages && (
           <PinButton
@@ -156,7 +156,7 @@ Items.propTypes = {
   intl: intlShape.isRequired,
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
-  mate: PropTypes.object.isRequired,
+  partner: PropTypes.object.isRequired,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([
     PropTypes.string,
