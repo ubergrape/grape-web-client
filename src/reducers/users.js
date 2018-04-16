@@ -17,15 +17,11 @@ export default function reduce(state = initialState, action) {
       }
       return state
     }
-    case types.REMOVE_USER_FROM_ORG: {
+    case types.UPDATE_USER_PARTNER_INFO: {
       const newState = [...state]
-      const index = findIndex(newState, {id: payload})
+      const index = findIndex(newState, {id: payload.pm})
       if (index === -1) return state
-      const user = newState[index]
-      newState.splice(index, 1, {
-        ...user,
-        isActive: false
-      })
+      newState[index].partner = payload
       return newState
     }
 
@@ -33,12 +29,20 @@ export default function reduce(state = initialState, action) {
       const {userId: id, status} = payload
 
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, (user) => {
+        if (user.partner) {
+          return user.partner.id === id
+        }
+        return user.id === id
+      })
       if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        status
+        partner: {
+          ...user.partner,
+          status
+        }
       })
       return newState
     }

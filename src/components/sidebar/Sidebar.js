@@ -57,6 +57,7 @@ const Content = (props) => {
     selectLabeledMessagesFilter,
     openSharedFile,
     unpinMessage,
+    getUser,
     options,
     ...rest
   } = props
@@ -88,6 +89,7 @@ const Content = (props) => {
           onLoadPinnedMessages={loadPinnedMessages}
           onSelectPinnedMessage={goToMessage}
           onUnpin={unpinMessage}
+          getUser={getUser}
         />
       )
     case 'mentions':
@@ -175,6 +177,7 @@ Content.propTypes = {
   goToMessage: PropTypes.func.isRequired,
   selectLabeledMessagesFilter: PropTypes.func.isRequired,
   openSharedFile: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
   options: PropTypes.shape({
     currentChannelOnly: PropTypes.shape({
       show: PropTypes.bool,
