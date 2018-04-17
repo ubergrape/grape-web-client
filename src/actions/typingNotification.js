@@ -43,6 +43,11 @@ export function handleTypingNotification({user, users, org, channel, typingNotif
       channels[data.channel] = channels[data.channel].filter(_user => _user.id !== data.user)
     }
 
+    // Remove events which expired to not wait while cleanupTyping will be
+    // triggered throw component. It helps to prevent dublicates
+    channels[data.channel] = channels[data.channel]
+      .filter(({expires}) => expires > Date.now())
+
     dispatch({
       type: types.SET_TYPING_USERS,
       payload: channels
