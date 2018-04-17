@@ -8,8 +8,8 @@
   "dependencies": {
     "color": "^0.10.1",
     "component-query": "^0.0.3",
-    "emoji-js": "^3.4.0",
     "emojione": "^1.4.0",
+    "grape-js-emoji2": "^3.4.0",
     "grape-theme": "3.x",
     "grape-web": "1.x",
     "images-loader": "^0.1.2",

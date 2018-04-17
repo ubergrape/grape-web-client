@@ -1,6 +1,6 @@
 import React from 'react'
 import each from 'lodash/collection/each'
-import EmojiConvertor from 'emoji-js'
+import EmojiConvertor from 'grape-js-emoji2'
 import ReactDOMServer from 'react-dom/server'
 
 import Icon from '../icon/Icon'
@@ -15,13 +15,11 @@ const stats = {}
 
 const emoji = new EmojiConvertor()
 emoji.use_sheet = true
-emoji.sheet_size = 52 // currently broken in master of js-emoji, open PR here https://github.com/iamcal/js-emoji/pull/108
 // https://github.com/ubergrape/chatgrape/issues/839
 // https://bugzilla.mozilla.org/show_bug.cgi?id=923007
-// if (navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel') {
-//   emoji.allow_native = false
-// }
-emoji.allow_native = false
+if (navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel') {
+  emoji.allow_native = false
+}
 emoji.init_colons()
 
 const colonsRegExp = emoji.rx_colons
