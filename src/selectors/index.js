@@ -145,12 +145,14 @@ export const setTypingSelector = createSelector(
   [
     userSelector,
     usersSelector,
+    orgSelector,
     channelSelector,
     typingNotificationSelector
   ],
-  (user, users, channel, typingNotification) => ({
+  (user, users, org, channel, typingNotification) => ({
     user,
     users,
+    org,
     channel,
     typingNotification
   })

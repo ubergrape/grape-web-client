@@ -2,10 +2,12 @@ import each from 'lodash/collection/each'
 import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
+import * as api from '../utils/backend/api'
+import {error} from './'
 
 const typingLifetime = 5000
 
-export function handleTypingNotification({user, users, channel, typingNotification}, data) {
+export function handleTypingNotification({user, users, org, channel, typingNotification}, data) {
   return (dispatch) => {
     // Its a notification from myself.
     // We call that action directly from subscription sometimes.
@@ -19,12 +21,21 @@ export function handleTypingNotification({user, users, channel, typingNotificati
       // Just bump exiration date.
       if (typingUser) typingUser.expires = expires
       else {
-        typingUser = find(users, _user => _user.id === data.user)
-        channels[data.channel].push({
-          id: typingUser.id,
-          name: typingUser.displayName,
-          expires
-        })
+        typingUser = find(users, _user => _user.partner.id === data.user)
+        if (typingUser) {
+          const {id, partner: {displayName}} = typingUser
+          channels[data.channel].push({id, name: displayName, expires})
+        } else {
+          // Need to fetch a user if it's not in get_overview list from initial loading
+          api
+            .getUser(org.id, data.user)
+            .then(({pm, displayName}) => {
+              channels[data.channel].push({id: pm, name: displayName, expires})
+            })
+            .catch((err) => {
+              dispatch(error(err))
+            })
+        }
       }
     // We received an explicite "stop typing".
     // Remove this user from typing list.
