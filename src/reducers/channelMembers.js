@@ -12,7 +12,7 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_USER_FROM_CHANNEL: {
       return {
         ...state,
-        users: state.users.filter(user => user.id !== payload.user.id)
+        users: state.users.filter(user => user.id !== payload.userId)
       }
     }
     default:
