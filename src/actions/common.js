@@ -4,7 +4,7 @@ import find from 'lodash/collection/find'
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
-  channelsSelector, userSelector, appSelector, joinedRoomsSelector,
+  channelsSelector, userSelector, joinedRoomsSelector,
   pmsSelector, orgSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
@@ -21,7 +21,6 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  handleChangeRoute,
   addChannel,
   handleRoomCreateError
 } from './'
@@ -195,13 +194,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       type: types.SET_INITIAL_DATA_LOADING,
       payload: false
     })
-
-    // On initial load route has changed, but data was not loaded,
-    // so we need to trigger it here again.
-    const {route} = appSelector(getState())
-    if (route) {
-      dispatch(handleChangeRoute(route))
-    }
   })
   .catch((err) => {
     dispatch(error(err))
