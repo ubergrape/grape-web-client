@@ -43,8 +43,10 @@ export function handleTypingNotification({user, users, org, channel, typingNotif
       channels[data.channel] = channels[data.channel].filter(_user => _user.id !== data.user)
     }
 
-    // Remove events which expired to not wait while cleanupTyping will be
-    // triggered throw component. It helps to prevent dublicates
+    // Remove expired events. This is important to avoid duplicates rendering to
+    // `Felix and Felix is typing`. The TypingNotification component currently invokes
+    // the action cleanupTyping, but this can be out of sync and therefor filtering is
+    // quick fix that works for now.
     channels[data.channel] = channels[data.channel]
       .filter(({expires}) => expires > Date.now())
 
@@ -59,6 +61,7 @@ export function handleTypingNotification({user, users, org, channel, typingNotif
  * We don't rely on stop typing event.
  * This cleanup function can be periodically called to remove expired
  * typing users.
+ * Currently the TypingNotification component invokes this action every 1000ms.
  */
 export function cleanupTyping(channels) {
   return (dispatch) => {
