@@ -22,6 +22,7 @@ To release a new version of the repo make sure to complete the following steps (
 Once the PR is merged
 
 - [ ] Push the tags `git push --tags`
+- [ ] In case you manipulated the `node_modules` directory for grape-browser remove the dir and run `npm install`
 - [ ] Release on npm `npm publish`
 
 ## Use the new release on "chatgrape"
