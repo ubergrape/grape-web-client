@@ -111,16 +111,14 @@ export default class Navigation extends PureComponent {
     }
   }
 
-  onChangeFilterDebounced = debounce((target) => {
-    const {value} = target
+  onChangeFilterDebounced = debounce((value) => {
     this.props.searchChannelsForNavigation(value)
-    this.setState({
-      filter: value
-    })
   }, 500)
 
   onChangeFilter = ({target}) => {
-    this.onChangeFilterDebounced(target)
+    const {value} = target
+    this.setState({filter: value})
+    this.onChangeFilterDebounced(value)
   }
 
   onFocusFiltered = (focusedChannel) => {
@@ -287,6 +285,7 @@ export default class Navigation extends PureComponent {
             {...this.props}
             ref={this.onFilterRef}
             theme={{classes}}
+            value={this.state.filter}
             onKeyDown={this.onKeyDown}
             onChange={this.onChangeFilter}
           />
