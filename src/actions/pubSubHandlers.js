@@ -159,41 +159,23 @@ export function handleJoinedChannel({user: userId, channel: channelId}) {
 
     // If user exist in get_overview call
     if (user) {
-      dispatch(addUserToChannel({channelId, user, isCurrentUser}))
+      dispatch(addUserToChannel({channelId, user, userId, isCurrentUser}))
       return
     }
     api
       .getUser(orgSelector(getState()).id, userId)
       .then((foundUser) => {
-        dispatch(addUserToChannel({channelId, user: foundUser, isCurrentUser}))
+        dispatch(addUserToChannel({channelId, user: foundUser, userId, isCurrentUser}))
       })
   }
 }
 
-const removeUserFromChannel = payload => (dispatch) => {
-  dispatch({
-    type: types.REMOVE_USER_FROM_CHANNEL,
-    payload
-  })
-}
-
 export function handleLeftChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
-    const users = usersSelector(getState())
-    const currentUser = userSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
-
-    // If user exist in get_overview call
-    if (user) {
-      dispatch(removeUserFromChannel({channelId, user, isCurrentUser}))
-    } else {
-      api
-        .getUser(orgSelector(getState()).id, userId)
-        .then((foundUser) => {
-          dispatch(removeUserFromChannel({channelId, user: foundUser, isCurrentUser}))
-        })
-    }
+    dispatch({
+      type: types.REMOVE_USER_FROM_CHANNEL,
+      payload: {channelId, userId}
+    })
 
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))
