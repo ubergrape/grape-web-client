@@ -22,6 +22,7 @@ To release a new version of the repo make sure to complete the following steps (
 Once the PR is merged
 
 - [ ] Push the tags `git push --tags`
+- [ ] Remove node_modules running `rm -rf node_modules` install `npm install` again
 - [ ] Release on npm `npm publish`
 
 ## Use the new release on "chatgrape"
