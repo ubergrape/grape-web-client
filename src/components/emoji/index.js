@@ -42,7 +42,7 @@ export function getSliceStyle(id) {
 
   return {
     backgroundPosition: `${sheetX}% ${sheetY}%`,
-    backgroundSize: `${sheetZoom}% ${sheetZoom}%`,
+    backgroundSize: `${sheetZoom}%`,
     backgroundImage: `url(${sheetUrl})`
   }
 }
