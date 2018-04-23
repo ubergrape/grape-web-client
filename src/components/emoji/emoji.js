@@ -1,4 +1,4 @@
-import EmojiConvertor from 'grape-js-emoji2'
+import EmojiConvertor from 'grape-js-emoji'
 import {emojiSheet} from '../../constants/images'
 
 const emoji = new EmojiConvertor()
@@ -9,12 +9,17 @@ emoji.use_sheet = true
 
 // https://github.com/ubergrape/chatgrape/issues/839
 // https://bugzilla.mozilla.org/show_bug.cgi?id=923007
-// if (navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel') {
-//   emoji.allow_native = false
-// }
-emoji.allow_native = false
+const isFirefoxOnOsx = navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel'
+// Since Windows7 can't render emojis natively the decision was
+// to render images for all Windows environments
+const isWindows = navigator.platform === 'Win32'
+if (isFirefoxOnOsx || isWindows) {
+  emoji.allow_native = false
+}
+// only convert an emoji to a colon string since we manually
+// render emoji images with the markdown converter
+emoji.colons_mode = true
 
-emoji.init_env()
 emoji.init_colons()
 
 export default emoji
@@ -28,7 +33,7 @@ export function getEmojiSliceStyle(id) {
 
   return {
     backgroundPosition: `${sheetX}% ${sheetY}%`,
-    backgroundSize: `${sheetZoom}% ${sheetZoom}%`,
+    backgroundSize: `${sheetZoom}%`,
     backgroundImage: `url(${emojiSheet})`
   }
 }
