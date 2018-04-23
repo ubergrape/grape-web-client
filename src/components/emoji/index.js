@@ -1,6 +1,6 @@
 import React from 'react'
 import each from 'lodash/collection/each'
-import emoji from 'grape-js-emoji'
+import EmojiConvertor from 'grape-js-emoji'
 import ReactDOMServer from 'react-dom/server'
 
 import Icon from '../icon/Icon'
@@ -13,6 +13,8 @@ let index = []
 let sheetUrl
 const stats = {}
 
+const emoji = new EmojiConvertor()
+emoji.use_sheet = true
 emoji.init_colons()
 
 const colonsRegExp = emoji.rx_colons
@@ -22,23 +24,25 @@ const colonsRegExp = emoji.rx_colons
  */
 function createIndex() {
   const newIndex = []
-  each(map, item => {
+  each(map, (item) => {
     newIndex.push(item)
   })
-  each(customMap, item => {
+  each(customMap, (item) => {
     newIndex.push(item)
   })
   return newIndex
 }
 
 export function getSliceStyle(id) {
-  const px = emoji.data[id][4]
-  const py = emoji.data[id][5]
-  const mul = 100 / (emoji.sheet_size - 1)
+  const img = emoji.find_image(id)
+  const sheetSize = emoji.sheet_size * (img.sheet_size + 2) // size of sprite sheet image in pixels
+  const sheetX = 100 * (((img.px * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
+  const sheetY = 100 * (((img.py * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
+  const sheetZoom = 100 * (sheetSize / img.sheet_size)
 
   return {
-    backgroundPosition: `${mul * px}% ${mul * py}%`,
-    backgroundSize: emoji.sheet_size + '00%',
+    backgroundPosition: `${sheetX}% ${sheetY}%`,
+    backgroundSize: `${sheetZoom}%`,
     backgroundImage: `url(${sheetUrl})`
   }
 }
@@ -53,11 +57,11 @@ function createMap() {
     const style = getSliceStyle(id)
     const shortname = `:${name}:`
     newMap[name] = {
-      id: id,
-      name: name,
-      shortname: shortname,
+      id,
+      name,
+      shortname,
       icon: <Icon name={shortname} style={style} />,
-      style: style,
+      style,
       type: 'emoji'
     }
     stats.emoji++
@@ -81,10 +85,10 @@ export function defineCustom(emojis) {
     const shortname = `:${name}:`
     customMap[name] = {
       id: url,
-      name: name,
-      shortname: shortname,
+      name,
+      shortname,
       icon: <Icon name={shortname} style={style} />,
-      style: style,
+      style,
       type: 'customEmoji'
     }
     stats.customEmoji++
@@ -135,7 +139,7 @@ export function setSheet(url) {
  * Replace :smile: by html icon.
  */
 export function replace(text) {
-  return text.replace(colonsRegExp, name => {
+  return text.replace(colonsRegExp, (name) => {
     const def = get(name)
     return def ? ReactDOMServer.renderToStaticMarkup(def.icon) : name
   })
