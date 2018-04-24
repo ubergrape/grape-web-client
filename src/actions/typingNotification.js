@@ -7,6 +7,21 @@ import {error} from './'
 
 const typingLifetime = 5000
 
+const addEvent = (channel, id, displayName, expires) => {
+  const typingUser = channel.find(({id: pm}) => id === pm)
+  // If user already in list of typing event, simply replace current event with fresh.
+  // This is important to avoid duplicates rendering to `Felix and Felix is typing`.
+  // The TypingNotification component currently invokes the action cleanupTyping,
+  // but this can be out of sync and therefor filtering is quick fix that works for now.
+  if (typingUser) {
+    Object.assign(typingUser,
+      {id, name: displayName, expires})
+  } else {
+    channel.push({id, name: displayName, expires})
+  }
+  return channel
+}
+
 export function handleTypingNotification({user, users, org, channel, typingNotification}, data) {
   return (dispatch) => {
     // Its a notification from myself.
@@ -24,13 +39,13 @@ export function handleTypingNotification({user, users, org, channel, typingNotif
         typingUser = find(users, _user => _user.partner.id === data.user)
         if (typingUser) {
           const {id, partner: {displayName}} = typingUser
-          channels[data.channel].push({id, name: displayName, expires})
+          channels[data.channel] = addEvent(channels[data.channel], id, displayName, expires)
         } else {
           // Need to fetch a user if it's not in get_overview list from initial loading
           api
             .getUser(org.id, data.user)
-            .then(({pm, displayName}) => {
-              channels[data.channel].push({id: pm, name: displayName, expires})
+            .then(({pm: id, displayName}) => {
+              channels[data.channel] = addEvent(channels[data.channel], id, displayName, expires)
             })
             .catch((err) => {
               dispatch(error(err))
@@ -42,13 +57,6 @@ export function handleTypingNotification({user, users, org, channel, typingNotif
     } else {
       channels[data.channel] = channels[data.channel].filter(_user => _user.id !== data.user)
     }
-
-    // Remove expired events. This is important to avoid duplicates rendering to
-    // `Felix and Felix is typing`. The TypingNotification component currently invokes
-    // the action cleanupTyping, but this can be out of sync and therefor filtering is
-    // quick fix that works for now.
-    channels[data.channel] = channels[data.channel]
-      .filter(({expires}) => expires > Date.now())
 
     dispatch({
       type: types.SET_TYPING_USERS,
