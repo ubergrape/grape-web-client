@@ -1,6 +1,6 @@
 # Coding Style Guide
 
-This document extends on [https://github.com/airbnb/javascript](Airbnbs) style guide with [project specific](https://github.com/ubergrape/eslint-config) needs and preferences. Most of it is covered by the linter, the rest needs to be ensured manually.
+This document extends on [Airbnb's](https://github.com/airbnb/javascript) style guide with [project specific](https://github.com/ubergrape/eslint-config) needs and preferences. Most of it is covered by the linter, the rest needs to be ensured manually.
 
 ## Folders structure
 
