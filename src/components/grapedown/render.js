@@ -69,7 +69,8 @@ class Renderer {
     return renderInlineImage(attrs.src, formatMessage(message, values))
   }
 
-  render() {
+  render(props) {
+    this.props = props
     if (navigator.platform === 'Win32') {
       return this.renderer(jsEmoji.replace_unified(this.props.text))
     }
