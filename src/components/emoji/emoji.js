@@ -1,4 +1,5 @@
 import EmojiConvertor from 'grape-js-emoji'
+import {getSliceStyle} from 'grape-browser/lib/components/emoji'
 import {emojiSheet} from '../../constants/images'
 
 const emoji = new EmojiConvertor()
@@ -24,19 +25,7 @@ emoji.init_colons()
 
 export default emoji
 
-export function getEmojiSliceStyle(id) {
-  const img = emoji.find_image(id)
-  const sheetSize = emoji.sheet_size * (img.sheet_size + 2) // size of sprite sheet image in pixels
-  const sheetX = 100 * (((img.px * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
-  const sheetY = 100 * (((img.py * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
-  const sheetZoom = 100 * (sheetSize / img.sheet_size)
-
-  return {
-    backgroundPosition: `${sheetX}% ${sheetY}%`,
-    backgroundSize: `${sheetZoom}%`,
-    backgroundImage: `url(${emojiSheet})`
-  }
-}
+export const getEmojiSliceStyle = getSliceStyle
 
 export const emojiRegex = /(^|\s):[a-zA-Z0-9-_]+:(?=($|\s))/g
 
