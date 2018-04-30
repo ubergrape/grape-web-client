@@ -94,23 +94,16 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
-    "expect.js": "^0.3.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.8.4",
     "glob": "^7.0.6",
     "html-loader": "^0.3.0",
     "http-mitm-proxy": "^0.5.1",
+    "jest": "^22.4.3",
+    "jest-localstorage-mock": "^2.2.0",
     "json-loader": "^0.5.2",
-    "karma": "^0.13.8",
-    "karma-chrome-launcher": "^0.1.10",
-    "karma-cli": "^0.0.4",
-    "karma-mocha": "^0.1.10",
-    "karma-mocha-reporter": "^2.0.3",
-    "karma-sourcemap-loader": "^0.3.5",
-    "karma-webpack": "^1.5.1",
     "lint-staged": "^3.2.7",
     "minimist": "^1.2.0",
-    "mocha": "^5.0.3",
     "pre-commit": "^1.2.2",
     "raw-loader": "^0.5.1",
     "react-styleguidist": "^7.0.5",
@@ -135,8 +128,8 @@
     "build:lib": "babel src --out-dir lib",
     "build:watch": "webpack --progress --colors --watch",
     "build:analize": "cross-env ANALIZE=true NODE_ENV=production npm run build:watch",
-    "test": "cross-env NODE_ENV=test STATIC_PATH=/ karma start",
-    "test:watch": "cross-env WATCH=true npm run test",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint ./src",
     "lint:staged": "lint-staged",
     "clear:build": "rimraf '{dist,lib}'",
@@ -156,5 +149,18 @@
   "pre-commit": "lint:staged",
   "files": [
     "dist"
-  ]
+  ],
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/jest-mocks/globalMocks.js",
+      "jest-localstorage-mock"
+    ],
+    "testURL": "http://www.example.com",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest-mocks/fileMock.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-virtualized)/)"
+    ]
+  }
 }
