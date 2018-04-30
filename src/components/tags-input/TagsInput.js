@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import {debouncingTime} from 'grape-web/lib/constants/time'
 import keyname from 'keyname'
 import debounce from 'lodash/function/debounce'
 
@@ -71,7 +72,7 @@ export default class TagsInput extends PureComponent {
 
   onChangeDebounced = debounce(() => {
     this.props.onChange(this.input.value)
-  }, 200)
+  }, debouncingTime)
 
   onChange = () => {
     this.setState({filter: this.input.value})
