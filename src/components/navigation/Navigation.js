@@ -113,7 +113,7 @@ export default class Navigation extends PureComponent {
 
   onChangeFilterDebounced = debounce((value) => {
     this.props.searchChannelsForNavigation(value)
-  }, 500)
+  }, 200)
 
   onChangeFilter = ({target}) => {
     const {value} = target
