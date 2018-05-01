@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/components/spinner'
+import {debouncingTime} from 'grape-web/lib/constants/time'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import find from 'lodash/collection/find'
@@ -279,7 +280,7 @@ export default class SearchBrowser extends PureComponent {
         filters: filters.map(filter => find(services, {id: filter}).key)
       })
     }
-  }, 500)
+  }, debouncingTime)
 
   onExecAction = () => {
     const {
