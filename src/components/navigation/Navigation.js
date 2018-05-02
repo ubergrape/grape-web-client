@@ -5,6 +5,7 @@ import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import debounce from 'lodash/function/debounce'
 import injectSheet from 'grape-web/lib/jss'
+import {debouncingTime} from 'grape-web/lib/constants/time'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import {
   defineMessages,
@@ -113,7 +114,7 @@ export default class Navigation extends PureComponent {
 
   onChangeFilterDebounced = debounce((value) => {
     this.props.searchChannelsForNavigation(value)
-  }, 500)
+  }, debouncingTime)
 
   onChangeFilter = ({target}) => {
     const {value} = target
