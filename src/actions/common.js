@@ -5,7 +5,7 @@ import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import {
   channelsSelector, userSelector, joinedRoomsSelector,
-  pmsSelector, orgSelector
+  pmsSelector, orgSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -185,10 +185,14 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       return
     }
 
-    // In embedded chat conf.channelId is defined.
-    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
-
-    dispatch(setChannel(channelId))
+    const {route} = appSelector(getState())
+    if (route.params.channelId) {
+      dispatch(setChannel(route.params.channelId))
+    } else {
+      // In embedded chat conf.channelId is defined.
+      const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+      dispatch(setChannel(channelId))
+    }
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,
