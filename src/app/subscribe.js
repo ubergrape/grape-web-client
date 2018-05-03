@@ -1,7 +1,6 @@
 import {toCamel} from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
-import conf from '../conf'
 import getStore from './store'
 import getBoundActions from './boundActions'
 
@@ -38,15 +37,13 @@ export default function subscribe(channel) {
 
     // TODO investigate why only embedded mode is not reloading history on connect
     // On the other hand full mode does it too many times.
-    if (isSuspended && conf.embed) {
-      channel.once('connected', () => {
-        // We don't want to clear the history when client was suspended
-        // over an API and then reconnected.
-        // Clearing is used to enhance perceptional performance when clicked
-        // on a navigation in order to react immediately.
-        boundActions.loadHistory({clear: false})
-      })
-    }
+    channel.once('connected', () => {
+      // We don't want to clear the history when client was suspended
+      // over an API and then reconnected.
+      // Clearing is used to enhance perceptional performance when clicked
+      // on a navigation in order to react immediately.
+      boundActions.loadHistory({clear: false})
+    })
   })
 
   // Resync the whole data if we got a new client id, because we might have
