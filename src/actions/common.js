@@ -3,6 +3,7 @@ import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import {disconnect, reopen} from '../app/client'
 import {
   channelsSelector, userSelector, joinedRoomsSelector,
   pmsSelector, orgSelector
@@ -197,5 +198,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   })
   .catch((err) => {
     dispatch(error(err))
+    disconnect()
+    reopen()
   })
 }

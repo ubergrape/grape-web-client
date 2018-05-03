@@ -141,7 +141,6 @@ export default class WampClient {
     this.connected = false
     log('disconnected')
     this.out.emit('disconnected')
-    this.reopen()
   }
 
   /**
