@@ -187,7 +187,9 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     }
 
     const {route} = appSelector(getState())
-    if (route.params.channelId) {
+    // A route for the embedded client can be 'undefined', and for the full
+    // client the channelId can also be 'undefined' in case no channel is defined
+    if (route && route.params.channelId) {
       dispatch(setChannel(route.params.channelId))
     } else {
       // In embedded chat conf.channelId is defined.
