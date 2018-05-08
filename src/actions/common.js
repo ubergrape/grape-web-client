@@ -6,7 +6,7 @@ import * as types from '../constants/actionTypes'
 import {disconnect, reopen} from '../app/client'
 import {
   channelsSelector, userSelector, joinedRoomsSelector,
-  pmsSelector, orgSelector
+  pmsSelector, orgSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -186,10 +186,16 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       return
     }
 
-    // In embedded chat conf.channelId is defined.
-    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
-
-    dispatch(setChannel(channelId))
+    const {route} = appSelector(getState())
+    // A route for the embedded client can be 'undefined', and for the full
+    // client the channelId can also be 'undefined' in case no channel is defined
+    if (route && route.params.channelId) {
+      dispatch(setChannel(route.params.channelId))
+    } else {
+      // In embedded chat conf.channelId is defined.
+      const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+      dispatch(setChannel(channelId))
+    }
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,
