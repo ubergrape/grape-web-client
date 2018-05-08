@@ -74,7 +74,6 @@ export default {
   },
   metaValue: {
     ...fonts.small,
-    ...mixins.ellipsis,
-    flex: '2 0 0%'
+    ...mixins.ellipsis
   }
 }
