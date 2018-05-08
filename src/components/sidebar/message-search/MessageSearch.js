@@ -17,6 +17,9 @@ import style from './messageSearchStyles'
 import Message from '../Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 
+const shouldReplace = (props, options) =>
+  Object.entries(options).some(([value, key]) => props[key] !== value)
+
 @injectSheet(style)
 @injectIntl
 export default class MessageSearch extends PureComponent {
@@ -30,6 +33,7 @@ export default class MessageSearch extends PureComponent {
     currentChannelOnly: PropTypes.bool.isRequired,
     searchActivities: PropTypes.bool.isRequired,
     showRoomMentions: PropTypes.bool.isRequired,
+    showCurrentRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -45,6 +49,7 @@ export default class MessageSearch extends PureComponent {
     query: '',
     options: [],
     showRoomMentions: false,
+    showCurrentRoomMentions: false,
     currentChannelOnly: false,
     searchActivities: false,
     customEmojis: {},
@@ -80,7 +85,10 @@ export default class MessageSearch extends PureComponent {
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad({query, show, currentChannelOnly, searchActivities, showRoomMentions}) {
+  shouldLoad({
+    query, show, currentChannelOnly, showCurrentRoomMentions, searchActivities,
+    showRoomMentions
+  }) {
     switch (show) {
       case 'search':
         if (!query) return false
@@ -89,7 +97,9 @@ export default class MessageSearch extends PureComponent {
         if (searchActivities !== this.props.searchActivities) return true
         break
       case 'mentions':
-        return showRoomMentions !== this.props.showRoomMentions
+        if (showRoomMentions !== this.props.showRoomMentions) return true
+        if (showCurrentRoomMentions !== this.props.showCurrentRoomMentions) return true
+        break
       default:
     }
     return false
@@ -98,7 +108,7 @@ export default class MessageSearch extends PureComponent {
   load(props = this.props) {
     const {
       items, limit, query, currentChannelOnly, searchActivities, showRoomMentions,
-      onLoad
+      showCurrentRoomMentions, onLoad
     } = props
     if (!query || !query.length) return
 
@@ -107,7 +117,8 @@ export default class MessageSearch extends PureComponent {
       case 'mentions':
         options = {
           showRoomMentions,
-          shouldReplace: showRoomMentions !== this.props.showRoomMentions
+          showCurrentRoomMentions,
+          shouldReplace: shouldReplace(this.props, {showRoomMentions, showCurrentRoomMentions})
         }
         break
       case 'search':
@@ -118,7 +129,7 @@ export default class MessageSearch extends PureComponent {
 
     onLoad({
       // Is always the timestamp of the last loaded message.
-      offsetDate: items.length ? items[items.length - 1].time : undefined,
+      offset: items.length ? items[items.length - 1].time : undefined,
       limit,
       query,
       options

@@ -10,6 +10,10 @@ const initialState = {
     showRoomMentions: {
       show: true,
       status: false
+    },
+    showCurrentRoomMentions: {
+      show: true,
+      status: false
     }
   },
   images
@@ -24,9 +28,14 @@ export default function reduce(state = initialState, action) {
     case types.ADD_MENTION:
     case types.REMOVE_MENTION:
       return {...state, ...action.payload}
-    case types.TOGGLE_SHOW_ROOM_MENTION: {
+    case types.TOGGLE_SHOW_ROOM_MENTIONS: {
       const options = merge({}, state.options)
       options.showRoomMentions.status = !options.showRoomMentions.status
+      return {...state, options}
+    }
+    case types.TOGGLE_SHOW_CURRENT_ROOM_MENTIONS: {
+      const options = merge({}, state.options)
+      options.showCurrentRoomMentions.status = !options.showCurrentRoomMentions.status
       return {...state, options}
     }
     default:
