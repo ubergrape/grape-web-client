@@ -27,6 +27,7 @@ const actionNames = [
   'toggleSearchOnlyInChannel',
   'toggleSearchActivities',
   'toggleShowRoomMentions',
+  'toggleShowCurrentRoomMentions',
   'renameRoom',
   'setRoomDescription',
   'setRoomPrivacy',

@@ -12,12 +12,18 @@ import MessageSearch from './message-search/MessageSearch'
 import LabeledMessages from './labeled-messages/LabeledMessages'
 
 const messages = defineMessages({
-  mentions: {
+  groupMentionsOption: {
     id: 'showRoomMentions',
-    defaultMessage: 'Show Group mentions'
+    defaultMessage: 'Show Group mentions',
+    description: 'Option in messages mention sidebar.'
+  },
+  currentMentionsOption: {
+    id: 'onlyInThisConversationMentions',
+    defaultMessage: 'Only in this conversation',
+    description: 'Option in messages mention sidebar.'
   },
   currentConversationOption: {
-    id: 'onlyInThisConversation',
+    id: 'onlyInThisConversationMessages',
     defaultMessage: 'Only in this conversation',
     description: 'Option in messages search sidebar.'
   },
@@ -50,10 +56,10 @@ const Content = (props) => {
     toggleSearchOnlyInChannel,
     toggleSearchActivities,
     toggleShowRoomMentions,
+    toggleShowCurrentRoomMentions,
     hideSidebar,
     showSidebarSubview,
     goToMessage,
-    showRoomMentions,
     selectLabeledMessagesFilter,
     openSharedFile,
     unpinMessage,
@@ -97,12 +103,20 @@ const Content = (props) => {
         <MessageSearch
           {...rest}
           title={formatMessage(messages.mentionsTitle)}
-          options={[{
-            ...options.showRoomMentions,
-            label: formatMessage(messages.mentions),
-            handler: toggleShowRoomMentions
-          }]}
+          options={[
+            {
+              ...options.showRoomMentions,
+              label: formatMessage(messages.groupMentionsOption),
+              handler: toggleShowRoomMentions
+            },
+            {
+              ...options.showCurrentRoomMentions,
+              label: formatMessage(messages.currentMentionsOption),
+              handler: toggleShowCurrentRoomMentions
+            }
+          ]}
           showRoomMentions={options.showRoomMentions.status}
+          showCurrentRoomMentions={options.showCurrentRoomMentions.status}
           show={show}
           onLoad={loadMentions}
           onClose={hideSidebar}
@@ -166,13 +180,13 @@ Content.propTypes = {
   searchMessages: PropTypes.func.isRequired,
   showSidebarSubview: PropTypes.func.isRequired,
   unpinMessage: PropTypes.func.isRequired,
-  showRoomMentions: PropTypes.bool,
   show: PropTypes.oneOf([
     false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'
   ]).isRequired,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   toggleSearchActivities: PropTypes.func.isRequired,
   toggleShowRoomMentions: PropTypes.func.isRequired,
+  toggleShowCurrentRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired,
   selectLabeledMessagesFilter: PropTypes.func.isRequired,
@@ -190,12 +204,15 @@ Content.propTypes = {
     showRoomMentions: PropTypes.shape({
       show: PropTypes.bool,
       status: PropTypes.bool
+    }),
+    showCurrentRoomMentions: PropTypes.shape({
+      show: PropTypes.bool,
+      status: PropTypes.bool
     })
   }).isRequired
 }
 
 Content.defaultProps = {
-  showRoomMentions: false,
   options: {
     currentChannelOnly: {
       show: true,
@@ -206,6 +223,10 @@ Content.defaultProps = {
       status: false
     },
     showRoomMentions: {
+      show: true,
+      status: false
+    },
+    showCurrentRoomMentions: {
       show: true,
       status: false
     }
