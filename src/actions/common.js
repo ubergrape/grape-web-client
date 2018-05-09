@@ -193,7 +193,9 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setChannel(route.params.channelId))
     } else {
       // In embedded chat conf.channelId is defined.
-      const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+      const channels = channelsSelector(getState())
+      const lastUsedChannel = findLastUsedChannel(channels)
+      const channelId = conf.channelId || lastUsedChannel ? lastUsedChannel.id : channels[0].id
       dispatch(setChannel(channelId))
     }
 
