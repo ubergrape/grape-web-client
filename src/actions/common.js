@@ -3,7 +3,7 @@ import find from 'lodash/collection/find'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {disconnect, reopen} from '../app/client'
+import {reopen} from '../app/client'
 import {
   channelsSelector, userSelector, joinedRoomsSelector,
   pmsSelector, orgSelector, appSelector
@@ -193,7 +193,9 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setChannel(route.params.channelId))
     } else {
       // In embedded chat conf.channelId is defined.
-      const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
+      const channels = channelsSelector(getState())
+      const lastUsedChannel = findLastUsedChannel(channels)
+      const channelId = conf.channelId || lastUsedChannel ? lastUsedChannel.id : channels[0].id
       dispatch(setChannel(channelId))
     }
 
@@ -204,7 +206,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   })
   .catch((err) => {
     dispatch(error(err))
-    disconnect()
     reopen()
   })
 }
