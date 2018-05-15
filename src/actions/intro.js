@@ -14,7 +14,7 @@ export const showNextIntro = () => (dispatch) => {
 const hide = (dispatch) => {
   dispatch({type: types.HIDE_INTRO})
   api
-    .setShowIntro()
+    .setProfile({showIntro: false})
     .catch((err) => {
       dispatch(error(err))
     })

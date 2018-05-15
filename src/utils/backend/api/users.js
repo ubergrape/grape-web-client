@@ -11,10 +11,10 @@ export const getUserProfile = orgId => rpc({
   ]
 }, {camelize: true})
 
-export const setShowIntro = (value = false) => rpc({
+export const setProfile = (value = {}) => rpc({
   ns: 'users',
   action: 'set_profile',
-  args: [{showIntro: value}]
+  args: [value]
 })
 
 export const getUser = (orgId, userId) => rpc({

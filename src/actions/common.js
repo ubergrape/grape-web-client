@@ -1,5 +1,6 @@
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
+// import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
@@ -172,6 +173,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId)
+    // api.setProfile({timezone: moment.tz.guess()})
   ]).then(([org, users, profile]) => {
     dispatch(handleUserProfile(profile))
     dispatch(setChannels(org.channels))
