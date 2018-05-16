@@ -5,6 +5,7 @@ import noop from 'lodash/utility/noop'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
+import isEqual from 'lodash/lang/isEqual'
 import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
@@ -141,6 +142,11 @@ export default class GrapeBrowser extends PureComponent {
       })
     }
     this.setState(this.createState(nextProps))
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (isEqual(this.props.data, nextProps.data)) return false
+    return true
   }
 
   componentWillUpdate(nextProps, nextState) {
