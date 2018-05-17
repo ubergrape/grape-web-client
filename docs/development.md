@@ -64,9 +64,21 @@ the web proxy for both http and https.
 
 #### For Windows (IE)
 
-To access localhost in VirtualBox machine (from Mac), use: 10.0.2.2
+To access localhost in VirtualBox machine (from Mac), use: 10.0.2.2:8081
 
+To test embedded client - http://10.0.2.2:8081/demo/embedded.html (proxy disabled in Windows)
+To test full client - https://uebergrape.staging.chatgrape.com/chat (peoxy enabled for Windows)
+
+In case of testing full web-client you may need to install certificates. Please you [this](https://superuser.com/a/1032179) answer install them.
+
+For embedded client in demo/embedded.html use `staticBaseUrl: 'http://10.0.2.2:8081/static/'`.
+
+Enable proxy in IE:
 ![A configuration dialog for proxy settings](./proxy-ie.png)
+
+Allow all of cookies in IE:
+![A configuration dialog for cookies settings](./cookies-ie.png)
+
 
 ## Trusting certificate on Firefox
 
