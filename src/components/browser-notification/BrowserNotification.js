@@ -33,7 +33,7 @@ const messages = defineMessages({
   }
 })
 
-const md = new MarkdownIt({breaks: true})
+const md = new MarkdownIt({breaks: true, typographer: true})
   .use(mdForcebreak)
   .use(mdEmoji)
   .use(mdNotification)
