@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
+import isEqual from 'lodash/lang/isEqual'
 
 import TagsInput from '../tags-input/TagsInput'
 
@@ -59,6 +60,12 @@ export default class FilterableList extends PureComponent {
     this.setState({
       focusedItem: nextProps.items[0]
     })
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.isFilterFocused !== this.props.isFilterFocused) return true
+    if (isEqual(nextProps.items, this.props.items)) return false
+    return true
   }
 
   onSelectItem = (item) => {
