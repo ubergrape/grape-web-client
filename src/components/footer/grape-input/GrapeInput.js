@@ -233,7 +233,7 @@ export default class GrapeInput extends PureComponent {
   onComplete = (data) => {
     const {filters, search, query, trigger} = data
     const {
-      org, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
+      org, channel, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
       onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete,
       onSearchChannelsToMention
     } = this.props
@@ -248,7 +248,7 @@ export default class GrapeInput extends PureComponent {
         onShowSearchBrowser(search)
         break
       case '@':
-        onSearchChannelsToMention(org, search, 11)
+        onSearchChannelsToMention(org, search, channel.id, 11)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
