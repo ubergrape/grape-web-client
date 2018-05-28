@@ -6,10 +6,10 @@ export const searchUsers = ({orgId, search = '', limit = 50}) => rpc({
   args: [orgId, search, limit]
 }, {camelize: true})
 
-export const searchChannels = ({orgId, search = '', currentChannel, limit = 50}) => rpc({
+export const searchChannels = ({orgId, search = '', limit = 50, currentChannel}) => rpc({
   ns: 'search',
   action: 'search_channels',
-  args: [orgId, search, currentChannel, limit]
+  args: [orgId, search, limit, currentChannel]
 }, {camelize: true})
 
 export const searchMentions = ({orgId, offset, mentionTypes, channels}) => rpc({

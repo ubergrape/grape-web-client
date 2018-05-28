@@ -248,7 +248,7 @@ export default class GrapeInput extends PureComponent {
         onShowSearchBrowser(search)
         break
       case '@':
-        onSearchChannelsToMention(org, search, channel.id, 11)
+        onSearchChannelsToMention(org, search, 12, channel.id)
         onShowUsersAndRoomsBrowser(search)
         break
       case ':':
