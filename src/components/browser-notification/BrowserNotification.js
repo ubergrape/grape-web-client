@@ -62,6 +62,7 @@ const getNewMessageOptions = (props) => {
   const {author, attachments, content: mdContent} = props.notification
   const title = getMessageTitle(props)
   let content = md.render(mdContent)
+  content = content.replace(/&quot;/g, '"')
 
   if (attachments.length) {
     if (content) content += '\n\n'
