@@ -77,6 +77,8 @@ export default class InfiniteList extends PureComponent {
 
   scrollToRow = (index) => { this.list.scrollToRow(index) }
 
+  scrollToPosition = (value) => { this.list.scrollToPosition(value) }
+
   renderRow = ({index, key, parent, style}) => (
     <CellMeasurer
       cache={this.cache}
@@ -98,6 +100,8 @@ export default class InfiniteList extends PureComponent {
 
     const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
 
+    console.log('render ', scrollTo, rows, classes)
+
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
@@ -118,36 +122,40 @@ export default class InfiniteList extends PureComponent {
                 scrollToIndex={scrollToRow}
                 minEndThreshold={lastRowBottomSpace}
                 scrollToRow={this.scrollToRow}
+                scrollToPosition={this.scrollToPosition}
               >
                 {({
                   onScroll: onScrollInAutoScroll,
                   scrollToAlignment,
                   scrollToIndex,
                   onRowsRendered: onRowsRenderedInAutoScroll
-                }) => (
-                  <List
-                    deferredMeasurementCache={this.cache}
-                    className={classes.grid}
-                    scrollToIndex={scrollToIndex}
-                    scrollToAlignment={scrollToAlignment}
-                    onRowsRendered={(params) => {
-                      onRowsRenderedInAutoScroll(params)
-                      onRowsRenderedInInfiniteLoader(params)
-                      onRowsRendered(params)
-                    }}
-                    onScroll={(params) => {
-                      onScroll(params)
-                      onScrollInAutoScroll(params)
-                      onScrollInInfiniteLoader(params)
-                    }}
-                    width={width}
-                    height={height}
-                    rowCount={rows.length}
-                    rowHeight={this.cache.rowHeight}
-                    rowRenderer={this.renderRow}
-                    overscanRowCount={5}
-                    ref={this.onRefList}
-                  />
+                }) =>
+                  // console.log('scrollToIndex', scrollToIndex)
+                  // console.log('scrollToAlignment', scrollToAlignment)
+                   (
+                     <List
+                       deferredMeasurementCache={this.cache}
+                       className={classes.grid}
+                       scrollToIndex={scrollToIndex}
+                       scrollToAlignment={scrollToAlignment}
+                       onRowsRendered={(params) => {
+                         onRowsRenderedInAutoScroll(params)
+                         onRowsRenderedInInfiniteLoader(params)
+                         onRowsRendered(params)
+                       }}
+                       onScroll={(params) => {
+                         onScroll(params)
+                         onScrollInAutoScroll(params)
+                         onScrollInInfiniteLoader(params)
+                       }}
+                       width={width}
+                       height={height}
+                       rowCount={rows.length}
+                       rowHeight={this.cache.rowHeight}
+                       rowRenderer={this.renderRow}
+                       overscanRowCount={5}
+                       ref={this.onRefList}
+                     />
                 )}
               </AutoScroll>
             )}
