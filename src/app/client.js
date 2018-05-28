@@ -17,6 +17,10 @@ export const connect = () => {
   return channel
 }
 
+export const reopen = () => {
+  get().reopen()
+}
+
 export const disconnect = () => {
   clearInterval(authIntervalId)
   get().disconnect()

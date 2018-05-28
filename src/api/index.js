@@ -50,17 +50,13 @@ const init = (config) => {
   docReady.then(app.render)
 }
 
-const resume = () => {
-  appReady.then((app) => {
-    app.resume()
-  })
-}
+const resume = () => appReady.then((app) => {
+  app.resume()
+})
 
-const suspend = () => {
-  appReady.then((app) => {
-    app.suspend()
-  })
-}
+const suspend = () => appReady.then((app) => {
+  app.suspend()
+})
 
 const embed = (options) => {
   if (!options.serviceUrl) {
@@ -81,14 +77,14 @@ const embed = (options) => {
       embed: true
     }))
 
-  Promise.all([config, ie10Polyfills(options)]).then((values) => {
+  return Promise.all([config, ie10Polyfills(options)]).then((values) => {
     init(values[0])
   })
 }
 
 const show = (name, options) => {
   checkShowHideComponent(name)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.showSidebar(name, options)
   })
 }
@@ -96,21 +92,21 @@ const show = (name, options) => {
 const hide = (name) => {
   // Validate it for the future, we might be using it to hide other things than sidebar.
   checkShowHideComponent(name)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.hideSidebar()
   })
 }
 
 const searchMessages = (query, options) => {
   show('search', options)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.updateMessageSearchQuery(query)
   })
 }
 
 const setOpenFileDialogHandler = (fn) => {
   if (typeof fn !== 'function') throw new TypeError('Expected function argument.')
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.setOpenFileDialogHandler(fn)
   })
 }

@@ -2,6 +2,7 @@ const path = require('path')
 const config = require('./webpack.config')
 
 module.exports = {
+  pagePerSection: true,
   components: 'src/components/**/[A-Z]*.js',
   webpackConfig: Object.assign(config, {
     resolve: {

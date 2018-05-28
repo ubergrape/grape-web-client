@@ -45,7 +45,7 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.ADD_USER_TO_CHANNEL: {
-      const {user, channelId: id, isCurrentUser} = action.payload
+      const {user, channelId: id, userId, isCurrentUser} = action.payload
       if (!user) return state
 
       const newState = [...state]
@@ -58,22 +58,22 @@ export default function reduce(state = initialState, action) {
         // As a workaround of API bug,
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
-        users: includes(users, user.id) ? users : [...users, user.id],
+        users: includes(users, userId) ? users : [...users, userId],
         joined: isCurrentUser ? true : channel.joined
       })
       return newState
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
-      const {channelId, user} = action.payload
+      const {channelId, userId} = action.payload
       const index = findIndex(state, {id: channelId})
       if (index === -1) return state
       const channels = [...state]
       const channel = state[index]
       channels.splice(index, 1, {
         ...channel,
-        users: channel.users.filter(id => id !== user.id),
-        joined: conf.user.id !== user.id
+        users: channel.users.filter(id => id !== userId),
+        joined: conf.user.id !== userId
       })
       return channels
     }
@@ -88,6 +88,15 @@ export default function reduce(state = initialState, action) {
         ...channel,
         ...action.payload
       })
+      return newState
+    }
+
+    case types.UPDATE_CHANNEL_PARTNER_INFO: {
+      const {pm} = action.payload
+      const newState = [...state]
+      const index = findIndex(newState, {id: pm})
+      if (index === -1) return state
+      newState[index].partner = action.payload
       return newState
     }
 

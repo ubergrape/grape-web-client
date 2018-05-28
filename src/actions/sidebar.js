@@ -1,5 +1,8 @@
 import publicApi from '../api'
 import * as types from '../constants/actionTypes'
+import * as api from '../utils/backend/api'
+import conf from '../conf'
+import {updateUserPartnerInfo, updateChannelPartnerInfo, error} from './'
 
 export function setSidebarIsLoading(isLoading) {
   return {
@@ -28,6 +31,18 @@ export function showSidebar(show, options) {
       payload: options
     })
   }
+}
+
+export const getUser = userId => (dispatch) => {
+  api
+    .getUser(conf.organization.id, userId)
+    .then((res) => {
+      dispatch(updateUserPartnerInfo(res))
+      dispatch(updateChannelPartnerInfo(res))
+    })
+    .catch((err) => {
+      dispatch(error(err))
+    })
 }
 
 export const showSidebarSubview = name => (dispatch) => {

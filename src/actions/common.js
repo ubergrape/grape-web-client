@@ -1,11 +1,13 @@
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
+import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import {reopen} from '../app/client'
 import {
-  channelsSelector, usersSelector, userSelector, appSelector, joinedRoomsSelector,
-  pmsSelector
+  channelsSelector, userSelector, joinedRoomsSelector,
+  pmsSelector, orgSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -21,7 +23,8 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  handleChangeRoute
+  addChannel,
+  handleRoomCreateError
 } from './'
 
 export function error(err) {
@@ -49,17 +52,42 @@ export const setChannels = channels => (dispatch, getState) => {
   })
 }
 
-export function setUsers(users) {
-  return {
+export const setUsers = users => (dispatch) => {
+  dispatch({
     type: types.SET_USERS,
     payload: users.map(normalizeUserData)
-  }
+  })
 }
 
 export const addUser = user => (dispatch) => {
   dispatch({
     type: types.ADD_USER_TO_ORG,
     payload: normalizeUserData(user)
+  })
+}
+
+export const addNewUser = userId => (dispatch, getState) => {
+  const org = orgSelector(getState())
+
+  return api
+    .openPm(org.id, userId)
+    .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
+    .then(([users, channel]) => {
+      dispatch(addUser(channel))
+      dispatch(addChannel({
+        ...channel,
+        users
+      }))
+    })
+    .catch((err) => {
+      dispatch(handleRoomCreateError(err.message))
+    })
+}
+
+export const updateUserPartnerInfo = userInfo => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_USER_PARTNER_INFO,
+    payload: userInfo
   })
 }
 
@@ -130,22 +158,6 @@ export const handleBadChannel = alertType => (dispatch) => {
   }))
 }
 
-export function handleNotification(notification) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const channels = channelsSelector(state)
-    const users = usersSelector(state)
-    dispatch({
-      type: types.HANDLE_NOTIFICATION,
-      payload: {
-        ...notification,
-        channel: find(channels, {id: notification.channelId}),
-        inviter: find(users, {id: notification.inviterId})
-      }
-    })
-  }
-}
-
 export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
@@ -158,13 +170,14 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getUsers({orgId: conf.organization.id}),
+    api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
-    api.joinOrg(conf.organization.id, clientId)
+    api.joinOrg(conf.organization.id, clientId),
+    api.setProfile({timezone: moment.tz.guess()})
   ]).then(([org, users, profile]) => {
-    dispatch(setUsers(users))
     dispatch(handleUserProfile(profile))
     dispatch(setChannels(org.channels))
+    dispatch(setUsers(users))
     dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
     dispatch(ensureBrowserNotificationPermission())
 
@@ -175,24 +188,26 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       return
     }
 
-    // In embedded chat conf.channelId is defined.
-    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
-
-    dispatch(setChannel(channelId))
+    const {route} = appSelector(getState())
+    // A route for the embedded client can be 'undefined', and for the full
+    // client the channelId can also be 'undefined' in case no channel is defined
+    if (route && route.params.channelId) {
+      dispatch(setChannel(route.params.channelId, route.params.messageId))
+    } else {
+      const channels = channelsSelector(getState())
+      const channelToSet = findLastUsedChannel(channels) || channels[0]
+      // In embedded chat conf.channelId is defined.
+      const channelId = conf.channelId || channelToSet.id
+      dispatch(setChannel(channelId))
+    }
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,
       payload: false
     })
-
-    // On initial load route has changed, but data was not loaded,
-    // so we need to trigger it here again.
-    const {route} = appSelector(getState())
-    if (route) {
-      dispatch(handleChangeRoute(route))
-    }
   })
   .catch((err) => {
     dispatch(error(err))
+    reopen()
   })
 }

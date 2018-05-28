@@ -20,14 +20,14 @@ export default class WampClient {
 
   connect() {
     if (this.wamp) return this.out
-    log('connect')
+    log('connected')
     this.open()
     this.intervalId = setInterval(this.ping, this.pingInterval)
     return this.out
   }
 
   disconnect() {
-    log('disconnect')
+    log('disconnected')
     this.close()
     this.onDisconnected()
     this.reset()
@@ -119,7 +119,6 @@ export default class WampClient {
   }
 
   onOpen = ({sessionId}) => {
-    this.backoff.reset()
     this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
@@ -136,6 +135,7 @@ export default class WampClient {
   }
 
   onDisconnected = () => {
+    this.backoff.reset()
     if (!this.connected) return
     this.id = null
     this.connected = false
@@ -154,6 +154,7 @@ export default class WampClient {
   }
 
   onError = (err) => {
+    this.backoff.reset()
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -168,6 +169,7 @@ export default class WampClient {
   }
 
   onSocketClose = (event) => {
+    this.backoff.reset()
     log('socket close', event)
     this.close()
     this.reopen()

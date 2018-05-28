@@ -3,7 +3,9 @@ import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
+import debounce from 'lodash/function/debounce'
 import injectSheet from 'grape-web/lib/jss'
+import {debouncingTime} from 'grape-web/lib/constants/time'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import {
   defineMessages,
@@ -110,13 +112,14 @@ export default class Navigation extends PureComponent {
     }
   }
 
+  onChangeFilterDebounced = debounce((value) => {
+    this.props.searchChannelsForNavigation(value)
+  }, debouncingTime)
+
   onChangeFilter = ({target}) => {
     const {value} = target
-
-    this.props.searchChannelsForNavigation(value)
-    this.setState({
-      filter: value
-    })
+    this.setState({filter: value})
+    this.onChangeFilterDebounced(value)
   }
 
   onFocusFiltered = (focusedChannel) => {
@@ -162,7 +165,7 @@ export default class Navigation extends PureComponent {
     })
 
     if ((channel.type === 'pm') && !channel.joined) {
-      this.props.openPm(channel.mate.id)
+      this.props.openPm(channel.partner.id)
       return
     }
 
@@ -282,8 +285,8 @@ export default class Navigation extends PureComponent {
           <Filter
             {...this.props}
             ref={this.onFilterRef}
-            value={this.state.filter}
             theme={{classes}}
+            value={this.state.filter}
             onKeyDown={this.onKeyDown}
             onChange={this.onChangeFilter}
           />

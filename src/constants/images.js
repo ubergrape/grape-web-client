@@ -2,7 +2,7 @@ import staticUrl from '../utils/static-url'
 
 const baseUrl = staticUrl('app/images')
 
-export const emojiSheet = `${baseUrl}/emoji_sheet_32_optimized.png`
+export const emojiSheet = `${baseUrl}/emoji_sheet_64_optimized.png`
 export const noDetail = `${baseUrl}/no-detail.png`
 export const defaultAvatar = `${baseUrl}/avatar.gif`
 export const invitedAvatar = `${baseUrl}/avatar_invited.gif`
