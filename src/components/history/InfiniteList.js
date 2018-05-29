@@ -67,6 +67,12 @@ export default class InfiniteList extends PureComponent {
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
       this.cache.clearAll()
       this.list.recomputeRowHeights()
+      // TODO This is a regression after upgrading react-virtualized to v9
+      // Clearing the cache and recomputing the row heights results in multile
+      // row renders where at some point the scroll position is 0 and the whole
+      // list has only a fraction of the size. Since the amount of re-renders
+      // isn't predictable we simply always scroll to the end manually for now.
+      this.scrollToRow(this.props.rows.length - 1)
     }
     this.prevWidth = width
   }
@@ -100,8 +106,6 @@ export default class InfiniteList extends PureComponent {
 
     const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
 
-    console.log('render ', scrollTo, rows, classes)
-
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
@@ -129,33 +133,30 @@ export default class InfiniteList extends PureComponent {
                   scrollToAlignment,
                   scrollToIndex,
                   onRowsRendered: onRowsRenderedInAutoScroll
-                }) =>
-                  // console.log('scrollToIndex', scrollToIndex)
-                  // console.log('scrollToAlignment', scrollToAlignment)
-                   (
-                     <List
-                       deferredMeasurementCache={this.cache}
-                       className={classes.grid}
-                       scrollToIndex={scrollToIndex}
-                       scrollToAlignment={scrollToAlignment}
-                       onRowsRendered={(params) => {
-                         onRowsRenderedInAutoScroll(params)
-                         onRowsRenderedInInfiniteLoader(params)
-                         onRowsRendered(params)
-                       }}
-                       onScroll={(params) => {
-                         onScroll(params)
-                         onScrollInAutoScroll(params)
-                         onScrollInInfiniteLoader(params)
-                       }}
-                       width={width}
-                       height={height}
-                       rowCount={rows.length}
-                       rowHeight={this.cache.rowHeight}
-                       rowRenderer={this.renderRow}
-                       overscanRowCount={5}
-                       ref={this.onRefList}
-                     />
+                }) => (
+                  <List
+                    deferredMeasurementCache={this.cache}
+                    className={classes.grid}
+                    scrollToIndex={scrollToIndex}
+                    scrollToAlignment={scrollToAlignment}
+                    onRowsRendered={(params) => {
+                      onRowsRenderedInAutoScroll(params)
+                      onRowsRenderedInInfiniteLoader(params)
+                      onRowsRendered(params)
+                    }}
+                    onScroll={(params) => {
+                      onScroll(params)
+                      onScrollInAutoScroll(params)
+                      onScrollInInfiniteLoader(params)
+                    }}
+                    width={width}
+                    height={height}
+                    rowCount={rows.length}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    overscanRowCount={5}
+                    ref={this.onRefList}
+                  />
                 )}
               </AutoScroll>
             )}
