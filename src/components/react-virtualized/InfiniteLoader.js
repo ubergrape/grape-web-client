@@ -130,8 +130,6 @@ export default class InfiniteLoader extends PureComponent {
     }
   }
 
-  listRef = null
-
   render() {
     return this.props.children({
       onRowsRendered: this.onRowsRendered,
