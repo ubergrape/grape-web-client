@@ -16,9 +16,9 @@ const cache = new FifoCache(10000)
  *
  * It assumes both elements have the same properties.
  */
-const equalPropsData = (a, b) => {
-  const dataProperties = filter(keys(a), (key) => typeof a[key] !== 'function')
-  return every(dataProperties, (key) => shallowEqual(a[key], b[key]))
+export const equalPropsData = (a, b) => {
+  const dataProperties = filter(keys(a), key => typeof a[key] !== 'function')
+  return every(dataProperties, key => shallowEqual(a[key], b[key]))
 }
 
 /**
