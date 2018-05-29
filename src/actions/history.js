@@ -211,7 +211,6 @@ export function loadMoreHistory(params) {
  * It renders the loaded messages when promise gets resolved.
  */
 export function renderOlderHistory() {
-  console.log('renderOlderHistory')
   return (dispatch, getState) => {
     const {olderMessages} = historySelector(getState())
     olderMessages.then((res) => {
