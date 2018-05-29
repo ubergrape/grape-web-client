@@ -4,7 +4,8 @@ import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 
 /**
- * Determines if the specified start/stop range is visible based on the most recently rendered range.
+ * Determines if the specified start/stop range is visible based on the most
+ * recently rendered range.
  */
 export function isRangeVisible({
   lastRenderedStartIndex,
@@ -17,8 +18,10 @@ export function isRangeVisible({
 
 /**
  * Higher-order component that manages lazy-loading for "infinite" data.
- * This component decorates a virtual component and just-in-time prefetches rows as a user scrolls.
- * It is intended as a convenience component; fork it if you'd like finer-grained control over data-loading.
+ * This component decorates a virtual component and just-in-time prefetches rows
+ * as a user scrolls.
+ * It is intended as a convenience component; fork it if you'd like
+ * finer-grained control over data-loading.
  */
 export default class InfiniteLoader extends PureComponent {
   static propTypes = {
@@ -75,8 +78,6 @@ export default class InfiniteLoader extends PureComponent {
     this.direction = 0
   }
 
-  listRef = null
-
   onScrollStop = debounce(() => {
     const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
     if (this.direction === 0) return
@@ -92,10 +93,9 @@ export default class InfiniteLoader extends PureComponent {
     const range = this.getRange()
 
     if (range.startIndex < 0) {
-      console.log('load more rows - scrollTop', this.scrollTop)
       loadMoreRows(range)
       if (this.scrollTop <= 0) {
-        // onTouchTopEdge()
+        onTouchTopEdge()
       }
     }
   }, 20)
@@ -130,6 +130,8 @@ export default class InfiniteLoader extends PureComponent {
       stopIndex: this.startIndex
     }
   }
+
+  listRef = null
 
   render() {
     return this.props.children({
