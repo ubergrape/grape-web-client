@@ -101,7 +101,6 @@ export default class InfiniteLoader extends PureComponent {
   }, 20)
 
   onScroll = ({scrollTop}) => {
-    // console.log('onScroll', scrollTop)
     // We don't care about overscroll.
     if (this.scrollTop !== undefined && scrollTop >= 0) {
       this.direction = scrollTop - this.scrollTop
