@@ -6,10 +6,10 @@ import {
   injectIntl
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
-import List from 'react-virtualized/dist/es/List'
-import AutoSizer from 'react-virtualized/dist/es/AutoSizer'
-import CellMeasurer from 'react-virtualized/dist/es/CellMeasurer'
-import InfiniteLoader from 'react-virtualized/dist/es/InfiniteLoader'
+import List from 'react-virtualized/dist/commonjs/List'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer'
+import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
 import injectSheet from 'grape-web/lib/jss'
 
 import SidebarPanel from '../SidebarPanel'
