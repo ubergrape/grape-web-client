@@ -39,7 +39,7 @@
   "disabledMessagePlaceholder": "This user has been deleted. Messaging is disabled.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
-  "quoteFooter": "- [Message]({messageUrl}) from {author}",
+  "quoteFooter": "- [Message]({messageUrl}) from [{author}]({pmPath})",
   "_quoteFooter.comment": "Quoted message footer text.",
   "userIsTyping": "{user} is typing",
   "userAndUsersAreTyping": "{users} and {user} are typing",
