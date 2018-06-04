@@ -29,6 +29,7 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, props, children)
     }
 
+    // Open pm links only if it's somebody else's user.id
     if (href.startsWith('/chat/pm/') && href.endsWith(user.id)) {
       return <span>{children}</span>
     }
