@@ -144,7 +144,8 @@ export default class GrapeBrowser extends PureComponent {
     this.setState(this.createState(nextProps))
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.browserOpened !== nextState.browserOpened) return true
     if (isEqual(this.props.data, nextProps.data)) return false
     return true
   }
