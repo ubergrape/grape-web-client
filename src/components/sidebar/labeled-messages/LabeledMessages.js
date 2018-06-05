@@ -115,6 +115,8 @@ export default class LabeledMessages extends PureComponent {
       newMessagesAmount !== this.props.newMessagesAmount
     ) {
       // First row will change the output.
+      this.cache.clearAll()
+      this.list.scrollToPosition(0)
       this.list.recomputeRowHeights(0)
       this.infiniteLoader.forceUpdate()
     }
