@@ -29,10 +29,12 @@ export function renderTag(tag, props, children) {
       return createElement(GrapeObject, props, children)
     }
 
-    // Open pm links only if it's somebody else's user.id
-    if (href.startsWith('/chat/pm/')) {
-      const [pmUserId] = href.match(/\d+$/) || []
-      if (user.id === Number(pmUserId)) return <span>{children}</span>
+    // Split chat pm path and user id
+    const [, chatPmPath, pmUserId] = href.match(/^(\/chat\/pm)\/(\d+)?\/$/) || []
+
+    // No link if it's the current logged in user
+    if (chatPmPath && user.id === Number(pmUserId)) {
+      return <span>{children}</span>
     }
 
     return (
