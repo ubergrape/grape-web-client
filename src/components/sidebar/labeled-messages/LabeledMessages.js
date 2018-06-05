@@ -135,11 +135,11 @@ export default class LabeledMessages extends PureComponent {
     this.infiniteLoader = ref
   }
 
-  cache = new CellMeasurerCache({})
+  cache = new CellMeasurerCache({fixedWidth: true})
 
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
-  renderRow = ({index, parent, style}) => {
+  renderRow = ({key, index, parent, style}) => {
     const {
       intl,
       messages,
@@ -156,7 +156,7 @@ export default class LabeledMessages extends PureComponent {
         cache={this.cache}
         parent={parent}
         columnIndex={0}
-        key={`${message.id}-row`}
+        key={key}
         rowIndex={index}
       >
         <Row
@@ -164,10 +164,10 @@ export default class LabeledMessages extends PureComponent {
           message={message}
           prevMessage={messages[index - 1]}
           newMessagesAmount={index === 0 ? newMessagesAmount : 0}
-          style={style}
           user={user}
           onSelect={onSelect}
           onRefresh={onLoad}
+          style={style}
         />
       </CellMeasurer>
     )
