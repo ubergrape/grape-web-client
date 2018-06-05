@@ -23,8 +23,8 @@ const createState = (props) => {
     overflow: 'auto'
   },
   item: {
-    display: 'block',
-    extend: [fonts.normal, ellipsis],
+    display: 'flex',
+    extend: fonts.normal,
     padding: [5, 7],
     color: grayDark,
     '&, & *': {
@@ -46,12 +46,14 @@ const createState = (props) => {
     color: gainsboroDark
   },
   name: {
+    extend: ellipsis,
     lineHeight: 1,
     marginLeft: 5,
-    color: 'inherit'
+    color: 'inherit',
+    flex: '0 0 auto'
   },
   note: {
-    extend: fonts.small,
+    extend: [fonts.small, ellipsis],
     color: gainsboroDark,
     marginLeft: 6
   },
