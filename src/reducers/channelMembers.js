@@ -9,6 +9,12 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.HANDLE_CHANNEL_MEMBERS:
       return {...state, users: payload}
+    case types.ADD_USER_TO_CHANNEL: {
+      return {
+        ...state,
+        users: [...state.users, payload.user.partner]
+      }
+    }
     case types.REMOVE_USER_FROM_CHANNEL: {
       return {
         ...state,
