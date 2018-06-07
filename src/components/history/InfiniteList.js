@@ -3,9 +3,11 @@ import React, {PureComponent} from 'react'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
-import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import debounce from 'lodash/function/debounce'
+import findIndex from 'lodash/array/findIndex'
+import {spacer} from 'grape-theme/dist/sizes'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
@@ -23,6 +25,27 @@ import RowsCache from './RowsCache'
     overflowY: 'auto',
     outline: 'none',
     WebkitOverflowScrolling: 'touch'
+  },
+  wrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
+  resizePlaceholder: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'white'
+  },
+  resizePlaceholderContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    padding: [spacer.xxl * 4, spacer.xl * 2, 0]
   }
 })
 export default class InfiniteList extends PureComponent {
@@ -45,6 +68,8 @@ export default class InfiniteList extends PureComponent {
     onRowsRendered: noop
   }
 
+  state = {scrollLocked: false}
+
   componentDidMount() {
     this.cache.setRows(this.props.rows)
   }
@@ -60,109 +85,141 @@ export default class InfiniteList extends PureComponent {
     this.list = ref
   }
 
+  onRowsRendered = ({startIndex}) => {
+    if (!this.state.scrollLocked) {
+      this.lastRenderedMessageId = this.props.rows[startIndex].id
+    }
+  }
+
   onResizeViewport = ({width}) => {
     // When container gets resized, we can forget all cached heights.
     // Compare additionally with a locally cached width, because
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
+      this.setState({scrollLocked: true})
+      this.debounedScrollToRowBeforeResize()
       this.cache.clearAll()
       this.list.recomputeRowHeights()
+
+      // TODO only scroll to bottom if we were at the bottom
+
       // TODO This is a regression after upgrading react-virtualized to v9
       // Clearing the cache and recomputing the row heights results in multile
       // row renders where at some point the scroll position is 0 and the whole
       // list has only a fraction of the size. Since the amount of re-renders
       // isn't predictable we simply always scroll to the end manually for now.
-      this.scrollToRow(this.props.rows.length - 1)
+      // this.scrollToRow(this.props.rows.length - 1)
     }
     this.prevWidth = width
   }
 
+  debounedScrollToRowBeforeResize = debounce(() => {
+    const newIndex = findIndex(this.props.rows, item => item.id === this.lastRenderedMessageId)
+    this.list.scrollToRow(newIndex)
+    this.setState({scrollLocked: false})
+  }, 700)
+
   cache = new RowsCache({fixedWidth: true})
+
+  scrollLocked = false
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  scrollToRow = (index) => { this.list.scrollToRow(index) }
+  scrollToRow = (index) => {
+    this.list.scrollToRow(index)
+  }
 
-  scrollToPosition = (value) => { this.list.scrollToPosition(value) }
+  scrollToPosition = (value) => {
+    this.list.scrollToPosition(value)
+  }
 
   renderRow = ({index, key, parent, style}) => (
-    <CellMeasurer
-      cache={this.cache}
-      parent={parent}
-      columnIndex={0}
-      key={key}
-      rowIndex={index}
-    >
+    <CellMeasurer cache={this.cache} parent={parent} columnIndex={0} key={key} rowIndex={index}>
       {this.props.renderRow({index, key, style})}
     </CellMeasurer>
   )
 
   render() {
     const {
-      onRowsRendered, onLoadMore, onTouchTopEdge, onScroll,
-      scrollTo, rows, minimumBatchSize,
+      onRowsRendered,
+      onLoadMore,
+      onTouchTopEdge,
+      onScroll,
+      scrollTo,
+      rows,
+      minimumBatchSize,
       classes
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
 
     return (
-      <InfiniteLoader
-        isRowLoaded={this.isRowLoaded}
-        loadMoreRows={onLoadMore}
-        onTouchTopEdge={onTouchTopEdge}
-        threshold={5}
-        minimumBatchSize={minimumBatchSize}
-      >
-        {({
-          onRowsRendered: onRowsRenderedInInfiniteLoader,
-          onScroll: onScrollInInfiniteLoader
-        }) => (
-          <AutoSizer onResize={this.onResizeViewport}>
-            {({width, height}) => (
-              <AutoScroll
-                rows={rows}
-                height={height}
-                scrollToIndex={scrollToRow}
-                minEndThreshold={lastRowBottomSpace}
-                scrollToRow={this.scrollToRow}
-                scrollToPosition={this.scrollToPosition}
-              >
-                {({
-                  onScroll: onScrollInAutoScroll,
-                  scrollToAlignment,
-                  scrollToIndex,
-                  onRowsRendered: onRowsRenderedInAutoScroll
-                }) => (
-                  <List
-                    deferredMeasurementCache={this.cache}
-                    className={classes.grid}
-                    scrollToIndex={scrollToIndex}
-                    scrollToAlignment={scrollToAlignment}
-                    onRowsRendered={(params) => {
-                      onRowsRenderedInAutoScroll(params)
-                      onRowsRenderedInInfiniteLoader(params)
-                      onRowsRendered(params)
-                    }}
-                    onScroll={(params) => {
-                      onScroll(params)
-                      onScrollInAutoScroll(params)
-                      onScrollInInfiniteLoader(params)
-                    }}
-                    width={width}
-                    height={height}
-                    rowCount={rows.length}
-                    rowHeight={this.cache.rowHeight}
-                    rowRenderer={this.renderRow}
-                    overscanRowCount={5}
-                    ref={this.onRefList}
-                  />
-                )}
-              </AutoScroll>
-            )}
-          </AutoSizer>
+      <div className={classes.wrapper}>
+        <InfiniteLoader
+          isRowLoaded={this.isRowLoaded}
+          loadMoreRows={onLoadMore}
+          onTouchTopEdge={onTouchTopEdge}
+          threshold={5}
+          minimumBatchSize={minimumBatchSize}
+        >
+          {({
+            onRowsRendered: onRowsRenderedInInfiniteLoader,
+            onScroll: onScrollInInfiniteLoader
+          }) => (
+            <AutoSizer onResize={this.onResizeViewport}>
+              {({width, height}) => (
+                <AutoScroll
+                  rows={rows}
+                  height={height}
+                  scrollToIndex={scrollToRow}
+                  minEndThreshold={lastRowBottomSpace}
+                  scrollToRow={this.scrollToRow}
+                  scrollToPosition={this.scrollToPosition}
+                >
+                  {({
+                    onScroll: onScrollInAutoScroll,
+                    scrollToAlignment,
+                    scrollToIndex,
+                    onRowsRendered: onRowsRenderedInAutoScroll
+                  }) => (
+                    <List
+                      deferredMeasurementCache={this.cache}
+                      className={classes.grid}
+                      scrollToIndex={scrollToIndex}
+                      scrollToAlignment={scrollToAlignment}
+                      onRowsRendered={(params) => {
+                        this.onRowsRendered(params)
+                        onRowsRenderedInAutoScroll(params)
+                        onRowsRenderedInInfiniteLoader(params)
+                        onRowsRendered(params)
+                      }}
+                      onScroll={(params) => {
+                        onScroll(params)
+                        onScrollInAutoScroll(params)
+                        onScrollInInfiniteLoader(params)
+                      }}
+                      width={width}
+                      height={height}
+                      rowCount={rows.length}
+                      rowHeight={this.cache.rowHeight}
+                      rowRenderer={this.renderRow}
+                      overscanRowCount={5}
+                      ref={this.onRefList}
+                    />
+                  )}
+                </AutoScroll>
+              )}
+            </AutoSizer>
+          )}
+        </InfiniteLoader>
+        {this.state.scrollLocked && (
+          <div className={classes.resizePlaceholder}>
+            <div className={classes.resizePlaceholderContent}>
+              Recalculating the the scroll position …
+            </div>
+          </div>
         )}
-      </InfiniteLoader>
+      </div>
     )
   }
 }
