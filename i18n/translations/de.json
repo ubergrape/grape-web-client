@@ -320,8 +320,11 @@
   "_sharedInPm.comment": "*Describe sharedInPm*, example: Shared with Felix'",
   "noSharedFiles": "Keine geteilten Dateien",
   "showRoomMentions": "Raum Erwähnungen anzeigen",
-  "onlyInThisConversation": "Nur in dieser Konversation",
-  "_onlyInThisConversation.comment": "Option in messages search sidebar.",
+  "_showRoomMentions.comment": "Option in messages mention sidebar.",
+  "onlyInThisConversationMentions": "Nur in dieser Konversation",
+  "_onlyInThisConversationMentions.comment": "Option in messages mention sidebar.",
+  "onlyInThisConversationMessages": "Nur in dieser Konversation",
+  "_onlyInThisConversationMessages.comment": "Option in messages search sidebar.",
   "searchActivities": "Aktivitäten durchsuchen",
   "_searchActivities.comment": "Option in messages search sidebar.",
   "mentionsSidebarTitle": "Erwähnungen",
@@ -332,5 +335,6 @@
   "skype": "Skype",
   "phone": "Telefon",
   "aboutUserTitle": "Über diesen Nutzer",
-  "_aboutUserTitle.comment": "User profile sidebar, about user title."
+  "_aboutUserTitle.comment": "User profile sidebar, about user title.",
+  "recalculateScrollPosition": "Scrollposition wird neu berechnet ..."
 }
