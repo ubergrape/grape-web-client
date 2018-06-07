@@ -335,5 +335,6 @@
   "skype": "Skype",
   "phone": "Phone",
   "aboutUserTitle": "About this user",
-  "_aboutUserTitle.comment": "User profile sidebar, about user title."
+  "_aboutUserTitle.comment": "User profile sidebar, about user title.",
+  "recalculateScrollPosition": "Recalculating the scroll position…"
 }
