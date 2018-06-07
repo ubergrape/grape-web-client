@@ -220,9 +220,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     })
     .then(([channel, users]) => {
       if (channel && users) {
-        users.forEach((user) => {
-          dispatch(addUser(user))
-        })
+        dispatch(addUser(channel))
         dispatch(addChannel(channel))
         dispatch(setChannel(channel.id, messageId))
         return
