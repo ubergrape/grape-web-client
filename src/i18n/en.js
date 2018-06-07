@@ -230,6 +230,5 @@ export default {
   "email": "Email",
   "skype": "Skype",
   "phone": "Phone",
-  "aboutUserTitle": "About this user",
-  "recalculateScrollPosition": "Recalculating the scroll position…"
+  "aboutUserTitle": "About this user"
 }
