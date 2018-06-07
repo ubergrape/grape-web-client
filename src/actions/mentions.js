@@ -1,10 +1,12 @@
 import sortBy from 'lodash/collection/sortBy'
+import conf from '../conf'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
   orgSelector,
-  mentionsSelector
+  mentionsSelector,
+  channelSelector
 } from '../selectors'
 import {normalizeMessage} from './utils'
 import {setSidebarIsLoading, error} from './'
@@ -15,9 +17,19 @@ export function loadMentions(params) {
     dispatch(setSidebarIsLoading(true))
     const state = getState()
     const {id} = orgSelector(state)
-    const {offsetDate, options: {shouldReplace}} = params
+    const {offset, options: {shouldReplace, showRoomMentions, showCurrentRoomMentions}} = params
+    const channels = []
+    if (conf.embed || showCurrentRoomMentions) {
+      const channelId = channelSelector(state).id
+      channels.push(channelId)
+    }
     return api
-      .getMentions({...params, offsetDate: shouldReplace ? undefined : offsetDate, id})
+      .searchMentions({
+        orgId: id,
+        offset: shouldReplace ? undefined : offset,
+        mentionTypes: showRoomMentions ? ['room', 'user'] : ['user'],
+        channels: channels.length ? channels : undefined
+      })
       .then(({results, total}) => {
         dispatch(setSidebarIsLoading(false))
         const {items: prevItems} = mentionsSelector(state)
@@ -79,6 +91,12 @@ export function removeMention(messageId) {
 
 export function toggleShowRoomMentions() {
   return {
-    type: types.TOGGLE_SHOW_ROOM_MENTION
+    type: types.TOGGLE_SHOW_ROOM_MENTIONS
+  }
+}
+
+export function toggleShowCurrentRoomMentions() {
+  return {
+    type: types.TOGGLE_SHOW_CURRENT_ROOM_MENTIONS
   }
 }

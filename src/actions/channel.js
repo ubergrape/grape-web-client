@@ -109,6 +109,13 @@ export const joinChannel = id => (dispatch) => {
     .catch(err => dispatch(error(err)))
 }
 
+export const updateChannelPartnerInfo = channel => (dispatch) => {
+  dispatch({
+    type: types.UPDATE_CHANNEL_PARTNER_INFO,
+    payload: channel
+  })
+}
+
 export function inviteToChannel(emailAddresses, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
@@ -149,8 +156,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     return
   }
 
-  const foundChannel = find(channels, ({mate}) => mate.id === userId)
-
+  const foundChannel = find(channels, ({partner}) => partner.id === userId)
   if (foundChannel) {
     dispatch(goToChannel(foundChannel, options))
     return
@@ -161,13 +167,15 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     payload: userId
   })
 
-  Promise.all([
-    api.getUser(org.id, userId),
-    api.openPm(org.id, userId)
-  ])
-    .then(([user, channel]) => {
-      dispatch(addUser(user))
-      dispatch(addChannel(channel))
+  api
+    .openPm(org.id, userId)
+    .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
+    .then(([users, channel]) => {
+      dispatch(addUser(channel))
+      dispatch(addChannel({
+        ...channel,
+        users
+      }))
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
     })
@@ -180,7 +188,11 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const foundChannel = find(channels, {id: channelId})
   if (foundChannel) {
-    dispatch(setChannel(foundChannel.id, messageId))
+    const {id, type, isPublic, joined} = foundChannel
+    if (type === 'room' && isPublic && !joined) {
+      dispatch(joinChannel(id))
+    }
+    dispatch(setChannel(id, messageId))
     return
   }
 
@@ -219,9 +231,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       // It should be a channel user didn't join yet.
       dispatch(joinChannel(channelId))
     })
-    .catch(() => {
-      dispatch(handleBadChannel())
-    })
+    .catch(() => dispatch(handleBadChannel()))
 }
 
 export function createRoomWithUsers(room, users) {

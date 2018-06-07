@@ -3,7 +3,8 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   show: false,
   filter: '',
-  listed: []
+  listed: [],
+  users: []
 }
 
 export default function reduce(state = initialState, action) {
@@ -32,6 +33,11 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filter: action.payload
+      }
+    case types.FOUND_USERS_TO_INVITE:
+      return {
+        ...state,
+        users: action.payload
       }
     case types.SET_CHANNEL:
       return initialState
