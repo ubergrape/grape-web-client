@@ -38,21 +38,19 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    if (rowsHasChanged) {
-      // We assume user scrolled up (reverse order) and we have loaded
-      // previous rows.
-      // When they are inserted at the beginning, they will change our scroll
-      // position, so we need to calculate the height of those rows and scroll
-      // to the old position.
-      if (this.direction < 0 && this.scrollTop === 0) {
-        const prevFirstRenderedRowId = rows[this.startIndex].id
-        const prevFirstRowIndex = findIndex(nextProps.rows, {id: prevFirstRenderedRowId})
-        if (prevFirstRowIndex !== -1) {
-          this.scrollToIndex = prevFirstRowIndex
-          this.scrollToAlignment = 'start'
-        }
-        return
+    // We assume user scrolled up (reverse order) and we have loaded
+    // previous rows.
+    // When they are inserted at the beginning, they will change our scroll
+    // position, so we need to calculate the height of those rows and scroll
+    // to the old position.
+    if (rowsHasChanged && this.direction < 0 && this.scrollTop === 0) {
+      const prevFirstRenderedRowId = rows[this.startIndex].id
+      const prevFirstRowIndex = findIndex(nextProps.rows, {id: prevFirstRenderedRowId})
+      if (prevFirstRowIndex !== -1) {
+        this.scrollToIndex = prevFirstRowIndex
+        this.scrollToAlignment = 'start'
       }
+      return
     }
 
     // We way need to auto scroll when:
@@ -65,16 +63,6 @@ export default class AutoScroll extends PureComponent {
       // message is always in view.
       if (endThreshold < minEndThreshold) {
         this.scrollToIndex = nextProps.rows.length - 1
-        // When we are already at the end of the history
-        // and we update a message the scroll position is not updated.
-        // The condition below makes sure that the scroll position is correct.
-        //
-        // TODO depending of the resolution of
-        // https://github.com/bvaughn/react-virtualized/issues/565
-        // we might need to remove this workaround.
-        if (this.scrollToAlignment === 'end') {
-          nextProps.scrollToRow(this.scrollToIndex)
-        }
         this.scrollToAlignment = 'end'
       }
     }

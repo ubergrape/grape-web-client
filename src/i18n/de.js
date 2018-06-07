@@ -230,5 +230,6 @@ export default {
   "email": "E-Mail",
   "skype": "Skype",
   "phone": "Telefon",
-  "aboutUserTitle": "Über diesen Nutzer"
+  "aboutUserTitle": "Über diesen Nutzer",
+  "recalculateScrollPosition": "Scrollposition wird neu berechnet ..."
 }
