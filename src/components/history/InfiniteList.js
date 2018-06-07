@@ -8,6 +8,7 @@ import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 import findIndex from 'lodash/array/findIndex'
 import {spacer} from 'grape-theme/dist/sizes'
+import {FormattedMessage} from 'react-intl'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
@@ -218,7 +219,11 @@ export default class InfiniteList extends PureComponent {
         {this.state.scrollLocked && (
           <div className={classes.resizePlaceholder}>
             <div className={classes.resizePlaceholderContent}>
-              Recalculating the the scroll position …
+              <FormattedMessage
+                id="recalculateScrollPosition"
+                defaultMessage="Recalculating the scroll position…"
+                description="Message showing when the user resizes the browser window."
+              />
             </div>
           </div>
         )}
