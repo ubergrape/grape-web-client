@@ -85,9 +85,11 @@ export default class InfiniteList extends PureComponent {
     this.list = ref
   }
 
-  onRowsRendered = ({startIndex}) => {
+  onRowsRendered = ({startIndex, stopIndex}) => {
     if (!this.state.scrollLocked) {
-      this.lastRenderedMessageId = this.props.rows[startIndex].id
+      const index = Math.floor((startIndex + stopIndex) / 2)
+      this.idOfMessageToBeFocusedAfterResize = this.props.rows[index].id
+      this.didRenderLastRow = this.props.rows.length === stopIndex + 1
     }
   }
 
@@ -97,25 +99,26 @@ export default class InfiniteList extends PureComponent {
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
       this.setState({scrollLocked: true})
-      this.debounedScrollToRowBeforeResize()
       this.cache.clearAll()
       this.list.recomputeRowHeights()
-
-      // TODO only scroll to bottom if we were at the bottom
-
-      // TODO This is a regression after upgrading react-virtualized to v9
-      // Clearing the cache and recomputing the row heights results in multile
-      // row renders where at some point the scroll position is 0 and the whole
-      // list has only a fraction of the size. Since the amount of re-renders
-      // isn't predictable we simply always scroll to the end manually for now.
-      // this.scrollToRow(this.props.rows.length - 1)
+      this.debounedScrollToRowBeforeResize()
     }
     this.prevWidth = width
   }
 
   debounedScrollToRowBeforeResize = debounce(() => {
-    const newIndex = findIndex(this.props.rows, item => item.id === this.lastRenderedMessageId)
-    this.list.scrollToRow(newIndex)
+    // When the last row was rendered the user was either at the bottom or very close
+    // to the bottom of the chat. Jumping to the last row was the best experience in
+    // this case.
+    if (this.didRenderLastRow) {
+      this.scrollToRow(this.props.rows.length - 1)
+    } else {
+      const newIndex = findIndex(
+        this.props.rows,
+        item => item.id === this.idOfMessageToBeFocusedAfterResize
+      )
+      this.list.scrollToRow(newIndex)
+    }
     this.setState({scrollLocked: false})
   }, 700)
 
