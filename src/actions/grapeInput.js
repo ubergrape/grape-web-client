@@ -134,7 +134,7 @@ export function requestAutocomplete({search, filters}) {
   }
 }
 
-export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
+export const searchChannelsToMention = (org, search, limit, currentChannel) => (dispatch) => {
   dispatch({
     type: types.REQUEST_SEARCH_CHANNELS_TO_MENTION,
     payload: search
@@ -143,7 +143,8 @@ export const searchChannelsToMention = (org, search, limit) => (dispatch) => {
     .searchChannels({
       orgId: org.id,
       search,
-      limit
+      limit,
+      currentChannel
     })
     .then(({q, results}) => {
       dispatch({
