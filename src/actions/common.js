@@ -72,10 +72,10 @@ export const addNewUser = userId => (dispatch, getState) => {
   return api
     .openPm(org.id, userId)
     .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, channel]) => {
-      dispatch(addUser(channel))
+    .then(([users, pmChannel]) => {
+      dispatch(addUser(pmChannel))
       dispatch(addChannel({
-        ...channel,
+        ...pmChannel,
         users
       }))
     })
