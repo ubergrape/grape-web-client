@@ -53,6 +53,8 @@
   "labeledMessagesTooltip": "Important Messages",
   "mentions": "Mentions",
   "searchMessages": "Search messages",
+  "recalculateScrollPosition": "Recalculating the scroll position…",
+  "_recalculateScrollPosition.comment": "Message showing when the user resizes the browser window.",
   "pending": "Pending",
   "_pending.comment": "message delivery status in tooltip",
   "unsent": "Unsent",
@@ -335,6 +337,5 @@
   "skype": "Skype",
   "phone": "Phone",
   "aboutUserTitle": "About this user",
-  "_aboutUserTitle.comment": "User profile sidebar, about user title.",
-  "recalculateScrollPosition": "Recalculating the scroll position…"
+  "_aboutUserTitle.comment": "User profile sidebar, about user title."
 }
