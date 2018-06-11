@@ -117,10 +117,7 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldFocusFilter() {
-    const {filter, isFilterFocused} = this.props
-    if (!isFilterFocused) return false
-    if (filter) return true
-
+    if (!this.props.isFilterFocused) return false
     return true
   }
 
