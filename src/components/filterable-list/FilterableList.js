@@ -63,13 +63,15 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // This check need to be sure, that list will not be updated if focus will
-    // changed to different input. Also, one more case there. Let's assume, that
-    // list of items didn't changed, and focus placed to another input. So, in
-    // the next line this function will return false, because list didn't
-    // change, and as a result focus will not change to another input.
+    // This check need to be sure, that list will not be updated if
+    // (focus, selected items or focused item) will changed to different input.
+    // Also, one more case there. Let's assume, that list of items didn't
+    // changed, and focus placed to another input. So, in the next line this
+    // function will return false, because list didn't change, and as a result
+    // focus will not change to another input.
     if (nextProps.isFilterFocused !== this.props.isFilterFocused ||
-    nextState.focusedItem !== this.state.focusedItem) return true
+    nextState.focusedItem !== this.state.focusedItem ||
+    nextProps.selected !== this.props.selected) return true
     if (isEqual(nextProps.items, this.props.items)) return false
     return true
   }
@@ -115,11 +117,11 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldFocusFilter() {
-    const {items, selected, filter, isFilterFocused} = this.props
+    const {filter, isFilterFocused} = this.props
     if (!isFilterFocused) return false
     if (filter) return true
 
-    return items.length + selected.length > 0
+    return true
   }
 
   renderList() {
