@@ -146,6 +146,7 @@
   "lint-staged": {
     "src/**/*.js": [
       "prettier-eslint --write",
+      "eslint --fix --quiet",
       "git add"
     ]
   },
