@@ -38,7 +38,7 @@ export default {
   "disabledMessagePlaceholder": "This user has been deleted. Messaging is disabled.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
-  "quoteFooter": "- [Message]({messageUrl}) from {author}",
+  "quoteFooter": "- [Message]({messageUrl}) from [{author}]({pmPath})",
   "userIsTyping": "{user} is typing",
   "userAndUsersAreTyping": "{users} and {user} are typing",
   "usersAreTyping": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing",
