@@ -170,14 +170,14 @@ export const openPm = (userId, options) => (dispatch, getState) => {
   api
     .openPm(org.id, userId)
     .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, channel]) => {
-      dispatch(addUser(channel))
+    .then(([users, pmChannel]) => {
+      dispatch(addUser(pmChannel))
       dispatch(addChannel({
-        ...channel,
+        ...pmChannel,
         users
       }))
       // Using id because after adding, channel was normalized.
-      dispatch(goToChannel(channel.id, options))
+      dispatch(goToChannel(pmChannel.id, options))
     })
     .catch((err) => {
       dispatch(handleRoomCreateError(err.message))
@@ -206,25 +206,19 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     .then((channel) => {
       if (channel.type === 'pm') {
         const currUser = userSelector(getState())
-        const users = [currUser, channel.partner]
-        const userIds = [users[0].id, users[1].id]
-        return [
-          {...channel, users: userIds},
-          users
-        ]
+        const userIds = [currUser.id, channel.partner.id]
+        return {...channel, users: userIds}
       }
 
       // TODO we will have to load th room members here once we get rid
       // of `org.channels`. Right now all joined channels are loaded.
-      return []
+      return {}
     })
-    .then(([channel, users]) => {
-      if (channel && users) {
-        users.forEach((user) => {
-          dispatch(addUser(user))
-        })
-        dispatch(addChannel(channel))
-        dispatch(setChannel(channel.id, messageId))
+    .then((pmChannel) => {
+      if (pmChannel) {
+        dispatch(addUser(pmChannel))
+        dispatch(addChannel(pmChannel))
+        dispatch(setChannel(pmChannel.id, messageId))
         return
       }
 
