@@ -36,11 +36,7 @@ export const searchUsersToInvite = value => (dispatch, getState) => {
   })
 
   api
-    .searchUsers({
-      orgId: orgSelector(getState()).id,
-      search: value,
-      limit: 30
-    })
+    .getUsers(orgSelector(getState()).id, {query: value, pageSize: 50})
     .then(({results}) => {
       dispatch({
         type: types.FOUND_USERS_TO_INVITE,
