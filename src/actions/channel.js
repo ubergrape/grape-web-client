@@ -215,7 +215,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       return {}
     })
     .then((pmChannel) => {
-      if (Object.key(pmChannel).length) {
+      if (Object.keys(pmChannel).length) {
         dispatch(addUser(pmChannel))
         dispatch(addChannel(pmChannel))
         dispatch(setChannel(pmChannel.id, messageId))
