@@ -152,16 +152,9 @@ const addUserToChannel = payload => (dispatch) => {
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
-    const users = usersSelector(getState())
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
 
-    // If user exist in get_overview call
-    if (user) {
-      dispatch(addUserToChannel({channelId, user, userId, isCurrentUser}))
-      return
-    }
     api
       .getUser(orgSelector(getState()).id, userId)
       .then((foundUser) => {
