@@ -1,11 +1,5 @@
 import rpc from '../rpc'
 
-export const searchUsers = ({orgId, search = '', limit = 50}) => rpc({
-  ns: 'search',
-  action: 'search_users',
-  args: [orgId, search, limit]
-}, {camelize: true})
-
 export const searchChannels = ({orgId, search = '', limit = 50, currentChannel}) => rpc({
   ns: 'search',
   action: 'search_channels',
