@@ -89,7 +89,7 @@
     "duplicate-package-checker-webpack-plugin": "^2.1.0",
     "eslint": "^3.14.1",
     "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-ubergrape": "^4.3.0",
+    "eslint-config-ubergrape": "^5.0.0",
     "eslint-plugin-babel": "^2.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
@@ -163,5 +163,8 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest-mocks/fileMock.js"
     }
+  },
+  "prettier": {
+    "semi": false
   }
 }
