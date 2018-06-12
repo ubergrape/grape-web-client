@@ -30,7 +30,7 @@ export function renderTag(tag, props, children) {
     }
 
     // Split chat pm path and user id
-    const [, chatPmPath, pmUserId] = href.match(/^(\/chat\/pm)\/(\d+)?\/$/) || []
+    const [, chatPmPath, pmUserId] = href.match(/^(\/chat\/pm)\/(\d+)\/?$/) || []
 
     // No link if it's the current logged in user
     if (chatPmPath && user.id === Number(pmUserId)) {
