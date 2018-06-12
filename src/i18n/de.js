@@ -38,7 +38,7 @@ export default {
   "disabledMessagePlaceholder": "Dieser Nutzer wurde gelöscht. Nachrichten versenden ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um die Bearbeitung zu beenden.",
-  "quoteFooter": "- {author} ([Originalnachricht]({messageUrl}))",
+  "quoteFooter": "- [{author}]({pmPath}) ([Originalnachricht]({messageUrl}))",
   "userIsTyping": "{user} schreibt gerade eine Nachricht",
   "userAndUsersAreTyping": "{users} und {user} schreiben gerade Nachrichten",
   "usersAreTyping": "{users} und {othersAmount} {othersAmount, plural, one {weiterer} other {weitere}} schreiben gerade",

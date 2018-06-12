@@ -71,20 +71,6 @@ export function searchChannelsToMention(mentions, channel) {
       })
     })
 
-  // Add current room as `@room` if its not a pm channel.
-  if (channel.type === 'room') {
-    const current = {
-      id: channel.id,
-      type: 'room',
-      name: 'room',
-      slug: channel.slug,
-      isPrivate: !channel.isPublic,
-      rank: 11,
-      currentRoom: true
-    }
-    result.push(current)
-  }
-
   return result
 }
 
@@ -116,7 +102,7 @@ export function getImageAttachments(objects) {
 const messages = defineMessages({
   quoteFooter: {
     id: 'quoteFooter',
-    defaultMessage: '- [Message]({messageUrl}) from {author}',
+    defaultMessage: '- [Message]({messageUrl}) from [{author}]({pmPath})',
     description: 'Quoted message footer text.'
   }
 })
@@ -128,8 +114,9 @@ export const formatQuote = ({intl: {formatMessage}, message: {text, author, link
     .join('\n')
 
   const footer = formatMessage(messages.quoteFooter, {
+    author: author.name,
     messageUrl: link,
-    author: author.name
+    pmPath: `/chat/pm/${author.id}`
   })
 
   return `\n\n${quote}\n\n${footer}`
