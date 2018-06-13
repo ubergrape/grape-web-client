@@ -9,14 +9,14 @@ const initialState = []
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_CHANNELS:
-      return [...action.payload]
+      return [...state, ...action.payload]
 
     case types.SET_CHANNEL: {
-      const {id, type} = action.payload.channel
+      const { id, type } = action.payload.channel
 
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
-          const newChannel = {...channel, current: true}
+          const newChannel = { ...channel, current: true }
           // In case of empty PM we're adding it to the navigation
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
@@ -28,7 +28,7 @@ export default function reduce(state = initialState, action) {
           return newState
         }
         if (channel.current) {
-          newState.push({...channel, current: false})
+          newState.push({ ...channel, current: false })
           return newState
         }
         newState.push(channel)
@@ -38,21 +38,21 @@ export default function reduce(state = initialState, action) {
 
     case types.ADD_CHANNEL: {
       const channel = action.payload
-      if (find(state, {id: channel.id})) {
+      if (find(state, { id: channel.id })) {
         return state
       }
       return [...state, channel]
     }
 
     case types.ADD_USER_TO_CHANNEL: {
-      const {user, channelId: id, userId, isCurrentUser} = action.payload
+      const { user, channelId: id, userId, isCurrentUser } = action.payload
       if (!user) return state
 
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, { id })
       if (index === -1) return state
       const channel = newState[index]
-      const {users} = channel
+      const { users } = channel
       newState.splice(index, 1, {
         ...channel,
         // As a workaround of API bug,
@@ -65,8 +65,8 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
-      const {channelId, userId} = action.payload
-      const index = findIndex(state, {id: channelId})
+      const { channelId, userId } = action.payload
+      const index = findIndex(state, { id: channelId })
       if (index === -1) return state
       const channels = [...state]
       const channel = state[index]
@@ -79,9 +79,9 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL: {
-      const {id, type} = action.payload
+      const { id, type } = action.payload
       const newState = [...state]
-      const index = findIndex(newState, {id, type})
+      const index = findIndex(newState, { id, type })
       if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
@@ -92,24 +92,24 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL_PARTNER_INFO: {
-      const {pm} = action.payload
+      const { pm } = action.payload
       const newState = [...state]
-      const index = findIndex(newState, {id: pm})
+      const index = findIndex(newState, { id: pm })
       if (index === -1) return state
       newState[index].partner = action.payload
       return newState
     }
 
     case types.REMOVE_ROOM: {
-      return state.filter(({type, id}) => !(type === 'room' && id === action.payload))
+      return state.filter(({ type, id }) => !(type === 'room' && id === action.payload))
     }
 
     case types.UPDATE_CHANNEL_STATS: {
-      const {channelId: id, time} = action.payload.message
-      const {isCurrentUser, mentionsCount} = action.payload
+      const { channelId: id, time } = action.payload.message
+      const { isCurrentUser, mentionsCount } = action.payload
 
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, { id })
       if (index === -1) return state
       const channel = newState[index]
       const timestamp = time.getTime()
@@ -125,11 +125,11 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.MARK_CHANNEL_AS_READ: {
-      const {channelId: id, isCurrentUser} = action.payload
+      const { channelId: id, isCurrentUser } = action.payload
       if (!isCurrentUser) return state
 
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, { id })
       if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
@@ -142,8 +142,8 @@ export default function reduce(state = initialState, action) {
 
     case types.CHANGE_FAVORITED: {
       const newState = [...state]
-      action.payload.forEach(({channelId: id, favorited}) => {
-        const index = findIndex(newState, {id})
+      action.payload.forEach(({ channelId: id, favorited }) => {
+        const index = findIndex(newState, { id })
         if (index === -1) return
         const channel = newState[index]
         newState.splice(index, 1, {
@@ -155,9 +155,9 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.SET_UNSENT_MESSAGE: {
-      const {id, msg} = action.payload
+      const { id, msg } = action.payload
       const newState = [...state]
-      const index = findIndex(newState, {id})
+      const index = findIndex(newState, { id })
       if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
