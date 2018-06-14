@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {newConversationDialog as selector} from '../../selectors'
-import {NewConversationDialog} from '../../components/new-conversation-dialog'
+import { newConversationDialog as selector } from '../../selectors'
+import { NewConversationDialog } from '../../components/new-conversation-dialog'
 
 const actionNames = [
   'createRoomWithUsers',
@@ -15,12 +15,12 @@ const actionNames = [
   'removeFromNewConversation',
   'searchUsers',
   'clearRoomCreateError',
-  'openPm'
+  'openPm',
 ]
 
 const ConnectedNewConversationDialog = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(NewConversationDialog)
 
 export default class NewConversationDialogProvider extends PureComponent {

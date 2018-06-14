@@ -1,4 +1,4 @@
-import {create} from '../utils/backend/client'
+import { create } from '../utils/backend/client'
 import getBoundActions from './boundActions'
 
 let client
@@ -11,7 +11,7 @@ const get = () => {
 
 export const connect = () => {
   const channel = get().connect()
-  const {checkAuth} = getBoundActions()
+  const { checkAuth } = getBoundActions()
   checkAuth()
   authIntervalId = setInterval(checkAuth, 5000)
   return channel

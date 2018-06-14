@@ -1,37 +1,40 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 
 import Message from '../Message'
-import {Menu} from '../../message-parts'
+import { Menu } from '../../message-parts'
 
 export default class PinnedMessage extends PureComponent {
   static propTypes = {
     message: PropTypes.shape({
       id: PropTypes.string.isRequired,
       channel: PropTypes.shape({
-        id: PropTypes.number.isRequired
-      }).isRequired
+        id: PropTypes.number.isRequired,
+      }).isRequired,
     }).isRequired,
-    onUnpin: PropTypes.func.isRequired
+    onUnpin: PropTypes.func.isRequired,
   }
 
-  state = {isMenuOpened: false}
+  state = { isMenuOpened: false }
 
   onUnpin = () => {
-    const {message: {id, channel}, onUnpin} = this.props
-    onUnpin({messageId: id, channelId: channel.id})
+    const {
+      message: { id, channel },
+      onUnpin,
+    } = this.props
+    onUnpin({ messageId: id, channelId: channel.id })
   }
 
-  onRefContent = (ref) => {
+  onRefContent = ref => {
     this.content = ref
   }
 
   onMouseEnter = () => {
-    this.setState({isMenuOpened: true})
+    this.setState({ isMenuOpened: true })
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
+    this.setState({ isMenuOpened: false })
   }
 
   getContentNode = () => this.content

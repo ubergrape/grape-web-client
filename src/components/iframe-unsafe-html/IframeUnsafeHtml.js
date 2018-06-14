@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import {styles} from './theme.js'
+import { styles } from './theme.js'
 
 const setIframeContent = (iframe, content) => {
   const doc = iframe.contentDocument || iframe.contentWindow.document
@@ -16,31 +16,31 @@ export default class IframeUnsafeHtml extends PureComponent {
   static propTypes = {
     className: PropTypes.string.isRequired,
     html: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
   }
 
   componentDidMount() {
-    const {html} = this.props
+    const { html } = this.props
     setIframeContent(this.iframe, html)
   }
 
   componentDidUpdate() {
-    const {html} = this.props
+    const { html } = this.props
     setIframeContent(this.iframe, html)
   }
 
-  onRefIframe = (iframe) => {
+  onRefIframe = iframe => {
     this.iframe = iframe
   }
 
   render() {
     const {
       className,
-      sheet: {classes},
+      sheet: { classes },
       ...iframeHtmlAttrs
     } = this.props
 

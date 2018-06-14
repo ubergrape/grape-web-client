@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {NotificationStack} from '@ubergrape/react-notification'
-import injectSheet, {inlineStyle} from 'grape-web/lib/jss'
+import React, { PureComponent } from 'react'
+import { NotificationStack } from '@ubergrape/react-notification'
+import injectSheet, { inlineStyle } from 'grape-web/lib/jss'
 import cn from 'classnames'
-import {normal} from 'grape-theme/dist/fonts'
-import {white, indigo} from 'grape-theme/dist/base-colors'
-import {borderRadius, screenWidth} from 'grape-theme/dist/sizes'
-import {translateZ, translateX} from 'css-functions'
+import { normal } from 'grape-theme/dist/fonts'
+import { white, indigo } from 'grape-theme/dist/base-colors'
+import { borderRadius, screenWidth } from 'grape-theme/dist/sizes'
+import { translateZ, translateX } from 'css-functions'
 
-import {zIndex} from '../../utils/z-index'
-import {height as headerHeight} from '../header'
-import {sidebarWidth, sidebarWidthXl} from '../app-layout'
-import {transitionDuration} from './constants'
+import { zIndex } from '../../utils/z-index'
+import { height as headerHeight } from '../header'
+import { sidebarWidth, sidebarWidthXl } from '../app-layout'
+import { transitionDuration } from './constants'
 
 const spacing = 10
 
@@ -23,14 +23,14 @@ const styles = {
     right: 0,
     top: headerHeight,
     width,
-    zIndex: zIndex('base')
+    zIndex: zIndex('base'),
   },
   // We don't want notification to cover sidebar.
   hasSidebar: {
     right: sidebarWidthXl,
     [`@media (max-width: ${screenWidth.xl}px)`]: {
-      right: sidebarWidth
-    }
+      right: sidebarWidth,
+    },
   },
   bar: {
     position: 'relative',
@@ -41,7 +41,7 @@ const styles = {
     padding: spacing * 2,
     margin: {
       top: spacing,
-      left: spacing
+      left: spacing,
     },
     boxShadow: 'none',
     color: white,
@@ -55,37 +55,37 @@ const styles = {
       {
         property: 'transform',
         duration: `${transitionDuration}ms`,
-        timingFunction: 'cubic-bezier(0.89, 0.01, 0.5, 1.1)'
+        timingFunction: 'cubic-bezier(0.89, 0.01, 0.5, 1.1)',
       },
       {
         property: 'opacity',
-        duration: `${transitionDuration}ms`
-      }
+        duration: `${transitionDuration}ms`,
+      },
     ],
     transform: [translateZ(0), translateX(width)],
-    opacity: 0
+    opacity: 0,
   },
   activeBar: {
     transform: translateX(-spacing * 2),
     marginLeft: 'auto',
-    opacity: 1
-  }
+    opacity: 1,
+  },
 }
 
 const activeBarStyleFactory = (index, style) => ({
   ...style,
-  zIndex: 1
+  zIndex: 1,
 })
 
 const barStyleFactory = (index, style) => style
 
-const styleNotification = (notification) => {
-  const {activeBar, bar} = styles
+const styleNotification = notification => {
+  const { activeBar, bar } = styles
 
   return {
     ...notification,
     activeBarStyle: inlineStyle(activeBar),
-    barStyle: inlineStyle(bar)
+    barStyle: inlineStyle(bar),
   }
 }
 
@@ -93,36 +93,27 @@ const styleNotification = (notification) => {
 export default class ToastNotification extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    dismissAfter: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]).isRequired,
+    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired,
-    sidebar: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string
-    ]).isRequired
+    sidebar: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   }
 
   static defaultProps = {
-    dismissAfter: 3000
+    dismissAfter: 3000,
   }
 
-  onDismiss = (notification) => {
+  onDismiss = notification => {
     setTimeout(() => {
-      this.props.onDismiss({key: notification.key})
+      this.props.onDismiss({ key: notification.key })
     }, transitionDuration)
   }
 
   styleNotifications = () => this.props.notifications.map(styleNotification)
 
   render() {
-    const {
-      classes,
-      dismissAfter,
-      sidebar
-    } = this.props
+    const { classes, dismissAfter, sidebar } = this.props
 
     return (
       <div className={cn(classes.container, sidebar && classes.hasSidebar)}>

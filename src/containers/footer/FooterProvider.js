@@ -1,10 +1,10 @@
 import React from 'react'
-import {Provider, connect} from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {footerComponentSelector as selector} from '../../selectors'
-import {Footer} from '../../components/footer'
+import { footerComponentSelector as selector } from '../../selectors'
+import { Footer } from '../../components/footer'
 
 const actionNames = {
   cleanupTyping: 'onCleanupTyping',
@@ -27,12 +27,12 @@ const actionNames = {
   setTyping: 'onSetTyping',
   goTo: 'goTo',
   goToAddIntegrations: 'onAddIntegration',
-  searchChannelsToMention: 'onSearchChannelsToMention'
+  searchChannelsToMention: 'onSearchChannelsToMention',
 }
 
 const ConnectedFooter = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(Footer)
 
 export default () => (

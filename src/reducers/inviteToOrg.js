@@ -4,7 +4,7 @@ const initialState = {
   show: false,
   showError: false,
   showJustInvited: false,
-  inviteLink: ''
+  inviteLink: '',
 }
 
 export default function reduce(state = initialState, action) {
@@ -12,29 +12,29 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_INVITE_TO_ORG:
       return {
         ...state,
-        show: true
+        show: true,
       }
     case types.HIDE_INVITE_TO_ORG:
       return {
         ...state,
         show: false,
         showJustInvited: false,
-        showError: false
+        showError: false,
       }
     case types.SET_INVITE_TO_ORG_LINK:
       return {
         ...state,
-        inviteLink: action.payload
+        inviteLink: action.payload,
       }
     case types.HANDLE_INVITE_TO_ORG_ERROR:
       return {
         ...state,
-        showError: true
+        showError: true,
       }
     case types.CLEAR_INVITE_TO_ORG_ERROR:
       return {
         ...state,
-        showError: false
+        showError: false,
       }
     default:
       return state

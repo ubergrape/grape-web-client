@@ -1,51 +1,54 @@
 import PropTypes from 'prop-types'
 /* eslint-disable jsx-a11y/label-has-for */
 
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import parseUrl from 'grape-web/lib/parse-url'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 import Button from 'grape-web/lib/components/button'
 
 import Dialog from '../dialog/Dialog'
-import {styles} from './theme'
+import { styles } from './theme'
 
 const messages = defineMessages({
   title: {
     id: 'linkAttachmentRemoveDialogTitle',
     description: 'Link attachment Remove Dialog: modal dialog title',
-    defaultMessage: 'Remove attachment'
+    defaultMessage: 'Remove attachment',
   },
   option1: {
     id: 'linkAttachmentRemoveDialogAdminDomain',
-    description: 'Link attachment Remove Dialog: remove all the links from this domain',
-    defaultMessage: 'All links from {domain}'
+    description:
+      'Link attachment Remove Dialog: remove all the links from this domain',
+    defaultMessage: 'All links from {domain}',
   },
   option2: {
     id: 'linkAttachmentRemoveDialogAdminLinkForOrg',
-    description: 'Link attachment Remove Dialog: remove this link for the entire org',
-    defaultMessage: 'Just the link {url}'
+    description:
+      'Link attachment Remove Dialog: remove this link for the entire org',
+    defaultMessage: 'Just the link {url}',
   },
   cancel: {
     id: 'linkAttachmentRemoveDialogCancel',
-    description: 'Link attachment Remove Dialog: close the dialog without removing the attachment',
-    defaultMessage: 'Cancel'
+    description:
+      'Link attachment Remove Dialog: close the dialog without removing the attachment',
+    defaultMessage: 'Cancel',
   },
   confirm: {
     id: 'linkAttachmentRemoveDialogConfirm',
     description: 'Link attachment Remove Dialog: confirm attachment removal',
-    defaultMessage: 'Yes, remove'
-  }
+    defaultMessage: 'Yes, remove',
+  },
 })
 
 const getInitialState = () => ({
   type: 0,
-  isChecked: false
+  isChecked: false,
 })
 
 @injectSheet(styles)
@@ -60,14 +63,14 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     messageId: PropTypes.string,
     onRemove: PropTypes.func.isRequired,
     isAdmin: PropTypes.bool.isRequired,
-    url: PropTypes.string
+    url: PropTypes.string,
   }
 
   static defaultProps = {
     isAdmin: false,
     channelId: null,
     messageId: null,
-    url: null
+    url: null,
   }
 
   state = getInitialState()
@@ -78,27 +81,21 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     }
   }
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault()
-    const {type} = this.state
-    const {
-      channelId,
-      messageId,
-      url,
-      onRemove,
-      onHide
-    } = this.props
+    const { type } = this.state
+    const { channelId, messageId, url, onRemove, onHide } = this.props
 
     onRemove({
       channelId,
       messageId,
       type,
-      url
+      url,
     })
     onHide()
   }
 
-  onCancel = (e) => {
+  onCancel = e => {
     e.preventDefault()
     this.props.onHide()
   }
@@ -106,13 +103,13 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
   onCheck = () => {
     this.setState({
       isChecked: !this.state.isChecked,
-      type: this.state.isChecked ? 0 : this.state.type || 1
+      type: this.state.isChecked ? 0 : this.state.type || 1,
     })
   }
 
-  onSelect = (e) => {
+  onSelect = e => {
     this.setState({
-      type: Number(e.target.value)
+      type: Number(e.target.value),
     })
   }
 
@@ -120,9 +117,9 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     const {
       classes,
       url,
-      intl: {formatMessage}
+      intl: { formatMessage },
     } = this.props
-    const {isChecked} = this.state
+    const { isChecked } = this.state
 
     return (
       <fieldset className={classes.adminField}>
@@ -147,10 +144,10 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
             className={classes.select}
           >
             <option value="1">
-              {formatMessage(messages.option1, {domain: parseUrl(url).host})}
+              {formatMessage(messages.option1, { domain: parseUrl(url).host })}
             </option>
             <option value="2">
-              {formatMessage(messages.option2, {url})}
+              {formatMessage(messages.option2, { url })}
             </option>
           </select>
         </label>
@@ -160,24 +157,16 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
 
   render() {
     const {
-      intl: {formatMessage},
+      intl: { formatMessage },
       classes,
       show,
       isAdmin,
-      onHide
+      onHide,
     } = this.props
 
     return (
-      <Dialog
-        show={show}
-        onHide={onHide}
-        title={formatMessage(messages.title)}
-      >
-        <form
-          method="post"
-          onSubmit={this.onSubmit}
-          className={classes.root}
-        >
+      <Dialog show={show} onHide={onHide} title={formatMessage(messages.title)}>
+        <form method="post" onSubmit={this.onSubmit} className={classes.root}>
           <FormattedMessage
             id="linkAttachmentRemoveDialogMessage"
             description="Link attachment Remove Dialog: ask user to confirm removal."
@@ -185,10 +174,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
           />
           {isAdmin && this.renderAdminForm()}
           <div className={classes.buttons}>
-            <Button
-              raised
-              onClick={this.onCancel}
-            >
+            <Button raised onClick={this.onCancel}>
               {formatMessage(messages.cancel)}
             </Button>
             <Button

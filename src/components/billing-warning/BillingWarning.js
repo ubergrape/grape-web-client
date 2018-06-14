@@ -1,21 +1,21 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 
 import Dialog from '../dialog/Dialog'
-import {styles} from './theme'
+import { styles } from './theme'
 
 const messages = defineMessages({
   title: {
     id: 'grapeTrial',
-    defaultMessage: 'Grape Trial'
-  }
+    defaultMessage: 'Grape Trial',
+  },
 })
 
 /**
@@ -31,11 +31,15 @@ export default class BillingWarning extends PureComponent {
     showBillingWarning: PropTypes.func.isRequired,
     hideBillingWarning: PropTypes.func.isRequired,
     goToPayment: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
+    show: PropTypes.bool.isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.enabled && nextProps.text && this.props.text !== nextProps.text) {
+    if (
+      nextProps.enabled &&
+      nextProps.text &&
+      this.props.text !== nextProps.text
+    ) {
       this.props.showBillingWarning()
     }
   }
@@ -50,8 +54,8 @@ export default class BillingWarning extends PureComponent {
 
   render() {
     const {
-      intl: {formatMessage},
-      sheet: {classes}
+      intl: { formatMessage },
+      sheet: { classes },
     } = this.props
 
     return (
@@ -63,10 +67,7 @@ export default class BillingWarning extends PureComponent {
         <div className={classes.content}>
           <div className={classes.text}>{this.props.text}</div>
           <div className={classes.actions}>
-            <button
-              onClick={this.onHide}
-              className={classes.continueTrial}
-            >
+            <button onClick={this.onHide} className={classes.continueTrial}>
               <FormattedMessage
                 id="continueTrial"
                 defaultMessage="Continue Trial"

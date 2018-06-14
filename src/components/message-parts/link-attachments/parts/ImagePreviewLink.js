@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {white} from 'grape-theme/dist/base-colors'
-import {borderRadius} from 'grape-theme/dist/sizes'
+import { white } from 'grape-theme/dist/base-colors'
+import { borderRadius } from 'grape-theme/dist/sizes'
 
 const size = 80
 
@@ -15,26 +15,22 @@ const size = 80
     height: size,
     backgroundColor: white,
     borderRadius: borderRadius.bigger,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   img: {
     maxWidth: '100%',
-    maxHeight: '100%'
-  }
+    maxHeight: '100%',
+  },
 })
 export default class ImagePreviewLink extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     permalink: PropTypes.string.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
   }
 
   render() {
-    const {
-      url,
-      permalink,
-      classes
-    } = this.props
+    const { url, permalink, classes } = this.props
 
     return (
       <a

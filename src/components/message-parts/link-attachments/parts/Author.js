@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './authorTheme.js'
+import { styles } from './authorTheme.js'
 
 @injectSheet(styles)
 export default class Author extends PureComponent {
@@ -10,16 +10,18 @@ export default class Author extends PureComponent {
     iconUrl: PropTypes.string,
     name: PropTypes.string.isRequired,
     link: PropTypes.string,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     iconUrl: null,
-    link: null
+    link: null,
   }
 
   renderIcon(iconUrl) {
-    const {sheet: {classes}} = this.props
+    const {
+      sheet: { classes },
+    } = this.props
     return <img className={classes.icon} src={iconUrl} alt="" />
   }
 
@@ -27,7 +29,7 @@ export default class Author extends PureComponent {
     const {
       iconUrl,
       name,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (
@@ -41,7 +43,7 @@ export default class Author extends PureComponent {
   renderAuthorWithLink() {
     const {
       link,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (

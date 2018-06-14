@@ -29,7 +29,7 @@ export default function reduce(state = initialState, action) {
       const { userId: id, status } = payload
 
       const newState = [...state]
-      const index = findIndex(newState, (user) => {
+      const index = findIndex(newState, user => {
         if (user.partner) {
           return user.partner.id === id
         }
@@ -41,8 +41,8 @@ export default function reduce(state = initialState, action) {
         ...user,
         partner: {
           ...user.partner,
-          status
-        }
+          status,
+        },
       })
       return newState
     }
@@ -56,7 +56,7 @@ export default function reduce(state = initialState, action) {
       newState.splice(index, 1, {
         ...user,
         ...payload,
-        avatar
+        avatar,
       })
       return newState
     }
@@ -70,7 +70,7 @@ export default function reduce(state = initialState, action) {
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        ...update
+        ...update,
       })
       return newState
     }

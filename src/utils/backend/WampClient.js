@@ -46,11 +46,7 @@ export default class WampClient {
     this.socket = new WebSocket(this.url)
     this.socket.on('error', this.onSocketError)
     this.socket.on('close', this.onSocketClose)
-    this.wamp = new Wamp(
-      this.socket,
-      {omitSubscribe: true},
-      this.onOpen
-    )
+    this.wamp = new Wamp(this.socket, { omitSubscribe: true }, this.onOpen)
     this.wamp.on('error', this.onError)
     this.wamp.on('event', this.onEvent)
   }
@@ -82,7 +78,7 @@ export default class WampClient {
     if (!this.connected || this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
-      this.onError(new Error('Didn\'t receive a pong.'))
+      this.onError(new Error("Didn't receive a pong."))
       return
     }
     log('ping')
@@ -106,7 +102,9 @@ export default class WampClient {
       const originCallback = callback
       const start = Date.now()
       callback = (...callbackArgs) => {
-        const size = callbackArgs[1] ? JSON.stringify(callbackArgs[1]).length : 0
+        const size = callbackArgs[1]
+          ? JSON.stringify(callbackArgs[1]).length
+          : 0
         log('stats %s %s ms %s', args[0], Date.now() - start, prettyBytes(size))
         originCallback(...callbackArgs)
       }
@@ -118,7 +116,7 @@ export default class WampClient {
     this.wamp.call(...argsClone)
   }
 
-  onOpen = ({sessionId}) => {
+  onOpen = ({ sessionId }) => {
     this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
@@ -148,12 +146,15 @@ export default class WampClient {
    * we convert it to event name.
    */
   onEvent = (name, data) => {
-    const event = name.split('/').pop().replace('#', '.')
+    const event = name
+      .split('/')
+      .pop()
+      .replace('#', '.')
     log('received event "%s"', event, data)
-    this.out.emit('data', {...data, event})
+    this.out.emit('data', { ...data, event })
   }
 
-  onError = (err) => {
+  onError = err => {
     this.backoff.reset()
     log(err)
     this.out.emit('error', err)
@@ -161,14 +162,14 @@ export default class WampClient {
     this.reopen()
   }
 
-  onSocketError = (event) => {
+  onSocketError = event => {
     log('socket error', event)
     const err = new Error('Socket error.')
     err.event = event
     this.onError(err)
   }
 
-  onSocketClose = (event) => {
+  onSocketClose = event => {
     this.backoff.reset()
     log('socket close', event)
     this.close()

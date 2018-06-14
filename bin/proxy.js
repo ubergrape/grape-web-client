@@ -17,7 +17,8 @@ const updateAfter = [7, 'days']
 /* eslint-disable no-bitwise */
 // Disable insecure SSL protocols. Also for some reasons
 // Safari won't connect when SSLv3 is enabled.
-const secureOptions = crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP_NO_SSLv2
+const secureOptions =
+  crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP_NO_SSLv2
 /* eslint-enable no-bitwise */
 
 // Parse argv params.
@@ -30,7 +31,7 @@ const helpRequested = argv.h || argv.help
 
 const proxy = Proxy()
 const keepAlive = true
-const httpAgent = new http.Agent({keepAlive})
+const httpAgent = new http.Agent({ keepAlive })
 
 function printHelp() {
   console.log(`
@@ -52,15 +53,17 @@ function printHelp() {
 function download(url, dest) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest)
-    https.get(url, (response) => {
-      response.pipe(file)
-      file.on('finish', () => {
-        file.close(resolve)
+    https
+      .get(url, response => {
+        response.pipe(file)
+        file.on('finish', () => {
+          file.close(resolve)
+        })
       })
-    }).on('error', (err) => {
-      fs.unlink(dest)
-      reject(err)
-    })
+      .on('error', err => {
+        fs.unlink(dest)
+        reject(err)
+      })
   })
 }
 
@@ -88,10 +91,10 @@ function getMozillaCACerts() {
 function getHttpsAgent() {
   const ca = [
     `${caFolder}/${mozillaCACertsFileName}`,
-    `${caFolder}/${chatgrapeCACertsFileName}`
+    `${caFolder}/${chatgrapeCACertsFileName}`,
   ].map(f => fs.readFileSync(f))
   // Disable SSLv3
-  return new https.Agent({keepAlive, ca, secureOptions})
+  return new https.Agent({ keepAlive, ca, secureOptions })
 }
 
 function onError(ctx, err) {
@@ -139,12 +142,14 @@ if (helpRequested) {
   process.exit()
 }
 
-getMozillaCACerts().then(() => {
-  console.log(`Start proxy server at 0.0.0.0:${listenOnPort}`)
-  proxy.onError(onError)
-  proxy.onRequest(onRequest)
-  proxy.listen({port: listenOnPort, httpsAgent: getHttpsAgent()})
-}).catch((err) => {
-  console.log(err)
-  process.exit(1)
-})
+getMozillaCACerts()
+  .then(() => {
+    console.log(`Start proxy server at 0.0.0.0:${listenOnPort}`)
+    proxy.onError(onError)
+    proxy.onRequest(onRequest)
+    proxy.listen({ port: listenOnPort, httpsAgent: getHttpsAgent() })
+  })
+  .catch(err => {
+    console.log(err)
+    process.exit(1)
+  })

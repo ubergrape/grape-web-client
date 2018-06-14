@@ -1,5 +1,5 @@
-import {borderRadius} from 'grape-theme/dist/sizes'
-import {grayLighter} from 'grape-theme/dist/base-colors'
+import { borderRadius } from 'grape-theme/dist/sizes'
+import { grayLighter } from 'grape-theme/dist/base-colors'
 
 export const styles = {
   thumbnail: {
@@ -8,6 +8,6 @@ export const styles = {
     backgroundSize: 'contain',
     backgroundColor: grayLighter,
     cursor: 'pointer',
-    maxWidth: '100%'
-  }
+    maxWidth: '100%',
+  },
 }

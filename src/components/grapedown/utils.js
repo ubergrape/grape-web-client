@@ -3,10 +3,10 @@ import joinStrings from 'join-strings-in-array'
 import parseUrl from 'grape-web/lib/parse-url'
 
 import conf from '../../conf'
-import {emojiRegex, style} from '../emoji/emoji'
+import { emojiRegex, style } from '../emoji/emoji'
 
 export function isChatUrl(url) {
-  const {host} = conf.server
+  const { host } = conf.server
   const urlObj = parseUrl(url)
   return urlObj.host === host && urlObj.pathname.indexOf('/chat') === 0
 }
@@ -31,16 +31,18 @@ export function replaceCustomEmojis(node, customEmojis) {
         alt: emoji,
         style: {
           ...style,
-          fontSize: '1.5em'
-        }
-      }
+          fontSize: '1.5em',
+        },
+      },
     ]
     return map
   }, {})
 
   if (isEmpty(replaceMap)) return node
 
-  const replaced = node.split(' ').map(word => (replaceMap[word] ? replaceMap[word] : word))
+  const replaced = node
+    .split(' ')
+    .map(word => (replaceMap[word] ? replaceMap[word] : word))
 
   return joinStrings(replaced)
 }

@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInputBigger'
@@ -16,38 +12,38 @@ function getError(message) {
   if (!message) return undefined
   return {
     level: 'error',
-    message
+    message,
   }
 }
 
 const messages = defineMessages({
   placeholder: {
     id: 'enterGroupName',
-    defaultMessage: 'Enter group name'
+    defaultMessage: 'Enter group name',
   },
   off: {
     id: 'private',
-    defaultMessage: 'Private'
+    defaultMessage: 'Private',
   },
   on: {
     id: 'public',
-    defaultMessage: 'Public'
-  }
+    defaultMessage: 'Public',
+  },
 })
 
 @injectSheet({
   advancedSettings: {
     display: 'flex',
     position: 'relative',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
-    flexShrink: 1
+    flexShrink: 1,
   },
   name: {
     flexGrow: 1,
-    marginRight: 10
-  }
+    marginRight: 10,
+  },
 })
 @injectIntl
 export default class AdvancedSettings extends PureComponent {
@@ -65,37 +61,45 @@ export default class AdvancedSettings extends PureComponent {
     clearRoomCreateError: PropTypes.func.isRequired,
     onChangeRoomName: PropTypes.func.isRequired,
     onPrivacyChange: PropTypes.func.isRequired,
-    onClickRoomName: PropTypes.func.isRequired
+    onClickRoomName: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isNameFocused: false,
-    error: null
+    error: null,
   }
 
-  onChangeRoomName = ({target}) => {
-    this.props.onChangeRoomName({name: target.value})
+  onChangeRoomName = ({ target }) => {
+    this.props.onChangeRoomName({ name: target.value })
   }
 
-  onInputKeyDown = ({keyCode}) => {
+  onInputKeyDown = ({ keyCode }) => {
     if (keyname(keyCode) === 'enter') this.props.onCreate()
   }
 
   render() {
     const {
-      icon, color, name, saving, error,
-      intl: {formatMessage}, sheet: {classes}, isPublic,
-      onPrivacyChange, clearRoomCreateError, isNameFocused, onClickRoomName,
+      icon,
+      color,
+      name,
+      saving,
+      error,
+      intl: { formatMessage },
+      sheet: { classes },
+      isPublic,
+      onPrivacyChange,
+      clearRoomCreateError,
+      isNameFocused,
+      onClickRoomName,
       ...iconSettingsProps
     } = this.props
-
 
     return (
       <div className={classes.advancedSettings}>
         <IconSettings
           {...iconSettingsProps}
           classes={classes}
-          channel={{icon, color, isPublic}}
+          channel={{ icon, color, isPublic }}
         />
         <div className={classes.name}>
           <Input

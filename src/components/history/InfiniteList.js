@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -7,13 +7,13 @@ import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 import findIndex from 'lodash/array/findIndex'
-import {spacer} from 'grape-theme/dist/sizes'
-import {FormattedMessage} from 'react-intl'
+import { spacer } from 'grape-theme/dist/sizes'
+import { FormattedMessage } from 'react-intl'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 
-import {lastRowBottomSpace} from './rowTheme'
+import { lastRowBottomSpace } from './rowTheme'
 import RowsCache from './RowsCache'
 
 @injectSheet({
@@ -25,14 +25,14 @@ import RowsCache from './RowsCache'
     willChange: 'transform',
     overflowY: 'auto',
     outline: 'none',
-    WebkitOverflowScrolling: 'touch'
+    WebkitOverflowScrolling: 'touch',
   },
   wrapper: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   },
   resizePlaceholder: {
     position: 'absolute',
@@ -40,14 +40,14 @@ import RowsCache from './RowsCache'
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'white'
+    background: 'white',
   },
   resizePlaceholderContent: {
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'center',
-    padding: [spacer.xxl * 4, spacer.xl * 2, 0]
-  }
+    padding: [spacer.xxl * 4, spacer.xl * 2, 0],
+  },
 })
 export default class InfiniteList extends PureComponent {
   static propTypes = {
@@ -61,15 +61,15 @@ export default class InfiniteList extends PureComponent {
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
-    onRowsRendered: PropTypes.func
+    onRowsRendered: PropTypes.func,
   }
 
   static defaultProps = {
     scrollTo: null,
-    onRowsRendered: noop
+    onRowsRendered: noop,
   }
 
-  state = {scrollLocked: false}
+  state = { scrollLocked: false }
 
   componentDidMount() {
     this.cache.setRows(this.props.rows)
@@ -82,11 +82,11 @@ export default class InfiniteList extends PureComponent {
     }
   }
 
-  onRefList = (ref) => {
+  onRefList = ref => {
     this.list = ref
   }
 
-  onRowsRendered = ({startIndex, stopIndex}) => {
+  onRowsRendered = ({ startIndex, stopIndex }) => {
     if (!this.state.scrollLocked) {
       const index = Math.floor((startIndex + stopIndex) / 2)
       this.idOfMessageToBeFocusedAfterResize = this.props.rows[index].id
@@ -94,12 +94,12 @@ export default class InfiniteList extends PureComponent {
     }
   }
 
-  onResizeViewport = ({width}) => {
+  onResizeViewport = ({ width }) => {
     // When container gets resized, we can forget all cached heights.
     // Compare additionally with a locally cached width, because
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
-      this.setState({scrollLocked: true})
+      this.setState({ scrollLocked: true })
       this.cache.clearAll()
       this.list.recomputeRowHeights()
       this.debounedScrollToRowBeforeResize()
@@ -116,30 +116,36 @@ export default class InfiniteList extends PureComponent {
     } else {
       const newIndex = findIndex(
         this.props.rows,
-        item => item.id === this.idOfMessageToBeFocusedAfterResize
+        item => item.id === this.idOfMessageToBeFocusedAfterResize,
       )
       this.list.scrollToRow(newIndex)
     }
-    this.setState({scrollLocked: false})
+    this.setState({ scrollLocked: false })
   }, 700)
 
-  cache = new RowsCache({fixedWidth: true})
+  cache = new RowsCache({ fixedWidth: true })
 
   scrollLocked = false
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  scrollToRow = (index) => {
+  scrollToRow = index => {
     this.list.scrollToRow(index)
   }
 
-  scrollToPosition = (value) => {
+  scrollToPosition = value => {
     this.list.scrollToPosition(value)
   }
 
-  renderRow = ({index, key, parent, style}) => (
-    <CellMeasurer cache={this.cache} parent={parent} columnIndex={0} key={key} rowIndex={index}>
-      {this.props.renderRow({index, key, style})}
+  renderRow = ({ index, key, parent, style }) => (
+    <CellMeasurer
+      cache={this.cache}
+      parent={parent}
+      columnIndex={0}
+      key={key}
+      rowIndex={index}
+    >
+      {this.props.renderRow({ index, key, style })}
     </CellMeasurer>
   )
 
@@ -152,10 +158,10 @@ export default class InfiniteList extends PureComponent {
       scrollTo,
       rows,
       minimumBatchSize,
-      classes
+      classes,
     } = this.props
 
-    const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
+    const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
 
     return (
       <div className={classes.wrapper}>
@@ -168,10 +174,10 @@ export default class InfiniteList extends PureComponent {
         >
           {({
             onRowsRendered: onRowsRenderedInInfiniteLoader,
-            onScroll: onScrollInInfiniteLoader
+            onScroll: onScrollInInfiniteLoader,
           }) => (
             <AutoSizer onResize={this.onResizeViewport}>
-              {({width, height}) => (
+              {({ width, height }) => (
                 <AutoScroll
                   rows={rows}
                   height={height}
@@ -184,20 +190,20 @@ export default class InfiniteList extends PureComponent {
                     onScroll: onScrollInAutoScroll,
                     scrollToAlignment,
                     scrollToIndex,
-                    onRowsRendered: onRowsRenderedInAutoScroll
+                    onRowsRendered: onRowsRenderedInAutoScroll,
                   }) => (
                     <List
                       deferredMeasurementCache={this.cache}
                       className={classes.grid}
                       scrollToIndex={scrollToIndex}
                       scrollToAlignment={scrollToAlignment}
-                      onRowsRendered={(params) => {
+                      onRowsRendered={params => {
                         this.onRowsRendered(params)
                         onRowsRenderedInAutoScroll(params)
                         onRowsRenderedInInfiniteLoader(params)
                         onRowsRendered(params)
                       }}
-                      onScroll={(params) => {
+                      onScroll={params => {
                         onScroll(params)
                         onScrollInAutoScroll(params)
                         onScrollInInfiniteLoader(params)

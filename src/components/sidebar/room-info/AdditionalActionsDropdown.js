@@ -1,46 +1,46 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import Tooltip from '../../tooltip/HoverTooltip'
 import Dropdown from '../../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
-import {settingsButtonSize} from './constants'
+import { settingsButtonSize } from './constants'
 
 export default class AdditionalActionsDropdown extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired
+    channel: PropTypes.object.isRequired,
   }
 
-  state = {show: false}
+  state = { show: false }
 
-  onShowDropdown = (e) => {
+  onShowDropdown = e => {
     if (!this.state.show) {
       // We need to stop further event propagation because
       // in same time it is outside click for dropdown
       // we're going to show.
       e.stopPropagation()
-      this.setState({show: true})
+      this.setState({ show: true })
     }
   }
 
   onClickOutsideDropdown = () => {
-    this.setState({show: false})
+    this.setState({ show: false })
   }
 
   onChannelDeleteClick = () => {
     this.props.onShowRoomDeleteDialog(this.props.channel.id)
   }
 
-  onRefSettingsButton = (ref) => {
+  onRefSettingsButton = ref => {
     this.settings = ref
   }
 
   render() {
-    const {show} = this.state
-    const {classes, channel} = this.props
+    const { show } = this.state
+    const { classes, channel } = this.props
 
     return (
       <div className={classes.additionalActionsDropdown}>
@@ -49,7 +49,9 @@ export default class AdditionalActionsDropdown extends PureComponent {
           placement="top"
           arrowMargin={Math.round(settingsButtonSize / 2)}
           disabled={show}
-          message={<FormattedMessage id="editGroup" defaultMessage="Edit Group" />}
+          message={
+            <FormattedMessage id="editGroup" defaultMessage="Edit Group" />
+          }
         >
           <button
             className={classes.settingsButton}
@@ -57,7 +59,7 @@ export default class AdditionalActionsDropdown extends PureComponent {
             ref={this.onRefSettingsButton}
           />
         </Tooltip>
-        {show &&
+        {show && (
           <Dropdown
             {...this.props}
             target={this.settings}
@@ -69,7 +71,7 @@ export default class AdditionalActionsDropdown extends PureComponent {
               privacy={channel.isPublic ? 'private' : 'public'}
             />
           </Dropdown>
-        }
+        )}
       </div>
     )
   }

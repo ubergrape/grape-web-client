@@ -1,25 +1,25 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 
-import {Grapedown} from '../../grapedown'
+import { Grapedown } from '../../grapedown'
 import PinnedMessage from './PinnedMessage'
 import Empty from './Empty'
 
 @injectSheet({
   root: {
-    display: 'block'
+    display: 'block',
   },
   rootEmpty: {
     display: 'flex',
-    paddingTop: sizes.spacer.xxl
+    paddingTop: sizes.spacer.xxl,
   },
   empty: {
     // Required by IE11.
-    width: '100%'
-  }
+    width: '100%',
+  },
 })
 export default class PinnedMessages extends PureComponent {
   static propTypes = {
@@ -30,14 +30,14 @@ export default class PinnedMessages extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
     onUnpin: PropTypes.func,
-    total: PropTypes.number
+    total: PropTypes.number,
   }
 
   static defaultProps = {
     total: undefined,
     items: [],
     onSelect: noop,
-    onUnpin: noop
+    onUnpin: noop,
   }
 
   componentDidMount() {
@@ -45,19 +45,18 @@ export default class PinnedMessages extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const reset = (
+    const reset =
       !nextProps.items.length &&
       (nextProps.total == null && this.props.total != null)
-    )
     if (reset) this.load(nextProps)
   }
 
-  load({onLoad} = this.props) {
+  load({ onLoad } = this.props) {
     onLoad()
   }
 
   render() {
-    const {classes, items, onSelect, onUnpin, user} = this.props
+    const { classes, items, onSelect, onUnpin, user } = this.props
 
     return (
       <div className={classes[items.length ? 'root' : 'rootEmpty']}>

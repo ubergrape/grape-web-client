@@ -1,26 +1,26 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import Tasks from './task/Tasks'
 
 @injectSheet({
   footer: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 })
 export default class Footer extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    nlp: PropTypes.object
+    nlp: PropTypes.object,
   }
 
   static defaultProps = {
-    nlp: null
+    nlp: null,
   }
 
   render() {
-    const {nlp, classes, ...tasksProps} = this.props
+    const { nlp, classes, ...tasksProps } = this.props
 
     if (!nlp) return null
 

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {gray} from 'grape-theme/dist/base-colors'
-import {big, small} from 'grape-theme/dist/fonts'
-import {FormattedMessage} from 'react-intl'
+import { gray } from 'grape-theme/dist/base-colors'
+import { big, small } from 'grape-theme/dist/fonts'
+import { FormattedMessage } from 'react-intl'
 import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
 
 @injectSheet({
@@ -12,33 +12,33 @@ import MagicWand from 'grape-web/lib/components/svg-icons/MagicWand'
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '100%'
+    height: '100%',
   },
   magicWand: {
-    height: '2em'
+    height: '2em',
   },
   title: {
     extend: big,
     color: gray,
     width: '50%',
     textAlign: 'center',
-    margin: [20, 0]
+    margin: [20, 0],
   },
   text: {
     extend: small,
     color: gray,
     width: '50%',
     textAlign: 'center',
-    marginBottom: small.fontSize
-  }
+    marginBottom: small.fontSize,
+  },
 })
 export default class NoContent extends PureComponent {
   static propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
     return (
       <div className={classes.noContent}>
         <MagicWand className={classes.magicWand} />

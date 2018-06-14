@@ -1,29 +1,29 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import pluck from 'lodash/collection/pluck'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
-import {white} from 'grape-theme/dist/base-colors'
+import { white } from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
-import {InviteSuccess} from '../i18n/i18n'
+import { InviteSuccess } from '../i18n/i18n'
 import buttonPrimary from '../button/primary'
 import buttonIcon from '../button/icon'
 
 const messages = defineMessages({
   pm: {
     id: 'createNewPrivateGroup',
-    defaultMessage: 'Create new private group'
+    defaultMessage: 'Create new private group',
   },
   room: {
     id: 'inviteToGroup',
-    defaultMessage: 'Invite to group'
-  }
+    defaultMessage: 'Invite to group',
+  },
 })
 
 function getFormattedMessage(channelType, mission) {
@@ -33,10 +33,7 @@ function getFormattedMessage(channelType, mission) {
     switch (channelType) {
       case 'pm':
         return (
-          <FormattedMessage
-            id="createGroup"
-            defaultMessage="Create group"
-          />
+          <FormattedMessage id="createGroup" defaultMessage="Create group" />
         )
       case 'room':
         return (
@@ -53,7 +50,7 @@ function getFormattedMessage(channelType, mission) {
   return null
 }
 
-const InviteButton = ({listed, channelType, classes, onClick}) => (
+const InviteButton = ({ listed, channelType, classes, onClick }) => (
   <div className={classes.submit}>
     <button
       className={classes.buttonInvite}
@@ -69,26 +66,23 @@ InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
   channelType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 @injectSheet({
   submit: {
     display: 'block',
     marginTop: 20,
-    textAlign: 'right'
+    textAlign: 'right',
   },
   buttonInvite: {
-    extend: [
-      buttonIcon('invite', {color: white}),
-      buttonPrimary
-    ],
+    extend: [buttonIcon('invite', { color: white }), buttonPrimary],
     '&:disabled': {
       isolate: false,
       opacity: 0.5,
-      pointerEvents: 'none'
-    }
-  }
+      pointerEvents: 'none',
+    },
+  },
 })
 @injectIntl
 export default class ChannelMembersInvite extends PureComponent {
@@ -102,28 +96,37 @@ export default class ChannelMembersInvite extends PureComponent {
     searchUsersToInvite: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
-    channelType: PropTypes.string
+    channelType: PropTypes.string,
   }
 
   onInvite = () => {
     const {
-      listed, inviteToChannel,
-      hideChannelMembersInvite, channelType, showToastNotification
+      listed,
+      inviteToChannel,
+      hideChannelMembersInvite,
+      channelType,
+      showToastNotification,
     } = this.props
 
     if (!listed.length) return
     if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
     hideChannelMembersInvite()
-    showToastNotification(<InviteSuccess invited={pluck(listed, 'displayName')} />)
+    showToastNotification(
+      <InviteSuccess invited={pluck(listed, 'displayName')} />,
+    )
   }
 
   render() {
     const {
-      sheet: {classes},
-      intl: {formatMessage},
-      channelType, searchUsersToInvite,
-      addToChannelMembersInvite, removeFromChannelMembersInvite,
-      listed, inviteToChannel, hideChannelMembersInvite,
+      sheet: { classes },
+      intl: { formatMessage },
+      channelType,
+      searchUsersToInvite,
+      addToChannelMembersInvite,
+      removeFromChannelMembersInvite,
+      listed,
+      inviteToChannel,
+      hideChannelMembersInvite,
       ...rest
     } = this.props
 
@@ -133,7 +136,7 @@ export default class ChannelMembersInvite extends PureComponent {
       <ChooseUsersDialog
         {...rest}
         title={formatMessage(getFormattedMessage(channelType, 'title'))}
-        theme={{classes}}
+        theme={{ classes }}
         listed={listed}
         onHide={hideChannelMembersInvite}
         onChangeFilter={searchUsersToInvite}

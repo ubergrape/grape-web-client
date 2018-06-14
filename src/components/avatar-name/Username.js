@@ -1,28 +1,28 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {white} from 'grape-theme/dist/base-colors'
+import { white } from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
-import {defaultAvatar} from '../../constants/images'
+import { defaultAvatar } from '../../constants/images'
 import Avatar from '../avatar/Avatar'
 import style from './userStyle'
 
-const Status = ({classes, status, borderColor}) => (
+const Status = ({ classes, status, borderColor }) => (
   <i
     className={`${classes.status} ${classes[status]}`}
-    style={{borderColor}}
+    style={{ borderColor }}
   />
 )
 
 Status.propTypes = {
   borderColor: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
 }
 
 Status.defaultProps = {
-  borderColor: white
+  borderColor: white,
 }
 
 @injectSheet(style)
@@ -34,15 +34,15 @@ export default class Username extends PureComponent {
     avatar: PropTypes.string,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
-    theme: {classes: {}},
+    theme: { classes: {} },
     className: undefined,
     statusBorderColor: undefined,
     status: undefined,
-    avatar: defaultAvatar
+    avatar: defaultAvatar,
   }
 
   render() {
@@ -53,26 +53,26 @@ export default class Username extends PureComponent {
       statusBorderColor,
       classes,
       theme,
-      className
+      className,
     } = this.props
 
     return (
-      <span className={cn(classes.avatarName, theme.classes.avatarName, className)}>
+      <span
+        className={cn(classes.avatarName, theme.classes.avatarName, className)}
+      >
         <Avatar
           src={avatar}
           className={cn(classes.avatar, theme.classes.avatar)}
         >
-          {status &&
+          {status && (
             <Status
               classes={classes}
               status={status}
               borderColor={statusBorderColor}
             />
-          }
+          )}
         </Avatar>
-        <span className={cn(classes.name, theme.classes.name)}>
-          {name}
-        </span>
+        <span className={cn(classes.name, theme.classes.name)}>{name}</span>
       </span>
     )
   }

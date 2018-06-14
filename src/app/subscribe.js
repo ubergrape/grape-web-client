@@ -1,4 +1,4 @@
-import {toCamel} from '../utils/backend/convertCase'
+import { toCamel } from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
@@ -16,7 +16,7 @@ export default function subscribe(channel) {
       boundActions.showAlert({
         level: 'success',
         type: alerts.RECONNECTED,
-        closeAfter: 2000
+        closeAfter: 2000,
       })
     }
     showReconnectedAlert = true
@@ -32,7 +32,7 @@ export default function subscribe(channel) {
     if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
-        type: alerts.CONNECTION_LOST
+        type: alerts.CONNECTION_LOST,
       })
     }
 
@@ -44,22 +44,22 @@ export default function subscribe(channel) {
         // over an API and then reconnected.
         // Clearing is used to enhance perceptional performance when clicked
         // on a navigation in order to react immediately.
-        boundActions.loadHistory({clear: false})
+        boundActions.loadHistory({ clear: false })
       })
     }
   })
 
   // Resync the whole data if we got a new client id, because we might have
   // missed some messages. This is related to the current serverside arch.
-  channel.on('set:id', (clientId) => {
+  channel.on('set:id', clientId => {
     boundActions.loadInitialData(clientId)
   })
 
-  channel.on('unauthorized', (err) => {
+  channel.on('unauthorized', err => {
     boundActions.handleAuthError(err)
   })
 
-  channel.on('data', (data) => {
+  channel.on('data', data => {
     const cData = toCamel(data)
     switch (cData.event) {
       case 'notification.new':
@@ -80,7 +80,7 @@ export default function subscribe(channel) {
       case 'channel.typing':
         boundActions.handleTypingNotification(
           selectors.setTypingSelector(getStore().getState()),
-          cData
+          cData,
         )
         break
       case 'channel.new':

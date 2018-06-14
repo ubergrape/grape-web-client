@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 
-export default ({classes, isConnected, className, onClick}) => {
+export default ({ classes, isConnected, className, onClick }) => {
   if (isConnected) {
     return (
       <span
@@ -13,7 +13,7 @@ export default ({classes, isConnected, className, onClick}) => {
           name="lightningBolt"
           className={cn(
             classes.taskIconLightningBolt,
-            classes.taskIconLightningBoltConnected
+            classes.taskIconLightningBoltConnected,
           )}
         />
         <Icon name="checkCircle" className={classes.taskIconCheckCircle} />

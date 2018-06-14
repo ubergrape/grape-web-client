@@ -1,4 +1,4 @@
-import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+import { grayBlueLighter } from 'grape-theme/dist/base-colors'
 
 export const styles = {
   tabs: {
@@ -6,14 +6,14 @@ export const styles = {
     display: 'flex',
     backgroundColor: grayBlueLighter,
     listStyleType: 'none',
-    padding: [0, 20]
+    padding: [0, 20],
   },
   item: {
     listStyleType: 'none',
     marginLeft: 20,
     '&:first-child': {
       isolate: false,
-      marginLeft: 0
-    }
-  }
+      marginLeft: 0,
+    },
+  },
 }

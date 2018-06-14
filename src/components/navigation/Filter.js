@@ -1,20 +1,16 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 const messages = defineMessages({
   placeholder: {
     id: 'searchPeopleAndGroups',
-    defaultMessage: 'Search people and groups…'
-  }
+    defaultMessage: 'Search people and groups…',
+  },
 })
 
-const Filter = ({intl, theme, value, onKeyDown, onChange}) => (
+const Filter = ({ intl, theme, value, onKeyDown, onChange }) => (
   <input
     type="search"
     value={value}
@@ -30,7 +26,7 @@ Filter.propTypes = {
   theme: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
   onKeyDown: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 }
 
 export default injectIntl(Filter)

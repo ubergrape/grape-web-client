@@ -5,11 +5,11 @@ import Channel from './Channel'
 
 export default function List(props) {
   const {
-    theme: {classes},
+    theme: { classes },
     type,
     title,
     list,
-    goToChannel
+    goToChannel,
   } = props
 
   if (!list.length) return null
@@ -36,5 +36,5 @@ List.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
-  goToChannel: PropTypes.func.isRequired
+  goToChannel: PropTypes.func.isRequired,
 }

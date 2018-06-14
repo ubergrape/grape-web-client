@@ -5,7 +5,7 @@ const initialState = {
   images,
   items: [],
   isLoading: false,
-  limit: 20
+  limit: 20,
 }
 
 export default function reduce(state = initialState, action) {
@@ -15,9 +15,9 @@ export default function reduce(state = initialState, action) {
     case types.LOADED_SHARED_FILES:
     case types.ADD_SHARED_FILE:
     case types.REMOVE_SHARED_FILE:
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     case types.SET_CHANNEL:
-      return {...initialState}
+      return { ...initialState }
     default:
       return state
   }
