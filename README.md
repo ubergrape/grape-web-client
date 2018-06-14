@@ -3,8 +3,8 @@
 ## Installation
 
 ```bash
-npm i
-npm run build
+yarn
+yarn build
 ```
 
 ## Example
@@ -19,6 +19,5 @@ npm run build
 - object/result - one result object from a service
 - filter objects - quick filter selection objects displayed in the "queries" section
 - sidebar can contain info or detail view
-
 
 (c) UberGrape GmbH

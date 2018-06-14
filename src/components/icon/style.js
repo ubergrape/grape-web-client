@@ -7,6 +7,6 @@ export default {
     verticalAlign: 'middle',
     backgroundPosition: 'center',
     backgroundSize: '100%',
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
 }

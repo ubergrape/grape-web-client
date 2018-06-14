@@ -4,14 +4,14 @@ import expect from 'expect.js'
 describe('query', () => {
   describe('.stringify()', () => {
     it('should stringify with trigger only', () => {
-      const str = stringify({trigger: '#'})
+      const str = stringify({ trigger: '#' })
       expect(str).to.be('#')
     })
 
     it('should stringify with a search', () => {
       const str = stringify({
         trigger: '#',
-        search: 'something'
+        search: 'something',
       })
       expect(str).to.be('#something')
     })

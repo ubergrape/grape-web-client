@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
-import {FormattedMessage} from 'react-intl'
+import React, { Component } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import injectSheet from 'grape-web/lib/jss'
 import style from './detailEmptyStyle'
@@ -12,15 +12,15 @@ import style from './detailEmptyStyle'
 export default class DetailEmpty extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    images: PropTypes.object
+    images: PropTypes.object,
   }
 
   static defaultProps = {
-    images: {}
+    images: {},
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
 
     return (
       <div className={classes.empty}>
@@ -28,7 +28,8 @@ export default class DetailEmpty extends Component {
         <span className={classes.note}>
           <FormattedMessage
             id="noDetailForItem"
-            defaultMessage="No Detail Infos for this Item" />
+            defaultMessage="No Detail Infos for this Item"
+          />
         </span>
       </div>
     )

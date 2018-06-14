@@ -8,16 +8,16 @@ export default {
     color: colors.grayBlueDark,
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   actionFocused: {
     background: webColors.buttonBgDefault,
-    color: colors.white
+    color: colors.white,
   },
   // When parent component is not focused, but action is.
   actionFocusedInactive: {
-    background: colors.grayBlueLighter
+    background: colors.grayBlueLighter,
   },
   icon: {
     flexShrink: 0,
@@ -26,10 +26,10 @@ export default {
     marginRight: 10,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   text: {
     flex: 1,
-    color: 'inherit'
-  }
+    color: 'inherit',
+  },
 }

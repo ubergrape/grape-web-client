@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {Component, cloneElement} from 'react'
+import { Component, cloneElement } from 'react'
 import noop from 'lodash/utility/noop'
 
 /**
@@ -11,30 +11,30 @@ import noop from 'lodash/utility/noop'
 export default class AccentMode extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
-    onChange: noop
+    onChange: noop,
   }
 
   constructor(props) {
     super(props)
-    this.state = {value: props.children.props.value}
+    this.state = { value: props.children.props.value }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({value: nextProps.children.props.value})
+    this.setState({ value: nextProps.children.props.value })
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     this.props.onChange(e.keyCode === 229)
     this.props.children.props.onKeyDown(e)
   }
 
-  onEditableChange = (e) => {
+  onEditableChange = e => {
     this.setState({
-      value: e.target.value
+      value: e.target.value,
     })
     this.props.children.props.onChange(e)
   }
@@ -43,20 +43,18 @@ export default class AccentMode extends Component {
     this.props.onChange(false)
   }
 
-  onBlur = (e) => {
+  onBlur = e => {
     this.props.children.props.onBlur(e)
     this.onExit()
   }
 
   render() {
-    return (
-      cloneElement(this.props.children, {
-        value: this.state.value,
-        onChange: this.onEditableChange,
-        onKeyDown: this.onKeyDown,
-        onClick: this.onExit,
-        onBlur: this.onBlur
-      })
-    )
+    return cloneElement(this.props.children, {
+      value: this.state.value,
+      onChange: this.onEditableChange,
+      onKeyDown: this.onKeyDown,
+      onClick: this.onExit,
+      onBlur: this.onBlur,
+    })
   }
 }

@@ -1,5 +1,6 @@
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 
 export const searchBrowserSelector = createSelector(
-  state => state.searchBrowser, state => state
+  state => state.searchBrowser,
+  state => state,
 )

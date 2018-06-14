@@ -1,5 +1,8 @@
-import {get as getEmoji, REGEX as EMOJI_REGEX} from '../emoji'
-import {create as createObject, getOptions as getObjectOptions} from 'grape-web/lib/grape-objects'
+import { get as getEmoji, REGEX as EMOJI_REGEX } from '../emoji'
+import {
+  create as createObject,
+  getOptions as getObjectOptions,
+} from 'grape-web/lib/grape-objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -11,7 +14,7 @@ function getEmojiData(token) {
   return {
     type: 'emoji',
     shortname: token,
-    content: token
+    content: token,
   }
 }
 
@@ -29,9 +32,9 @@ function parseEmoji(content) {
  * Returns new `objects` if there is new emoji in value
  */
 export function getEmojiObjects(value) {
-  const emojis = parseEmoji(value).filter(({shortname}) => {
-    return getEmoji(shortname)
-  })
+  const emojis = parseEmoji(value).filter(({ shortname }) =>
+    getEmoji(shortname),
+  )
 
   if (!emojis.length) return {}
 
@@ -44,9 +47,9 @@ export function getEmojiObjects(value) {
 }
 
 export function toMarkdown(tokens, objects) {
-  return tokens.map(token => {
-    return objects[token] ? objects[token].str : token
-  }).join('')
+  return tokens
+    .map(token => (objects[token] ? objects[token].str : token))
+    .join('')
 }
 
 /**
@@ -71,5 +74,5 @@ export function fromMarkdown(md) {
     return match
   })
 
-  return {objects, value}
+  return { objects, value }
 }

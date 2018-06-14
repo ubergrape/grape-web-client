@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
@@ -7,15 +7,11 @@ import get from 'lodash/object/get'
 import assign from 'lodash/object/assign'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 import injectSheet from 'grape-web/lib/jss'
 import wrapWithOutsideClickListener from 'grape-web/lib/components/outside-click'
 import GlobalEvent from 'grape-web/lib/components/global-event'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 import style from './browserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
@@ -27,7 +23,7 @@ import Input from '../input/Input'
 import Empty from '../empty/Empty'
 
 function init(options) {
-  const {emojiSheet, customEmojis} = options
+  const { emojiSheet, customEmojis } = options
   if (emojiSheet) emoji.setSheet(emojiSheet)
   if (customEmojis) emoji.defineCustom(customEmojis)
   dataUtils.init()
@@ -36,8 +32,8 @@ function init(options) {
 const messages = defineMessages({
   empty: {
     id: 'noEmojiFound',
-    defaultMessage: 'No emoji found.'
-  }
+    defaultMessage: 'No emoji found.',
+  },
 })
 
 /**
@@ -53,7 +49,7 @@ class Browser extends Component {
     onClick: PropTypes.func.isRequired,
     className: PropTypes.string,
     focused: PropTypes.bool,
-    images: PropTypes.object
+    images: PropTypes.object,
   }
 
   static defaultProps = {
@@ -67,7 +63,7 @@ class Browser extends Component {
     onSelectItem: noop,
     onDidMount: noop,
     onAbort: noop,
-    onClick: noop
+    onClick: noop,
   }
 
   constructor(props) {
@@ -94,30 +90,30 @@ class Browser extends Component {
     this.grid = null
   }
 
-  onFocusItem = ({id}) => {
+  onFocusItem = ({ id }) => {
     this.focusItem(id)
   }
 
-  onSelectItem = ({id}) => {
+  onSelectItem = ({ id }) => {
     this.selectItem(id)
   }
 
-  onSelectTab = ({id}) => {
+  onSelectTab = ({ id }) => {
     this.selectTab(id)
   }
 
-  onGridDidMount = (grid) => {
+  onGridDidMount = grid => {
     this.grid = grid
   }
 
-  onInput = ({search}) => {
+  onInput = ({ search }) => {
     this.setState({
       search,
-      facet: search ? 'search' : undefined
+      facet: search ? 'search' : undefined,
     })
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     this.navigate(e)
   }
 
@@ -133,12 +129,12 @@ class Browser extends Component {
     if (newEmojiSheet && (newEmojiSheet !== currEmojiSheet || !emoji.get())) {
       init({
         emojiSheet: newEmojiSheet,
-        customEmojis: nextProps.customEmojis
+        customEmojis: nextProps.customEmojis,
       })
     }
 
-    const {facet} = nextState
-    let {search} = nextState
+    const { facet } = nextState
+    let { search } = nextState
 
     if (facet !== 'search') search = null
     const sections = dataUtils.getSections(search, facet)
@@ -146,21 +142,23 @@ class Browser extends Component {
     const tabs = dataUtils.getTabs({
       orgLogo: nextProps.images.orgLogo,
       selected: facet,
-      hasSearch: Boolean(nextState.search)
+      hasSearch: Boolean(nextState.search),
     })
 
-    return {tabs, facet, sections}
+    return { tabs, facet, sections }
   }
 
   cacheItemsPerRow() {
-    const {sections} = this.state
+    const { sections } = this.state
 
     if (!sections.length) return
 
     const sectionComponent = this.grid.getSectionComponent(sections[0].id)
     const contentComponent = sectionComponent.getContentComponent()
     // eslint-disable-next-line react/no-find-dom-node
-    const {width: gridWidth} = ReactDOM.findDOMNode(contentComponent).getBoundingClientRect()
+    const { width: gridWidth } = ReactDOM.findDOMNode(
+      contentComponent,
+    ).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
     if (this.itemsPerRow && gridWidth === this.gridWidth) return
@@ -181,7 +179,7 @@ class Browser extends Component {
    * @param {String} selector can be facet, "prev" or "next"
    */
   selectTab(selector) {
-    const {tabs} = this.state
+    const { tabs } = this.state
     let facet = selector
     const currIndex = findIndex(tabs, tab => tab.selected)
     if (selector === 'next') {
@@ -191,11 +189,11 @@ class Browser extends Component {
       if (tabs[currIndex - 1]) facet = tabs[currIndex - 1].id
       else facet = tabs[tabs.length - 1].id
     }
-    this.setState({facet})
+    this.setState({ facet })
   }
 
-  focusItem = (id) => {
-    const {sections} = this.state
+  focusItem = id => {
+    const { sections } = this.state
     if (!sections.length) return
     let nextItemId = id
     const nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
@@ -204,24 +202,24 @@ class Browser extends Component {
     const prevItem = dataUtils.getFocusedItem(sections)
 
     const prevComponent = this.grid.getItemComponent(prevItem.id)
-    if (prevComponent) prevComponent.setState({focused: false})
+    if (prevComponent) prevComponent.setState({ focused: false })
 
     const nextComponent = this.grid.getItemComponent(nextItemId)
-    if (nextComponent) nextComponent.setState({focused: true})
+    if (nextComponent) nextComponent.setState({ focused: true })
 
     dataUtils.setFocusedItem(sections, nextItemId)
   }
 
   selectItem(id) {
     this.focusItem(id)
-    this.props.onSelectItem({item: this.getFocusedItem()})
+    this.props.onSelectItem({ item: this.getFocusedItem() })
   }
 
   /**
    * Keyboard navigation.
    */
   navigate(e) {
-    const {query} = e.detail
+    const { query } = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
         this.focusItem('nextRow')
@@ -240,7 +238,7 @@ class Browser extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.props.onSelectItem({item: this.getFocusedItem()})
+        this.props.onSelectItem({ item: this.getFocusedItem() })
         e.preventDefault()
         break
       case 'tab':
@@ -250,7 +248,7 @@ class Browser extends Component {
       case 'esc':
         this.props.onAbort({
           reason: 'esc',
-          query
+          query,
         })
         e.preventDefault()
         break
@@ -258,7 +256,7 @@ class Browser extends Component {
         if (!query.key) {
           this.props.onAbort({
             reason: 'backspace',
-            query
+            query,
           })
           e.preventDefault()
         }
@@ -269,9 +267,9 @@ class Browser extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {formatMessage} = this.props.intl
-    const {sections} = this.state
+    const { classes } = this.props.sheet
+    const { formatMessage } = this.props.intl
+    const { sections } = this.state
 
     return (
       <div
@@ -279,11 +277,7 @@ class Browser extends Component {
         style={pick(this.props, 'height', 'maxWidth', 'right')}
         onClick={this.props.onClick}
       >
-        <GlobalEvent
-          event="resize"
-          handler={this.onResize}
-          debounce={500}
-        />
+        <GlobalEvent event="resize" handler={this.onResize} debounce={500} />
         <Input
           onInput={this.onInput}
           onKeyDown={this.onKeyDown}
@@ -293,7 +287,7 @@ class Browser extends Component {
         />
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         {!sections.length && <Empty text={formatMessage(messages.empty)} />}
-        {sections.length > 0 &&
+        {sections.length > 0 && (
           <div className={classes.column}>
             <div className={classes.row}>
               <Grid
@@ -302,20 +296,22 @@ class Browser extends Component {
                 Item={Item}
                 focusedItem={dataUtils.getFocusedItem(sections)}
                 className={classes.leftColumn}
-                section={{contentClassName: classes.sectionContent}}
+                section={{ contentClassName: classes.sectionContent }}
                 onFocus={this.onFocusItem}
                 onSelect={this.onSelectItem}
                 onDidMount={this.onGridDidMount}
               />
             </div>
           </div>
-        }
+        )}
       </div>
     )
   }
 }
 
-const PublicBrowser = injectIntl(wrapWithOutsideClickListener(injectSheet(style)(Browser)))
+const PublicBrowser = injectIntl(
+  wrapWithOutsideClickListener(injectSheet(style)(Browser)),
+)
 
 PublicBrowser.init = init
 

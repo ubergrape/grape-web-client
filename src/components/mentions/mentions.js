@@ -1,10 +1,10 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import SvgIcon from 'grape-web/lib/svg-icons/Icon'
 
 import UserIcon from '../icon/Icon'
 
-const getSvgIconName = ({currentRoom, isPrivate}) => {
+const getSvgIconName = ({ currentRoom, isPrivate }) => {
   if (currentRoom) return 'bell'
   return isPrivate ? 'lock' : 'comment'
 }
@@ -29,7 +29,6 @@ function getRoomNote(item) {
         defaultMessage="— does not notify room members"
       />
     </span>
-
   )
 }
 
@@ -37,30 +36,27 @@ function getRoomNote(item) {
  * Change data for representation.
  */
 export function map(originalData) {
-  const data = originalData.map((originalItem) => {
-    const item = {...originalItem}
+  const data = originalData.map(originalItem => {
+    const item = { ...originalItem }
     if (item.type === 'user') {
       const iconStyle = {
         backgroundImage: `url(${item.iconURL})`,
-        borderRadius: '100%'
+        borderRadius: '100%',
       }
       item.icon = <UserIcon name={item.name} style={iconStyle} />
       if (!item.inRoom) {
         item.note = (
           <span>
-            —
-            {' '}
-            <FormattedMessage
-              id="notInRoom"
-              defaultMessage="not in room"
-            />
+            — <FormattedMessage id="notInRoom" defaultMessage="not in room" />
           </span>
         )
       }
       return item
     }
     item.note = getRoomNote(item)
-    item.icon = <SvgIcon name={getSvgIconName(item)} style={{height: '1.4em'}} />
+    item.icon = (
+      <SvgIcon name={getSvgIconName(item)} style={{ height: '1.4em' }} />
+    )
     return item
   })
 

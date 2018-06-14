@@ -13,11 +13,11 @@ export default {
     // Workaround, can't get height to fill the sidebar.
     position: 'absolute',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   content: {
     flex: 1,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   previewContainer: {
     position: 'relative',
@@ -25,55 +25,55 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
     background: colors.silverLight,
-    height: 128
+    height: 128,
   },
   article: {
     position: 'relative',
     display: 'flex',
     borderBottom: `1px solid ${colors.silverDark}`,
     padding: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   icon: {
     height: leftColumnWidth,
     width: leftColumnWidth,
     flexShrink: 0,
     marginRight: columnMarginRight,
-    backgroundSize: '100%'
+    backgroundSize: '100%',
   },
   articleBody: {
-    flex: 1
+    flex: 1,
   },
   title: {
     ...fonts.big,
-    margin: 0
+    margin: 0,
   },
   subtitle: {
     ...fonts.normal,
     margin: '5px 0',
-    color: colors.gainsboroDark
+    color: colors.gainsboroDark,
   },
   description: {
     ...fonts.small,
-    margin: '0 0 10px 0'
+    margin: '0 0 10px 0',
   },
   metaContainer: {
     padding: 20,
-    paddingTop: 10
+    paddingTop: 10,
   },
   metaRow: {
     display: 'flex',
-    padding: '2px 0'
+    padding: '2px 0',
   },
   metaLabel: {
     ...fonts.small,
     color: colors.gainsboroDark,
     textAlign: 'right',
     marginRight: columnMarginRight,
-    width: leftColumnWidth
+    width: leftColumnWidth,
   },
   metaValue: {
     ...fonts.small,
-    ...mixins.ellipsis
-  }
+    ...mixins.ellipsis,
+  },
 }

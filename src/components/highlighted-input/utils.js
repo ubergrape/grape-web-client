@@ -66,12 +66,10 @@ export function splitByTokens(text, tokens) {
     const tokensRegExp = new RegExp(tokens.map(escapeRegExp).join('|'), 'g')
     const keysInText = text.match(tokensRegExp)
     parts = []
-    text
-      .split(tokensRegExp)
-      .forEach((substr, i, arr) => {
-        if (substr) parts.push(substr)
-        if (i < arr.length - 1) parts.push(keysInText[i])
-      })
+    text.split(tokensRegExp).forEach((substr, i, arr) => {
+      if (substr) parts.push(substr)
+      if (i < arr.length - 1) parts.push(keysInText[i])
+    })
   } else {
     parts = [text]
   }
@@ -97,26 +95,30 @@ export function getTouchedWord(text, caretPostion) {
     while (!tailFound) {
       const nextSymbol = text[nextSymbolIndex]
 
-      if ((nextSymbol && emptySpaceRegExp.test(nextSymbol)) ||
-          nextSymbolIndex < 0 ||
-          nextSymbolIndex >= text.length) {
+      if (
+        (nextSymbol && emptySpaceRegExp.test(nextSymbol)) ||
+        nextSymbolIndex < 0 ||
+        nextSymbolIndex >= text.length
+      ) {
         position.push(previousSymbolIndex)
         tailFound = true
         break
       }
 
       if (position.length) {
-        value = value + text[nextSymbolIndex]
+        value += text[nextSymbolIndex]
       } else {
         value = text[nextSymbolIndex] + value
       }
 
       previousSymbolIndex = nextSymbolIndex
-      nextSymbolIndex = position.length ? nextSymbolIndex + 1 : nextSymbolIndex - 1
+      nextSymbolIndex = position.length
+        ? nextSymbolIndex + 1
+        : nextSymbolIndex - 1
     }
   }
 
-  return value ? {value, position} : null
+  return value ? { value, position } : null
 }
 
 /**
@@ -124,7 +126,7 @@ export function getTouchedWord(text, caretPostion) {
  * to look to and known tokens list.
  */
 export function getTokenPositionNearCaret(node, direction, tokens) {
-  const {selectionStart, selectionEnd, value} = node
+  const { selectionStart, selectionEnd, value } = node
   const positions = getTokensPositions(tokens, value)
 
   let nearPosition
@@ -132,15 +134,12 @@ export function getTokenPositionNearCaret(node, direction, tokens) {
   Object.keys(positions).some(object => {
     positions[object].some(position => {
       // Check if carret inside object
-      if (
-        position[0] <= selectionStart &&
-        position[1] >= selectionEnd
-      ) {
+      if (position[0] <= selectionStart && position[1] >= selectionEnd) {
         // If selectionStart or selectionEnd
         // not inside object —> do nothing
         if (
-          direction === 'next' && position[1] === selectionEnd ||
-          direction === 'prev' && position[0] === selectionStart
+          (direction === 'next' && position[1] === selectionEnd) ||
+          (direction === 'prev' && position[0] === selectionStart)
         ) {
           return false
         }
@@ -199,12 +198,11 @@ export function setCaretPosition(at, node) {
  * Scrolling will only happen if caret position is outside of view port.
  */
 export function scrollLeftToCaret(node) {
-  const {scrollWidth, scrollLeft, offsetWidth, selectionEnd, value} = node
-  const left = scrollWidth * selectionEnd / value.length
-  const isVisible = left > scrollLeft && left < (scrollLeft + offsetWidth)
+  const { scrollWidth, scrollLeft, offsetWidth, selectionEnd, value } = node
+  const left = (scrollWidth * selectionEnd) / value.length
+  const isVisible = left > scrollLeft && left < scrollLeft + offsetWidth
   if (!isVisible) node.scrollLeft = left
 }
 
-export const getCaretAt = ({caretPosition, value}) => (
+export const getCaretAt = ({ caretPosition, value }) =>
   caretPosition === 'end' ? value.length : 0
-)

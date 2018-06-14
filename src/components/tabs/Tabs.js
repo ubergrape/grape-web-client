@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import noop from 'lodash/utility/noop'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'
 import style from './tabsStyle'
@@ -17,14 +17,14 @@ export default class Tabs extends Component {
     data: PropTypes.array,
     onSelect: PropTypes.func,
     onInvisible: PropTypes.func,
-    onDidMount: PropTypes.func
+    onDidMount: PropTypes.func,
   }
 
   static defaultProps = {
     data: undefined,
     onSelect: noop,
     onInvisible: noop,
-    onDidMount: noop
+    onDidMount: noop,
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class Tabs extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
 
     return (
       <div className={classes.tabs}>
@@ -52,7 +52,8 @@ export default class Tabs extends Component {
                 onInvisible={this.props.onInvisible}
                 visibilityContainment={this}
                 key={id}
-                ref={id} />
+                ref={id}
+              />
             )
           })}
         </ul>

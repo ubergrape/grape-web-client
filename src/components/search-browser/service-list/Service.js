@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import style from './serviceStyle'
 import ServiceIcon from '../service-icon/ServiceIcon'
@@ -15,40 +15,40 @@ export default class Service extends Component {
     item: PropTypes.object,
     resultsAmount: PropTypes.number,
     onSelect: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
   }
 
   static defaultProps = {
     onSelect: noop,
-    onFocus: noop
+    onFocus: noop,
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {item, focused, resultsAmount} = this.props
+    const { classes } = this.props.sheet
+    const { item, focused, resultsAmount } = this.props
 
     return (
       <div
-        className={`${classes.service} ${focused ? classes.serviceFocused : ''}`}
+        className={`${classes.service} ${
+          focused ? classes.serviceFocused : ''
+        }`}
         onClick={this.props.onSelect.bind(null, item)}
-        onMouseOver={this.props.onFocus.bind(null, item)}>
+        onMouseOver={this.props.onFocus.bind(null, item)}
+      >
         <div className={classes.iconContainer}>
           <ServiceIcon service={item.id} />
         </div>
-        <div className={classes.name}>
-          {item.label}
-        </div>
-        {resultsAmount &&
+        <div className={classes.name}>{item.label}</div>
+        {resultsAmount && (
           <div className={classes.hint}>
             <FormattedMessage
               id="amountResults"
               defaultMessage="{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
-              values={{resultsAmount}} />
+              values={{ resultsAmount }}
+            />
           </div>
-        }
-        <div className={classes.return}>
-          &crarr;
-        </div>
+        )}
+        <div className={classes.return}>&crarr;</div>
       </div>
     )
   }

@@ -4,8 +4,7 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    minHeight: 50
+    minHeight: 50,
   },
-  info: {
-  }
+  info: {},
 }

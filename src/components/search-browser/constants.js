@@ -3,7 +3,7 @@ import colors from 'grape-theme/dist/base-colors'
 
 export const listTypes = ['results', 'actions', 'services']
 
-const plusIcon = getColoredIcon({name: 'plus', color: colors.blue})
+const plusIcon = getColoredIcon({ name: 'plus', color: colors.blue })
 export const plusIconStyle = {
   display: 'inline-block',
   background: `no-repeat center url('${plusIcon}')`,
@@ -11,5 +11,5 @@ export const plusIconStyle = {
   backgroundSize: '60%',
   border: `1px solid ${colors.grayLight}`,
   borderRadius: '20%',
-  verticalAlign: 'middle'
+  verticalAlign: 'middle',
 }

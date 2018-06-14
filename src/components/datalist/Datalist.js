@@ -1,26 +1,34 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
 import noop from 'lodash/utility/noop'
-import {white, gainsboroLight, gainsboroDark, grayDark, grapeLight} from 'grape-theme/dist/base-colors'
+import {
+  white,
+  gainsboroLight,
+  gainsboroDark,
+  grayDark,
+  grapeLight,
+} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import color from 'color'
 
-const createState = (props) => {
-  const {data} = props
+const createState = props => {
+  const { data } = props
   const focused = data[0]
-  return {data, focused}
+  return { data, focused }
 }
 
 @injectSheet({
   datalist: {
     background: white,
     border: [1, 'solid', gainsboroLight],
-    boxShadow: `0px 3px 4px 0 ${color(grayDark).alpha(0.5).rgbaString()}`,
-    overflow: 'auto'
+    boxShadow: `0px 3px 4px 0 ${color(grayDark)
+      .alpha(0.5)
+      .rgbaString()}`,
+    overflow: 'auto',
   },
   item: {
     display: 'flex',
@@ -30,12 +38,12 @@ const createState = (props) => {
     color: grayDark,
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   itemFocused: {
     color: white,
-    background: grapeLight
+    background: grapeLight,
   },
   icon: {
     minWidth: 22,
@@ -49,16 +57,16 @@ const createState = (props) => {
     lineHeight: 1,
     marginLeft: 5,
     color: 'inherit',
-    flex: '0 0 auto'
+    flex: '0 0 auto',
   },
   note: {
     extend: [fonts.small, ellipsis],
     color: gainsboroDark,
-    marginLeft: 6
+    marginLeft: 6,
   },
   noteFocused: {
-    color: white
-  }
+    color: white,
+  },
 })
 export default class Datalist extends Component {
   static propTypes = {
@@ -67,14 +75,14 @@ export default class Datalist extends Component {
     className: PropTypes.string,
     onDidMount: PropTypes.func,
     onSelect: PropTypes.func,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     data: [],
     className: '',
     onDidMount: noop,
-    onSelect: noop
+    onSelect: noop,
   }
 
   constructor(props) {
@@ -96,7 +104,7 @@ export default class Datalist extends Component {
     this.focus(item)
   }
 
-  onMouseDown = (e) => {
+  onMouseDown = e => {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
@@ -104,7 +112,7 @@ export default class Datalist extends Component {
   }
 
   focus(id) {
-    const {data} = this.state
+    const { data } = this.state
     let index = findIndex(data, item => item === this.state.focused)
     let item
 
@@ -116,12 +124,19 @@ export default class Datalist extends Component {
 
     if (!item) return
 
-    this.setState({focused: item})
+    this.setState({ focused: item })
   }
 
   renderItem = (listItem, i) => {
     const focused = listItem === this.state.focused
-    const {item, itemFocused, icon, name, note, noteFocused} = this.props.classes
+    const {
+      item,
+      itemFocused,
+      icon,
+      name,
+      note,
+      noteFocused,
+    } = this.props.classes
 
     return (
       <div
@@ -141,11 +156,11 @@ export default class Datalist extends Component {
   }
 
   render() {
-    const {data} = this.state
+    const { data } = this.state
 
     if (!data.length) return null
 
-    const {classes} = this.props
+    const { classes } = this.props
 
     return (
       <div

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import find from 'lodash/collection/find'
 import pick from 'lodash/object/pick'
 import debounce from 'lodash/function/debounce'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'
 import Section from './Section'
@@ -25,12 +25,12 @@ export default class Grid extends Component {
     className: PropTypes.string,
     data: PropTypes.array,
     section: PropTypes.object,
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
   }
 
   static defaultProps = {
     className: '',
-    section: {}
+    section: {},
   }
 
   constructor(props) {
@@ -41,7 +41,7 @@ export default class Grid extends Component {
   }
 
   componentDidMount() {
-    const {onDidMount} = this.props
+    const { onDidMount } = this.props
     if (onDidMount) onDidMount(this)
   }
 
@@ -51,7 +51,7 @@ export default class Grid extends Component {
     const currFocused = this.props.focusedItem
     const prevFocused = prevProps.focusedItem
     if (currFocused && prevFocused && prevFocused.id !== currFocused.id) {
-      this.onFocus({id: currFocused.id})
+      this.onFocus({ id: currFocused.id })
     }
   }
 
@@ -77,7 +77,7 @@ export default class Grid extends Component {
     // Scrolling down.
     if (visibilityRect.top) {
       const viewPortHeight = viewPortNode.offsetHeight
-      let {itemHeight} = this
+      let { itemHeight } = this
       if (!itemHeight) itemHeight = itemNode.offsetHeight
       scrollTop = itemTop - viewPortHeight + itemHeight
     }
@@ -115,26 +115,25 @@ export default class Grid extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
 
     return (
       <div
         className={`${classes.grid} ${this.props.className}`}
-        onScroll={::this.onScroll}>
-
-        {this.props.data.map(data => {
-          return (
-            <Section
-              {...data}
-              {...pick(this.props, 'onSelect', 'Item', 'focused')}
-              {...this.props.section}
-              onFocus={::this.onFocus}
-              onInvisible={::this.onInvisible}
-              onDidMount={::this.onSectionDidMount}
-              visibilityContainment={this}
-              key={data.id} />
-          )
-        })}
+        onScroll={::this.onScroll}
+      >
+        {this.props.data.map(data => (
+          <Section
+            {...data}
+            {...pick(this.props, 'onSelect', 'Item', 'focused')}
+            {...this.props.section}
+            onFocus={::this.onFocus}
+            onInvisible={::this.onInvisible}
+            onDidMount={::this.onSectionDidMount}
+            visibilityContainment={this}
+            key={data.id}
+          />
+        ))}
       </div>
     )
   }

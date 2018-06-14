@@ -11,6 +11,6 @@ export default {
     color: colors.white,
     padding: '5px 10px',
     cursor: 'pointer',
-    outline: 'none'
-  }
+    outline: 'none',
+  },
 }

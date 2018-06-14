@@ -1,10 +1,10 @@
 import {
   formatGroupedResults,
   findIndexBySelector,
-  selectResult
+  selectResult,
 } from './utils'
 import * as types from '../../constants/actionTypes'
-import {searchBrowserSelector} from '../../selectors'
+import { searchBrowserSelector } from '../../selectors'
 
 export function updateSearchBrowserResults(data) {
   const results = formatGroupedResults(data)
@@ -14,8 +14,8 @@ export function updateSearchBrowserResults(data) {
     type: types.UPDATE_SEARCH_BROWSER_RESULTS,
     payload: {
       results,
-      focusedResult
-    }
+      focusedResult,
+    },
   }
 }
 
@@ -26,32 +26,32 @@ export function focusSearchBrowserResult(selector) {
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_RESULT,
-      payload: focusedResult
+      payload: focusedResult,
     })
   }
 }
 
 export function selectSearchBrowserResult() {
   return (dispatch, getState) => {
-    const {focusedResult} = searchBrowserSelector(getState())
+    const { focusedResult } = searchBrowserSelector(getState())
 
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_RESULT,
-      payload: focusedResult
+      payload: focusedResult,
     })
   }
 }
 
 export function showSearchBrowserResults() {
-  return {type: types.SHOW_SEARCH_BROWSER_RESULTS}
+  return { type: types.SHOW_SEARCH_BROWSER_RESULTS }
 }
 
 export function resetSearchBrowserState() {
-  return {type: types.RESET_SEARCH_BROWSER_STATE}
+  return { type: types.RESET_SEARCH_BROWSER_STATE }
 }
 
 export function focusSearchBrowserActions() {
-  return {type: types.FOCUS_SEARCH_BROWSER_ACTIONS}
+  return { type: types.FOCUS_SEARCH_BROWSER_ACTIONS }
 }
 
 export function focusSearchBrowserAction(selector) {
@@ -59,29 +59,33 @@ export function focusSearchBrowserAction(selector) {
     let payload = selector
 
     if (typeof selector === 'string') {
-      const {actions, focusedAction} = searchBrowserSelector(getState())
-      const newIndex = findIndexBySelector(selector, actions, action => action === focusedAction)
+      const { actions, focusedAction } = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(
+        selector,
+        actions,
+        action => action === focusedAction,
+      )
       payload = actions[newIndex]
     }
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_ACTION,
-      payload
+      payload,
     })
   }
 }
 
 export function blurSearchBrowserAction() {
   return {
-    type: types.BLUR_SEARCH_BROWSER_ACTION
+    type: types.BLUR_SEARCH_BROWSER_ACTION,
   }
 }
 
-export function execSearchBrowserAction({result, action}, goTo) {
-  return (dispatch) => {
+export function execSearchBrowserAction({ result, action }, goTo) {
+  return dispatch => {
     dispatch({
       type: types.EXEC_SEARCH_BROWSER_ACTION,
-      payload: {result, action}
+      payload: { result, action },
     })
 
     if (action.type === 'open') goTo(result.url)
@@ -89,10 +93,10 @@ export function execSearchBrowserAction({result, action}, goTo) {
 }
 
 export function showSearchBrowserServices(payload) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
-      payload
+      payload,
     })
   }
 }
@@ -103,27 +107,27 @@ export function focusSearchBrowserService(item) {
 
     // It's a selector.
     if (typeof item === 'string') {
-      const {currServices, focusedService} = searchBrowserSelector(getState())
+      const { currServices, focusedService } = searchBrowserSelector(getState())
       const newIndex = findIndexBySelector(
         item,
         currServices,
-        service => service === focusedService
+        service => service === focusedService,
       )
       payload = currServices[newIndex]
     }
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_SERVICE,
-      payload
+      payload,
     })
   }
 }
 
 export function addSearchBrowserFilter(service) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.ADD_SEARCH_BROWSER_FILTER,
-      payload: service
+      payload: service,
     })
     dispatch(showSearchBrowserResults())
   }
@@ -132,6 +136,6 @@ export function addSearchBrowserFilter(service) {
 export function updateSearchBrowserInput(payload) {
   return {
     type: types.UPDATE_SEARCH_BROWSER_INPUT,
-    payload
+    payload,
   }
 }

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, { Component } from 'react'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
-import {create as createObject} from 'grape-web/lib/grape-objects'
+import { create as createObject } from 'grape-web/lib/grape-objects'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import Textarea from './Textarea'
@@ -12,11 +12,7 @@ import style from './grapeInputStyle'
 import parseQuery from '../query/parse'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
 
-import {
-  toMarkdown,
-  fromMarkdown,
-  getEmojiObjects
-} from './utils'
+import { toMarkdown, fromMarkdown, getEmojiObjects } from './utils'
 
 @injectSheet(style)
 export default class GrapeInput extends Component {
@@ -29,7 +25,7 @@ export default class GrapeInput extends Component {
     onKeyDown: PropTypes.func,
     sheet: PropTypes.object.isRequired,
     // Prop `content` is a makrdown string.
-    content: PropTypes.string
+    content: PropTypes.string,
   }
 
   static defaultProps = {
@@ -40,18 +36,18 @@ export default class GrapeInput extends Component {
     onChange: noop,
     onKeyDown: noop,
     Editable: Textarea,
-    content: ''
+    content: '',
   }
 
   constructor(props) {
     super(props)
-    const {content} = props
-    const {objects, value} = fromMarkdown(content)
+    const { content } = props
+    const { objects, value } = fromMarkdown(content)
     this.state = {
       apiObjects: [],
       content,
       objects,
-      value
+      value,
     }
   }
 
@@ -61,36 +57,39 @@ export default class GrapeInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.content !== this.state.content) {
-      const {value, objects} = fromMarkdown(nextProps.content)
+      const { value, objects } = fromMarkdown(nextProps.content)
       this.setState({
         content: nextProps.content,
         value,
-        objects: {...this.state.objects, ...objects}
+        objects: { ...this.state.objects, ...objects },
       })
     }
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault()
 
-    const {objects, content, apiObjects} = this.state
+    const { objects, content, apiObjects } = this.state
     const parts = this.input.splitByTokens().filter(part => part.trim())
     const tokens = parts.filter(token => objects[token])
 
-    this.setState({
-      content: '',
-      value: '',
-      objects: {},
-      apiObjects: []
-    }, () => {
-      this.props.onSubmit({
-        content,
-        objects: apiObjects,
-        objectsOnly: parts.length === tokens.length
-      })
-    })
+    this.setState(
+      {
+        content: '',
+        value: '',
+        objects: {},
+        apiObjects: [],
+      },
+      () => {
+        this.props.onSubmit({
+          content,
+          objects: apiObjects,
+          objectsOnly: parts.length === tokens.length,
+        })
+      },
+    )
   }
 
   onResizeWindow = () => {
@@ -99,18 +98,18 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onInputDidMount = (ref) => {
+  onInputDidMount = ref => {
     this.input = ref
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     this.props.onKeyDown(e)
     if (e.defaultPrevented) return
 
     const key = keyname(e.keyCode)
     switch (key) {
       case 'esc':
-        this.props.onAbort({reason: key})
+        this.props.onAbort({ reason: key })
         e.preventDefault()
         break
       case 'up':
@@ -123,15 +122,15 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onChange = ({value}) => {
+  onChange = ({ value }) => {
     const emojiObjects = getEmojiObjects(value)
-    const objects = {...this.state.objects, ...emojiObjects}
+    const objects = { ...this.state.objects, ...emojiObjects }
     const content = toMarkdown(this.input.splitByTokens(), objects)
 
-    this.setState({value, objects, content}, () => {
+    this.setState({ value, objects, content }, () => {
       const word = this.input.getTouchedWord()
       const query = parseQuery(word)
-      this.props.onChange({query, content})
+      this.props.onChange({ query, content })
     })
   }
 
@@ -139,8 +138,8 @@ export default class GrapeInput extends Component {
    * Returns a class name that will be applied to the token element for custom
    * styling.
    */
-  getTokenClass = (token) => {
-    const {tokenType} = this.state.objects[token]
+  getTokenClass = token => {
+    const { tokenType } = this.state.objects[token]
     return this.props.sheet.classes[tokenType]
   }
 
@@ -154,9 +153,9 @@ export default class GrapeInput extends Component {
     const state = {
       objects: {
         ...this.state.objects,
-        [token]: object
+        [token]: object,
       },
-      apiObjects: [...this.state.apiObjects, result]
+      apiObjects: [...this.state.apiObjects, result],
     }
     this.setState(state, () => {
       this.input.replace(token)
@@ -168,7 +167,10 @@ export default class GrapeInput extends Component {
   }
 
   render() {
-    const {sheet: {classes}, ...rest} = this.props
+    const {
+      sheet: { classes },
+      ...rest
+    } = this.props
 
     return (
       <div>
