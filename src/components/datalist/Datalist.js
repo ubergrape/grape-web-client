@@ -24,6 +24,7 @@ const createState = (props) => {
   },
   item: {
     display: 'flex',
+    alignItems: 'center',
     extend: fonts.normal,
     padding: [5, 7],
     color: grayDark,
@@ -42,11 +43,9 @@ const createState = (props) => {
     lineHeight: 0,
     textAlign: 'center',
     verticalAlign: 'middle',
-    marginTop: -3,
     color: gainsboroDark
   },
   name: {
-    extend: ellipsis,
     lineHeight: 1,
     marginLeft: 5,
     color: 'inherit',
