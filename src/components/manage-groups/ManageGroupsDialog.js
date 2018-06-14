@@ -34,9 +34,7 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class ManageGroupsDialog extends PureComponent {
+class ManageGroupsDialog extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -187,3 +185,5 @@ export default class ManageGroupsDialog extends PureComponent {
     )
   }
 }
+
+export default injectIntl(injectSheet(styles)(ManageGroupsDialog))
