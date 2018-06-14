@@ -167,6 +167,8 @@
     }
   },
   "prettier": {
-    "semi": false
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
