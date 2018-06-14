@@ -3,8 +3,8 @@
 ## Installation
 
 ```bash
-npm i
-npm run build
+yarn
+yarn build
 ```
 
 ## Example
