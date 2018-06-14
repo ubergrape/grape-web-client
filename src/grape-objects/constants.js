@@ -1,1 +1,1 @@
-export const grapeProtocol = "cg:";
+export const grapeProtocol = 'cg:'

@@ -10,31 +10,31 @@ export const callbacks = () => {
     onExternal: 0,
     onRedirect: 0,
     onSilentChange: 0,
-    onUpdateRouter: 0
-  };
-  const args = [];
+    onUpdateRouter: 0,
+  }
+  const args = []
   const map = {
     onExternal: (...a) => {
-      called.onExternal++;
+      called.onExternal++
       // eslint-disable-next-line prefer-spread
-      args.push.apply(args, a);
+      args.push.apply(args, a)
     },
     onRedirect: (...a) => {
-      called.onRedirect++;
+      called.onRedirect++
       // eslint-disable-next-line prefer-spread
-      args.push.apply(args, a);
+      args.push.apply(args, a)
     },
     onSilentChange: (...a) => {
-      called.onSilentChange++;
+      called.onSilentChange++
       // eslint-disable-next-line prefer-spread
-      args.push.apply(args, a);
+      args.push.apply(args, a)
     },
     onUpdateRouter: (...a) => {
-      called.onUpdateRouter++;
+      called.onUpdateRouter++
       // eslint-disable-next-line prefer-spread
-      args.push.apply(args, a);
-    }
-  };
+      args.push.apply(args, a)
+    },
+  }
 
-  return { map, called, args };
-};
+  return { map, called, args }
+}

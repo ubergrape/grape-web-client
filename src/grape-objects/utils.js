@@ -1,14 +1,14 @@
-import parseUrl from "../parse-url";
-import hasJsProtocol from "../javascript-protocol";
-import { grapeProtocol } from "./constants";
+import parseUrl from '../parse-url'
+import hasJsProtocol from '../javascript-protocol'
+import { grapeProtocol } from './constants'
 
 /**
  * Escape markdown link target or name.
  */
 export function encodeMdLink(link) {
   // eslint-disable-next-line no-useless-escape
-  const regExp = /[\[\]()\s]/g;
-  return link.replace(regExp, c => `%${c.charCodeAt(0).toString(16)}`);
+  const regExp = /[\[\]()\s]/g
+  return link.replace(regExp, c => `%${c.charCodeAt(0).toString(16)}`)
 }
 
 /**
@@ -16,11 +16,11 @@ export function encodeMdLink(link) {
  */
 export function getTrigger(type) {
   switch (type) {
-    case "user":
-    case "room":
-      return "@";
+    case 'user':
+    case 'room':
+      return '@'
     default:
-      return "#";
+      return '#'
   }
 }
 
@@ -28,7 +28,7 @@ export function getTrigger(type) {
  * Returns true if passed url uses grapes own protocol.
  */
 export function isGrapeUrl(url) {
-  return parseUrl(url).protocol === grapeProtocol;
+  return parseUrl(url).protocol === grapeProtocol
 }
 
 /**
@@ -36,11 +36,11 @@ export function isGrapeUrl(url) {
  * the classes.
  */
 export function getOptions(text, grapeUrl) {
-  if (!isGrapeUrl(grapeUrl)) return false;
-  const [service, type, id, url] = grapeUrl.slice(5).split("|");
-  let validUrl = url;
+  if (!isGrapeUrl(grapeUrl)) return false
+  const [service, type, id, url] = grapeUrl.slice(5).split('|')
+  let validUrl = url
   // Checking javascript:// is an XSS protection.
-  if (!url || hasJsProtocol(url)) validUrl = "";
+  if (!url || hasJsProtocol(url)) validUrl = ''
 
   return {
     id,
@@ -48,7 +48,7 @@ export function getOptions(text, grapeUrl) {
     type,
     url: validUrl,
     name: text,
-    slug: validUrl.replace("/chat/", ""),
-    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text
-  };
+    slug: validUrl.replace('/chat/', ''),
+    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text,
+  }
 }

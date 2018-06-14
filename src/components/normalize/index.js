@@ -1,15 +1,15 @@
-import React from "react";
-import normalize from "normalize-jss";
-import reset from "reset-jss";
-import cn from "classnames";
+import React from 'react'
+import normalize from 'normalize-jss'
+import reset from 'reset-jss'
+import cn from 'classnames'
 
-import injectSheet from "../../jss";
+import injectSheet from '../../jss'
 
 const options = {
   isolate: false,
   index: -Infinity,
-  increaseSpecificity: false
-};
+  increaseSpecificity: false,
+}
 
 const Normalize = ({ classes, children, className, style }) => (
   <div
@@ -18,6 +18,6 @@ const Normalize = ({ classes, children, className, style }) => (
   >
     {children}
   </div>
-);
+)
 
-export default injectSheet({ normalize, reset }, options)(Normalize);
+export default injectSheet({ normalize, reset }, options)(Normalize)

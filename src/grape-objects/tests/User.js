@@ -1,18 +1,18 @@
-import expect from "expect.js";
-import { create } from "../";
+import expect from 'expect.js'
+import { create } from '../'
 
-describe("grape-objects: User", () => {
-  const object = create("user", {
-    id: "1",
-    username: "username",
-    name: "[name]"
-  });
+describe('grape-objects: User', () => {
+  const object = create('user', {
+    id: '1',
+    username: 'username',
+    name: '[name]',
+  })
 
-  describe("User#toString", () => {
-    it("should return correct md", () => {
+  describe('User#toString', () => {
+    it('should return correct md', () => {
       expect(object.toString()).to.be(
-        "[[name]](cg://chatgrape|user|1|/chat/@username)"
-      );
-    });
-  });
-});
+        '[[name]](cg://chatgrape|user|1|/chat/@username)',
+      )
+    })
+  })
+})

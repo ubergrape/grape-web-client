@@ -1,1 +1,1 @@
-export const debouncingTime = 200;
+export const debouncingTime = 200

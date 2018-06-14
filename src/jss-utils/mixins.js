@@ -1,22 +1,22 @@
 export const clearfix = {
   zoom: 1,
-  "&:after, &:before": {
+  '&:after, &:before': {
     content: '""',
-    display: "table"
+    display: 'table',
   },
-  "&:after": {
-    clear: "both"
-  }
-};
+  '&:after': {
+    clear: 'both',
+  },
+}
 
 export const ellipsis = {
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  display: "block"
-};
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  display: 'block',
+}
 
 export default {
   clearfix,
-  ellipsis
-};
+  ellipsis,
+}

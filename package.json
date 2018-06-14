@@ -99,5 +99,10 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }

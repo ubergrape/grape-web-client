@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import { Component } from "react";
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 
 // TODO
 // - rename to react-event
@@ -12,38 +12,38 @@ export default class GlobalEvent extends Component {
     event: PropTypes.string.isRequired,
     debounce: PropTypes.number,
     handler: PropTypes.func.isRequired,
-    children: PropTypes.element
-  };
+    children: PropTypes.element,
+  }
 
   static defaultProps = {
     emitter: window,
     debounce: null,
-    children: null
-  };
+    children: null,
+  }
 
   componentDidMount() {
-    this.props.emitter.addEventListener(this.props.event, this.handler);
+    this.props.emitter.addEventListener(this.props.event, this.handler)
   }
 
   componentWillUnmount() {
-    this.props.emitter.removeEventListener(this.props.event, this.handler);
+    this.props.emitter.removeEventListener(this.props.event, this.handler)
   }
 
   handler = e => {
-    const { debounce, handler } = this.props;
+    const { debounce, handler } = this.props
 
     if (debounce == null) {
-      handler(e);
-      return;
+      handler(e)
+      return
     }
 
-    clearTimeout(this.timeoutId);
+    clearTimeout(this.timeoutId)
     this.timeoutId = setTimeout(() => {
-      handler(e);
-    }, debounce);
-  };
+      handler(e)
+    }, debounce)
+  }
 
   render() {
-    return this.props.children || null;
+    return this.props.children || null
   }
 }

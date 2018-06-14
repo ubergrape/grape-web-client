@@ -1,26 +1,26 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const colors = {
   dark: [
-    "#0B69C6",
-    "#0080FF",
-    "#032950",
-    "#99449B",
-    "#8C448E",
-    "#B158B3",
-    "#954197"
+    '#0B69C6',
+    '#0080FF',
+    '#032950',
+    '#99449B',
+    '#8C448E',
+    '#B158B3',
+    '#954197',
   ],
   light: [
-    "#FFEAC6",
-    "#FFEAC6",
-    "#FFEAC6",
-    "#F5A623",
-    "#F5A623",
-    "#F5A623",
-    "#F5A623"
-  ]
-};
+    '#FFEAC6',
+    '#FFEAC6',
+    '#FFEAC6',
+    '#F5A623',
+    '#F5A623',
+    '#F5A623',
+    '#F5A623',
+  ],
+}
 
 const MagicWand = ({ variant, ...rest }) => (
   <svg
@@ -61,14 +61,14 @@ const MagicWand = ({ variant, ...rest }) => (
       />
     </g>
   </svg>
-);
+)
 
 MagicWand.propTypes = {
-  variant: PropTypes.oneOf(["dark", "light"])
-};
+  variant: PropTypes.oneOf(['dark', 'light']),
+}
 
 MagicWand.defaultProps = {
-  variant: "dark"
-};
+  variant: 'dark',
+}
 
-export default MagicWand;
+export default MagicWand
