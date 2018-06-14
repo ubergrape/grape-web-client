@@ -2,9 +2,7 @@ import findIndex from 'lodash/array/findIndex'
 import find from 'lodash/collection/find'
 
 function getCurrentSection(sections) {
-  return find(sections, section => {
-    return section.items.some(item => item.focused)
-  })
+  return find(sections, section => section.items.some(item => item.focused))
 }
 
 /**
@@ -18,14 +16,14 @@ function getCurrentSection(sections) {
  */
 function findHorizontalItem(sections, length, dir) {
   const section = getCurrentSection(sections)
-  const {items} = section
+  const { items } = section
   let index = findIndex(section.items, item => item.focused)
   const row = Math.floor(index / length)
   const shift = index - row * length
 
   if (dir === 'next') {
     if (items[index + 1] && shift + 1 < length) index++
-    else index = index - shift
+    else index -= shift
   } else {
     if (items[index - 1] && shift) index--
     else if (items[index + length - 1]) index = index + length - 1
@@ -42,13 +40,13 @@ function getRowsAmount(section, length) {
 function getNextSection(sections, current) {
   const index = findIndex(sections, section => section.id === current.id)
   const next = sections[index + 1]
-  return next ? next : sections[0]
+  return next || sections[0]
 }
 
 function getPrevSection(sections, current) {
   const index = findIndex(sections, section => section.id === current.id)
   const prev = sections[index - 1]
-  return prev ? prev : sections[sections.length - 1]
+  return prev || sections[sections.length - 1]
 }
 
 /**

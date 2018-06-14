@@ -24,10 +24,10 @@ const colonsRegExp = emoji.rx_colons
  */
 function createIndex() {
   const newIndex = []
-  each(map, (item) => {
+  each(map, item => {
     newIndex.push(item)
   })
-  each(customMap, (item) => {
+  each(customMap, item => {
     newIndex.push(item)
   })
   return newIndex
@@ -36,14 +36,16 @@ function createIndex() {
 export function getSliceStyle(id) {
   const img = emoji.find_image(id)
   const sheetSize = emoji.sheet_size * (img.sheet_size + 2) // size of sprite sheet image in pixels
-  const sheetX = 100 * (((img.px * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
-  const sheetY = 100 * (((img.py * (img.sheet_size + 2)) + 1) / (sheetSize - img.sheet_size))
+  const sheetX =
+    100 * ((img.px * (img.sheet_size + 2) + 1) / (sheetSize - img.sheet_size))
+  const sheetY =
+    100 * ((img.py * (img.sheet_size + 2) + 1) / (sheetSize - img.sheet_size))
   const sheetZoom = 100 * (sheetSize / img.sheet_size)
 
   return {
     backgroundPosition: `${sheetX}% ${sheetY}%`,
     backgroundSize: `${sheetZoom}%`,
-    backgroundImage: `url(${sheetUrl})`
+    backgroundImage: `url(${sheetUrl})`,
   }
 }
 
@@ -62,7 +64,7 @@ function createMap() {
       shortname,
       icon: <Icon name={shortname} style={style} />,
       style,
-      type: 'emoji'
+      type: 'emoji',
     }
     stats.emoji++
   })
@@ -81,7 +83,7 @@ export function getStats() {
 export function defineCustom(emojis) {
   stats.customEmoji = 0
   each(emojis, (url, name) => {
-    const style = {backgroundImage: `url(${url})`}
+    const style = { backgroundImage: `url(${url})` }
     const shortname = `:${name}:`
     customMap[name] = {
       id: url,
@@ -89,7 +91,7 @@ export function defineCustom(emojis) {
       shortname,
       icon: <Icon name={shortname} style={style} />,
       style,
-      type: 'customEmoji'
+      type: 'customEmoji',
     }
     stats.customEmoji++
   })
@@ -139,7 +141,7 @@ export function setSheet(url) {
  * Replace :smile: by html icon.
  */
 export function replace(text) {
-  return text.replace(colonsRegExp, (name) => {
+  return text.replace(colonsRegExp, name => {
     const def = get(name)
     return def ? ReactDOMServer.renderToStaticMarkup(def.icon) : name
   })

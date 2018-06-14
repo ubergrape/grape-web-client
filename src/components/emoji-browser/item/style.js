@@ -3,14 +3,14 @@ import colors from 'grape-theme/dist/base-colors'
 export const TAB_ICON = {
   width: '1.539em',
   height: '1.539em',
-  marginRight: 5
+  marginRight: 5,
 }
 
 const item = {
   display: 'inline-block',
   position: 'relative',
   padding: '6px 7px',
-  cursor: 'pointer'
+  cursor: 'pointer',
 }
 
 export const rules = {
@@ -18,6 +18,6 @@ export const rules = {
   itemFocused: {
     ...item,
     background: colors.gainsboroLight,
-    borderRadius: 3
-  }
+    borderRadius: 3,
+  },
 }

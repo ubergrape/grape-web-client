@@ -1,10 +1,10 @@
 import expect from 'expect.js'
 import React from 'react'
 // import times from 'lodash/utility/times'
-import {Simulate} from 'react-dom/test-utils'
-import {IntlProvider} from 'react-intl'
+import { Simulate } from 'react-dom/test-utils'
+import { IntlProvider } from 'react-intl'
 
-import {$, render} from '../../../test'
+import { $, render } from '../../../test'
 import GrapeBrowser from '../GrapeBrowser'
 import data0 from './mocks/data0.json'
 import data1 from './mocks/data1.json'
@@ -31,8 +31,8 @@ describe('app:', () => {
 
   describe('GrapeBrowser() auto close', () => {
     function create(onDidMount, onRender) {
-        // Results removed.
-      const data = {...data0, results: []}
+      // Results removed.
+      const data = { ...data0, results: [] }
       const input = (
         <IntlProvider locale="en" messages={{}}>
           <GrapeBrowser
@@ -46,7 +46,7 @@ describe('app:', () => {
       render(input, onRender)
     }
 
-    it('shound render "nothing found"', (done) => {
+    it('shound render "nothing found"', done => {
       create(undefined, () => {
         const node = $('search-browser editable', document.body)
         node.value = 'asdef'
@@ -56,9 +56,9 @@ describe('app:', () => {
       })
     })
 
-    it('should stay opened when space is not at the end', (done) => {
-      create((component) => {
-        component.query.set('search', 'something else', {silent: true})
+    it('should stay opened when space is not at the end', done => {
+      create(component => {
+        component.query.set('search', 'something else', { silent: true })
         create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be.an(Element)
@@ -95,7 +95,7 @@ describe('app:', () => {
     })
   })
 
-/*
+  /*
   describe('GrapeBrowser() insert object:', () => {
     function insert(props) {
       const data = {...data0}

@@ -9,7 +9,7 @@ export const TRIGGERS = [
   EMOJI_TRIGGER,
   EMOJI_SUGGEST_TRIGGER,
   MENTION_TRIGGER,
-  SERVICES_TRIGGER
+  SERVICES_TRIGGER,
 ]
 
 export const TYPES = {
@@ -18,7 +18,7 @@ export const TYPES = {
   room: MENTION_TRIGGER,
   emoji: EMOJI_TRIGGER,
   emojiSuggest: EMOJI_SUGGEST_TRIGGER,
-  services: SERVICES_TRIGGER
+  services: SERVICES_TRIGGER,
 }
 
 // Match everything after a whitespace followed by any trigger until you match

@@ -7,8 +7,11 @@ module.exports = {
   webpackConfig: Object.assign(config, {
     resolve: {
       alias: {
-        'rsg-components/Wrapper': path.join(__dirname, 'src/containers/rsg/Wrapper')
-      }
-    }
-  })
+        'rsg-components/Wrapper': path.join(
+          __dirname,
+          'src/containers/rsg/Wrapper',
+        ),
+      },
+    },
+  }),
 }

@@ -14,51 +14,51 @@ export const rules = {
     borderBottom: [1, 'solid', colors.silverDark],
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   containerFocused: {
     composes: '$container',
     color: colors.white,
-    background: webColors.buttonBgDefault
+    background: webColors.buttonBgDefault,
   },
   containerFocusedInactive: {
     composes: '$container',
     color: colors.grayDarker,
-    background: colors.grayBlueLight
+    background: colors.grayBlueLight,
   },
   iconContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: [6, 16],
-    fontSize: '1.9em'
+    fontSize: '1.9em',
   },
   nameContainer: {
     flex: 1,
     alignSelf: 'center',
     padding: [6, 0],
     minWidth: 1, // firefox 34+ flexbox bug workaround
-    color: 'inherit'
+    color: 'inherit',
   },
   name: {
     extend: [fonts.normal, mixins.ellipsis],
     lineHeight: 1.2,
-    color: 'inherit'
+    color: 'inherit',
   },
   info: {
     extend: [fonts.smaller, mixins.ellipsis],
     marginTop: 4,
-    color: colors.grayLight
+    color: colors.grayLight,
   },
   infoFocused: {
     composes: '$info',
-    color: 'inherit'
+    color: 'inherit',
   },
   metaContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: [6, 12]
+    padding: [6, 12],
   },
   metaItem: {
     extend: fonts.small,
@@ -68,11 +68,11 @@ export const rules = {
     borderRadius: sizes.borderRadius.small,
     border: [1, 'solid', colors.silverDark],
     backgroundColor: colors.silverLight,
-    color: colors.gainsboroDark
+    color: colors.gainsboroDark,
   },
   metaItemFocused: {
     composes: '$metaItem',
     color: colors.white,
-    backgroundColor: webColors.buttonBgDefault
-  }
+    backgroundColor: webColors.buttonBgDefault,
+  },
 }

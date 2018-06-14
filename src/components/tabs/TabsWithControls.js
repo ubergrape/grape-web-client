@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'
 import style from './tabsWithControlsStyle'
@@ -16,18 +16,18 @@ export default class TabsWithControls extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     data: PropTypes.array,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
   }
 
   static defaultProps = {
-    onSelect: noop
+    onSelect: noop,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       leftEdge: true,
-      rightEdge: true
+      rightEdge: true,
     }
   }
 
@@ -66,7 +66,7 @@ export default class TabsWithControls extends Component {
   setEdgesState() {
     if (!this.props.data.length) return
 
-    let {leftEdge, rightEdge} = this.state
+    let { leftEdge, rightEdge } = this.state
     const innerWidth = this.getInnerWidth()
     const outerWidth = this.getOuterWidth()
 
@@ -79,8 +79,11 @@ export default class TabsWithControls extends Component {
       rightEdge = scrollLeft + outerWidth === innerWidth
     }
 
-    if (leftEdge !== this.state.leftEdge || rightEdge !== this.state.rightEdge) {
-      this.setState({leftEdge, rightEdge})
+    if (
+      leftEdge !== this.state.leftEdge ||
+      rightEdge !== this.state.rightEdge
+    ) {
+      this.setState({ leftEdge, rightEdge })
     }
   }
 
@@ -98,31 +101,28 @@ export default class TabsWithControls extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {data} = this.props
+    const { classes } = this.props.sheet
+    const { data } = this.props
     if (!data.length) return null
 
     return (
       <ul className={classes.controls}>
-        {!this.state.leftEdge &&
-          <li
-            onClick={::this.onScrollPrev}
-            className={classes.prevArrow}>
-              <span>&#9664;</span>
+        {!this.state.leftEdge && (
+          <li onClick={::this.onScrollPrev} className={classes.prevArrow}>
+            <span>&#9664;</span>
           </li>
-        }
+        )}
         <Tabs
           data={this.props.data}
           onSelect={this.props.onSelect}
           onInvisible={::this.onInvisible}
-          onDidMount={::this.onTabsDidMount} />
-        {!this.state.rightEdge &&
-          <li
-            onClick={::this.onScrollNext}
-            className={classes.nextArrow}>
-              <span>&#9654;</span>
+          onDidMount={::this.onTabsDidMount}
+        />
+        {!this.state.rightEdge && (
+          <li onClick={::this.onScrollNext} className={classes.nextArrow}>
+            <span>&#9654;</span>
           </li>
-        }
+        )}
       </ul>
     )
   }

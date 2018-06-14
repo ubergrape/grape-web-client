@@ -1,4 +1,4 @@
-import {$, render} from '../../../test'
+import { $, render } from '../../../test'
 import expect from 'expect.js'
 import React from 'react'
 import GrapeInput from '../GrapeInput'
@@ -29,8 +29,9 @@ describe('grape-input:', () => {
         <GrapeInput
           onResize={onResize}
           onDidMount={onDidMount}
-          content={'[room](cg://chatgrape|room|1|/chat/slug)'}
-          focused />
+          content="[room](cg://chatgrape|room|1|/chat/slug)"
+          focused
+        />
       )
       render(grapeInput)
     })

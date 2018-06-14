@@ -1,19 +1,30 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import noop from 'lodash/utility/noop'
 import omit from 'lodash/object/omit'
 
 export default class InputWithScrollEvent extends Component {
   static propTypes = {
     scrollDetectionEvents: PropTypes.array,
-    onScroll: PropTypes.func
+    onScroll: PropTypes.func,
   }
 
   static defaultProps = {
-    scrollDetectionEvents: ['onInput', 'onKeyDown', 'onKeyUp', 'onFocus',
-      'onBlur', 'onClick', 'onChange', 'onPaste', 'onCut', 'onMouseDown',
-      'onMouseUp', 'onMouseOver'],
-    onScroll: noop
+    scrollDetectionEvents: [
+      'onInput',
+      'onKeyDown',
+      'onKeyUp',
+      'onFocus',
+      'onBlur',
+      'onClick',
+      'onChange',
+      'onPaste',
+      'onCut',
+      'onMouseDown',
+      'onMouseUp',
+      'onMouseOver',
+    ],
+    onScroll: noop,
   }
 
   constructor(props) {
@@ -25,12 +36,12 @@ export default class InputWithScrollEvent extends Component {
     this.scrollPosition = this.getScrollPosition()
   }
 
-  onScroll({target}) {
+  onScroll({ target }) {
     const prevPos = this.scrollPosition
     const currPos = this.getScrollPosition()
     if (prevPos.top !== currPos.top || prevPos.left !== currPos.left) {
       this.scrollPosition = currPos
-      this.props.onScroll({target})
+      this.props.onScroll({ target })
     }
   }
 
@@ -39,15 +50,15 @@ export default class InputWithScrollEvent extends Component {
     setTimeout(() => {
       const target = this.refs.input
       // Don't trigger onScroll if the element has been detached.
-      if (target) this.onScroll({target})
+      if (target) this.onScroll({ target })
     })
     // Call original callback if it exists.
     if (this.props[name]) this.props[name](e)
   }
 
   getScrollPosition() {
-    const {scrollLeft, scrollTop} = this.refs.input
-    return {left: scrollLeft, top: scrollTop}
+    const { scrollLeft, scrollTop } = this.refs.input
+    return { left: scrollLeft, top: scrollTop }
   }
 
   createScrollDetectionHandlers() {
@@ -59,14 +70,9 @@ export default class InputWithScrollEvent extends Component {
 
   render() {
     const props = omit(
-      {...this.props, ...this.handlers},
-      'scrollDetectionEvents'
+      { ...this.props, ...this.handlers },
+      'scrollDetectionEvents',
     )
-    return (
-      <input
-        {...props}
-        onScroll={this.props.onScroll}
-        ref="input" />
-    )
+    return <input {...props} onScroll={this.props.onScroll} ref="input" />
   }
 }

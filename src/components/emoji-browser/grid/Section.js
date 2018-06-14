@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import pick from 'lodash/object/pick'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import SectionHeader from '../../section-header/SectionHeader'
 
@@ -17,11 +17,11 @@ export default class Section extends Component {
     label: PropTypes.string,
     hint: PropTypes.string,
     contentClassName: PropTypes.string,
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
   }
 
   static defaultProps = {
-    contentClassName: ''
+    contentClassName: '',
   }
 
   constructor(props) {
@@ -48,26 +48,33 @@ export default class Section extends Component {
   }
 
   render() {
-    const {Item} = this.props
+    const { Item } = this.props
 
     return (
       <section>
         <SectionHeader text={this.props.label} hint={this.props.hint} />
         <div className={this.props.contentClassName} ref="content">
           {this.props.items.map((data, i) => {
-            const props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
-              'visibilityContainment')
+            const props = pick(
+              this.props,
+              'onFocus',
+              'onSelect',
+              'onInvisible',
+              'visibilityContainment',
+            )
             return (
               <Item
                 {...data}
                 {...props}
                 sectionFocused={this.props.focused}
-                key={'item' + i}
+                key={`item${i}`}
                 onDidMount={::this.onItemDidMount}
-                onWillUnmount={::this.onItemWillUnmount} />
+                onWillUnmount={::this.onItemWillUnmount}
+              />
             )
           })}
         </div>
       </section>
     )
-  }}
+  }
+}

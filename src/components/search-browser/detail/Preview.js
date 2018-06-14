@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ImagesLoader from 'images-loader'
 import pick from 'lodash/object/pick'
 
@@ -7,10 +7,7 @@ import Spinner from 'grape-web/lib/components/spinner'
 
 const loader = new ImagesLoader()
 
-const stringOrNumber = PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.number
-])
+const stringOrNumber = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 
 /**
  * Preview image with loading indication.
@@ -22,7 +19,7 @@ export default class Preview extends Component {
     maxWidth: stringOrNumber,
     maxHeight: stringOrNumber,
     height: stringOrNumber,
-    width: stringOrNumber
+    width: stringOrNumber,
     /* eslint-enable react/no-unused-prop-types */
   }
 
@@ -30,14 +27,14 @@ export default class Preview extends Component {
     maxWidth: '100%',
     maxHeight: '100%',
     height: 'auto',
-    width: 'auto'
+    width: 'auto',
   }
 
   constructor(props) {
     super(props)
     this.state = {
       loading: false,
-      error: null
+      error: null,
     }
   }
 
@@ -48,22 +45,22 @@ export default class Preview extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       loading: true,
-      error: null
+      error: null,
     })
     this.load(nextProps.image)
   }
 
   load(image) {
-    loader.load(image, (err) => {
+    loader.load(image, err => {
       this.setState({
         loading: false,
-        error: err
+        error: err,
       })
     })
   }
 
   render() {
-    const {error} = this.state
+    const { error } = this.state
 
     if (this.state.loading && !error) {
       return <Spinner />

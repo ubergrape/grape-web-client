@@ -4,7 +4,7 @@ export default {
   container: {
     display: 'block',
     position: 'relative',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
   },
   highlighter: {
     position: 'absolute',
@@ -13,7 +13,7 @@ export default {
     top: 0,
     right: 0,
     color: 'transparent',
-    textRendering: 'auto'
+    textRendering: 'auto',
   },
   token: {
     extend: fonts.normal,
@@ -24,7 +24,7 @@ export default {
     padding: 1,
     marginLeft: -1,
     marginRight: -1,
-    color: 'transparent'
+    color: 'transparent',
   },
   editable: {
     position: 'relative',
@@ -35,6 +35,6 @@ export default {
     height: '100%',
     background: 'transparent',
     textRendering: 'auto',
-    wordBreak: 'break-word'
-  }
+    wordBreak: 'break-word',
+  },
 }

@@ -6,12 +6,12 @@ export default {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.silverLight
+    backgroundColor: colors.silverLight,
   },
   note: {
     marginTop: 16,
     width: '50%',
     color: colors.gainsboroDark,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }

@@ -8,7 +8,7 @@ describe('query', () => {
       expect(query).to.eql({
         query: '',
         trigger: undefined,
-        search: ''
+        search: '',
       })
     })
 
@@ -17,7 +17,7 @@ describe('query', () => {
       expect(query).to.eql({
         query: '#',
         trigger: '#',
-        search: ''
+        search: '',
       })
     })
 
@@ -26,7 +26,7 @@ describe('query', () => {
       expect(query).to.eql({
         query: '#something',
         trigger: '#',
-        search: 'something'
+        search: 'something',
       })
     })
   })

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import React, { Component } from 'react'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'
 import style from './style'
@@ -12,17 +12,17 @@ import style from './style'
 export default class Empty extends Component {
   static propTypes = {
     text: PropTypes.string,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    text: ''
+    text: '',
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
     return (
       <div className={classes.container} data-test="empty">
         <div className={classes.info}>{this.props.text}</div>

@@ -1,32 +1,28 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/components/spinner'
-import {debouncingTime} from 'grape-web/lib/constants/time'
+import { debouncingTime } from 'grape-web/lib/constants/time'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import find from 'lodash/collection/find'
 import debounce from 'lodash/function/debounce'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 import style from './searchBrowserStyle'
 import Results from './results/Results'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
-import {listTypes} from './constants'
+import { listTypes } from './constants'
 import Empty from '../empty/Empty'
-import {SERVICES_TRIGGER, QUERY_REGEX} from '../../components/query/constants'
+import { SERVICES_TRIGGER, QUERY_REGEX } from '../../components/query/constants'
 
 const messages = defineMessages({
   empty: {
     id: 'noResults',
-    defaultMessage: 'No Results.'
-  }
+    defaultMessage: 'No Results.',
+  },
 })
 
 /**
@@ -83,7 +79,7 @@ export default class SearchBrowser extends PureComponent {
     onShowServices: PropTypes.func,
     onUpdateInput: PropTypes.func,
     onSelectItem: PropTypes.func,
-    goTo: PropTypes.func
+    goTo: PropTypes.func,
   }
 
   static defaultProps = {
@@ -126,31 +122,31 @@ export default class SearchBrowser extends PureComponent {
     onUpdateInput: noop,
     onLoadServicesStats: noop,
     onSelectItem: noop,
-    goTo: noop
+    goTo: noop,
   }
 
   state = {}
 
   componentDidMount() {
-    const {data, onDidMount, onLoadServices} = this.props
+    const { data, onDidMount, onLoadServices } = this.props
     onDidMount(this)
     onLoadServices()
     this.onUpdateResults(data)
   }
 
   componentWillReceiveProps(nextProps) {
-    const {data} = nextProps
+    const { data } = nextProps
     if (data && data !== this.props.data) this.onUpdateResults(data)
 
     const service = this.state.lastAddedService
     if (service && nextProps.filters.indexOf(service.id) >= 0) {
-      this.setState({lastAddedService: null})
+      this.setState({ lastAddedService: null })
       this.input.replace(service.label)
     }
   }
 
   onUpdateResults(data) {
-    const {onUpdateResults, search} = this.props
+    const { onUpdateResults, search } = this.props
 
     if (
       data &&
@@ -166,24 +162,24 @@ export default class SearchBrowser extends PureComponent {
     }
   }
 
-  onFocusResult = (result) => {
+  onFocusResult = result => {
     if (this.props.focusedResult === result) return
     this.props.onFocusResult(result)
   }
 
-  onSelectResult = (result) => {
+  onSelectResult = result => {
     this.props.onSelectResult(result)
   }
 
-  onKeyDown = (e) => {
-    const {focusedView} = this.props
+  onKeyDown = e => {
+    const { focusedView } = this.props
 
     switch (keyname(e.keyCode)) {
       case 'esc':
         // Actions are focused - focus results.
         if (focusedView !== 'results') {
           this.props.onShowResults()
-        // Reset the search if there is one.
+          // Reset the search if there is one.
         } else if (this.props.value.trim()) {
           this.props.onReset()
         } else {
@@ -204,7 +200,8 @@ export default class SearchBrowser extends PureComponent {
         e.preventDefault()
         break
       case 'enter':
-        if (focusedView === 'services') this.onAddFilter(this.props.focusedService)
+        if (focusedView === 'services')
+          this.onAddFilter(this.props.focusedService)
         else if (focusedView === 'actions') this.onExecAction()
         else this.props.onFocusActions()
         e.preventDefault()
@@ -219,7 +216,7 @@ export default class SearchBrowser extends PureComponent {
     }
   }
 
-  onMouseDown = (e) => {
+  onMouseDown = e => {
     // This flag is to fix IE11 issue
     // http://stackoverflow.com/questions/2023779/clicking-on-a-divs-scroll-bar-fires-the-blur-event-in-i-e
     this.blurPrevented = true
@@ -228,7 +225,7 @@ export default class SearchBrowser extends PureComponent {
     if (e.target.nodeName !== 'INPUT') e.preventDefault()
   }
 
-  onBlur = (e) => {
+  onBlur = e => {
     if (!this.blurPrevented) {
       this.props.onBlur(e)
       return
@@ -238,73 +235,89 @@ export default class SearchBrowser extends PureComponent {
     e.target.focus()
   }
 
-  onMountInput = (ref) => {
+  onMountInput = ref => {
     this.input = ref
   }
 
-  onAddFilter = (service) => {
+  onAddFilter = service => {
     if (!service) return
     // We need to schedule the filter insertion into input until the action is
     // created and applied to the state, because as soon as we insert the filter
     // into the input, change event will trigger the search and before this,
     // state needs to have all the data in place.
-    this.setState({lastAddedService: service}, () => {
+    this.setState({ lastAddedService: service }, () => {
       this.props.onAddFilter(service)
     })
   }
 
-  onChange = ({value, search, filters, query}) => {
-    const {onUpdateInput, onReset} = this.props
+  onChange = ({ value, search, filters, query }) => {
+    const { onUpdateInput, onReset } = this.props
     if (!value) {
       onReset()
       return
     }
-    onUpdateInput({value, search, filters})
-    this.onChangeInput({search, filters, query})
+    onUpdateInput({ value, search, filters })
+    this.onChangeInput({ search, filters, query })
   }
 
-  onChangeInput = debounce(({search, filters, query}) => {
+  onChangeInput = debounce(({ search, filters, query }) => {
     const {
-      onChange, onShowServices, onShowResults,
+      onChange,
+      onShowServices,
+      onShowResults,
       onLoadServicesStats,
-      services
+      services,
     } = this.props
 
     if (query.trigger === SERVICES_TRIGGER) {
-      onShowServices({query, services})
-      onLoadServicesStats({search: search.replace(QUERY_REGEX, '')})
+      onShowServices({ query, services })
+      onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
     } else if (search) {
       onShowResults()
       onChange({
         search,
-        filters: filters.map(filter => find(services, {id: filter}).key)
+        filters: filters.map(filter => find(services, { id: filter }).key),
       })
     }
   }, debouncingTime)
 
   onExecAction = () => {
     const {
-      onExecAction, onReset, onSelectItem,
-      focusedResult: result, focusedAction: action, goTo
+      onExecAction,
+      onReset,
+      onSelectItem,
+      focusedResult: result,
+      focusedAction: action,
+      goTo,
     } = this.props
 
-    onExecAction({result, action}, goTo)
+    onExecAction({ result, action }, goTo)
 
     if (action.type === 'insert') {
       onReset()
-      onSelectItem({item: result})
+      onSelectItem({ item: result })
     }
   }
 
   getBody() {
     const {
-      height, results, search, intl: {formatMessage},
-      onAddIntegration, focusedView, focusedResult,
-      currServices, focusedService, onFocusService,
+      height,
+      results,
+      search,
+      intl: { formatMessage },
+      onAddIntegration,
+      focusedView,
+      focusedResult,
+      currServices,
+      focusedService,
+      onFocusService,
       servicesStats,
       isLoading,
-      actions, focusedAction, hoveredAction,
-      onFocusAction, onBlurAction
+      actions,
+      focusedAction,
+      hoveredAction,
+      onFocusAction,
+      onBlurAction,
     } = this.props
 
     if (focusedView === 'services') {
@@ -317,7 +330,7 @@ export default class SearchBrowser extends PureComponent {
           onFocus={onFocusService}
         />
       )
-      return {element, height}
+      return { element, height }
     }
 
     if (results.length) {
@@ -337,29 +350,24 @@ export default class SearchBrowser extends PureComponent {
           onSelect={this.onSelectResult}
         />
       )
-      return {element, height}
+      return { element, height }
     }
 
     if (!isLoading && search.trim()) {
       return {
         element: <Empty text={formatMessage(messages.empty)} />,
-        height: 'auto'
+        height: 'auto',
       }
     }
 
     return {
       element: <Info onAddIntegration={onAddIntegration} />,
-      height: 'auto'
+      height: 'auto',
     }
   }
 
   render() {
-    const {
-      classes,
-      height,
-      className,
-      tokens, value
-    } = this.props
+    const { classes, height, className, tokens, value } = this.props
     const body = this.getBody()
 
     return (
@@ -369,7 +377,7 @@ export default class SearchBrowser extends PureComponent {
         // be auto detected.
         style={{
           height: body.height,
-          maxHeight: height
+          maxHeight: height,
         }}
         onMouseDown={this.onMouseDown}
         data-test="search-browser"
