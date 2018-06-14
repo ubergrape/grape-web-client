@@ -144,8 +144,12 @@
     "sg:build": "styleguidist build"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "eslint --fix --quiet",
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
       "git add"
     ]
   },
