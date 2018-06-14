@@ -1,6 +1,6 @@
-import {rgba} from 'css-functions'
-import {white} from 'grape-theme/dist/base-colors'
-import {borderRadius} from 'grape-theme/dist/sizes'
+import { rgba } from 'css-functions'
+import { white } from 'grape-theme/dist/base-colors'
+import { borderRadius } from 'grape-theme/dist/sizes'
 
 import create from '../../../inline-icon/create'
 
@@ -9,7 +9,7 @@ export const styles = {
     padding: 10,
     borderRadius: borderRadius.bigger,
     backgroundColor: rgba(0, 0, 0, 0.7),
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   },
   action: {
     display: 'inline-block',
@@ -20,13 +20,13 @@ export const styles = {
     userSelect: 'none',
     marginLeft: 10,
     '&:first-child': {
-      marginLeft: 0
+      marginLeft: 0,
     },
     opacity: 0.7,
     '&:hover, &:focus': {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
-  playIcon: create('play', {size: 70, color: white}),
-  externalLinkIcon: create('external', {size: 70, color: white})
+  playIcon: create('play', { size: 70, color: white }),
+  externalLinkIcon: create('external', { size: 70, color: white }),
 }

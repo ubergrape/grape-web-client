@@ -1,9 +1,9 @@
-import {yellow} from 'grape-theme/dist/base-colors'
-import {borderDefault, chatBackground} from 'grape-theme/dist/web-colors'
-import {spacer} from 'grape-theme/dist/sizes'
+import { yellow } from 'grape-theme/dist/base-colors'
+import { borderDefault, chatBackground } from 'grape-theme/dist/web-colors'
+import { spacer } from 'grape-theme/dist/sizes'
 import scrollbarSize from 'scrollbar-size'
 
-import {controlSpacing} from './constants'
+import { controlSpacing } from './constants'
 
 const aboveHintsPadding = 3
 
@@ -14,8 +14,8 @@ export const styles = {
     borderTop: {
       width: 1,
       style: 'solid',
-      color: borderDefault
-    }
+      color: borderDefault,
+    },
   },
   above: {
     position: 'absolute',
@@ -24,16 +24,16 @@ export const styles = {
     right: scrollbarSize,
     left: 0,
     padding: [aboveHintsPadding, spacer.l],
-    display: 'flex'
+    display: 'flex',
   },
   typingNotificationContainer: {
     flex: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   typingNotification: {
     background: chatBackground,
     padding: aboveHintsPadding,
-    paddingLeft: 0
+    paddingLeft: 0,
   },
   markdownTipsLink: {
     flex: 0,
@@ -41,17 +41,17 @@ export const styles = {
     background: chatBackground,
     whiteSpace: 'nowrap',
     padding: aboveHintsPadding,
-    paddingRight: 0
+    paddingRight: 0,
   },
   inputWithControls: {
     display: 'flex',
     alignItems: 'center',
     '&:last-child': {
       isolate: false,
-      marginRight: -controlSpacing
-    }
+      marginRight: -controlSpacing,
+    },
   },
   highlighted: {
-    backgroundColor: yellow
-  }
+    backgroundColor: yellow,
+  },
 }

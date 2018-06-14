@@ -1,11 +1,11 @@
 import merge from 'lodash/object/merge'
 import parseUrl from 'grape-web/lib/parse-url'
 
-const parseServiceUrl = (url) => {
-  const {protocol, host} = parseUrl(url)
+const parseServiceUrl = url => {
+  const { protocol, host } = parseUrl(url)
   return {
     wsUrl: `${protocol === 'http:' ? 'ws' : 'wss'}://${host}/ws`,
-    host
+    host,
   }
 }
 
@@ -14,11 +14,11 @@ class Config {
     roles: {
       ROLE_USER: 0,
       ROLE_ADMIN: 1,
-      ROLE_OWNER: 2
-    }
+      ROLE_OWNER: 2,
+    },
   }
   user = {
-    languageCode: 'en'
+    languageCode: 'en',
   }
   organization = {}
   forceLongpolling = false
@@ -32,7 +32,7 @@ class Config {
     host: null,
     uploadPath: null,
     staticPath: null,
-    authToken: null
+    authToken: null,
   }
   container = '#grape-client'
 
@@ -50,7 +50,8 @@ class Config {
     if (localStorage.forceLongpolling) {
       this.forceLongpolling = Boolean(localStorage.forceLongpolling)
     }
-    if (localStorage.serviceUrl) this.server.serviceUrl = localStorage.serviceUrl
+    if (localStorage.serviceUrl)
+      this.server.serviceUrl = localStorage.serviceUrl
   }
 
   setup(conf) {

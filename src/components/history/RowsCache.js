@@ -27,7 +27,7 @@ export const equalPropsData = (a, b) => {
 export default class RowsCache extends CellMeasurerCache {
   setRows(rows) {
     // Clean up the cache if needed.
-    rows.forEach((props) => {
+    rows.forEach(props => {
       const item = cache.get(props.id)
       // The purpose with this comparison is to reset as little rows in the
       // cache as possible since react-virtualized in version 9 had troubles
@@ -40,15 +40,15 @@ export default class RowsCache extends CellMeasurerCache {
     this.rows = rows
   }
 
-  rowHeight = ({index}) => {
-    const {id} = this.rows[index] || {}
-    const {height} = cache.get(id) || {}
+  rowHeight = ({ index }) => {
+    const { id } = this.rows[index] || {}
+    const { height } = cache.get(id) || {}
     return height || null
   }
 
   set(index, columnIndex, width, height) {
     const props = this.rows[index]
-    cache.put(props.id, {height, props})
+    cache.put(props.id, { height, props })
   }
 
   has(index) {

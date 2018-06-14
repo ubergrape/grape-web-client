@@ -1,10 +1,10 @@
-import {small} from 'grape-theme/dist/fonts'
-import {white} from 'grape-theme/dist/base-colors'
+import { small } from 'grape-theme/dist/fonts'
+import { white } from 'grape-theme/dist/base-colors'
 import {
   link as linkColor,
-  borderDefault as borderColor
+  borderDefault as borderColor,
 } from 'grape-theme/dist/web-colors'
-import {icon as iconSize} from 'grape-theme/dist/sizes'
+import { icon as iconSize } from 'grape-theme/dist/sizes'
 import buttonReset from '../button/reset'
 
 const buttonBorderWidth = 1
@@ -19,40 +19,40 @@ export const styles = {
     border: [buttonBorderWidth, 'solid'],
     '&:hover, &:hover *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   iconSettingsButton: {
     composes: '$iconSettingsButtonBase',
     borderColor: 'transparent',
     '&:hover': {
       isolate: false,
-      borderColor: linkColor
-    }
+      borderColor: linkColor,
+    },
   },
   iconSettingsButtonActive: {
     composes: '$iconSettingsButtonBase',
-    borderColor: linkColor
+    borderColor: linkColor,
   },
   iconSettings: {
     padding: 15,
-    paddingRight: 10
+    paddingRight: 10,
   },
   iconSettingsTitle: {
     extend: small,
     display: 'block',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   roomColors: {
-    marginTop: 20
+    marginTop: 20,
   },
   iconSettingsItem: {
     display: 'inline-block',
     margin: [0, 5, 5, 0],
     '&:last-child': {
       isolate: false,
-      marginRight: 0
-    }
+      marginRight: 0,
+    },
   },
   chooserButtonBase: {
     extend: buttonReset,
@@ -70,22 +70,22 @@ export const styles = {
       borderColor: linkColor,
       '&, & *': {
         isolate: false,
-        cursor: 'pointer'
-      }
-    }
+        cursor: 'pointer',
+      },
+    },
   },
   chooserButton: {
     composes: '$chooserButtonBase',
-    borderColor
+    borderColor,
   },
   chooserButtonActive: {
     composes: '$chooserButtonBase',
-    borderColor: linkColor
+    borderColor: linkColor,
   },
   iconSettingsList: {
-    marginTop: 10
+    marginTop: 10,
   },
   icon: {
-    transform: `translate(-${buttonBorderWidth}px, -${buttonBorderWidth}px)`
-  }
+    transform: `translate(-${buttonBorderWidth}px, -${buttonBorderWidth}px)`,
+  },
 }

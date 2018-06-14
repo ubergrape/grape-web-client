@@ -1,26 +1,26 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {orgSelector} from '../selectors'
-import {error} from './'
+import { orgSelector } from '../selectors'
+import { error } from './'
 
-export function loadNotificationSettings({channel}) {
+export function loadNotificationSettings({ channel }) {
   return (dispatch, getState) => {
     const org = orgSelector(getState())
 
     dispatch({
       type: types.REQUEST_NOTIFICATION_SETTINGS,
-      payload: {channel}
+      payload: { channel },
     })
 
     api
       .getNotificationSettings(org.id, channel.id)
-      .then((settings) => {
+      .then(settings => {
         dispatch({
           type: types.HANDLE_NOTIFICATION_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(error(err))
       })
   }
@@ -30,7 +30,7 @@ export function setNotificationSetting(channel, options) {
   return (dispatch, getState) => {
     dispatch({
       type: types.REQUEST_NOTIFICATION_SETTINGS_UPDATE,
-      payload: {channel, options}
+      payload: { channel, options },
     })
 
     const org = orgSelector(getState())
@@ -38,27 +38,27 @@ export function setNotificationSetting(channel, options) {
     api
       .setNotificationSetting(org.id, channel.id, options)
       .then(() => {
-        dispatch(loadNotificationSettings({channel}))
+        dispatch(loadNotificationSettings({ channel }))
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(error(err))
       })
   }
 }
 
-export function showNotificationSettings({channel}) {
-  return (dispatch) => {
+export function showNotificationSettings({ channel }) {
+  return dispatch => {
     dispatch({
       type: types.SHOW_NOTIFICATION_SETTINGS,
-      payload: {channel}
+      payload: { channel },
     })
 
-    dispatch(loadNotificationSettings({channel}))
+    dispatch(loadNotificationSettings({ channel }))
   }
 }
 
 export function hideNotificationSettings() {
   return {
-    type: types.HIDE_NOTIFICATION_SETTINGS
+    type: types.HIDE_NOTIFICATION_SETTINGS,
   }
 }

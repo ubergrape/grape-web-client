@@ -11,15 +11,15 @@ import omit from 'lodash/object/omit'
 export default function useTheme(Component, options = {}) {
   const theme = omit(options, 'styles', 'jss')
 
-  const Theme = (props) => {
-    const {sheet, ...rest} = props
+  const Theme = props => {
+    const { sheet, ...rest } = props
     theme.classes = sheet.classes
     delete rest.theme
     return <Component theme={theme} {...rest} />
   }
 
   Theme.propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   return injectSheet(options.styles, options.jss)(Theme)

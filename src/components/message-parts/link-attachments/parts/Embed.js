@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
 import EmbedActions from './EmbedActions'
-import {IframeUnsafeHtml} from '../../../iframe-unsafe-html'
-import {styles} from './embedTheme.js'
+import { IframeUnsafeHtml } from '../../../iframe-unsafe-html'
+import { styles } from './embedTheme.js'
 
 @injectSheet(styles)
 export default class Embed extends PureComponent {
@@ -15,34 +15,31 @@ export default class Embed extends PureComponent {
     embedHtml: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    thumbUrl: null
+    thumbUrl: null,
   }
 
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
-  onClick = (e) => {
+  onClick = e => {
     e.preventDefault()
-    this.setState({isOpen: true})
+    this.setState({ isOpen: true })
   }
 
   renderActions() {
     const {
       permalink,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (
       <div className={classes.actions}>
-        <EmbedActions
-          permalink={permalink}
-          onClick={this.onClick}
-        />
+        <EmbedActions permalink={permalink} onClick={this.onClick} />
       </div>
     )
   }
@@ -50,7 +47,7 @@ export default class Embed extends PureComponent {
   renderIframe() {
     const {
       embedHtml,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     const html = `
@@ -70,30 +67,28 @@ export default class Embed extends PureComponent {
       ${embedHtml}
     `
 
-    return (
-      <IframeUnsafeHtml
-        className={classes.iframe}
-        html={html}
-      />
-    )
+    return <IframeUnsafeHtml className={classes.iframe} html={html} />
   }
 
   render() {
     const {
       thumbUrl,
-      width, height,
-      sheet: {classes}
+      width,
+      height,
+      sheet: { classes },
     } = this.props
 
-    const {isOpen} = this.state
+    const { isOpen } = this.state
     const style = {
       backgroundImage: !isOpen && thumbUrl ? `url(${thumbUrl})` : 'none',
-      width
+      width,
     }
 
     return (
       <div className={cn(classes.media)} style={style}>
-        <div style={{width: 1, paddingBottom: `${100 * (height / width)}%`}} />
+        <div
+          style={{ width: 1, paddingBottom: `${100 * (height / width)}%` }}
+        />
         {!isOpen ? this.renderActions() : this.renderIframe()}
       </div>
     )

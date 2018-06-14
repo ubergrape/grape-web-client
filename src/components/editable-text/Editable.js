@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 
 import useTheme from '../theme/useTheme'
 import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
@@ -16,29 +16,29 @@ export default class Editable extends PureComponent {
     themes: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
   }
 
   constructor(props) {
     super(props)
-    const {input, string} = props.themes
+    const { input, string } = props.themes
     this.input = {
       Input: useTheme(RawInput, input),
-      String: useTheme(RawInput, string)
+      String: useTheme(RawInput, string),
     }
     this.textarea = {
       Input: useTheme(ResizableTextarea, input),
-      String: useTheme(ResizableTextarea, string)
+      String: useTheme(ResizableTextarea, string),
     }
   }
 
-  onFocusEditable = ({target}) => {
+  onFocusEditable = ({ target }) => {
     target.selectionStart = 0
     target.selectionEnd = this.props.value.length
   }
 
   render() {
-    const {isEditing, multiline} = this.props
+    const { isEditing, multiline } = this.props
     const tag = multiline ? 'textarea' : 'input'
     const Renderable = this[tag][isEditing ? 'Input' : 'String']
 

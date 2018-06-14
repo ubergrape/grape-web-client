@@ -1,9 +1,11 @@
-import {red, white} from 'grape-theme/dist/base-colors'
+import { red, white } from 'grape-theme/dist/base-colors'
 import color from 'color'
 
 import button from './default'
 
-const stateColor = color(red).lighten(0.2).rgbaString()
+const stateColor = color(red)
+  .lighten(0.2)
+  .rgbaString()
 
 export default {
   extend: button,
@@ -13,6 +15,6 @@ export default {
   '&:hover, &:focus': {
     isolate: false,
     background: stateColor,
-    borderColor: stateColor
-  }
+    borderColor: stateColor,
+  },
 }

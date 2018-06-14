@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
 
@@ -7,38 +7,40 @@ import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 
-import {InviteSuccess} from '../i18n/i18n'
+import { InviteSuccess } from '../i18n/i18n'
 import Dialog from '../dialog/Dialog'
 import InviteLink from './InviteLink'
 import EmailsInput from './EmailsInput'
 import PersonalMessageInput from './PersonalMessageInput'
-import {styles} from './inviteToOrgTheme'
+import { styles } from './inviteToOrgTheme'
 
 const messages = defineMessages({
   title: {
     id: 'inviteToOrgTitle',
-    defaultMessage: 'Invite people to your organization'
+    defaultMessage: 'Invite people to your organization',
   },
   invitePlaceholder: {
     id: 'inviteToOrgNote',
-    defaultMessage: 'Invite multiple users at once, just separate their email addresses with a comma.'
+    defaultMessage:
+      'Invite multiple users at once, just separate their email addresses with a comma.',
   },
   messagesPlaceholder: {
     id: 'InviteToOrgMessage',
-    defaultMessage: 'You can add personal message to the invitation email.'
+    defaultMessage: 'You can add personal message to the invitation email.',
   },
   loadingLinkPlaceholder: {
     id: 'loadingLink',
-    description: 'used in invite to org link input placeholder, while link is loading',
-    defaultMessage: 'Loading link…'
+    description:
+      'used in invite to org link input placeholder, while link is loading',
+    defaultMessage: 'Loading link…',
   },
   error: {
     id: 'inviteToOrgError',
-    defaultMessage: 'Enter valid email addresses separated by a space.'
-  }
+    defaultMessage: 'Enter valid email addresses separated by a space.',
+  },
 })
 
 @injectSheet(styles)
@@ -57,53 +59,53 @@ export default class InviteToOrg extends PureComponent {
     getIniviteLink: PropTypes.func.isRequired,
     onHideError: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired
+    onSuccess: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    orgId: null
+    orgId: null,
   }
 
   state = {
     message: '',
     value: '',
-    isLoading: false
+    isLoading: false,
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      isInviter, show, orgId,
-      inviteLink, getIniviteLink
-    } = nextProps
+    const { isInviter, show, orgId, inviteLink, getIniviteLink } = nextProps
 
     if (isInviter && show && !inviteLink && orgId) getIniviteLink()
 
-    this.setState({isLoading: false})
+    this.setState({ isLoading: false })
   }
 
-  onInviteesChange = ({target: {value}}) => {
-    this.setState({value})
+  onInviteesChange = ({ target: { value } }) => {
+    this.setState({ value })
   }
 
-  onMessageChange = ({target}) => {
-    this.setState({message: target.value})
+  onMessageChange = ({ target }) => {
+    this.setState({ message: target.value })
   }
 
-  onInvite = (e) => {
+  onInvite = e => {
     e.preventDefault()
-    const {onInvite, onSuccess} = this.props
-    const {value, message} = this.state
-    this.setState({isLoading: true}, () => {
-      onInvite({
-        emails: value,
-        message
-      }, ({emails}) => {
-        onSuccess(<InviteSuccess invited={emails} />)
-      })
+    const { onInvite, onSuccess } = this.props
+    const { value, message } = this.state
+    this.setState({ isLoading: true }, () => {
+      onInvite(
+        {
+          emails: value,
+          message,
+        },
+        ({ emails }) => {
+          onSuccess(<InviteSuccess invited={emails} />)
+        },
+      )
     })
   }
 
-  onClickInviteLink = ({target}) => {
+  onClickInviteLink = ({ target }) => {
     /* eslint-disable no-param-reassign */
     target.selectionStart = 0
     target.selectionEnd = target.value.length
@@ -111,40 +113,39 @@ export default class InviteToOrg extends PureComponent {
   }
 
   getError() {
-    const {showError, intl: {formatMessage}} = this.props
+    const {
+      showError,
+      intl: { formatMessage },
+    } = this.props
     if (!showError) return null
 
     return {
       level: 'error',
-      message: formatMessage(messages.error)
+      message: formatMessage(messages.error),
     }
   }
 
   render() {
     const {
-      sheet: {classes},
-      intl: {formatMessage},
-      onHide, show,
-      showInviteLinkFeature, inviteLink,
-      isInviter, onHideError
+      sheet: { classes },
+      intl: { formatMessage },
+      onHide,
+      show,
+      showInviteLinkFeature,
+      inviteLink,
+      isInviter,
+      onHideError,
     } = this.props
-    const {value, isLoading, message} = this.state
+    const { value, isLoading, message } = this.state
 
     if (!isInviter) return null
 
     return (
-      <Dialog
-        show={show}
-        onHide={onHide}
-        title={formatMessage(messages.title)}
-      >
+      <Dialog show={show} onHide={onHide} title={formatMessage(messages.title)}>
         <div className={classes.wrapper}>
-          <form
-            className={classes.form}
-            onSubmit={this.onInvite}
-          >
+          <form className={classes.form} onSubmit={this.onInvite}>
             <EmailsInput
-              theme={{classes}}
+              theme={{ classes }}
               focused
               value={value}
               disabled={isLoading}
@@ -154,7 +155,7 @@ export default class InviteToOrg extends PureComponent {
               placeholder={formatMessage(messages.invitePlaceholder)}
             />
             <PersonalMessageInput
-              theme={{classes}}
+              theme={{ classes }}
               value={message}
               disabled={isLoading}
               onChange={this.onMessageChange}
@@ -177,7 +178,7 @@ export default class InviteToOrg extends PureComponent {
           <InviteLink
             show={showInviteLinkFeature}
             link={inviteLink}
-            theme={{classes}}
+            theme={{ classes }}
             placeholder={formatMessage(messages.loadingLinkPlaceholder)}
             onClick={this.onClickInviteLink}
           />

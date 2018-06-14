@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Position from 'react-overlays/lib/Position'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 
@@ -33,13 +33,13 @@ Dropdown.propTypes = {
   children: PropTypes.node.isRequired,
   target: PropTypes.oneOfType([
     PropTypes.instanceOf(Component),
-    PropTypes.instanceOf(Element)
+    PropTypes.instanceOf(Element),
   ]).isRequired,
   placement: PropTypes.string,
-  shouldUpdatePosition: PropTypes.bool
+  shouldUpdatePosition: PropTypes.bool,
 }
 
 Dropdown.defaultProps = {
   placement: 'bottom',
-  shouldUpdatePosition: false
+  shouldUpdatePosition: false,
 }

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
@@ -11,8 +11,8 @@ import Time from './Time'
     display: 'flex',
     overflow: 'hidden',
     width: '100%',
-    alignItems: 'baseline'
-  }
+    alignItems: 'baseline',
+  },
 })
 export default class Header extends PureComponent {
   static propTypes = {
@@ -23,35 +23,43 @@ export default class Header extends PureComponent {
     userTime: PropTypes.string,
     author: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     className: '',
     theme: {
       classes: {
-        header: ''
-      }
+        header: '',
+      },
     },
     children: null,
     onClickAuthor: null,
     time: null,
     userTime: null,
-    author: null
+    author: null,
   }
 
   render() {
     const {
-      time, userTime, author, onClickAuthor,
-      className, sheet, theme, children
+      time,
+      userTime,
+      author,
+      onClickAuthor,
+      className,
+      sheet,
+      theme,
+      children,
     } = this.props
-    const {classes} = sheet
+    const { classes } = sheet
     return (
       <header className={cn(classes.header, theme.classes.header, className)}>
         <Author
           onClick={onClickAuthor}
           author={author}
-          className={theme.classes[onClickAuthor ? 'authorClickable' : 'author']}
+          className={
+            theme.classes[onClickAuthor ? 'authorClickable' : 'author']
+          }
         />
         <Time time={time} userTime={userTime} />
         {children}

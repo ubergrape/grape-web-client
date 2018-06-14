@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/components/spinner'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  FormattedMessage,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 
 import DateSeparator from '../../message-parts/DateSeparator'
-import {ShowMore} from '../../i18n'
+import { ShowMore } from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Options from '../Options'
 import style from './messageSearchStyles'
@@ -42,7 +38,7 @@ export default class MessageSearch extends PureComponent {
     total: PropTypes.number,
     user: PropTypes.object,
     customEmojis: PropTypes.object.isRequired,
-    options: PropTypes.array.isRequired
+    options: PropTypes.array.isRequired,
   }
 
   static defaultProps = {
@@ -54,7 +50,7 @@ export default class MessageSearch extends PureComponent {
     searchActivities: false,
     customEmojis: {},
     total: null,
-    user: null
+    user: null,
   }
 
   componentDidMount() {
@@ -71,7 +67,7 @@ export default class MessageSearch extends PureComponent {
     this.load()
   }
 
-  onSelect = (item) => {
+  onSelect = item => {
     this.props.onSelect(item)
   }
 
@@ -79,15 +75,19 @@ export default class MessageSearch extends PureComponent {
     this.props.onClose()
   }
 
-  onClickOption = (e) => {
-    const {query} = this.props
+  onClickOption = e => {
+    const { query } = this.props
     // Don't close sidebar if click outside is in the options.
     if (!query || !query.length) e.stopPropagation()
   }
 
   shouldLoad({
-    query, show, currentChannelOnly, showCurrentRoomMentions, searchActivities,
-    showRoomMentions
+    query,
+    show,
+    currentChannelOnly,
+    showCurrentRoomMentions,
+    searchActivities,
+    showRoomMentions,
   }) {
     switch (show) {
       case 'search':
@@ -98,7 +98,8 @@ export default class MessageSearch extends PureComponent {
         break
       case 'mentions':
         if (showRoomMentions !== this.props.showRoomMentions) return true
-        if (showCurrentRoomMentions !== this.props.showCurrentRoomMentions) return true
+        if (showCurrentRoomMentions !== this.props.showCurrentRoomMentions)
+          return true
         break
       default:
     }
@@ -107,8 +108,14 @@ export default class MessageSearch extends PureComponent {
 
   load(props = this.props) {
     const {
-      items, limit, query, currentChannelOnly, searchActivities, showRoomMentions,
-      showCurrentRoomMentions, onLoad
+      items,
+      limit,
+      query,
+      currentChannelOnly,
+      searchActivities,
+      showRoomMentions,
+      showCurrentRoomMentions,
+      onLoad,
     } = props
     if (!query || !query.length) return
 
@@ -118,11 +125,14 @@ export default class MessageSearch extends PureComponent {
         options = {
           showRoomMentions,
           showCurrentRoomMentions,
-          shouldReplace: shouldReplace(this.props, {showRoomMentions, showCurrentRoomMentions})
+          shouldReplace: shouldReplace(this.props, {
+            showRoomMentions,
+            showCurrentRoomMentions,
+          }),
         }
         break
       case 'search':
-        options = {currentChannelOnly, searchActivities}
+        options = { currentChannelOnly, searchActivities }
         break
       default:
     }
@@ -132,27 +142,27 @@ export default class MessageSearch extends PureComponent {
       offset: items.length ? items[items.length - 1].time : undefined,
       limit,
       query,
-      options
+      options,
     })
   }
 
   renderMessages() {
-    const {
-      items: messages,
-      classes
-    } = this.props
+    const { items: messages, classes } = this.props
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
 
       // Render date separator.
-      if (!prevMessage || !moment(message.time).isSame(prevMessage.time, 'day')) {
+      if (
+        !prevMessage ||
+        !moment(message.time).isSame(prevMessage.time, 'day')
+      ) {
         elements.push(
           <DateSeparator
-            theme={{date: classes.separatorDate}}
+            theme={{ date: classes.separatorDate }}
             date={message.time}
             key={`${message.id}-date`}
-          />
+          />,
         )
       }
 
@@ -161,7 +171,7 @@ export default class MessageSearch extends PureComponent {
         elements.push(
           <div className={classes.channel} key={`${message.id}-channel`}>
             {message.channel.name}
-          </div>
+          </div>,
         )
       }
       elements.push(this.renderMessage(message))
@@ -171,12 +181,12 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderMessage(message) {
-    const {query, user, customEmojis, intl} = this.props
+    const { query, user, customEmojis, intl } = this.props
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
       user,
       intl,
-      customEmojis
+      customEmojis,
     })
 
     return (
@@ -187,14 +197,11 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderLoadMore() {
-    const {total, items, classes} = this.props
+    const { total, items, classes } = this.props
     if (!total || items.length >= total) return null
     return (
       <div className={classes.loadMoreContainer}>
-        <button
-          onClick={this.onLoadMore}
-          className={classes.button}
-        >
+        <button onClick={this.onLoadMore} className={classes.button}>
           <ShowMore />
         </button>
       </div>
@@ -202,7 +209,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   renderEmpty() {
-    const {classes, total} = this.props
+    const { classes, total } = this.props
     if (total !== 0) return null
     return (
       <div className={classes.empty}>
@@ -216,7 +223,7 @@ export default class MessageSearch extends PureComponent {
   }
 
   render() {
-    const {user, images, title, isLoading, classes, options} = this.props
+    const { user, images, title, isLoading, classes, options } = this.props
 
     if (!user) return null
 

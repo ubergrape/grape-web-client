@@ -1,25 +1,28 @@
 import React from 'react'
-import {defineMessages, injectIntl} from 'react-intl'
+import { defineMessages, injectIntl } from 'react-intl'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
-import {small} from 'grape-theme/dist/fonts'
+import { small } from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import cn from 'classnames'
 
-import {maxChannelDescriptionLength} from '../../../constants/app'
-import {Description as DescriptionText} from '../../i18n'
+import { maxChannelDescriptionLength } from '../../../constants/app'
+import { Description as DescriptionText } from '../../i18n'
 import EditableText from '../../editable-text/EditableText'
 
 const messages = defineMessages({
   placeholder: {
     id: 'addGroupDescription',
-    defaultMessage: 'Add a group description here…'
-  }
+    defaultMessage: 'Add a group description here…',
+  },
 })
 
-const Editable = injectIntl((props) => {
+const Editable = injectIntl(props => {
   const {
-    allowEdit, description, intl: {formatMessage}, onSetRoomDescription
+    allowEdit,
+    description,
+    intl: { formatMessage },
+    onSetRoomDescription,
   } = props
 
   if (!allowEdit) return <p>{description}</p>
@@ -36,35 +39,42 @@ const Editable = injectIntl((props) => {
   )
 })
 
-const PrivateHint = injectSheet(({palette}) => ({
+const PrivateHint = injectSheet(({ palette }) => ({
   root: {
     extend: small,
-    color: palette.text.secondary
+    color: palette.text.secondary,
   },
   icon: {
     color: 'inherit',
-    marginRight: sizes.spacer.xs
-  }
-}))(({classes}) => (
+    marginRight: sizes.spacer.xs,
+  },
+}))(({ classes }) => (
   <div className={classes.root}>
     <Icon name="lock" className={classes.icon} />
     This conversation is private.
   </div>
 ))
 
-const styles = ({palette}) => ({
+const styles = ({ palette }) => ({
   root: {
-    display: 'block'
+    display: 'block',
   },
   title: {
     extend: small,
     textTransform: 'uppercase',
     background: '0 0 no-repeat',
-    color: palette.text.secondary
-  }
+    color: palette.text.secondary,
+  },
 })
 
-const Description = ({classes, className, allowEdit, description, isPublic, ...rest}) => {
+const Description = ({
+  classes,
+  className,
+  allowEdit,
+  description,
+  isPublic,
+  ...rest
+}) => {
   if (!allowEdit && !description) return null
 
   return (
@@ -72,11 +82,7 @@ const Description = ({classes, className, allowEdit, description, isPublic, ...r
       <h2 className={classes.title}>
         <DescriptionText />
       </h2>
-      <Editable
-        allowEdit={allowEdit}
-        description={description}
-        {...rest}
-      />
+      <Editable allowEdit={allowEdit} description={description} {...rest} />
       {!isPublic && <PrivateHint />}
     </section>
   )

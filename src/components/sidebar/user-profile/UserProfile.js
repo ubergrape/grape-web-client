@@ -1,23 +1,24 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 
-import {userStatusMap} from '../../../constants/app'
-import {Username} from '../../avatar-name'
+import { userStatusMap } from '../../../constants/app'
+import { Username } from '../../avatar-name'
 import {
-  SharedFiles as SharedFilesText, UserProfile as UserProfileText,
-  PinnedMessages as PinnedMessagesText
+  SharedFiles as SharedFilesText,
+  UserProfile as UserProfileText,
+  PinnedMessages as PinnedMessagesText,
 } from '../../i18n'
 import SharedFiles from '../shared-files/SharedFiles'
 import PinnedMessages from '../pinned-messages/PinnedMessages'
 import SidebarPanel from '../SidebarPanel'
-import {spacing} from '../constants'
+import { spacing } from '../constants'
 import TabbedContent from '../TabbedContent'
 import About from './About'
 
@@ -26,7 +27,7 @@ const tabs = [
     name: 'pinnedMessages',
     icon: 'pinFilled',
     render: 'renderPinnedMessages',
-    title: <PinnedMessagesText />
+    title: <PinnedMessagesText />,
   },
   {
     name: 'about',
@@ -39,26 +40,26 @@ const tabs = [
         description="User profile sidebar, about user title."
       />
     ),
-    onSelect: 'onUserInfoClick'
+    onSelect: 'onUserInfoClick',
   },
   {
     name: 'files',
     icon: 'folderPicture',
     render: 'renderSharedFiles',
-    title: <SharedFilesText />
-  }
+    title: <SharedFilesText />,
+  },
 ]
 
 @injectSheet({
   userNameContainer: {
     display: 'block',
-    padding: spacing
+    padding: spacing,
   },
   avatar: {
     width: sizes.icon.xxl,
-    height: sizes.icon.xxl
+    height: sizes.icon.xxl,
   },
-  userName: fonts.bigger
+  userName: fonts.bigger,
 })
 export default class UserProfile extends PureComponent {
   static propTypes = {
@@ -78,7 +79,7 @@ export default class UserProfile extends PureComponent {
     avatar: PropTypes.string,
     displayName: PropTypes.string,
     showSubview: PropTypes.string,
-    subview: PropTypes.object
+    subview: PropTypes.object,
   }
 
   static defaultProps = {
@@ -87,38 +88,44 @@ export default class UserProfile extends PureComponent {
     status: undefined,
     subview: undefined,
     email: undefined,
-    showSubview: 'pinnedMessages'
+    showSubview: 'pinnedMessages',
   }
 
   constructor(props) {
     super(props)
-    const {classes} = props
+    const { classes } = props
     this.userNameTheme = {
       classes: {
         name: classes.userName,
-        avatar: classes.avatar
-      }
+        avatar: classes.avatar,
+      },
     }
   }
 
-  onChangeTab = (index) => {
+  onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
   }
 
   onUserInfoClick = () => {
-    const {getUser, email, id} = this.props
+    const { getUser, email, id } = this.props
     if (!email) getUser(id)
   }
 
   renderAbout = () => (
     <About
-      {...pick(this.props, 'whatIDo', 'email', 'skypeUsername',
-      'skypeForBusiness', 'phoneNumber')}
+      {...pick(
+        this.props,
+        'whatIDo',
+        'email',
+        'skypeUsername',
+        'skypeForBusiness',
+        'phoneNumber',
+      )}
     />
   )
 
   renderSharedFiles = () => {
-    const {onLoadSharedFiles, onOpenSharedFile, subview} = this.props
+    const { onLoadSharedFiles, onOpenSharedFile, subview } = this.props
 
     return (
       <SharedFiles
@@ -131,7 +138,11 @@ export default class UserProfile extends PureComponent {
 
   renderPinnedMessages = () => {
     const {
-      onLoadPinnedMessages, onSelectPinnedMessage, onUnpin, subview, user
+      onLoadPinnedMessages,
+      onSelectPinnedMessage,
+      onUnpin,
+      subview,
+      user,
     } = this.props
 
     return (
@@ -152,16 +163,13 @@ export default class UserProfile extends PureComponent {
       displayName,
       classes,
       onClose,
-      showSubview
+      showSubview,
     } = this.props
 
-    const tab = find(tabs, {name: showSubview})
+    const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel
-        title={<UserProfileText />}
-        onClose={onClose}
-      >
+      <SidebarPanel title={<UserProfileText />} onClose={onClose}>
         <div className={classes.userNameContainer}>
           <Username
             statusBorderColor={colors.grayBlueLighter}

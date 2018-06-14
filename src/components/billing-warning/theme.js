@@ -5,19 +5,19 @@ import primaryButton from '../button/primary'
 
 export const styles = {
   content: {
-    padding: 15
+    padding: 15,
   },
   text: {
     extend: fonts.big,
     textAlign: 'center',
-    padding: '50px 0'
+    padding: '50px 0',
   },
   actions: {
-    textAlign: 'right'
+    textAlign: 'right',
   },
   continueTrial: {
     extend: primaryButton,
-    marginRight: 20
+    marginRight: 20,
   },
-  enterDetails: defaultButton
+  enterDetails: defaultButton,
 }

@@ -1,61 +1,53 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import color from 'color'
 import injectSheet from 'grape-web/lib/jss'
-import {normal} from 'grape-theme/dist/fonts'
+import { normal } from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 
-const lighterLink = color(webColors.link).lighten(0.2).hexString()
+const lighterLink = color(webColors.link)
+  .lighten(0.2)
+  .hexString()
 
 @injectSheet({
   text: {
     extend: normal,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   title: {
     textDecoration: 'none',
     '& $text': {
       isolate: false,
       color: webColors.link,
-      borderBottom: [1, 'solid', 'transparent']
+      borderBottom: [1, 'solid', 'transparent'],
     },
     '&:hover $text, &:focus $text': {
       isolate: false,
       textDecoration: 'none',
       color: lighterLink,
-      borderBottomColor: lighterLink
-    }
-  }
+      borderBottomColor: lighterLink,
+    },
+  },
 })
 export default class Title extends PureComponent {
   static propTypes = {
     link: PropTypes.string,
     text: PropTypes.string.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    link: null
+    link: null,
   }
 
   renderText() {
-    const {
-      text,
-      classes
-    } = this.props
+    const { text, classes } = this.props
 
-    return (
-      <span className={classes.text}>
-        {text}
-      </span>
-    )
+    return <span className={classes.text}>{text}</span>
   }
 
   renderWithLink() {
-    const {
-      link,
-      classes
-    } = this.props
+    const { link, classes } = this.props
 
     return (
       <a

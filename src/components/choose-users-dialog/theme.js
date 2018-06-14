@@ -1,5 +1,5 @@
-import {grayBlueLighter} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
+import { grayBlueLighter } from 'grape-theme/dist/base-colors'
+import { small } from 'grape-theme/dist/fonts'
 
 import link from '../button/link'
 
@@ -8,19 +8,19 @@ export const styles = {
     display: 'block',
     position: 'relative',
     padding: 15,
-    borderTop: [3, 'solid', grayBlueLighter]
+    borderTop: [3, 'solid', grayBlueLighter],
   },
   list: {
     display: 'block',
-    height: 150
+    height: 150,
   },
   orgInvite: {
     display: 'block',
     textAlign: 'right',
-    marginTop: 5
+    marginTop: 5,
   },
   orgInviteButton: {
-    extend: [link, small]
+    extend: [link, small],
   },
   user: {
     display: 'block',
@@ -28,14 +28,14 @@ export const styles = {
     borderRadius: 3,
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   focusedUser: {
-    backgroundColor: grayBlueLighter
+    backgroundColor: grayBlueLighter,
   },
   note: {
     composes: '$list',
-    padding: 20
-  }
+    padding: 20,
+  },
 }

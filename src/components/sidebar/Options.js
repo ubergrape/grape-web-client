@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import uniqueId from 'lodash/utility/uniqueId'
-import {grayBlueLight} from 'grape-theme/dist/base-colors'
+import { grayBlueLight } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
-import {spacer} from 'grape-theme/dist/sizes'
+import { spacer } from 'grape-theme/dist/sizes'
 import color from 'color'
 
 @injectSheet({
   root: {
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   label: {
     display: 'flex',
@@ -23,43 +23,40 @@ import color from 'color'
     borderBottom: [1, 'solid', webColors.borderDefault],
     '&:hover': {
       isolate: false,
-      background: color(grayBlueLight).darken(0.05).hexString()
-    }
+      background: color(grayBlueLight)
+        .darken(0.05)
+        .hexString(),
+    },
   },
   checkbox: {
     appearance: 'checkbox',
-    marginRight: spacer.xs
+    marginRight: spacer.xs,
   },
   labelText: {
     fontSize: fonts.small.fontSize,
-    lineHeight: 1
-  }
+    lineHeight: 1,
+  },
 })
 export default class Options extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     options: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    onClickOption: PropTypes.func
+    onClickOption: PropTypes.func,
   }
 
   static defaultProps = {
-    onClickOption: null
+    onClickOption: null,
   }
 
   render() {
-    const {
-      classes,
-      options,
-      onClickOption,
-      isLoading
-    } = this.props
+    const { classes, options, onClickOption, isLoading } = this.props
 
     if (!options.length) return null
 
     return (
       <div className={classes.root}>
-        {options.map((option) => {
+        {options.map(option => {
           const inputId = uniqueId()
           if (!option.show) return null
           return (

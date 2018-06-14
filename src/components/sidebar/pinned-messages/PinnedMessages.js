@@ -11,11 +11,11 @@ import Empty from './Empty'
 
 const styles = () => ({
   root: {
-    display: 'block'
+    display: 'block',
   },
   rootEmpty: {
     display: 'flex',
-    paddingTop: sizes.spacer.xxl
+    paddingTop: sizes.spacer.xxl,
   },
   loading: {
     // needed because the spinner inside has position absolute
@@ -25,8 +25,8 @@ const styles = () => ({
   },
   empty: {
     // Required by IE11.
-    width: '100%'
-  }
+    width: '100%',
+  },
 })
 
 class PinnedMessages extends PureComponent {
@@ -39,14 +39,14 @@ class PinnedMessages extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
     onUnpin: PropTypes.func,
-    total: PropTypes.number
+    total: PropTypes.number,
   }
 
   static defaultProps = {
     total: undefined,
     items: [],
     onSelect: noop,
-    onUnpin: noop
+    onUnpin: noop,
   }
 
   componentDidMount() {
@@ -54,7 +54,9 @@ class PinnedMessages extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const reset = !nextProps.items.length && (nextProps.total == null && this.props.total != null)
+    const reset =
+      !nextProps.items.length &&
+      (nextProps.total == null && this.props.total != null)
     if (reset) this.load(nextProps)
   }
 

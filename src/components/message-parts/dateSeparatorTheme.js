@@ -1,5 +1,5 @@
-import {borderDefault} from 'grape-theme/dist/web-colors'
-import {small, normal} from 'grape-theme/dist/fonts'
+import { borderDefault } from 'grape-theme/dist/web-colors'
+import { small, normal } from 'grape-theme/dist/fonts'
 
 export const styles = {
   separator: {
@@ -15,17 +15,17 @@ export const styles = {
       height: 1,
       width: '100%',
       background: borderDefault,
-      margin: 0
+      margin: 0,
     },
     '&:first-child': {
       isolate: false,
-      marginTop: 0
-    }
+      marginTop: 0,
+    },
   },
   date: {
     extend: small,
     position: 'relative',
     fontWeight: 'bold',
-    padding: [3, normal.fontSize]
-  }
+    padding: [3, normal.fontSize],
+  },
 }

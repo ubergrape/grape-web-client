@@ -1,7 +1,12 @@
 import fonts from 'grape-theme/dist/fonts'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import prefixSelector from 'grape-web/lib/jss-utils/prefixSelector'
-import {grayLight, grayBlueLighter, red, orange} from 'grape-theme/dist/base-colors'
+import {
+  grayLight,
+  grayBlueLighter,
+  red,
+  orange,
+} from 'grape-theme/dist/base-colors'
 import color from 'color'
 
 export const placement = 'bottom'
@@ -19,12 +24,12 @@ const input = {
   '&:disabled': {
     isolate: false,
     opacity: 0.6,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
   [`&${prefixSelector('::input-placeholder')}`]: {
     isolate: false,
-    color: grayLight
-  }
+    color: grayLight,
+  },
 }
 
 function message(iconColor) {
@@ -32,31 +37,36 @@ function message(iconColor) {
     paddingLeft: '1.5em',
     background: 'no-repeat',
     backgroundSize: '1em',
-    backgroundImage: `url('${getColoredIcon({name: 'warning', color: iconColor})}')`
+    backgroundImage: `url('${getColoredIcon({
+      name: 'warning',
+      color: iconColor,
+    })}')`,
   }
 }
 
 export const styles = {
   input: {
     ...input,
-    borderColor: color(grayBlueLighter).darken(0.05).hexString()
+    borderColor: color(grayBlueLighter)
+      .darken(0.05)
+      .hexString(),
   },
   inputError: {
     ...input,
-    borderColor: red
+    borderColor: red,
   },
   inputWarning: {
     ...input,
-    borderColor: orange
+    borderColor: orange,
   },
   content: {
     ...fonts.normal,
-    padding: '7px 14px'
+    padding: '7px 14px',
   },
   warningMessage: {
-    ...message(orange)
+    ...message(orange),
   },
   errorMessage: {
-    ...message(red)
-  }
+    ...message(red),
+  },
 }

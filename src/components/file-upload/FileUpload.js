@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import Dropzone from 'react-dropzone'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 
 import DropOverlay from './DropOverlay'
 import Notification from './Notification'
-import {getFilesFromClipboard, findAcceptedAndRejected} from './utils'
-import {maxSize} from './constants'
+import { getFilesFromClipboard, findAcceptedAndRejected } from './utils'
+import { maxSize } from './constants'
 
 export default class FileUpload extends PureComponent {
   static propTypes = {
@@ -17,43 +17,43 @@ export default class FileUpload extends PureComponent {
     onNotify: PropTypes.func.isRequired,
     onHideNotification: PropTypes.func.isRequired,
     uploads: PropTypes.array.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {
     disabled: false,
     // We pass nothing to avoid default styles.
-    dropZoneStyle: {}
+    dropZoneStyle: {},
   }
 
-  state = {isDragging: false}
+  state = { isDragging: false }
 
-  onDragStart = (e) => {
+  onDragStart = e => {
     // Avoid uploads triggered by d&d of DOM elements. For e.g. anchors and images
     // are draggable by default.
     e.preventDefault()
   }
 
   onDragEnter = () => {
-    this.setState({isDragging: true})
+    this.setState({ isDragging: true })
   }
 
   onDragDone = () => {
-    this.setState({isDragging: false})
+    this.setState({ isDragging: false })
   }
 
-  onAccept = (files) => {
-    this.props.onUpload({files})
+  onAccept = files => {
+    this.props.onUpload({ files })
   }
 
-  onReject = (files) => {
-    this.props.onReject({files})
+  onReject = files => {
+    this.props.onReject({ files })
   }
 
-  onPaste = ({clipboardData}) => {
+  onPaste = ({ clipboardData }) => {
     getFilesFromClipboard(clipboardData)
       .then(findAcceptedAndRejected)
-      .then(({accepted, rejected}) => {
+      .then(({ accepted, rejected }) => {
         if (accepted.length) this.onAccept(accepted)
         if (rejected.length) this.onReject(rejected)
       })
@@ -66,9 +66,9 @@ export default class FileUpload extends PureComponent {
       dropZoneStyle,
       uploads,
       onNotify,
-      onHideNotification
+      onHideNotification,
     } = this.props
-    const {isDragging} = this.state
+    const { isDragging } = this.state
 
     return (
       <Dropzone

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 
-import {getArrowOffset} from './utils'
+import { getArrowOffset } from './utils'
 import * as theme from './hoverTooltipTheme'
 import BlackTooltip from './BlackTooltip'
 
 const initialState = {
   timeoutId: undefined,
-  show: false
+  show: false,
 }
 
 @injectSheet(theme.styles)
@@ -23,7 +23,7 @@ export default class HoverTooltip extends PureComponent {
     inline: PropTypes.bool.isRequired,
     delay: PropTypes.number.isRequired,
     disabled: PropTypes.bool.isRequired,
-    arrowMargin: PropTypes.number.isRequired
+    arrowMargin: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -33,12 +33,12 @@ export default class HoverTooltip extends PureComponent {
     delay: 500,
     disabled: false,
     arrowMargin: theme.arrowMargin,
-    message: null
+    message: null,
   }
 
   state = initialState
 
-  componentWillReceiveProps({disabled}) {
+  componentWillReceiveProps({ disabled }) {
     if (disabled && this.state.show) this.setState(initialState)
   }
 
@@ -46,16 +46,16 @@ export default class HoverTooltip extends PureComponent {
     if (this.props.disabled) return
     const timeoutId = setTimeout(() => {
       if (this.props.disabled) return
-      this.setState({show: true})
+      this.setState({ show: true })
     }, this.props.delay)
 
-    this.setState({timeoutId})
+    this.setState({ timeoutId })
   }
 
   onMouseOut = () => {
     if (this.props.disabled) return
 
-    const {timeoutId} = this.state
+    const { timeoutId } = this.state
     if (timeoutId) clearTimeout(timeoutId)
 
     this.setState(initialState)
@@ -64,8 +64,12 @@ export default class HoverTooltip extends PureComponent {
   render() {
     const {
       classes,
-      message, children, align,
-      placement, inline, arrowMargin
+      message,
+      children,
+      align,
+      placement,
+      inline,
+      arrowMargin,
     } = this.props
 
     if (!message) return null

@@ -4,7 +4,7 @@ const initialState = {
   show: false,
   filter: '',
   listed: [],
-  users: []
+  users: [],
 }
 
 export default function reduce(state = initialState, action) {
@@ -12,32 +12,32 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_CHANNEL_MEMBERS_INVITE:
       return {
         ...initialState,
-        show: true
+        show: true,
       }
     case types.HIDE_CHANNEL_MEMBERS_INVITE:
       return {
         ...initialState,
-        show: false
+        show: false,
       }
     case types.ADD_TO_CHANNEL_MEMBERS_INVITE:
       return {
         ...state,
-        listed: [...state.listed, action.payload]
+        listed: [...state.listed, action.payload],
       }
     case types.REMOVE_FROM_CHANNEL_MEMBERS_INVITE:
       return {
         ...state,
-        listed: state.listed.filter(member => member.id !== action.payload.id)
+        listed: state.listed.filter(member => member.id !== action.payload.id),
       }
     case types.FILTER_CHANNEL_MEMBERS_INVITE:
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
       }
     case types.FOUND_USERS_TO_INVITE:
       return {
         ...state,
-        users: action.payload
+        users: action.payload,
       }
     case types.SET_CHANNEL:
       return initialState

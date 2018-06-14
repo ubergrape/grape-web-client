@@ -1,7 +1,7 @@
 // Converts markdown to a custom string representation for notifications.
 const enabledTypes = ['text', 'emoji']
 
-const reduceTokens = (state, tokens, currTokens = []) => (
+const reduceTokens = (state, tokens, currTokens = []) =>
   tokens.reduce((nextTokens, token) => {
     if (token.tag === 'br') {
       const newToken = new state.Token('text', '', 0)
@@ -14,10 +14,9 @@ const reduceTokens = (state, tokens, currTokens = []) => (
     }
     return nextTokens
   }, currTokens)
-)
 
-export default (md) => {
-  md.core.ruler.push('notification', (state) => {
+export default md => {
+  md.core.ruler.push('notification', state => {
     // eslint-disable-next-line no-param-reassign
     state.tokens = reduceTokens(state, state.tokens)
   })

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {blue, white} from 'grape-theme/dist/base-colors'
+import { blue, white } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import noop from 'lodash/utility/noop'
 import Chip from 'grape-web/lib/components/chip'
@@ -10,19 +10,19 @@ import Chip from 'grape-web/lib/components/chip'
   chip: {
     extend: fonts.small,
     display: 'inline-block',
-    background: ({isSelected}) => (isSelected ? blue : white),
-    color: ({isSelected, color}) => (isSelected ? white : color),
+    background: ({ isSelected }) => (isSelected ? blue : white),
+    color: ({ isSelected, color }) => (isSelected ? white : color),
     margin: {
       right: 5,
-      bottom: 5
+      bottom: 5,
     },
     '&:hover, &:focus': {
       isolate: false,
       color: white,
-      background: blue
+      background: blue,
     },
-    padding: [3, 0]
-  }
+    padding: [3, 0],
+  },
 })
 export default class FilterButton extends PureComponent {
   static propTypes = {
@@ -32,25 +32,22 @@ export default class FilterButton extends PureComponent {
     onClick: PropTypes.func,
     /* eslint-disable react/no-unused-prop-types */
     color: PropTypes.string.isRequired,
-    isSelected: PropTypes.bool
+    isSelected: PropTypes.bool,
     /* eslint-enable react/no-unused-prop-types */
   }
 
   static defaultProps = {
     onClick: noop,
-    isSelected: false
+    isSelected: false,
   }
 
   onClick = () => {
-    const {onClick, name} = this.props
-    onClick({name})
+    const { onClick, name } = this.props
+    onClick({ name })
   }
 
   render() {
-    const {
-      classes,
-      nameLocalized
-    } = this.props
+    const { classes, nameLocalized } = this.props
 
     return (
       <Chip

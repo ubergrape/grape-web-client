@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {icon as iconSize, spacer} from 'grape-theme/dist/sizes'
+import { icon as iconSize, spacer } from 'grape-theme/dist/sizes'
 import noop from 'lodash/utility/noop'
 import cn from 'classnames'
 
@@ -24,38 +24,38 @@ const transition = 'box-shadow 150ms ease-out'
     // TODO think of something better.
     '&& *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   body: {
-    display: 'flex'
+    display: 'flex',
   },
   header: {
     marginTop: spacer.m,
-    paddingLeft: iconSize.l + marginRight + arrowWidth
+    paddingLeft: iconSize.l + marginRight + arrowWidth,
   },
   leftColumn: {
     flexShrink: 0,
-    marginRight
+    marginRight,
   },
   rightColumn: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
   bubble: {
     '&:hover:before': {
       transition,
-      boxShadow: `-3px 4px 8px ${shadowColor}`
-    }
+      boxShadow: `-3px 4px 8px ${shadowColor}`,
+    },
   },
   content: {
     transition,
     '&:hover': {
       isolate: false,
-      boxShadow: `0px 1px 8px ${shadowColor}`
-    }
+      boxShadow: `0px 1px 8px ${shadowColor}`,
+    },
   },
-  innerContent: contentStyles
+  innerContent: contentStyles,
 })
 export default class Message extends Component {
   static propTypes = {
@@ -63,9 +63,9 @@ export default class Message extends Component {
     message: PropTypes.shape({
       time: PropTypes.instanceOf(Date).isRequired,
       author: PropTypes.shape({
-        name: PropTypes.string.isRequired
+        name: PropTypes.string.isRequired,
       }).isRequired,
-      avatar: PropTypes.string
+      avatar: PropTypes.string,
     }).isRequired,
     children: PropTypes.node.isRequired,
     onSelect: PropTypes.func,
@@ -73,7 +73,7 @@ export default class Message extends Component {
     onMouseEnter: PropTypes.func,
     onRefContent: PropTypes.func,
     renderMenu: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -82,21 +82,24 @@ export default class Message extends Component {
     onMouseEnter: noop,
     renderMenu: noop,
     onRefContent: undefined,
-    className: undefined
+    className: undefined,
   }
 
   onSelectMessage = () => {
-    const {message, onSelect} = this.props
+    const { message, onSelect } = this.props
     onSelect(message)
   }
 
   render() {
     const {
       classes,
-      message: {author, time, avatar},
-      renderMenu, onMouseEnter, onMouseLeave, onRefContent,
+      message: { author, time, avatar },
+      renderMenu,
+      onMouseEnter,
+      onMouseLeave,
+      onRefContent,
       className,
-      children
+      children,
     } = this.props
 
     return (
@@ -108,7 +111,7 @@ export default class Message extends Component {
         <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn} />
-          <Bubble className={classes.rightColumn} theme={{classes}}>
+          <Bubble className={classes.rightColumn} theme={{ classes }}>
             <div
               className={classes.innerContent}
               ref={onRefContent}
