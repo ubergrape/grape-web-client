@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import {
   defineMessages,
   FormattedMessage,
   intlShape,
   injectIntl
 } from 'react-intl'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import List from 'react-virtualized/dist/commonjs/List'
 import injectSheet from 'grape-web/lib/jss'
 import capitalize from 'lodash/string/capitalize'
 
 import Dialog from '../dialog/Dialog'
-import {Tab, TabsNav} from '../tabs'
+import { Tab, TabsNav } from '../tabs'
 import Group from './Group'
-import {styles} from './theme'
+import { styles } from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
@@ -57,7 +59,7 @@ export default class ManageGroupsDialog extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {activeFilter, onLoad, show} = this.props
+    const { activeFilter, onLoad, show } = this.props
 
     if (show && !prevProps.show) {
       onLoad(activeFilter)
@@ -84,26 +86,38 @@ export default class ManageGroupsDialog extends PureComponent {
     } = this.props
 
     const onSelect = activeFilter === 'joined' ? onLeave : onJoin
+    const rowRenderer = ({ index, key, style }) => (
+      <div
+        key={key}
+        style={style}
+      >
+        <Group
+          group={groups[index]}
+          onSelect={onSelect}
+          type={activeFilter}
+        />
+      </div>
+    )
 
     return (
-      <ul>
-        {groups.map(group => (
-          <li key={group.id}>
-            <Group
-              group={group}
-              onSelect={onSelect}
-              type={activeFilter}
-            />
-          </li>
-        ))}
-      </ul>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            height={height}
+            rowCount={groups.length}
+            rowHeight={58}
+            rowRenderer={rowRenderer}
+            width={width}
+          />
+        )}
+      </AutoSizer>
     )
   }
 
-  renderFilterLink({filter}) {
+  renderFilterLink({ filter }) {
     const {
       activeFilter,
-      intl: {formatMessage},
+      intl: { formatMessage },
       onSelectFilter
     } = this.props
 
@@ -116,7 +130,7 @@ export default class ManageGroupsDialog extends PureComponent {
 
   renderTitle() {
     const {
-      intl: {formatMessage},
+      intl: { formatMessage },
       classes
     } = this.props
 
@@ -151,8 +165,8 @@ export default class ManageGroupsDialog extends PureComponent {
         title={this.renderTitle()}
       >
         <TabsNav>
-          {this.renderFilterLink({filter: 'unjoined'})}
-          {this.renderFilterLink({filter: 'joined'})}
+          {this.renderFilterLink({ filter: 'unjoined' })}
+          {this.renderFilterLink({ filter: 'joined' })}
         </TabsNav>
         <div className={classes.container}>
           {this.renderGroupsList(groups)}
