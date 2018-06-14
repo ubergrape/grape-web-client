@@ -1,5 +1,5 @@
-import {borderRadius} from 'grape-theme/dist/sizes'
-import palette from './palette'
+import { borderRadius } from "grape-theme/dist/sizes";
+import palette from "./palette";
 
 export const MuiLinearProgress = {
   root: {
@@ -8,46 +8,47 @@ export const MuiLinearProgress = {
   },
   determinateBar1: {
     background: {
-      image: '-webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, rgba(0, 0, 0, 0)), color-stop(.5, rgba(0, 0, 0, 0)), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0)) )',
+      image:
+        "-webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, rgba(0, 0, 0, 0)), color-stop(.5, rgba(0, 0, 0, 0)), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0)) )",
       size: [20, 20]
     },
-    animation: 'mui-indeterminate2 2s linear infinite'
+    animation: "mui-indeterminate2 2s linear infinite"
   },
   // FIXME it should not be using animation designed for indeterminate style progress,
   // the new validation of mui doesn't allows to use names which mui isn't using already.
   // Should be fixed in JSS by allowing keyframes inside of the rules and evtl with auto
   // generated name https://github.com/cssinjs/jss/issues/346
-  '@keyframes mui-indeterminate2': {
-    '0%': {
+  "@keyframes mui-indeterminate2": {
+    "0%": {
       left: 0,
       right: 0,
       backgroundPosition: [0, 0]
     },
-    '60%': {
+    "60%": {
       left: 0,
       right: 0
     },
-    '100%': {
+    "100%": {
       left: 0,
       right: 0,
       backgroundPosition: [20, 20]
     }
   }
-}
+};
 
 export const MuiMenuItem = {
   root: {
-    height: 'auto'
+    height: "auto"
   }
-}
+};
 
-const inputHorizontalSpacing = 10
+const inputHorizontalSpacing = 10;
 
 export const MuiInput = {
   root: {
     border: {
       width: 1,
-      style: 'solid',
+      style: "solid",
       color: palette.grey[200],
       radius: borderRadius.big
     },
@@ -63,7 +64,7 @@ export const MuiInput = {
   error: {
     borderColor: palette.error[500]
   }
-}
+};
 
 export const MuiFormLabel = {
   root: {
@@ -75,48 +76,48 @@ export const MuiFormLabel = {
   error: {
     color: palette.error[500]
   }
-}
+};
 
 export const MuiButton = {
   root: {
-    textTransform: 'none',
-    height: 'auto',
+    textTransform: "none",
+    height: "auto",
     padding: [0, 14],
-    '&[href]': {
+    "&[href]": {
       padding: 0,
-      backgroundColor: 'transparent',
+      backgroundColor: "transparent",
       color: palette.secondary.A200,
-      fontSize: 'inherit'
+      fontSize: "inherit"
     },
-    '&[href]:hover': {
+    "&[href]:hover": {
       color: palette.secondary.A100
     }
   },
   raised: {
     border: {
       width: 1,
-      style: 'solid',
+      style: "solid",
       color: palette.grey[300],
       radius: borderRadius.big
     },
     backgroundColor: palette.common.white,
     padding: [4, 14],
-    boxShadow: 'none',
-    '&:hover': {
+    boxShadow: "none",
+    "&:hover": {
       backgroundColor: palette.grey.A100,
-      '&$disabled': {
+      "&$disabled": {
         backgroundColor: palette.text.divider
       }
     },
-    '&, &$keyboardFocused, &:active, &$disabled': {
-      boxShadow: 'none'
+    "&, &$keyboardFocused, &:active, &$disabled": {
+      boxShadow: "none"
     }
   },
   raisedPrimary: {
     backgroundColor: palette.primary[500],
     borderColor: palette.primary[500],
     color: palette.primary[100],
-    '&:hover': {
+    "&:hover": {
       backgroundColor: palette.primary[700],
       borderColor: palette.primary[700],
       color: palette.primary[100]
@@ -125,26 +126,26 @@ export const MuiButton = {
   raisedAccent: {
     backgroundColor: palette.error[500],
     borderColor: palette.error[500],
-    '&:hover': {
+    "&:hover": {
       backgroundColor: palette.error[700],
       borderColor: palette.error[700],
       color: palette.primary[100]
     }
   }
-}
+};
 
 export const MuiChip = {
   root: {
-    height: 'auto',
+    height: "auto",
     padding: [5, 0]
   },
   label: {
     isolate: false
   }
-}
+};
 
 export const MuiPopover = {
   paper: {
     borderRadius: borderRadius.bigger
   }
-}
+};

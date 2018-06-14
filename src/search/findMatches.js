@@ -1,4 +1,4 @@
-import escapeRegExp from 'lodash/string/escapeRegExp'
+import escapeRegExp from "lodash/string/escapeRegExp";
 
 /**
  * Find matches of search in text.
@@ -6,18 +6,20 @@ import escapeRegExp from 'lodash/string/escapeRegExp'
  * https://github.com/ubergrape/chatgrape/issues/2412
  */
 export default function findMatches(text, search) {
-  const searchArr = typeof search == 'string' ? [search] : search
-  const lowerSearchArr = searchArr.map(value => value.toLowerCase())
-  const searchRegExpStr = searchArr.map(searchStr => `(${escapeRegExp(searchStr)})`).join('|')
-  const regExp = new RegExp(`\\b${searchRegExpStr}\\b`, 'gi')
+  const searchArr = typeof search == "string" ? [search] : search;
+  const lowerSearchArr = searchArr.map(value => value.toLowerCase());
+  const searchRegExpStr = searchArr
+    .map(searchStr => `(${escapeRegExp(searchStr)})`)
+    .join("|");
+  const regExp = new RegExp(`\\b${searchRegExpStr}\\b`, "gi");
 
   return text.split(regExp).reduce((matches, value) => {
-    if (!value) return matches
-    const found = lowerSearchArr.indexOf(value.toLowerCase()) !== -1
+    if (!value) return matches;
+    const found = lowerSearchArr.indexOf(value.toLowerCase()) !== -1;
     matches.push({
       text: value,
       found
-    })
-    return matches
-  }, [])
+    });
+    return matches;
+  }, []);
 }

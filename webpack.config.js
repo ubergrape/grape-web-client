@@ -1,11 +1,11 @@
-var webpack = require('webpack')
+var webpack = require("webpack");
 
 module.exports = exports = {
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      __DEV__: process.env.NODE_ENV === 'development',
-      __TEST__: process.env.NODE_ENV === 'test'
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      __DEV__: process.env.NODE_ENV === "development",
+      __TEST__: process.env.NODE_ENV === "test"
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
@@ -14,14 +14,14 @@ module.exports = exports = {
   module: {
     loaders: [
       {
-        loader: 'babel-loader',
+        loader: "babel-loader",
         test: /\.js$/,
         exclude: /node_modules/
       },
       {
-        loader: 'json-loader',
+        loader: "json-loader",
         test: /\.json$/
       }
     ]
   }
-}
+};

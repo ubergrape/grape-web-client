@@ -1,20 +1,18 @@
-var webpack = require('webpack')
-var webpackConfig = require('./webpack.config')
+var webpack = require("webpack");
+var webpackConfig = require("./webpack.config");
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
-    browsers: ['Chrome'],
-    singleRun: process.env.NODE_ENV !== 'test',
-    files: [
-      'tests.webpack.js'
-    ],
-    frameworks: ['mocha'],
+    browsers: ["Chrome"],
+    singleRun: process.env.NODE_ENV !== "test",
+    files: ["tests.webpack.js"],
+    frameworks: ["mocha"],
     preprocessors: {
-      'tests.webpack.js': ['webpack', 'sourcemap']
+      "tests.webpack.js": ["webpack", "sourcemap"]
     },
-    reporters: ['mocha'],
+    reporters: ["mocha"],
     webpack: Object.assign(webpackConfig, {
-      devtool: 'inline-source-map'
+      devtool: "inline-source-map"
     }),
     webpackServer: {
       noInfo: true
@@ -22,5 +20,5 @@ module.exports = function (config) {
     webpackMiddleware: {
       noInfo: true
     }
-  })
-}
+  });
+};

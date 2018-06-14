@@ -1,1 +1,1 @@
-export {default} from 'material-ui/Progress/LinearProgress'
+export { default } from "material-ui/Progress/LinearProgress";

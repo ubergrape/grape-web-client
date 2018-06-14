@@ -1,8 +1,7 @@
 ## Spinner
 
-
-
 ### Small
+
 ```
 <div style={{height: 50}}>
   <Spinner size="s" />
@@ -10,6 +9,7 @@
 ```
 
 ### Medium
+
 ```
 <div style={{height: 100}}>
   <Spinner />
