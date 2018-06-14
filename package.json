@@ -69,7 +69,7 @@
     "autoprefixer-loader": "^2.0.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^6.2.8",
     "babel-plugin-react-intl": "^2.2.0",
     "babel-plugin-rewire": "^1.1.0",
@@ -87,27 +87,26 @@
     "cross-env": "^5.0.0",
     "css-loader": "^0.15.6",
     "duplicate-package-checker-webpack-plugin": "^2.1.0",
-    "eslint": "^3.14.1",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-ubergrape": "^5.0.0",
-    "eslint-plugin-babel": "^2.1.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-ubergrape": "^5.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.9.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.8.4",
     "glob": "^7.0.6",
     "html-loader": "^0.3.0",
     "http-mitm-proxy": "^0.5.1",
+    "husky": "^0.14.3",
     "jest": "^22.4.3",
     "jest-localstorage-mock": "^2.2.0",
     "json-loader": "^0.5.2",
-    "lint-staged": "^3.2.7",
+    "lint-staged": "^7.2.0",
     "minimist": "^1.2.0",
-    "pre-commit": "^1.2.2",
-    "prettier": "1.13.5",
-    "prettier-eslint": "^8.8.1",
-    "prettier-eslint-cli": "^4.7.1",
+    "prettier": "^1.13.5",
     "raw-loader": "^0.5.1",
     "react-styleguidist": "^7.0.5",
     "rimraf": "^2.6.1",
@@ -133,24 +132,27 @@
     "build:analize": "cross-env ANALIZE=true NODE_ENV=production npm run build:watch",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint ./src",
+    "lint": "eslint src",
     "lint:staged": "lint-staged",
     "clear:build": "rimraf '{dist,lib}'",
     "clear:i18n": "rimraf 'i18n/{src,export}'",
     "i18n:export": "npm run clear:i18n && npm run build && babel-node i18n/scripts/export.js",
     "i18n:import": "npm run clear:i18n && npm run build && babel-node i18n/scripts/import.js",
+    "precommit": "lint-staged",
     "prepublishOnly": "cross-env NODE_ENV=production npm run test && npm run build",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "prettier-eslint --write",
-      "eslint --fix --quiet",
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
       "git add"
     ]
   },
-  "pre-commit": "lint:staged",
   "files": [
     "dist"
   ],
@@ -165,6 +167,8 @@
     }
   },
   "prettier": {
-    "semi": false
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
