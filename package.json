@@ -73,22 +73,22 @@
     "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
-    "all": "npm run lint && npm run test && npm run build",
+    "all": "yarn lint && yarn test && yarn build",
     "clean": "rm -fr ./lib/*",
-    "build": "npm run clean && npm run svg && npm run build:lib",
+    "build": "yarn clean && yarn svg && yarn build:lib",
     "build:lib": "babel src --out-dir lib",
     "build:lib:watch": "babel src --out-dir lib --watch",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src --fix",
     "precommit": "lint-staged",
-    "svg": "npm run svg:clean && npm run svg:copy && npm run svg:export",
+    "svg": "yarn svg:clean && yarn svg:copy && yarn svg:export",
     "svg:clean": "svgo -f src/svg-icons/svg -o src/svg-icons/svg --enable removeTitle",
     "svg:copy": "cpy src/svg-icons/svg/*.svg lib/svg-icons/svg",
     "svg:export": "babel-node ./bin/generateIconsIndex.js",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "sg": "styleguidist server",
-    "prepublishOnly": "npm run all"
+    "prepublishOnly": "yarn all"
   },
   "lint-staged": {
     "*.js": [
