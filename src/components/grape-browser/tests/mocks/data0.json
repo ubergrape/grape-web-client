@@ -36,7 +36,8 @@
       "container": "/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/Tech",
       "name": "\"Plans/Discussions\"",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk",
       "highlighted": "<b>Plans</b>/Discussions",
       "connection": 80,
       "eid": "0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj",
@@ -49,7 +50,8 @@
       "container": "/UberGrape/Old Projects/Newsgrape/Finance",
       "name": "Business Plan",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi&usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi&usp=drivesdk",
       "highlighted": "Business <b>Plan</b>",
       "connection": 80,
       "eid": "0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi",
@@ -59,10 +61,12 @@
       "id": "17074f63619fd939c7ed68e8be222121"
     },
     {
-      "container": "/UberGrape/ChatGrape/Internal/Communication/Marketing/00_Archiv",
+      "container":
+        "/UberGrape/ChatGrape/Internal/Communication/Marketing/00_Archiv",
       "name": "Marketing Plan",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk",
       "highlighted": "Marketing <b>Plan</b>",
       "connection": 94,
       "eid": "1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c",
@@ -72,10 +76,12 @@
       "id": "e1331cc1513186b0e0a2d622e0111231"
     },
     {
-      "container": "/UberGrape/ChatGrape/Internal/Communication/Marketing/Content Marketing",
+      "container":
+        "/UberGrape/ChatGrape/Internal/Communication/Marketing/Content Marketing",
       "name": "Posting plan ",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/document/d/1Xw6Zc4OVl2zUivqb3Hezd4Wc6uQloHob6FFOojZnG8o/edit?usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/document/d/1Xw6Zc4OVl2zUivqb3Hezd4Wc6uQloHob6FFOojZnG8o/edit?usp=drivesdk",
       "highlighted": "Posting <b>plan</b> ",
       "connection": 94,
       "eid": "1Xw6Zc4OVl2zUivqb3Hezd4Wc6uQloHob6FFOojZnG8o",
@@ -88,7 +94,8 @@
       "container": "lf@ubergrape.com",
       "name": "Planrechnung Überarbeitung für FFG",
       "service": "gcal",
-      "url": "https://www.google.com/calendar/event?eid=Xzhncmo0Y2huNzRva2FiYTI4b3BqNGI5azcxMWoyYjlvNzRxazhiYTI2a3BqYWdxMjg4cmphZzlvOGsgbGZAdWJlcmdyYXBlLmNvbQ",
+      "url":
+        "https://www.google.com/calendar/event?eid=Xzhncmo0Y2huNzRva2FiYTI4b3BqNGI5azcxMWoyYjlvNzRxazhiYTI2a3BqYWdxMjg4cmphZzlvOGsgbGZAdWJlcmdyYXBlLmNvbQ",
       "end": "2014-05-07T12:00:00+02:00",
       "highlighted": "<b>Planrechnung</b> Überarbeitung für FFG",
       "start": "2014-05-07T09:00:00+02:00",
@@ -103,7 +110,8 @@
       "container": "/UberGrape/Transferred from lf@newsgrape.com",
       "name": "ffg planrechnung newsgrape10",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/spreadsheet/ccc?key=0AgUsfC301zNedFdPYzE2V2RxWHo3ckRJQ1l1NmR1NlE&usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/spreadsheet/ccc?key=0AgUsfC301zNedFdPYzE2V2RxWHo3ckRJQ1l1NmR1NlE&usp=drivesdk",
       "highlighted": "ffg <b>planrechnung</b> newsgrape10",
       "connection": 80,
       "eid": "0AgUsfC301zNedFdPYzE2V2RxWHo3ckRJQ1l1NmR1NlE",
@@ -116,7 +124,8 @@
       "container": "/UberGrape/Old Projects/Newsgrape/Newsgrape Technology",
       "name": "Plans/Discussion",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wY2Y4Yjg3ODEtOGZkMC00ZTZhLTkwNmYtOWJiN2ExNDVmZTUw&usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wY2Y4Yjg3ODEtOGZkMC00ZTZhLTkwNmYtOWJiN2ExNDVmZTUw&usp=drivesdk",
       "highlighted": "<b>Plans</b>/Discussion",
       "connection": 80,
       "eid": "0B_TCKOxiyU4wY2Y4Yjg3ODEtOGZkMC00ZTZhLTkwNmYtOWJiN2ExNDVmZTUw",
@@ -126,10 +135,12 @@
       "id": "02eda6d3253e5121a5ce459e08c10b95"
     },
     {
-      "container": "/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/finances",
+      "container":
+        "/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/finances",
       "name": "Business Plan",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/folderview?id=0B4bqq9ZenBMSNjU5MTFlZjYtNDAzMS00NGY2LWE2MjYtMmNlOTg4ZGU1ZjNm&usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/folderview?id=0B4bqq9ZenBMSNjU5MTFlZjYtNDAzMS00NGY2LWE2MjYtMmNlOTg4ZGU1ZjNm&usp=drivesdk",
       "highlighted": "Business <b>Plan</b>",
       "connection": 80,
       "eid": "0B4bqq9ZenBMSNjU5MTFlZjYtNDAzMS00NGY2LWE2MjYtMmNlOTg4ZGU1ZjNm",
@@ -142,7 +153,8 @@
       "container": "/UberGrape/ChatGrape/Internal/Management",
       "name": "Plans and Credentials (\"Passwords\")",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/spreadsheets/d/1-ugo3qyBkmD8gSujDblvTGY1TQCR3xqKvFx12yfjWN4/edit?usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/spreadsheets/d/1-ugo3qyBkmD8gSujDblvTGY1TQCR3xqKvFx12yfjWN4/edit?usp=drivesdk",
       "highlighted": "<b>Plans</b> and Credentials (\"Passwords\")",
       "connection": 94,
       "eid": "1-ugo3qyBkmD8gSujDblvTGY1TQCR3xqKvFx12yfjWN4",
@@ -155,7 +167,8 @@
       "container": "/UberGrape/TGFRED/Marketing",
       "name": "TGFRED Marketing-Plan",
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/document/d/1_cgIT45nUbasMITawLt0tPx2gZl8kERxHP1l3s1wV6E/edit?usp=drivesdk",
+      "url":
+        "https://docs.google.com/a/ubergrape.com/document/d/1_cgIT45nUbasMITawLt0tPx2gZl8kERxHP1l3s1wV6E/edit?usp=drivesdk",
       "highlighted": "TGFRED Marketing-<b>Plan</b>",
       "connection": 80,
       "eid": "1_cgIT45nUbasMITawLt0tPx2gZl8kERxHP1l3s1wV6E",
