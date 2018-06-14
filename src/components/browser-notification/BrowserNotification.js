@@ -33,7 +33,7 @@ const messages = defineMessages({
   }
 })
 
-const md = new MarkdownIt({breaks: true})
+const md = new MarkdownIt({breaks: true, typographer: true})
   .use(mdForcebreak)
   .use(mdEmoji)
   .use(mdNotification)
@@ -62,6 +62,9 @@ const getNewMessageOptions = (props) => {
   const {author, attachments, content: mdContent} = props.notification
   const title = getMessageTitle(props)
   let content = md.render(mdContent)
+  // "artificial intelligence". https://github.com/markdown-it/markdown-it/issues/460
+  // https://jira.ubergrape.com/browse/GRAPE-14976?focusedCommentId=49854&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-49854
+  content = content.replace(/&quot;/g, '"')
 
   if (attachments.length) {
     if (content) content += '\n\n'

@@ -25,8 +25,8 @@ export default class ChannelMembers extends PureComponent {
     this.props.onLoad()
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.channel !== this.props.channel) {
+  componentDidUpdate(nextProps) {
+    if (nextProps.channel.id !== this.props.channel.id) {
       this.props.onLoad()
     }
   }

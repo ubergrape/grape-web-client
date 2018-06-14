@@ -21,10 +21,10 @@ const styles = ({palette}) => ({
   }
 })
 
-const Title = ({channel, mate, classes}) => {
+const Title = ({channel, partner, classes}) => {
   const title = (
     <h1 className={classes.name}>
-      {channel.name || mate.displayName}
+      {channel.name || partner.displayName}
     </h1>
   )
   if (!channel.description) return title
@@ -44,7 +44,7 @@ Title.propTypes = {
     name: PropTypes.string,
     description: PropTypes.string
   }).isRequired,
-  mate: PropTypes.shape({
+  partner: PropTypes.shape({
     displayName: PropTypes.string
   }).isRequired,
   classes: PropTypes.object.isRequired

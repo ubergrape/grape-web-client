@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
+import isEqual from 'lodash/lang/isEqual'
 
 import TagsInput from '../tags-input/TagsInput'
 
@@ -61,6 +62,20 @@ export default class FilterableList extends PureComponent {
     })
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // This check need to be sure, that list will not be updated if
+    // (focus, selected items or focused item) will changed to different input.
+    // Also, one more case there. Let's assume, that list of items didn't
+    // changed, and focus placed to another input. So, in the next line this
+    // function will return false, because list didn't change, and as a result
+    // focus will not change to another input.
+    if (nextProps.isFilterFocused !== this.props.isFilterFocused ||
+    nextState.focusedItem !== this.state.focusedItem ||
+    nextProps.selected !== this.props.selected) return true
+    if (isEqual(nextProps.items, this.props.items)) return false
+    return true
+  }
+
   onSelectItem = (item) => {
     this.clearFilter()
     this.props.onSelect(item)
@@ -102,11 +117,8 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldFocusFilter() {
-    const {items, selected, filter, isFilterFocused} = this.props
-    if (!isFilterFocused) return false
-    if (filter) return true
-
-    return items.length + selected.length > 0
+    if (!this.props.isFilterFocused) return false
+    return true
   }
 
   renderList() {
