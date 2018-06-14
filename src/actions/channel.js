@@ -1,20 +1,25 @@
 import find from 'lodash/collection/find'
 import * as types from '../constants/actionTypes'
-import {maxChannelDescriptionLength} from '../constants/app'
+import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector, userSelector, channelSelector, channelsSelector,
-  orgSelector, pmsSelector
+  joinedRoomsSelector,
+  userSelector,
+  channelSelector,
+  channelsSelector,
+  orgSelector,
+  pmsSelector
 } from '../selectors'
+import { normalizeChannelData, normalizeUserData, roomNameFromUsers } from './utils'
 import {
-  normalizeChannelData,
-  normalizeUserData,
-  roomNameFromUsers
-} from './utils'
-import {
-  error, goToChannel, goToLastUsedChannel, loadNotificationSettings, addUser,
-  setChannel, handleBadChannel
+  error,
+  goToChannel,
+  goToLastUsedChannel,
+  loadNotificationSettings,
+  addUser,
+  setChannel,
+  handleBadChannel
 } from './'
 
 export function addChannel(channel) {
@@ -51,7 +56,7 @@ export const kickMemberFromChannel = params => (dispatch) => {
     payload: params
   })
 
-  const {channelId, userId} = params
+  const { channelId, userId } = params
 
   return api
     .kickMemberFromChannel(channelId, userId)
@@ -64,8 +69,8 @@ export const kickMemberFromChannel = params => (dispatch) => {
     .catch(err => dispatch(error(err)))
 }
 
-export function loadRoomInfo({channel}) {
-  return dispatch => dispatch(loadNotificationSettings({channel}))
+export function loadRoomInfo({ channel }) {
+  return dispatch => dispatch(loadNotificationSettings({ channel }))
 }
 
 export const loadChannelMembers = () => (dispatch, getState) => {
@@ -104,9 +109,7 @@ export const joinChannel = id => (dispatch) => {
     type: types.REQUEST_JOIN_CHANNEL,
     payload: id
   })
-  api
-    .joinChannel(id)
-    .catch(err => dispatch(error(err)))
+  api.joinChannel(id).catch(err => dispatch(error(err)))
 }
 
 export const updateChannelPartnerInfo = channel => (dispatch) => {
@@ -156,7 +159,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     return
   }
 
-  const foundChannel = find(channels, ({partner}) => partner.id === userId)
+  const foundChannel = find(channels, ({ partner }) => partner.id === userId)
   if (foundChannel) {
     dispatch(goToChannel(foundChannel, options))
     return
@@ -169,13 +172,15 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
   api
     .openPm(org.id, userId)
-    .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
+    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
     .then(([users, pmChannel]) => {
       dispatch(addUser(pmChannel))
-      dispatch(addChannel({
-        ...pmChannel,
-        users
-      }))
+      dispatch(
+        addChannel({
+          ...pmChannel,
+          users
+        })
+      )
       // Using id because after adding, channel was normalized.
       dispatch(goToChannel(pmChannel.id, options))
     })
@@ -186,9 +191,9 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
 export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const foundChannel = find(channels, {id: channelId})
+  const foundChannel = find(channels, { id: channelId })
   if (foundChannel) {
-    const {id, type, isPublic, joined} = foundChannel
+    const { id, type, isPublic, joined } = foundChannel
     if (type === 'room' && isPublic && !joined) {
       dispatch(joinChannel(id))
     }
@@ -198,7 +203,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
 
   dispatch({
     type: types.REQUEST_CHANNEL_AND_USERS,
-    payload: {channelId, messageId}
+    payload: { channelId, messageId }
   })
 
   api
@@ -207,7 +212,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       if (channel.type === 'pm') {
         const currUser = userSelector(getState())
         const userIds = [currUser.id, channel.partner.id]
-        return {...channel, users: userIds}
+        return { ...channel, users: userIds }
       }
 
       // TODO we will have to load th room members here once we get rid
@@ -233,7 +238,7 @@ export function createRoomWithUsers(room, users) {
     dispatch(requestRoomCreate())
 
     const user = userSelector(getState())
-    const emailAddresses = users.map(({email}) => email)
+    const emailAddresses = users.map(({ email }) => email)
     let newRoom
 
     return api
@@ -259,7 +264,8 @@ export function createRoomWithUsers(room, users) {
 }
 
 export function renameRoom(id, name) {
-  return dispatch => api
+  return dispatch =>
+    api
       .renameRoom(id, name)
       .then(() => {
         dispatch({
@@ -270,18 +276,22 @@ export function renameRoom(id, name) {
           }
         })
       })
-      .catch(({message}) => dispatch({
-        type: types.HANDLE_ROOM_RENAME_ERROR,
-        payload: message
-      }))
+      .catch(({ message }) =>
+        dispatch({
+          type: types.HANDLE_ROOM_RENAME_ERROR,
+          payload: message
+        })
+      )
 }
 
 export function setRoomDescription(id, description) {
   return (dispatch) => {
     if (description.length > maxChannelDescriptionLength) {
-      return dispatch(error({
-        message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
-      }))
+      return dispatch(
+        error({
+          message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
+        })
+      )
     }
 
     return api
@@ -300,7 +310,8 @@ export function setRoomDescription(id, description) {
 }
 
 export function setRoomPrivacy(id, isPublic) {
-  return dispatch => api
+  return dispatch =>
+    api
       .setRoomPrivacy(id, isPublic)
       .then(() => {
         dispatch({
@@ -315,7 +326,8 @@ export function setRoomPrivacy(id, isPublic) {
 }
 
 export function setRoomColor(id, color) {
-  return dispatch => api
+  return dispatch =>
+    api
       .setRoomColor(id, color)
       .then(() => {
         dispatch({
@@ -330,7 +342,8 @@ export function setRoomColor(id, color) {
 }
 
 export function setRoomIcon(id, icon) {
-  return dispatch => api
+  return dispatch =>
+    api
       .setRoomIcon(id, icon)
       .then(() => {
         dispatch({
@@ -346,7 +359,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(joinedRoomsSelector(getState()), {id})
+    const room = find(joinedRoomsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room
@@ -360,9 +373,13 @@ export function hideRoomDeleteDialog() {
   }
 }
 
-export function deleteChannel({roomId, roomName}) {
-  return dispatch => api
+export function deleteChannel({ roomId, roomName }) {
+  return dispatch =>
+    api
       .deleteChannel(roomId, roomName)
+      .then(() => {
+        dispatch(goToLastUsedChannel())
+      })
       .catch(err => dispatch(error(err)))
 }
 
