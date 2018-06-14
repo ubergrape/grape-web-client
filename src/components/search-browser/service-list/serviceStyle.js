@@ -12,19 +12,19 @@ export default {
     userSelect: 'none',
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   serviceFocused: {
     color: colors.white,
-    background: webColors.buttonBgDefault
+    background: webColors.buttonBgDefault,
   },
   iconContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '0 16px',
-    fontSize: '1.2em'
+    fontSize: '1.2em',
   },
   name: {
     ...fonts.normal,
@@ -34,15 +34,15 @@ export default {
     alignSelf: 'center',
     padding: '7px 0',
     minWidth: 1, // firefox 34+ flexbox bug workaround
-    color: 'inherit'
+    color: 'inherit',
   },
   hint: {
     alignSelf: 'center',
     padding: '0 5px',
-    color: colors.grayLight
+    color: colors.grayLight,
   },
   return: {
     alignSelf: 'center',
-    padding: '0 5px'
-  }
+    padding: '0 5px',
+  },
 }

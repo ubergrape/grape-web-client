@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import { shouldPureComponentUpdate } from 'react-pure-render'
 
-import {TYPES as QUERY_TYPES} from '../query/constants'
+import { TYPES as QUERY_TYPES } from '../query/constants'
 import QueryModel from '../query/Model'
 import parseQuery from '../query/parse'
 
@@ -19,7 +19,7 @@ export default class Input extends Component {
     filters: PropTypes.array,
     search: PropTypes.string,
     placeholder: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -32,17 +32,20 @@ export default class Input extends Component {
     filters: undefined,
     search: undefined,
     placeholder: '',
-    className: ''
+    className: '',
   }
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQuery})
-    this.query.set({
-      trigger: QUERY_TYPES[this.props.type],
-      filters: props.filters,
-      search: props.search
-    }, {silent: true})
+    this.query = new QueryModel({ onChange: ::this.onChangeQuery })
+    this.query.set(
+      {
+        trigger: QUERY_TYPES[this.props.type],
+        filters: props.filters,
+        search: props.search,
+      },
+      { silent: true },
+    )
     this.state = this.createState(props)
   }
 
@@ -51,11 +54,17 @@ export default class Input extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.filters && String(nextProps.filters) !== String(this.query.get('filters'))) {
+    if (
+      nextProps.filters &&
+      String(nextProps.filters) !== String(this.query.get('filters'))
+    ) {
       this.onChangeFilters(nextProps)
     }
-    if (nextProps.search !== undefined && nextProps.search !== this.query.get('search')) {
-      this.query.set('search', nextProps.search, {silent: true})
+    if (
+      nextProps.search !== undefined &&
+      nextProps.search !== this.query.get('search')
+    ) {
+      this.query.set('search', nextProps.search, { silent: true })
     }
     const nextState = this.createState(nextProps)
     this.setState(nextState)
@@ -69,37 +78,37 @@ export default class Input extends Component {
     }
   }
 
-  onInput = (e) => {
+  onInput = e => {
     const queryStr = QUERY_TYPES[this.props.type] + e.target.value
     const query = parseQuery(queryStr)
     this.query.set(query)
   }
 
-  onBlur = (e) => {
-    this.setState({focused: false})
+  onBlur = e => {
+    this.setState({ focused: false })
     this.props.onBlur(e)
   }
 
   onChangeQuery = () => {
     const query = this.query.toJSON()
-    this.setState({value: query.key})
+    this.setState({ value: query.key })
     this.props.onInput(query)
   }
 
-  onKeyDown = (e) => {
-    e.detail = {query: this.query.toJSON()}
+  onKeyDown = e => {
+    e.detail = { query: this.query.toJSON() }
     this.props.onKeyDown(e)
   }
 
-  onChangeFilters = ({filters}) => {
-    this.query.set('filters', filters, {silent: true})
+  onChangeFilters = ({ filters }) => {
+    this.query.set('filters', filters, { silent: true })
     this.props.onChangeFilters(this.state.value)
   }
 
-  createState({focused}) {
+  createState({ focused }) {
     return {
       focused,
-      value: this.query.get('key')
+      value: this.query.get('key'),
     }
   }
 
@@ -118,7 +127,8 @@ export default class Input extends Component {
         data-test="input"
         onChange={this.onInput}
         onKeyDown={this.onKeyDown}
-        onBlur={this.onBlur} />
+        onBlur={this.onBlur}
+      />
     )
   }
 }

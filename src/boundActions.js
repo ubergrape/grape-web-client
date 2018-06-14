@@ -1,4 +1,4 @@
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 import getStore from './store'
 import * as actions from './actions'
 

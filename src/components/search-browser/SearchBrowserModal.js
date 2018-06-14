@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
@@ -13,7 +13,7 @@ import SearchBrowser from './SearchBrowser'
     height: '100%',
     width: '100%',
     zIndex: 1000,
-    top: 0
+    top: 0,
   },
   backdrop: {
     position: 'fixed',
@@ -23,12 +23,12 @@ import SearchBrowser from './SearchBrowser'
     right: 0,
     zIndex: 'auto',
     backgroundColor: '#000',
-    opacity: 0.5
+    opacity: 0.5,
   },
   browserContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
   },
   browser: {
     position: 'relative',
@@ -36,31 +36,31 @@ import SearchBrowser from './SearchBrowser'
     top: '10%',
     alignSelf: 'center',
     maxWidth: 800,
-    minWidth: 200
-  }
+    minWidth: 200,
+  },
 })
 export default class SearchBrowserModal extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onAbort: PropTypes.func,
     onReset: PropTypes.func,
-    goTo: PropTypes.func
+    goTo: PropTypes.func,
   }
 
   static defaultProps = {
     onAbort: noop,
     onReset: noop,
-    goTo: noop
+    goTo: noop,
   }
 
   onAbort = () => {
-    const {onAbort, onReset} = this.props
-    onAbort({reason: 'esc'})
+    const { onAbort, onReset } = this.props
+    onAbort({ reason: 'esc' })
     onReset()
   }
 
   render() {
-    const {classes, goTo, ...rest} = this.props
+    const { classes, goTo, ...rest } = this.props
     return (
       <Modal
         show

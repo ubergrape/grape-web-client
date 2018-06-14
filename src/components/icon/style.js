@@ -8,6 +8,6 @@ export default {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: '100%',
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
 }

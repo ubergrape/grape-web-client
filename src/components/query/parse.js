@@ -1,4 +1,4 @@
-import {QUERY_REGEX} from './constants'
+import { QUERY_REGEX } from './constants'
 
 /**
  * Get search object from a query string.
@@ -30,5 +30,5 @@ export default function parse(str) {
   const query = str && str.match(QUERY_REGEX) ? str.trim() : ''
   const trigger = query[0]
   const search = query.substr(1)
-  return {query, trigger, search}
+  return { query, trigger, search }
 }

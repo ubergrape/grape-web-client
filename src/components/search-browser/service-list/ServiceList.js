@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   defineMessages,
   intlShape,
   FormattedMessage,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-finite-list'
@@ -18,8 +18,8 @@ const messages = defineMessages({
   services: {
     id: 'serviesHeadline',
     defaultMessage: 'services',
-    description: '**Headline in services list of grape-browser**'
-  }
+    description: '**Headline in services list of grape-browser**',
+  },
 })
 
 @injectSheet(style)
@@ -32,7 +32,7 @@ export default class ServiceList extends Component {
     servicesStats: PropTypes.object,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
-    focused: PropTypes.object
+    focused: PropTypes.object,
   }
 
   static defaultProps = {
@@ -40,10 +40,10 @@ export default class ServiceList extends Component {
     services: [],
     onSelect: noop,
     onFocus: noop,
-    focused: null
+    focused: null,
   }
 
-  renderService = ({focused, item}) => (
+  renderService = ({ focused, item }) => (
     <Service
       item={item}
       focused={focused}
@@ -56,9 +56,10 @@ export default class ServiceList extends Component {
 
   renderBody() {
     const {
-      services, focused,
+      services,
+      focused,
       classes,
-      intl: {formatMessage}
+      intl: { formatMessage },
     } = this.props
 
     if (!services.length) {
@@ -80,17 +81,13 @@ export default class ServiceList extends Component {
         items={services}
         focused={focused}
         key="list"
-      />
+      />,
     ]
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
 
-    return (
-      <div className={classes.serviceList}>
-        {this.renderBody()}
-      </div>
-    )
+    return <div className={classes.serviceList}>{this.renderBody()}</div>
   }
 }

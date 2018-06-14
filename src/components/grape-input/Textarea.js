@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
 
@@ -8,7 +8,7 @@ export default class Textarea extends Component {
     onKeyDown: PropTypes.func,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -16,7 +16,7 @@ export default class Textarea extends Component {
     onChange: noop,
     onSubmit: noop,
     className: '',
-    placeholder: ''
+    placeholder: '',
   }
 
   onKeyDown(e) {
@@ -46,23 +46,19 @@ export default class Textarea extends Component {
   }
 
   insertLineBreak() {
-    const {textarea} = this.refs
-    const {selectionStart, selectionEnd, value} = textarea
+    const { textarea } = this.refs
+    const { selectionStart, selectionEnd, value } = textarea
 
-    textarea.value =
-      value.substr(0, selectionStart) +
-      '\n' +
-      value.substr(selectionEnd)
+    textarea.value = `${value.substr(0, selectionStart)}\n${value.substr(
+      selectionEnd,
+    )}`
 
     textarea.selectionEnd = selectionStart + 1
   }
 
   render() {
     return (
-      <textarea
-        {...this.props}
-        ref="textarea"
-        onKeyDown={::this.onKeyDown}></textarea>
+      <textarea {...this.props} ref="textarea" onKeyDown={::this.onKeyDown} />
     )
   }
 }

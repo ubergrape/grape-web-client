@@ -5,8 +5,8 @@ export default {
   sidebar: {
     ...fonts.normal,
     color: colors.grayDark,
-    borderLeft: '1px solid ' + colors.silverDark,
+    borderLeft: `1px solid ${colors.silverDark}`,
     backgroundColor: colors.white,
-    position: 'relative'
-  }
+    position: 'relative',
+  },
 }

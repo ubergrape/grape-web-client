@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component, createElement} from 'react'
+import React, { Component, createElement } from 'react'
 import noop from 'lodash/utility/noop'
 import moment from 'moment'
 
@@ -22,13 +22,13 @@ export default class Result extends Component {
       info: PropTypes.string,
       detail: PropTypes.object,
       date: PropTypes.string,
-      service: PropTypes.string
+      service: PropTypes.string,
     }),
     isFocused: PropTypes.bool,
     isViewFocused: PropTypes.bool,
     search: PropTypes.string,
     onFocus: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
   }
 
   static defaultProps = {
@@ -37,26 +37,22 @@ export default class Result extends Component {
     search: '',
     onFocus: noop,
     onSelect: noop,
-    data: {}
+    data: {},
   }
 
   onClick = () => {
-    const {isFocused, onSelect, onFocus, data} = this.props
+    const { isFocused, onSelect, onFocus, data } = this.props
     if (isFocused) onSelect(data)
     else onFocus(data)
   }
 
   renderName() {
-    let {name} = this.props.data
+    let { name } = this.props.data
     const matches = findMatches(name, this.props.search)
 
     if (matches.length) {
       name = matches.map((match, i) =>
-        createElement(
-          match.found ? 'b' : 'span',
-          {key: i},
-          match.text
-        )
+        createElement(match.found ? 'b' : 'span', { key: i }, match.text),
       )
     }
 
@@ -64,9 +60,12 @@ export default class Result extends Component {
   }
 
   renderDate() {
-    const {data: {date}, isFocused} = this.props
+    const {
+      data: { date },
+      isFocused,
+    } = this.props
     if (!date) return null
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
     return (
       <span className={isFocused ? classes.metaItemFocused : classes.metaItem}>
         {moment(date).format('ddd, MMM D YYYY, h:mm a')}
@@ -77,32 +76,34 @@ export default class Result extends Component {
   renderState() {
     const state = utils.getLabel(this.props.data.detail)
     if (!state) return null
-    const {classes} = this.props.sheet
-    const className = this.props.isFocused ? classes.metaItemFocused : classes.metaItem
+    const { classes } = this.props.sheet
+    const className = this.props.isFocused
+      ? classes.metaItemFocused
+      : classes.metaItem
     return <span className={className}>{state}</span>
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {isFocused, data: {info, service}} = this.props
-    let containerClassName = isFocused ? classes.containerFocused : classes.container
+    const { classes } = this.props.sheet
+    const {
+      isFocused,
+      data: { info, service },
+    } = this.props
+    let containerClassName = isFocused
+      ? classes.containerFocused
+      : classes.container
     if (!this.props.isViewFocused && isFocused) {
       containerClassName = classes.containerFocusedInactive
     }
     const infoClassName = isFocused ? classes.infoFocused : classes.info
 
     return (
-      <div
-        onClick={this.onClick}
-        className={containerClassName}
-      >
+      <div onClick={this.onClick} className={containerClassName}>
         <div className={classes.iconContainer}>
           <ServiceIcon service={service} />
         </div>
         <div className={classes.nameContainer}>
-          <div className={classes.name}>
-            {this.renderName()}
-          </div>
+          <div className={classes.name}>{this.renderName()}</div>
           <div className={infoClassName}>{info}</div>
         </div>
         <div className={classes.metaContainer}>

@@ -7,7 +7,7 @@ export default {
     display: 'flex',
     flexShrink: 0,
     background: colors.grayBlueLighter,
-    padding: '5px 12px'
+    padding: '5px 12px',
   },
   text: {
     ...fonts.smaller,
@@ -16,12 +16,12 @@ export default {
     lineHeight: '1em',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
-    color: colors.gainsboroDark
+    color: colors.gainsboroDark,
   },
   hint: {
     extend: 'text',
     flexShrink: 0,
     flex: 1,
-    textAlign: 'right'
-  }
+    textAlign: 'right',
+  },
 }

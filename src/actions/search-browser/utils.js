@@ -10,44 +10,48 @@ const warn = console.warn.bind(console) // eslint-disable-line no-console
  * Group results by service.
  * Insert group header items.
  */
-export function formatGroupedResults({results, services, search}) {
+export function formatGroupedResults({ results, services, search }) {
   // We need to display them grouped by service.
   const groupedResults = groupBy(results, 'service')
 
-  return reduce(groupedResults, (newResults, groupResults, serviceId) => {
-    const service = find(services, {id: serviceId})
+  return reduce(
+    groupedResults,
+    (newResults, groupResults, serviceId) => {
+      const service = find(services, { id: serviceId })
 
-    // Soetimes we get results without a corresponding service,
-    // filter them and warn.
-    if (!service) {
-      warn('No service for results', groupResults)
-      return newResults
-    }
+      // Soetimes we get results without a corresponding service,
+      // filter them and warn.
+      if (!service) {
+        warn('No service for results', groupResults)
+        return newResults
+      }
 
-    // Section header.
-    newResults.push({
-      id: `header-${serviceId}`,
-      type: 'header',
-      label: service.label,
-      resultsAmount: service.count
-    })
+      // Section header.
+      newResults.push({
+        id: `header-${serviceId}`,
+        type: 'header',
+        label: service.label,
+        resultsAmount: service.count,
+      })
 
-    // Build new result items.
-    const newGroupResults = groupResults.map(result => ({
-      id: result.id,
-      type: result.type,
-      name: result.name,
-      info: result.container,
-      date: result.start,
-      focused: false,
-      service: result.service,
-      detail: result.detail || {},
-      search: search.text,
-      url: result.url
-    }))
+      // Build new result items.
+      const newGroupResults = groupResults.map(result => ({
+        id: result.id,
+        type: result.type,
+        name: result.name,
+        info: result.container,
+        date: result.start,
+        focused: false,
+        service: result.service,
+        detail: result.detail || {},
+        search: search.text,
+        url: result.url,
+      }))
 
-    return newResults.concat(newGroupResults)
-  }, [])
+      return newResults.concat(newGroupResults)
+    },
+    [],
+  )
 }
 
 /**
@@ -69,14 +73,14 @@ export function findIndexBySelector(selector, list, validation) {
   return index
 }
 
-export function selectResult(selector, {results, focusedResult}) {
+export function selectResult(selector, { results, focusedResult }) {
   if (typeof selector !== 'string') return selector
 
-  const dataResults = results.filter(({type}) => type !== 'header')
+  const dataResults = results.filter(({ type }) => type !== 'header')
   const nextIndex = findIndexBySelector(
     selector,
     dataResults,
-    result => result === focusedResult
+    result => result === focusedResult,
   )
 
   return dataResults[nextIndex]

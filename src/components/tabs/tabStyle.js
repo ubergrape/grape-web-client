@@ -6,14 +6,14 @@ export const text = {
   ...fonts.small,
   fontWeight: 'bold',
   textTransform: 'uppercase',
-  letterSpacing: '0.05em'
+  letterSpacing: '0.05em',
 }
 
 export const amount = {
   letterSpacing: 0,
   fontWeight: 'normal',
   marginLeft: 4,
-  opacity: 0.75
+  opacity: 0.75,
 }
 
 export const container = {
@@ -26,8 +26,10 @@ export const container = {
   listStyleType: 'none',
   cursor: 'pointer',
   height: 34,
-  color: color(colors.grayDark).alpha(0.7).rgbaString(),
-  userSelect: 'none'
+  color: color(colors.grayDark)
+    .alpha(0.7)
+    .rgbaString(),
+  userSelect: 'none',
 }
 
 export const rules = {
@@ -35,14 +37,14 @@ export const rules = {
     extend: container,
     '&:hover': {
       isolate: false,
-      color: colors.grayDark
-    }
+      color: colors.grayDark,
+    },
   },
   containerSelected: {
     composes: '$container',
     color: colors.grayDark,
-    boxShadow: `0 2px 0 ${colors.blue}`
+    boxShadow: `0 2px 0 ${colors.blue}`,
   },
   text,
-  amount
+  amount,
 }

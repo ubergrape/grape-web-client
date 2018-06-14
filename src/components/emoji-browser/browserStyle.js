@@ -6,7 +6,7 @@ import style from '../browser/style'
 export default {
   ...style,
   sectionContent: {
-    margin: 5
+    margin: 5,
   },
   input: {
     ...fonts.big,
@@ -14,6 +14,6 @@ export default {
     width: '100%',
     color: colors.grayDark,
     padding: 15,
-    outline: 'none'
-  }
+    outline: 'none',
+  },
 }

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, { Component } from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../redux'
-import {searchBrowserSelector} from '../../selectors'
+import { mapActionsToProps } from '../../redux'
+import { searchBrowserSelector } from '../../selectors'
 import getStore from '../../store'
 import SearchBrowser from '../../components/search-browser/SearchBrowser'
 import SearchBrowserModal from '../../components/search-browser/SearchBrowserModal'
@@ -21,24 +21,30 @@ const getProps = mapActionsToProps({
   addSearchBrowserFilter: 'onAddFilter',
   showSearchBrowserResults: 'onShowResults',
   resetSearchBrowserState: 'onReset',
-  updateSearchBrowserResults: 'onUpdateResults'
+  updateSearchBrowserResults: 'onUpdateResults',
 })
 
-const ConnectedSearchBrowser = connect(searchBrowserSelector, getProps)(SearchBrowser)
+const ConnectedSearchBrowser = connect(
+  searchBrowserSelector,
+  getProps,
+)(SearchBrowser)
 
-const ConnectedSearchBrowserModal = connect(searchBrowserSelector, getProps)(SearchBrowserModal)
+const ConnectedSearchBrowserModal = connect(
+  searchBrowserSelector,
+  getProps,
+)(SearchBrowserModal)
 
 export default class SearchBrowserProvider extends Component {
   static propTypes = {
-    modal: PropTypes.bool
+    modal: PropTypes.bool,
   }
 
   static defaultProps = {
-    modal: true
+    modal: true,
   }
 
   render() {
-    const {modal, ...rest} = this.props
+    const { modal, ...rest } = this.props
     const Browser = modal ? ConnectedSearchBrowserModal : ConnectedSearchBrowser
     return (
       <Provider store={getStore()}>
