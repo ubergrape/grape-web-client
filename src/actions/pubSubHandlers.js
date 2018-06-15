@@ -147,11 +147,11 @@ export function handleNewChannel({channel, user}) {
     const currentUser = userSelector(getState())
     const manageGroups = manageGroupsSelector(getState())
     const isCurrentUser = currentUser.id === user
-    addChannel(channel)
     if ((manageGroups.show && manageGroups.activeFilter === 'unjoined' && !isCurrentUser) ||
     (manageGroups.show && manageGroups.activeFilter === 'joined' && isCurrentUser)) {
       dispatch(addGroupFromManageGroups(channel))
     }
+    dispatch(addChannel(channel))
   }
 }
 
