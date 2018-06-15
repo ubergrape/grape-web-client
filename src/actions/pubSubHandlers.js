@@ -24,7 +24,8 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser
+  addNewUser,
+  goToLastUsedChannel
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -135,7 +136,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) dispatch(goTo('/'))
+    if (userId === user.id) dispatch(goToLastUsedChannel())
   }
 }
 
@@ -171,7 +172,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo('/chat'))
+    if (!rooms.length) dispatch(goToLast)
   }
 }
 
