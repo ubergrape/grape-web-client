@@ -64,18 +64,18 @@ export default class Roomname extends PureComponent {
         <div className={cn(classes.name, theme.classes.name)}>
           {name}
           {showRoomInfo && (
-            <ul className={classes.info}>
-              <li>
+            <div className={classes.info}>
+              <div>
                 <span className={classes.membersCountIcon} />
                 {membersCount}
-              </li>
+              </div>
               {creatorUser && (
-                <li className={classes.creator}>
+                <div className={classes.creator}>
                   <span className={classes.creatorIcon} />
                   {creatorUser.displayName}
-                </li>
+                </div>
               )}
-            </ul>
+            </div>
           )}
         </div>
       </div>
