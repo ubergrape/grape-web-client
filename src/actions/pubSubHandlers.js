@@ -190,7 +190,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
       payload: {channelId, userId}
     })
 
-    if (manageGroups.show && isCurrentUser) {
+    if (manageGroups.show && manageGroups.activeFilter === 'joined' && isCurrentUser) {
       dispatch(removeGroupFromManageGroups(channelId))
     }
 
