@@ -6,7 +6,7 @@
     "lib"
   ],
   "engines": {
-    "node": "8.11.2"
+    "node": ">=8.11.2"
   },
   "dependencies": {
     "color": "^0.10.1",
@@ -77,10 +77,10 @@
     "webpack-dev-server": "^1.14.0"
   },
   "scripts": {
-    "all": "npm run test && npm run build && npm run i18n-export",
-    "build": "npm run clear:lib && babel src --out-dir lib",
-    "build:watch": "npm run clear:lib && babel --watch src --out-dir lib",
-    "build:i18n": "npm run clear:i18n && npm run build && npm run i18n-export",
+    "all": "yarn test && yarn build && yarn i18n-export",
+    "build": "yarn clear:lib && babel src --out-dir lib",
+    "build:watch": "yarn clear:lib && babel --watch src --out-dir lib",
+    "build:i18n": "yarn clear:i18n && yarn build && yarn i18n-export",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "lint": "eslint src",
     "emoji": "bin/emoji",
@@ -89,9 +89,9 @@
     "clear:lib": "rimraf './lib/*'",
     "clear:i18n": "rimraf './i18n/{src,export}'",
     "i18n-export": "babel-node i18n/scripts/export.js",
-    "i18n-import": "npm run build && babel-node i18n/scripts/import.js",
+    "i18n-import": "yarn build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
-    "prepublishOnly": "npm run all",
+    "prepublishOnly": "yarn all",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },
