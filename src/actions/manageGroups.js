@@ -38,3 +38,17 @@ export const selectManageGroupsFilter = filter => (dispatch) => {
 
   dispatch(loadManageGroupsChannels(filter))
 }
+
+export const removeGroupFromManageGroups = id => (dispatch) => {
+  dispatch({
+    type: types.REMOVE_GROUP_FROM_MANAGE_GROUPS,
+    payload: id
+  })
+}
+
+export const addGroupFromManageGroups = channel => (dispatch) => {
+  dispatch({
+    type: types.ADD_GROUP_FROM_MANAGE_GROUPS,
+    payload: channel
+  })
+}

@@ -10,7 +10,8 @@ import {
   userSelector,
   channelSelector,
   joinedRoomsSelector,
-  channelsSelector
+  channelsSelector,
+  manageGroupsSelector
 } from '../selectors'
 import {
   normalizeMessage,
@@ -24,7 +25,9 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser
+  addNewUser,
+  removeGroupFromManageGroups,
+  addGroupFromManageGroups
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -139,8 +142,17 @@ export function handleMembershipUpdate({membership}) {
   }
 }
 
-export function handleNewChannel({channel}) {
-  return addChannel(channel)
+export function handleNewChannel({channel, user}) {
+  return (dispatch, getState) => {
+    const currentUser = userSelector(getState())
+    const manageGroups = manageGroupsSelector(getState())
+    const isCurrentUser = currentUser.id === user
+    addChannel(channel)
+    if ((manageGroups.show && manageGroups.activeFilter === 'unjoined' && !isCurrentUser) ||
+    (manageGroups.show && manageGroups.activeFilter === 'joined' && isCurrentUser)) {
+      dispatch(addGroupFromManageGroups(channel))
+    }
+  }
 }
 
 const addUserToChannel = payload => (dispatch) => {
@@ -153,22 +165,34 @@ const addUserToChannel = payload => (dispatch) => {
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
     const currentUser = userSelector(getState())
+    const manageGroups = manageGroupsSelector(getState())
     const isCurrentUser = currentUser.id === userId
 
     api
       .getUser(orgSelector(getState()).id, userId)
       .then((foundUser) => {
         dispatch(addUserToChannel({channelId, user: foundUser, userId, isCurrentUser}))
+        if (manageGroups.show && manageGroups.activeFilter === 'unjoined' && isCurrentUser) {
+          dispatch(removeGroupFromManageGroups(channelId))
+        }
       })
   }
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
+    const currentUser = userSelector(getState())
+    const manageGroups = manageGroupsSelector(getState())
+    const isCurrentUser = currentUser.id === userId
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: {channelId, userId}
     })
+
+    if (manageGroups.show && isCurrentUser) {
+      dispatch(removeGroupFromManageGroups(channelId))
+    }
 
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))

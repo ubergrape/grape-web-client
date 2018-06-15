@@ -2,7 +2,8 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
-  groups: []
+  groups: [],
+  activeFilter: 'unjoined'
 }
 
 export default function reducer(state = initialState, action) {
@@ -27,6 +28,22 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         groups: action.payload
+      }
+    case types.REMOVE_GROUP_FROM_MANAGE_GROUPS:
+      return {
+        ...state,
+        groups: state.groups.filter(group => group.id !== action.payload)
+      }
+    case types.ADD_GROUP_FROM_MANAGE_GROUPS:
+      return {
+        ...state,
+        groups: [...state.groups, action.payload].sort((a, b) => {
+          const nameA = a.name.toUpperCase()
+          const nameB = b.name.toUpperCase()
+          if (nameA < nameB) return -1
+          if (nameA > nameB) return 1
+          return 0
+        })
       }
     default:
       return state

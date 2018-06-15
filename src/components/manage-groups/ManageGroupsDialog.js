@@ -74,28 +74,14 @@ class ManageGroupsDialog extends PureComponent {
     createNewGroup()
   }
 
-  onLeave = (id) => {
-    const { activeFilter, onLoad, onLeave } = this.props
-    onLoad(activeFilter)
-    onLeave(id)
-  }
-
-  onJoin = (id) => {
-    const { activeFilter, onLoad, onJoin } = this.props
-    onLoad(activeFilter)
-    onJoin(id)
-  }
-
   renderGroupsList(groups) {
     if (!groups.length) {
       return null
     }
 
-    const {
-      activeFilter
-    } = this.props
+    const { activeFilter, onLeave, onJoin } = this.props
 
-    const onSelect = activeFilter === 'joined' ? this.onLeave : this.onJoin
+    const onSelect = activeFilter === 'joined' ? onLeave : onJoin
     const rowRenderer = ({ index, key, style }) => (
       <div
         key={key}
