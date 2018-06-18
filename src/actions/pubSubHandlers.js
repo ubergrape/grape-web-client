@@ -172,7 +172,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     })
 
     const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goToLast)
+    if (!rooms.length) dispatch(goTo('/chat'))
   }
 }
 
