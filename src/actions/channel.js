@@ -9,7 +9,8 @@ import {
   channelSelector,
   channelsSelector,
   orgSelector,
-  pmsSelector
+  pmsSelector,
+  manageGroupsSelector
 } from '../selectors'
 import { normalizeChannelData, normalizeUserData, roomNameFromUsers } from './utils'
 import {
@@ -21,6 +22,16 @@ import {
   setChannel,
   handleBadChannel
 } from './'
+
+const removeManageGroupChannel = (channelId, type) => (dispatch, getState) => {
+  const { groups, show } = manageGroupsSelector(getState())
+  if (find(groups, ({ id }) => id === channelId) && show) {
+    dispatch({
+      type: types.REMOVE_MANAGE_GROUPS_CHANNEL,
+      payload: channelId,
+    })
+  }
+}
 
 export function addChannel(channel) {
   return {
@@ -45,6 +56,7 @@ export const leaveChannel = channelId => (dispatch) => {
         type: types.LEAVE_CHANNEL,
         payload: channelId
       })
+      dispatch(removeManageGroupChannel(channelId))
       dispatch(goToLastUsedChannel())
     })
     .catch(err => dispatch(error(err)))
@@ -104,12 +116,17 @@ export function invitedToChannel(emailAddresses, channelId) {
   }
 }
 
-export const joinChannel = id => (dispatch) => {
+export const joinChannel = id => dispatch => {
   dispatch({
     type: types.REQUEST_JOIN_CHANNEL,
     payload: id
   })
-  api.joinChannel(id).catch(err => dispatch(error(err)))
+  api
+    .joinChannel(id)
+    .then(() => {
+      dispatch(removeManageGroupChannel(id))
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export const updateChannelPartnerInfo = channel => (dispatch) => {

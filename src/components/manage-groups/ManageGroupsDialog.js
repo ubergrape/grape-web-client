@@ -1,35 +1,38 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import {
   defineMessages,
   FormattedMessage,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import capitalize from 'lodash/string/capitalize'
+import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import List from 'react-virtualized/dist/commonjs/List'
 
 import Dialog from '../dialog/Dialog'
-import {Tab, TabsNav} from '../tabs'
+import { Tab, TabsNav } from '../tabs'
 import Group from './Group'
-import {styles} from './theme'
+import { styles } from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
     id: 'manageGroupsDialogTitle',
     defaultMessage: 'Manage Groups',
-    description: 'Manage Groups Dialog: dialog title'
+    description: 'Manage Groups Dialog: dialog title',
   },
   linkUnjoined: {
     id: 'manageGroupsLinkJoinable',
     defaultMessage: 'Groups you can join',
-    description: 'Manage Groups Dialog: show joinable groups link'
+    description: 'Manage Groups Dialog: show joinable groups link',
   },
   linkJoined: {
     id: 'manageGroupsLinkJoined',
     defaultMessage: 'Groups you belong to',
-    description: 'Manage Groups Dialog: show "Groups you belong to" link'
-  }
+    description: 'Manage Groups Dialog: show "Groups you belong to" link',
+  },
 })
 
 @injectSheet(styles)
@@ -45,19 +48,17 @@ export default class ManageGroupsDialog extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     createNewGroup: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
-    groups: PropTypes.arrayOf(
-      PropTypes.object.isRequired
-    ),
-    activeFilter: PropTypes.string
+    groups: PropTypes.arrayOf(PropTypes.object.isRequired),
+    activeFilter: PropTypes.string,
   }
 
   static defaultProps = {
     groups: [],
-    activeFilter: 'unjoined'
+    activeFilter: 'unjoined',
   }
 
   componentDidUpdate(prevProps) {
-    const {activeFilter, onLoad, show} = this.props
+    const { activeFilter, onLoad, show } = this.props
 
     if (show && !prevProps.show) {
       onLoad(activeFilter)
@@ -65,50 +66,67 @@ export default class ManageGroupsDialog extends PureComponent {
   }
 
   onCreate = () => {
-    const {
-      onHide,
-      createNewGroup
-    } = this.props
+    const { onHide, createNewGroup } = this.props
 
     onHide()
     createNewGroup()
   }
+
+  isRowLoaded = ({ index }) => !!this.props.groups[index]
 
   renderGroupsList(groups) {
     if (!groups.length) {
       return null
     }
 
-    const {
-      onJoin, onLeave, activeFilter
-    } = this.props
+    const { onJoin, onLeave, onLoad, activeFilter } = this.props
 
     const onSelect = activeFilter === 'joined' ? onLeave : onJoin
 
+    const rowRenderer = ({ index, key, style }) => (
+      <div key={key} style={style}>
+        <Group group={groups[index]} onSelect={onSelect} type={activeFilter} />
+      </div>
+    )
+
     return (
-      <ul>
-        {groups.map(group => (
-          <li key={group.id}>
-            <Group
-              group={group}
-              onSelect={onSelect}
-              type={activeFilter}
-            />
-          </li>
-        ))}
-      </ul>
+      <InfiniteLoader
+        isRowLoaded={this.isRowLoaded}
+        loadMoreRows={onLoad}
+        rowCount={groups.length + 10}
+      >
+        {({ onRowsRendered, registerChild }) => (
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <List
+                ref={registerChild}
+                height={336}
+                onRowsRendered={onRowsRendered}
+                rowCount={groups.length}
+                rowHeight={58}
+                rowRenderer={rowRenderer}
+                width={width}
+              />
+            )}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
     )
   }
 
-  renderFilterLink({filter}) {
+  renderFilterLink({ filter }) {
     const {
       activeFilter,
-      intl: {formatMessage},
-      onSelectFilter
+      intl: { formatMessage },
+      onSelectFilter,
     } = this.props
 
     return (
-      <Tab active={activeFilter === filter} onClick={onSelectFilter} filter={filter}>
+      <Tab
+        active={activeFilter === filter}
+        onClick={onSelectFilter}
+        filter={filter}
+      >
         {formatMessage(messages[`link${capitalize(filter)}`])}
       </Tab>
     )
@@ -116,13 +134,15 @@ export default class ManageGroupsDialog extends PureComponent {
 
   renderTitle() {
     const {
-      intl: {formatMessage},
-      classes
+      intl: { formatMessage },
+      classes,
     } = this.props
 
     return (
       <span className={classes.header}>
-        <span className={classes.title}>{formatMessage(messages.dialogTitle)}</span>
+        <span className={classes.title}>
+          {formatMessage(messages.dialogTitle)}
+        </span>
         <button className={classes.create} onClick={this.onCreate}>
           <FormattedMessage
             id="manageGroupsCreateNew"
@@ -135,28 +155,17 @@ export default class ManageGroupsDialog extends PureComponent {
   }
 
   render() {
-    const {
-      show,
-      onHide,
-      groups,
-      classes
-    } = this.props
+    const { show, onHide, groups, classes } = this.props
 
     if (!show) return null
 
     return (
-      <Dialog
-        show={show}
-        onHide={onHide}
-        title={this.renderTitle()}
-      >
+      <Dialog show={show} onHide={onHide} title={this.renderTitle()}>
         <TabsNav>
-          {this.renderFilterLink({filter: 'unjoined'})}
-          {this.renderFilterLink({filter: 'joined'})}
+          {this.renderFilterLink({ filter: 'unjoined' })}
+          {this.renderFilterLink({ filter: 'joined' })}
         </TabsNav>
-        <div className={classes.container}>
-          {this.renderGroupsList(groups)}
-        </div>
+        <div className={classes.container}>{this.renderGroupsList(groups)}</div>
       </Dialog>
     )
   }
