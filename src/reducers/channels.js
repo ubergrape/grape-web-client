@@ -10,8 +10,8 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_CHANNELS:
       return [
-        ...state,
-        ...action.payload.filter(o => !state.find(o2 => o.id === o2.id)),
+        ...state.filter(o => !action.payload.find(o2 => o.id === o2.id)),
+        ...action.payload,
       ]
 
     case types.SET_CHANNEL: {
