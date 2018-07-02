@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import isEmpty from 'lodash/lang/isEmpty'
@@ -36,7 +36,7 @@ const browserWithInput = {
  * Uses all types of auto completes to provide end component.
  */
 @injectSheet(style)
-export default class GrapeBrowser extends PureComponent {
+export default class GrapeBrowser extends Component {
   static propTypes = {
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
@@ -73,13 +73,10 @@ export default class GrapeBrowser extends PureComponent {
     // This attribute has been set by Modal component.
     // We need to set it to null to enable shallowEqual comparance in
     // componentWillReceiveProps, because this is the only new prop.
-    ariaHidden: null,
-    maxSuggestions: 12,
     externalServicesInputDelay: 150,
     browser: undefined,
     data: undefined,
     images: {},
-    contentObjects: [],
     services: [],
     servicesStats: {},
     customEmojis: undefined,
@@ -147,7 +144,8 @@ export default class GrapeBrowser extends PureComponent {
   shouldComponentUpdate(nextProps, nextState) {
     if (
       this.state.browserOpened !== nextState.browserOpened ||
-      !nextState.browserOpened
+      !nextState.browserOpened ||
+      nextProps.services !== this.props.services
     )
       return true
     if (isEqual(this.props.data, nextProps.data)) return false
