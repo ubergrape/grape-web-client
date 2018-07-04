@@ -9,7 +9,14 @@ const initialState = []
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_CHANNELS:
-      return [...state, ...action.payload]
+      // SET_CHANNELS is triggered in two places: initial route changing and
+      // initial loading (also can be multiple times per session, while
+      // reconecting to websocket).
+      // To prevent duplicates the channels should be merged properly.
+      return [
+        ...state.filter(o => !action.payload.find(o2 => o.id === o2.id)),
+        ...action.payload,
+      ]
 
     case types.SET_CHANNEL: {
       const { id, type } = action.payload.channel
@@ -59,7 +66,7 @@ export default function reduce(state = initialState, action) {
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
         users: includes(users, userId) ? users : [...users, userId],
-        joined: isCurrentUser ? true : channel.joined
+        joined: isCurrentUser || channel.joined,
       })
       return newState
     }
@@ -73,7 +80,7 @@ export default function reduce(state = initialState, action) {
       channels.splice(index, 1, {
         ...channel,
         users: channel.users.filter(id => id !== userId),
-        joined: conf.user.id !== userId
+        joined: conf.user.id !== userId,
       })
       return channels
     }
@@ -86,7 +93,7 @@ export default function reduce(state = initialState, action) {
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
-        ...action.payload
+        ...action.payload,
       })
       return newState
     }
@@ -101,7 +108,9 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.REMOVE_ROOM: {
-      return state.filter(({ type, id }) => !(type === 'room' && id === action.payload))
+      return state.filter(
+        ({ type, id }) => !(type === 'room' && id === action.payload),
+      )
     }
 
     case types.UPDATE_CHANNEL_STATS: {
@@ -119,7 +128,7 @@ export default function reduce(state = initialState, action) {
         latestMessageTime: timestamp,
         firstMessageTime: channel.firstMessageTime || timestamp,
         mentioned: mentioned + mentionsCount || channel.mentioned,
-        unread: isCurrentUser ? 0 : channel.unread + 1
+        unread: isCurrentUser ? 0 : channel.unread + 1,
       })
       return newState
     }
@@ -135,7 +144,7 @@ export default function reduce(state = initialState, action) {
       newState.splice(index, 1, {
         ...channel,
         mentioned: 0,
-        unread: 0
+        unread: 0,
       })
       return newState
     }
@@ -148,7 +157,7 @@ export default function reduce(state = initialState, action) {
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
-          favorited
+          favorited,
         })
       })
       return newState
@@ -162,7 +171,7 @@ export default function reduce(state = initialState, action) {
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
-        unsent: msg
+        unsent: msg,
       })
       return newState
     }

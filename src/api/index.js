@@ -1,28 +1,29 @@
 /**
  * We use require because we can't import anything before the initial config is provided.
  */
- /* eslint-disable global-require */
+/* eslint-disable global-require */
 
 import merge from 'lodash/object/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
-import {loadConfig} from '../utils/backend/api'
+import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'
+import grapeVersion from './version.macro'
 
 let resolveAppReady
 
-const appReady = new Promise((resolve) => {
+const appReady = new Promise(resolve => {
   resolveAppReady = resolve
 })
 
-const docReady = new Promise((resolve) => {
+const docReady = new Promise(resolve => {
   if (/interactive|complete/.test(document.readyState)) resolve()
   else document.addEventListener('DOMContentLoaded', resolve)
 })
 
-const actionsReady = new Promise((resolve) => {
+const actionsReady = new Promise(resolve => {
   appReady.then(() => {
     const getBoundActions = require('../app/boundActions').default
     resolve(getBoundActions())
@@ -32,14 +33,16 @@ const actionsReady = new Promise((resolve) => {
 const checkShowHideComponent = (() => {
   const allowed = ['search', 'mentions', 'labeledMessages']
 
-  return (name) => {
+  return name => {
     if (allowed.indexOf(name) === -1) {
-      throw new Error(`Unexpected component name "${name}". Possible values: ${allowed}.`)
+      throw new Error(
+        `Unexpected component name "${name}". Possible values: ${allowed}.`,
+      )
     }
   }
 })()
 
-const init = (config) => {
+const init = config => {
   conf.setup(config)
   const app = require('../app')
   resolveAppReady(app)
@@ -50,63 +53,67 @@ const init = (config) => {
   docReady.then(app.render)
 }
 
-const resume = () => appReady.then((app) => {
-  app.resume()
-})
+const resume = () =>
+  appReady.then(app => {
+    app.resume()
+  })
 
-const suspend = () => appReady.then((app) => {
-  app.suspend()
-})
+const suspend = () =>
+  appReady.then(app => {
+    app.suspend()
+  })
 
-const embed = (options) => {
+const embed = options => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
 
-  const config = loadConfig({serviceUrl: options.serviceUrl})
-    .then(res => merge({}, res, {
+  const config = loadConfig({ serviceUrl: options.serviceUrl }).then(res =>
+    merge({}, res, {
       container: options.container,
       organization: {
-        id: options.orgId
+        id: options.orgId,
       },
       server: {
         serviceUrl: options.serviceUrl,
-        staticPath: options.staticBaseUrl
+        staticPath: options.staticBaseUrl,
       },
       channelId: options.channelId,
-      embed: true
-    }))
+      embed: true,
+    }),
+  )
 
-  return Promise.all([config, ie10Polyfills(options)]).then((values) => {
+  return Promise.all([config, ie10Polyfills(options)]).then(values => {
     init(values[0])
   })
 }
 
 const show = (name, options) => {
   checkShowHideComponent(name)
-  return actionsReady.then((actions) => {
+  return actionsReady.then(actions => {
     actions.showSidebar(name, options)
   })
 }
 
-const hide = (name) => {
+const hide = name => {
   // Validate it for the future, we might be using it to hide other things than sidebar.
   checkShowHideComponent(name)
-  return actionsReady.then((actions) => {
+  return actionsReady.then(actions => {
     actions.hideSidebar()
   })
 }
 
 const searchMessages = (query, options) => {
   show('search', options)
-  return actionsReady.then((actions) => {
+  return actionsReady.then(actions => {
     actions.updateMessageSearchQuery(query)
   })
 }
 
-const setOpenFileDialogHandler = (fn) => {
-  if (typeof fn !== 'function') throw new TypeError('Expected function argument.')
-  return actionsReady.then((actions) => {
+const setOpenFileDialogHandler = fn => {
+  if (typeof fn !== 'function')
+    throw new TypeError('Expected function argument.')
+  return actionsReady.then(actions => {
     actions.setOpenFileDialogHandler(fn)
   })
 }
@@ -122,6 +129,7 @@ class Api extends Emitter {
   suspend = suspend
   authStatus = 'unauthorized'
   rpc = rpc
+  version = grapeVersion
 
   setAuthStatus(nextStatus) {
     if (nextStatus === this.authStatus) return
