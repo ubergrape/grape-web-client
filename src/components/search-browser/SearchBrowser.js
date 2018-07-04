@@ -135,8 +135,15 @@ export default class SearchBrowser extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data } = nextProps
+    const { data, services } = nextProps
+    const { onShowServices, onLoadServicesStats } = this.props
+    const { query, search } = this.state
     if (data && data !== this.props.data) this.onUpdateResults(data)
+
+    if (services !== this.props.services) {
+      onShowServices({ query, services })
+      onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
+    }
 
     const service = this.state.lastAddedService
     if (service && nextProps.filters.indexOf(service.id) >= 0) {
@@ -268,6 +275,8 @@ export default class SearchBrowser extends PureComponent {
       onLoadServicesStats,
       services,
     } = this.props
+
+    this.setState({ search, query })
 
     if (query.trigger === SERVICES_TRIGGER) {
       onShowServices({ query, services })
