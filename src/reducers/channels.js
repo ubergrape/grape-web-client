@@ -9,6 +9,11 @@ const initialState = []
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_CHANNELS:
+      // Can be triggered multiple times before reseting state,
+      // channels should to be merged to prevent dublicates.
+      // Two places trigger this action: initial route changing and initial
+      // loading (also can be multiple times per session, while
+      // reconecting to websocket).
       return [
         ...state.filter(o => !action.payload.find(o2 => o.id === o2.id)),
         ...action.payload,
