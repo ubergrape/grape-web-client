@@ -2,15 +2,15 @@
  * Custom Replica of the markdown-it-emoji index.js, but instead of using
  * the predefined list (full.json) we use the data coming from grape-emoji-js
  */
-const emojiesDefs = require('markdown-it-emoji/lib/data/full.json')
-const emojiesShortcuts = require('markdown-it-emoji/lib/data/shortcuts')
-const emojiHtml = require('markdown-it-emoji/lib/render')
-const emojiReplace = require('markdown-it-emoji/lib/replace')
-const normalizeOpts = require('markdown-it-emoji/lib/normalize_opts')
+import emojiesShortcuts from 'markdown-it-emoji/lib/data/shortcuts'
+import emojiHtml from 'markdown-it-emoji/lib/render'
+import emojiReplace from 'markdown-it-emoji/lib/replace'
+import normalizeOpts from 'markdown-it-emoji/lib/normalize_opts'
+import jsEmoji from '../emoji/emoji'
 
 module.exports = function emojiPlugin(md, options) {
   const defaults = {
-    defs: emojiesDefs,
+    defs: jsEmoji.map.colons,
     shortcuts: emojiesShortcuts,
     enabled: [],
   }
