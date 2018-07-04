@@ -1,5 +1,5 @@
-import {getTrigger, encodeMdLink} from '../utils'
-import {grapeProtocol} from '../constants'
+import { getTrigger, encodeMdLink } from '../utils'
+import { grapeProtocol } from '../constants'
 
 const tokenType = 'search'
 const trigger = getTrigger(tokenType)
@@ -16,7 +16,7 @@ export default class Search {
     this.nameWithoutTrigger = options.nameWithoutTrigger || this.name
 
     // prevent double `##` in case when search is like `#331 Some Issue`
-    const {nameWithoutTrigger} = this
+    const { nameWithoutTrigger } = this
     if (nameWithoutTrigger[0] === trigger) this.content = nameWithoutTrigger
     else this.content = trigger + nameWithoutTrigger
 
@@ -24,7 +24,9 @@ export default class Search {
   }
 
   toString() {
-    const url = `${grapeProtocol}//${this.service}|${this.type}|${this.id}|${this.url}||`
+    const url = `${grapeProtocol}//${this.service}|${this.type}|${this.id}|${
+      this.url
+    }||`
     return `[${this.name}](${encodeMdLink(url)})`
   }
 }

@@ -1,5 +1,5 @@
-import {getTrigger, encodeMdLink} from '../utils'
-import {grapeProtocol} from '../constants'
+import { getTrigger, encodeMdLink } from '../utils'
+import { grapeProtocol } from '../constants'
 
 const tokenType = 'user'
 const trigger = getTrigger(tokenType)
@@ -16,7 +16,7 @@ export default class User {
     this.nameWithoutTrigger = options.nameWithoutTrigger || this.name
 
     // prevent double `@@` in case when user name is `@User`
-    const {nameWithoutTrigger} = this
+    const { nameWithoutTrigger } = this
     if (nameWithoutTrigger[0] === trigger) this.content = nameWithoutTrigger
     else this.content = trigger + nameWithoutTrigger
 

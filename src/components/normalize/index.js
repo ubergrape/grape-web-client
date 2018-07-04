@@ -8,13 +8,16 @@ import injectSheet from '../../jss'
 const options = {
   isolate: false,
   index: -Infinity,
-  increaseSpecificity: false
+  increaseSpecificity: false,
 }
 
-const Normalize = ({classes, children, className, style}) => (
-  <div className={cn(classes.normalize, classes.reset, className)} style={style}>
+const Normalize = ({ classes, children, className, style }) => (
+  <div
+    className={cn(classes.normalize, classes.reset, className)}
+    style={style}
+  >
     {children}
   </div>
 )
 
-export default injectSheet({normalize, reset}, options)(Normalize)
+export default injectSheet({ normalize, reset }, options)(Normalize)

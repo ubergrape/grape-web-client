@@ -1,7 +1,7 @@
 import vendor from 'css-vendor'
 
 const prefixes = {
-  '::input-placeholder': `::${vendor.prefix.css}input-placeholder`
+  '::input-placeholder': `::${vendor.prefix.css}input-placeholder`,
 }
 
 if (vendor.prefix.css === '-moz-') {

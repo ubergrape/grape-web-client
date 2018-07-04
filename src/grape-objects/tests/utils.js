@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {encodeMdLink, isGrapeUrl} from '../utils'
+import { encodeMdLink, isGrapeUrl } from '../utils'
 
 describe('grape-objects: utils', () => {
   describe('encodeMdLink', () => {

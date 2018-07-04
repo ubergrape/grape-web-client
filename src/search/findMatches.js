@@ -8,7 +8,9 @@ import escapeRegExp from 'lodash/string/escapeRegExp'
 export default function findMatches(text, search) {
   const searchArr = typeof search == 'string' ? [search] : search
   const lowerSearchArr = searchArr.map(value => value.toLowerCase())
-  const searchRegExpStr = searchArr.map(searchStr => `(${escapeRegExp(searchStr)})`).join('|')
+  const searchRegExpStr = searchArr
+    .map(searchStr => `(${escapeRegExp(searchStr)})`)
+    .join('|')
   const regExp = new RegExp(`\\b${searchRegExpStr}\\b`, 'gi')
 
   return text.split(regExp).reduce((matches, value) => {
@@ -16,7 +18,7 @@ export default function findMatches(text, search) {
     const found = lowerSearchArr.indexOf(value.toLowerCase()) !== -1
     matches.push({
       text: value,
-      found
+      found,
     })
     return matches
   }, [])

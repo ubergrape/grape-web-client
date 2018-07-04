@@ -6,7 +6,12 @@
 */
 
 export const callbacks = () => {
-  const called = {onExternal: 0, onRedirect: 0, onSilentChange: 0, onUpdateRouter: 0}
+  const called = {
+    onExternal: 0,
+    onRedirect: 0,
+    onSilentChange: 0,
+    onUpdateRouter: 0,
+  }
   const args = []
   const map = {
     onExternal: (...a) => {
@@ -28,8 +33,8 @@ export const callbacks = () => {
       called.onUpdateRouter++
       // eslint-disable-next-line prefer-spread
       args.push.apply(args, a)
-    }
+    },
   }
 
-  return {map, called, args}
+  return { map, called, args }
 }

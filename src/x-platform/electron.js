@@ -3,7 +3,7 @@ import random from 'lodash/number/random'
 import emoji from 'grape-js-emoji'
 import get from 'lodash/object/get'
 
-import {openUrl, createNotification as createWebNotification} from './web'
+import { openUrl, createNotification as createWebNotification } from './web'
 
 // Electron implements require on window.
 let electron
@@ -20,11 +20,14 @@ if (window.require) {
 const notificationClickTimeout = 20000
 
 // http://crocodillon.com/blog/parsing-emoji-unicode-in-javascript
-const emojiRegExp = new RegExp([
-  '\\ud83c[\\udf00-\\udfff]', // U+1F300 to U+1F3FF
-  '\\ud83d[\\udc00-\\ude4f]', // U+1F400 to U+1F64F
-  '\\ud83d[\\ude80-\\udeff]'  // U+1F680 to U+1F6FF
-].join('|'), 'g')
+const emojiRegExp = new RegExp(
+  [
+    '\\ud83c[\\udf00-\\udfff]', // U+1F300 to U+1F3FF
+    '\\ud83d[\\udc00-\\ude4f]', // U+1F400 to U+1F64F
+    '\\ud83d[\\ude80-\\udeff]', // U+1F680 to U+1F6FF
+  ].join('|'),
+  'g',
+)
 
 /**
  * Replaces emoji symbol with it's text representation.
@@ -33,7 +36,7 @@ const emojiRegExp = new RegExp([
 function replaceEmojisWithText(content) {
   return content.replace(
     emojiRegExp,
-    match => `:${emoji.data[match.codePointAt().toString(16)][3][0]}:`
+    match => `:${emoji.data[match.codePointAt().toString(16)][3][0]}:`,
   )
 }
 
@@ -45,19 +48,16 @@ export function createNotification(options, callback = noop) {
   }
 
   const event = random(10000)
-  const {title, content} = options
+  const { title, content } = options
 
   electron.ipcRenderer.once(event, callback)
 
   // This will show Windows Tray Balllon in Windows < 10.
-  electron.ipcRenderer.send(
-    'showNotification',
-    {
-      event,
-      title,
-      message: replaceEmojisWithText(content)
-    }
-  )
+  electron.ipcRenderer.send('showNotification', {
+    event,
+    title,
+    message: replaceEmojisWithText(content),
+  })
   setTimeout(() => {
     electron.ipcRenderer.removeAllListeners(event)
   }, notificationClickTimeout)
@@ -66,7 +66,7 @@ export function createNotification(options, callback = noop) {
 /**
  * Electron implements the web api.
  */
-export {openUrl}
+export { openUrl }
 
 /**
  * Add badge will:

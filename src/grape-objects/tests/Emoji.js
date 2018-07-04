@@ -1,9 +1,9 @@
 import expect from 'expect.js'
-import {create} from '../'
+import { create } from '../'
 
 describe('grape-objects: Emoji', () => {
   const object = create('emoji', {
-    shortname: 'shortname'
+    shortname: 'shortname',
   })
 
   describe('Emoji#toString', () => {

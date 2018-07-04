@@ -1,14 +1,14 @@
-import {matchPath} from 'react-router-dom'
+import { matchPath } from 'react-router-dom'
 
-import {routes} from '../../router'
+import { routes } from '../../router'
 import parseUrl from '../../parse-url'
 
-const onForeign = (pathOrUrl, {onExternal}) => {
+const onForeign = (pathOrUrl, { onExternal }) => {
   onExternal(pathOrUrl, '_blank')
 }
 
 const onSso = (pathOrUrl, options) => {
-  const {onRedirect, onExternal, mode} = options
+  const { onRedirect, onExternal, mode } = options
   if (mode === 'embedded') {
     onRedirect(pathOrUrl)
     return
@@ -17,12 +17,12 @@ const onSso = (pathOrUrl, options) => {
 }
 
 const onLogin = (pathOrUrl, options) => {
-  const {serviceUrl, pathname, onRedirect} = options
+  const { serviceUrl, pathname, onRedirect } = options
   onRedirect(`${serviceUrl}${pathname}`)
 }
 
 const onLogout = (pathOrUrl, options) => {
-  const {onSilentChange, onRedirect, mode, pathname, serviceUrl} = options
+  const { onSilentChange, onRedirect, mode, pathname, serviceUrl } = options
   if (mode === 'embedded') {
     onSilentChange(pathname, {})
     return
@@ -32,8 +32,14 @@ const onLogout = (pathOrUrl, options) => {
 
 const onPm = (pathOrUrl, options) => {
   const {
-    onExternal, onRedirect, onSilentChange, mode, serviceUrl, hostname, pathname,
-    pmMatch
+    onExternal,
+    onRedirect,
+    onSilentChange,
+    mode,
+    serviceUrl,
+    hostname,
+    pathname,
+    pmMatch,
   } = options
   if (mode === 'embedded' || (hostname && mode !== 'full')) {
     onExternal(`${serviceUrl}${pathname}`, 'grape')
@@ -43,21 +49,27 @@ const onPm = (pathOrUrl, options) => {
     onRedirect(`${serviceUrl}${pathname}`)
     return
   }
-  onSilentChange(pathname, {mateId: pmMatch.params.mateId, type: 'pm'})
+  onSilentChange(pathname, { mateId: pmMatch.params.mateId, type: 'pm' })
 }
 
 const onChannel = (pathOrUrl, options) => {
   const {
-    onExternal, onSilentChange, onUpdateRouter, mode, serviceUrl, pathname,
-    currChannel, channelMatch
+    onExternal,
+    onSilentChange,
+    onUpdateRouter,
+    mode,
+    serviceUrl,
+    pathname,
+    currChannel,
+    channelMatch,
   } = options
-  const {channelId, messageId} = channelMatch.params
+  const { channelId, messageId } = channelMatch.params
   if (Number(channelId) === currChannel) {
     if (!messageId) return
     onSilentChange(pathname, {
       channelId: Number(channelId),
       messageId,
-      type: 'channel'
+      type: 'channel',
     })
     return
   }
@@ -69,27 +81,27 @@ const onChannel = (pathOrUrl, options) => {
 }
 
 const onChat = (pathOrUrl, options) => {
-  const {pathname, hostname} = options
-  const channelMatch = matchPath(pathname, {path: routes.channel})
+  const { pathname, hostname } = options
+  const channelMatch = matchPath(pathname, { path: routes.channel })
   if (channelMatch) {
     onChannel(pathOrUrl, {
       ...options,
-      channelMatch
+      channelMatch,
     })
     return
   }
-  const pmMatch = matchPath(pathname, {path: routes.pm})
+  const pmMatch = matchPath(pathname, { path: routes.pm })
   if (pmMatch) {
     onPm(pathOrUrl, {
       ...options,
       hostname,
-      pmMatch
+      pmMatch,
     })
   }
 }
 
 const onRootAndFull = (pathOrUrl, options) => {
-  const {onExternal, onRedirect, mode, pathname, serviceUrl} = options
+  const { onExternal, onRedirect, mode, pathname, serviceUrl } = options
   if (mode === 'embedded') {
     onExternal(`${serviceUrl}${pathname}`, 'grape')
     return
@@ -101,30 +113,30 @@ export default (pathOrUrl, options) => {
   const loginPath = '/accounts/login'
   const logoutPath = '/accounts/logout'
   const ssoPath = '/sso/sso'
-  const {onExternal, mode, serviceUrl} = options
-  const {pathname, hostname} = parseUrl(pathOrUrl)
+  const { onExternal, mode, serviceUrl } = options
+  const { pathname, hostname } = parseUrl(pathOrUrl)
   if (hostname && hostname !== parseUrl(serviceUrl).hostname) {
     onForeign(pathOrUrl, options)
     return
   }
   if (pathname === ssoPath) {
-    onSso(pathOrUrl, {...options})
+    onSso(pathOrUrl, { ...options })
     return
   }
   if (pathname === loginPath) {
-    onLogin(pathOrUrl, {...options, pathname})
+    onLogin(pathOrUrl, { ...options, pathname })
     return
   }
   if (pathname === logoutPath) {
-    onLogout(pathOrUrl, {...options, pathname})
+    onLogout(pathOrUrl, { ...options, pathname })
     return
   }
   if (pathname.substr(0, 5) === '/chat') {
-    onChat(pathOrUrl, {...options, hostname, pathname})
+    onChat(pathOrUrl, { ...options, hostname, pathname })
     return
   }
   if (pathname === '/' || mode === 'full') {
-    onRootAndFull(pathOrUrl, {...options, pathname})
+    onRootAndFull(pathOrUrl, { ...options, pathname })
     return
   }
   onExternal(`${serviceUrl}${pathname}`, 'grape')

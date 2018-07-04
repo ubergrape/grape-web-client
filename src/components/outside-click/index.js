@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import noop from 'lodash/utility/noop'
 import omit from 'lodash/object/omit'
 
@@ -10,33 +10,33 @@ export default function listenOutsideClick(ChildComponent) {
     constructor() {
       super()
       this.state = {
-        isInsideClick: false
+        isInsideClick: false,
       }
     }
 
     static propTypes = {
       onOutsideClick: PropTypes.func.isRequired,
-      onClick: PropTypes.func
+      onClick: PropTypes.func,
     }
 
     static defaultProps = {
-      onClick: noop
+      onClick: noop,
     }
 
-    onClickWindow = (e) => {
+    onClickWindow = e => {
       if (!this.state.isInsideClick) {
         this.props.onOutsideClick(e)
         return
       }
 
       this.setState({
-        isInsideClick: false
+        isInsideClick: false,
       })
     }
 
-    onClick = (e) => {
+    onClick = e => {
       this.props.onClick(e)
-      this.setState({isInsideClick: true})
+      this.setState({ isInsideClick: true })
     }
 
     render() {

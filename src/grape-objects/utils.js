@@ -1,6 +1,6 @@
 import parseUrl from '../parse-url'
 import hasJsProtocol from '../javascript-protocol'
-import {grapeProtocol} from './constants'
+import { grapeProtocol } from './constants'
 
 /**
  * Escape markdown link target or name.
@@ -49,6 +49,6 @@ export function getOptions(text, grapeUrl) {
     url: validUrl,
     name: text,
     slug: validUrl.replace('/chat/', ''),
-    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text
+    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text,
   }
 }

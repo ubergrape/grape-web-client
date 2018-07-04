@@ -16,7 +16,7 @@ const getData = (() => {
   const cache = {}
   const attrNames = ['width', 'height', 'viewBox', 'xmlns']
 
-  return (name) => {
+  return name => {
     if (cache[name]) return cache[name]
     const data = {}
     cache[name] = data
@@ -32,14 +32,14 @@ const getData = (() => {
   }
 })()
 
-const Icon = ({classes, className, name, ...rest}) => {
-  const {html, attrs} = getData(name)
+const Icon = ({ classes, className, name, ...rest }) => {
+  const { html, attrs } = getData(name)
   // eslint-disable-next-line no-param-reassign
   delete rest.sheet
   return (
     <svg
       {...attrs}
-      dangerouslySetInnerHTML={{__html: html}}
+      dangerouslySetInnerHTML={{ __html: html }}
       className={cn(classes.icon, className)}
       {...rest}
     />
@@ -49,11 +49,11 @@ const Icon = ({classes, className, name, ...rest}) => {
 Icon.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 Icon.defaultProps = {
-  className: undefined
+  className: undefined,
 }
 
 const styles = {
@@ -64,8 +64,8 @@ const styles = {
     width: '1em',
     maxWidth: '100%',
     userSelect: 'none',
-    fill: 'currentColor'
-  }
+    fill: 'currentColor',
+  },
 }
 
 export default injectSheet(styles)(Icon)
