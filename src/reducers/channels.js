@@ -67,7 +67,7 @@ export default function reduce(state = initialState, action) {
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
         users: includes(users, userId) ? users : [...users, userId],
-        joined: isCurrentUser ? true : channel.joined,
+        joined: isCurrentUser || channel.joined,
       })
       return newState
     }
