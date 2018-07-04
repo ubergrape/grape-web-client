@@ -55,6 +55,8 @@ export default class ReadRow extends PureComponent {
     )
   }
 
+  // This debounce necessary if you have a conversation and messages comes
+  // one by one, some time needs to render this messages
   onReadDebounced = debounce(messageId => {
     // In case the window is not focused and the user receives a message we don't want
     // to mark it as read, but store last rendered messages to mark it as read once the
