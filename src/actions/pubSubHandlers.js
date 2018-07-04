@@ -10,13 +10,9 @@ import {
   userSelector,
   channelSelector,
   joinedRoomsSelector,
-  channelsSelector
+  channelsSelector,
 } from '../selectors'
-import {
-  normalizeMessage,
-  countMentions,
-  pinToFavorite
-} from './utils'
+import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
   addChannel,
@@ -25,7 +21,7 @@ import {
   addMention,
   removeMention,
   addNewUser,
-  goToLastUsedChannel
+  goToLastUsedChannel,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -42,8 +38,8 @@ const addNewMessage = message => (dispatch, getState) => {
     payload: {
       message: nMessage,
       mentionsCount,
-      isCurrentUser: user.id === nMessage.author.id
-    }
+      isCurrentUser: user.id === nMessage.author.id,
+    },
   })
   // We remove a message first, because if user sends a message, it is
   // added immediately, with a generated clientsideId.
@@ -51,11 +47,11 @@ const addNewMessage = message => (dispatch, getState) => {
   // additional information and a server-side id.
   dispatch({
     type: types.REMOVE_MESSAGE,
-    payload: message.clientsideId
+    payload: message.clientsideId,
   })
   dispatch({
     type: types.ADD_NEW_MESSAGE,
-    payload: nMessage
+    payload: nMessage,
   })
 
   // Mark own message as sent.
@@ -64,8 +60,8 @@ const addNewMessage = message => (dispatch, getState) => {
       type: types.MARK_MESSAGE_AS_SENT,
       payload: {
         messageId: nMessage.id,
-        channelId: nMessage.channelId
-      }
+        channelId: nMessage.channelId,
+      },
     })
   }
 }
@@ -74,29 +70,38 @@ export const handleNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const channels = channelSelector(state)
   const user = userSelector(state)
-
-  if (message.author.id === user.id || findIndex(channels, {id: message.author.id}) !== -1) {
+  // This is a special case for activity messages. These are special messages and the only
+  // one having the property type attached to it. It is showed in the
+  // "Development activities" channel and therefor it's not necessary to invoke addNewUser
+  // which would result in the undesired API call open_pm.
+  if (message.type) {
     dispatch(addNewMessage(message))
     return
   }
-  dispatch(addNewUser(message.author.id))
-    .then(() => {
-      dispatch(addNewMessage(message))
-    })
+  if (
+    message.author.id === user.id ||
+    findIndex(channels, { id: message.author.id }) !== -1
+  ) {
+    dispatch(addNewMessage(message))
+    return
+  }
+  dispatch(addNewUser(message.author.id)).then(() => {
+    dispatch(addNewMessage(message))
+  })
 }
 
-export function handleRemovedMessage({id}) {
-  return (dispatch) => {
+export function handleRemovedMessage({ id }) {
+  return dispatch => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
-      payload: id
+      payload: id,
     })
   }
 }
 
-export function handleReadChannel({user: userId, channel: channelId}) {
+export function handleReadChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
 
@@ -105,24 +110,18 @@ export function handleReadChannel({user: userId, channel: channelId}) {
       payload: {
         isCurrentUser: userId === user.id,
         userId,
-        channelId
-      }
+        channelId,
+      },
     })
   }
 }
 
-export function handleMembershipUpdate({membership}) {
+export function handleMembershipUpdate({ membership }) {
   return (dispatch, getState) => {
-    const {
-      organization,
-      user: userId,
-      role,
-      title
-    } = membership
+    const { organization, user: userId, role, title } = membership
 
-    const {id} = orgSelector(getState())
+    const { id } = orgSelector(getState())
     if (id !== organization) return
-
 
     dispatch({
       type: types.UPDATE_MEMBERSHIP,
@@ -130,9 +129,9 @@ export function handleMembershipUpdate({membership}) {
         userId,
         update: {
           role,
-          title
-        }
-      }
+          title,
+        },
+      },
     })
 
     const user = userSelector(getState())
@@ -140,35 +139,35 @@ export function handleMembershipUpdate({membership}) {
   }
 }
 
-export function handleNewChannel({channel}) {
+export function handleNewChannel({ channel }) {
   return addChannel(channel)
 }
 
-const addUserToChannel = payload => (dispatch) => {
+const addUserToChannel = payload => dispatch => {
   dispatch({
     type: types.ADD_USER_TO_CHANNEL,
-    payload
+    payload,
   })
 }
 
-export function handleJoinedChannel({user: userId, channel: channelId}) {
+export function handleJoinedChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
 
-    api
-      .getUser(orgSelector(getState()).id, userId)
-      .then((foundUser) => {
-        dispatch(addUserToChannel({channelId, user: foundUser, userId, isCurrentUser}))
-      })
+    api.getUser(orgSelector(getState()).id, userId).then(foundUser => {
+      dispatch(
+        addUserToChannel({ channelId, user: foundUser, userId, isCurrentUser }),
+      )
+    })
   }
 }
 
-export function handleLeftChannel({user: userId, channel: channelId}) {
+export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: {channelId, userId}
+      payload: { channelId, userId },
     })
 
     const rooms = joinedRoomsSelector(getState())
@@ -183,80 +182,90 @@ const newNotification = (notification, channel) => (dispatch, getState) => {
     payload: {
       ...notification,
       channel,
-      inviter: find(users, {id: notification.inviterId})
-    }
+      inviter: find(users, { id: notification.inviterId }),
+    },
   })
 }
 
 export function handleNotification(notification) {
   return (dispatch, getState) => {
     const channels = channelsSelector(getState())
-    const channel = find(channels, {id: notification.channelId})
+    const channel = find(channels, { id: notification.channelId })
     if (channel) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewUser(notification.author.id))
-      .then(() => {
-        const updatedChannels = channelsSelector(getState())
-        const addedChannel = find(updatedChannels, {id: notification.channelId})
-        dispatch(newNotification(notification, addedChannel))
-      })
+    dispatch(addNewUser(notification.author.id)).then(() => {
+      const updatedChannels = channelsSelector(getState())
+      const addedChannel = find(updatedChannels, { id: notification.channelId })
+      dispatch(newNotification(notification, addedChannel))
+    })
   }
 }
 
-export function handleUpateChannel({channel}) {
-  const updatable = ['id', 'type', 'name', 'description', 'isPublic', 'color', 'icon', 'slug']
+export function handleUpateChannel({ channel }) {
+  const updatable = [
+    'id',
+    'type',
+    'name',
+    'description',
+    'isPublic',
+    'color',
+    'icon',
+    'slug',
+  ]
   return {
     type: types.UPDATE_CHANNEL,
-    payload: pick(channel, updatable)
+    payload: pick(channel, updatable),
   }
 }
 
-export function handleRemoveRoom({channel: id}) {
+export function handleRemoveRoom({ channel: id }) {
   return (dispatch, getState) => {
-    const {id: currentId} = channelSelector(getState())
+    const { id: currentId } = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
-      payload: id
+      payload: id,
     })
     if (id === currentId) dispatch(goTo('/chat'))
   }
 }
 
-const changeUserStatue = payload => (dispatch) => {
+const changeUserStatue = payload => dispatch => {
   dispatch({
     type: types.CHANGE_USER_STATUS,
-    payload
+    payload,
   })
 }
 
-export const handleUserStatusChange = ({status, user: userId}) => (dispatch, getState) => {
+export const handleUserStatusChange = ({ status, user: userId }) => (
+  dispatch,
+  getState,
+) => {
   const users = usersSelector(getState())
-  const user = find(users, {id: userId})
+  const user = find(users, { id: userId })
   if (user) {
-    dispatch(changeUserStatue({status, userId}))
+    dispatch(changeUserStatue({ status, userId }))
     return
   }
-  dispatch(addNewUser(userId))
-    .then(() => {
-      dispatch(changeUserStatue({status, userId}))
-    })
+  dispatch(addNewUser(userId)).then(() => {
+    dispatch(changeUserStatue({ status, userId }))
+  })
 }
 
-export function handleUserUpdate({user}) {
+export function handleUserUpdate({ user }) {
   // TODO: handle if user change username and
   // he is current mate in active PM and
   // redirect at the new PM URL in this case
   return {
     type: types.UPDATE_USER,
-    payload: user
+    payload: user,
   }
 }
 
-export function handleFavoriteChange({changed}) {
+export function handleFavoriteChange({ changed }) {
   return {
     type: types.CHANGE_FAVORITED,
-    payload: changed.map(pinToFavorite)
+    payload: changed.map(pinToFavorite),
   }
 }
