@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import GlobalEvent from 'grape-web/lib/components/global-event'
+import debounce from 'lodash/function/debounce'
 
 export default class ReadRow extends PureComponent {
   static propTypes = {
@@ -38,7 +39,7 @@ export default class ReadRow extends PureComponent {
     if (!this.lastReadRow || this.lastReadRow.message.time < row.message.time) {
       this.lastReadRow = row
       // We debounce it to reduce the amount of "read" events.
-      this.onRead(row.id)
+      this.onReadDebounced(row.id)
     }
   }
 
@@ -47,14 +48,14 @@ export default class ReadRow extends PureComponent {
     // lastVisibleMessageId can be undefined in case you just opened a chat from unfocused state.
     // In that case we will get selectedMessageId (if out path contain messageId) or
     // will pick last message from channel and mark it as read
-    this.onRead(
+    this.onReadDebounced(
       this.lastVisibleMessageId ||
         selectedMessageId ||
         rows[rows.length - 1].id,
     )
   }
 
-  onRead = messageId => {
+  onReadDebounced = debounce(messageId => {
     // In case the window is not focused and the user receives a message we don't want
     // to mark it as read, but store last rendered messages to mark it as read once the
     // user focuses the window again.
@@ -66,7 +67,7 @@ export default class ReadRow extends PureComponent {
     } else {
       this.lastVisibleMessageId = messageId
     }
-  }
+  }, 100)
 
   render() {
     return (
