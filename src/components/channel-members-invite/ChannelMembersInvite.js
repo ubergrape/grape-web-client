@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import compose from 'lodash/function/compose'
 import pluck from 'lodash/collection/pluck'
 import {
   FormattedMessage,
@@ -26,7 +27,7 @@ const messages = defineMessages({
   },
 })
 
-function getFormattedMessage(channelType, mission) {
+const getFormattedMessage = (channelType, mission) => {
   if (mission === 'title') return messages[channelType]
 
   if (mission === 'button') {
@@ -69,7 +70,7 @@ InviteButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-@injectSheet({
+const styles = {
   submit: {
     display: 'block',
     marginTop: 20,
@@ -83,9 +84,9 @@ InviteButton.propTypes = {
       pointerEvents: 'none',
     },
   },
-})
-@injectIntl
-export default class ChannelMembersInvite extends PureComponent {
+}
+
+class ChannelMembersInvite extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -97,6 +98,10 @@ export default class ChannelMembersInvite extends PureComponent {
     showToastNotification: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     channelType: PropTypes.string,
+  }
+
+  static defaultProps = {
+    channelType: null,
   }
 
   onInvite = () => {
@@ -153,3 +158,8 @@ export default class ChannelMembersInvite extends PureComponent {
     )
   }
 }
+
+export default compose(
+  injectSheet(styles),
+  injectIntl,
+)(ChannelMembersInvite)
