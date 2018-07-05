@@ -1,3 +1,4 @@
+import compose from 'lodash/function/compose'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
@@ -76,15 +77,13 @@ const LinkSection = ({ classes, onFocus, onBlur, isFocused }) => (
   </FormControl>
 )
 
-@injectSheet(styles)
-@injectIntl
-export default class CreateTask extends PureComponent {
+class CreateTask extends PureComponent {
   static propTypes = {
-    intl: intlShape,
+    intl: intlShape.isRequired,
     classes: PropTypes.object.isRequired,
-    onClose: PropTypes.func,
-    onGoBack: PropTypes.func,
-    onSelectService: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
+    onGoBack: PropTypes.func.isRequired,
+    onSelectService: PropTypes.func.isRequired,
     task: PropTypes.shape({
       text: PropTypes.string.isRequired,
     }).isRequired,
@@ -159,3 +158,8 @@ export default class CreateTask extends PureComponent {
     )
   }
 }
+
+export default compose(
+  injectSheet(styles),
+  injectIntl,
+)(CreateTask)
