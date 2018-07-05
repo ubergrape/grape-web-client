@@ -52,8 +52,7 @@ const Icon = ({ icon, classes }) => {
   return <div className={classes.defaultIcon} />
 }
 
-@injectSheet(styles)
-export default class ServiceItem extends PureComponent {
+class ServiceItem extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     service: PropTypes.shape({
@@ -61,7 +60,7 @@ export default class ServiceItem extends PureComponent {
       name: PropTypes.string.isRequired,
     }).isRequired,
     onSelect: PropTypes.func.isRequired,
-    icon: PropTypes.string,
+    icon: PropTypes.string.isRequired,
   }
 
   onSelect = () => {
@@ -79,10 +78,16 @@ export default class ServiceItem extends PureComponent {
     return (
       <ListItem className={classes.item}>
         <Icon classes={classes} icon={icon} id={id} />
-        <div className={classes.text} onClick={this.onSelect}>
+        <div
+          className={classes.text}
+          onClick={this.onSelect}
+          role="presentation"
+        >
           {name}
         </div>
       </ListItem>
     )
   }
 }
+
+export default injectSheet(styles)(ServiceItem)

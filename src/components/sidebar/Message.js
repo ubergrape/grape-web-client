@@ -116,6 +116,7 @@ export default class Message extends Component {
               className={classes.innerContent}
               ref={onRefContent}
               onClick={this.onSelectMessage}
+              role="presentation"
             >
               {children}
             </div>

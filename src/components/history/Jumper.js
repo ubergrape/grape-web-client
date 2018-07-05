@@ -11,7 +11,7 @@ const size = 40
 const dimension = size % 2 ? size : size + 1
 const contrast = 'rgba(255,255,255,0.75)'
 
-@injectSheet({
+const styles = {
   jumperContainer: {
     position: 'absolute',
     top: 0,
@@ -36,12 +36,13 @@ const contrast = 'rgba(255,255,255,0.75)'
     cursor: 'pointer',
     boxSizing: 'content-box',
   },
-})
-export default class Jumper extends PureComponent {
+}
+
+class Jumper extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    children: PropTypes.func.isRequired,
-    onJump: PropTypes.func.isRequired,
+    children: PropTypes.func,
+    onJump: PropTypes.func,
     pagesBeforeShow: PropTypes.number,
   }
 
@@ -83,3 +84,5 @@ export default class Jumper extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Jumper)

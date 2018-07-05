@@ -32,7 +32,11 @@ export default class Author extends PureComponent {
   render() {
     const { author, onClick, classes, className } = this.props
     return (
-      <span onClick={onClick} className={`${classes.root} ${className}`}>
+      <span
+        className={`${classes.root} ${className}`}
+        onClick={onClick}
+        role="presentation"
+      >
         {author || (
           <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />
         )}

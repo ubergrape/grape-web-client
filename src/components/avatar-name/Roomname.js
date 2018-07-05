@@ -6,8 +6,7 @@ import cn from 'classnames'
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
 
-@injectSheet(style)
-export default class Roomname extends PureComponent {
+class Roomname extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string,
@@ -16,10 +15,10 @@ export default class Roomname extends PureComponent {
       displayName: PropTypes.string.isRequired,
     }),
     color: PropTypes.string,
-    statusBorderColor: PropTypes.string,
     isPublic: PropTypes.bool,
     showPrivateStatus: PropTypes.bool,
     showRoomInfo: PropTypes.bool,
+    statusBorderColor: PropTypes.string,
     membersCount: PropTypes.number,
     className: PropTypes.string,
     theme: PropTypes.object,
@@ -33,8 +32,6 @@ export default class Roomname extends PureComponent {
     icon: undefined,
     color: '#f00',
     statusBorderColor: '#fff',
-    mentions: false,
-    unread: 0,
     showPrivateStatus: false,
     showRoomInfo: false,
     isPublic: false,
@@ -91,3 +88,5 @@ export default class Roomname extends PureComponent {
     )
   }
 }
+
+export default injectSheet(style)(Roomname)

@@ -30,18 +30,13 @@ function calcThumbnailSize(options) {
 @injectSheet(styles)
 export default class ImageAttachment extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    sheet: PropTypes.object,
     url: PropTypes.string.isRequired,
     thumbnailUrl: PropTypes.string.isRequired,
-    thumbnailWidth: PropTypes.number.isRequired,
-    thumbnailHeight: PropTypes.number.isRequired,
-    maxThumbnailWidth: PropTypes.number.isRequired,
-    maxThumbnailHeight: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
-    maxThumbnailWidth: 360,
-    maxThumbnailHeight: 360,
+    sheet: null,
   }
 
   getThumbnailRef = () => this.thumbnail

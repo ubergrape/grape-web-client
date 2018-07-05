@@ -39,6 +39,7 @@ function Tooltip(props) {
     <div
       onClick={onClick}
       className={`${sheet.classes.tooltip} ${theme.classes.tooltip || ''}`}
+      role="presentation"
       style={style}
     >
       <i

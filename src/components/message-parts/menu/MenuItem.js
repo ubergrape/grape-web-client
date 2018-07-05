@@ -106,6 +106,7 @@ export default class MenuItem extends PureComponent {
           className={getItemClassName(classes, name, index, total)}
           onClick={this.onSelect}
           ref={onRefItem}
+          role="presentation"
         />
       </Tooltip>
     )

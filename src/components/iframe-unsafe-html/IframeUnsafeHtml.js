@@ -14,13 +14,13 @@ const setIframeContent = (iframe, content) => {
 @injectSheet(styles)
 export default class IframeUnsafeHtml extends PureComponent {
   static propTypes = {
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     html: PropTypes.string.isRequired,
     sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    className: '',
+    className: undefined,
   }
 
   componentDidMount() {
@@ -50,6 +50,7 @@ export default class IframeUnsafeHtml extends PureComponent {
       <iframe
         className={cn(classes.iframe, className)}
         ref={this.onRefIframe}
+        title="Grape"
         {...iframeHtmlAttrs}
       />
     )

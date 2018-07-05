@@ -32,7 +32,7 @@ export default class LinkWithIcon extends PureComponent {
     classes: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
   }
 
   static defaultProps = {
@@ -40,10 +40,15 @@ export default class LinkWithIcon extends PureComponent {
   }
 
   getSvg() {
-    let { icon } = this.props
+    const { icon } = this.props
+
     if (icon === 'default' || !icons[icon]) {
-      icon = this.constructor.defaultProps.icon
+      return getColoredIcon({
+        name: this.constructor.defaultProps.icon,
+        color: webColors.link,
+      })
     }
+
     return getColoredIcon({ name: icon, color: webColors.link })
   }
 

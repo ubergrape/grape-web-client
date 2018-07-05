@@ -13,7 +13,7 @@ import RouteChanger from './RouteChanger'
 const Container = withRouter(AppContainer)
 
 const Router = ({ onChangeRoute, children }) => (
-  <ConnectedRouter basename={'/chat'} history={history}>
+  <ConnectedRouter basename="/chat" history={history}>
     <Container>
       <Route
         path="/chat"

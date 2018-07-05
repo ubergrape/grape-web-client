@@ -1,6 +1,6 @@
 export default options =>
   new Promise(resolve => {
-    if (window.Intl && location.origin) {
+    if (window.Intl && global.location.origin) {
       resolve()
       return
     }

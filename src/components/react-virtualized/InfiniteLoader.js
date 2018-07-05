@@ -38,7 +38,7 @@ export default class InfiniteLoader extends PureComponent {
      * Function responsible for tracking the loaded state of each row.
      * It should implement the following signature: (index: number): boolean
      */
-    isRowLoaded: PropTypes.func.isRequired,
+    isRowLoaded: PropTypes.func,
 
     /**
      * Callback to be invoked when more rows must be loaded.
@@ -46,25 +46,25 @@ export default class InfiniteLoader extends PureComponent {
      * It will be used to determine when to refresh the list with the newly-loaded data.
      * This callback may be called multiple times in reaction to a single scroll event.
      */
-    loadMoreRows: PropTypes.func.isRequired,
+    loadMoreRows: PropTypes.func,
 
     /**
      * Callback to be invoked when scroll position reaches the beginning.
      */
-    onTouchTopEdge: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func,
 
     /**
      * Minimum number of rows to be loaded at a time.
      * This property can be used to batch requests to reduce HTTP requests.
      */
-    minimumBatchSize: PropTypes.number.isRequired,
+    minimumBatchSize: PropTypes.number,
 
     /**
      * Threshold at which to pre-fetch data.
      * A threshold X means that data will start loading when a user scrolls within X rows.
      * This value defaults to 15.
      */
-    threshold: PropTypes.number.isRequired,
+    threshold: PropTypes.number,
   }
 
   static defaultProps = {

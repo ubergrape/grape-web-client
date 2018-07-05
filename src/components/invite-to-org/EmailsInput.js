@@ -56,3 +56,8 @@ EmailsInput.propTypes = {
   clearError: PropTypes.func.isRequired,
   error: PropTypes.object,
 }
+
+EmailsInput.defaultProps = {
+  focused: false,
+  error: null,
+}

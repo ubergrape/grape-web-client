@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
 import cn from 'classnames'
 
 import { ShowMore, ShowLess } from '../../../i18n/i18n'
@@ -11,7 +10,7 @@ import { expanderColor } from './constants'
 
 const maxHeight = 350
 
-@injectSheet({
+const styles = {
   expandedExpander: {
     display: 'block',
     paddingBottom: 15,
@@ -38,17 +37,17 @@ const maxHeight = 350
     },
   },
   button,
-})
-export default class Expander extends PureComponent {
+}
+
+class Expander extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
     onToggle: PropTypes.func.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
+    isExpanded: PropTypes.bool,
   }
 
   static defaultProps = {
-    onToggle: noop,
     isExpanded: false,
   }
 
@@ -91,8 +90,9 @@ export default class Expander extends PureComponent {
         {children}
         {isEnabled && (
           <div
-            onClick={this.onToggle}
             className={cn(classes.panel, !isExpanded && classes.collapsedPanel)}
+            onClick={this.onToggle}
+            role="presentation"
           >
             <button className={classes.button}>
               {isExpanded ? <ShowLess /> : <ShowMore />}
@@ -103,3 +103,5 @@ export default class Expander extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Expander)

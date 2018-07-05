@@ -101,6 +101,7 @@ export default class User extends PureComponent {
         <div
           className={classes.userNameContainer}
           onClick={this.onSelectMember}
+          role="presentation"
         >
           <Username
             statusBorderColor={grayBlueLighter}

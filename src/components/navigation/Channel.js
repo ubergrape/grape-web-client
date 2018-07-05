@@ -112,7 +112,7 @@ export default class Channel extends PureComponent {
     return (
       <div>
         {header && <h2 className={classes.unjoinedTitle}>{header}</h2>}
-        <div className={channelClass} onClick={onClick}>
+        <div className={channelClass} onClick={onClick} role="presentation">
           <ChannelPicker {...this.props} />
         </div>
       </div>

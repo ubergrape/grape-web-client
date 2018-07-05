@@ -15,30 +15,29 @@ import Expander from './Expander'
 import Menu from './Menu'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
-@injectSheet(styles)
-export default class ActivityMessage extends PureComponent {
+class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    title: PropTypes.node.isRequired,
-    children: PropTypes.node.isRequired,
+    title: PropTypes.node,
+    children: PropTypes.node,
     duplicates: PropTypes.number.isRequired,
-    onToggleExpander: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func,
     customEmojis: PropTypes.object.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
-    hasBubbleArrow: PropTypes.bool.isRequired,
+    hasBubbleArrow: PropTypes.bool,
     author: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    attachments: PropTypes.array.isRequired,
+    isExpanded: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    attachments: PropTypes.array,
   }
 
   static defaultProps = {
@@ -157,3 +156,5 @@ export default class ActivityMessage extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(ActivityMessage)

@@ -87,11 +87,11 @@ export default class OrgInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    logo: PropTypes.string,
-    name: PropTypes.string,
+    logo: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     user: PropTypes.shape({
       displayName: PropTypes.string,
-    }),
+    }).isRequired,
   }
 
   static defaultProps = {

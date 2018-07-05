@@ -93,8 +93,7 @@ const styleNotification = notification => {
 export default class ToastNotification extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-      .isRequired,
+    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired,
     sidebar: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,

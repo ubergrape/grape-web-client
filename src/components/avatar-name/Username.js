@@ -25,8 +25,7 @@ Status.defaultProps = {
   borderColor: white,
 }
 
-@injectSheet(style)
-export default class Username extends PureComponent {
+class Username extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
@@ -38,7 +37,6 @@ export default class Username extends PureComponent {
   }
 
   static defaultProps = {
-    theme: { classes: {} },
     className: undefined,
     statusBorderColor: undefined,
     status: undefined,
@@ -77,3 +75,5 @@ export default class Username extends PureComponent {
     )
   }
 }
+
+export default injectSheet(style)(Username)

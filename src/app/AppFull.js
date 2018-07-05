@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Router } from '../containers/router'
@@ -53,37 +53,36 @@ const Globals = () => (
   </section>
 )
 
-@injectSheet(
-  {
-    '@global': {
-      'html, body': {
-        margin: 0,
-        height: '100vh',
-        overflow: 'hidden',
-      },
+const styles = {
+  '@global': {
+    'html, body': {
+      margin: 0,
+      height: '100vh',
+      overflow: 'hidden',
     },
   },
-  { increaseSpecificity: false, isolate: false },
-)
-export default class App extends PureComponent {
-  render() {
-    return (
-      <AppProvider>
-        {props => (
-          <Router {...props}>
-            <AppLayout
-              Aside={Aside}
-              Header={HeaderProvider}
-              Alerts={AlertsProvider}
-              History={HistoryProvider}
-              Sidebar={SidebarProvider}
-              Globals={Globals}
-              FileUpload={FileUploadProvider}
-              Footer={FooterProvider}
-            />
-          </Router>
-        )}
-      </AppProvider>
-    )
-  }
 }
+
+const App = () => (
+  <AppProvider>
+    {props => (
+      <Router {...props}>
+        <AppLayout
+          Aside={Aside}
+          Header={HeaderProvider}
+          Alerts={AlertsProvider}
+          History={HistoryProvider}
+          Sidebar={SidebarProvider}
+          Globals={Globals}
+          FileUpload={FileUploadProvider}
+          Footer={FooterProvider}
+        />
+      </Router>
+    )}
+  </AppProvider>
+)
+
+export default injectSheet(styles, {
+  increaseSpecificity: false,
+  isolate: false,
+})(App)

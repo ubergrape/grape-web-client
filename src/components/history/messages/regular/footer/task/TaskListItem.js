@@ -41,6 +41,7 @@ export default class TaskListItem extends PureComponent {
         <div
           className={classes.tasksListItemTextContainer}
           onClick={this.onSelect}
+          role="presentation"
         >
           <span className={classes.tasksListItemText}>{text}</span>
         </div>

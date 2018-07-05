@@ -73,7 +73,7 @@ Title.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired,
   setting: PropTypes.oneOf(['muteAll', 'desktop', 'push']).isRequired,
-  status: PropTypes.oneOf(statuses),
+  status: PropTypes.oneOf(statuses).isRequired,
 }
 
 const MuteAllSetting = ({
@@ -88,6 +88,7 @@ const MuteAllSetting = ({
     <Title classes={classes} setting="muteAll" status={status}>
       <FormattedMessage id="muteGroupTitle" defaultMessage="Mute this Group" />
     </Title>
+    {/* eslint-disable-next-line jsx-a11y/label-has-for */}
     <label className={classes.label}>
       <span className={classes.iconColumn}>
         <input type="checkbox" checked={value} onChange={onChange} />
@@ -111,7 +112,7 @@ const MuteAllSetting = ({
                 <FormattedMessage
                   id="clickHereInlineLink"
                   defaultMessage="click here"
-                  description={'Link used inline in the middle of a sentence.'}
+                  description="Link used inline in the middle of a sentence."
                 />
               </button>
             ),
@@ -128,7 +129,7 @@ MuteAllSetting.propTypes = {
   channel: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses),
+  status: PropTypes.oneOf(statuses).isRequired,
 }
 
 const Select = ({
@@ -173,7 +174,7 @@ DesktopSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses),
+  status: PropTypes.oneOf(statuses).isRequired,
 }
 
 const PushSetting = ({ classes, status, ...rest }) => (
@@ -192,7 +193,7 @@ PushSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses),
+  status: PropTypes.oneOf(statuses).isRequired,
 }
 
 const Footer = ({ classes, onClose }) => (
@@ -238,10 +239,10 @@ export default class NotificationSettings extends PureComponent {
     onHide: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onLeave: PropTypes.func.isRequired,
-    desktop: PropTypes.oneOf(values),
-    push: PropTypes.oneOf(values),
-    channel: PropTypes.object,
-    user: PropTypes.object,
+    desktop: PropTypes.oneOf(values).isRequired,
+    push: PropTypes.oneOf(values).isRequired,
+    channel: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
   }
 
   constructor(props) {

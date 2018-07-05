@@ -1,6 +1,4 @@
 import PropTypes from 'prop-types'
-/* eslint-disable jsx-a11y/label-has-for */
-
 import React, { PureComponent } from 'react'
 import parseUrl from 'grape-web/lib/parse-url'
 import injectSheet from 'grape-web/lib/jss'
@@ -62,7 +60,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
     channelId: PropTypes.number,
     messageId: PropTypes.string,
     onRemove: PropTypes.func.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
+    isAdmin: PropTypes.bool,
     url: PropTypes.string,
   }
 
@@ -123,6 +121,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
 
     return (
       <fieldset className={classes.adminField}>
+        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label className={classes.label}>
           <input
             type="checkbox"
@@ -136,6 +135,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
             defaultMessage="Disable future attachments from this website?"
           />
         </label>
+        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label className={classes.label}>
           <select
             name="type"

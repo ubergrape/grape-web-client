@@ -10,8 +10,9 @@ const messages = defineMessages({
   },
 })
 
-const Filter = ({ intl, theme, value, onKeyDown, onChange }) => (
+const Filter = ({ innerRef, intl, theme, value, onKeyDown, onChange }) => (
   <input
+    ref={innerRef}
     type="search"
     value={value}
     onKeyDown={onKeyDown}
@@ -22,6 +23,7 @@ const Filter = ({ intl, theme, value, onKeyDown, onChange }) => (
 )
 
 Filter.propTypes = {
+  innerRef: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,

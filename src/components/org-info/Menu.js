@@ -27,13 +27,13 @@ import {
 export default class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onInvite: PropTypes.func.isRequired,
-    onShowIntro: PropTypes.func.isRequired,
-    inviterRole: PropTypes.number.isRequired,
+    onInvite: PropTypes.func,
+    onShowIntro: PropTypes.func,
+    inviterRole: PropTypes.number,
     supportLink: PropTypes.string.isRequired,
     user: PropTypes.shape({
       role: PropTypes.number.isRequired,
-    }).isRequired,
+    }),
   }
 
   static defaultProps = {

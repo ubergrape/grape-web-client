@@ -1,3 +1,4 @@
+import noop from 'lodash/utility/noop'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
@@ -47,7 +48,13 @@ export default class Group extends PureComponent {
       type,
     } = this.props
     return (
-      <div className={classes.item} onClick={this.onClick} tabIndex="0">
+      <div
+        className={classes.item}
+        onClick={this.onClick}
+        onKeyPress={noop}
+        role="button"
+        tabIndex="0"
+      >
         <div className={classes.group}>
           <Roomname
             {...group}

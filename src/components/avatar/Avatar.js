@@ -5,7 +5,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import { size } from './constants'
 
-@injectSheet({
+const styles = {
   avatar: {
     display: 'block',
     position: 'relative',
@@ -19,8 +19,9 @@ import { size } from './constants'
       size: '100%',
     },
   },
-})
-export default class Avatar extends PureComponent {
+}
+
+class Avatar extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onClick: PropTypes.func,
@@ -40,12 +41,14 @@ export default class Avatar extends PureComponent {
 
   render() {
     const { className, src, onClick, classes, children } = this.props
-    let { style } = this.props
-    if (src) style = { ...style, backgroundImage: `url(${src})` }
+    const style = src
+      ? { ...this.props.style, backgroundImage: `url(${src})` }
+      : this.props.style
 
     return (
       <span
         className={`${classes.avatar} ${className}`}
+        role="presentation"
         style={style}
         onClick={onClick}
       >
@@ -54,3 +57,5 @@ export default class Avatar extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Avatar)

@@ -45,7 +45,3 @@ InviteLink.propTypes = {
   show: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 }
-
-InviteLink.defaultProps = {
-  link: '',
-}

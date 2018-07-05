@@ -9,8 +9,13 @@ export default class Tab extends PureComponent {
   static propTypes = {
     active: PropTypes.bool,
     children: PropTypes.node.isRequired,
+    filter: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    active: false,
   }
 
   onClick = e => {

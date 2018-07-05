@@ -8,6 +8,7 @@ export default ({ classes, isConnected, className, onClick }) => {
       <span
         className={cn(classes.taskIconContainer, className)}
         onClick={onClick}
+        role="presentation"
       >
         <Icon
           name="lightningBolt"

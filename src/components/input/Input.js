@@ -17,25 +17,27 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  */
 // TODO: move this component to grape-ui library
 // https://github.com/ubergrape/chatgrape/issues/4384
-@injectSheet({
+const styles = {
   input: {
     isolate: false,
     position: 'relative',
   },
-})
-export default class Input extends PureComponent {
+}
+
+class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    clearError: PropTypes.func.isRequired,
-    focused: PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
+    clearError: PropTypes.func,
+    focused: PropTypes.bool,
     className: PropTypes.string,
     type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
       message: PropTypes.string.isRequired,
       level: PropTypes.oneOf(['error', 'warning']),
     }),
+    placement: PropTypes.string,
   }
 
   static defaultProps = {
@@ -127,3 +129,5 @@ export default class Input extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Input)

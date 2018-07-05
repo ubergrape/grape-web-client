@@ -9,10 +9,14 @@ export default function reduce(state = initialState, action) {
 
   switch (action.type) {
     case types.SHOW_TOAST_NOTIFICATION:
-      const isDuplicate = state.notifications.some(
-        notification => notification.message === payload.message,
-      )
-      if (isDuplicate) return state
+      if (
+        state.notifications.some(
+          notification => notification.message === payload.message,
+        )
+      ) {
+        return state
+      }
+
       return {
         ...state,
         notifications: [...state.notifications, payload],

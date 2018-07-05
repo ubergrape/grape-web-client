@@ -56,11 +56,11 @@ export function pinToFavorite(channel) {
  * not from old frontend architecture
  */
 export function reduceChannelUsersToId(channel) {
-  let creator = channel.creator
+  let { creator } = channel
   if (creator && typeof creator === 'object') {
     creator = creator.id
   }
-  let history = channel.history
+  let { history } = channel
   if (history && typeof history === 'object') {
     history = channel.history.map(h => (h.id ? h.id : h))
   }

@@ -6,7 +6,7 @@ import User from './User'
 
 export default class ChannelMembers extends PureComponent {
   static propTypes = {
-    users: PropTypes.array.isRequired,
+    users: PropTypes.array,
     channel: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
     onLoad: PropTypes.func,

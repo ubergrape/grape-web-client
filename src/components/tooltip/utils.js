@@ -45,6 +45,7 @@ export function getPointerPlacement(placement) {
     case 'bottom':
       return { top: '40%' }
     default:
+      return {}
   }
 }
 
@@ -62,6 +63,7 @@ export function getBodyMargin(arrowSize, placement) {
         margin: `-${margin}px ${margin}px`,
       }
     default:
+      return {}
   }
 }
 
@@ -81,10 +83,13 @@ export function getArrowOffset(placement, align, arrowMargin) {
           arrowOffsetLeft: `calc(100% - ${arrowMargin}px)`,
         }
       default:
+        return {}
     }
   }
 
   if (placement === 'left' || placement === 'right') {
     return { arrowOffsetTop: '50%' }
   }
+
+  return {}
 }

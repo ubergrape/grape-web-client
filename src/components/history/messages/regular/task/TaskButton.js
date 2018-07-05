@@ -10,7 +10,7 @@ import { small } from 'grape-theme/dist/fonts'
 import Tooltip from '../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
 
-@injectSheet({
+const styles = {
   taskButton: {
     width: 'auto',
     height: 20,
@@ -37,8 +37,9 @@ import TaskIcon from './TaskIcon'
     extend: small,
     color: grayLight,
   },
-})
-export default class TaskButton extends PureComponent {
+}
+
+class TaskButton extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isConnected: PropTypes.bool,
@@ -81,3 +82,5 @@ export default class TaskButton extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(TaskButton)

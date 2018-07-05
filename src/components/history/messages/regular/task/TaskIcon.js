@@ -6,7 +6,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { small } from 'grape-theme/dist/fonts'
 import { grayLight, orange, green } from 'grape-theme/dist/base-colors'
 
-@injectSheet({
+const styles = {
   taskIcon: {
     position: 'relative',
     display: 'inline-block',
@@ -25,8 +25,9 @@ import { grayLight, orange, green } from 'grape-theme/dist/base-colors'
     fill: green,
     height: '0.8em',
   },
-})
-export default class TaskIcon extends PureComponent {
+}
+
+class TaskIcon extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isConnected: PropTypes.bool,
@@ -45,7 +46,11 @@ export default class TaskIcon extends PureComponent {
 
     if (isConnected) {
       return (
-        <span className={cn(classes.taskIcon, className)} onClick={onClick}>
+        <span
+          className={cn(classes.taskIcon, className)}
+          onClick={onClick}
+          role="presentation"
+        >
           <Icon
             name="lightningBolt"
             className={cn(
@@ -67,3 +72,5 @@ export default class TaskIcon extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(TaskIcon)

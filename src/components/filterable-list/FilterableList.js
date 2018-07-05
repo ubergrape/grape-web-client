@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
@@ -8,16 +8,17 @@ import isEqual from 'lodash/lang/isEqual'
 
 import TagsInput from '../tags-input/TagsInput'
 
-@injectSheet({
+const styles = {
   list: {
     display: 'block',
     marginTop: 20,
   },
-})
-export default class FilterableList extends PureComponent {
+}
+
+class FilterableList extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    isFilterFocused: PropTypes.bool.isRequired,
+    isFilterFocused: PropTypes.bool,
     listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
@@ -170,7 +171,7 @@ export default class FilterableList extends PureComponent {
     } = this.props
 
     return (
-      <div onClick={onClick}>
+      <div role="presentation" onClick={onClick}>
         <TagsInput
           onKeyDown={this.onKeyDown}
           onChange={onChange}
@@ -188,3 +189,5 @@ export default class FilterableList extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(FilterableList)

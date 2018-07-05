@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import stripIndent from 'common-tags/lib/stripIndent'
 
@@ -53,22 +53,20 @@ const messages = defineMessages({
   },
 })
 
-export default class MarkdownTips extends PureComponent {
-  render() {
-    return (
-      <div>
-        <FormattedMessage
-          id="markdownTipsPitch"
-          defaultMessage="How to improve your chat messages with some nifty styles"
-        />
-        <Tip
-          example={messages.inlineStylesExample}
-          title={messages.inlineStylesTitle}
-        />
-        <Tip example={messages.linksExample} title={messages.linksTitle} />
-        <Tip
-          example={formatMessage =>
-            stripIndent`
+const MarkdownTips = () => (
+  <div>
+    <FormattedMessage
+      id="markdownTipsPitch"
+      defaultMessage="How to improve your chat messages with some nifty styles"
+    />
+    <Tip
+      example={messages.inlineStylesExample}
+      title={messages.inlineStylesTitle}
+    />
+    <Tip example={messages.linksExample} title={messages.linksTitle} />
+    <Tip
+      example={formatMessage =>
+        stripIndent`
             ${formatMessage(messages.codeSnippetsInlineExample)}
 
             \`\`\`
@@ -77,14 +75,14 @@ export default class MarkdownTips extends PureComponent {
             </p>
             \`\`\`
           `
-          }
-          title={messages.codeSnippetsTitle}
-        />
-        <Tip
-          example={messages.blockquoteExample}
-          title={messages.blockquoteTitle}
-        />
-      </div>
-    )
-  }
-}
+      }
+      title={messages.codeSnippetsTitle}
+    />
+    <Tip
+      example={messages.blockquoteExample}
+      title={messages.blockquoteTitle}
+    />
+  </div>
+)
+
+export default MarkdownTips

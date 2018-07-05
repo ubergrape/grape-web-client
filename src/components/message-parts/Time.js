@@ -53,7 +53,6 @@ UserTime.propTypes = {
   time: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired,
   isOpened: PropTypes.bool.isRequired,
-  formatTime: PropTypes.func.isRequired,
 }
 
 /**
@@ -77,7 +76,7 @@ export default class Time extends PureComponent {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     intl: intlShape.isRequired,
-    userTime: PropTypes.string,
+    userTime: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -88,12 +87,12 @@ export default class Time extends PureComponent {
     }
   }
 
-  onMouseOver = () => {
+  onMouseEnter = () => {
     if (this.state.isWritersTimeOpened) return
     this.setState({ isWritersTimeOpened: true })
   }
 
-  onMouseOut = () => {
+  onMouseLeave = () => {
     if (!this.state.isWritersTimeOpened) return
     this.setState({ isWritersTimeOpened: false })
   }
@@ -110,8 +109,8 @@ export default class Time extends PureComponent {
     return (
       <div
         className={classes.time}
-        onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}
+        onMouseLeave={this.onMouseLeave}
+        onMouseEnter={this.onMouseEnter}
       >
         <span
           className={

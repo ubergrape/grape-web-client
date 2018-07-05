@@ -32,7 +32,7 @@ const styles = () => ({
 class PinnedMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    items: PropTypes.array.isRequired,
+    items: PropTypes.array,
     user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types

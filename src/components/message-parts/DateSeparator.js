@@ -43,12 +43,10 @@ function format({ date, intl: { formatDate, formatMessage } }) {
 export default class DateSeparator extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    date: PropTypes.instanceOf(Date),
     theme: PropTypes.object,
   }
 
   static defaultProps = {
-    date: new Date(),
     theme: {
       date: '',
     },

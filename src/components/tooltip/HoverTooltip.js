@@ -20,10 +20,10 @@ export default class HoverTooltip extends PureComponent {
     classes: PropTypes.object.isRequired,
     align: PropTypes.oneOf(['left', 'right', 'center']),
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-    inline: PropTypes.bool.isRequired,
-    delay: PropTypes.number.isRequired,
-    disabled: PropTypes.bool.isRequired,
-    arrowMargin: PropTypes.number.isRequired,
+    inline: PropTypes.bool,
+    delay: PropTypes.number,
+    disabled: PropTypes.bool,
+    arrowMargin: PropTypes.number,
   }
 
   static defaultProps = {
@@ -42,7 +42,7 @@ export default class HoverTooltip extends PureComponent {
     if (disabled && this.state.show) this.setState(initialState)
   }
 
-  onMouseOver = () => {
+  onMouseEnter = () => {
     if (this.props.disabled) return
     const timeoutId = setTimeout(() => {
       if (this.props.disabled) return
@@ -52,7 +52,7 @@ export default class HoverTooltip extends PureComponent {
     this.setState({ timeoutId })
   }
 
-  onMouseOut = () => {
+  onMouseLeave = () => {
     if (this.props.disabled) return
 
     const { timeoutId } = this.state
@@ -79,8 +79,8 @@ export default class HoverTooltip extends PureComponent {
     return (
       <div className={classes[`wrapper${inline ? 'Inline' : ''}`]}>
         <span
-          onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
           className={classes.childrenWrapper}
         >
           {children}

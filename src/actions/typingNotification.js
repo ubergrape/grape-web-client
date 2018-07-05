@@ -22,7 +22,7 @@ const addEvent = (channel, id, displayName, expires) => {
 }
 
 export function handleTypingNotification(
-  { user, users, org, channel, typingNotification },
+  { user, users, org, typingNotification },
   data,
 ) {
   return dispatch => {

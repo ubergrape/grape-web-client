@@ -20,15 +20,15 @@ import cn from 'classnames'
 export default class Row extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    spaced: PropTypes.bool.isRequired,
-    className: PropTypes.string.isRequired,
+    spaced: PropTypes.bool,
+    className: PropTypes.string,
     sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     spaced: false,
     children: null,
-    className: '',
+    className: undefined,
   }
 
   render() {

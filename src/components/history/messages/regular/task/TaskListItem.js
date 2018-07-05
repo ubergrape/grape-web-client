@@ -9,7 +9,7 @@ import { grayLighter } from 'grape-theme/dist/base-colors'
 import TaskIcon from './TaskIcon'
 import IconButton from './IconButton'
 
-@injectSheet({
+const styles = {
   item: {
     padding: [5, 10],
     '&:hover': {
@@ -33,8 +33,9 @@ import IconButton from './IconButton'
     display: 'inline-block',
     whiteSpace: 'pre-line',
   },
-})
-export default class TaskListItem extends PureComponent {
+}
+
+class TaskListItem extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     task: PropTypes.object.isRequired,
@@ -66,7 +67,11 @@ export default class TaskListItem extends PureComponent {
           className={classes.itemIcon}
         />
 
-        <div className={classes.textContainer} onClick={this.onSelect}>
+        <div
+          className={classes.textContainer}
+          onClick={this.onSelect}
+          role="presentation"
+        >
           <span className={classes.text}>{text}</span>
         </div>
         <IconButton icon="close" onClick={this.onRemove} />
@@ -74,3 +79,5 @@ export default class TaskListItem extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(TaskListItem)

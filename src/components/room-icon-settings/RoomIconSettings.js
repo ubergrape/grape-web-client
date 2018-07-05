@@ -21,7 +21,7 @@ export default class RoomIconSettings extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    dropdownPlacement: PropTypes.string.isRequired,
+    dropdownPlacement: PropTypes.string,
     container: PropTypes.object.isRequired,
   }
 

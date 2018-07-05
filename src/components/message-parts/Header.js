@@ -27,12 +27,7 @@ export default class Header extends PureComponent {
   }
 
   static defaultProps = {
-    className: '',
-    theme: {
-      classes: {
-        header: '',
-      },
-    },
+    className: undefined,
     children: null,
     onClickAuthor: null,
     time: null,

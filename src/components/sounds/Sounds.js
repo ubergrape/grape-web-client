@@ -7,7 +7,7 @@ const baseUrl = staticUrl('app/sounds')
 
 export default class Sounds extends PureComponent {
   static propTypes = {
-    sounds: PropTypes.object.isRequired,
+    sounds: PropTypes.object,
     onEnded: PropTypes.func.isRequired,
     active: PropTypes.string,
   }

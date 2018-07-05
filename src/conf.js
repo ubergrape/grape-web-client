@@ -28,7 +28,7 @@ class Config {
     wsUrl: null,
     pubsubUrl: null,
     sentryJsDsn: null,
-    serviceUrl: location.origin,
+    serviceUrl: global.location.origin,
     host: null,
     uploadPath: null,
     staticPath: null,

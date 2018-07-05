@@ -43,7 +43,7 @@ const Upload = ({ classes, progress, isComplete, name, error }) => (
 Upload.propTypes = {
   classes: PropTypes.object.isRequired,
   progress: PropTypes.number.isRequired,
-  isComplete: PropTypes.bool.isRequired,
+  isComplete: PropTypes.bool,
   name: PropTypes.string.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 }
@@ -131,14 +131,7 @@ const notify = props => {
   }
 }
 
-@injectSheet(styles)
-export default class Notification extends PureComponent {
-  static propTypes = {
-    uploads: PropTypes.array.isRequired,
-    onNotify: PropTypes.func.isRequired,
-    onHideNotification: PropTypes.func.isRequired,
-  }
-
+class Notification extends PureComponent {
   constructor(props) {
     super(props)
     notify(props)
@@ -152,3 +145,5 @@ export default class Notification extends PureComponent {
     return null
   }
 }
+
+export default injectSheet(styles)(Notification)

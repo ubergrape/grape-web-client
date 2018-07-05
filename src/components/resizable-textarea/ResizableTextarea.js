@@ -5,7 +5,7 @@ import { pickHTMLProps } from 'pick-react-known-prop'
 export default class Editable extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
-    onKeyDown: PropTypes.func,
+    onKeyDown: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     focused: PropTypes.bool,
     readOnly: PropTypes.bool,
@@ -15,23 +15,29 @@ export default class Editable extends PureComponent {
   }
 
   static defaultProps = {
+    disabled: false,
+    focused: false,
+    readOnly: false,
     placeholder: '',
   }
 
   componentDidMount() {
     this.setTextareaHeight()
-    if (this.props.focused) this.refs.textarea.focus()
+    if (this.props.focused) this.textAreaRef.focus()
   }
 
   componentDidUpdate(prevProps) {
     this.setTextareaHeight()
-    if (this.props.focused && !prevProps.focused) this.refs.textarea.focus()
+    if (this.props.focused && !prevProps.focused) this.textAreaRef.focus()
   }
 
   setTextareaHeight() {
-    const { textarea } = this.refs
-    textarea.style.height = 0
-    textarea.style.height = `${textarea.scrollHeight}px`
+    this.textAreaRef.style.height = 0
+    this.textAreaRef.style.height = `${this.textAreaRef.scrollHeight}px`
+  }
+
+  setTextAreaRef = ref => {
+    this.textAreaRef = ref
   }
 
   render() {
@@ -40,7 +46,7 @@ export default class Editable extends PureComponent {
       <textarea
         {...pickHTMLProps(this.props)}
         className={classes.input}
-        ref="textarea"
+        ref={this.setTextareaRef}
       />
     )
   }

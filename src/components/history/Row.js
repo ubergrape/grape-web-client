@@ -58,13 +58,13 @@ export default class Row extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    isLast: PropTypes.bool.isRequired,
-    isGroupable: PropTypes.bool.isRequired,
+    isLast: PropTypes.bool,
+    isGroupable: PropTypes.bool,
     isPm: PropTypes.bool.isRequired,
-    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string),
     style: PropTypes.object,
     key: PropTypes.string,
-    isExpanded: PropTypes.bool.isRequired,
+    isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
@@ -107,7 +107,7 @@ export default class Row extends PureComponent {
     } = this.props
 
     // eslint-disable-next-line no-alert
-    if (confirm(formatMessage(messages.confirm))) {
+    if (global.confirm(formatMessage(messages.confirm))) {
       onRemove([...duplicates, message.id].map(id => ({ id })))
     }
   }

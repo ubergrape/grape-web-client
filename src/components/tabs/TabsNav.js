@@ -7,7 +7,7 @@ import { styles } from './theme'
 @injectSheet(styles)
 export default class TabsNav extends PureComponent {
   static propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired,
   }
 

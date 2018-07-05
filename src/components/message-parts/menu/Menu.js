@@ -49,7 +49,6 @@ export default class Menu extends PureComponent {
 
   static defaultProps = {
     showDropdown: false,
-    onSelect: noop,
   }
 
   render() {

@@ -31,7 +31,7 @@ export default class TagsInput extends PureComponent {
     if (this.props.focused) this.input.focus()
   }
 
-  componentWillUpdate(prevProps) {
+  componentWillReceiveProps(prevProps) {
     if (prevProps.list.length !== this.props.list.length) {
       this.setState({ filter: '' })
     }

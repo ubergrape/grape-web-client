@@ -19,7 +19,7 @@ const getFontFace = ({
   ),
 })
 
-@injectSheet({
+const styles = {
   '@font-face': [
     getFontFace({ family: 'proxima-nova' }),
     getFontFace({
@@ -37,10 +37,13 @@ const getFontFace = ({
     position: 'relative',
     height: '100%',
   },
-})
-export default class AppContainer extends PureComponent {
+}
+
+class AppContainer extends PureComponent {
   render() {
     const { classes, children } = this.props
     return <Normalize className={classes.appContainer}>{children}</Normalize>
   }
 }
+
+export default injectSheet(styles)(AppContainer)

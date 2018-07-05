@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
 import cn from 'classnames'
 
 import conf from '../../../../conf'
@@ -29,22 +28,21 @@ const toggleMenuDropdown = state => ({
 })
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
-@injectSheet(styles)
-export default class RegularMessage extends PureComponent {
+class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
-    attachments: PropTypes.array.isRequired,
-    linkAttachments: PropTypes.array.isRequired,
-    customEmojis: PropTypes.object.isRequired,
-    children: PropTypes.string.isRequired,
-    hasBubbleArrow: PropTypes.bool.isRequired,
-    isOwn: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    isPinned: PropTypes.bool.isRequired,
+    time: PropTypes.instanceOf(Date),
+    attachments: PropTypes.array,
+    linkAttachments: PropTypes.array,
+    customEmojis: PropTypes.object,
+    children: PropTypes.string,
+    hasBubbleArrow: PropTypes.bool,
+    isOwn: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    isPinned: PropTypes.bool,
     /* eslint-disable react/no-unused-prop-types */
-    userTime: PropTypes.string.isRequired,
-    isPm: PropTypes.bool.isRequired,
+    userTime: PropTypes.string,
+    isPm: PropTypes.bool,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
@@ -56,7 +54,7 @@ export default class RegularMessage extends PureComponent {
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    duplicates: PropTypes.number.isRequired,
+    duplicates: PropTypes.number,
     /**
      * Author and avatar are optional because we show them only for the first
      * message in the row.
@@ -73,8 +71,6 @@ export default class RegularMessage extends PureComponent {
   }
 
   static defaultProps = {
-    id: '0',
-    channelId: 0,
     avatar: defaultAvatar,
     author: null,
     hasBubbleArrow: true,
@@ -87,16 +83,8 @@ export default class RegularMessage extends PureComponent {
     linkAttachments: [],
     customEmojis: {},
     children: '',
-    onEdit: noop,
-    onRemove: noop,
-    onResend: noop,
-    onOpenPm: noop,
-    onCopyLink: noop,
-    onQuote: noop,
-    onRemoveLinkAttachment: noop,
     time: new Date(),
     userTime: new Date().toISOString(),
-    user: {},
     state: undefined,
     nlp: undefined,
   }
@@ -270,3 +258,5 @@ export default class RegularMessage extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(RegularMessage)

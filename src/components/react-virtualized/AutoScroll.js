@@ -7,8 +7,8 @@ import findIndex from 'lodash/array/findIndex'
  */
 export default class AutoScroll extends PureComponent {
   static propTypes = {
-    rows: PropTypes.array.isRequired,
-    minEndThreshold: PropTypes.number.isRequired,
+    rows: PropTypes.array,
+    minEndThreshold: PropTypes.number,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types

@@ -7,7 +7,7 @@ export default class Switch extends PureComponent {
     off: PropTypes.string.isRequired,
     on: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
     status: PropTypes.bool.isRequired,
     theme: PropTypes.object.isRequired,
   }
@@ -25,7 +25,7 @@ export default class Switch extends PureComponent {
     if (disabled) switchClass += ` ${classes.switchDisabled}`
 
     return (
-      <span onClick={onChange} className={switchClass}>
+      <span onClick={onChange} className={switchClass} role="presentation">
         <span className={classes.label}>{on}</span>
         <span className={cn(classes.label, classes.rightLabel)}>{off}</span>
       </span>

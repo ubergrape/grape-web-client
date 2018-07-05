@@ -114,6 +114,7 @@ export default class SharedFile extends PureComponent {
       <section
         className={classes.sharedFile}
         onClick={handleClick ? this.onOpen : noop}
+        role="presentation"
       >
         <div className={classes.leftColumn}>{this.renderPreview()}</div>
         <div className={classes.rightColumn}>

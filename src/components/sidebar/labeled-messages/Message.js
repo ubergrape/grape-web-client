@@ -107,6 +107,7 @@ export default class Message extends PureComponent {
       <section
         className={cn(classes.message, className)}
         onClick={this.onClick}
+        role="presentation"
       >
         <Header time={time} author={author.name}>
           <FormattedMessage
