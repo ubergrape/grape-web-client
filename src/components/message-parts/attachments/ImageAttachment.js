@@ -68,7 +68,7 @@ export default class ImageAttachment extends PureComponent {
         getPreviewRef={this.getThumbnailRef}
         url={url}
         className={classes.thumbnail}
-        innerRef={this.setThumbnailRef}
+        setRef={this.setThumbnailRef}
         style={{
           backgroundImage,
           ...calcThumbnailSize({
