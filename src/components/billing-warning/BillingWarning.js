@@ -1,3 +1,4 @@
+import compose from 'lodash/function/compose'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
@@ -21,10 +22,10 @@ const messages = defineMessages({
 /**
  * Billing warning dialog.
  */
-@injectSheet(styles)
-@injectIntl
-export default class BillingWarning extends PureComponent {
+
+class BillingWarning extends PureComponent {
   static propTypes = {
+    enabled: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     text: PropTypes.string.isRequired,
@@ -88,3 +89,8 @@ export default class BillingWarning extends PureComponent {
     )
   }
 }
+
+export default compose(
+  injectSheet(styles),
+  injectIntl,
+)(BillingWarning)
