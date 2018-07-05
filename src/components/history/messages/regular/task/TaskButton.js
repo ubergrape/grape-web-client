@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'grape-web/lib/components/icon-button'
 import color from 'color'
@@ -39,48 +39,40 @@ const styles = {
   },
 }
 
-class TaskButton extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    isConnected: PropTypes.bool,
-    amount: PropTypes.number,
-    onClick: PropTypes.func,
-    onRefButton: PropTypes.func,
-  }
+const TaskButton = ({ classes, isConnected, amount, onClick, onRefButton }) => (
+  <Tooltip
+    message={
+      <FormattedMessage
+        id="tasks"
+        defaultMessage="Tasks"
+        description="Message NLP task button tooltip."
+      />
+    }
+  >
+    <IconButton
+      className={classes.taskButton}
+      onClick={onClick}
+      rootRef={onRefButton}
+    >
+      <TaskIcon isConnected={isConnected} className={classes.taskButtonIcon} />
+      <span className={classes.taskButtonText}>{amount}</span>
+    </IconButton>
+  </Tooltip>
+)
 
-  static defaultProps = {
-    amount: 0,
-    isConnected: false,
-    onClick: null,
-    onRefButton: null,
-  }
+TaskButton.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isConnected: PropTypes.bool,
+  amount: PropTypes.number,
+  onClick: PropTypes.func,
+  onRefButton: PropTypes.func,
+}
 
-  render() {
-    const { classes, isConnected, amount, onClick, onRefButton } = this.props
-    return (
-      <Tooltip
-        message={
-          <FormattedMessage
-            id="tasks"
-            defaultMessage="Tasks"
-            description="Message NLP task button tooltip."
-          />
-        }
-      >
-        <IconButton
-          className={classes.taskButton}
-          onClick={onClick}
-          rootRef={onRefButton}
-        >
-          <TaskIcon
-            isConnected={isConnected}
-            className={classes.taskButtonIcon}
-          />
-          <span className={classes.taskButtonText}>{amount}</span>
-        </IconButton>
-      </Tooltip>
-    )
-  }
+TaskButton.defaultProps = {
+  amount: 0,
+  isConnected: false,
+  onClick: null,
+  onRefButton: null,
 }
 
 export default injectSheet(styles)(TaskButton)

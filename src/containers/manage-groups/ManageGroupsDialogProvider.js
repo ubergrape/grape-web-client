@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -20,12 +20,10 @@ const ConnectedManageGroupsDialog = connect(
   mapActionsToProps(actionNames),
 )(ManageGroupsDialog)
 
-export default class ManageGroupsDialogProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedManageGroupsDialog />
-      </Provider>
-    )
-  }
-}
+const ManageGroupsDialogProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedManageGroupsDialog />
+  </Provider>
+)
+
+export default ManageGroupsDialogProvider

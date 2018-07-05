@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -15,12 +15,10 @@ const ConnectedMarkdownTipsDialog = connect(
   mapActionsToProps(actionNames),
 )(MarkdownTipsDialog)
 
-export default class MarkdownTipsDialogProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedMarkdownTipsDialog />
-      </Provider>
-    )
-  }
-}
+const MarkdownTipsDialogProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedMarkdownTipsDialog />
+  </Provider>
+)
+
+export default MarkdownTipsDialogProvider

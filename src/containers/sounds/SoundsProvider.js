@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -15,12 +15,10 @@ const ConnectedSounds = connect(
   mapActionsToProps(actionNames),
 )(Sounds)
 
-export default class SoundsProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedSounds />
-      </Provider>
-    )
-  }
-}
+const SoundsProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedSounds />
+  </Provider>
+)
+
+export default SoundsProvider

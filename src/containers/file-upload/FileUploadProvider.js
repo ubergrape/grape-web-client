@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -18,12 +18,10 @@ const ConnectedFileUpload = connect(
   mapActionsToProps(actionNames),
 )(FileUpload)
 
-export default class FileUploadProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedFileUpload>{this.props.children}</ConnectedFileUpload>
-      </Provider>
-    )
-  }
-}
+const FileUploadProvider = ({ children }) => (
+  <Provider store={getStore()}>
+    <ConnectedFileUpload>{children}</ConnectedFileUpload>
+  </Provider>
+)
+
+export default FileUploadProvider

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -15,12 +15,10 @@ const ConnectedBrowserNotification = connect(
   mapActionsToProps(actionNames),
 )(BrowserNotification)
 
-export default class BrowserNotificationProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedBrowserNotification />
-      </Provider>
-    )
-  }
-}
+const BrowserNotificationProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedBrowserNotification />
+  </Provider>
+)
+
+export default BrowserNotificationProvider

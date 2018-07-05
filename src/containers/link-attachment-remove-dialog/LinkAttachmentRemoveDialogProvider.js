@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -16,12 +16,10 @@ const ConnectedLinkAttachmentRemoveDialog = connect(
   mapActionsToProps(actionNames),
 )(LinkAttachmentRemoveDialog)
 
-export default class LinkAttachmentRemoveDialogProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedLinkAttachmentRemoveDialog />
-      </Provider>
-    )
-  }
-}
+const LinkAttachmentRemoveDialogProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedLinkAttachmentRemoveDialog />
+  </Provider>
+)
+
+export default LinkAttachmentRemoveDialogProvider

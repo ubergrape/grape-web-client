@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Normalize from 'grape-web/lib/components/normalize'
 
@@ -39,11 +39,8 @@ const styles = {
   },
 }
 
-class AppContainer extends PureComponent {
-  render() {
-    const { classes, children } = this.props
-    return <Normalize className={classes.appContainer}>{children}</Normalize>
-  }
-}
+const AppContainer = ({ classes, children }) => (
+  <Normalize className={classes.appContainer}>{children}</Normalize>
+)
 
 export default injectSheet(styles)(AppContainer)

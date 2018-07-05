@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { screenWidth } from 'grape-theme/dist/sizes'
 
@@ -63,65 +63,59 @@ const styles = {
   },
 }
 
-class AppLayout extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    Aside: PropTypes.func,
-    Header: PropTypes.func,
-    Alerts: PropTypes.func,
-    History: PropTypes.func,
-    Footer: PropTypes.func,
-    Sidebar: PropTypes.func,
-    Globals: PropTypes.func,
-    FileUpload: PropTypes.func,
-  }
-
-  static defaultProps = {
-    Aside: Noop,
-    Header: Noop,
-    Alerts: Noop,
-    History: Noop,
-    Footer: Noop,
-    Sidebar: Noop,
-    Globals: Noop,
-    FileUpload: Noop,
-  }
-
-  render() {
-    const {
-      classes,
-      Aside,
-      Header,
-      Alerts,
-      History,
-      Footer,
-      Sidebar,
-      Globals,
-      FileUpload,
-    } = this.props
-
-    return (
-      <FileUpload>
-        <div className={classes.appLayout}>
-          <Globals />
-          <Aside className={classes.aside} />
-          <main className={classes.main}>
-            <Header />
-            <div className={classes.mainBody}>
-              <div className={classes.mainLeft}>
-                <Alerts />
-                <div className={classes.historyWrapper}>
-                  <History />
-                </div>
-                <Footer />
-              </div>
-              <Sidebar className={classes.sidebar} />
+const AppLayout = ({
+  classes,
+  Aside,
+  Header,
+  Alerts,
+  History,
+  Footer,
+  Sidebar,
+  Globals,
+  FileUpload,
+}) => (
+  <FileUpload>
+    <div className={classes.appLayout}>
+      <Globals />
+      <Aside className={classes.aside} />
+      <main className={classes.main}>
+        <Header />
+        <div className={classes.mainBody}>
+          <div className={classes.mainLeft}>
+            <Alerts />
+            <div className={classes.historyWrapper}>
+              <History />
             </div>
-          </main>
+            <Footer />
+          </div>
+          <Sidebar className={classes.sidebar} />
         </div>
-      </FileUpload>
-    )
-  }
+      </main>
+    </div>
+  </FileUpload>
+)
+
+AppLayout.propTypes = {
+  classes: PropTypes.object.isRequired,
+  Aside: PropTypes.func,
+  Header: PropTypes.func,
+  Alerts: PropTypes.func,
+  History: PropTypes.func,
+  Footer: PropTypes.func,
+  Sidebar: PropTypes.func,
+  Globals: PropTypes.func,
+  FileUpload: PropTypes.func,
+}
+
+AppLayout.defaultProps = {
+  Aside: Noop,
+  Header: Noop,
+  Alerts: Noop,
+  History: Noop,
+  Footer: Noop,
+  Sidebar: Noop,
+  Globals: Noop,
+  FileUpload: Noop,
 }
 
 export default injectSheet(styles)(AppLayout)

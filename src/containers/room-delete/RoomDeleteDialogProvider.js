@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -16,12 +16,10 @@ const ConnectedRoomDeleteDialog = connect(
   mapActionsToProps(actionNames),
 )(RoomDeleteDialog)
 
-export default class RoomDeleteDialogProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedRoomDeleteDialog />
-      </Provider>
-    )
-  }
-}
+const RoomDeleteDialogProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedRoomDeleteDialog />
+  </Provider>
+)
+
+export default RoomDeleteDialogProvider

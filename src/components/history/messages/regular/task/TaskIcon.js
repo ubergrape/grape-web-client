@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React from 'react'
 import cn from 'classnames'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
@@ -27,50 +27,38 @@ const styles = {
   },
 }
 
-class TaskIcon extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    isConnected: PropTypes.bool,
-    className: PropTypes.string,
-    onClick: PropTypes.func,
-  }
-
-  static defaultProps = {
-    isConnected: false,
-    className: null,
-    onClick: null,
-  }
-
-  render() {
-    const { classes, isConnected, className, onClick } = this.props
-
-    if (isConnected) {
-      return (
-        <span
-          className={cn(classes.taskIcon, className)}
-          onClick={onClick}
-          role="presentation"
-        >
-          <Icon
-            name="lightningBolt"
-            className={cn(
-              classes.lightningBolt,
-              classes.lightningBoltConnected,
-            )}
-          />
-          <Icon name="checkCircle" className={classes.checkCircle} />
-        </span>
-      )
-    }
-
-    return (
+const TaskIcon = ({ classes, isConnected, className, onClick }) =>
+  isConnected ? (
+    <span
+      className={cn(classes.taskIcon, className)}
+      onClick={onClick}
+      role="presentation"
+    >
       <Icon
         name="lightningBolt"
-        className={cn(classes.lightningBolt, className)}
-        onClick={onClick}
+        className={cn(classes.lightningBolt, classes.lightningBoltConnected)}
       />
-    )
-  }
+      <Icon name="checkCircle" className={classes.checkCircle} />
+    </span>
+  ) : (
+    <Icon
+      name="lightningBolt"
+      className={cn(classes.lightningBolt, className)}
+      onClick={onClick}
+    />
+  )
+
+TaskIcon.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isConnected: PropTypes.bool,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+}
+
+TaskIcon.defaultProps = {
+  isConnected: false,
+  className: null,
+  onClick: null,
 }
 
 export default injectSheet(styles)(TaskIcon)

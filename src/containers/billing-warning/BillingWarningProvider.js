@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -13,12 +13,10 @@ const ConnectedBillingWarning = connect(
   mapActionsToProps(actionNames),
 )(BillingWarning)
 
-export default class BillingWarningProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedBillingWarning />
-      </Provider>
-    )
-  }
-}
+const BillingWarningProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedBillingWarning />
+  </Provider>
+)
+
+export default BillingWarningProvider

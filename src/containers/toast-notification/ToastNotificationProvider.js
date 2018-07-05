@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -15,12 +15,10 @@ const ConnectedToastNotification = connect(
   mapActionsToProps(actionNames),
 )(ToastNotification)
 
-export default class ToastNotificationProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedToastNotification />
-      </Provider>
-    )
-  }
-}
+const ToastNotificationProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedToastNotification />
+  </Provider>
+)
+
+export default ToastNotificationProvider

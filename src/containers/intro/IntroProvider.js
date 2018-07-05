@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -17,12 +17,10 @@ const ConnectedIntro = connect(
   mapActionsToProps(actionNames),
 )(Intro)
 
-export default class IntroProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedIntro />
-      </Provider>
-    )
-  }
-}
+const IntroProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedIntro />
+  </Provider>
+)
+
+export default IntroProvider

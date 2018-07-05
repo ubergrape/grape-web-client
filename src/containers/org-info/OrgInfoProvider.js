@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -16,12 +16,10 @@ const ConnectedOrgInfo = connect(
   mapActionsToProps(actionNames),
 )(OrgInfo)
 
-export default class OrgInfoProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedOrgInfo />
-      </Provider>
-    )
-  }
-}
+const OrgInfoProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedOrgInfo />
+  </Provider>
+)
+
+export default OrgInfoProvider

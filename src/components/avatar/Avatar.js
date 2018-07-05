@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -21,41 +21,32 @@ const styles = {
   },
 }
 
-class Avatar extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    onClick: PropTypes.func,
-    src: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    children: PropTypes.node,
-  }
+const Avatar = ({ className, src, onClick, classes, children, style }) => (
+  <span
+    className={`${classes.avatar} ${className}`}
+    role="presentation"
+    style={src ? { ...style, backgroundImage: `url(${src})` } : style}
+    onClick={onClick}
+  >
+    {children}
+  </span>
+)
 
-  static defaultProps = {
-    src: undefined,
-    className: '',
-    onClick: noop,
-    style: {},
-    children: undefined,
-  }
+Avatar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  src: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  children: PropTypes.node,
+}
 
-  render() {
-    const { className, src, onClick, classes, children } = this.props
-    const style = src
-      ? { ...this.props.style, backgroundImage: `url(${src})` }
-      : this.props.style
-
-    return (
-      <span
-        className={`${classes.avatar} ${className}`}
-        role="presentation"
-        style={style}
-        onClick={onClick}
-      >
-        {children}
-      </span>
-    )
-  }
+Avatar.defaultProps = {
+  src: undefined,
+  className: '',
+  onClick: noop,
+  style: {},
+  children: undefined,
 }
 
 export default injectSheet(styles)(Avatar)
