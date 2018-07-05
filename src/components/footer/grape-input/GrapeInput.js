@@ -1,3 +1,4 @@
+import compose from 'lodash/function/compose'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl'
@@ -72,9 +73,7 @@ const styles = {
   },
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class GrapeInput extends PureComponent {
+class GrapeInput extends PureComponent {
   static propTypes = {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
@@ -114,6 +113,7 @@ export default class GrapeInput extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    usersToMention: PropTypes.array,
   }
 
   static defaultProps = {
@@ -451,3 +451,8 @@ export default class GrapeInput extends PureComponent {
     )
   }
 }
+
+export default compose(
+  injectSheet(styles),
+  injectIntl,
+)(GrapeInput)
