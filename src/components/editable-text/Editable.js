@@ -32,9 +32,9 @@ export default class Editable extends PureComponent {
     }
   }
 
-  onFocusEditable = ({ target }) => {
-    target.selectionStart = 0
-    target.selectionEnd = this.props.value.length
+  onFocusEditable = event => {
+    event.target.selectionStart = 0 // eslint-disable-line no-param-reassign
+    event.target.selectionEnd = this.props.value.length // eslint-disable-line no-param-reassign
   }
 
   render() {

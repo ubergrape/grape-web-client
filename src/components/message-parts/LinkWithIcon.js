@@ -58,6 +58,7 @@ export default class LinkWithIcon extends PureComponent {
     const style = { backgroundImage: `url(${this.getSvg()})` }
 
     return (
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <Link to={url} className={classes.link}>
         <span className={classes.icon} style={style} /> {children}
       </Link>

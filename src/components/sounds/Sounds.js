@@ -28,6 +28,7 @@ export default class Sounds extends PureComponent {
     const { sounds, active, onEnded } = this.props
     if (!active) return null
 
+    // eslint-disable-next-line jsx-a11y/media-has-caption
     return <audio src={sounds[active]} autoPlay onEnded={onEnded} />
   }
 }

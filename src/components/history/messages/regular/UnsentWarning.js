@@ -10,7 +10,8 @@ export default ({ classes, onResend }) => (
         id="messageNotSendCheckConnection"
         defaultMessage="This message didn't send. Check your internet connection and"
       />{' '}
-      <a href="" onClick={onResend}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a href="#" onClick={onResend}>
         <FormattedMessage
           id="clickToTryAgain"
           defaultMessage="click to try again"

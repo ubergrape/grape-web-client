@@ -23,6 +23,7 @@ export default function EmailsInput(props) {
   const id = `emailAddresses${random(1000000)}`
   return (
     <div className={classes.line}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       <label className={classes.label} htmlFor={id}>
         <FormattedMessage
           id="emailAddresses"

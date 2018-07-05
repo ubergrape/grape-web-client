@@ -23,6 +23,7 @@ export default function GrapeObject({ children, href, user }) {
     return isSelf ? (
       <Highlight>{name}</Highlight>
     ) : (
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <Link to={`/chat/pm/${id}`}>{name}</Link>
     )
   }

@@ -19,6 +19,7 @@ export default function InviteLink(props) {
   const id = `inviteLink${random(1000000)}`
   return (
     <div className={classes.inviteLink}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       <label className={classes.inviteLinkLabel} htmlFor={id}>
         <FormattedMessage
           id="inviteLink"
