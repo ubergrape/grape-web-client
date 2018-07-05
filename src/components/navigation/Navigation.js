@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { findDOMNode } from 'react-dom'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import debounce from 'lodash/function/debounce'
@@ -33,7 +32,7 @@ export default class Navigation extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    shortcuts: PropTypes.array.isRequired,
+    shortcuts: PropTypes.array,
     foundChannels: PropTypes.array.isRequired,
     searchingChannels: PropTypes.bool.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -78,9 +77,7 @@ export default class Navigation extends PureComponent {
         shift: shift + step,
       })
     }
-  }
 
-  componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
       this.setState({
         focusedChannel: nextProps.foundChannels[0],
@@ -95,7 +92,7 @@ export default class Navigation extends PureComponent {
     this.listsContainer = ref
   }
   onFilterRef = ref => {
-    this.filter = findDOMNode(ref)
+    this.filter = ref
   }
   onFilteredListRef = ref => {
     this.filteredList = ref
@@ -294,7 +291,7 @@ export default class Navigation extends PureComponent {
         <div className={classes.filter}>
           <Filter
             {...this.props}
-            ref={this.onFilterRef}
+            innerRef={this.onFilterRef}
             theme={{ classes }}
             value={this.state.filter}
             onKeyDown={this.onKeyDown}

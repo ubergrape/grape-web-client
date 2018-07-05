@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { findDOMNode } from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 
 import Dropdown from '../../../../dropdown/Dropdown'
@@ -8,7 +7,7 @@ import TaskButton from './TaskButton'
 import TasksList from './TasksList'
 import CreateTask from './CreateTask'
 
-@injectSheet({
+const styles = {
   tasks: {
     position: 'relative',
     display: 'inline-block',
@@ -16,8 +15,9 @@ import CreateTask from './CreateTask'
   content: {
     width: 260,
   },
-})
-export default class Tasks extends PureComponent {
+}
+
+class Tasks extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     tasks: PropTypes.array,
@@ -43,7 +43,7 @@ export default class Tasks extends PureComponent {
   }
 
   onRefButton = ref => {
-    this.buttonNode = findDOMNode(ref)
+    this.buttonNode = ref
   }
 
   onSelectTask = task => {
@@ -116,3 +116,5 @@ export default class Tasks extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Tasks)

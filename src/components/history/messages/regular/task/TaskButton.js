@@ -70,7 +70,7 @@ class TaskButton extends PureComponent {
         <IconButton
           className={classes.taskButton}
           onClick={onClick}
-          buttonRef={onRefButton}
+          rootRef={onRefButton}
         >
           <TaskIcon
             isConnected={isConnected}

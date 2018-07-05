@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { findDOMNode } from 'react-dom'
 import ImageZoom from 'image-zoom'
 import injectSheet from 'grape-web/lib/jss'
 import { zIndex } from '../../utils/z-index'
@@ -9,7 +8,7 @@ import { zIndex } from '../../utils/z-index'
  * Wrapper around image-zoom lib.
  * TODO replace it by something better.
  */
-@injectSheet({
+const styles = {
   '@global': {
     '.zoom-image': {
       cursor: 'pointer',
@@ -42,8 +41,9 @@ import { zIndex } from '../../utils/z-index'
       },
     },
   },
-})
-export default class ImageZoomComponent extends PureComponent {
+}
+
+class ImageZoomComponent extends PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     getPreviewRef: PropTypes.func.isRequired,
@@ -60,7 +60,7 @@ export default class ImageZoomComponent extends PureComponent {
 
   onZoom = () => {
     const { getPreviewRef, url } = this.props
-    const previewNode = findDOMNode(getPreviewRef())
+    const previewNode = getPreviewRef()
     return new ImageZoom(previewNode, url)
       .overlay()
       .padding(20)
@@ -70,9 +70,16 @@ export default class ImageZoomComponent extends PureComponent {
   render() {
     const { className, style, children } = this.props
     return (
-      <div onClick={this.onZoom} className={className} style={style}>
+      <div
+        className={className}
+        onClick={this.onZoom}
+        role="presentation"
+        style={style}
+      >
         {children}
       </div>
     )
   }
 }
+
+export default injectSheet(styles)(ImageZoomComponent)

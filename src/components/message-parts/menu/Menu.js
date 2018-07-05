@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
 import { zIndex } from '../../../utils/z-index'

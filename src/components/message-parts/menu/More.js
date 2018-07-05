@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { findDOMNode } from 'react-dom'
 import Divider from 'grape-web/lib/components/divider'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import injectSheet from 'grape-web/lib/jss'
@@ -31,7 +30,7 @@ export default class More extends PureComponent {
   }
 
   onRefMoreIcon = ref => {
-    this.moreIconRef = findDOMNode(ref)
+    this.moreIconRef = ref
   }
 
   onRequestClose = () => {
