@@ -23,6 +23,10 @@ const styles = {
     flexShrink: 0,
     flexDirection: 'column',
   },
+  fileUpload: {
+    display: 'flex',
+    height: '100%',
+  },
   main: {
     flex: 1,
     display: 'flex',
@@ -74,7 +78,7 @@ const AppLayout = ({
   Globals,
   FileUpload,
 }) => (
-  <FileUpload>
+  <FileUpload className={classes.fileUpload}>
     <div className={classes.appLayout}>
       <Globals />
       <Aside className={classes.aside} />

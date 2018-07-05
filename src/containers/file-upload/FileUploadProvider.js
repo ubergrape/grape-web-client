@@ -18,9 +18,9 @@ const ConnectedFileUpload = connect(
   mapActionsToProps(actionNames),
 )(FileUpload)
 
-const FileUploadProvider = ({ children }) => (
+const FileUploadProvider = props => (
   <Provider store={getStore()}>
-    <ConnectedFileUpload>{children}</ConnectedFileUpload>
+    <ConnectedFileUpload {...props} />
   </Provider>
 )
 
