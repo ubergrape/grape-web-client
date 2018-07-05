@@ -7,7 +7,7 @@ import { sidebarWidth, sidebarWidthXl } from './constants'
 
 const Noop = () => null
 
-@injectSheet({
+const styles = {
   appLayout: {
     display: 'flex',
     position: 'absolute',
@@ -65,8 +65,9 @@ const Noop = () => null
       width: sidebarWidth,
     },
   },
-})
-export default class AppLayout extends PureComponent {
+}
+
+class AppLayout extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     Aside: PropTypes.func,
@@ -126,3 +127,5 @@ export default class AppLayout extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(AppLayout)
