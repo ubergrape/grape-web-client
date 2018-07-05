@@ -33,9 +33,15 @@ export default class ImageAttachment extends PureComponent {
     sheet: PropTypes.object,
     url: PropTypes.string.isRequired,
     thumbnailUrl: PropTypes.string.isRequired,
+    thumbnailWidth: PropTypes.number.isRequired,
+    thumbnailHeight: PropTypes.number.isRequired,
+    maxThumbnailWidth: PropTypes.number,
+    maxThumbnailHeight: PropTypes.number,
   }
 
   static defaultProps = {
+    maxThumbnailWidth: 360,
+    maxThumbnailHeight: 360,
     sheet: null,
   }
 
@@ -50,6 +56,10 @@ export default class ImageAttachment extends PureComponent {
       sheet: { classes },
       url,
       thumbnailUrl,
+      thumbnailWidth,
+      thumbnailHeight,
+      maxThumbnailWidth,
+      maxThumbnailHeight,
     } = this.props
     const backgroundImage = `url(${thumbnailUrl})`
 
@@ -58,8 +68,16 @@ export default class ImageAttachment extends PureComponent {
         getPreviewRef={this.getThumbnailRef}
         url={url}
         className={classes.thumbnail}
-        ref={this.setThumbnailRef}
-        style={{ backgroundImage, ...calcThumbnailSize(this.props) }}
+        innerRef={this.setThumbnailRef}
+        style={{
+          backgroundImage,
+          ...calcThumbnailSize({
+            thumbnailWidth,
+            thumbnailHeight,
+            maxThumbnailWidth,
+            maxThumbnailHeight,
+          }),
+        }}
       />
     )
   }

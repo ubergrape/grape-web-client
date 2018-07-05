@@ -51,7 +51,7 @@ const Username = ({
 Username.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object,
   avatar: PropTypes.string,
   status: PropTypes.string,
   statusBorderColor: PropTypes.string,
@@ -63,6 +63,7 @@ Username.defaultProps = {
   statusBorderColor: undefined,
   status: undefined,
   avatar: defaultAvatar,
+  theme: { classes: {} },
 }
 
 export default injectSheet(style)(Username)

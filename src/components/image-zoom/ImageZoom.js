@@ -45,6 +45,7 @@ const styles = {
 
 class ImageZoomComponent extends PureComponent {
   static propTypes = {
+    innerRef: PropTypes.func,
     url: PropTypes.string.isRequired,
     getPreviewRef: PropTypes.func.isRequired,
     className: PropTypes.string,
@@ -53,9 +54,10 @@ class ImageZoomComponent extends PureComponent {
   }
 
   static defaultProps = {
-    className: undefined,
-    style: undefined,
     children: undefined,
+    className: undefined,
+    innerRef: null,
+    style: undefined,
   }
 
   onZoom = () => {
@@ -68,13 +70,14 @@ class ImageZoomComponent extends PureComponent {
   }
 
   render() {
-    const { className, style, children } = this.props
+    const { className, style, innerRef, children } = this.props
     return (
       <div
         className={className}
         onClick={this.onZoom}
         role="presentation"
         style={style}
+        ref={innerRef}
       >
         {children}
       </div>

@@ -24,10 +24,9 @@ export default class MessageSearch extends PureComponent {
     intl: intlShape.isRequired,
     onSelect: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    onLoad: PropTypes.func.isRequired,
-    currentChannelOnly: PropTypes.bool.isRequired,
-    searchActivities: PropTypes.bool.isRequired,
+    onLoad: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+    currentChannelOnly: PropTypes.bool,
+    searchActivities: PropTypes.bool,
     showRoomMentions: PropTypes.bool.isRequired,
     showCurrentRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
@@ -42,6 +41,8 @@ export default class MessageSearch extends PureComponent {
   }
 
   static defaultProps = {
+    currentChannelOnly: false,
+    searchActivities: false,
     total: null,
     user: null,
   }

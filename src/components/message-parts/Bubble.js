@@ -9,13 +9,14 @@ export default class Bubble extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     theme: PropTypes.object.isRequired,
     hasArrow: PropTypes.bool,
     style: PropTypes.object,
   }
 
   static defaultProps = {
+    className: undefined,
     hasArrow: true,
     style: null,
   }
@@ -26,7 +27,7 @@ export default class Bubble extends PureComponent {
     const bubbleClass = classes[hasArrow ? 'bubbleWithArrow' : 'bubble']
     return (
       <div
-        className={`${bubbleClass} ${theme.classes.bubble} ${className}`}
+        className={`${bubbleClass} ${theme.classes.bubble}${className || ''}`}
         style={style}
       >
         <div className={`${classes.content} ${theme.classes.content}`}>

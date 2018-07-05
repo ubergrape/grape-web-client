@@ -25,7 +25,7 @@ const messages = defineMessages({
 
 class BillingWarning extends PureComponent {
   static propTypes = {
-    enabled: PropTypes.bool.isRequired,
+    enabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     text: PropTypes.string.isRequired,
@@ -33,6 +33,10 @@ class BillingWarning extends PureComponent {
     hideBillingWarning: PropTypes.func.isRequired,
     goToPayment: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    enabled: false,
   }
 
   componentWillReceiveProps(nextProps) {

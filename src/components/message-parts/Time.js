@@ -76,7 +76,11 @@ export default class Time extends PureComponent {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     intl: intlShape.isRequired,
-    userTime: PropTypes.string.isRequired,
+    userTime: PropTypes.string,
+  }
+
+  static defaultProps = {
+    userTime: null,
   }
 
   constructor(props) {

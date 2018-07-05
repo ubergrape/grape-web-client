@@ -239,10 +239,16 @@ export default class NotificationSettings extends PureComponent {
     onHide: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onLeave: PropTypes.func.isRequired,
-    desktop: PropTypes.oneOf(values).isRequired,
-    push: PropTypes.oneOf(values).isRequired,
-    channel: PropTypes.object.isRequired,
+    desktop: PropTypes.oneOf(values),
+    push: PropTypes.oneOf(values),
+    channel: PropTypes.object,
     user: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    channel: null,
+    desktop: null,
+    push: null,
   }
 
   constructor(props) {
