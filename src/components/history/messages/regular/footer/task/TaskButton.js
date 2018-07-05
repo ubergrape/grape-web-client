@@ -1,19 +1,12 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import IconButton from 'grape-web/lib/components/icon-button'
 
 import Tooltip from '../../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
 
-export default ({classes, isConnected, amount, onClick, onRefButton}) => (
-  <Tooltip
-    message={(
-      <FormattedMessage
-        id="tasks"
-        defaultMessage="Tasks"
-      />
-    )}
-  >
+export default ({ classes, isConnected, amount, onClick, onRefButton }) => (
+  <Tooltip message={<FormattedMessage id="tasks" defaultMessage="Tasks" />}>
     <IconButton
       className={classes.taskButton}
       onClick={onClick}

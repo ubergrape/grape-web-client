@@ -1,4 +1,4 @@
-(function(options) {
+;(function(options) {
   const script = document.createElement('script')
   script.async = true
   script.src = `${options.staticBaseUrl}app/embedded.js`
@@ -16,5 +16,5 @@
   staticBaseUrl: 'https://unpkg.com/grape-web-client/dist/',
   onReady: function() {
     console.log('Grape Client initialized')
-  }
+  },
 })

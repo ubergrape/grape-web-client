@@ -1,8 +1,12 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {messageSearchSelector, orgSelector, channelSelector} from '../selectors'
-import {normalizeMessage, doesMessageChannelExist} from './utils'
-import {setSidebarIsLoading, error} from './'
+import {
+  messageSearchSelector,
+  orgSelector,
+  channelSelector,
+} from '../selectors'
+import { normalizeMessage, doesMessageChannelExist } from './utils'
+import { setSidebarIsLoading, error } from './'
 
 export function updateMessageSearchQuery(nextQuery) {
   return (dispatch, getState) => {
@@ -15,8 +19,8 @@ export function updateMessageSearchQuery(nextQuery) {
       payload: {
         query: nextQuery ? nextQuery.split(' ') : [],
         items: [],
-        total: null
-      }
+        total: null,
+      },
     })
   }
 }
@@ -32,26 +36,30 @@ export function searchMessages(params) {
         type: types.FOUND_MESSAGES,
         payload: {
           items: [],
-          total: null
-        }
+          total: null,
+        },
       })
       return
     }
 
-    dispatch({type: types.SEARCH_MESSAGES})
+    dispatch({ type: types.SEARCH_MESSAGES })
     dispatch(setSidebarIsLoading(true))
 
     const state = getState()
-    const {limit, offsetDate, options: {currentChannelOnly, searchActivities}} = params
+    const {
+      limit,
+      offsetDate,
+      options: { currentChannelOnly, searchActivities },
+    } = params
 
     const searchParams = {
       query,
       limit,
       offsetDate: offsetDate ? offsetDate.toISOString() : undefined,
-      types: ['messages', searchActivities && 'activities']
+      types: ['messages', searchActivities && 'activities'],
     }
 
-    const {id: orgId} = orgSelector(state)
+    const { id: orgId } = orgSelector(state)
     if (currentChannelOnly) {
       searchParams.orgId = orgId
       searchParams.channelId = channelSelector(state).id
@@ -60,7 +68,7 @@ export function searchMessages(params) {
     }
 
     api[`searchMessages${currentChannelOnly ? 'InChannel' : ''}`](searchParams)
-      .then((messages) => {
+      .then(messages => {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
         const prevItems = messageSearch.items
@@ -73,11 +81,11 @@ export function searchMessages(params) {
           payload: {
             items: [...prevItems, ...nextItems],
             // Only a query without offset delivers overall total amount.
-            total: params.offsetDate ? messageSearch.total : messages.total
-          }
+            total: params.offsetDate ? messageSearch.total : messages.total,
+          },
         })
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })

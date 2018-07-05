@@ -15,17 +15,17 @@ export default {
     width: 10,
     height: 10,
     border: [1, 'solid'],
-    borderRadius: '50%'
+    borderRadius: '50%',
   },
   online: {
-    background: '#6cb500'
+    background: '#6cb500',
   },
   offline: {
-    background: '#fc6e51'
+    background: '#fc6e51',
   },
   image: {
     display: 'block',
     overflow: 'hidden',
-    borderRadius: '50%'
-  }
+    borderRadius: '50%',
+  },
 }

@@ -3,5 +3,5 @@ export default {
   base: 1,
   alerts: 100,
   dialog: 1000,
-  tooltip: 101
+  tooltip: 101,
 }

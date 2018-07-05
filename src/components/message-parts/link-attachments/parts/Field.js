@@ -1,28 +1,28 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 @injectSheet({
   root: {
     display: 'block',
-    flex: 1
+    flex: 1,
   },
   title: {
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })
 export default class Field extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   render() {
     const {
       title,
       value,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (

@@ -1,25 +1,25 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import cn from 'classnames'
 
-import {ShowMore, ShowLess} from '../../../i18n/i18n'
+import { ShowMore, ShowLess } from '../../../i18n/i18n'
 import button from '../../../button/link'
-import {bubbleBorderRadius as borderRadius} from '../../../message-parts'
-import {expanderColor} from './constants'
+import { bubbleBorderRadius as borderRadius } from '../../../message-parts'
+import { expanderColor } from './constants'
 
 const maxHeight = 350
 
 @injectSheet({
   expandedExpander: {
     display: 'block',
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   collapsedExpander: {
     display: 'block',
     overflow: 'hidden',
-    maxHeight
+    maxHeight,
   },
   panel: {
     position: 'absolute',
@@ -27,32 +27,32 @@ const maxHeight = 350
     left: 0,
     right: 0,
     textAlign: 'center',
-    borderRadius
+    borderRadius,
   },
   collapsedPanel: {
     composes: '$panel',
     paddingTop: 50,
     background: `linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, ${expanderColor} 70%)`,
     fallbacks: {
-      background: expanderColor
-    }
+      background: expanderColor,
+    },
   },
-  button
+  button,
 })
 export default class Expander extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
     onToggle: PropTypes.func.isRequired,
-    isExpanded: PropTypes.bool.isRequired
+    isExpanded: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     onToggle: noop,
-    isExpanded: false
+    isExpanded: false,
   }
 
-  state = {isEnabled: false}
+  state = { isEnabled: false }
 
   componentDidMount() {
     this.update()
@@ -62,29 +62,31 @@ export default class Expander extends PureComponent {
     this.update()
   }
 
-  onRef = (node) => {
+  onRef = node => {
     this.node = node
   }
 
   onToggle = () => {
-    this.props.onToggle({isExpanded: !this.props.isExpanded})
+    this.props.onToggle({ isExpanded: !this.props.isExpanded })
   }
 
   update() {
-    const {clientHeight} = this.node.firstElementChild
+    const { clientHeight } = this.node.firstElementChild
     if (clientHeight > maxHeight) {
-      this.setState({isEnabled: true})
+      this.setState({ isEnabled: true })
     }
   }
 
   render() {
-    const {children, classes, isExpanded} = this.props
-    const {isEnabled} = this.state
+    const { children, classes, isExpanded } = this.props
+    const { isEnabled } = this.state
 
     return (
       <div
         ref={this.onRef}
-        className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}
+        className={
+          classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']
+        }
       >
         {children}
         {isEnabled && (

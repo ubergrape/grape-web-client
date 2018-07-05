@@ -1,23 +1,20 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  defineMessages,
-  intlShape
-} from 'react-intl'
+import { defineMessages, intlShape } from 'react-intl'
 
 const messages = defineMessages({
   makePrivate: {
     id: 'makeRoomPrivate',
-    defaultMessage: 'Make room private'
+    defaultMessage: 'Make room private',
   },
   makePublic: {
     id: 'makeRoomPublic',
-    defaultMessage: 'Make room public'
+    defaultMessage: 'Make room public',
   },
   deleteRoom: {
     id: 'deleteRoom',
-    defaultMessage: 'Delete room'
-  }
+    defaultMessage: 'Delete room',
+  },
 })
 
 export default function AdditionalActions(props) {
@@ -26,7 +23,7 @@ export default function AdditionalActions(props) {
     onDeleteClick,
     privacy,
     classes,
-    intl: {formatMessage}
+    intl: { formatMessage },
   } = props
 
   return (
@@ -36,12 +33,16 @@ export default function AdditionalActions(props) {
           className={classes.additionalActionButton}
           onClick={onChangePrivacy}
         >
-          {formatMessage(messages[privacy === 'private' ? 'makePrivate' : 'makePublic'])}
+          {formatMessage(
+            messages[privacy === 'private' ? 'makePrivate' : 'makePublic'],
+          )}
         </button>
       </li>
       <li>
         <button
-          className={`${classes.additionalActionButton} ${classes.deleteRoomButton}`}
+          className={`${classes.additionalActionButton} ${
+            classes.deleteRoomButton
+          }`}
           onClick={onDeleteClick}
         >
           {formatMessage(messages.deleteRoom)}
@@ -56,5 +57,5 @@ AdditionalActions.propTypes = {
   onDeleteClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   privacy: PropTypes.string.isRequired,
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
 }

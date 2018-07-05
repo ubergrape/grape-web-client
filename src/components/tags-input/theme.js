@@ -1,15 +1,11 @@
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
+import { small } from 'grape-theme/dist/fonts'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import buttonReset from '../button/reset'
 
-const {
-  gray,
-  grayBlueLight,
-  grayBlueLighter
-} = colors
+const { gray, grayBlueLight, grayBlueLighter } = colors
 
 export const styles = {
   filterArea: {
@@ -18,7 +14,9 @@ export const styles = {
     maxHeight: 85,
     padding: '0 10px',
     borderRadius: 5,
-    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`
+    border: `1px solid ${color(grayBlueLighter)
+      .darken(0.05)
+      .hexString()}`,
   },
   token: {
     extend: [buttonReset, small],
@@ -27,7 +25,7 @@ export const styles = {
     marginRight: 5,
     marginBottom: 2,
     background: `${grayBlueLighter} calc(100% - 5px) 50% no-repeat`,
-    backgroundImage: `url(${getColoredIcon({name: 'close', color: gray})})`,
+    backgroundImage: `url(${getColoredIcon({ name: 'close', color: gray })})`,
     backgroundSize: 7,
     border: `1px solid ${grayBlueLight}`,
     color: gray,
@@ -35,8 +33,8 @@ export const styles = {
     borderRadius: 4,
     '&:hover': {
       isolate: false,
-      backgroundColor: grayBlueLight
-    }
+      backgroundColor: grayBlueLight,
+    },
   },
   input: {
     extend: small,
@@ -45,18 +43,18 @@ export const styles = {
     padding: '10px 0 7px 0',
     border: 'none',
     outline: 'none',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   inputRuler: {
     position: 'fixed',
     top: -100,
     left: -1000,
-    visibility: 'hidden'
+    visibility: 'hidden',
   },
   placeholder: {
     extend: small,
     position: 'absolute',
     opacity: 0.5,
-    transform: 'translateY(50%)'
-  }
+    transform: 'translateY(50%)',
+  },
 }

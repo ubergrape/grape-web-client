@@ -1,31 +1,31 @@
-import {grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
-import {normal, small} from 'grape-theme/dist/fonts'
+import { grayBlueLighter, grayBlueDark } from 'grape-theme/dist/base-colors'
+import { normal, small } from 'grape-theme/dist/fonts'
 import buttonPrimary from '../button/primary'
 
-import {horizontalPadding} from '../input/theme/grayBigger'
+import { horizontalPadding } from '../input/theme/grayBigger'
 
 export const styles = {
   wrapper: {
     display: 'block',
     padding: 15,
-    borderTop: [3, 'solid', grayBlueLighter]
+    borderTop: [3, 'solid', grayBlueLighter],
   },
   form: {
     display: 'block',
-    position: 'relative'
+    position: 'relative',
   },
   label: {
     extend: normal,
     marginLeft: horizontalPadding,
-    display: 'block'
+    display: 'block',
   },
   line: {
     display: 'block',
-    marginTop: 10
+    marginTop: 10,
   },
   textarea: {
     display: 'block',
-    height: '5em'
+    height: '5em',
   },
   note: {
     extend: small,
@@ -34,41 +34,41 @@ export const styles = {
     marginTop: 5,
     opacity: 0,
     willChange: 'opacity',
-    transition: 'opacity 0.3s ease-out'
+    transition: 'opacity 0.3s ease-out',
   },
   noteVisible: {
-    opacity: 1
+    opacity: 1,
   },
   submit: {
     display: 'block',
     marginTop: 15,
-    textAlign: 'right'
+    textAlign: 'right',
   },
   submitButton: {
     extend: buttonPrimary,
     '&:disabled': {
       isolate: false,
       opacity: 0.5,
-      pointerEvents: 'none'
-    }
+      pointerEvents: 'none',
+    },
   },
   inviteLink: {
     marginTop: 20,
     paddingTop: 10,
     borderTop: [1, 'solid', grayBlueLighter],
-    display: 'flex'
+    display: 'flex',
   },
   inviteLinkLabel: {
     composes: '$label',
-    marginRight: 10
+    marginRight: 10,
   },
   inviteLinkInput: {
-    flex: 1
+    flex: 1,
   },
   success: {
     extend: small,
     marginTop: 5,
     paddingLeft: horizontalPadding,
-    color: grayBlueDark
-  }
+    color: grayBlueDark,
+  },
 }

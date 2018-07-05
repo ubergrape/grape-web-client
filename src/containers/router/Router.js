@@ -1,22 +1,24 @@
 import React from 'react'
-import {routes, Route, withRouter, ConnectedRouter} from 'grape-web/lib/router'
+import {
+  routes,
+  Route,
+  withRouter,
+  ConnectedRouter,
+} from 'grape-web/lib/router'
 
-import {AppContainer} from '../../components/app-container'
+import { AppContainer } from '../../components/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
 
 const Container = withRouter(AppContainer)
 
-const Router = ({onChangeRoute, children}) => (
-  <ConnectedRouter
-    basename={'/chat'}
-    history={history}
-  >
+const Router = ({ onChangeRoute, children }) => (
+  <ConnectedRouter basename={'/chat'} history={history}>
     <Container>
       <Route
         path="/chat"
         exact
-        render={({location, match}) => (
+        render={({ location, match }) => (
           <RouteChanger
             name="root"
             location={location}
@@ -30,7 +32,7 @@ const Router = ({onChangeRoute, children}) => (
       <Route
         path={routes.pm}
         exact
-        render={({location, match}) => (
+        render={({ location, match }) => (
           <RouteChanger
             name="pm"
             location={location}
@@ -43,7 +45,7 @@ const Router = ({onChangeRoute, children}) => (
       />
       <Route
         path={routes.channel}
-        render={({location, match}) => (
+        render={({ location, match }) => (
           <RouteChanger
             name="channel"
             location={location}

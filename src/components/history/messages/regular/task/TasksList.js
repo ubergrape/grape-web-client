@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 /* eslint-disable react/no-array-index-key */
 
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import List from 'grape-web/lib/components/list/list'
 
 import Header from './Header'
@@ -11,8 +11,8 @@ import Item from './TaskListItem'
 
 @injectSheet({
   list: {
-    padding: 0
-  }
+    padding: 0,
+  },
 })
 export default class TasksList extends PureComponent {
   static propTypes = {
@@ -20,20 +20,18 @@ export default class TasksList extends PureComponent {
     tasks: PropTypes.array,
     onClose: PropTypes.func,
     onSelectTask: PropTypes.func,
-    onRemoveTask: PropTypes.func
+    onRemoveTask: PropTypes.func,
   }
 
   static defaultProps = {
     tasks: [],
     onClose: null,
     onSelectTask: null,
-    onRemoveTask: null
+    onRemoveTask: null,
   }
 
   render() {
-    const {
-      classes, tasks, onClose, onSelectTask, onRemoveTask
-    } = this.props
+    const { classes, tasks, onClose, onSelectTask, onRemoveTask } = this.props
 
     return (
       <div className={classes.tasksList}>

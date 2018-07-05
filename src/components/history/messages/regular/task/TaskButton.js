@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import IconButton from 'grape-web/lib/components/icon-button'
 import color from 'color'
-import {grayLight, white} from 'grape-theme/dist/base-colors'
+import { grayLight, white } from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
-import {small} from 'grape-theme/dist/fonts'
+import { small } from 'grape-theme/dist/fonts'
 
 import Tooltip from '../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
@@ -15,22 +15,28 @@ import TaskIcon from './TaskIcon'
     width: 'auto',
     height: 20,
     fontSize: 11,
-    border: [1, 'solid', color(grayLight).alpha(0.5).rgbaString()],
+    border: [
+      1,
+      'solid',
+      color(grayLight)
+        .alpha(0.5)
+        .rgbaString(),
+    ],
     borderRadius: 4,
     padding: [0, 5],
     backgroundColor: white,
     '&, *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   taskButtonIcon: {
-    marginRight: 5
+    marginRight: 5,
   },
   taskButtonText: {
     extend: small,
-    color: grayLight
-  }
+    color: grayLight,
+  },
 })
 export default class TaskButton extends PureComponent {
   static propTypes = {
@@ -38,27 +44,27 @@ export default class TaskButton extends PureComponent {
     isConnected: PropTypes.bool,
     amount: PropTypes.number,
     onClick: PropTypes.func,
-    onRefButton: PropTypes.func
+    onRefButton: PropTypes.func,
   }
 
   static defaultProps = {
     amount: 0,
     isConnected: false,
     onClick: null,
-    onRefButton: null
+    onRefButton: null,
   }
 
   render() {
-    const {classes, isConnected, amount, onClick, onRefButton} = this.props
+    const { classes, isConnected, amount, onClick, onRefButton } = this.props
     return (
       <Tooltip
-        message={(
+        message={
           <FormattedMessage
             id="tasks"
             defaultMessage="Tasks"
             description="Message NLP task button tooltip."
           />
-        )}
+        }
       >
         <IconButton
           className={classes.taskButton}

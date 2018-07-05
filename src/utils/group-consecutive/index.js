@@ -15,11 +15,10 @@ export default (items, groupsSize, iteratee) => {
       isGroupStart = false
     }
 
-    shouldGroup = (
+    shouldGroup =
       index < items.length - 1 &&
       group.length < groupsSize &&
       !!iteratee(item, array[index + 1])
-    )
 
     if (shouldGroup) {
       group.push(array[index + 1])

@@ -1,2 +1,2 @@
 export Avatar from './Avatar'
-export {size} from './constants'
+export { size } from './constants'

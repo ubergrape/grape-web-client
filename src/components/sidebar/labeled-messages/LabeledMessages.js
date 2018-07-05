@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/CellMeasurer'
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+} from 'react-virtualized/dist/commonjs/CellMeasurer'
 import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -22,23 +21,23 @@ import TrainingModeHint from './TrainingModeHint'
 const translations = defineMessages({
   title: {
     id: 'labeledMessagesSidebarTitle',
-    defaultMessage: 'Important Messages'
-  }
+    defaultMessage: 'Important Messages',
+  },
 })
 
 @injectSheet({
   body: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
   },
   messages: {
     position: 'relative',
-    flex: 1
+    flex: 1,
   },
   list: {
-    outline: 0
-  }
+    outline: 0,
+  },
 })
 @injectIntl
 export default class LabeledMessages extends PureComponent {
@@ -51,8 +50,8 @@ export default class LabeledMessages extends PureComponent {
     onSelectFilter: PropTypes.func,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
-        time: PropTypes.instanceOf(Date).isRequired
-      })
+        time: PropTypes.instanceOf(Date).isRequired,
+      }),
     ),
     user: PropTypes.object,
     options: PropTypes.array,
@@ -60,10 +59,10 @@ export default class LabeledMessages extends PureComponent {
     newMessagesAmount: PropTypes.number,
     currentChannelOnly: PropTypes.bool,
     channel: PropTypes.shape({
-      id: PropTypes.number
+      id: PropTypes.number,
     }),
     labelConfigs: PropTypes.array,
-    filter: PropTypes.string
+    filter: PropTypes.string,
   }
 
   static defaultProps = {
@@ -79,16 +78,16 @@ export default class LabeledMessages extends PureComponent {
     isLoading: false,
     currentChannelOnly: false,
     newMessagesAmount: 0,
-    filter: 'all'
+    filter: 'all',
   }
 
   componentDidMount() {
-    const {messages, onLoad} = this.props
+    const { messages, onLoad } = this.props
     if (!messages.length) onLoad()
   }
 
   componentWillReceiveProps(nextProps) {
-    const {messages, currentChannelOnly, channel, filter, onLoad} = this.props
+    const { messages, currentChannelOnly, channel, filter, onLoad } = this.props
     if (
       // We need to refresh when this option changes.
       nextProps.currentChannelOnly !== currentChannelOnly ||
@@ -105,7 +104,7 @@ export default class LabeledMessages extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {messages, newMessagesAmount} = prevProps
+    const { messages, newMessagesAmount } = prevProps
 
     // Cases:
     // - Update the first row to show "refresh" button.
@@ -121,33 +120,32 @@ export default class LabeledMessages extends PureComponent {
     }
   }
 
-  onLoadMore = ({startIndex, stopIndex}) => (
-    new Promise((resolve) => {
-      const {messages, onLoad} = this.props
+  onLoadMore = ({ startIndex, stopIndex }) =>
+    new Promise(resolve => {
+      const { messages, onLoad } = this.props
       const options = {
         offset: messages[messages.length - 1].time,
-        limit: stopIndex - startIndex
+        limit: stopIndex - startIndex,
       }
       onLoad(options, resolve)
     })
-  )
 
-  onRefInfiniteLoader = (ref) => {
+  onRefInfiniteLoader = ref => {
     this.infiniteLoader = ref
   }
 
-  cache = new CellMeasurerCache({fixedWidth: true})
+  cache = new CellMeasurerCache({ fixedWidth: true })
 
-  isRowLoaded = ({index}) => Boolean(this.props.messages[index])
+  isRowLoaded = ({ index }) => Boolean(this.props.messages[index])
 
-  renderRow = ({key, index, parent, style}) => {
+  renderRow = ({ key, index, parent, style }) => {
     const {
       intl,
       messages,
       user,
       onSelect,
       onLoad,
-      newMessagesAmount
+      newMessagesAmount,
     } = this.props
 
     const message = messages[index]
@@ -177,24 +175,19 @@ export default class LabeledMessages extends PureComponent {
   renderNoContent = () => (this.props.isLoading ? null : <NoContent />)
 
   renderOptions = () => {
-    const {options, isLoading} = this.props
+    const { options, isLoading } = this.props
     if (!options) return null
-    return (
-      <Options
-        options={options}
-        isLoading={isLoading}
-      />
-    )
+    return <Options options={options} isLoading={isLoading} />
   }
 
-  renderList = ({onRowsRendered, registerChild}) => {
-    const {isLoading, messages, classes} = this.props
+  renderList = ({ onRowsRendered, registerChild }) => {
+    const { isLoading, messages, classes } = this.props
 
     return (
       <AutoSizer>
-        {({width, height}) => (
+        {({ width, height }) => (
           <List
-            ref={(ref) => {
+            ref={ref => {
               registerChild(ref)
               this.list = ref
             }}
@@ -219,10 +212,10 @@ export default class LabeledMessages extends PureComponent {
     const {
       onClose,
       onSelectFilter,
-      intl: {formatMessage},
+      intl: { formatMessage },
       classes,
       labelConfigs,
-      filter
+      filter,
     } = this.props
 
     return (

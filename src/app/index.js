@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Raven from 'raven-js'
-import {addLocaleData} from 'react-intl'
+import { addLocaleData } from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
@@ -35,7 +35,7 @@ export function init() {
     id: conf.user.id,
     username: conf.user.username,
     organization: conf.organization.subdomain,
-    organizationID: conf.organization.id
+    organizationID: conf.organization.id,
   })
   Raven.context(() => {
     addLocaleData([...en, ...de])

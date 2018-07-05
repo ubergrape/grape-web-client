@@ -7,17 +7,17 @@ import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 30
+  minimumBatchSize: 30,
 }
 
 function updateMessage(state, newMessage) {
-  const {messages} = state
-  const index = findIndex(messages, {id: newMessage.id})
+  const { messages } = state
+  const index = findIndex(messages, { id: newMessage.id })
   const currMessage = messages[index]
   if (index === -1) return state
-  const message = {...currMessage, ...newMessage}
+  const message = { ...currMessage, ...newMessage }
   messages.splice(index, 1, message)
-  return {...state, messages: [...messages]}
+  return { ...state, messages: [...messages] }
 }
 
 /**
@@ -29,38 +29,38 @@ function markLastMessageAsRead(messages, senderId) {
     if (!message.state || message.author.id === senderId) return message
     return {
       ...message,
-      state: index === messages.length - 1 ? 'read' : undefined
+      state: index === messages.length - 1 ? 'read' : undefined,
     }
   })
 }
 
 export default function reduce(state = initialState, action) {
-  const {payload} = action
+  const { payload } = action
   switch (action.type) {
     case types.SET_USER:
-      return {...state, user: payload}
+      return { ...state, user: payload }
     case types.SET_CHANNEL:
       return {
         ...state,
         channel: payload.channel,
         selectedMessageId: payload.messageId,
         olderMessages: undefined,
-        newerMessages: undefined
+        newerMessages: undefined,
       }
     case types.SET_USERS:
-      return {...state, users: payload}
+      return { ...state, users: payload }
     case types.HANDLE_INITIAL_HISTORY:
       return {
         ...state,
         ...payload,
-        showNoContent: payload.messages.length === 0 && !conf.embed
+        showNoContent: payload.messages.length === 0 && !conf.embed,
       }
     case types.HANDLE_MORE_HISTORY: {
-      const {messages: newMessages, isScrollBack} = payload
+      const { messages: newMessages, isScrollBack } = payload
       if (!newMessages.length) return state
 
       let messages
-      let {olderMessages, newerMessages} = state
+      let { olderMessages, newerMessages } = state
 
       if (isScrollBack) {
         messages = [...newMessages, ...state.messages]
@@ -78,50 +78,50 @@ export default function reduce(state = initialState, action) {
         scrollTo: null,
         olderMessages,
         newerMessages,
-        showNoContent: false
+        showNoContent: false,
       }
     }
     case types.GO_TO_CHANNEL:
       // Clicked on the current channel.
       if (state.channel && payload === state.channel.id) return state
-      return {...state, messages: []}
+      return { ...state, messages: [] }
     case types.CLEAR_HISTORY:
-      return {...state, messages: []}
+      return { ...state, messages: [] }
     case types.REQUEST_OLDER_HISTORY:
-      return {...state, olderMessages: payload.promise}
+      return { ...state, olderMessages: payload.promise }
     case types.REQUEST_NEWER_HISTORY:
-      return {...state, newerMessages: payload.promise}
+      return { ...state, newerMessages: payload.promise }
     case types.UNSET_HISTORY_SCROLL_TO:
-      return {...state, scrollTo: null}
+      return { ...state, scrollTo: null }
     case types.REMOVE_MESSAGE:
-      return {...state, messages: reject(state.messages, {id: payload})}
+      return { ...state, messages: reject(state.messages, { id: payload }) }
     case types.EDIT_MESSAGE:
-      return updateMessage(state, {...payload, isSelected: true})
+      return updateMessage(state, { ...payload, isSelected: true })
     case types.UPDATE_MESSAGE:
       return updateMessage(state, payload)
     case types.MARK_MESSAGE_AS_UNSENT:
-      return updateMessage(state, {...payload, state: 'unsent'})
+      return updateMessage(state, { ...payload, state: 'unsent' })
     case types.RESEND_MESSAGE:
       return updateMessage(state, {
         ...payload,
-        state: 'pending'
+        state: 'pending',
       })
     case types.MARK_MESSAGE_AS_SENT:
-      return updateMessage(state, {id: payload.messageId, state: 'sent'})
+      return updateMessage(state, { id: payload.messageId, state: 'sent' })
     case types.MARK_CHANNEL_AS_READ: {
       // Currently backend logic is designed to mark all messages as read once
       // user read something in that channel.
       // This is not very accurate and might change in the future. So lets not couple
       // the rest of the logic with this design and use data structure which allows
       // individual messages to have different states.
-      const {channelId, isCurrentUser, userId} = payload
+      const { channelId, isCurrentUser, userId } = payload
       if (channelId !== state.channel.id || isCurrentUser) {
         return state
       }
 
       return {
         ...state,
-        messages: markLastMessageAsRead(state.messages, userId)
+        messages: markLastMessageAsRead(state.messages, userId),
       }
     }
     case types.REQUEST_POST_MESSAGE:
@@ -132,11 +132,8 @@ export default function reduce(state = initialState, action) {
       }
       return {
         ...state,
-        messages: [
-          ...state.messages,
-          {...payload, state: 'pending'}
-        ],
-        showNoContent: false
+        messages: [...state.messages, { ...payload, state: 'pending' }],
+        showNoContent: false,
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
@@ -145,7 +142,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         messages: [...state.messages, payload],
-        showNoContent: false
+        showNoContent: false,
       }
     }
     default:

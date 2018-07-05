@@ -6,6 +6,6 @@ export default {
   fontSize: 'inherit',
   '&:hover': {
     ...link['&:hover'],
-    textDecoration: 'underline'
-  }
+    textDecoration: 'underline',
+  },
 }

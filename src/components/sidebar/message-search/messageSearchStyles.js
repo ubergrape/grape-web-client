@@ -1,21 +1,21 @@
-import {grayBlue, grayBlueLighter} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
+import { grayBlue, grayBlueLighter } from 'grape-theme/dist/base-colors'
+import { small } from 'grape-theme/dist/fonts'
 
 import button from '../../button/default'
-import {spacing} from '../constants'
+import { spacing } from '../constants'
 
 export default {
   messageSearch: {
     display: 'block',
-    padding: spacing
+    padding: spacing,
   },
   separatorDate: {
-    background: grayBlueLighter
+    background: grayBlueLighter,
   },
   loadMoreContainer: {
     display: 'block',
     textAlign: 'center',
-    marginTop: spacing
+    marginTop: spacing,
   },
   channel: {
     extend: small,
@@ -23,14 +23,14 @@ export default {
     textTransform: 'uppercase',
     marginTop: 20,
     marginBottom: 5,
-    lineHeight: 1
+    lineHeight: 1,
   },
   empty: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button,
   spinner: {
     position: 'static',
-    marginTop: ({total}) => (total ? 0 : '50%')
-  }
+    marginTop: ({ total }) => (total ? 0 : '50%'),
+  },
 }

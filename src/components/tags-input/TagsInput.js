@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {debouncingTime} from 'grape-web/lib/constants/time'
+import { debouncingTime } from 'grape-web/lib/constants/time'
 import keyname from 'keyname'
 import debounce from 'lodash/function/debounce'
 
-import {styles} from './theme'
+import { styles } from './theme'
 
 @injectSheet(styles)
 export default class TagsInput extends PureComponent {
@@ -18,13 +18,13 @@ export default class TagsInput extends PureComponent {
     focused: PropTypes.bool.isRequired,
     list: PropTypes.array.isRequired,
     value: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired
+    placeholder: PropTypes.string.isRequired,
   }
 
   constructor(props) {
     super(props)
 
-    this.state = {filter: ''}
+    this.state = { filter: '' }
   }
 
   componentDidMount() {
@@ -33,12 +33,12 @@ export default class TagsInput extends PureComponent {
 
   componentWillUpdate(prevProps) {
     if (prevProps.list.length !== this.props.list.length) {
-      this.setState({filter: ''})
+      this.setState({ filter: '' })
     }
   }
 
   componentDidUpdate() {
-    const {input, filterArea, inputRuler, filterRuler} = this
+    const { input, filterArea, inputRuler, filterRuler } = this
     if (!input) return
     if (this.props.focused) input.focus()
 
@@ -53,16 +53,24 @@ export default class TagsInput extends PureComponent {
     filterArea.style.height = filterRuler.offsetHeight
   }
 
-  onInputRef = (ref) => { this.input = ref }
-  onInputRulerRef = (ref) => { this.inputRuler = ref }
-  onFilterAreaRef = (ref) => { this.filterArea = ref }
-  onFilterRulerRef = (ref) => { this.filterRuler = ref }
+  onInputRef = ref => {
+    this.input = ref
+  }
+  onInputRulerRef = ref => {
+    this.inputRuler = ref
+  }
+  onFilterAreaRef = ref => {
+    this.filterArea = ref
+  }
+  onFilterRulerRef = ref => {
+    this.filterRuler = ref
+  }
 
   onBlur = () => {
     if (this.props.focused) this.input.focus()
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     if (keyname(e.keyCode) === 'backspace') {
       this.deleteLastItem()
       return
@@ -75,36 +83,34 @@ export default class TagsInput extends PureComponent {
   }, debouncingTime)
 
   onChange = () => {
-    this.setState({filter: this.input.value})
+    this.setState({ filter: this.input.value })
     this.onChangeDebounced()
   }
 
-  onDeleteTag = (item) => {
+  onDeleteTag = item => {
     this.props.deleteTag(item)
   }
 
   deleteLastItem() {
-    const {list, deleteTag} = this.props
+    const { list, deleteTag } = this.props
     if (!list.length) return
-    const {selectionStart, selectionEnd} = this.input
+    const { selectionStart, selectionEnd } = this.input
     if (selectionStart + selectionEnd !== 0) return
 
     deleteTag(list[list.length - 1])
   }
 
   renderPlaceholder() {
-    const {classes} = this.props.sheet
-    const {placeholder, value} = this.props
+    const { classes } = this.props.sheet
+    const { placeholder, value } = this.props
     const inputValue = this.input ? this.input.value : value
     if (inputValue) return null
-    return (
-      <span className={classes.placeholder}>{placeholder}</span>
-    )
+    return <span className={classes.placeholder}>{placeholder}</span>
   }
 
   renderInput() {
     const {
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (
@@ -130,7 +136,7 @@ export default class TagsInput extends PureComponent {
   }
 
   renderTags() {
-    const {list, sheet} = this.props
+    const { list, sheet } = this.props
     if (!list.length) return null
     return list.map(item => (
       <button
@@ -144,7 +150,7 @@ export default class TagsInput extends PureComponent {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const { classes } = this.props.sheet
     return (
       <div ref={this.onFilterAreaRef} className={classes.filterArea}>
         <div ref={this.onFilterRulerRef} className={classes.filterRuler}>

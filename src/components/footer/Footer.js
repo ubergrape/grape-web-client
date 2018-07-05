@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {Link as MarkdownTipsLink} from '../markdown-tips'
+import { Link as MarkdownTipsLink } from '../markdown-tips'
 import Controls from './Controls'
-import {styles} from './footerTheme'
+import { styles } from './footerTheme'
 import GrapeInput from './grape-input/GrapeInput'
 import TypingNotification from './typing-notification/TypingNotification'
 
@@ -15,7 +15,13 @@ export default class Footer extends PureComponent {
     classes: PropTypes.object.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    showBrowser: PropTypes.oneOf([
+      false,
+      'emoji',
+      'emojiSuggest',
+      'user',
+      'search',
+    ]).isRequired,
     org: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
@@ -47,7 +53,7 @@ export default class Footer extends PureComponent {
     onEditMessageAbort: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
-    goTo: PropTypes.func.isRequired
+    goTo: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -61,10 +67,10 @@ export default class Footer extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
-    onOpenFileDialog: undefined
+    onOpenFileDialog: undefined,
   }
 
-  onRef = (ref) => {
+  onRef = ref => {
     this.inputWithControls = ref
   }
 
@@ -106,11 +112,15 @@ export default class Footer extends PureComponent {
       onSetTyping,
       onAddIntegration,
       onSearchChannelsToMention,
-      goTo
+      goTo,
     } = this.props
 
     return (
-      <footer className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}>
+      <footer
+        className={`${classes.footer} ${
+          targetMessage ? classes.highlighted : ''
+        }`}
+      >
         <div className={classes.above}>
           <div className={classes.typingNotificationContainer}>
             <TypingNotification
@@ -152,7 +162,9 @@ export default class Footer extends PureComponent {
             onEditPreviousMessage={onEditPreviousMessage}
             onRequestAutocomplete={onRequestAutocomplete}
             onRequestAutocompleteServices={onRequestAutocompleteServices}
-            onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
+            onRequestAutocompleteServicesStats={
+              onRequestAutocompleteServicesStats
+            }
             onSetTyping={onSetTyping}
             onAddIntegration={onAddIntegration}
             onSearchChannelsToMention={onSearchChannelsToMention}

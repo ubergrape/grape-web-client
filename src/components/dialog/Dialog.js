@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import Normalize from 'grape-web/lib/components/normalize'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'grape-web/lib/components/icon-button'
-import {black, white} from 'grape-theme/dist/base-colors'
-import {small, biggest} from 'grape-theme/dist/fonts'
-import {borderRadius} from 'grape-theme/dist/sizes'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import { black, white } from 'grape-theme/dist/base-colors'
+import { small, biggest } from 'grape-theme/dist/fonts'
+import { borderRadius } from 'grape-theme/dist/sizes'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
-import {zIndex} from '../../utils/z-index'
+import { zIndex } from '../../utils/z-index'
 
 /**
  * Dialog has
@@ -24,7 +24,7 @@ import {zIndex} from '../../utils/z-index'
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   },
   modal: {
     composes: '$overlay',
@@ -32,25 +32,25 @@ import {zIndex} from '../../utils/z-index'
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   backdrop: {
     composes: '$overlay',
     backgroundColor: black,
     opacity: 0.3,
-    zIndex: zIndex('below')
+    zIndex: zIndex('below'),
   },
   content: {
     width: 525,
     borderRadius: borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden',
-    outline: 0
+    outline: 0,
   },
   header: {
     display: 'flex',
     background: white,
-    height: 50
+    height: 50,
   },
   close: {
     isolate: false,
@@ -58,19 +58,19 @@ import {zIndex} from '../../utils/z-index'
     opacity: 0.5,
     '&:hover': {
       isolate: false,
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   title: {
     extend: [biggest, ellipsis],
     flex: 2,
     alignSelf: 'center',
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   body: {
     display: 'block',
-    background: white
-  }
+    background: white,
+  },
 })
 export default class Dialog extends PureComponent {
   static propTypes = {
@@ -78,16 +78,16 @@ export default class Dialog extends PureComponent {
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired,
-    title: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   }
 
   render() {
     const {
-      sheet: {classes},
-      show, onHide, title, children
+      sheet: { classes },
+      show,
+      onHide,
+      title,
+      children,
     } = this.props
 
     return (
@@ -104,9 +104,7 @@ export default class Dialog extends PureComponent {
               <Icon name="close" />
             </IconButton>
           </header>
-          <div className={classes.body}>
-            {children}
-          </div>
+          <div className={classes.body}>{children}</div>
         </Normalize>
       </Modal>
     )

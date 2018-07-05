@@ -1,5 +1,5 @@
-import {render} from 'react-dom'
-import {createElement} from 'react'
+import { render } from 'react-dom'
+import { createElement } from 'react'
 import random from 'lodash/number/random'
 import moment from 'moment-timezone'
 
@@ -25,35 +25,42 @@ const textParts = [
   '> quote',
   '1. test',
   '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)',
-  '<button>Button</button>'
+  '<button>Button</button>',
 ]
 const createMessage = (i, options = {}) => {
-  const time = options.time || new Date(now + (i * 1000 * 60 * 60))
+  const time = options.time || new Date(now + i * 1000 * 60 * 60)
   return {
     type: 'regular',
     id: random(100000000),
     link: 'link-to-message',
     author: {
       id: random(2) === 1 ? userId : i,
-      name: `Author-${i}`
+      name: `Author-${i}`,
     },
     text: `${i} - ${textParts.slice(0, random(textParts.length)).join('\n')}`,
     avatar: 'avatar.gif',
     time,
-    userTime: random(2) === 1 ? moment(time).format() : moment(time).tz('America/Los_Angeles').format(),
-    ...options
+    userTime:
+      random(2) === 1
+        ? moment(time).format()
+        : moment(time)
+            .tz('America/Los_Angeles')
+            .format(),
+    ...options,
   }
 }
 
 for (let i = 0; i < 5; i++) {
-  messages.push(createMessage(i, {
-    author: {
-      id: 'authora',
-      name: 'Author A'
-    },
-    text: `within 5 min from the same user-${i}`,
-    time: new Date(now + (i * 1000 * 60))
-  }))
+  messages.push(
+    createMessage(i, {
+      author: {
+        id: 'authora',
+        name: 'Author A',
+      },
+      text: `within 5 min from the same user-${i}`,
+      time: new Date(now + i * 1000 * 60),
+    }),
+  )
 }
 
 for (let i = messages.length; i < 1000; i++) {
@@ -71,7 +78,7 @@ let fragment = messages.slice(...range)
 let isLoading = false
 let update
 
-function onLoad({startIndex, stopIndex}) {
+function onLoad({ startIndex, stopIndex }) {
   if (isLoading) return
 
   isLoading = true
@@ -82,7 +89,7 @@ function onLoad({startIndex, stopIndex}) {
     if (startIndex < 0) {
       range[0] = Math.max(range[0] + startIndex, minRange)
       range[1] = Math.min(range[1], range[0] + frameSize)
-    // Scroll to newer.
+      // Scroll to newer.
     } else {
       range[0] = range[1] - frameSize
       range[1] = Math.min(range[1] + stopIndex, maxRange)
@@ -112,7 +119,7 @@ function onRead(message) {
 
 const container = document.querySelectorAll('.history')[0]
 
-update = (props) => {
+update = props => {
   render(
     createElement(History, {
       userId,
@@ -122,23 +129,20 @@ update = (props) => {
       onRemove,
       onResend,
       onRead,
-      ...props
+      ...props,
     }),
-    container
+    container,
   )
 }
 
 update()
 
 window.addMessage = (options = {}) => {
-  const message = createMessage(
-    messages.length,
-    {
-      time: new Date(),
-      author: {id: userId, name: 'Author'},
-      ...options
-    }
-  )
+  const message = createMessage(messages.length, {
+    time: new Date(),
+    author: { id: userId, name: 'Author' },
+    ...options,
+  })
   messages.push(message)
   fragment.push(message)
   update()
@@ -156,41 +160,47 @@ window.addManyMessages = () => {
 
 window.scrollToMessage = () => {
   update({
-    scrollTo: fragment[fragment.length - 20].id
+    scrollTo: fragment[fragment.length - 20].id,
   })
 }
 
-window.addMessageWithAttachment = (type) => {
+window.addMessageWithAttachment = type => {
   switch (type) {
     case 'pdf':
       window.addMessage({
         text: undefined,
-        attachments: [{
-          type: 'uploadedFile',
-          id: random(1000),
-          name: 'some-file.pdf',
-          time: new Date(),
-          url: 'http://google.com',
-          mimeType: 'application/pdf',
-          category: 'pdf'
-        }]
+        attachments: [
+          {
+            type: 'uploadedFile',
+            id: random(1000),
+            name: 'some-file.pdf',
+            time: new Date(),
+            url: 'http://google.com',
+            mimeType: 'application/pdf',
+            category: 'pdf',
+          },
+        ],
       })
       break
     case 'uploadedImage':
       window.addMessage({
         text: undefined,
-        attachments: [{
-          type: 'uploadedFile',
-          id: random(1000),
-          time: new Date(),
-          name: 'breaking-bad-die-besten-72440_big.jpg',
-          thumbnailUrl: 'https://ug-cdn.com/media/chatgrape-staging/media/cache/57/26/57260f1e17ea4931421e37bfbb856f8f.png',
-          thumbnailHeight: 125,
-          thumbnailWidth: 295,
-          url: 'https://ug-cdn.com/media/chatgrape-staging/media/organizations/1/9e1562d21df511e6802b001e67a039c2/breaking-bad-die-besten-72440_big.jpg',
-          mimeType: 'image/jpeg',
-          category: 'image'
-        }]
+        attachments: [
+          {
+            type: 'uploadedFile',
+            id: random(1000),
+            time: new Date(),
+            name: 'breaking-bad-die-besten-72440_big.jpg',
+            thumbnailUrl:
+              'https://ug-cdn.com/media/chatgrape-staging/media/cache/57/26/57260f1e17ea4931421e37bfbb856f8f.png',
+            thumbnailHeight: 125,
+            thumbnailWidth: 295,
+            url:
+              'https://ug-cdn.com/media/chatgrape-staging/media/organizations/1/9e1562d21df511e6802b001e67a039c2/breaking-bad-die-besten-72440_big.jpg',
+            mimeType: 'image/jpeg',
+            category: 'image',
+          },
+        ],
       })
       break
     default:
@@ -202,20 +212,21 @@ window.addActivityMessage = () => {
     type: 'activity',
     container: {
       url: 'https://github.com/ubergrape/chatgrape',
-      name: 'ubergrape/chatgrape'
+      name: 'ubergrape/chatgrape',
     },
-    title: '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
-    text: 'let\'s merge this into master on thursday, shall we?',
+    title:
+      '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
+    text: "let's merge this into master on thursday, shall we?",
     author: {
       id: '123',
-      name: 'Github'
-    }
+      name: 'Github',
+    },
   })
 }
 
 window.addMessageWithUserLink = () => {
   window.addMessage({
-    text: 'simplelink.com'
+    text: 'simplelink.com',
   })
 }
 
@@ -224,6 +235,6 @@ window.addMessageWithGrapeObjects = () => {
     text:
       '[#68 Apple Test Account](cg://github|issue|92f69b7c6d181a6318e2935a3b7730ae|https://github.com/ubergrape/chatgrape_ios/issues/68||)\n\n' +
       '[room](cg://chatgrape|room|2253|/chat/testroom)\n\n' +
-      '[SomeUser](cg://chatgrape|user|60|/chat/@someuser)'
+      '[SomeUser](cg://chatgrape|user|60|/chat/@someuser)',
   })
 }

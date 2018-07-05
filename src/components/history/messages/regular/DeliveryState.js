@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import {gray} from 'grape-theme/dist/base-colors'
+import { gray } from 'grape-theme/dist/base-colors'
 import sizes from 'grape-theme/dist/sizes'
 
-import {messageDeliveryStates} from '../../../../constants/app'
+import { messageDeliveryStates } from '../../../../constants/app'
 import Tooltip from '../../../tooltip/HoverTooltip'
 import createInlineIcon from '../../../inline-icon/create'
-import {horizontalMargin} from '../baseMessageTheme'
+import { horizontalMargin } from '../baseMessageTheme'
 
 const messages = {
   pending: (
@@ -39,7 +39,7 @@ const messages = {
       description="message delivery status in tooltip"
       defaultMessage="Read"
     />
-  )
+  ),
 }
 
 const indicatorSize = sizes.icon.xs
@@ -47,8 +47,8 @@ const icon = {
   '&:before': {
     position: 'absolute',
     right: 0,
-    top: 0
-  }
+    top: 0,
+  },
 }
 
 const styles = {
@@ -57,44 +57,44 @@ const styles = {
     right: -(indicatorSize + horizontalMargin) / 2,
     bottom: 0,
     width: indicatorSize,
-    height: indicatorSize
+    height: indicatorSize,
   },
   pending: {
     composes: '$root',
     extend: [
-      createInlineIcon('waiting', {color: gray, size: indicatorSize}),
-      icon
-    ]
+      createInlineIcon('waiting', { color: gray, size: indicatorSize }),
+      icon,
+    ],
   },
   unsent: {
     composes: '$root',
     extend: [
-      createInlineIcon('waiting', {color: gray, size: indicatorSize}),
-      icon
-    ]
+      createInlineIcon('waiting', { color: gray, size: indicatorSize }),
+      icon,
+    ],
   },
   sent: {
     composes: '$root',
     extend: [
-      createInlineIcon('checkmark', {color: gray, size: indicatorSize}),
-      icon
-    ]
+      createInlineIcon('checkmark', { color: gray, size: indicatorSize }),
+      icon,
+    ],
   },
   read: {
     composes: '$root',
     extend: [
-      createInlineIcon('checkmarkFilled', {color: gray, size: indicatorSize}),
-      icon
-    ]
+      createInlineIcon('checkmarkFilled', { color: gray, size: indicatorSize }),
+      icon,
+    ],
   },
   tooltipTrigger: {
     display: 'block',
     width: indicatorSize,
-    height: indicatorSize
-  }
+    height: indicatorSize,
+  },
 }
 
-const DeliveryState = ({time, state, classes}) => {
+const DeliveryState = ({ time, state, classes }) => {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
 
@@ -102,10 +102,7 @@ const DeliveryState = ({time, state, classes}) => {
 
   return (
     <span className={classes[state]}>
-      <Tooltip
-        placement="left"
-        message={messages[state]}
-      >
+      <Tooltip placement="left" message={messages[state]}>
         <span className={classes.tooltipTrigger} />
       </Tooltip>
     </span>
@@ -115,11 +112,11 @@ const DeliveryState = ({time, state, classes}) => {
 DeliveryState.propTypes = {
   classes: PropTypes.object.isRequired,
   time: PropTypes.instanceOf(Date).isRequired,
-  state: PropTypes.oneOf(messageDeliveryStates)
+  state: PropTypes.oneOf(messageDeliveryStates),
 }
 
 DeliveryState.defaultProps = {
-  state: undefined
+  state: undefined,
 }
 
 export default injectSheet(styles)(DeliveryState)

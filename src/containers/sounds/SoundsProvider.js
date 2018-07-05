@@ -1,18 +1,18 @@
-import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
-import {soundsSelector} from '../../selectors'
+import { mapActionsToProps } from '../../app/redux'
+import { soundsSelector } from '../../selectors'
 import getStore from '../../app/store'
-import {Sounds} from '../../components/sounds'
+import { Sounds } from '../../components/sounds'
 
 const actionNames = {
-  endSound: 'onEnded'
+  endSound: 'onEnded',
 }
 
 const ConnectedSounds = connect(
   soundsSelector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(Sounds)
 
 export default class SoundsProvider extends PureComponent {

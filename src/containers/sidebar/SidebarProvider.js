@@ -1,10 +1,10 @@
 import React from 'react'
-import {Provider, connect} from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {sidebarComponentSelector as selector} from '../../selectors'
-import {Sidebar} from '../../components/sidebar'
+import { sidebarComponentSelector as selector } from '../../selectors'
+import { Sidebar } from '../../components/sidebar'
 
 const actionNames = [
   'hideSidebar',
@@ -39,12 +39,12 @@ const actionNames = [
   'showNotificationSettings',
   'openSharedFile',
   'unpinMessage',
-  'getUser'
+  'getUser',
 ]
 
 const ConnectedSidebar = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(Sidebar)
 
 const SidebarProvider = props => (

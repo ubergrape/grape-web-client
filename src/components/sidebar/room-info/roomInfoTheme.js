@@ -1,43 +1,63 @@
-import {normal, bigger} from 'grape-theme/dist/fonts'
-import {blue, grayDark, grayBlueDark, red} from 'grape-theme/dist/base-colors'
-import {borderLight} from 'grape-theme/dist/web-colors'
+import { normal, bigger } from 'grape-theme/dist/fonts'
+import { blue, grayDark, grayBlueDark, red } from 'grape-theme/dist/base-colors'
+import { borderLight } from 'grape-theme/dist/web-colors'
 
-import {settingsButtonSize} from './constants'
+import { settingsButtonSize } from './constants'
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {spacing} from '../constants'
+import { spacing } from '../constants'
 
 export const styles = () => ({
   roomInfo: {
     display: 'block',
     flexDirection: 'column',
     height: '100%',
-    color: grayBlueDark
+    color: grayBlueDark,
   },
   roomName: {
     extend: bigger,
     width: '100%',
-    color: grayDark
+    color: grayDark,
   },
   mainSettings: {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
     margin: spacing,
-    marginBottom: 0
+    marginBottom: 0,
   },
   additionalActions: {
     display: 'flex',
     flexShrink: 0,
     '& > *': {
       isolate: false,
-      marginLeft: 10
-    }
+      marginLeft: 10,
+    },
   },
-  notificationsButtonInherit: buttonIcon('bell', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonOff: buttonIcon('bellMuted', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  notificationsButtonCustom: buttonIcon('bellCustom', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
-  settingsButton: buttonIcon('cog', {color: grayDark, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonInherit: buttonIcon('bell', {
+    color: grayDark,
+    hoverColor: blue,
+    iconOnly: true,
+    size: settingsButtonSize,
+  }),
+  notificationsButtonOff: buttonIcon('bellMuted', {
+    color: grayDark,
+    hoverColor: blue,
+    iconOnly: true,
+    size: settingsButtonSize,
+  }),
+  notificationsButtonCustom: buttonIcon('bellCustom', {
+    color: grayDark,
+    hoverColor: blue,
+    iconOnly: true,
+    size: settingsButtonSize,
+  }),
+  settingsButton: buttonIcon('cog', {
+    color: grayDark,
+    hoverColor: blue,
+    iconOnly: true,
+    size: settingsButtonSize,
+  }),
   additionalActionsDropdown: {},
   additionalActionButton: {
     extend: [linkButton, normal],
@@ -50,17 +70,17 @@ export const styles = () => ({
     '&:hover': {
       isolate: false,
       color: red,
-      textDecoration: 'underline'
-    }
+      textDecoration: 'underline',
+    },
   },
   deleteRoomButton: {
-    color: red
+    color: red,
   },
   settingsWrapper: {
-    flexShrink: 0
+    flexShrink: 0,
   },
   description: {
     padding: spacing,
-    paddingTop: 0
-  }
+    paddingTop: 0,
+  },
 })

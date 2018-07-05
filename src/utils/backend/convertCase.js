@@ -10,9 +10,8 @@ const mapKeysDeep = (object, callback) => {
   }
 
   if (isPlainObject(object)) {
-    return mapValues(
-      mapKeys(object, callback),
-      value => mapKeysDeep(value, callback)
+    return mapValues(mapKeys(object, callback), value =>
+      mapKeysDeep(value, callback),
     )
   }
 
@@ -22,13 +21,11 @@ const mapKeysDeep = (object, callback) => {
 /**
  * Converts all obj keys to snake case.
  */
-export const toSnake = object => (
+export const toSnake = object =>
   mapKeysDeep(object, (value, key) => snakeCase(key))
-)
 
 /**
  * Converts all obj keys to camel case.
  */
-export const toCamel = object => (
-   mapKeysDeep(object, (value, key) => camelCase(key))
- )
+export const toCamel = object =>
+  mapKeysDeep(object, (value, key) => camelCase(key))
