@@ -1,8 +1,8 @@
 import each from 'lodash/collection/each'
 
-import {maxSize} from './constants'
+import { maxSize } from './constants'
 
-export const getFilesFromClipboard = ({items}) => {
+export const getFilesFromClipboard = ({ items }) => {
   const promises = []
 
   each(items, (item, index) => {
@@ -11,13 +11,13 @@ export const getFilesFromClipboard = ({items}) => {
 
     if (!file) return
 
-    const promise = new Promise((resolve) => {
+    const promise = new Promise(resolve => {
       // When clipboardData comes from a paste event and file is from fs,
       // there is a string item which contains the file name, before the blob.
       if (!file.name) {
         const prev = items[index - 1]
         if (prev && prev.kind === 'string') {
-          prev.getAsString((name) => {
+          prev.getAsString(name => {
             file.name = name
             resolve(file)
           })
@@ -35,12 +35,12 @@ export const getFilesFromClipboard = ({items}) => {
   return Promise.all(promises)
 }
 
-export const findAcceptedAndRejected = (files) => {
+export const findAcceptedAndRejected = files => {
   const rejected = []
   const accepted = []
-  files.forEach((file) => {
+  files.forEach(file => {
     if (file.size <= maxSize) accepted.push(file)
     else rejected.push(file)
   })
-  return {accepted, rejected}
+  return { accepted, rejected }
 }

@@ -8,7 +8,7 @@
 
 ## Message with all supported markdown tags and emojis
 
-```
+````
 <div>
   <RegularMessage>
     :)
@@ -43,7 +43,7 @@
     1. test
   </RegularMessage>
 </div>
-```
+````
 
 ## Message with task button
 
@@ -62,4 +62,3 @@
   </div>
 </div>
 ```
-

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
-import {size} from './constants'
+import { size } from './constants'
 
 @injectSheet({
   avatar: {
@@ -16,9 +16,9 @@ import {size} from './constants'
     background: {
       repeat: 'no-repeat',
       position: 'center',
-      size: '100%'
-    }
-  }
+      size: '100%',
+    },
+  },
 })
 export default class Avatar extends PureComponent {
   static propTypes = {
@@ -27,7 +27,7 @@ export default class Avatar extends PureComponent {
     src: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
@@ -35,13 +35,13 @@ export default class Avatar extends PureComponent {
     className: '',
     onClick: noop,
     style: {},
-    children: undefined
+    children: undefined,
   }
 
   render() {
-    const {className, src, onClick, classes, children} = this.props
-    let {style} = this.props
-    if (src) style = {...style, backgroundImage: `url(${src})`}
+    const { className, src, onClick, classes, children } = this.props
+    let { style } = this.props
+    if (src) style = { ...style, backgroundImage: `url(${src})` }
 
     return (
       <span

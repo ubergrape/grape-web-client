@@ -2,22 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import fonts from 'grape-theme/dist/fonts'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import sizes from 'grape-theme/dist/sizes'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
-import {spacing} from '../constants'
+import { spacing } from '../constants'
 import Contacts from './Contacts'
 
-const styles = ({palette}) => ({
+const styles = ({ palette }) => ({
   root: {
-    display: 'block'
+    display: 'block',
   },
   section: {
     extend: fonts.small,
     display: 'block',
     marginBottom: spacing,
-    color: palette.text.primary
+    color: palette.text.primary,
   },
   sectionTitle: {
     extend: fonts.small,
@@ -25,7 +25,7 @@ const styles = ({palette}) => ({
     lineHeight: 1,
     marginBottom: sizes.spacer.s,
     textTransform: 'uppercase',
-    color: palette.text.secondary
+    color: palette.text.secondary,
   },
   whatIDo: {
     display: 'flex',
@@ -33,26 +33,23 @@ const styles = ({palette}) => ({
     overflowY: 'auto',
     fontSize: 'inherit',
     lineHeight: 'inherit',
-    color: 'inherit'
+    color: 'inherit',
   },
   whatIDoIcon: {
     flexShrink: 0,
     fontSize: 'inherit',
     color: palette.text.secondary,
     marginRight: sizes.spacer.s,
-    marginTop: 3
-  }
+    marginTop: 3,
+  },
 })
 
-const About = ({classes, whatIDo, ...contacts}) => (
+const About = ({ classes, whatIDo, ...contacts }) => (
   <div className={classes.root}>
     {whatIDo && (
       <section className={classes.section}>
         <h2 className={classes.sectionTitle}>
-          <FormattedMessage
-            id="whatIDo"
-            defaultMessage="What I do"
-          />
+          <FormattedMessage id="whatIDo" defaultMessage="What I do" />
         </h2>
         <div className={classes.whatIDo}>
           <Icon name="infoFilled" className={classes.whatIDoIcon} />
@@ -74,11 +71,11 @@ const About = ({classes, whatIDo, ...contacts}) => (
 
 About.propTypes = {
   classes: PropTypes.object.isRequired,
-  whatIDo: PropTypes.string
+  whatIDo: PropTypes.string,
 }
 
 About.defaultProps = {
-  whatIDo: undefined
+  whatIDo: undefined,
 }
 
 export default injectSheet(styles)(About)

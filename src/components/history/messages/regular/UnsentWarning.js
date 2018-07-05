@@ -1,7 +1,7 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
-export default ({classes, onResend}) => (
+export default ({ classes, onResend }) => (
   <div className={classes.row}>
     <div className={classes.avatarColumn} />
     <div className={classes.unsentWarning}>
@@ -9,8 +9,7 @@ export default ({classes, onResend}) => (
       <FormattedMessage
         id="messageNotSendCheckConnection"
         defaultMessage="This message didn't send. Check your internet connection and"
-      />
-      {' '}
+      />{' '}
       <a href="" onClick={onResend}>
         <FormattedMessage
           id="clickToTryAgain"

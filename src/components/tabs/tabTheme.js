@@ -1,17 +1,17 @@
-import {grayBlue} from 'grape-theme/dist/base-colors'
-import {link} from 'grape-theme/dist/web-colors'
+import { grayBlue } from 'grape-theme/dist/base-colors'
+import { link } from 'grape-theme/dist/web-colors'
 
 const border = {
   width: 2,
   style: 'solid',
-  color: 'transparent'
+  color: 'transparent',
 }
 
 const active = {
   isolate: false,
   borderBottomColor: link,
   color: link,
-  cursor: 'pointer'
+  cursor: 'pointer',
 }
 
 export const styles = {
@@ -25,10 +25,10 @@ export const styles = {
     textTransform: 'capitalize',
     padding: [10, 0],
     '&:hover': active,
-    '&:focus': active
+    '&:focus': active,
   },
   active: {
     extend: active,
-    cursor: 'default'
-  }
+    cursor: 'default',
+  },
 }

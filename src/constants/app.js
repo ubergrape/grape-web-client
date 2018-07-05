@@ -6,7 +6,7 @@ export const maxChannelDescriptionLength = 100
 // 0 Offline, 16 Online
 export const userStatusMap = {
   0: 'offline',
-  16: 'online'
+  16: 'online',
 }
 
 export const maxLinkAttachments = 5

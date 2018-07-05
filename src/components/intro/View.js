@@ -1,15 +1,15 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import fonts from 'grape-theme/dist/fonts'
 import injectSheet from 'grape-web/lib/jss'
-import {spacer} from 'grape-theme/dist/sizes'
-import {FormattedMessage} from 'react-intl'
+import { spacer } from 'grape-theme/dist/sizes'
+import { FormattedMessage } from 'react-intl'
 import Button from 'grape-web/lib/components/button'
-import {rgba} from 'css-functions'
+import { rgba } from 'css-functions'
 
-import {Done} from '../i18n'
+import { Done } from '../i18n'
 import Tooltip from './Tooltip'
-import {containerStyle} from './constants'
+import { containerStyle } from './constants'
 
 const styles = {
   root: containerStyle,
@@ -19,17 +19,17 @@ const styles = {
     color: 'inherit',
     fontWeight: 'bold',
     margin: 0,
-    paddingBottom: spacer.m
+    paddingBottom: spacer.m,
   },
   row: {
     display: 'flex',
     alignItems: 'flex-start',
     color: 'inherit',
-    marginBottom: spacer.xxl
+    marginBottom: spacer.xxl,
   },
   text: {
     extend: fonts.normal,
-    color: 'inherit'
+    color: 'inherit',
   },
   image: {
     flexShrink: 0,
@@ -41,27 +41,27 @@ const styles = {
       position: 'center',
       repeat: 'no-repeat',
       size: 'contain',
-      image: ({image}) => `url(${image})`
-    }
+      image: ({ image }) => `url(${image})`,
+    },
   },
   footer: {
     extend: fonts.small,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: 'inherit'
+    color: 'inherit',
   },
   button: {
     backgroundColor: rgba(0, 0, 0, 0.5),
     border: 'none',
     color: 'inherit',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   skip: {
     extend: fonts.small,
     color: 'inherit',
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 }
 
 const SkipButton = props => (
@@ -70,18 +70,21 @@ const SkipButton = props => (
     defaultMessage="Skip tutorial"
     description="Intro footer skip button"
   >
-    {(...children) => (
-      <Button {...props}>{children}</Button>
-      )}
+    {(...children) => <Button {...props}>{children}</Button>}
   </FormattedMessage>
 )
 
-const Footer = (props) => {
-  const {classes, onNext, onSkip, onDone, isLast} = props
+const Footer = props => {
+  const { classes, onNext, onSkip, onDone, isLast } = props
 
   if (isLast) {
     return (
-      <Button raised color="primary" className={classes.button} onClick={onDone}>
+      <Button
+        raised
+        color="primary"
+        className={classes.button}
+        onClick={onDone}
+      >
         <Done />
       </Button>
     )
@@ -95,7 +98,12 @@ const Footer = (props) => {
         description="Intro button continue."
       >
         {(...children) => (
-          <Button raised color="primary" className={classes.button} onClick={onNext}>
+          <Button
+            raised
+            color="primary"
+            className={classes.button}
+            onClick={onNext}
+          >
             {children}
           </Button>
         )}
@@ -105,14 +113,16 @@ const Footer = (props) => {
         defaultMessage="Already done?{skip}"
         description="Intro footer"
         values={{
-          skip: <SkipButton className={classes.skip} onClick={onSkip} />
+          skip: <SkipButton className={classes.skip} onClick={onSkip} />,
         }}
       />
     </div>
   )
 }
 
-const Div = ({className, children}) => <div className={className}>{children}</div>
+const Div = ({ className, children }) => (
+  <div className={className}>{children}</div>
+)
 
 @injectSheet(styles)
 export default class View extends PureComponent {
@@ -122,17 +132,24 @@ export default class View extends PureComponent {
     text: PropTypes.node.isRequired,
     beacon: PropTypes.string,
     background: PropTypes.string,
-    container: PropTypes.object
+    container: PropTypes.object,
   }
 
   static defaultProps = {
     beacon: undefined,
     background: undefined,
-    container: undefined
+    container: undefined,
   }
 
   render() {
-    const {classes, headline, text, beacon, background, container} = this.props
+    const {
+      classes,
+      headline,
+      text,
+      beacon,
+      background,
+      container,
+    } = this.props
 
     const Container = beacon ? Tooltip : Div
 

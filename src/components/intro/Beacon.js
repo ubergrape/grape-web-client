@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
@@ -11,8 +11,8 @@ import beacons from './beacons'
     position: 'absolute',
     visibility: 'hidden',
     height: 0,
-    width: 0
-  }
+    width: 0,
+  },
 })
 export default class Beacon extends PureComponent {
   static propTypes = {
@@ -22,7 +22,7 @@ export default class Beacon extends PureComponent {
     shift: PropTypes.object,
     arrowOffsetLeft: PropTypes.number,
     arrowOffsetTop: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -30,34 +30,34 @@ export default class Beacon extends PureComponent {
     shift: undefined,
     arrowOffsetLeft: undefined,
     arrowOffsetTop: undefined,
-    className: undefined
+    className: undefined,
   }
 
   componentWillMount() {
-    const {id} = this.props
-    beacons[id] = new Promise((resolve) => {
+    const { id } = this.props
+    beacons[id] = new Promise(resolve => {
       this.resolve = resolve
     })
   }
 
   componentDidMount() {
-    const {placement, shift, arrowOffsetLeft, arrowOffsetTop} = this.props
+    const { placement, shift, arrowOffsetLeft, arrowOffsetTop } = this.props
     this.resolve({
       target: this,
       placement,
       shift,
       arrowOffsetLeft,
-      arrowOffsetTop
+      arrowOffsetTop,
     })
   }
 
   componentWillUnmount() {
-    const {id} = this.props
+    const { id } = this.props
     delete beacons[id]
   }
 
   render() {
-    const {classes, className} = this.props
+    const { classes, className } = this.props
     return <span className={cn(classes.beacon, className)} />
   }
 }

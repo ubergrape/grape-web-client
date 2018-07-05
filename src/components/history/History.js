@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
@@ -9,14 +9,14 @@ import NoContent from './NoContent'
 import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
-import {createRowsState} from './utils'
+import { createRowsState } from './utils'
 import LoadingText from './LoadingText'
 
 function createState(state, props) {
-  const {rows, map} = createRowsState(state.rows, props.messages, props)
+  const { rows, map } = createRowsState(state.rows, props.messages, props)
   return {
     rows,
-    scrollTo: map[props.scrollTo]
+    scrollTo: map[props.scrollTo],
   }
 }
 
@@ -26,8 +26,8 @@ function createState(state, props) {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
-  }
+    bottom: 0,
+  },
 })
 export default class History extends PureComponent {
   static propTypes = {
@@ -42,7 +42,7 @@ export default class History extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
-      id: PropTypes.number.isRequired
+      id: PropTypes.number.isRequired,
     }),
     users: PropTypes.array,
     messages: PropTypes.array,
@@ -51,7 +51,7 @@ export default class History extends PureComponent {
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     minimumBatchSize: PropTypes.number,
-    isLoadingInitialData: PropTypes.bool
+    isLoadingInitialData: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -72,7 +72,7 @@ export default class History extends PureComponent {
     users: [],
     selectedMessageId: null,
     scrollTo: null,
-    minimumBatchSize: null
+    minimumBatchSize: null,
   }
 
   constructor(props) {
@@ -86,12 +86,14 @@ export default class History extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, selectedMessageId, messages} = nextProps
+    const { channel, selectedMessageId, messages } = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
-    const selectedMessageHasChanged = this.props.selectedMessageId !== selectedMessageId
-    const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
+    const selectedMessageHasChanged =
+      this.props.selectedMessageId !== selectedMessageId
+    const channelHasChanged =
+      get(channel, 'id') !== get(this.props, 'channel.id')
 
     if (selectedMessageHasChanged || channelHasChanged) {
       this.needsInitialLoad = true
@@ -102,7 +104,7 @@ export default class History extends PureComponent {
       this.setState(createState(this.state, nextProps))
     }
     if (this.props.scrollTo !== nextProps.scrollTo) {
-      this.setState({scrollTo: nextProps.scrollTo})
+      this.setState({ scrollTo: nextProps.scrollTo })
     }
   }
 
@@ -118,16 +120,16 @@ export default class History extends PureComponent {
     }
   }
 
-  onToggleExpander = ({id, isExpanded}) => {
-    const rows = this.state.rows.map((row) => {
+  onToggleExpander = ({ id, isExpanded }) => {
+    const rows = this.state.rows.map(row => {
       if (row.id !== id) return row
-      return {...row, isExpanded}
+      return { ...row, isExpanded }
     })
-    this.setState({rows})
+    this.setState({ rows })
   }
 
   load() {
-    const {isLoadingInitialData, channel, onLoad} = this.props
+    const { isLoadingInitialData, channel, onLoad } = this.props
 
     if (this.needsInitialLoad && !isLoadingInitialData && channel) {
       this.needsInitialLoad = false
@@ -135,7 +137,7 @@ export default class History extends PureComponent {
     }
   }
 
-  renderRow = ({index, key, style}) => (
+  renderRow = ({ index, key, style }) => (
     <Row
       {...this.state.rows[index]}
       key={key}
@@ -146,7 +148,7 @@ export default class History extends PureComponent {
 
   render() {
     const {
-      sheet: {classes},
+      sheet: { classes },
       user,
       minimumBatchSize,
       channel,
@@ -159,9 +161,9 @@ export default class History extends PureComponent {
       onAddIntegration,
       onRead,
       isLoadingInitialData,
-      selectedMessageId
+      selectedMessageId,
     } = this.props
-    const {rows, scrollTo} = this.state
+    const { rows, scrollTo } = this.state
 
     if (isLoadingInitialData) return <LoadingText />
 
@@ -193,11 +195,11 @@ export default class History extends PureComponent {
           onRead={onRead}
           selectedMessageId={selectedMessageId}
         >
-          {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
+          {({ onRowsRendered: onRowsRenderedInReadMessageDispatcher }) => (
             <Jumper onJump={onJump}>
-              {({onScroll}) => (
+              {({ onScroll }) => (
                 <InfiniteList
-                  onRowsRendered={(params) => {
+                  onRowsRendered={params => {
                     onRowsRenderedInReadMessageDispatcher(params)
                     this.onRowsRendered(params)
                   }}

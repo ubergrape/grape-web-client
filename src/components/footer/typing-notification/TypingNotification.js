@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 
 import TypingUsers from './TypingUsers'
 
@@ -11,11 +11,11 @@ export default class TypingNotification extends PureComponent {
     cleanupTyping: PropTypes.func.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
-    className: null
+    className: null,
   }
 
   componentDidMount() {
@@ -27,14 +27,15 @@ export default class TypingNotification extends PureComponent {
   }
 
   cleanup = () => {
-    const {cleanupTyping, channels} = this.props
+    const { cleanupTyping, channels } = this.props
     cleanupTyping(channels)
   }
 
   render() {
-    const {channels, channel, className} = this.props
+    const { channels, channel, className } = this.props
 
-    if (!channel || !channels[channel.id] || !channels[channel.id].length) return null
+    if (!channel || !channels[channel.id] || !channels[channel.id].length)
+      return null
 
     return (
       <div className={className}>

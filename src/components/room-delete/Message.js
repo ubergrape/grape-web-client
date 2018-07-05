@@ -1,31 +1,29 @@
 import React from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  FormattedMessage
-} from 'react-intl'
-import {red} from 'grape-theme/dist/base-colors'
+import { FormattedMessage } from 'react-intl'
+import { red } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 const styles = {
   root: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   icon: {
     marginRight: 20,
     height: 40,
     width: 40,
-    fill: red
+    fill: red,
   },
   text: fonts.small,
   warning: {
     composes: '$text',
-    color: red
-  }
+    color: red,
+  },
 }
 
-const Message = ({classes}) => (
+const Message = ({ classes }) => (
   <div className={classes.root}>
     <Icon name="warning" className={classes.icon} />
     <div className={classes.message}>

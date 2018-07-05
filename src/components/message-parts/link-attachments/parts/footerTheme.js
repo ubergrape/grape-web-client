@@ -1,26 +1,26 @@
-import {grayBombay} from 'grape-theme/dist/base-colors'
-import {normal} from 'grape-theme/dist/fonts'
+import { grayBombay } from 'grape-theme/dist/base-colors'
+import { normal } from 'grape-theme/dist/fonts'
 
 export const styles = {
   container: {
     display: 'inline-flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   link: {
     color: grayBombay,
     textDecoration: 'none',
     '&:hover, &:focus': {
-      textDecoration: 'underline'
-    }
+      textDecoration: 'underline',
+    },
   },
   icon: {
     width: normal.fontSize,
     height: normal.fontSize,
-    marginRight: 5
+    marginRight: 5,
   },
   text: {
     lineHeight: 'normal',
     marginTop: 2,
-    color: grayBombay
-  }
+    color: grayBombay,
+  },
 }

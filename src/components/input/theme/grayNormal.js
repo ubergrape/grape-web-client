@@ -6,17 +6,17 @@ const theme = cloneDeep(gray)
 
 theme.styles.input = {
   ...theme.styles.input,
-  ...fonts.normal
+  ...fonts.normal,
 }
 
 theme.styles.inputError = {
   ...theme.styles.inputError,
-  ...fonts.normal
+  ...fonts.normal,
 }
 
 theme.styles.inputWarning = {
   ...theme.styles.inputWarning,
-  ...fonts.normal
+  ...fonts.normal,
 }
 
 export default theme

@@ -1,25 +1,20 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
-import {zIndex} from '../../../utils/z-index'
+import { zIndex } from '../../../utils/z-index'
 import More from './More'
 import MenuItem from './MenuItem'
-import {
-  fontSize,
-  borderSize,
-  padding,
-  firstLastPadding
-} from './constants'
+import { fontSize, borderSize, padding, firstLastPadding } from './constants'
 
-const getWidth = (total) => {
-  const itemWidth = fontSize + (borderSize * 2) + (padding * 2)
+const getWidth = total => {
+  const itemWidth = fontSize + borderSize * 2 + padding * 2
   if (total === 1) return itemWidth
 
   const itemsWidth = (total - 2) * itemWidth
   const firstLastItemsWidth = fontSize + borderSize + firstLastPadding + padding
-  return (firstLastItemsWidth * 2) + (itemsWidth > 0 ? itemsWidth : 0)
+  return firstLastItemsWidth * 2 + (itemsWidth > 0 ? itemsWidth : 0)
 }
 
 const getPosition = (contentNode, total) => {
@@ -30,18 +25,18 @@ const getPosition = (contentNode, total) => {
 @injectSheet({
   root: {
     whiteSpace: 'nowrap',
-    zIndex: zIndex('base')
+    zIndex: zIndex('base'),
   },
   top: {
     position: 'absolute',
     top: -13,
-    right: 15
+    right: 15,
   },
   right: {
     position: 'absolute',
     top: 1,
-    left: `calc(100% + ${firstLastPadding}px)`
-  }
+    left: `calc(100% + ${firstLastPadding}px)`,
+  },
 })
 export default class Menu extends PureComponent {
   static propTypes = {
@@ -49,12 +44,12 @@ export default class Menu extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    showDropdown: PropTypes.bool
+    showDropdown: PropTypes.bool,
   }
 
   static defaultProps = {
     showDropdown: false,
-    onSelect: noop
+    onSelect: noop,
   }
 
   render() {

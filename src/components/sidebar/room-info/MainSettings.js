@@ -1,32 +1,32 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 
-import {maxChannelNameLength} from '../../../constants/app'
+import { maxChannelNameLength } from '../../../constants/app'
 import {
   isAllOff,
   isAllInherit,
-  values as notificationSettingsValues
+  values as notificationSettingsValues,
 } from '../../../utils/notification-settings'
 import EditableText from '../../editable-text/EditableText'
-import {RoomIconSettings} from '../../room-icon-settings'
+import { RoomIconSettings } from '../../room-icon-settings'
 import Tooltip from '../../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
-import {settingsButtonSize} from './constants'
+import { settingsButtonSize } from './constants'
 
 const messages = defineMessages({
   placeholder: {
     id: 'enterGroupNameHere',
-    defaultMessage: 'Enter group name here…'
-  }
+    defaultMessage: 'Enter group name here…',
+  },
 })
 
-const NotificationSettingsButton = ({classes, settings, onShow}) => {
+const NotificationSettingsButton = ({ classes, settings, onShow }) => {
   let state = 'Custom'
   if (isAllOff(settings)) state = 'Off'
   if (isAllInherit(settings)) state = 'Inherit'
@@ -36,15 +36,17 @@ const NotificationSettingsButton = ({classes, settings, onShow}) => {
       align="right"
       placement="top"
       arrowMargin={Math.round(settingsButtonSize / 2)}
-      message={(
+      message={
         <FormattedMessage
           id="notificationSettingsTooltip"
           defaultMessage="Edit notification settings"
         />
-      )}
+      }
     >
       <button
-        className={`${classes.notificationsButton} ${classes[`notificationsButton${state}`]}`}
+        className={`${classes.notificationsButton} ${
+          classes[`notificationsButton${state}`]
+        }`}
         onClick={onShow}
       />
     </Tooltip>
@@ -55,9 +57,9 @@ NotificationSettingsButton.propTypes = {
   onShow: PropTypes.func.isRequired,
   settings: PropTypes.shape({
     desktop: PropTypes.oneOf(notificationSettingsValues),
-    push: PropTypes.oneOf(notificationSettingsValues)
+    push: PropTypes.oneOf(notificationSettingsValues),
   }).isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 @injectIntl
@@ -71,34 +73,29 @@ export default class MainSettings extends PureComponent {
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.object.isRequired,
     notificationSettings: PropTypes.object.isRequired,
-    allowEdit: PropTypes.bool
+    allowEdit: PropTypes.bool,
   }
 
   static defaultProps = {
-    allowEdit: false
+    allowEdit: false,
   }
 
   onShowNotificationSettings = () => {
-    const {showNotificationSettings, channel} = this.props
-    showNotificationSettings({channel})
+    const { showNotificationSettings, channel } = this.props
+    showNotificationSettings({ channel })
   }
 
   getError() {
-    const {message} = this.props.renameError
+    const { message } = this.props.renameError
     if (!message) return undefined
     return {
       level: 'error',
-      message
+      message,
     }
   }
 
   renderAdditionalActions() {
-    const {
-      allowEdit,
-      classes,
-      channel,
-      notificationSettings
-    } = this.props
+    const { allowEdit, classes, channel, notificationSettings } = this.props
 
     return (
       <div className={classes.additionalActions}>
@@ -122,11 +119,11 @@ export default class MainSettings extends PureComponent {
   renderRoomName() {
     const {
       classes,
-      intl: {formatMessage},
+      intl: { formatMessage },
       renameRoom,
       clearRoomRenameError,
       channel,
-      allowEdit
+      allowEdit,
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
@@ -146,24 +143,18 @@ export default class MainSettings extends PureComponent {
   }
 
   renderSettings() {
-    const {
-      allowEdit,
-      classes
-    } = this.props
+    const { allowEdit, classes } = this.props
 
     if (!allowEdit) return null
     return (
       <div className={classes.settingsWrapper}>
-        <RoomIconSettings
-          {...this.props}
-          container={this}
-        />
+        <RoomIconSettings {...this.props} container={this} />
       </div>
     )
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
     return (
       <section className={classes.mainSettings}>
         {this.renderSettings()}

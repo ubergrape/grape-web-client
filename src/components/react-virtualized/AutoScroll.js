@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import findIndex from 'lodash/array/findIndex'
 
 /**
@@ -14,7 +14,7 @@ export default class AutoScroll extends PureComponent {
     // eslint-disable-next-line react/no-unused-prop-types
     scrollToIndex: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
-    scrollToRow: PropTypes.func.isRequired
+    scrollToRow: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -22,14 +22,14 @@ export default class AutoScroll extends PureComponent {
     // even when the scroll position is not exactly at the end of the history.
     minEndThreshold: 20,
     rows: [],
-    scrollToIndex: undefined
+    scrollToIndex: undefined,
   }
 
   // eslint-disable-next-line react/sort-comp
   direction = 0
 
   componentWillReceiveProps(nextProps) {
-    const {rows, height, minEndThreshold} = this.props
+    const { rows, height, minEndThreshold } = this.props
     const rowsHasChanged = nextProps.rows !== rows
 
     if (nextProps.scrollToIndex !== undefined) {
@@ -45,7 +45,9 @@ export default class AutoScroll extends PureComponent {
     // to the old position.
     if (rowsHasChanged && this.direction < 0 && this.scrollTop === 0) {
       const prevFirstRenderedRowId = rows[this.startIndex].id
-      const prevFirstRowIndex = findIndex(nextProps.rows, {id: prevFirstRenderedRowId})
+      const prevFirstRowIndex = findIndex(nextProps.rows, {
+        id: prevFirstRenderedRowId,
+      })
       if (prevFirstRowIndex !== -1) {
         this.scrollToIndex = prevFirstRowIndex
         this.scrollToAlignment = 'start'
@@ -57,7 +59,8 @@ export default class AutoScroll extends PureComponent {
     // - Rows has been changed.
     // - Parent size has changed.
     if (rowsHasChanged || nextProps.height !== height) {
-      const endThreshold = this.scrollHeight - this.scrollTop - this.clientHeight
+      const endThreshold =
+        this.scrollHeight - this.scrollTop - this.clientHeight
 
       // We are at the end within a threshold where we need to ensure last
       // message is always in view.
@@ -68,7 +71,7 @@ export default class AutoScroll extends PureComponent {
     }
   }
 
-  onScroll = ({scrollHeight, clientHeight, scrollTop}) => {
+  onScroll = ({ scrollHeight, clientHeight, scrollTop }) => {
     if (this.scrollTop !== undefined) {
       this.direction = scrollTop - this.scrollTop
     }
@@ -78,7 +81,7 @@ export default class AutoScroll extends PureComponent {
     this.scrollToIndex = undefined
   }
 
-  onRowsRendered = ({startIndex}) => {
+  onRowsRendered = ({ startIndex }) => {
     this.startIndex = startIndex
   }
 
@@ -87,7 +90,7 @@ export default class AutoScroll extends PureComponent {
       onScroll: this.onScroll,
       onRowsRendered: this.onRowsRendered,
       scrollToIndex: this.scrollToIndex,
-      scrollToAlignment: this.scrollToAlignment
+      scrollToAlignment: this.scrollToAlignment,
     })
   }
 }

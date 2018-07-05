@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import sample from 'lodash/collection/sample'
-import {colors, icons} from 'grape-theme/dist/room-settings'
+import { colors, icons } from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
-import {Create} from '../i18n/i18n'
-import {styles} from './newConversationTheme'
+import { Create } from '../i18n/i18n'
+import { styles } from './newConversationTheme'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import AdvancedSettings from './AdvancedSettings'
 
@@ -21,14 +17,14 @@ const getInitialState = () => ({
   saving: false,
   focusedInput: 'users',
   color: sample(colors),
-  icon: sample(icons)
+  icon: sample(icons),
 })
 
 const messages = defineMessages({
   title: {
     id: 'newConversation',
-    defaultMessage: 'New Conversation'
-  }
+    defaultMessage: 'New Conversation',
+  },
 })
 
 @injectSheet(styles)
@@ -47,82 +43,83 @@ export default class NewConversationDialog extends PureComponent {
     clearRoomCreateError: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
-    show: PropTypes.bool
+    show: PropTypes.bool,
   }
 
   static defaultProps = {
     organization: null,
-    show: false
+    show: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       ...getInitialState(),
-      error: props.error.message
+      error: props.error.message,
     }
   }
 
-  componentWillReceiveProps({show, error}) {
+  componentWillReceiveProps({ show, error }) {
     if (!show) {
       this.setState(getInitialState())
       return
     }
 
-    const {message} = error
+    const { message } = error
     if (message !== this.state.error) {
       this.setState({
         error: message,
-        saving: false
+        saving: false,
       })
       return
     }
 
-    this.setState({saving: false})
+    this.setState({ saving: false })
   }
 
   componentDidUpdate(prevProps) {
-    const {show, searchUsers} = this.props
+    const { show, searchUsers } = this.props
     // Initial population first time dialog was showed.
     if (show && !prevProps.show) searchUsers('')
   }
 
-  onSetRoomIcon = (icon) => {
-    this.setState({icon})
+  onSetRoomIcon = icon => {
+    this.setState({ icon })
   }
 
-  onSetRoomColor = (color) => {
-    this.setState({color})
+  onSetRoomColor = color => {
+    this.setState({ color })
   }
 
-  onChangeRoomName = ({name}) => {
-    this.setState({name})
+  onChangeRoomName = ({ name }) => {
+    this.setState({ name })
   }
 
   onPrivacyChange = () => {
-    this.setState({isPublic: !this.state.isPublic})
+    this.setState({ isPublic: !this.state.isPublic })
   }
 
   onCreate = () => {
-    const {
-      listed, openPm, createRoomWithUsers, organization
-    } = this.props
-    const {name, color, icon, isPublic} = this.state
+    const { listed, openPm, createRoomWithUsers, organization } = this.props
+    const { name, color, icon, isPublic } = this.state
 
     if (listed.length === 1 && !name) {
-      this.setState({saving: true})
+      this.setState({ saving: true })
       openPm(listed[0].id)
       return
     }
 
-    this.setState({saving: true})
-    createRoomWithUsers({
-      name,
-      icon,
-      color,
-      organization,
-      isPublic
-    }, listed)
+    this.setState({ saving: true })
+    createRoomWithUsers(
+      {
+        name,
+        icon,
+        color,
+        organization,
+        isPublic,
+      },
+      listed,
+    )
   }
 
   onHide = () => {
@@ -131,16 +128,24 @@ export default class NewConversationDialog extends PureComponent {
   }
 
   onClickRoomName = () => {
-    this.setState({focusedInput: 'name'})
+    this.setState({ focusedInput: 'name' })
   }
 
   onClickList = () => {
-    this.setState({focusedInput: 'users'})
+    this.setState({ focusedInput: 'users' })
   }
 
   renderSettings = () => {
-    const {classes, clearRoomCreateError} = this.props
-    const {focusedInput, error, isPublic, saving, name, color, icon} = this.state
+    const { classes, clearRoomCreateError } = this.props
+    const {
+      focusedInput,
+      error,
+      isPublic,
+      saving,
+      name,
+      color,
+      icon,
+    } = this.state
 
     return (
       <div className={classes.advancedSettings}>
@@ -165,11 +170,8 @@ export default class NewConversationDialog extends PureComponent {
   }
 
   renderFooter() {
-    const {
-      classes,
-      listed
-    } = this.props
-    const {name} = this.state
+    const { classes, listed } = this.props
+    const { name } = this.state
 
     return (
       <div className={classes.footer}>
@@ -186,12 +188,15 @@ export default class NewConversationDialog extends PureComponent {
 
   render() {
     const {
-      classes, searchUsers,
-      addToNewConversation, removeFromNewConversation,
-      organization, intl: {formatMessage},
+      classes,
+      searchUsers,
+      addToNewConversation,
+      removeFromNewConversation,
+      organization,
+      intl: { formatMessage },
       ...chooseUsersProps
     } = this.props
-    const {focusedInput} = this.state
+    const { focusedInput } = this.state
 
     if (!organization) return null
 
@@ -199,7 +204,7 @@ export default class NewConversationDialog extends PureComponent {
       <ChooseUsersDialog
         {...chooseUsersProps}
         title={formatMessage(messages.title)}
-        theme={{classes}}
+        theme={{ classes }}
         onHide={this.onHide}
         onClickList={this.onClickList}
         isFilterFocused={focusedInput !== 'name'}

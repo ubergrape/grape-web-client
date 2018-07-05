@@ -2,12 +2,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './tooltipTheme'
-import {
-  getPlacementStyles,
-  getPointerPlacement,
-  getBodyMargin
-} from './utils'
+import { styles } from './tooltipTheme'
+import { getPlacementStyles, getPointerPlacement, getBodyMargin } from './utils'
 
 function Tooltip(props) {
   const {
@@ -18,21 +14,21 @@ function Tooltip(props) {
     placement,
     arrowOffsetLeft,
     arrowOffsetTop,
-    shift
+    shift,
   } = props
-  const {arrowSize, borderSize} = theme
+  const { arrowSize, borderSize } = theme
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
   const left = arrowOffsetLeft || placementStyle.left || theme.arrowOffsetLeft
   const top = arrowOffsetTop || placementStyle.top || theme.arrowOffsetTop
   const pointerStyle = {
     width: arrowSize,
     height: arrowSize,
-    ...getPointerPlacement(placement)
+    ...getPointerPlacement(placement),
   }
-  const pointerContainerStyle = {...placementStyle, left, top}
+  const pointerContainerStyle = { ...placementStyle, left, top }
   const bodyStyle = getBodyMargin(arrowSize, placement)
 
-  const {style} = props
+  const { style } = props
 
   if (shift) {
     if (shift.left && style.left != null) style.left += shift.left
@@ -54,10 +50,7 @@ function Tooltip(props) {
           style={pointerStyle}
         />
       </i>
-      <div
-        className={`${theme.classes.body}`}
-        style={bodyStyle}
-      >
+      <div className={`${theme.classes.body}`} style={bodyStyle}>
         {children}
       </div>
     </div>
@@ -78,8 +71,8 @@ Tooltip.propTypes = {
       tooltip: PropTypes.string,
       arrow: PropTypes.string,
       pointer: PropTypes.string,
-      body: PropTypes.string
-    })
+      body: PropTypes.string,
+    }),
   }).isRequired,
   style: PropTypes.object,
   placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom']),
@@ -89,8 +82,8 @@ Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
   shift: PropTypes.shape({
     top: PropTypes.number,
-    left: PropTypes.number
-  })
+    left: PropTypes.number,
+  }),
 }
 
 Tooltip.defaultProps = {
@@ -99,7 +92,7 @@ Tooltip.defaultProps = {
   style: undefined,
   arrowOffsetLeft: undefined,
   arrowOffsetTop: undefined,
-  onClick: undefined
+  onClick: undefined,
 }
 
 export default injectSheet(styles)(Tooltip)

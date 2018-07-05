@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false
+  show: false,
 }
 
 export default function reduce(state = initialState, action) {
@@ -9,11 +9,11 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_REMOVE_LINK_ATTACHMENT:
       return {
         show: true,
-        ...action.payload
+        ...action.payload,
       }
     case types.HIDE_REMOVE_LINK_ATTACHMENT:
       return {
-        show: false
+        show: false,
       }
     default:
       return state

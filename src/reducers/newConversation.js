@@ -5,7 +5,7 @@ const initialState = {
   filter: '',
   creatingRoom: false,
   listed: [],
-  found: []
+  found: [],
 }
 
 export default function reduce(state = initialState, action) {
@@ -13,7 +13,7 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_NEW_CONVERSATION:
       return {
         ...initialState,
-        show: true
+        show: true,
       }
     case types.HIDE_NEW_CONVERSATION:
     case types.SET_CHANNEL:
@@ -21,32 +21,32 @@ export default function reduce(state = initialState, action) {
     case types.ADD_TO_NEW_CONVERSATION:
       return {
         ...state,
-        listed: [...state.listed, action.payload]
+        listed: [...state.listed, action.payload],
       }
     case types.REMOVE_FROM_NEW_CONVERSATION:
       return {
         ...state,
-        listed: state.listed.filter(member => member.id !== action.payload.id)
+        listed: state.listed.filter(member => member.id !== action.payload.id),
       }
     case types.REQUEST_SEARCH_USERS:
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
       }
     case types.HANDLE_SEARCH_USERS: {
-      const {search, users} = action.payload
+      const { search, users } = action.payload
       // Filter has changed while we have been waiting for result, ignore the result.
       if (state.filter !== search) return state
 
       return {
         ...state,
-        found: users
+        found: users,
       }
     }
     case types.REQUEST_ROOM_CREATE:
       return {
         ...state,
-        creatingRoom: true
+        creatingRoom: true,
       }
     default:
       return state

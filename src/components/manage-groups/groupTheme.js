@@ -1,5 +1,5 @@
-import {grayDark, white} from 'grape-theme/dist/base-colors'
-import {link} from 'grape-theme/dist/web-colors'
+import { grayDark, white } from 'grape-theme/dist/base-colors'
+import { link } from 'grape-theme/dist/web-colors'
 
 import buttonPrimary from '../button/primary'
 import buttonDanger from '../button/danger'
@@ -7,7 +7,7 @@ import buttonDanger from '../button/danger'
 const horizontalSpacing = 20
 const btn = {
   marginLeft: horizontalSpacing,
-  textTransform: 'capitalize'
+  textTransform: 'capitalize',
 }
 
 export const styles = {
@@ -20,22 +20,22 @@ export const styles = {
       backgroundColor: link,
       '& $name': {
         isolate: false,
-        color: white
+        color: white,
       },
       '&, & *': {
         isolate: false,
-        cursor: 'pointer'
-      }
-    }
+        cursor: 'pointer',
+      },
+    },
   },
   name: {},
   group: {
-    flex: 1
+    flex: 1,
   },
   joined: {
-    extend: [buttonDanger, btn]
+    extend: [buttonDanger, btn],
   },
   unjoined: {
-    extend: [buttonPrimary, btn]
-  }
+    extend: [buttonPrimary, btn],
+  },
 }

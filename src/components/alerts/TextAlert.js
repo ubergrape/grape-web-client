@@ -1,12 +1,12 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import * as types from '../../constants/alerts'
 
 export default class TextAlert extends PureComponent {
   static propTypes = {
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   }
 
   render() {

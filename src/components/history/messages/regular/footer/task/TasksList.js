@@ -1,13 +1,20 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import List from 'grape-web/lib/components/list/list'
 
 import Header from './Header'
 import Item from './TaskListItem'
 
-export default ({classes, description, tasks, onClose, onSelectTask, onRemoveTask}) => (
+export default ({
+  classes,
+  description,
+  tasks,
+  onClose,
+  onSelectTask,
+  onRemoveTask,
+}) => (
   <div className={classes.tasksListView}>
     <Header
       classes={classes}

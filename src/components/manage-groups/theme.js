@@ -1,4 +1,4 @@
-import {grayBlue} from 'grape-theme/dist/base-colors'
+import { grayBlue } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 import buttonPrimary from '../button/primary'
@@ -9,21 +9,21 @@ export const styles = {
     display: 'block',
     height: 356,
     padding: [10, 0],
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   message: {
     extend: fonts.normal,
     color: grayBlue,
-    padding: [0, 20, 10]
+    padding: [0, 20, 10],
   },
   create: {
-    extend: buttonPrimary
+    extend: buttonPrimary,
   },
   header: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
-    flex: 1
-  }
+    flex: 1,
+  },
 }

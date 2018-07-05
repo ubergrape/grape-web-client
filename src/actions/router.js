@@ -1,19 +1,19 @@
 import find from 'lodash/collection/find'
-import {openUrl, getMode} from 'grape-web/lib/x-platform'
+import { openUrl, getMode } from 'grape-web/lib/x-platform'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {channelsSelector, channelSelector} from '../selectors'
-import {findLastUsedChannel} from './utils'
+import { channelsSelector, channelSelector } from '../selectors'
+import { findLastUsedChannel } from './utils'
 import * as history from '../app/history'
 
-import {setChannel, openPm, openChannel, handleBadChannel} from './'
+import { setChannel, openPm, openChannel, handleBadChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.GO_TO,
-      payload: options
+      payload: options,
     })
 
     openUrl(pathOrUrl, {
@@ -22,23 +22,25 @@ export function goTo(pathOrUrl, options = {}) {
       currChannel: conf.channelId,
       replace: options.replace,
       onExternal: window.open,
-      onRedirect: (url) => { location.href = url },
-      onSilentChange: (path, {channelId, messageId, mateId, type}) => {
+      onRedirect: url => {
+        location.href = url
+      },
+      onSilentChange: (path, { channelId, messageId, mateId, type }) => {
         if (type === 'channel') dispatch(openChannel(channelId, messageId))
         else dispatch(openPm(mateId))
       },
       onUpdateRouter: (path, method) => {
         history[method](path)
-      }
+      },
     })
   }
 }
 
 export function goToMessage(message) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.GO_TO_MESSAGE,
-      payload: message
+      payload: message,
     })
     dispatch(goTo(message.link))
   }
@@ -46,12 +48,13 @@ export function goToMessage(message) {
 
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
-    const {id: currentId} = channelSelector(getState())
-    if (channelOrChannelId === currentId || channelOrChannelId.id === currentId) return
+    const { id: currentId } = channelSelector(getState())
+    if (channelOrChannelId === currentId || channelOrChannelId.id === currentId)
+      return
     if (!conf.embed) {
       dispatch({
         type: types.GO_TO_CHANNEL,
-        payload: channelOrChannelId
+        payload: channelOrChannelId,
       })
     }
 
@@ -59,9 +62,9 @@ export function goToChannel(channelOrChannelId, options) {
 
     if (typeof channelOrChannelId === 'number') {
       const channels = channelsSelector(getState())
-      channel = find(channels, ({id}) => id === channelOrChannelId)
+      channel = find(channels, ({ id }) => id === channelOrChannelId)
       // Assume we don't have always have all channels in the future.
-      if (!channel) channel = {id: channelOrChannelId, slug: ''}
+      if (!channel) channel = { id: channelOrChannelId, slug: '' }
     }
     const slug = channel.slug == null ? channel.partner.username : channel.slug
 
@@ -78,29 +81,29 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
 }
 
 export function goToPayment() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_PAYMENT})
+  return dispatch => {
+    dispatch({ type: types.GO_TO_PAYMENT })
     dispatch(goTo('/payment'))
   }
 }
 
 export function goToAddIntegrations() {
-  return (dispatch) => {
-    dispatch({type: types.GO_TO_ADD_INTEGRATIONS})
+  return dispatch => {
+    dispatch({ type: types.GO_TO_ADD_INTEGRATIONS })
     dispatch(goTo('/integrations'))
   }
 }
 
-export const handleChangeRoute = ({name, params}) => (dispatch) => {
+export const handleChangeRoute = ({ name, params }) => dispatch => {
   dispatch({
     type: types.HANDLE_CHANGE_ROUTE,
-    payload: {name, params}
+    payload: { name, params },
   })
 
   switch (name) {
     case 'pm': {
       // We have yet to find the pm channel using user id and replace current route.
-      dispatch(openPm(params.mateId, {replace: true}))
+      dispatch(openPm(params.mateId, { replace: true }))
       break
     }
     case 'channel': {

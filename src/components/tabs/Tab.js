@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './tabTheme'
+import { styles } from './tabTheme'
 
 @injectSheet(styles)
 export default class Tab extends PureComponent {
@@ -10,14 +10,11 @@ export default class Tab extends PureComponent {
     active: PropTypes.bool,
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
-  onClick = (e) => {
-    const {
-      onClick,
-      filter
-    } = this.props
+  onClick = e => {
+    const { onClick, filter } = this.props
     e.preventDefault()
     onClick(filter)
   }
@@ -26,7 +23,7 @@ export default class Tab extends PureComponent {
     const {
       active,
       children,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     if (active) {
@@ -36,11 +33,7 @@ export default class Tab extends PureComponent {
     }
 
     return (
-      <button
-        className={classes.tab}
-        type="button"
-        onClick={this.onClick}
-      >
+      <button className={classes.tab} type="button" onClick={this.onClick}>
         {children}
       </button>
     )

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
 import capitalize from 'lodash/string/capitalize'
@@ -7,13 +7,13 @@ import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 
-import {styles} from './theme'
+import { styles } from './theme'
 import Dialog from '../dialog/Dialog'
-import {Done} from '../i18n/i18n'
-import {isAllOff, values} from '../../utils/notification-settings'
+import { Done } from '../i18n/i18n'
+import { isAllOff, values } from '../../utils/notification-settings'
 
 const statuses = ['pending', 'complete']
 
@@ -21,42 +21,46 @@ const messages = defineMessages({
   title: {
     id: 'notificationSettingsTitle',
     defaultMessage: 'Notification in {group}',
-    description: 'Notification settings dialog.'
+    description: 'Notification settings dialog.',
   },
   inherit: {
     id: 'notificationSettingDefault',
     defaultMessage: 'Default Notification Settings',
-    description: 'Notification setting name.'
+    description: 'Notification setting name.',
   },
   all: {
     id: 'notificationSettingAll',
     defaultMessage: 'All messages',
-    description: 'Notification setting name.'
+    description: 'Notification setting name.',
   },
   anyMention: {
     id: 'notificationSettingAnyMention',
     defaultMessage: 'Mentions and announcements (@room)',
-    description: 'Notification setting name.'
+    description: 'Notification setting name.',
   },
   directMention: {
     id: 'notificationSettingDirectMention',
     defaultMessage: 'Direct mentions only (@{user})',
-    description: 'Notification setting name.'
+    description: 'Notification setting name.',
   },
   off: {
     id: 'notificationSettingOff',
     defaultMessage: 'Nothing',
-    description: 'Notification setting name.'
-  }
+    description: 'Notification setting name.',
+  },
 })
 
-const Title = ({classes, children, setting, status}) => (
+const Title = ({ classes, children, setting, status }) => (
   <div className={classes.titleContainer}>
-    <span className={`${classes[`titleIcon${capitalize(setting)}`]} ${classes.iconColumn}`} />
-    <h3 className={classes.titleHeadline}>
-      {children}
-    </h3>
-    <span className={`${classes.status} ${!status ? classes.statusHidden : ''}`}>
+    <span
+      className={`${classes[`titleIcon${capitalize(setting)}`]} ${
+        classes.iconColumn
+      }`}
+    />
+    <h3 className={classes.titleHeadline}>{children}</h3>
+    <span
+      className={`${classes.status} ${!status ? classes.statusHidden : ''}`}
+    >
       <FormattedMessage
         id="notificationSettingStatusComplete"
         defaultMessage="saved"
@@ -69,24 +73,24 @@ Title.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired,
   setting: PropTypes.oneOf(['muteAll', 'desktop', 'push']).isRequired,
-  status: PropTypes.oneOf(statuses)
+  status: PropTypes.oneOf(statuses),
 }
 
-const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) => (
+const MuteAllSetting = ({
+  classes,
+  status,
+  value,
+  channel,
+  onChange,
+  onLeave,
+}) => (
   <div className={classes.setting}>
     <Title classes={classes} setting="muteAll" status={status}>
-      <FormattedMessage
-        id="muteGroupTitle"
-        defaultMessage="Mute this Group"
-      />
+      <FormattedMessage id="muteGroupTitle" defaultMessage="Mute this Group" />
     </Title>
     <label className={classes.label}>
       <span className={classes.iconColumn}>
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={onChange}
-        />
+        <input type="checkbox" checked={value} onChange={onChange} />
       </span>
       <FormattedMessage
         id="muteAllNotifications"
@@ -103,14 +107,14 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
           values={{
             channel: channel.name,
             leaveButton: (
-              <button className={classes.buttonLink}onClick={onLeave}>
+              <button className={classes.buttonLink} onClick={onLeave}>
                 <FormattedMessage
                   id="clickHereInlineLink"
                   defaultMessage="click here"
                   description={'Link used inline in the middle of a sentence.'}
                 />
               </button>
-            )
+            ),
           }}
         />
       </p>
@@ -124,14 +128,20 @@ MuteAllSetting.propTypes = {
   channel: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses)
+  status: PropTypes.oneOf(statuses),
 }
 
-const Select = ({classes, user, onChange, formatMessage, value: selected}) => (
+const Select = ({
+  classes,
+  user,
+  onChange,
+  formatMessage,
+  value: selected,
+}) => (
   <select onChange={onChange} value={selected} className={classes.select}>
     {values.map(value => (
       <option value={value} key={value}>
-        {formatMessage(messages[value], {user: user.displayName})}
+        {formatMessage(messages[value], { user: user.displayName })}
       </option>
     ))}
   </select>
@@ -140,14 +150,14 @@ const Select = ({classes, user, onChange, formatMessage, value: selected}) => (
 Select.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.shape({
-    displayName: PropTypes.string.isRequired
+    displayName: PropTypes.string.isRequired,
   }).isRequired,
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
-  formatMessage: PropTypes.func.isRequired
+  formatMessage: PropTypes.func.isRequired,
 }
 
-const DesktopSetting = ({classes, status, ...rest}) => (
+const DesktopSetting = ({ classes, status, ...rest }) => (
   <div className={classes.groupedSetting}>
     <Title classes={classes} setting="desktop" status={status}>
       <FormattedMessage
@@ -163,10 +173,10 @@ DesktopSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses)
+  status: PropTypes.oneOf(statuses),
 }
 
-const PushSetting = ({classes, status, ...rest}) => (
+const PushSetting = ({ classes, status, ...rest }) => (
   <div className={classes.groupedSetting}>
     <Title classes={classes} setting="push" status={status}>
       <FormattedMessage
@@ -182,10 +192,10 @@ PushSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(statuses)
+  status: PropTypes.oneOf(statuses),
 }
 
-const Footer = ({classes, onClose}) => (
+const Footer = ({ classes, onClose }) => (
   <div className={classes.footer}>
     <div className={classes.hint}>
       <FormattedMessage
@@ -193,24 +203,29 @@ const Footer = ({classes, onClose}) => (
         defaultMessage="You can change the default preferences in your account's {link}"
         values={{
           link: (
-            <a className={classes.inlineLink} href="/accounts/settings/notifications/">
+            <a
+              className={classes.inlineLink}
+              href="/accounts/settings/notifications/"
+            >
               <FormattedMessage
                 id="notificationSettingsHintLink"
                 defaultMessage="notification settings"
                 description="An inline link in channel notification settings."
               />
             </a>
-          )
+          ),
         }}
       />
     </div>
-    <button className={classes.done} onClick={onClose}><Done /></button>
+    <button className={classes.done} onClick={onClose}>
+      <Done />
+    </button>
   </div>
 )
 
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 }
 
 @injectSheet(styles)
@@ -226,7 +241,7 @@ export default class NotificationSettings extends PureComponent {
     desktop: PropTypes.oneOf(values),
     push: PropTypes.oneOf(values),
     channel: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
   }
 
   constructor(props) {
@@ -238,47 +253,51 @@ export default class NotificationSettings extends PureComponent {
   componentWillUpdate() {
     each(this.state, (status, name) => {
       if (status !== 'pending') return
-      this.setState({[name]: 'complete'})
+      this.setState({ [name]: 'complete' })
       clearTimeout(this.timers[name])
       this.timers[name] = setTimeout(() => {
-        this.setState({[name]: undefined})
+        this.setState({ [name]: undefined })
       }, 1000)
     })
   }
 
   onToggleMuteAll = () => {
-    const {onChange, channel} = this.props
+    const { onChange, channel } = this.props
     const allMuted = isAllOff(this.props)
-    this.setState({muteAllStatus: 'pending'})
-    onChange(channel, {transport: 'all', setting: 'all', value: !allMuted})
+    this.setState({ muteAllStatus: 'pending' })
+    onChange(channel, { transport: 'all', setting: 'all', value: !allMuted })
   }
 
-  onChangeDesktop = (e) => {
-    const {value: setting} = e.target
-    const {onChange, channel} = this.props
-    this.setState({desktopStatus: 'pending'})
-    onChange(channel, {transport: 'desktop', setting, value: true})
+  onChangeDesktop = e => {
+    const { value: setting } = e.target
+    const { onChange, channel } = this.props
+    this.setState({ desktopStatus: 'pending' })
+    onChange(channel, { transport: 'desktop', setting, value: true })
   }
 
-  onChangePush = (e) => {
-    const {value: setting} = e.target
-    const {onChange, channel} = this.props
-    this.setState({pushStatus: 'pending'})
-    onChange(channel, {transport: 'push', setting, value: true})
+  onChangePush = e => {
+    const { value: setting } = e.target
+    const { onChange, channel } = this.props
+    this.setState({ pushStatus: 'pending' })
+    onChange(channel, { transport: 'push', setting, value: true })
   }
 
   onLeave = () => {
-    const {onLeave, onHide, channel} = this.props
+    const { onLeave, onHide, channel } = this.props
     onLeave(channel.id)
     onHide()
   }
 
   render() {
     const {
-      sheet: {classes},
-      intl: {formatMessage},
-      onHide, show, channel, user,
-      desktop, push
+      sheet: { classes },
+      intl: { formatMessage },
+      onHide,
+      show,
+      channel,
+      user,
+      desktop,
+      push,
     } = this.props
 
     if (!channel || !desktop) return null
@@ -289,7 +308,7 @@ export default class NotificationSettings extends PureComponent {
       <Dialog
         show={show}
         onHide={onHide}
-        title={formatMessage(messages.title, {group: channel.name})}
+        title={formatMessage(messages.title, { group: channel.name })}
       >
         <div className={classes.notificationSettings}>
           <section className={classes.section}>

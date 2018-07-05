@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import debounce from 'lodash/function/debounce'
 
@@ -11,9 +11,11 @@ export function isRangeVisible({
   lastRenderedStartIndex,
   lastRenderedStopIndex,
   startIndex,
-  stopIndex
+  stopIndex,
 }) {
-  return !(startIndex > lastRenderedStopIndex || stopIndex < lastRenderedStartIndex)
+  return !(
+    startIndex > lastRenderedStopIndex || stopIndex < lastRenderedStartIndex
+  )
 }
 
 /**
@@ -62,7 +64,7 @@ export default class InfiniteLoader extends PureComponent {
      * A threshold X means that data will start loading when a user scrolls within X rows.
      * This value defaults to 15.
      */
-    threshold: PropTypes.number.isRequired
+    threshold: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -70,7 +72,7 @@ export default class InfiniteLoader extends PureComponent {
     threshold: 15,
     onTouchTopEdge: noop,
     loadMoreRows: noop,
-    isRowLoaded: noop
+    isRowLoaded: noop,
   }
 
   constructor(props, context) {
@@ -79,7 +81,7 @@ export default class InfiniteLoader extends PureComponent {
   }
 
   onScrollStop = debounce(() => {
-    const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
+    const { threshold, loadMoreRows, isRowLoaded, onTouchTopEdge } = this.props
     if (this.direction === 0) return
 
     if (this.direction > 0) {
@@ -100,7 +102,7 @@ export default class InfiniteLoader extends PureComponent {
     }
   }, 20)
 
-  onScroll = ({scrollTop}) => {
+  onScroll = ({ scrollTop }) => {
     // We don't care about overscroll.
     if (this.scrollTop !== undefined && scrollTop >= 0) {
       this.direction = scrollTop - this.scrollTop
@@ -109,31 +111,31 @@ export default class InfiniteLoader extends PureComponent {
     this.onScrollStop()
   }
 
-  onRowsRendered = ({startIndex, stopIndex}) => {
+  onRowsRendered = ({ startIndex, stopIndex }) => {
     this.startIndex = startIndex
     this.stopIndex = stopIndex
   }
 
   getRange() {
-    const {minimumBatchSize} = this.props
+    const { minimumBatchSize } = this.props
 
     if (this.direction >= 0) {
       return {
         startIndex: this.stopIndex,
-        stopIndex: this.stopIndex + minimumBatchSize
+        stopIndex: this.stopIndex + minimumBatchSize,
       }
     }
 
     return {
       startIndex: this.startIndex - minimumBatchSize,
-      stopIndex: this.startIndex
+      stopIndex: this.startIndex,
     }
   }
 
   render() {
     return this.props.children({
       onRowsRendered: this.onRowsRendered,
-      onScroll: this.onScroll
+      onScroll: this.onScroll,
     })
   }
 }
