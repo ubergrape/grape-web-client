@@ -86,7 +86,9 @@ export default class GrapeInput extends Component {
         this.props.onSubmit({
           content,
           objects: apiObjects,
-          objectsOnly: parts.length === tokens.length,
+          objectsOnly:
+            parts.length === tokens.length &&
+            tokens.length === apiObjects.length,
         })
       },
     )
@@ -150,12 +152,19 @@ export default class GrapeInput extends Component {
   replace(result) {
     const object = createObject(result.type, result)
     const token = object.content
+
+    // Emojis are objects we want to highlight, but not apiObjects
+    let { apiObjects } = this.state
+    if (object.type === 'emoji') {
+      apiObjects = [...apiObjects, result]
+    }
+
     const state = {
       objects: {
         ...this.state.objects,
         [token]: object,
       },
-      apiObjects: [...this.state.apiObjects, result],
+      apiObjects,
     }
     this.setState(state, () => {
       this.input.replace(token)
