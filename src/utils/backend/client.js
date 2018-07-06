@@ -9,8 +9,8 @@ let instance
 
 export function create() {
   if (!instance) {
-    if (type === 'lp') instance = new LpioClient({url: conf.server.pubsubUrl})
-    if (type === 'ws') instance = new WampClient({url: conf.server.wsUrl})
+    if (type === 'lp') instance = new LpioClient({ url: conf.server.pubsubUrl })
+    if (type === 'ws') instance = new WampClient({ url: conf.server.wsUrl })
   }
   return instance
 }

@@ -1,12 +1,12 @@
-import {white} from 'grape-theme/dist/base-colors'
-import {small} from 'grape-theme/dist/fonts'
+import { white } from 'grape-theme/dist/base-colors'
+import { small } from 'grape-theme/dist/fonts'
 
 export const arrowSize = 10
 export const borderSize = 0
 
 export const styles = {
   pointer: {
-    background: 'rgba(0,0,0,0.8)'
+    background: 'rgba(0,0,0,0.8)',
   },
   body: {
     extend: small,
@@ -15,6 +15,6 @@ export const styles = {
     borderRadius: 5,
     padding: [8, 13],
     background: 'rgba(0,0,0,0.8)',
-    whiteSpace: 'inherit'
-  }
+    whiteSpace: 'inherit',
+  },
 }

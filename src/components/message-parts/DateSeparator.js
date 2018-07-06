@@ -1,39 +1,39 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {defineMessages, injectIntl} from 'react-intl'
+import { defineMessages, injectIntl } from 'react-intl'
 import moment from 'moment'
 
-import {styles} from './dateSeparatorTheme'
+import { styles } from './dateSeparatorTheme'
 
 const messages = defineMessages({
   today: {
     id: 'dateSeparatorToday',
     description: 'Date separator used in history, search, mentions etc.',
-    defaultMessage: 'Today, {date}'
+    defaultMessage: 'Today, {date}',
   },
   yesterday: {
     id: 'dateSeparatorYesterday',
     description: 'Date separator used in history, search, mentions etc.',
-    defaultMessage: 'Yesterday, {date}'
-  }
+    defaultMessage: 'Yesterday, {date}',
+  },
 })
 
-function format({date, intl: {formatDate, formatMessage}}) {
+function format({ date, intl: { formatDate, formatMessage } }) {
   const now = moment()
   const isToday = moment(date).isSame(now, 'day')
 
   const dateStr = formatDate(date, {
     year: 'numeric',
     month: 'short',
-    day: '2-digit'
+    day: '2-digit',
   })
 
-  if (isToday) return formatMessage(messages.today, {date: dateStr})
+  if (isToday) return formatMessage(messages.today, { date: dateStr })
 
   const isYesterday = moment(date).isSame(now.subtract(1, 'day'), 'day')
 
-  if (isYesterday) return formatMessage(messages.yesterday, {date: dateStr})
+  if (isYesterday) return formatMessage(messages.yesterday, { date: dateStr })
 
   return dateStr
 }
@@ -44,18 +44,21 @@ export default class DateSeparator extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date),
-    theme: PropTypes.object
+    theme: PropTypes.object,
   }
 
   static defaultProps = {
     date: new Date(),
     theme: {
-      date: ''
-    }
+      date: '',
+    },
   }
 
   render() {
-    const {theme, sheet: {classes}} = this.props
+    const {
+      theme,
+      sheet: { classes },
+    } = this.props
 
     return (
       <div className={classes.separator}>

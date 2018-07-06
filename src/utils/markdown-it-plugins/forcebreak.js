@@ -33,12 +33,12 @@ function plugin(state) {
       state.tokens.splice(j, 0, ...Array(diff).fill(token))
 
       // On the next iteration `i` will point at the next `block` token.
-      i = (j + diff) - 1
+      i = j + diff - 1
     }
   }
 }
 
-export default (md) => {
+export default md => {
   // Run plugin after blocks have been tokenized.
   md.core.ruler.after('block', 'forcebreak', plugin)
 }

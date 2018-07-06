@@ -1,10 +1,12 @@
-function filterUserByValue(value, {username, displayName}) {
+function filterUserByValue(value, { username, displayName }) {
   const lowerCaseValue = value.toLowerCase()
-  return username.toLowerCase().includes(lowerCaseValue) ||
+  return (
+    username.toLowerCase().includes(lowerCaseValue) ||
     displayName.toLowerCase().includes(lowerCaseValue)
+  )
 }
 
-function sortUserByValue(value, {username, displayName}) {
+function sortUserByValue(value, { username, displayName }) {
   const lowerCaseValue = value.toLowerCase()
   if (
     username.toLowerCase().startsWith(lowerCaseValue) ||
@@ -34,7 +36,7 @@ function sortUserByPm(a, b) {
   return 0
 }
 
-export function getFilteredUsers({users, filter}) {
+export function getFilteredUsers({ users, filter }) {
   if (!filter) return users.sort(sortUserByPm)
 
   return users

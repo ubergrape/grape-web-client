@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
-import {RoomInfo} from './room-info'
+import { RoomInfo } from './room-info'
 import UserProfile from './user-profile/UserProfile'
 import MessageSearch from './message-search/MessageSearch'
 import LabeledMessages from './labeled-messages/LabeledMessages'
@@ -15,37 +11,37 @@ const messages = defineMessages({
   groupMentionsOption: {
     id: 'showRoomMentions',
     defaultMessage: 'Show Group mentions',
-    description: 'Option in messages mention sidebar.'
+    description: 'Option in messages mention sidebar.',
   },
   currentMentionsOption: {
     id: 'onlyInThisConversationMentions',
     defaultMessage: 'Only in this conversation',
-    description: 'Option in messages mention sidebar.'
+    description: 'Option in messages mention sidebar.',
   },
   currentConversationOption: {
     id: 'onlyInThisConversationMessages',
     defaultMessage: 'Only in this conversation',
-    description: 'Option in messages search sidebar.'
+    description: 'Option in messages search sidebar.',
   },
   searchActivitiesOption: {
     id: 'searchActivities',
     defaultMessage: 'Include activities',
-    description: 'Option in messages search sidebar.'
+    description: 'Option in messages search sidebar.',
   },
   mentionsTitle: {
     id: 'mentionsSidebarTitle',
-    defaultMessage: 'Mentions'
+    defaultMessage: 'Mentions',
   },
   searchTitle: {
     id: 'searchSidebarTitle',
-    defaultMessage: 'Search Results'
-  }
+    defaultMessage: 'Search Results',
+  },
 })
 
-const Content = (props) => {
+const Content = props => {
   const {
     show,
-    intl: {formatMessage},
+    intl: { formatMessage },
     loadMentions,
     loadRoomInfo,
     loadSharedFiles,
@@ -107,13 +103,13 @@ const Content = (props) => {
             {
               ...options.showRoomMentions,
               label: formatMessage(messages.groupMentionsOption),
-              handler: toggleShowRoomMentions
+              handler: toggleShowRoomMentions,
             },
             {
               ...options.showCurrentRoomMentions,
               label: formatMessage(messages.currentMentionsOption),
-              handler: toggleShowCurrentRoomMentions
-            }
+              handler: toggleShowCurrentRoomMentions,
+            },
           ]}
           showRoomMentions={options.showRoomMentions.status}
           showCurrentRoomMentions={options.showCurrentRoomMentions.status}
@@ -132,13 +128,13 @@ const Content = (props) => {
             {
               ...options.currentChannelOnly,
               label: formatMessage(messages.currentConversationOption),
-              handler: toggleSearchOnlyInChannel
+              handler: toggleSearchOnlyInChannel,
             },
             {
               ...options.searchActivities,
               label: formatMessage(messages.searchActivitiesOption),
-              handler: toggleSearchActivities
-            }
+              handler: toggleSearchActivities,
+            },
           ]}
           currentChannelOnly={options.currentChannelOnly.status}
           searchActivities={options.searchActivities.status}
@@ -153,11 +149,13 @@ const Content = (props) => {
         <LabeledMessages
           {...rest}
           currentChannelOnly={options.currentChannelOnly.status}
-          options={[{
-            ...options.currentChannelOnly,
-            label: formatMessage(messages.currentConversationOption),
-            handler: toggleSearchOnlyInChannel
-          }]}
+          options={[
+            {
+              ...options.currentChannelOnly,
+              label: formatMessage(messages.currentConversationOption),
+              handler: toggleSearchOnlyInChannel,
+            },
+          ]}
           onClose={hideSidebar}
           onLoad={loadLabeledMessages}
           onSelect={goToMessage}
@@ -181,7 +179,12 @@ Content.propTypes = {
   showSidebarSubview: PropTypes.func.isRequired,
   unpinMessage: PropTypes.func.isRequired,
   show: PropTypes.oneOf([
-    false, 'room', 'pm', 'mentions', 'search', 'labeledMessages'
+    false,
+    'room',
+    'pm',
+    'mentions',
+    'search',
+    'labeledMessages',
   ]).isRequired,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   toggleSearchActivities: PropTypes.func.isRequired,
@@ -195,63 +198,57 @@ Content.propTypes = {
   options: PropTypes.shape({
     currentChannelOnly: PropTypes.shape({
       show: PropTypes.bool,
-      status: PropTypes.bool
+      status: PropTypes.bool,
     }),
     searchActivities: PropTypes.shape({
       show: PropTypes.bool,
-      status: PropTypes.bool
+      status: PropTypes.bool,
     }),
     showRoomMentions: PropTypes.shape({
       show: PropTypes.bool,
-      status: PropTypes.bool
+      status: PropTypes.bool,
     }),
     showCurrentRoomMentions: PropTypes.shape({
       show: PropTypes.bool,
-      status: PropTypes.bool
-    })
-  }).isRequired
+      status: PropTypes.bool,
+    }),
+  }).isRequired,
 }
 
 Content.defaultProps = {
   options: {
     currentChannelOnly: {
       show: true,
-      status: false
+      status: false,
     },
     searchActivities: {
       show: true,
-      status: false
+      status: false,
     },
     showRoomMentions: {
       show: true,
-      status: false
+      status: false,
     },
     showCurrentRoomMentions: {
       show: true,
-      status: false
-    }
-  }
+      status: false,
+    },
+  },
 }
 
 @injectIntl
 export default class Sidebar extends PureComponent {
   static propTypes = {
-    show: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]).isRequired,
-    className: PropTypes.string
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
-    className: null
+    className: null,
   }
 
   render() {
-    const {
-      show,
-      className
-    } = this.props
+    const { show, className } = this.props
 
     if (!show) return null
 

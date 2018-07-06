@@ -1,4 +1,4 @@
-import {isChatUrl} from '../utils'
+import { isChatUrl } from '../utils'
 
 describe('Grapedown utils', () => {
   describe('isChatUrl', () => {

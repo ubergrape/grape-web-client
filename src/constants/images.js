@@ -14,5 +14,5 @@ export const mascot = {
   inSpace: `${baseUrl}/mascot/in-space.gif`,
   juggling: `${baseUrl}/mascot/juggling.png`,
   reading: `${baseUrl}/mascot/reading.png`,
-  regular: `${baseUrl}/mascot/regular.png`
+  regular: `${baseUrl}/mascot/regular.png`,
 }

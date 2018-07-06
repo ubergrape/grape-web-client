@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import icons from 'grape-web/lib/svg-icons/data'
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
-import {styles} from './sharedFileTheme'
+import { styles } from './sharedFileTheme'
 
 @injectSheet(styles)
 @injectIntl
@@ -22,28 +22,28 @@ export default class SharedFile extends PureComponent {
     intl: intlShape.isRequired,
     author: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    onOpen: PropTypes.func
+    onOpen: PropTypes.func,
   }
 
   static defaultProps = {
     author: undefined,
     thumbnailUrl: undefined,
-    onOpen: noop
+    onOpen: noop,
   }
 
   onOpen = () => {
-    const {onOpen, url} = this.props
+    const { onOpen, url } = this.props
     onOpen(url)
   }
 
-  setPreviewRef = (ref) => {
+  setPreviewRef = ref => {
     this.preview = ref
   }
 
   getPreviewRef = () => this.preview
 
   renderPreview() {
-    const {thumbnailUrl, classes, category} = this.props
+    const { thumbnailUrl, classes, category } = this.props
     let className
     let backgroundImage
 
@@ -60,18 +60,26 @@ export default class SharedFile extends PureComponent {
       <div
         ref={this.setPreviewRef}
         className={className}
-        style={{backgroundImage}}
+        style={{ backgroundImage }}
       />
     )
   }
 
   renderSection(handleClick) {
     const {
-      channelType, channelName, time, author, name,
+      channelType,
+      channelName,
+      time,
+      author,
+      name,
       classes,
-      intl: {formatDate, formatTime}
+      intl: { formatDate, formatTime },
     } = this.props
-    let when = formatDate(time, {year: '2-digit', month: 'short', day: '2-digit'})
+    let when = formatDate(time, {
+      year: '2-digit',
+      month: 'short',
+      day: '2-digit',
+    })
     when += ` ${formatTime(time)}`
     if (author) when += ` - ${author}`
 
@@ -83,7 +91,7 @@ export default class SharedFile extends PureComponent {
             id="sharedInRoom"
             defaultMessage="Shared in {channelName}"
             description="*Describe sharedInRoom*, example: 'Shared in Office'"
-            values={{channelName}}
+            values={{ channelName }}
           />
         )
         break
@@ -94,7 +102,7 @@ export default class SharedFile extends PureComponent {
             id="sharedInPm"
             defaultMessage="Shared with {channelName}"
             description="*Describe sharedInPm*, example: Shared with Felix'"
-            values={{channelName}}
+            values={{ channelName }}
           />
         )
         break
@@ -107,30 +115,23 @@ export default class SharedFile extends PureComponent {
         className={classes.sharedFile}
         onClick={handleClick ? this.onOpen : noop}
       >
-        <div className={classes.leftColumn}>
-          {this.renderPreview()}
-        </div>
+        <div className={classes.leftColumn}>{this.renderPreview()}</div>
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{name}</h2>
           <p className={classes.meta}>{when}</p>
-          <p className={classes.meta}>
-            {message}
-          </p>
+          <p className={classes.meta}>{message}</p>
         </div>
       </section>
     )
   }
 
   render() {
-    const {thumbnailUrl, url} = this.props
+    const { thumbnailUrl, url } = this.props
     const section = this.renderSection(!thumbnailUrl)
 
     if (thumbnailUrl) {
       return (
-        <ImageZoom
-          getPreviewRef={this.getPreviewRef}
-          url={url}
-        >
+        <ImageZoom getPreviewRef={this.getPreviewRef} url={url}>
           {section}
         </ImageZoom>
       )

@@ -6,16 +6,16 @@ import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import sizes from 'grape-theme/dist/sizes'
 
-import {PinnedMessages as PinnedMessagesText} from '../i18n'
+import { PinnedMessages as PinnedMessagesText } from '../i18n'
 import Tooltip from '../tooltip/HoverTooltip'
 
-const styles = ({palette}) => ({
+const styles = ({ palette }) => ({
   root: {
     display: 'flex',
-    flexDirection: 'column-reverse'
+    flexDirection: 'column-reverse',
   },
   pipeAndButton: {
-    display: 'flex'
+    display: 'flex',
   },
   button: {
     width: sizes.icon.xs,
@@ -24,8 +24,8 @@ const styles = ({palette}) => ({
     color: palette.text.secondary,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200
-    }
+      color: palette.secondary.A200,
+    },
   },
   divider: {
     width: 1,
@@ -37,12 +37,12 @@ const styles = ({palette}) => ({
       // right one, because of how icon looks like.
       // Should we have a spacer for this?
       left: sizes.spacer.xs + 2,
-      right: sizes.spacer.xs
-    }
-  }
+      right: sizes.spacer.xs,
+    },
+  },
 })
 
-const PinButton = ({classes, className, onClick}) => (
+const PinButton = ({ classes, className, onClick }) => (
   <div className={cn(classes.root, className)}>
     <Tooltip message={<PinnedMessagesText />}>
       <div className={classes.pipeAndButton}>
@@ -58,13 +58,12 @@ const PinButton = ({classes, className, onClick}) => (
 PinButton.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
-
 
 PinButton.defaultProps = {
   onClick: undefined,
-  className: undefined
+  className: undefined,
 }
 
 export default injectSheet(styles)(PinButton)

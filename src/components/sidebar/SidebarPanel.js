@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
@@ -7,8 +7,8 @@ import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 
-import {zIndex} from '../../utils/z-index'
-import {spacing} from './constants'
+import { zIndex } from '../../utils/z-index'
+import { spacing } from './constants'
 import Title from './Title'
 
 /**
@@ -17,10 +17,10 @@ import Title from './Title'
  * - body
  * - positioned in the middle
  */
-@injectSheet(({palette}) => ({
+@injectSheet(({ palette }) => ({
   title: {
     flex: 2,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   sidebarPanel: {
     alignItems: 'stretch',
@@ -28,7 +28,7 @@ import Title from './Title'
     flexDirection: 'column',
     flex: 1,
     background: colors.grayBlueLighter,
-    maxHeight: '100%'
+    maxHeight: '100%',
   },
   header: {
     display: 'flex',
@@ -36,13 +36,13 @@ import Title from './Title'
     borderBottom: [1, 'solid', palette.text.divider],
     // Used to overlap absolutely positioned content e.g. loading indicator.
     position: 'relative',
-    zIndex: zIndex('base')
+    zIndex: zIndex('base'),
   },
   headerWithOptions: {
-    marginLeft: 0
+    marginLeft: 0,
   },
   titleWithOptions: {
-    paddingLeft: spacing
+    paddingLeft: spacing,
   },
   body: {
     position: 'relative',
@@ -50,7 +50,7 @@ import Title from './Title'
     flex: 1,
     overflowY: 'auto',
     overflowX: 'hidden',
-    height: '100%'
+    height: '100%',
   },
   close: {
     isolate: false,
@@ -58,9 +58,9 @@ import Title from './Title'
     color: palette.text.primary,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200
-    }
-  }
+      color: palette.secondary.A200,
+    },
+  },
 }))
 export default class SidebarPanel extends PureComponent {
   static propTypes = {
@@ -68,28 +68,28 @@ export default class SidebarPanel extends PureComponent {
     title: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired,
     options: PropTypes.node,
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     options: undefined,
-    children: undefined
+    children: undefined,
   }
 
   render() {
-    const {options, title, children, classes, onClose} = this.props
+    const { options, title, children, classes, onClose } = this.props
     return (
       <div className={classes.sidebarPanel}>
-        <header className={cn(classes.header, options && classes.headerWithOptions)}>
+        <header
+          className={cn(classes.header, options && classes.headerWithOptions)}
+        >
           <Title className={classes.title}>{title}</Title>
           <IconButton className={classes.close} onClick={onClose}>
             <Icon name="close" />
           </IconButton>
         </header>
         {options}
-        <div className={classes.body}>
-          {children}
-        </div>
+        <div className={classes.body}>{children}</div>
       </div>
     )
   }

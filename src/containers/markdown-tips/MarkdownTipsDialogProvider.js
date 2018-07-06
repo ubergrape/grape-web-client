@@ -1,18 +1,18 @@
-import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {markdownTipsSelector as selector} from '../../selectors'
-import {MarkdownTipsDialog} from '../../components/markdown-tips'
+import { markdownTipsSelector as selector } from '../../selectors'
+import { MarkdownTipsDialog } from '../../components/markdown-tips'
 
 const actionNames = {
-  hideMarkdownTips: 'onHide'
+  hideMarkdownTips: 'onHide',
 }
 
 const ConnectedMarkdownTipsDialog = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(MarkdownTipsDialog)
 
 export default class MarkdownTipsDialogProvider extends PureComponent {

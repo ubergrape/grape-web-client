@@ -1,34 +1,34 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
 @injectSheet({
   row: {
     display: 'block',
-    margin: 0
+    margin: 0,
   },
   rowSpaced: {
     display: 'block',
     marginTop: 8,
     '&:first-child': {
       isolate: false,
-      marginTop: 0
-    }
-  }
+      marginTop: 0,
+    },
+  },
 })
 export default class Row extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     spaced: PropTypes.bool.isRequired,
     className: PropTypes.string.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     spaced: false,
     children: null,
-    className: ''
+    className: '',
   }
 
   render() {
@@ -36,7 +36,7 @@ export default class Row extends PureComponent {
       children,
       spaced,
       className,
-      sheet: {classes}
+      sheet: { classes },
     } = this.props
 
     return (

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
+import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 
 import Dropdown from '../../../../dropdown/Dropdown'
@@ -11,43 +11,43 @@ import CreateTask from './CreateTask'
 @injectSheet({
   tasks: {
     position: 'relative',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   content: {
-    width: 260
-  }
+    width: 260,
+  },
 })
 export default class Tasks extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     tasks: PropTypes.array,
     services: PropTypes.array,
-    isConnected: PropTypes.bool
+    isConnected: PropTypes.bool,
   }
 
   static defaultProps = {
     tasks: [],
     services: null,
-    isConnected: false
+    isConnected: false,
   }
 
-  state = {isOpen: false}
+  state = { isOpen: false }
 
-  onToggleDropdown = (e) => {
+  onToggleDropdown = e => {
     e.stopPropagation()
-    this.setState(state => ({isOpen: !state.isOpen}))
+    this.setState(state => ({ isOpen: !state.isOpen }))
   }
 
   onHideDropdown = () => {
-    this.setState({isOpen: false})
+    this.setState({ isOpen: false })
   }
 
-  onRefButton = (ref) => {
+  onRefButton = ref => {
     this.buttonNode = findDOMNode(ref)
   }
 
-  onSelectTask = (task) => {
-    this.setState({task})
+  onSelectTask = task => {
+    this.setState({ task })
   }
 
   onRemoveTask = () => {
@@ -55,7 +55,7 @@ export default class Tasks extends PureComponent {
   }
 
   onGoBack = () => {
-    this.setState({task: null})
+    this.setState({ task: null })
   }
 
   onSelectService = () => {
@@ -63,8 +63,8 @@ export default class Tasks extends PureComponent {
   }
 
   renderContent() {
-    const {task} = this.state
-    const {tasks, services} = this.props
+    const { task } = this.state
+    const { tasks, services } = this.props
 
     if (task) {
       return (
@@ -89,12 +89,8 @@ export default class Tasks extends PureComponent {
   }
 
   render() {
-    const {
-      classes,
-      tasks,
-      isConnected
-    } = this.props
-    const {isOpen} = this.state
+    const { classes, tasks, isConnected } = this.props
+    const { isOpen } = this.state
 
     return (
       <div className={classes.tasks}>
@@ -104,19 +100,18 @@ export default class Tasks extends PureComponent {
           isConnected={isConnected}
           amount={tasks.length}
         />
-        {isOpen && tasks.length && (
-          <Dropdown
-            target={this.buttonNode}
-            onOutsideClick={this.onHideDropdown}
-            placement="top"
-            container={this}
-            shouldUpdatePosition
-          >
-            <div className={classes.content}>
-              {this.renderContent()}
-            </div>
-          </Dropdown>
-        )}
+        {isOpen &&
+          tasks.length && (
+            <Dropdown
+              target={this.buttonNode}
+              onOutsideClick={this.onHideDropdown}
+              placement="top"
+              container={this}
+              shouldUpdatePosition
+            >
+              <div className={classes.content}>{this.renderContent()}</div>
+            </Dropdown>
+          )}
       </div>
     )
   }

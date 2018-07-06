@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 
 import * as themes from './themes'
-import {Done} from '../i18n/i18n'
+import { Done } from '../i18n/i18n'
 import Editable from './Editable'
-import {styles} from './theme'
+import { styles } from './theme'
 
-const Wrapper = listenOutsideClick(({onClick, className, children}) => (
+const Wrapper = listenOutsideClick(({ onClick, className, children }) => (
   <div className={className} onClick={onClick}>
     {children}
   </div>
@@ -32,11 +32,11 @@ export default class EditableText extends PureComponent {
     value: PropTypes.string.isRequired,
     error: PropTypes.shape({
       message: PropTypes.string.isRequired,
-      level: PropTypes.string.isRequired
+      level: PropTypes.string.isRequired,
     }),
     clearError: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
-    preserveSpaceForButton: PropTypes.bool.isRequired
+    preserveSpaceForButton: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -45,14 +45,14 @@ export default class EditableText extends PureComponent {
     placeholder: '',
     error: null,
     clearError: noop,
-    preserveSpaceForButton: false
+    preserveSpaceForButton: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       value: props.value,
-      isEditing: false
+      isEditing: false,
     }
   }
 
@@ -61,7 +61,7 @@ export default class EditableText extends PureComponent {
     if (nextProps.error) {
       this.setState({
         saving: false,
-        isEditing: true
+        isEditing: true,
       })
       return
     }
@@ -69,7 +69,7 @@ export default class EditableText extends PureComponent {
     if (this.state.saving && nextProps.value === this.props.value) {
       this.setState({
         saving: false,
-        isEditing: false
+        isEditing: false,
       })
       return
     }
@@ -77,26 +77,26 @@ export default class EditableText extends PureComponent {
     if (nextProps.value !== this.props.value) {
       this.setState({
         value: nextProps.value,
-        saving: false
+        saving: false,
       })
       return
     }
 
     this.setState({
       isEditing: false,
-      saving: false
+      saving: false,
     })
   }
 
   onClick = () => {
-    this.setState({isEditing: true})
+    this.setState({ isEditing: true })
   }
 
-  onChange = ({target}) => {
-    this.setState({value: target.value})
+  onChange = ({ target }) => {
+    this.setState({ value: target.value })
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     switch (keyname(e.keyCode)) {
       case 'esc':
         this.restoreState()
@@ -111,39 +111,46 @@ export default class EditableText extends PureComponent {
   onClickSave = () => {
     if (this.props.error) return
 
-    this.setState({isEditing: false}, () => {
+    this.setState({ isEditing: false }, () => {
       this.save()
     })
   }
 
   restoreState = () => {
     if (!this.state.isEditing) return
-    const {error, clearError, value} = this.props
+    const { error, clearError, value } = this.props
     if (error) clearError()
     this.setState({
       value,
-      isEditing: false
+      isEditing: false,
     })
   }
 
   save() {
     if (this.props.error) return
 
-    this.setState({
-      isEditing: false,
-      saving: true
-    }, () => this.props.onSave(this.state.value))
+    this.setState(
+      {
+        isEditing: false,
+        saving: true,
+      },
+      () => this.props.onSave(this.state.value),
+    )
   }
 
   render() {
     const {
-      multiline, placeholder, maxLength,
-      clearError, error, sheet,
-      preserveSpaceForButton
+      multiline,
+      placeholder,
+      maxLength,
+      clearError,
+      error,
+      sheet,
+      preserveSpaceForButton,
     } = this.props
 
-    const {value, saving, isEditing} = this.state
-    const {classes} = sheet
+    const { value, saving, isEditing } = this.state
+    const { classes } = sheet
     const editableProps = {
       multiline,
       maxLength,
@@ -156,12 +163,14 @@ export default class EditableText extends PureComponent {
       readOnly: !isEditing,
       disabled: saving,
       onChange: this.onChange,
-      onKeyDown: this.onKeyDown
+      onKeyDown: this.onKeyDown,
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
 
-    const hiddenButtonClassName = preserveSpaceForButton ? 'invisible' : 'hidden'
+    const hiddenButtonClassName = preserveSpaceForButton
+      ? 'invisible'
+      : 'hidden'
 
     return (
       <Wrapper
@@ -172,7 +181,9 @@ export default class EditableText extends PureComponent {
         <Editable {...editableProps} />
         <button
           onClick={this.onClickSave}
-          className={`${classes.submit} ${classes[isEditing ? '' : hiddenButtonClassName]}`}
+          className={`${classes.submit} ${
+            classes[isEditing ? '' : hiddenButtonClassName]
+          }`}
           disabled={this.state.saving}
         >
           <Done />

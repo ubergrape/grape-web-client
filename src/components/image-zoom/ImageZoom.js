@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
+import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import ImageZoom from 'image-zoom'
 import injectSheet from 'grape-web/lib/jss'
-import {zIndex} from '../../utils/z-index'
+import { zIndex } from '../../utils/z-index'
 
 /**
  * Wrapper around image-zoom lib.
@@ -12,18 +12,18 @@ import {zIndex} from '../../utils/z-index'
 @injectSheet({
   '@global': {
     '.zoom-image': {
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
     '.zoom-image-clone': {
       position: 'fixed',
       transition: 'transform 0.2s linear',
       zIndex: zIndex('dialog', 2),
-      cursor: 'zoom-out'
+      cursor: 'zoom-out',
     },
     '.loading': {
       transition: 'transform 0.2s linear',
       opacity: 0.75,
-      cursor: 'progress'
+      cursor: 'progress',
     },
     '.image-zoom-overlay': {
       position: 'fixed',
@@ -38,10 +38,10 @@ import {zIndex} from '../../utils/z-index'
       transition: 'opacity 0.2s linear',
       '&.show': {
         isolate: false,
-        opacity: 1
-      }
-    }
-  }
+        opacity: 1,
+      },
+    },
+  },
 })
 export default class ImageZoomComponent extends PureComponent {
   static propTypes = {
@@ -49,29 +49,28 @@ export default class ImageZoomComponent extends PureComponent {
     getPreviewRef: PropTypes.func.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     className: undefined,
     style: undefined,
-    children: undefined
+    children: undefined,
   }
 
   onZoom = () => {
-    const {getPreviewRef, url} = this.props
+    const { getPreviewRef, url } = this.props
     const previewNode = findDOMNode(getPreviewRef())
-    return new ImageZoom(previewNode, url).overlay().padding(20).show()
+    return new ImageZoom(previewNode, url)
+      .overlay()
+      .padding(20)
+      .show()
   }
 
   render() {
-    const {className, style, children} = this.props
+    const { className, style, children } = this.props
     return (
-      <div
-        onClick={this.onZoom}
-        className={className}
-        style={style}
-      >
+      <div onClick={this.onZoom} className={className} style={style}>
         {children}
       </div>
     )

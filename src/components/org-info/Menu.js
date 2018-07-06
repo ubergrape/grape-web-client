@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import Divider from 'grape-web/lib/components/divider'
@@ -16,13 +16,13 @@ import {
   TutorialItem,
   SupportItem,
   SwitchOrganizationsItem,
-  LogoutItem
+  LogoutItem,
 } from './menuItems'
 
 @injectSheet({
   root: {
-    minWidth: 220
-  }
+    minWidth: 220,
+  },
 })
 export default class Menu extends PureComponent {
   static propTypes = {
@@ -32,15 +32,15 @@ export default class Menu extends PureComponent {
     inviterRole: PropTypes.number.isRequired,
     supportLink: PropTypes.string.isRequired,
     user: PropTypes.shape({
-      role: PropTypes.number.isRequired
-    }).isRequired
+      role: PropTypes.number.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
     onInvite: noop,
     onShowIntro: noop,
     inviterRole: 2,
-    user: {role: 2}
+    user: { role: 2 },
   }
 
   render() {
@@ -50,7 +50,7 @@ export default class Menu extends PureComponent {
       onShowIntro,
       supportLink,
       user,
-      inviterRole
+      inviterRole,
     } = this.props
 
     const canInvite = user.role >= inviterRole
@@ -62,7 +62,7 @@ export default class Menu extends PureComponent {
     if (canInvite) {
       items.push(
         <InviteItem onClick={onInvite} key={key} />,
-        <Divider key={++key} />
+        <Divider key={++key} />,
       )
     }
 
@@ -71,7 +71,7 @@ export default class Menu extends PureComponent {
         <OrgSettingsItem key={++key} />,
         <ManageMembersItem key={++key} />,
         <AddServiceItem key={++key} />,
-        <Divider key={++key} />
+        <Divider key={++key} />,
       )
     }
 
@@ -82,13 +82,9 @@ export default class Menu extends PureComponent {
       <SupportItem href={supportLink} key={++key} />,
       <SwitchOrganizationsItem key={++key} />,
       <Divider key={++key} />,
-      <LogoutItem key={++key} />
+      <LogoutItem key={++key} />,
     )
 
-    return (
-      <MenuList className={classes.root}>
-        {items}
-      </MenuList>
-    )
+    return <MenuList className={classes.root}>{items}</MenuList>
   }
 }

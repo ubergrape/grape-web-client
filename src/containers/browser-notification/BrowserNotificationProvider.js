@@ -1,18 +1,18 @@
-import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
-import {browserNotificationSelector} from '../../selectors'
+import { mapActionsToProps } from '../../app/redux'
+import { browserNotificationSelector } from '../../selectors'
 import getStore from '../../app/store'
-import {BrowserNotification} from '../../components/browser-notification'
+import { BrowserNotification } from '../../components/browser-notification'
 
 const actionNames = {
-  goToChannel: 'onGoToChannel'
+  goToChannel: 'onGoToChannel',
 }
 
 const ConnectedBrowserNotification = connect(
   browserNotificationSelector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(BrowserNotification)
 
 export default class BrowserNotificationProvider extends PureComponent {

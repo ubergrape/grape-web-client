@@ -1,9 +1,9 @@
 import React from 'react'
-import {Provider, connect} from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {inviteDialogSelector as selector} from '../../selectors'
+import { inviteDialogSelector as selector } from '../../selectors'
 import ChannelMembersInvite from '../../components/channel-members-invite/ChannelMembersInvite'
 
 const actionNames = [
@@ -13,12 +13,12 @@ const actionNames = [
   'addToChannelMembersInvite',
   'removeFromChannelMembersInvite',
   'searchUsersToInvite',
-  'showToastNotification'
+  'showToastNotification',
 ]
 
 const ConnectedChannelMembersInvite = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(ChannelMembersInvite)
 
 export default () => (

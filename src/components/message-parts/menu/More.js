@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
+import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import Divider from 'grape-web/lib/components/divider'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import injectSheet from 'grape-web/lib/jss'
@@ -12,8 +12,8 @@ import MenuItem from './MenuItem'
 @injectSheet({
   list: {
     width: 230,
-    padding: 0
-  }
+    padding: 0,
+  },
 })
 export default class More extends PureComponent {
   static propTypes = {
@@ -22,28 +22,30 @@ export default class More extends PureComponent {
     items: PropTypes.array.isRequired,
     menuItems: PropTypes.array.isRequired,
     isPinned: PropTypes.bool,
-    isDropdownOpened: PropTypes.bool
+    isDropdownOpened: PropTypes.bool,
   }
 
   static defaultProps = {
     isPinned: false,
-    isDropdownOpened: false
+    isDropdownOpened: false,
   }
 
-  onRefMoreIcon = (ref) => {
+  onRefMoreIcon = ref => {
     this.moreIconRef = findDOMNode(ref)
   }
 
   onRequestClose = () => {
-    this.props.onSelect({name: 'more'})
+    this.props.onSelect({ name: 'more' })
   }
 
   render() {
     const {
       classes,
-      isPinned, isDropdownOpened,
+      isPinned,
+      isDropdownOpened,
       onSelect,
-      items, menuItems
+      items,
+      menuItems,
     } = this.props
 
     return (
@@ -70,18 +72,10 @@ export default class More extends PureComponent {
                 />
               )}
               {items.includes('edit') && (
-                <PopoverItem
-                  icon="pencil"
-                  name="edit"
-                  onSelect={onSelect}
-                />
+                <PopoverItem icon="pencil" name="edit" onSelect={onSelect} />
               )}
               {items.includes('quote') && (
-                <PopoverItem
-                  icon="quote"
-                  name="quote"
-                  onSelect={onSelect}
-                />
+                <PopoverItem icon="quote" name="quote" onSelect={onSelect} />
               )}
               {items.includes('pin') && (
                 <PopoverItem

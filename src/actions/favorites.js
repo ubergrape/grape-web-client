@@ -1,29 +1,25 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {error} from './'
+import { error } from './'
 
 export function requestAddChannelToFavorites(id) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.REQUEST_ADD_CHANNEL_TO_FAVORITES,
-      payload: id
+      payload: id,
     })
 
-    api
-      .addChannelToFavorites(id)
-      .catch(err => dispatch(error(err)))
+    api.addChannelToFavorites(id).catch(err => dispatch(error(err)))
   }
 }
 
 export function requestRemoveChannelFromFavorites(id) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.REQUEST_REMOVE_CHANNEL_FROM_FAVORITES,
-      payload: id
+      payload: id,
     })
 
-    api
-      .removeChannelFromFavorites(id)
-      .catch(err => dispatch(error(err)))
+    api.removeChannelFromFavorites(id).catch(err => dispatch(error(err)))
   }
 }

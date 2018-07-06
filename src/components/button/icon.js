@@ -10,7 +10,7 @@ export default function create(name, options = {}) {
     ...icon['&:before'],
     cursor: 'pointer',
     verticalAlign: options.iconOnly ? 'top' : 'middle',
-    marginRight: options.iconOnly ? 0 : 5
+    marginRight: options.iconOnly ? 0 : 5,
   }
 
   return {
@@ -18,6 +18,6 @@ export default function create(name, options = {}) {
     cursor: 'pointer',
     display: 'inline-block',
     lineHeight: options.iconOnly ? 1 : 'inherit',
-    ...icon
+    ...icon,
   }
 }

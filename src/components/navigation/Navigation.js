@@ -1,34 +1,30 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
+import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import debounce from 'lodash/function/debounce'
 import injectSheet from 'grape-web/lib/jss'
-import {debouncingTime} from 'grape-web/lib/constants/time'
+import { debouncingTime } from 'grape-web/lib/constants/time'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 import Filter from './Filter'
 import List from './List'
 import FilteredList from './FilteredList'
 import Channel from './Channel'
 import Actions from './Actions'
-import {styles} from './theme'
+import { styles } from './theme'
 
 const messages = defineMessages({
   favorites: {
     id: 'favorites',
-    defaultMessage: 'Favorites'
+    defaultMessage: 'Favorites',
   },
   recent: {
     id: 'recent',
-    defaultMessage: 'Recent'
-  }
+    defaultMessage: 'Recent',
+  },
 })
 
 @injectSheet(styles)
@@ -49,12 +45,12 @@ export default class Navigation extends PureComponent {
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
-    recent: PropTypes.array.isRequired
+    recent: PropTypes.array.isRequired,
   }
 
   static defaultProps = {
     shortcuts: ['mod+k'],
-    isLoading: false
+    isLoading: false,
   }
 
   constructor(props) {
@@ -63,21 +59,23 @@ export default class Navigation extends PureComponent {
       bottomOffset: 5,
       step: 10,
       shift: 20,
-      filter: ''
+      filter: '',
     }
 
     mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
   }
 
   componentWillReceiveProps(nextProps) {
-    const {shift, filter, step} = this.state
-    const {recent} = nextProps
+    const { shift, filter, step } = this.state
+    const { recent } = nextProps
     if (filter || recent.length < shift) return
 
-    if (this.listsContainer.offsetHeight &&
-      this.listsContainer.offsetHeight < this.navigation.offsetHeight) {
+    if (
+      this.listsContainer.offsetHeight &&
+      this.listsContainer.offsetHeight < this.navigation.offsetHeight
+    ) {
       this.setState({
-        shift: shift + step
+        shift: shift + step,
       })
     }
   }
@@ -85,52 +83,60 @@ export default class Navigation extends PureComponent {
   componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
       this.setState({
-        focusedChannel: nextProps.foundChannels[0]
+        focusedChannel: nextProps.foundChannels[0],
       })
     }
   }
 
-  onNavigationRef = (ref) => { this.navigation = ref }
-  onListsContainerRef = (ref) => { this.listsContainer = ref }
-  onFilterRef = (ref) => { this.filter = findDOMNode(ref) }
-  onFilteredListRef = (ref) => { this.filteredList = ref }
+  onNavigationRef = ref => {
+    this.navigation = ref
+  }
+  onListsContainerRef = ref => {
+    this.listsContainer = ref
+  }
+  onFilterRef = ref => {
+    this.filter = findDOMNode(ref)
+  }
+  onFilteredListRef = ref => {
+    this.filteredList = ref
+  }
 
-  onShortcut = (e) => {
+  onShortcut = e => {
     e.preventDefault()
     this.filter.focus()
   }
 
-  onScroll = (e) => {
-    const {shift, bottomOffset, step} = this.state
+  onScroll = e => {
+    const { shift, bottomOffset, step } = this.state
     if (shift >= this.props.recent.length) return
 
-    const {offsetHeight, scrollTop, scrollHeight} = e.target
+    const { offsetHeight, scrollTop, scrollHeight } = e.target
     if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
       this.setState({
-        shift: shift + step
+        shift: shift + step,
       })
     }
   }
 
-  onChangeFilterDebounced = debounce((value) => {
+  onChangeFilterDebounced = debounce(value => {
     this.props.searchChannelsForNavigation(value)
   }, debouncingTime)
 
-  onChangeFilter = ({target}) => {
-    const {value} = target
-    this.setState({filter: value})
+  onChangeFilter = ({ target }) => {
+    const { value } = target
+    this.setState({ filter: value })
     this.onChangeFilterDebounced(value)
   }
 
-  onFocusFiltered = (focusedChannel) => {
+  onFocusFiltered = focusedChannel => {
     this.setState({
-      focusedChannel
+      focusedChannel,
     })
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     const keyName = keyname(e.keyCode)
-    const {focusedChannel} = this.state
+    const { focusedChannel } = this.state
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
@@ -155,16 +161,16 @@ export default class Navigation extends PureComponent {
     }
   }
 
-  goToChannel = (channel) => {
+  goToChannel = channel => {
     if (this.props.channel.id === channel.id) return
 
     this.setState({
       filter: '',
       filtered: [],
-      focusedChannel: undefined
+      focusedChannel: undefined,
     })
 
-    if ((channel.type === 'pm') && !channel.joined) {
+    if (channel.type === 'pm' && !channel.joined) {
       this.props.openPm(channel.partner.id)
       return
     }
@@ -181,9 +187,9 @@ export default class Navigation extends PureComponent {
     this.props.goToChannel(channel.id)
   }
 
-  renderFilteredChannel = (params) => {
-    const {item: channel, focused} = params
-    const {classes} = this.props
+  renderFilteredChannel = params => {
+    const { item: channel, focused } = params
+    const { classes } = this.props
 
     return (
       <Channel
@@ -191,7 +197,7 @@ export default class Navigation extends PureComponent {
         {...this.state}
         channel={channel}
         focused={focused}
-        theme={{classes}}
+        theme={{ classes }}
         key={channel.type + channel.id}
         onClick={() => this.goToChannel(channel)}
       />
@@ -200,17 +206,21 @@ export default class Navigation extends PureComponent {
 
   renderList() {
     const {
-      classes, favorited, recent, foundChannels,
-      intl: {formatMessage}, searchingChannels
+      classes,
+      favorited,
+      recent,
+      foundChannels,
+      intl: { formatMessage },
+      searchingChannels,
     } = this.props
-    const {shift, filter, focusedChannel} = this.state
+    const { shift, filter, focusedChannel } = this.state
     const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
     if (this.state.filter) {
       return (
         <FilteredList
           {...this.props}
-          theme={{classes}}
+          theme={{ classes }}
           filter={filter}
           ref={this.onFilteredListRef}
           focusedChannel={focusedChannel}
@@ -231,7 +241,7 @@ export default class Navigation extends PureComponent {
           {...this.state}
           title={formatMessage(messages.favorites)}
           type="favorites"
-          theme={{classes}}
+          theme={{ classes }}
           list={favorited}
           goToChannel={this.goToChannel}
         />
@@ -240,7 +250,7 @@ export default class Navigation extends PureComponent {
           {...this.state}
           title={formatMessage(messages.recent)}
           type="recent"
-          theme={{classes}}
+          theme={{ classes }}
           list={recentList}
           goToChannel={this.goToChannel}
         />
@@ -250,8 +260,10 @@ export default class Navigation extends PureComponent {
 
   renderNavigation() {
     const {
-      isLoading, classes, showNewConversation,
-      showManageGroups
+      isLoading,
+      classes,
+      showNewConversation,
+      showManageGroups,
     } = this.props
     if (isLoading) return null
     return (
@@ -268,7 +280,7 @@ export default class Navigation extends PureComponent {
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
 
     return (
       <div className={classes.wrapper}>
@@ -277,15 +289,13 @@ export default class Navigation extends PureComponent {
           onScroll={this.onScroll}
           className={classes.navigation}
         >
-          <div ref={this.onListsContainerRef}>
-            {this.renderNavigation()}
-          </div>
+          <div ref={this.onListsContainerRef}>{this.renderNavigation()}</div>
         </div>
         <div className={classes.filter}>
           <Filter
             {...this.props}
             ref={this.onFilterRef}
-            theme={{classes}}
+            theme={{ classes }}
             value={this.state.filter}
             onKeyDown={this.onKeyDown}
             onChange={this.onChangeFilter}

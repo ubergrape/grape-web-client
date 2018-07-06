@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {pickHTMLProps} from 'pick-react-known-prop'
+import React, { PureComponent } from 'react'
+import { pickHTMLProps } from 'pick-react-known-prop'
 
 export default class Editable extends PureComponent {
   static propTypes = {
@@ -11,11 +11,11 @@ export default class Editable extends PureComponent {
     readOnly: PropTypes.bool,
     value: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
   }
 
   static defaultProps = {
-    placeholder: ''
+    placeholder: '',
   }
 
   componentDidMount() {
@@ -29,13 +29,13 @@ export default class Editable extends PureComponent {
   }
 
   setTextareaHeight() {
-    const {textarea} = this.refs
+    const { textarea } = this.refs
     textarea.style.height = 0
     textarea.style.height = `${textarea.scrollHeight}px`
   }
 
   render() {
-    const {classes} = this.props.theme
+    const { classes } = this.props.theme
     return (
       <textarea
         {...pickHTMLProps(this.props)}

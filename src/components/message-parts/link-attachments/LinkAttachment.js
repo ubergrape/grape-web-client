@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import fonts from 'grape-theme/dist/fonts'
-import {grayBlueDark} from 'grape-theme/dist/base-colors'
+import { grayBlueDark } from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
 import groupConsecutive from '../../../utils/group-consecutive'
@@ -16,52 +16,53 @@ import {
   Embed,
   ImagePreviewLink,
   Row,
-  Title
+  Title,
 } from './parts'
 
 const fieldsGroupSize = 2
 
-const groupFields = fields => groupConsecutive(
-  fields, fieldsGroupSize,
-  (field, nextField) => field.short && nextField.short
-)
+const groupFields = fields =>
+  groupConsecutive(
+    fields,
+    fieldsGroupSize,
+    (field, nextField) => field.short && nextField.short,
+  )
 
-const getThumbUrl = ({imageUrl, width, height}) => (
+const getThumbUrl = ({ imageUrl, width, height }) =>
   `${imageUrl}${width}x${height}`
-)
 
 @injectSheet({
   main: {
     flex: 1,
-    minWidth: 0
+    minWidth: 0,
   },
   side: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   text: {
     extend: fonts.normal,
     lineHeight: 1.4,
     margin: 0,
-    color: grayBlueDark
+    color: grayBlueDark,
   },
   fields: {
     display: 'block',
-    margin: [3, 0]
+    margin: [3, 0],
   },
   fieldGroup: {
     display: 'block',
     marginTop: 8,
     '&:first-child': {
       isolate: false,
-      marginTop: 0
-    }
+      marginTop: 0,
+    },
   },
   fieldGroupShort: {
-    display: 'flex'
+    display: 'flex',
   },
   embed: {
-    maxWidth: 480
-  }
+    maxWidth: 480,
+  },
 })
 export default class LinkAttachment extends PureComponent {
   static propTypes = {
@@ -84,7 +85,7 @@ export default class LinkAttachment extends PureComponent {
     fields: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
-    onRemove: PropTypes.func
+    onRemove: PropTypes.func,
   }
 
   static defaultProps = {
@@ -105,20 +106,20 @@ export default class LinkAttachment extends PureComponent {
     embedHtml: null,
     ts: null,
     className: '',
-    onRemove: null
+    onRemove: null,
   }
 
-  state = {isMenuOpened: false}
+  state = { isMenuOpened: false }
 
   onMouseEnter = () => {
-    this.setState({isMenuOpened: true})
+    this.setState({ isMenuOpened: true })
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
+    this.setState({ isMenuOpened: false })
   }
 
-  onRefContent = (ref) => {
+  onRefContent = ref => {
     this.content = ref
   }
 
@@ -126,52 +127,40 @@ export default class LinkAttachment extends PureComponent {
 
   menuProps = {
     items: ['removeLinkAttachment'],
-    onSelect: this.props.onRemove
+    onSelect: this.props.onRemove,
   }
 
   renderAuthor() {
-    const {
-      authorName,
-      authorLink,
-      authorIcon
-    } = this.props
+    const { authorName, authorLink, authorIcon } = this.props
 
     return (
       <Row>
-        <Author
-          name={authorName}
-          link={authorLink}
-          iconUrl={authorIcon}
-        />
+        <Author name={authorName} link={authorLink} iconUrl={authorIcon} />
       </Row>
     )
   }
 
   renderTitle() {
-    const {title, titleLink} = this.props
+    const { title, titleLink } = this.props
     return (
-      <Row><Title text={title} link={titleLink} /></Row>
+      <Row>
+        <Title text={title} link={titleLink} />
+      </Row>
     )
   }
 
   renderText() {
-    const {
-      text,
-      classes
-    } = this.props
+    const { text, classes } = this.props
 
     return (
-      <Row><p className={classes.text}>{text}</p></Row>
+      <Row>
+        <p className={classes.text}>{text}</p>
+      </Row>
     )
   }
 
   renderFooter() {
-    const {
-      footer,
-      footerIcon,
-      footerUrl,
-      ts
-    } = this.props
+    const { footer, footerIcon, footerUrl, ts } = this.props
 
     return (
       <Row>
@@ -186,17 +175,15 @@ export default class LinkAttachment extends PureComponent {
   }
 
   renderImage() {
-    const {
-      imageUrl,
-      width,
-      height
-    } = this.props
+    const { imageUrl, width, height } = this.props
 
-    const thumbUrl = imageUrl && getThumbUrl({
-      imageUrl,
-      width,
-      height
-    })
+    const thumbUrl =
+      imageUrl &&
+      getThumbUrl({
+        imageUrl,
+        width,
+        height,
+      })
 
     return (
       <Row spaced>
@@ -217,14 +204,16 @@ export default class LinkAttachment extends PureComponent {
       width,
       height,
       sourceUrl,
-      classes
+      classes,
     } = this.props
 
-    const thumbUrl = imageUrl && getThumbUrl({
-      imageUrl,
-      width,
-      height
-    })
+    const thumbUrl =
+      imageUrl &&
+      getThumbUrl({
+        imageUrl,
+        width,
+        height,
+      })
 
     return (
       <Row spaced className={classes.embed}>
@@ -240,28 +229,17 @@ export default class LinkAttachment extends PureComponent {
   }
 
   renderImageLinkPreview() {
-    const {
-      thumbUrl,
-      sourceUrl,
-      classes
-    } = this.props
+    const { thumbUrl, sourceUrl, classes } = this.props
 
     return (
       <div className={classes.side}>
-        <ImagePreviewLink
-          url={thumbUrl}
-          permalink={sourceUrl}
-        />
+        <ImagePreviewLink url={thumbUrl} permalink={sourceUrl} />
       </div>
     )
   }
 
   renderFields() {
-    const {
-      fields,
-      sourceUrl,
-      classes
-    } = this.props
+    const { fields, sourceUrl, classes } = this.props
 
     let key = 0
     const fieldGroups = groupFields(fields)
@@ -270,12 +248,13 @@ export default class LinkAttachment extends PureComponent {
       <div className={classes.fields}>
         {fieldGroups.map(group => (
           <div
-            className={
-              cn(classes.fieldGroup, group.length === fieldsGroupSize && classes.fieldGroupShort)
-            }
+            className={cn(
+              classes.fieldGroup,
+              group.length === fieldsGroupSize && classes.fieldGroupShort,
+            )}
             key={`${sourceUrl}-${key++}`}
           >
-            {group.map(({title, value}) => (
+            {group.map(({ title, value }) => (
               <Field
                 title={title}
                 value={value}
@@ -293,16 +272,17 @@ export default class LinkAttachment extends PureComponent {
       authorName,
       title,
       text,
-      imageUrl, thumbUrl,
+      imageUrl,
+      thumbUrl,
       embedHtml,
       fields,
       footer,
       className,
       onRemove,
-      classes
+      classes,
     } = this.props
 
-    const {isMenuOpened} = this.state
+    const { isMenuOpened } = this.state
     const isAllowedToRemove = onRemove && isMenuOpened
 
     return (
@@ -313,7 +293,9 @@ export default class LinkAttachment extends PureComponent {
         className={className}
       >
         <Bubble hasArrow={false}>
-          {isAllowedToRemove && <Menu {...this.menuProps} getContentNode={this.getContentNode} />}
+          {isAllowedToRemove && (
+            <Menu {...this.menuProps} getContentNode={this.getContentNode} />
+          )}
           <div className={classes.main}>
             {authorName && this.renderAuthor()}
             {title && this.renderTitle()}

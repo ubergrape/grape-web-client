@@ -1,6 +1,6 @@
-import {small} from 'grape-theme/dist/fonts'
-import {white, blue, grayBlueDark} from 'grape-theme/dist/base-colors'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import { small } from 'grape-theme/dist/fonts'
+import { white, blue, grayBlueDark } from 'grape-theme/dist/base-colors'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 
 const togglerMargin = 2
 
@@ -17,7 +17,7 @@ const toggler = {
   transitionTimingFunction,
   willChange: 'left, right',
   content: '""',
-  cursor: 'pointer'
+  cursor: 'pointer',
 }
 
 export const styles = {
@@ -29,27 +29,27 @@ export const styles = {
     cursor: 'pointer',
     transition: 'background 0.2s',
     transitionTimingFunction,
-    willChange: 'background'
+    willChange: 'background',
   },
   switchOn: {
     background: blue,
     '&:after': {
       ...toggler,
       left: `calc(50% - ${togglerMargin}px)`,
-      right: togglerMargin
-    }
+      right: togglerMargin,
+    },
   },
   switchOff: {
     background: grayBlueDark,
     '&:after': {
       ...toggler,
       left: togglerMargin,
-      right: `calc(50% - ${togglerMargin}px)`
-    }
+      right: `calc(50% - ${togglerMargin}px)`,
+    },
   },
   switchDisabled: {
     opacity: 0.2,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
   label: {
     extend: [small, ellipsis],
@@ -58,9 +58,9 @@ export const styles = {
     padding: [0, 7],
     width: '100%',
     color: 'inherit',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   rightLabel: {
-    textAlign: 'right'
-  }
+    textAlign: 'right',
+  },
 }

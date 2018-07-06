@@ -1,10 +1,16 @@
 import React from 'react'
-import {white, blue, green, orange, purple} from 'grape-theme/dist/base-colors'
+import {
+  white,
+  blue,
+  green,
+  orange,
+  purple,
+} from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Button from 'grape-web/lib/components/button'
 
-import {mascot} from '../../constants/images'
+import { mascot } from '../../constants/images'
 import View from './View'
 
 const steps = []
@@ -129,10 +135,7 @@ const AddTeamMembersLink = props => (
     description="Link to the members admin within 'Well done' intro screen."
   >
     {(...children) => (
-      <Button
-        href="/accounts/organization/settings/members/"
-        {...props}
-      >
+      <Button href="/accounts/organization/settings/members/" {...props}>
         {children}
       </Button>
     )}
@@ -146,17 +149,14 @@ const ConnectServicesLink = props => (
     description="Link to the integrations admin within 'Well done' intro screen."
   >
     {(...children) => (
-      <Button
-        href="/integrations/"
-        {...props}
-      >
+      <Button href="/integrations/" {...props}>
         {children}
       </Button>
     )}
   </FormattedMessage>
 )
 
-const StepDone = ({classes, ...rest}) => (
+const StepDone = ({ classes, ...rest }) => (
   <View
     {...rest}
     headline={
@@ -173,7 +173,7 @@ const StepDone = ({classes, ...rest}) => (
         description="Intro data text."
         values={{
           addTeamMembersLink: <AddTeamMembersLink className={classes.link} />,
-          connectServicesLink: <ConnectServicesLink className={classes.link} />
+          connectServicesLink: <ConnectServicesLink className={classes.link} />,
         }}
       />
     }
@@ -182,17 +182,19 @@ const StepDone = ({classes, ...rest}) => (
   />
 )
 
-steps.push(injectSheet({
-  link: {
-    '&[href]': {
-      color: white,
-      textDecoration: 'underline'
+steps.push(
+  injectSheet({
+    link: {
+      '&[href]': {
+        color: white,
+        textDecoration: 'underline',
+      },
+      '&[href]:hover': {
+        color: white,
+        opacity: 0.8,
+      },
     },
-    '&[href]:hover': {
-      color: white,
-      opacity: 0.8
-    }
-  }
-})(StepDone))
+  })(StepDone),
+)
 
 export default steps

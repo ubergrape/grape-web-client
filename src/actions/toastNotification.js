@@ -9,25 +9,25 @@ export function showToastNotification(message, options = {}) {
     payload: {
       key,
       message,
-      ...options
-    }
+      ...options,
+    },
   }
 }
 
-export function hideToastNotification({key}) {
+export function hideToastNotification({ key }) {
   return {
     type: types.HIDE_TOAST_NOTIFICATION,
     payload: {
-      key
-    }
+      key,
+    },
   }
 }
 
 export function updateToastNotification(key, message, options = {}) {
-  const payload = {key, ...options}
+  const payload = { key, ...options }
   if (message) payload.message = message
   return {
     type: types.UPDATE_TOAST_NOTIFICATION,
-    payload
+    payload,
   }
 }

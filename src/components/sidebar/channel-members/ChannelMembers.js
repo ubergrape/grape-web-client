@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import noop from 'lodash/utility/noop'
 
 import User from './User'
@@ -11,14 +11,14 @@ export default class ChannelMembers extends PureComponent {
     currUser: PropTypes.object.isRequired,
     onLoad: PropTypes.func,
     onOpen: PropTypes.func,
-    onKick: PropTypes.func
+    onKick: PropTypes.func,
   }
 
   static defaultProps = {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
-    users: []
+    users: [],
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ export default class ChannelMembers extends PureComponent {
   }
 
   render() {
-    const {users, channel, currUser, onOpen, onKick} = this.props
+    const { users, channel, currUser, onOpen, onKick } = this.props
 
     return (
       <div>

@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import {blue, white} from 'grape-theme/dist/base-colors'
+import { blue, white } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-import {zIndex} from '../../utils/z-index'
+import { zIndex } from '../../utils/z-index'
 import staticUrl from '../../utils/static-url'
-import {maxSize} from './constants'
+import { maxSize } from './constants'
 
 const maxSizeInMb = maxSize / 1000 / 1000
 
@@ -20,7 +20,7 @@ const maxSizeInMb = maxSize / 1000 / 1000
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0
+    left: 0,
   },
   body: {
     display: 'flex',
@@ -35,39 +35,41 @@ const maxSizeInMb = maxSize / 1000 / 1000
       width: 2,
       style: 'dashed',
       color: blue,
-      radius: 15
-    }
+      radius: 15,
+    },
   },
   content: {
     width: '50%',
     marginTop: '-10%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   image: {
     width: '30%',
     minWidth: 150,
-    marginBottom: 20
+    marginBottom: 20,
   },
   headline: {
     extend: fonts.biggest,
     display: 'block',
     color: blue,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   descr: {
     extend: fonts.small,
     lineHeight: 2,
     color: white,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })
 export default class DropOverlay extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   render() {
-    const {sheet: {classes}} = this.props
+    const {
+      sheet: { classes },
+    } = this.props
     return (
       <div className={classes.overlay}>
         <div className={classes.body}>
@@ -89,7 +91,7 @@ export default class DropOverlay extends PureComponent {
                 id="dropFileToUploadMaxFileSize"
                 description="Hint on the drop overlay screen."
                 defaultMessage="We support almost every file type up to a size of {limit}mb."
-                values={{limit: maxSizeInMb}}
+                values={{ limit: maxSizeInMb }}
               />
             </p>
           </div>

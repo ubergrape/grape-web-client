@@ -1,37 +1,31 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {intlShape, FormattedMessage} from 'react-intl'
-import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+import { intlShape, FormattedMessage } from 'react-intl'
+import { grayBlueLighter } from 'grape-theme/dist/base-colors'
 import moment from 'moment'
 import Button from 'grape-web/lib/components/button'
 
 import DateSeparator from '../../message-parts/DateSeparator'
-import {spacing} from '../constants'
+import { spacing } from '../constants'
 import Message from './Message'
 
 const messagePropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  time: PropTypes.instanceOf(Date).isRequired
+  time: PropTypes.instanceOf(Date).isRequired,
 })
 
-const RefreshButton = ({className, amount, onClick}) => (
+const RefreshButton = ({ className, amount, onClick }) => (
   <FormattedMessage
     id="newImportantMessages"
-    defaultMessage={
-      `{amount} {amount, plural,
+    defaultMessage={`{amount} {amount, plural,
         one {new important message}
-        other {new important messages}}`
-    }
+        other {new important messages}}`}
     desctiption="Labeled messages sidebar button text."
-    values={{amount}}
+    values={{ amount }}
   >
     {(...nodes) => (
-      <Button
-        raised
-        className={className}
-        onClick={onClick}
-      >
+      <Button raised className={className} onClick={onClick}>
         {nodes}
       </Button>
     )}
@@ -40,17 +34,17 @@ const RefreshButton = ({className, amount, onClick}) => (
 
 @injectSheet({
   refresh: {
-    margin: spacing
+    margin: spacing,
   },
   refreshButton: {
-    width: '100%'
+    width: '100%',
   },
   separatorDate: {
-    background: grayBlueLighter
+    background: grayBlueLighter,
   },
   message: {
-    padding: [7, spacing]
-  }
+    padding: [7, spacing],
+  },
 })
 export default class Row extends PureComponent {
   static propTypes = {
@@ -63,7 +57,7 @@ export default class Row extends PureComponent {
     onSelect: PropTypes.func,
     onRefresh: PropTypes.func,
     className: PropTypes.string,
-    newMessagesAmount: PropTypes.number
+    newMessagesAmount: PropTypes.number,
   }
 
   static defaultProps = {
@@ -73,7 +67,7 @@ export default class Row extends PureComponent {
     onSelect: null,
     onRefresh: null,
     className: null,
-    newMessagesAmount: 0
+    newMessagesAmount: 0,
   }
 
   onRefresh = () => {
@@ -81,7 +75,7 @@ export default class Row extends PureComponent {
   }
 
   dateSeparatorTheme = {
-    date: this.props.classes.separatorDate
+    date: this.props.classes.separatorDate,
   }
 
   render() {
@@ -94,12 +88,11 @@ export default class Row extends PureComponent {
       user,
       onSelect,
       className,
-      newMessagesAmount
+      newMessagesAmount,
     } = this.props
 
     const showDateSeparator =
-      !prevMessage ||
-      !moment(message.time).isSame(prevMessage.time, 'day')
+      !prevMessage || !moment(message.time).isSame(prevMessage.time, 'day')
 
     return (
       <div style={style} className={className}>

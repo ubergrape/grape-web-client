@@ -1,9 +1,9 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import steps from './steps'
-import {zIndex} from '../../utils/z-index'
+import { zIndex } from '../../utils/z-index'
 
 @injectSheet({
   root: {
@@ -15,23 +15,23 @@ import {zIndex} from '../../utils/z-index'
     zIndex: zIndex('dialog'),
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })
 export default class Intro extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     step: PropTypes.number,
-    show: PropTypes.bool
+    show: PropTypes.bool,
   }
 
   static defaultProps = {
     step: 0,
-    show: true
+    show: true,
   }
 
   render() {
-    const {classes, step, show, ...rest} = this.props
+    const { classes, step, show, ...rest } = this.props
     const Step = steps[step]
 
     if (!show) return null

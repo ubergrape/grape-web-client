@@ -16,17 +16,17 @@ const mockInit = () => {
 
   return {
     verifyAndRestore: () => {
-      all.forEach((mock) => {
+      all.forEach(mock => {
         mock.verify()
         mock.restore()
       })
     },
 
     restore: () => {
-      all.forEach((mock) => {
+      all.forEach(mock => {
         mock.restore()
       })
-    }
+    },
   }
 }
 
@@ -48,7 +48,10 @@ describe('API', () => {
   describe('suspend()', () => {
     it('should call app.suspend()', async () => {
       const initMock = mockInit()
-      const suspend = sinon.mock(app).expects('suspend').once()
+      const suspend = sinon
+        .mock(app)
+        .expects('suspend')
+        .once()
       api.init({})
       await api.suspend()
       suspend.verify()
@@ -59,7 +62,10 @@ describe('API', () => {
 
   describe('resume()', () => {
     it('should call app.resume()', async () => {
-      const resume = sinon.mock(app).expects('resume').once()
+      const resume = sinon
+        .mock(app)
+        .expects('resume')
+        .once()
       await api.resume()
       resume.verify()
       resume.restore()
@@ -76,7 +82,7 @@ describe('API', () => {
     it('should call expected functions', async () => {
       const stub = sinon.stub(backend, 'loadConfig').returns(Promise.resolve())
       const mock = mockInit()
-      await api.embed({serviceUrl: 'something'})
+      await api.embed({ serviceUrl: 'something' })
       stub.restore()
       mock.verifyAndRestore()
     })
