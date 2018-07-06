@@ -11,11 +11,11 @@ import { maxSize } from './constants'
 export default class FileUpload extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
-    dropZoneStyle: PropTypes.object.isRequired,
     onUpload: PropTypes.func.isRequired,
     onReject: PropTypes.func.isRequired,
     onNotify: PropTypes.func.isRequired,
     onHideNotification: PropTypes.func.isRequired,
+    style: PropTypes.object,
     uploads: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
   }
@@ -23,7 +23,7 @@ export default class FileUpload extends PureComponent {
   static defaultProps = {
     disabled: false,
     // We pass nothing to avoid default styles.
-    dropZoneStyle: {},
+    style: {},
   }
 
   state = { isDragging: false }
@@ -63,11 +63,12 @@ export default class FileUpload extends PureComponent {
     const {
       disabled,
       children,
-      dropZoneStyle,
       uploads,
       onNotify,
       onHideNotification,
+      style,
     } = this.props
+
     const { isDragging } = this.state
 
     return (
@@ -75,7 +76,7 @@ export default class FileUpload extends PureComponent {
         disableClick
         disablePreview
         disabled={disabled}
-        style={dropZoneStyle}
+        style={style}
         onDrop={this.onDragDone}
         onDragStart={this.onDragStart}
         onDragEnter={this.onDragEnter}

@@ -7,7 +7,7 @@ import { sidebarWidth, sidebarWidthXl } from './constants'
 
 const Noop = () => null
 
-@injectSheet({
+const styles = {
   appLayout: {
     display: 'flex',
     position: 'absolute',
@@ -22,6 +22,10 @@ const Noop = () => null
     width: 280,
     flexShrink: 0,
     flexDirection: 'column',
+  },
+  fileUpload: {
+    display: 'flex',
+    height: '100%',
   },
   main: {
     flex: 1,
@@ -61,8 +65,9 @@ const Noop = () => null
       width: sidebarWidth,
     },
   },
-})
-export default class AppLayout extends PureComponent {
+}
+
+class AppLayout extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     Aside: PropTypes.func,
@@ -100,7 +105,7 @@ export default class AppLayout extends PureComponent {
     } = this.props
 
     return (
-      <FileUpload>
+      <FileUpload className={classes.fileUpload}>
         <div className={classes.appLayout}>
           <Globals />
           <Aside className={classes.aside} />
@@ -122,3 +127,5 @@ export default class AppLayout extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(AppLayout)
