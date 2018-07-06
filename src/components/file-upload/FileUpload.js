@@ -65,10 +65,8 @@ export default class FileUpload extends PureComponent {
       children,
       uploads,
       onNotify,
-      onReject,
-      onUpload,
       onHideNotification,
-      ...rest
+      style,
     } = this.props
 
     const { isDragging } = this.state
@@ -77,6 +75,8 @@ export default class FileUpload extends PureComponent {
       <Dropzone
         disableClick
         disablePreview
+        disabled={disabled}
+        style={style}
         onDrop={this.onDragDone}
         onDragStart={this.onDragStart}
         onDragEnter={this.onDragEnter}
@@ -84,7 +84,6 @@ export default class FileUpload extends PureComponent {
         onDropAccepted={this.onAccept}
         onDropRejected={this.onReject}
         maxSize={maxSize}
-        {...rest}
       >
         {children}
         {isDragging && <DropOverlay />}

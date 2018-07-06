@@ -22,7 +22,7 @@ export default class FileUploadProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedFileUpload {...this.props}>
+        <ConnectedFileUpload className={this.props.className}>
           {this.props.children}
         </ConnectedFileUpload>
       </Provider>
