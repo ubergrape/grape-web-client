@@ -114,6 +114,7 @@ export default class GrapeInput extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    usersToMention: PropTypes.array,
   }
 
   static defaultProps = {
@@ -230,7 +231,9 @@ export default class GrapeInput extends PureComponent {
       if (data.objectsOnly && attachments.length === data.objects.length) {
         sendText = false
       }
-      // Separate message to make it separately editable and removable.
+      // The currently desired behaviour is to create a text message and a separate message
+      // for all the attachments in that message.
+      // This is a desired feature to make them separately editable and removable.
       if (sendText)
         onCreateMessage({ channelId: channel.id, text: data.content })
       if (attachments.length) {
