@@ -69,6 +69,7 @@
     "lint-staged": "^7.2.0",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.13.5",
     "raw-loader": "^0.5.1",
     "react-styleguidist": "^5.0.6",
