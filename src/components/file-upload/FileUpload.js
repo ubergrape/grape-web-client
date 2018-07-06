@@ -16,6 +16,7 @@ export default class FileUpload extends PureComponent {
     onNotify: PropTypes.func.isRequired,
     onHideNotification: PropTypes.func.isRequired,
     style: PropTypes.object,
+    className: PropTypes.string,
     uploads: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
   }
@@ -24,6 +25,7 @@ export default class FileUpload extends PureComponent {
     disabled: false,
     // We pass nothing to avoid default styles.
     style: {},
+    className: '',
   }
 
   state = { isDragging: false }
@@ -67,6 +69,7 @@ export default class FileUpload extends PureComponent {
       onNotify,
       onHideNotification,
       style,
+      className,
     } = this.props
 
     const { isDragging } = this.state
@@ -84,6 +87,7 @@ export default class FileUpload extends PureComponent {
         onDropAccepted={this.onAccept}
         onDropRejected={this.onReject}
         maxSize={maxSize}
+        className={className}
       >
         {children}
         {isDragging && <DropOverlay />}
