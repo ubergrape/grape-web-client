@@ -7,6 +7,20 @@ yarn
 yarn build
 ```
 
+## Developing with grape-web-client
+
+```sh
+cd <your_path>/grape-browser
+yarn link
+
+cd <your_path>/grape-web-client
+yarn link grape-browser
+yarn run start:dev:all # node_modules are cached! restart this process if it was already running
+
+cd <your_path>/grape-browser
+yarn run build:watch
+```
+
 ## Example
 
 [See basic example](examples/basic/index.html)
