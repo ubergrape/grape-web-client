@@ -30,7 +30,7 @@ const getIcon = (name, palette) => {
     iconOnly: true,
   }
 
-  if (name === 'bin' || name === 'deleteMessage') {
+  if (name === 'deleteMessage') {
     Object.assign(options, { hoverColor: palette.error[500] })
   }
 
@@ -41,7 +41,8 @@ const getIcon = (name, palette) => {
   editItem: getIcon('pencil', palette),
   copyLinkItem: getIcon('iconLink', palette),
   removeItem: getIcon('deleteMessage', palette),
-  removeLinkAttachmentItem: getIcon('bin', palette),
+  // As requested in GRAPE-14402 we use this icon also for removingLinks
+  removeLinkAttachmentItem: getIcon('deleteMessage', palette),
   quoteItem: getIcon('quoteLeft', palette),
   moreItem: getIcon('moreOptions', palette),
   unpinItem: getIcon('unpin', palette),
@@ -102,7 +103,7 @@ export default class MenuItem extends PureComponent {
 
     return (
       <Tooltip key={name} placement="top" message={messages[name]} inline>
-        <span
+        <button
           className={getItemClassName(classes, name, index, total)}
           onClick={this.onSelect}
           ref={onRefItem}
