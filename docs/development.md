@@ -12,8 +12,7 @@ cat package.json | grep \"node\"
 Make sure your npm is up to date:
 
 ```bash
-# needs sudo on mac
-sudo npm install -g npm
+npm install -g yarn
 ```
 
 Clone the `grape-web-client` repo and install the dependencies:
@@ -102,9 +101,20 @@ You can use your Mac's public IP address and default bridged network adapter to 
 yarn build
 ```
 
-## Manage Dependencies
+## Develop dependencies like grape-web or grape-browser locally
 
-To add a dependency just call `npm install package --save` or `npm install package --save-dev`.
-A shrinkwrap hook will be automatically called.
+You can use `yarn link` to switch to the specific package and use it locally.
 
-When changing or adding dependencies directly in `package.json` you need to call `npm shrinkwrap` afterwards.
+```sh
+cd <your_path>/grape-browser
+yarn link
+
+cd <your_path>/grape-web-client
+yarn link grape-browser
+yarn run start:dev:all # node_modules are cached! restart this process if it was already running
+
+cd <your_path>/grape-browser
+yarn run build:watch
+```
+
+Ideally the package has a `build:watch` script so you do not constantly need to re-run the build. If not please add one.
