@@ -2,7 +2,7 @@ import React from 'react'
 import theme from 'grape-web/lib/mui-theme'
 import ThemeProvider from 'grape-web/lib/components/theme-provider'
 
-import { IntlProvider } from '../../components/i18n'
+import { IntlProvider } from 'react-intl'
 import { renderSheetsInsertionPoints } from '../../app'
 import * as translations from '../../i18n'
 import conf from '../../conf'
