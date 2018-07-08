@@ -26,6 +26,7 @@ export default class GrapeInput extends Component {
     sheet: PropTypes.object.isRequired,
     // Prop `content` is a makrdown string.
     content: PropTypes.string,
+    Editable: PropTypes.any,
   }
 
   static defaultProps = {
@@ -86,7 +87,9 @@ export default class GrapeInput extends Component {
         this.props.onSubmit({
           content,
           objects: apiObjects,
-          objectsOnly: parts.length === tokens.length,
+          objectsOnly:
+            parts.length === tokens.length &&
+            tokens.length === apiObjects.length,
         })
       },
     )
@@ -155,7 +158,11 @@ export default class GrapeInput extends Component {
         ...this.state.objects,
         [token]: object,
       },
-      apiObjects: [...this.state.apiObjects, result],
+      // Emojis are objects we want to highlight, but not apiObjects
+      apiObjects:
+        object.type === 'emoji'
+          ? [...this.state.apiObjects, result]
+          : this.state.apiObjects,
     }
     this.setState(state, () => {
       this.input.replace(token)

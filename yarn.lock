@@ -2599,9 +2599,9 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
-eslint-config-ubergrape@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npmjs.org/eslint-config-ubergrape/-/eslint-config-ubergrape-5.1.0.tgz#2a119c692c80f3e32734f137efff71d656342bc5"
+eslint-config-ubergrape@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-ubergrape/-/eslint-config-ubergrape-5.3.0.tgz#c756e98186ea962d2c46f964f5bf84e6ac6b7a72"
 
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
