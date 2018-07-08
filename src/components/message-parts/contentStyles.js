@@ -34,6 +34,14 @@ export default {
       isolate: false,
       display: 'block',
       color: gainsboroDark,
+      '& em': {
+        fontStyle: 'italic',
+        color: gainsboroDark,
+      },
+      '& strong, & b': {
+        fontWeight: 'bold',
+        color: gainsboroDark,
+      },
     },
   },
   '& pre': {
