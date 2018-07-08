@@ -3,7 +3,12 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { screenWidth } from 'grape-theme/dist/sizes'
 
-import { sidebarWidth, sidebarWidthXl } from './constants'
+import {
+  sidebarWidth,
+  sidebarWidthXl,
+  navigationWidth,
+  navigationWidthXl,
+} from './constants'
 
 const Noop = () => null
 
@@ -14,12 +19,13 @@ const styles = {
     height: '100%',
     width: '100%',
     overflow: 'hidden',
+    // avoid width recalculations in the sidebar that lead to a broken layout with overlaps
+    minWidth: navigationWidth + sidebarWidth,
   },
   aside: {
     display: 'flex',
     position: 'relative',
-    minWidth: 200,
-    width: 280,
+    width: navigationWidthXl,
     flexShrink: 0,
     flexDirection: 'column',
   },
@@ -59,7 +65,7 @@ const styles = {
   },
   [`@media (max-width: ${screenWidth.xl}px)`]: {
     aside: {
-      width: 230,
+      width: navigationWidth,
     },
     sidebar: {
       width: sidebarWidth,
