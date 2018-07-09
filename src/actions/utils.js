@@ -56,11 +56,11 @@ export function pinToFavorite(channel) {
  * not from old frontend architecture
  */
 export function reduceChannelUsersToId(channel) {
-  let creator = channel.creator
+  let { creator } = channel
   if (creator && typeof creator === 'object') {
     creator = creator.id
   }
-  let history = channel.history
+  let { history } = channel
   if (history && typeof history === 'object') {
     history = channel.history.map(h => (h.id ? h.id : h))
   }
@@ -94,7 +94,6 @@ export function normalizeChannelData(channel, userId) {
 export function normalizeUserData(user, organizations) {
   const normalized = removeNullValues({
     isActive: true,
-    status: 0,
     ...user,
     avatar: user.isOnlyInvited ? invitedAvatar : user.avatar || defaultAvatar,
   })
@@ -188,7 +187,7 @@ export const normalizeMessage = (() => {
     return nMentions
   }
 
-  function normalizeRegularMessage(msg, state, labelConfigs) {
+  function normalizeRegularMessage(msg, state, configs) {
     const channels = channelsSelector(state)
     const { id, text, channel: channelId, pinned: isPinned } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
@@ -209,9 +208,7 @@ export const normalizeMessage = (() => {
       maxLinkAttachments,
     )
     const labels =
-      msg.labels && labelConfigs
-        ? normalizeLabels(msg.labels, labelConfigs)
-        : []
+      msg.labels && configs ? normalizeLabels(msg.labels, configs) : []
 
     return {
       type,
