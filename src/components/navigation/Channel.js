@@ -52,6 +52,7 @@ function Pm(props) {
     classes,
     channel: { partner, avatar, displayName, status },
   } = props
+
   const theme = {
     classes: {
       name: classes.channelName,
@@ -64,7 +65,7 @@ function Pm(props) {
       <Username
         statusBorderColor={colors.grayBlueLighter}
         avatar={partner ? partner.avatar : avatar}
-        status={status ? userStatusMap[status] : userStatusMap[partner.status]}
+        status={partner ? userStatusMap[partner.status] : userStatusMap[status]}
         name={partner ? partner.displayName : displayName}
         theme={theme}
       />
