@@ -13,7 +13,6 @@ export const styles = {
   },
   action: {
     display: 'inline-block',
-    verticalAlign: 'middle',
     border: 0,
     fontSize: 0,
     lineHeight: 0,
