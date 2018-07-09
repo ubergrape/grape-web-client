@@ -14,7 +14,7 @@ export function loadMentions(params) {
     const state = getState()
     const { id } = orgSelector(state)
     const {
-      offset,
+      offsetDate,
       options: { shouldReplace, showRoomMentions, showCurrentRoomMentions },
     } = params
     const channels = []
@@ -25,7 +25,7 @@ export function loadMentions(params) {
     return api
       .searchMentions({
         orgId: id,
-        offset: shouldReplace ? undefined : offset,
+        offset: shouldReplace ? undefined : offsetDate,
         mentionTypes: showRoomMentions ? ['room', 'user'] : ['user'],
         channels: channels.length ? channels : undefined,
       })
