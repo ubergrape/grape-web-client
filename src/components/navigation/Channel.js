@@ -64,7 +64,7 @@ function Pm(props) {
       <Username
         statusBorderColor={colors.grayBlueLighter}
         avatar={partner ? partner.avatar : avatar}
-        status={partner ? userStatusMap[partner.status] : userStatusMap[status]}
+        status={status ? userStatusMap[status] : userStatusMap[partner.status]}
         name={partner ? partner.displayName : displayName}
         theme={theme}
       />
@@ -112,6 +112,7 @@ export default class Channel extends PureComponent {
     return (
       <div>
         {header && <h2 className={classes.unjoinedTitle}>{header}</h2>}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div className={channelClass} onClick={onClick}>
           <ChannelPicker {...this.props} />
         </div>

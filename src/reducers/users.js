@@ -39,9 +39,9 @@ export default function reduce(state = initialState, action) {
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
+        status,
         partner: {
           ...user.partner,
-          status,
         },
       })
       return newState
