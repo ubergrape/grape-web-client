@@ -29,7 +29,7 @@ export function renderTag(tag, props, children) {
 
     // No link if it's the current logged in user
     if (chatPmPath && user.id === Number(pmUserId)) {
-      return <span>{children}</span>
+      return <span key={key}>{children}</span>
     }
 
     return (
