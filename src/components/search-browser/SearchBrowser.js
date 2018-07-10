@@ -140,7 +140,7 @@ export default class SearchBrowser extends PureComponent {
     const { query, search } = this.state
     if (data && data !== this.props.data) this.onUpdateResults(data)
 
-    if (services !== this.props.services) {
+    if (services !== this.props.services && query) {
       onShowServices({ query, services })
       onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
     }
