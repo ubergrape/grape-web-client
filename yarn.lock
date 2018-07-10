@@ -7893,7 +7893,7 @@ react-transition-group@^2.2.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-virtualized@^9.19.1:
+react-virtualized@^9.20.0:
   version "9.20.0"
   resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.20.0.tgz#b024992cc857c1a1b2884a019ac52ed686cd690b"
   dependencies:
