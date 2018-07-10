@@ -14,7 +14,7 @@ import Message from '../Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 
 const shouldReplace = (props, options) =>
-  Object.entries(options).some(([value, key]) => props[key] !== value)
+  Object.entries(options).some(([value, key]) => props[value] !== key)
 
 @injectSheet(style)
 @injectIntl
@@ -26,10 +26,10 @@ export default class MessageSearch extends PureComponent {
     onClose: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
-    currentChannelOnly: PropTypes.bool.isRequired,
-    searchActivities: PropTypes.bool.isRequired,
-    showRoomMentions: PropTypes.bool.isRequired,
-    showCurrentRoomMentions: PropTypes.bool.isRequired,
+    currentChannelOnly: PropTypes.bool,
+    searchActivities: PropTypes.bool,
+    showRoomMentions: PropTypes.bool,
+    showCurrentRoomMentions: PropTypes.bool,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -44,6 +44,10 @@ export default class MessageSearch extends PureComponent {
   static defaultProps = {
     total: null,
     user: null,
+    currentChannelOnly: false,
+    searchActivities: false,
+    showRoomMentions: false,
+    showCurrentRoomMentions: false,
   }
 
   componentDidMount() {
