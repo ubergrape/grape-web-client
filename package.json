@@ -56,7 +56,7 @@
     "react-intl": "^2.4.0",
     "react-overlays": "^0.7.0",
     "react-redux": "^5.0.7",
-    "react-virtualized": "^9.19.1",
+    "react-virtualized": "^9.20.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0",
     "reselect": "^2.0.1",
