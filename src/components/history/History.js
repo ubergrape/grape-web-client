@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
+import isEqual from 'lodash/lang/isEqual'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
@@ -40,7 +40,7 @@ export default class History extends PureComponent {
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
-    showNoContent: PropTypes.bool.isRequired,
+    showNoContent: PropTypes.bool,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
     }),
@@ -56,15 +56,6 @@ export default class History extends PureComponent {
 
   static defaultProps = {
     messages: [],
-    onLoad: noop,
-    onLoadMore: noop,
-    onJump: noop,
-    onRead: noop,
-    onClickUser: noop,
-    onTouchTopEdge: noop,
-    onUserScrollAfterScrollTo: noop,
-    onInvite: noop,
-    onAddIntegration: noop,
     showNoContent: false,
     isLoadingInitialData: false,
     user: null,
@@ -100,7 +91,7 @@ export default class History extends PureComponent {
       return
     }
 
-    if (messages !== this.props.messages) {
+    if (!isEqual(messages, this.props.messages)) {
       this.setState(createState(this.state, nextProps))
     }
     if (this.props.scrollTo !== nextProps.scrollTo) {
