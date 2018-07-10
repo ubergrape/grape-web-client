@@ -100,9 +100,14 @@ export default class InfiniteList extends PureComponent {
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
       this.setState({ scrollLocked: true })
-      this.cache.clearAll()
-      this.list.recomputeRowHeights()
-      this.debounedScrollToRowBeforeResize()
+      // The width can be 0 in case the search is opened on a screen with a little
+      // width. We prevent re-calculations here since react-virtualized can't
+      // properly deal with a width 0 and would mess up the scroll position.
+      if (width !== 0) {
+        this.cache.clearAll()
+        this.list.recomputeRowHeights()
+        this.debounedScrollToRowBeforeResize()
+      }
     }
     this.prevWidth = width
   }
@@ -124,8 +129,6 @@ export default class InfiniteList extends PureComponent {
   }, 700)
 
   cache = new RowsCache({ fixedWidth: true })
-
-  scrollLocked = false
 
   isRowLoaded = index => Boolean(this.props.rows[index])
 
