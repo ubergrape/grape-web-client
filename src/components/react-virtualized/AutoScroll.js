@@ -7,7 +7,9 @@ import findIndex from 'lodash/array/findIndex'
  */
 export default class AutoScroll extends PureComponent {
   static propTypes = {
-    rows: PropTypes.array.isRequired,
+    rows: PropTypes.array,
+    // We use this threshold to make sure that new messages are visible
+    // even when the scroll position is not exactly at the end of the history.
     minEndThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
@@ -18,9 +20,6 @@ export default class AutoScroll extends PureComponent {
   }
 
   static defaultProps = {
-    // We use this threshold to make sure that new messages are visible
-    // even when the scroll position is not exactly at the end of the history.
-    minEndThreshold: 20,
     rows: [],
     scrollToIndex: undefined,
   }
@@ -32,9 +31,16 @@ export default class AutoScroll extends PureComponent {
     const { rows, height, minEndThreshold } = this.props
     const rowsHasChanged = nextProps.rows !== rows
 
+    // the case where you scroll to a specific message
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
-      this.scrollToAlignment = 'center'
+      // In case we scroll to the last message we want to scroll to the end.
+      // This is necessary to render to the bottom of the chat even if the
+      // last message is very long.
+      // For rendering a specific message in chat Felix asked for the message
+      // to be at the top.
+      this.scrollToAlignment =
+        rows.length === nextProps.scrollToIndex + 1 ? 'end' : 'start'
       return
     }
 
