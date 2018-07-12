@@ -11,6 +11,10 @@ import {
 } from '../selectors'
 import * as alerts from '../constants/alerts'
 import {
+  SCROLL_TO_ALIGNMENT_START,
+  SCROLL_TO_ALIGNMENT_END,
+} from '../constants/history'
+import {
   normalizeMessage,
   filterEmptyMessage,
   loadLabelsConfigCached,
@@ -58,7 +62,7 @@ function loadLatest(options = { clear: true }) {
           payload: {
             messages,
             scrollTo: lastMessage ? lastMessage.id : null,
-            scrollToAlignment: lastMessage ? 'end' : null,
+            scrollToAlignment: lastMessage ? SCROLL_TO_ALIGNMENT_END : null,
           },
         })
       })
@@ -190,7 +194,7 @@ function loadFragment() {
           payload: {
             messages: normalizeMessages(res, getState()),
             scrollTo: selectedMessageId,
-            scrollToAlignment: 'start',
+            scrollToAlignment: SCROLL_TO_ALIGNMENT_START,
             selectedMessageId,
           },
         })

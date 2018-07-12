@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
 import findIndex from 'lodash/array/findIndex'
+import {
+  SCROLL_TO_ALIGNMENT_START,
+  SCROLL_TO_ALIGNMENT_END,
+} from '../../constants/history'
 
 /**
  * Preserves the scroll position at the end when rows got added.
@@ -36,7 +40,7 @@ export default class AutoScroll extends PureComponent {
     // the case where you scroll to a specific message
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
-      this.scrollToAlignment = 'end'
+      this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
 
       if (nextProps.scrollToAlignment) {
         // scrollToAlignment by default is set to the end when we load the channel
@@ -45,7 +49,7 @@ export default class AutoScroll extends PureComponent {
       } else {
         // If scrollToAlignment is not defined `end` seems to be a safe bet
         // in a chat where we want to scroll to the bottom most of the times
-        this.scrollToAlignment = 'end'
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
       }
       return
     }
@@ -62,7 +66,7 @@ export default class AutoScroll extends PureComponent {
       })
       if (prevFirstRowIndex !== -1) {
         this.scrollToIndex = prevFirstRowIndex
-        this.scrollToAlignment = 'start'
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_START
       }
       return
     }
@@ -78,7 +82,7 @@ export default class AutoScroll extends PureComponent {
       // message is always in view.
       if (endThreshold < minEndThreshold) {
         this.scrollToIndex = nextProps.rows.length - 1
-        this.scrollToAlignment = 'end'
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
       }
     }
   }
