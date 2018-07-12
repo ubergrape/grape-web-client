@@ -132,7 +132,14 @@ export default class GrapeBrowser extends Component {
 
     const newEmojiSheet = get(nextProps, 'images.emojiSheet')
     const currEmojiSheet = get(this.props, 'images.emojiSheet')
-    if (newEmojiSheet !== currEmojiSheet) {
+
+    const newCustomEmojiSheet = get(nextProps, 'customEmojis')
+    const currCustomEmojiSheet = get(this.props, 'customEmojis')
+
+    if (
+      newEmojiSheet !== currEmojiSheet ||
+      newCustomEmojiSheet !== currCustomEmojiSheet
+    ) {
       EmojiBrowser.init({
         emojiSheet: newEmojiSheet,
         customEmojis: nextProps.customEmojis,
