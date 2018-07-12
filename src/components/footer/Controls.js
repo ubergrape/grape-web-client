@@ -67,6 +67,7 @@ const AttachmentButton = props => {
   contolIcon: {
     width: iconSize,
     height: iconSize,
+    cursor: 'pointer',
   },
   dropzone: {},
 }))
