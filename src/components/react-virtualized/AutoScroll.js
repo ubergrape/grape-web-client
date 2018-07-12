@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
 import findIndex from 'lodash/array/findIndex'
+import {
+  SCROLL_TO_ALIGNMENT_START,
+  SCROLL_TO_ALIGNMENT_END,
+} from '../../constants/history'
 
 /**
  * Preserves the scroll position at the end when rows got added.
@@ -17,11 +21,13 @@ export default class AutoScroll extends PureComponent {
     scrollToIndex: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
     scrollToRow: PropTypes.func.isRequired,
+    scrollToAlignment: PropTypes.string,
   }
 
   static defaultProps = {
     rows: [],
     scrollToIndex: undefined,
+    scrollToAlignment: null,
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -34,13 +40,17 @@ export default class AutoScroll extends PureComponent {
     // the case where you scroll to a specific message
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
-      // In case we scroll to the last message we want to scroll to the end.
-      // This is necessary to render to the bottom of the chat even if the
-      // last message is very long.
-      // For rendering a specific message in chat Felix asked for the message
-      // to be at the top.
-      this.scrollToAlignment =
-        rows.length === nextProps.scrollToIndex + 1 ? 'end' : 'start'
+      this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
+
+      if (nextProps.scrollToAlignment) {
+        // scrollToAlignment by default is set to the end when we load the channel
+        // and set to start (specified by Felix) in case the message is selected.
+        this.scrollToAlignment = nextProps.scrollToAlignment
+      } else {
+        // If scrollToAlignment is not defined `end` seems to be a safe bet
+        // in a chat where we want to scroll to the bottom most of the times
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
+      }
       return
     }
 
@@ -56,7 +66,7 @@ export default class AutoScroll extends PureComponent {
       })
       if (prevFirstRowIndex !== -1) {
         this.scrollToIndex = prevFirstRowIndex
-        this.scrollToAlignment = 'start'
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_START
       }
       return
     }
@@ -72,7 +82,7 @@ export default class AutoScroll extends PureComponent {
       // message is always in view.
       if (endThreshold < minEndThreshold) {
         this.scrollToIndex = nextProps.rows.length - 1
-        this.scrollToAlignment = 'end'
+        this.scrollToAlignment = SCROLL_TO_ALIGNMENT_END
       }
     }
   }

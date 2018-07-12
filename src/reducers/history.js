@@ -92,7 +92,7 @@ export default function reduce(state = initialState, action) {
     case types.REQUEST_NEWER_HISTORY:
       return { ...state, newerMessages: payload.promise }
     case types.UNSET_HISTORY_SCROLL_TO:
-      return { ...state, scrollTo: null }
+      return { ...state, scrollTo: null, scrollToAlignment: null }
     case types.REMOVE_MESSAGE:
       return { ...state, messages: reject(state.messages, { id: payload }) }
     case types.EDIT_MESSAGE:

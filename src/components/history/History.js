@@ -51,6 +51,7 @@ export default class History extends PureComponent {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
+    scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
   }
@@ -64,6 +65,7 @@ export default class History extends PureComponent {
     users: [],
     selectedMessageId: null,
     scrollTo: null,
+    scrollToAlignment: null,
     minimumBatchSize: null,
   }
 
@@ -154,6 +156,7 @@ export default class History extends PureComponent {
       onRead,
       isLoadingInitialData,
       selectedMessageId,
+      scrollToAlignment,
     } = this.props
     const { rows, scrollTo } = this.state
 
@@ -197,6 +200,7 @@ export default class History extends PureComponent {
                   }}
                   onScroll={onScroll}
                   scrollTo={scrollTo}
+                  scrollToAlignment={scrollToAlignment}
                   rows={rows}
                   minimumBatchSize={minimumBatchSize}
                   onLoadMore={onLoadMore}

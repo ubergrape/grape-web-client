@@ -62,11 +62,13 @@ export default class InfiniteList extends PureComponent {
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
+    scrollToAlignment: PropTypes.string,
   }
 
   static defaultProps = {
     scrollTo: null,
     onRowsRendered: noop,
+    scrollToAlignment: null,
   }
 
   state = { scrollLocked: false }
@@ -87,9 +89,14 @@ export default class InfiniteList extends PureComponent {
   }
 
   onRowsRendered = ({ startIndex, stopIndex }) => {
-    if (!this.state.scrollLocked) {
-      const index = Math.floor((startIndex + stopIndex) / 2)
-      this.idOfMessageToBeFocusedAfterResize = this.props.rows[index].id
+    if (this.state.scrollLocked && this.didRenderLastRow) {
+      // When the last row was rendered while we are in phase where react-virtualize
+      // recalculates the user was either at the bottom or very close
+      // to the bottom of the chat before recalculation started. Jumping to the last
+      // row was the best experience in this case.
+      this.scrollToRow(this.props.rows.length - 1)
+    } else if (!this.state.scrollLocked) {
+      this.idOfMessageToBeFocusedAfterResize = this.props.rows[startIndex].id
       this.didRenderLastRow = this.props.rows.length === stopIndex + 1
     }
   }
@@ -106,25 +113,32 @@ export default class InfiniteList extends PureComponent {
       if (width !== 0) {
         this.cache.clearAll()
         this.list.recomputeRowHeights()
-        this.debounedScrollToRowBeforeResize()
+        // if this.didRenderLastRow is active during the scrollLocked phase
+        // this.onRowsRendered will make sure to always stick to the bottom
+        // and we won't show the recalculate overlay
+        //
+        // this stick to the bottom case is the most common one and that's
+        // why we decided to make this optimization for it
+        if (this.didRenderLastRow) {
+          this.debouncedReleaseLockState()
+        } else {
+          this.debouncedScrollToRowBeforeResize()
+        }
       }
     }
     this.prevWidth = width
   }
 
-  debounedScrollToRowBeforeResize = debounce(() => {
-    // When the last row was rendered the user was either at the bottom or very close
-    // to the bottom of the chat. Jumping to the last row was the best experience in
-    // this case.
-    if (this.didRenderLastRow) {
-      this.scrollToRow(this.props.rows.length - 1)
-    } else {
-      const newIndex = findIndex(
-        this.props.rows,
-        item => item.id === this.idOfMessageToBeFocusedAfterResize,
-      )
-      this.list.scrollToRow(newIndex)
-    }
+  debouncedScrollToRowBeforeResize = debounce(() => {
+    const newIndex = findIndex(
+      this.props.rows,
+      item => item.id === this.idOfMessageToBeFocusedAfterResize,
+    )
+    this.list.scrollToRow(newIndex)
+    this.setState({ scrollLocked: false })
+  }, 700)
+
+  debouncedReleaseLockState = debounce(() => {
     this.setState({ scrollLocked: false })
   }, 700)
 
@@ -162,9 +176,12 @@ export default class InfiniteList extends PureComponent {
       rows,
       minimumBatchSize,
       classes,
+      scrollToAlignment,
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
+    const renderScrollLockOverlay =
+      this.state.scrollLocked && !this.didRenderLastRow
 
     return (
       <div className={classes.wrapper}>
@@ -185,13 +202,14 @@ export default class InfiniteList extends PureComponent {
                   rows={rows}
                   height={height}
                   scrollToIndex={scrollToRow}
+                  scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
                   scrollToRow={this.scrollToRow}
                   scrollToPosition={this.scrollToPosition}
                 >
                   {({
                     onScroll: onScrollInAutoScroll,
-                    scrollToAlignment,
+                    scrollToAlignment: scrollToAlignmentInAutoScroll,
                     scrollToIndex,
                     onRowsRendered: onRowsRenderedInAutoScroll,
                   }) => (
@@ -199,7 +217,7 @@ export default class InfiniteList extends PureComponent {
                       deferredMeasurementCache={this.cache}
                       className={classes.grid}
                       scrollToIndex={scrollToIndex}
-                      scrollToAlignment={scrollToAlignment}
+                      scrollToAlignment={scrollToAlignmentInAutoScroll}
                       onRowsRendered={params => {
                         this.onRowsRendered(params)
                         onRowsRenderedInAutoScroll(params)
@@ -225,7 +243,7 @@ export default class InfiniteList extends PureComponent {
             </AutoSizer>
           )}
         </InfiniteLoader>
-        {this.state.scrollLocked && (
+        {renderScrollLockOverlay && (
           <div className={classes.resizePlaceholder}>
             <div className={classes.resizePlaceholderContent}>
               <FormattedMessage
