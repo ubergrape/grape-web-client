@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 import debounce from 'lodash/function/debounce'
+import { readRowDelay } from '../../constants/delays'
 
 export default class ReadRow extends PureComponent {
   static propTypes = {
@@ -69,7 +70,7 @@ export default class ReadRow extends PureComponent {
     } else {
       this.lastVisibleMessageId = messageId
     }
-  }, 100)
+  }, readRowDelay)
 
   render() {
     return (
