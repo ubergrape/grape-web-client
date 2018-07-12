@@ -10,6 +10,7 @@ import findIndex from 'lodash/array/findIndex'
 import { spacer } from 'grape-theme/dist/sizes'
 import { FormattedMessage } from 'react-intl'
 
+import { reactVirtualizedRecalculationDelay } from '../../constants/delays'
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 
@@ -136,11 +137,11 @@ export default class InfiniteList extends PureComponent {
     )
     this.list.scrollToRow(newIndex)
     this.setState({ scrollLocked: false })
-  }, 700)
+  }, reactVirtualizedRecalculationDelay)
 
   debouncedReleaseLockState = debounce(() => {
     this.setState({ scrollLocked: false })
-  }, 700)
+  }, reactVirtualizedRecalculationDelay)
 
   cache = new RowsCache({ fixedWidth: true })
 
