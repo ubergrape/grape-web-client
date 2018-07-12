@@ -17,11 +17,13 @@ export default class AutoScroll extends PureComponent {
     scrollToIndex: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
     scrollToRow: PropTypes.func.isRequired,
+    scrollToAlignment: PropTypes.string,
   }
 
   static defaultProps = {
     rows: [],
     scrollToIndex: undefined,
+    scrollToAlignment: null,
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -34,13 +36,17 @@ export default class AutoScroll extends PureComponent {
     // the case where you scroll to a specific message
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
-      // In case we scroll to the last message we want to scroll to the end.
-      // This is necessary to render to the bottom of the chat even if the
-      // last message is very long.
-      // For rendering a specific message in chat Felix asked for the message
-      // to be at the top.
-      this.scrollToAlignment =
-        rows.length === nextProps.scrollToIndex + 1 ? 'end' : 'start'
+      this.scrollToAlignment = 'end'
+
+      if (nextProps.scrollToAlignment) {
+        // scrollToAlignment by default is set to the end when we load the channel
+        // and set to start (specified by Felix) in case the message is selected.
+        this.scrollToAlignment = nextProps.scrollToAlignment
+      } else {
+        // If scrollToAlignment is not defined `end` seems to be a safe bet
+        // in a chat where we want to scroll to the bottom most of the times
+        this.scrollToAlignment = 'end'
+      }
       return
     }
 

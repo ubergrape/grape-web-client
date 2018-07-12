@@ -62,11 +62,13 @@ export default class InfiniteList extends PureComponent {
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
+    scrollToAlignment: PropTypes.string,
   }
 
   static defaultProps = {
     scrollTo: null,
     onRowsRendered: noop,
+    scrollToAlignment: null,
   }
 
   state = { scrollLocked: false }
@@ -174,6 +176,7 @@ export default class InfiniteList extends PureComponent {
       rows,
       minimumBatchSize,
       classes,
+      scrollToAlignment,
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
@@ -199,13 +202,14 @@ export default class InfiniteList extends PureComponent {
                   rows={rows}
                   height={height}
                   scrollToIndex={scrollToRow}
+                  scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
                   scrollToRow={this.scrollToRow}
                   scrollToPosition={this.scrollToPosition}
                 >
                   {({
                     onScroll: onScrollInAutoScroll,
-                    scrollToAlignment,
+                    scrollToAlignment: scrollToAlignmentInAutoScroll,
                     scrollToIndex,
                     onRowsRendered: onRowsRenderedInAutoScroll,
                   }) => (
@@ -213,7 +217,7 @@ export default class InfiniteList extends PureComponent {
                       deferredMeasurementCache={this.cache}
                       className={classes.grid}
                       scrollToIndex={scrollToIndex}
-                      scrollToAlignment={scrollToAlignment}
+                      scrollToAlignment={scrollToAlignmentInAutoScroll}
                       onRowsRendered={params => {
                         this.onRowsRendered(params)
                         onRowsRenderedInAutoScroll(params)

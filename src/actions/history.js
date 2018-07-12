@@ -58,6 +58,7 @@ function loadLatest(options = { clear: true }) {
           payload: {
             messages,
             scrollTo: lastMessage ? lastMessage.id : null,
+            scrollToAlignment: lastMessage ? 'end' : null,
           },
         })
       })
@@ -189,6 +190,7 @@ function loadFragment() {
           payload: {
             messages: normalizeMessages(res, getState()),
             scrollTo: selectedMessageId,
+            scrollToAlignment: 'start',
             selectedMessageId,
           },
         })
