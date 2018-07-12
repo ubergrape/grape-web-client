@@ -1,11 +1,11 @@
 import React, { createElement } from 'react'
 import { isGrapeUrl } from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
-import { Link } from 'grape-web/lib/router'
 
 import jsEmoji, { getEmojiSliceStyle, style } from '../emoji/emoji'
 
 import { nonStandardProps, replaceCustomEmojis } from './utils'
+import Link from '../link/Link'
 
 import GrapeObject from './GrapeObject'
 import { LineBreak } from '../line-break'
@@ -33,8 +33,7 @@ export function renderTag(tag, props, children) {
     }
 
     return (
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <Link to={href} key={key}>
+      <Link key={key} href={href}>
         {children}
       </Link>
     )
