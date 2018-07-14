@@ -30,8 +30,10 @@ const addNewMessage = message => (dispatch, getState) => {
   const rooms = joinedRoomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
+  const currentChannel = channelSelector(state)
 
-  if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
+  if (nMessage.attachments.length && currentChannel.id === nMessage.id)
+    dispatch(addSharedFiles(nMessage))
   if (mentionsCount) dispatch(addMention(nMessage))
   dispatch({
     type: types.UPDATE_CHANNEL_STATS,
