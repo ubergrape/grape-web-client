@@ -7,7 +7,7 @@ import { channelsSelector, channelSelector } from '../selectors'
 import { findLastUsedChannel } from './utils'
 import * as history from '../app/history'
 
-import { setChannel, openPm, openChannel, handleBadChannel } from './'
+import { setChannel, openPm, openChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
   return dispatch => {
@@ -23,7 +23,7 @@ export function goTo(pathOrUrl, options = {}) {
       replace: options.replace,
       onExternal: window.open,
       onRedirect: url => {
-        location.href = url
+        window.location.href = url
       },
       onSilentChange: (path, { channelId, messageId, mateId, type }) => {
         if (type === 'channel') dispatch(openChannel(channelId, messageId))
@@ -77,7 +77,6 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
   if (channel) dispatch(goToChannel(channel))
-  else dispatch(handleBadChannel())
 }
 
 export function goToPayment() {
