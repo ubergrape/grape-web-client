@@ -19,6 +19,7 @@ export const styles = {
     userSelect: 'none',
     opacity: 0.7,
     '&:not(:first-child)': {
+      // This duplicate needs to prevent a bug in JSS
       opacity: 0.7,
       marginLeft: 10,
     },
