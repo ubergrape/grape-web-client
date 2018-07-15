@@ -56,8 +56,6 @@ export default class InfiniteList extends PureComponent {
     onScroll: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    onToggleExpander: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,

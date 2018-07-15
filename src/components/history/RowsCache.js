@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import CellMeasurerCache from 'react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache'
-import shallowEqual from 'fbjs/lib/shallowEqual'
+import isEqual from 'lodash/lang/isEqual'
 import keys from 'lodash/object/keys'
 import filter from 'lodash/collection/filter'
 import every from 'lodash/collection/every'
@@ -17,8 +17,13 @@ const cache = new FifoCache(10000)
  * It assumes both elements have the same properties.
  */
 export const equalPropsData = (a, b) => {
+  // The keys can be different in some cases e.g. isExpanded is not attached at all and
+  // then set to true.
+  if (!isEqual(keys(a), keys(b))) {
+    return false
+  }
   const dataProperties = filter(keys(a), key => typeof a[key] !== 'function')
-  return every(dataProperties, key => shallowEqual(a[key], b[key]))
+  return every(dataProperties, key => isEqual(a[key], b[key]))
 }
 
 /**
