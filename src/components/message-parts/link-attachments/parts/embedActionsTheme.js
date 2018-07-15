@@ -17,15 +17,22 @@ export const styles = {
     fontSize: 0,
     lineHeight: 0,
     userSelect: 'none',
-    marginLeft: 10,
-    '&:first-child': {
-      marginLeft: 0,
-    },
     opacity: 0.7,
+    '&:not(:first-child)': {
+      opacity: 0.7,
+      marginLeft: 10,
+    },
     '&:hover, &:focus': {
       opacity: 1,
+      '&:not(:first-child)': {
+        marginLeft: 10,
+      },
     },
   },
-  playIcon: create('play', { size: 70, color: white }),
-  externalLinkIcon: create('external', { size: 70, color: white }),
+  playIcon: create('play', { size: 70, color: white, cursor: 'pointer' }),
+  externalLinkIcon: create('external', {
+    size: 70,
+    color: white,
+    cursor: 'pointer',
+  }),
 }
