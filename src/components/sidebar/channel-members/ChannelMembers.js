@@ -18,16 +18,15 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
-    users: [],
   }
 
   componentDidMount() {
-    this.props.onLoad()
+    this.props.onLoad(true)
   }
 
   componentDidUpdate(nextProps) {
     if (nextProps.channel.id !== this.props.channel.id) {
-      this.props.onLoad()
+      this.props.onLoad(true)
     }
   }
 

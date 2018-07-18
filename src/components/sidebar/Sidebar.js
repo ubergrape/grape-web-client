@@ -236,15 +236,64 @@ Content.defaultProps = {
   },
 }
 
+const defaultStep = 50
+
 @injectIntl
 export default class Sidebar extends PureComponent {
   static propTypes = {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+    showSubview: PropTypes.string,
     className: PropTypes.string,
+    loadChannelMembers: PropTypes.func.isRequired,
+    subview: PropTypes.shape(),
   }
 
   static defaultProps = {
     className: null,
+    showSubview: 'pinnedMessages',
+    subview: {},
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      limit: defaultStep,
+      shift: defaultStep,
+      // A height of each member item is 42. 10 of them it's 420.
+      bottomOffset: 420,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { shift } = this.state
+    if (
+      nextProps.showSubview === 'members' &&
+      shift > nextProps.subview.users.length
+    ) {
+      this.setState({
+        shift: defaultStep,
+      })
+    }
+  }
+
+  onScroll = e => {
+    const { subview, showSubview } = this.props
+    const { offsetHeight, scrollTop, scrollHeight } = e.target
+    const { users, totalMembers } = subview
+    const { shift, limit, bottomOffset } = this.state
+    if (
+      showSubview !== 'members' || // If current tab is not 'members'
+      shift > users.length ||
+      totalMembers === users.length // Do not load members, if everybody already loaded
+    )
+      return
+
+    if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
+      this.setState({
+        shift: shift + limit,
+      })
+      this.props.loadChannelMembers(false, users[users.length - 1].joinedAt)
+    }
   }
 
   render() {
@@ -253,7 +302,7 @@ export default class Sidebar extends PureComponent {
     if (!show) return null
 
     return (
-      <div className={className}>
+      <div onScroll={this.onScroll} className={className}>
         <Content {...this.props} />
       </div>
     )

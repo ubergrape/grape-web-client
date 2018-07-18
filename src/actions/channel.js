@@ -11,6 +11,7 @@ import {
   orgSelector,
   pmsSelector,
   manageGroupsSelector,
+  channelMembersSelector,
 } from '../selectors'
 import {
   normalizeChannelData,
@@ -89,7 +90,10 @@ export function loadRoomInfo({ channel }) {
   return dispatch => dispatch(loadNotificationSettings({ channel }))
 }
 
-export const loadChannelMembers = () => (dispatch, getState) => {
+export const loadChannelMembers = (isInitialLoading, after) => (
+  dispatch,
+  getState,
+) => {
   const channel = channelSelector(getState())
 
   dispatch({
@@ -98,13 +102,22 @@ export const loadChannelMembers = () => (dispatch, getState) => {
   })
 
   api
-    .listMembers(channel.id)
-    .then(res => res.results)
-    .then(users => users.map(normalizeUserData))
-    .then(payload => {
+    .listMembers(channel.id, {
+      limit: 50,
+      after,
+    })
+    .then(({ results, total }) => ({
+      users: results.map(normalizeUserData),
+      total,
+    }))
+    .then(({ users, total }) => {
+      const { users: loadedUsers } = channelMembersSelector(getState())
       dispatch({
         type: types.HANDLE_CHANNEL_MEMBERS,
-        payload,
+        payload: {
+          users: isInitialLoading ? users : [...loadedUsers, ...users],
+          total,
+        },
       })
     })
     .catch(err => dispatch(error(err)))
