@@ -236,8 +236,6 @@ Content.defaultProps = {
   },
 }
 
-const defaultStep = 50
-
 @injectIntl
 export default class Sidebar extends PureComponent {
   static propTypes = {
@@ -257,8 +255,8 @@ export default class Sidebar extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      limit: defaultStep,
-      shift: defaultStep,
+      limit: 50,
+      shift: 50,
       // A height of each member item is 42. 10 of them it's 420.
       bottomOffset: 420,
     }
@@ -271,7 +269,7 @@ export default class Sidebar extends PureComponent {
       shift > nextProps.subview.users.length
     ) {
       this.setState({
-        shift: defaultStep,
+        shift: 50,
       })
     }
   }
