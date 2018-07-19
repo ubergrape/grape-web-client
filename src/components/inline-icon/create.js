@@ -10,7 +10,16 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
  * Creates a mixin which adds an icon to any rule.
  */
 export default function create(name, options = {}) {
-  const { width, height, size, top, format, color, hoverColor } = options
+  const {
+    width,
+    height,
+    size,
+    top,
+    format,
+    color,
+    hoverColor,
+    cursor,
+  } = options
 
   const style = {
     '&:before': {
@@ -49,6 +58,10 @@ export default function create(name, options = {}) {
         format,
       })}')`,
     }
+  }
+
+  if (cursor) {
+    style['&:before'].cursor = cursor
   }
 
   return style

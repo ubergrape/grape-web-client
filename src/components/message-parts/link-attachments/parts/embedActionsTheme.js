@@ -12,20 +12,26 @@ export const styles = {
     whiteSpace: 'nowrap',
   },
   action: {
-    display: 'inline-block',
     border: 0,
     fontSize: 0,
     lineHeight: 0,
     userSelect: 'none',
-    marginLeft: 10,
-    '&:first-child': {
-      marginLeft: 0,
-    },
     opacity: 0.7,
+    '&:first-child': {
+      isolate: false,
+      marginRight: 10,
+    },
     '&:hover, &:focus': {
       opacity: 1,
+      '&:first-child': {
+        marginRight: 10,
+      },
     },
   },
-  playIcon: create('play', { size: 70, color: white }),
-  externalLinkIcon: create('external', { size: 70, color: white }),
+  playIcon: create('play', { size: 70, color: white, cursor: 'pointer' }),
+  externalLinkIcon: create('external', {
+    size: 70,
+    color: white,
+    cursor: 'pointer',
+  }),
 }
