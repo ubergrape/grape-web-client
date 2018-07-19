@@ -81,7 +81,7 @@ export default class Navigation extends PureComponent {
 
   componentWillUpdate(nextProps) {
     if (this.props.foundChannels !== nextProps.foundChannels) {
-      this.updateFocusadChannel(nextProps.foundChannels[0])
+      this.updateFocusedChannel(nextProps.foundChannels[0])
     }
   }
 
@@ -158,7 +158,7 @@ export default class Navigation extends PureComponent {
     }
   }
 
-  updateFocusadChannel(channel) {
+  updateFocusedChannel(channel) {
     this.setState({
       focusedChannel: channel,
     })
