@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { Link } from 'grape-web/lib/router'
+import { Link as RouterLink } from 'grape-web/lib/router'
 
 import isChatUrl from '../../utils/is-chat-url'
 
-export default class LinkWithIcon extends PureComponent {
+export default class Link extends PureComponent {
   static propTypes = {
     href: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
@@ -27,7 +27,7 @@ export default class LinkWithIcon extends PureComponent {
 
     return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <Link to={href}>{children}</Link>
+      <RouterLink to={href}>{children}</RouterLink>
     )
   }
 }
