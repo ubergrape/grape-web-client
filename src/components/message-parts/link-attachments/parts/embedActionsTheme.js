@@ -12,7 +12,6 @@ export const styles = {
     whiteSpace: 'nowrap',
   },
   action: {
-    display: 'inline-block',
     border: 0,
     fontSize: 0,
     lineHeight: 0,
