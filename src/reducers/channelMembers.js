@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   users: [],
+  totalMembers: 0,
 }
 
 export default function reduce(state = initialState, action) {

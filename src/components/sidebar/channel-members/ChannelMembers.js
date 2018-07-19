@@ -55,7 +55,7 @@ export default class ChannelMembers extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.sidebarRef.removeEventListener('scroll', this.onScroll)
+    this.props.sidebarRef.removeEventListener('scroll', this.onScroll, true)
   }
 
   onScroll = e => {
