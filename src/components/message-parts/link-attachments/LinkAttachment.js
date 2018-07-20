@@ -78,12 +78,12 @@ export default class LinkAttachment extends PureComponent {
     text: PropTypes.string,
     imageUrl: PropTypes.string,
     thumbUrl: PropTypes.string,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     embedHtml: PropTypes.string,
     ts: PropTypes.number,
-    fields: PropTypes.array.isRequired,
-    className: PropTypes.string.isRequired,
+    fields: PropTypes.array,
+    className: PropTypes.string,
     classes: PropTypes.object.isRequired,
     onRemove: PropTypes.func,
   }
@@ -242,7 +242,7 @@ export default class LinkAttachment extends PureComponent {
     const { fields, sourceUrl, classes } = this.props
 
     let key = 0
-    const fieldGroups = groupFields(fields)
+    const fieldGroups = groupFields(Array.from(fields))
 
     return (
       <div className={classes.fields}>
