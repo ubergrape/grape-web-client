@@ -9,6 +9,8 @@ const initialState = {
   messages: [],
   minimumBatchSize: 30,
   receivedMessageViaSocket: false,
+  scrollTo: null,
+  scrollToAlignment: null,
 }
 
 function updateMessage(state, newMessage) {
@@ -78,6 +80,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         messages,
         scrollTo: null,
+        scrollToAlignment: null,
         olderMessages,
         newerMessages,
         showNoContent: false,
@@ -146,9 +149,11 @@ export default function reduce(state = initialState, action) {
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
-        scrollTo: null,
+        scrollTo,
+        scrollToAlignment: null,
         messages: [...state.messages, payload],
         showNoContent: false,
         receivedMessageViaSocket: true,
