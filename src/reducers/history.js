@@ -47,6 +47,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         channel: payload.channel,
         selectedMessageId: payload.messageId,
+        selectedMessageIdTimestamp: Date.now(),
         olderMessages: undefined,
         newerMessages: undefined,
       }
