@@ -17,10 +17,7 @@ export default class AutoScroll extends PureComponent {
     minEndThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     scrollToIndex: PropTypes.number,
-    // eslint-disable-next-line react/no-unused-prop-types
-    scrollToRow: PropTypes.func.isRequired,
     scrollToAlignment: PropTypes.string,
     receivedMessageViaSocket: PropTypes.bool.isRequired,
   }

@@ -205,7 +205,6 @@ export default class InfiniteList extends PureComponent {
                   scrollToIndex={scrollToRow}
                   scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
-                  scrollToRow={this.scrollToRow}
                   scrollToPosition={this.scrollToPosition}
                   receivedMessageViaSocket={receivedMessageViaSocket}
                 >
