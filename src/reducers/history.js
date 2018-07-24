@@ -8,6 +8,9 @@ import conf from '../conf'
 const initialState = {
   messages: [],
   minimumBatchSize: 30,
+  receivedMessageViaSocket: false,
+  scrollTo: null,
+  scrollToAlignment: null,
 }
 
 function updateMessage(state, newMessage) {
@@ -54,6 +57,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...payload,
         showNoContent: payload.messages.length === 0 && !conf.embed,
+        receivedMessageViaSocket: false,
       }
     case types.HANDLE_MORE_HISTORY: {
       const { messages: newMessages, isScrollBack } = payload
@@ -76,9 +80,11 @@ export default function reduce(state = initialState, action) {
         ...state,
         messages,
         scrollTo: null,
+        scrollToAlignment: null,
         olderMessages,
         newerMessages,
         showNoContent: false,
+        receivedMessageViaSocket: false,
       }
     }
     case types.GO_TO_CHANNEL:
@@ -92,7 +98,12 @@ export default function reduce(state = initialState, action) {
     case types.REQUEST_NEWER_HISTORY:
       return { ...state, newerMessages: payload.promise }
     case types.UNSET_HISTORY_SCROLL_TO:
-      return { ...state, scrollTo: null, scrollToAlignment: null }
+      return {
+        ...state,
+        scrollTo: null,
+        scrollToAlignment: null,
+        receivedMessageViaSocket: false,
+      }
     case types.REMOVE_MESSAGE:
       return { ...state, messages: reject(state.messages, { id: payload }) }
     case types.EDIT_MESSAGE:
@@ -134,6 +145,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         messages: [...state.messages, { ...payload, state: 'pending' }],
         showNoContent: false,
+        receivedMessageViaSocket: false,
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
@@ -141,8 +153,10 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         scrollTo,
+        scrollToAlignment: null,
         messages: [...state.messages, payload],
         showNoContent: false,
+        receivedMessageViaSocket: true,
       }
     }
     default:

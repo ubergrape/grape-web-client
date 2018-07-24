@@ -54,6 +54,7 @@ export default class History extends PureComponent {
     scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
+    receivedMessageViaSocket: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -157,6 +158,7 @@ export default class History extends PureComponent {
       isLoadingInitialData,
       selectedMessageId,
       scrollToAlignment,
+      receivedMessageViaSocket,
     } = this.props
     const { rows, scrollTo } = this.state
 
@@ -208,6 +210,7 @@ export default class History extends PureComponent {
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
                   renderRow={this.renderRow}
+                  receivedMessageViaSocket={receivedMessageViaSocket}
                 />
               )}
             </Jumper>

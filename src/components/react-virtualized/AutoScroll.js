@@ -17,11 +17,9 @@ export default class AutoScroll extends PureComponent {
     minEndThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     scrollToIndex: PropTypes.number,
-    // eslint-disable-next-line react/no-unused-prop-types
-    scrollToRow: PropTypes.func.isRequired,
     scrollToAlignment: PropTypes.string,
+    receivedMessageViaSocket: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -71,10 +69,13 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    // We way need to auto scroll when:
-    // - Rows has been changed.
-    // - Parent size has changed.
-    if (rowsHasChanged || nextProps.height !== height) {
+    // We way need to auto scroll to the bottom when:
+    // - When a new message was received.
+    // - Parent size has changed and the scroll position was close to the bottom.
+    if (
+      (nextProps.receivedMessageViaSocket && rowsHasChanged) ||
+      nextProps.height !== height
+    ) {
       const endThreshold =
         this.scrollHeight - this.scrollTop - this.clientHeight
 
