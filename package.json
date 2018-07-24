@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -146,7 +146,7 @@
     "i18n:export": "yarn clear:i18n && yarn build && babel-node i18n/scripts/export.js",
     "i18n:import": "yarn clear:i18n && yarn build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
-    "prepublishOnly": "cross-env NODE_ENV=production yarn test && yarn build",
+    "prepublishOnly": "yarn test && cross-env NODE_ENV=production yarn build",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },
