@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import debounce from 'lodash/function/debounce'
+import { findDOMNode } from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
@@ -92,7 +93,10 @@ export default class Navigation extends PureComponent {
     this.listsContainer = ref
   }
   onFilterRef = ref => {
-    this.filter = ref
+    // 'findDOMNode' needs here to not break keys binding.
+    // It's not working without it.
+    // eslint-disable-next-line react/no-find-dom-node
+    this.filter = findDOMNode(ref)
   }
   onFilteredListRef = ref => {
     this.filteredList = ref
