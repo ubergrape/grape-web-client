@@ -47,6 +47,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         channel: payload.channel,
         selectedMessageId: payload.messageId,
+        selectedMessageIdTimestamp: Date.now(),
         olderMessages: undefined,
         newerMessages: undefined,
       }
@@ -91,6 +92,11 @@ export default function reduce(state = initialState, action) {
       // Clicked on the current channel.
       if (state.channel && payload === state.channel.id) return state
       return { ...state, messages: [] }
+    // when the client is disconnected and re-connects SET_INITIAL_DATA_LOADING is triggered
+    // to avoid unexpected behaviour from existing data this case resets the state
+    case types.SET_INITIAL_DATA_LOADING:
+      if (!payload) return state
+      return { ...initialState }
     case types.CLEAR_HISTORY:
       return { ...state, messages: [] }
     case types.REQUEST_OLDER_HISTORY:

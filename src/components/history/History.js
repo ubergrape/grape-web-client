@@ -49,6 +49,7 @@ export default class History extends PureComponent {
     messages: PropTypes.array,
     user: PropTypes.object,
     selectedMessageId: PropTypes.string,
+    selectedMessageIdTimestamp: PropTypes.number,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     scrollToAlignment: PropTypes.string,
@@ -65,6 +66,7 @@ export default class History extends PureComponent {
     channel: null,
     users: [],
     selectedMessageId: null,
+    selectedMessageIdTimestamp: null,
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
@@ -85,12 +87,21 @@ export default class History extends PureComponent {
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
+    // 4. The same selected message has been clicked on again
     const selectedMessageHasChanged =
       this.props.selectedMessageId !== selectedMessageId
+    const selectedMessageHasBeenClickedOnAgain =
+      this.props.selectedMessageId &&
+      this.props.selectedMessageIdTimestamp !==
+        nextProps.selectedMessageIdTimestamp
     const channelHasChanged =
       get(channel, 'id') !== get(this.props, 'channel.id')
 
-    if (selectedMessageHasChanged || channelHasChanged) {
+    if (
+      channelHasChanged ||
+      selectedMessageHasChanged ||
+      selectedMessageHasBeenClickedOnAgain
+    ) {
       this.needsInitialLoad = true
       return
     }
@@ -125,7 +136,6 @@ export default class History extends PureComponent {
 
   load() {
     const { isLoadingInitialData, channel, onLoad } = this.props
-
     if (this.needsInitialLoad && !isLoadingInitialData && channel) {
       this.needsInitialLoad = false
       onLoad()

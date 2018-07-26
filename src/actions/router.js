@@ -38,10 +38,6 @@ export function goTo(pathOrUrl, options = {}) {
 
 export function goToMessage(message) {
   return dispatch => {
-    dispatch({
-      type: types.GO_TO_MESSAGE,
-      payload: message,
-    })
     dispatch(goTo(message.link))
   }
 }
