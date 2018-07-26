@@ -169,8 +169,6 @@ export default class Navigation extends PureComponent {
   }
 
   goToChannel = channel => {
-    if (this.props.channel.id === channel.id) return
-
     this.setState({
       filter: '',
       filtered: [],
