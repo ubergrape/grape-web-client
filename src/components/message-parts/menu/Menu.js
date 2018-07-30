@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 
 import { zIndex } from '../../../utils/z-index'
@@ -22,14 +21,14 @@ const getPosition = (contentNode, total) => {
   return canFit ? 'top' : 'right'
 }
 
-@injectSheet({
+const styles = {
   root: {
     whiteSpace: 'nowrap',
     zIndex: zIndex('base'),
   },
   top: {
     position: 'absolute',
-    top: -13,
+    top: -22,
     right: 15,
   },
   right: {
@@ -37,8 +36,9 @@ const getPosition = (contentNode, total) => {
     top: 1,
     left: `calc(100% + ${firstLastPadding}px)`,
   },
-})
-export default class Menu extends PureComponent {
+}
+
+class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -49,7 +49,6 @@ export default class Menu extends PureComponent {
 
   static defaultProps = {
     showDropdown: false,
-    onSelect: noop,
   }
 
   render() {
@@ -92,3 +91,5 @@ export default class Menu extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Menu)
