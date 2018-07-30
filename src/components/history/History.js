@@ -101,6 +101,9 @@ export default class History extends PureComponent {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
+    if (this.props.scrollTo !== nextProps.scrollTo) {
+      this.setState({scrollTo: nextProps.scrollTo})
+    }
   }
 
   componentDidUpdate() {
@@ -143,9 +146,20 @@ export default class History extends PureComponent {
 
   render() {
     const {
-      sheet: {classes}, user, minimumBatchSize, channel, users, showNoContent,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
-      isLoadingInitialData
+      sheet: {classes},
+      user,
+      minimumBatchSize,
+      channel,
+      users,
+      showNoContent,
+      onTouchTopEdge,
+      onLoadMore,
+      onJump,
+      onInvite,
+      onAddIntegration,
+      onRead,
+      isLoadingInitialData,
+      selectedMessageId
     } = this.props
     const {rows, scrollTo} = this.state
 
@@ -177,6 +191,7 @@ export default class History extends PureComponent {
           rows={rows}
           channelId={channel.id}
           onRead={onRead}
+          selectedMessageId={selectedMessageId}
         >
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
             <Jumper onJump={onJump}>

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React from 'react'
 
 import {
   defineMessages,
@@ -14,30 +14,23 @@ const messages = defineMessages({
   }
 })
 
-@injectIntl
-export default class Filter extends PureComponent {
-  static propTypes = {
-    intl: intlShape.isRequired,
-    value: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
-    onKeyDown: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired
-  }
+const Filter = ({intl, theme, value, onKeyDown, onChange}) => (
+  <input
+    type="search"
+    value={value}
+    onKeyDown={onKeyDown}
+    onChange={onChange}
+    placeholder={intl.formatMessage(messages.placeholder)}
+    className={theme.classes.filterInput}
+  />
+)
 
-  render() {
-    const {formatMessage} = this.props.intl
-    const {classes} = this.props.theme
-    const {value, onKeyDown, onChange} = this.props
-
-    return (
-      <input
-        type="search"
-        value={value}
-        onKeyDown={onKeyDown}
-        onChange={onChange}
-        placeholder={formatMessage(messages.placeholder)}
-        className={classes.filterInput}
-      />
-    )
-  }
+Filter.propTypes = {
+  intl: intlShape.isRequired,
+  theme: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
+
+export default injectIntl(Filter)

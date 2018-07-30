@@ -1,26 +1,15 @@
 import rpc from '../rpc'
 
-export const searchUsers = ({orgId, search = '', limit = 50}) => rpc({
-  ns: 'search',
-  action: 'search_users',
-  args: [orgId, search, limit]
-}, {camelize: true})
-
-export const searchChannels = ({orgId, search = '', limit = 50}) => rpc({
+export const searchChannels = ({orgId, search = '', limit = 50, currentChannel}) => rpc({
   ns: 'search',
   action: 'search_channels',
-  args: [orgId, search, limit]
+  args: [orgId, search, limit, currentChannel]
 }, {camelize: true})
 
-export const getMentions = ({id, limit, options: {showRoomMentions}, offsetDate}) => rpc({
+export const searchMentions = ({orgId, offset, mentionTypes, channels}) => rpc({
   ns: 'search',
-  action: 'get_mentions',
-  args: [
-    id,
-    showRoomMentions ? null : 'user',
-    limit,
-    offsetDate
-  ]
+  action: 'search_mentions',
+  args: [orgId, {offset, filter: {mentionTypes, channels}}]
 }, {camelize: true})
 
 export const searchMessages = ({query, id, limit, offsetDate, types}) => rpc({

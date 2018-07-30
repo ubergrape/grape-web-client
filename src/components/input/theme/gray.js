@@ -5,7 +5,8 @@ import {grayLight, grayBlueLighter, red, orange} from 'grape-theme/dist/base-col
 import color from 'color'
 
 export const placement = 'bottom'
-export const tooltipOffset = 9
+export const tooltipOffsetLeft = 9
+export const tooltipOffsetTop = 35
 export const arrowOffset = 30
 export const horizontalPadding = 10
 

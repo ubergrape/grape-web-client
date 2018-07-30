@@ -99,7 +99,7 @@ export default class ChannelMembersInvite extends PureComponent {
     removeFromChannelMembersInvite: PropTypes.func.isRequired,
     inviteToChannel: PropTypes.func.isRequired,
     hideChannelMembersInvite: PropTypes.func.isRequired,
-    setInviteFilterValue: PropTypes.func.isRequired,
+    searchUsersToInvite: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     channelType: PropTypes.string
@@ -121,7 +121,7 @@ export default class ChannelMembersInvite extends PureComponent {
     const {
       sheet: {classes},
       intl: {formatMessage},
-      channelType, setInviteFilterValue,
+      channelType, searchUsersToInvite,
       addToChannelMembersInvite, removeFromChannelMembersInvite,
       listed, inviteToChannel, hideChannelMembersInvite,
       ...rest
@@ -136,7 +136,7 @@ export default class ChannelMembersInvite extends PureComponent {
         theme={{classes}}
         listed={listed}
         onHide={hideChannelMembersInvite}
-        onChangeFilter={setInviteFilterValue}
+        onChangeFilter={searchUsersToInvite}
         onSelectUser={addToChannelMembersInvite}
         onRemoveSelectedUser={removeFromChannelMembersInvite}
       >

@@ -6,10 +6,10 @@ import {
   injectIntl
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
-import List from 'react-virtualized/dist/es/List'
-import AutoSizer from 'react-virtualized/dist/es/AutoSizer'
-import CellMeasurer from 'react-virtualized/dist/es/CellMeasurer'
-import InfiniteLoader from 'react-virtualized/dist/es/InfiniteLoader'
+import List from 'react-virtualized/dist/commonjs/List'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/CellMeasurer'
+import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
 import injectSheet from 'grape-web/lib/jss'
 
 import SidebarPanel from '../SidebarPanel'
@@ -114,8 +114,8 @@ export default class LabeledMessages extends PureComponent {
       messages !== this.props.messages ||
       newMessagesAmount !== this.props.newMessagesAmount
     ) {
-      // First row will change the output.
-      this.cellMeasurer.resetMeasurements()
+      this.cache.clearAll()
+      this.list.scrollToPosition(0)
       this.list.recomputeRowHeights(0)
       this.infiniteLoader.forceUpdate()
     }
@@ -136,13 +136,11 @@ export default class LabeledMessages extends PureComponent {
     this.infiniteLoader = ref
   }
 
-  onRefCellMeasurer = (ref) => {
-    this.cellMeasurer = ref
-  }
+  cache = new CellMeasurerCache({fixedWidth: true})
 
   isRowLoaded = ({index}) => Boolean(this.props.messages[index])
 
-  renderRow = ({index, style}) => {
+  renderRow = ({key, index, parent, style}) => {
     const {
       intl,
       messages,
@@ -155,21 +153,26 @@ export default class LabeledMessages extends PureComponent {
     const message = messages[index]
 
     return (
-      <Row
-        intl={intl}
-        message={message}
-        prevMessage={messages[index - 1]}
-        newMessagesAmount={index === 0 ? newMessagesAmount : 0}
-        key={`${message.id}-row`}
-        style={style}
-        user={user}
-        onSelect={onSelect}
-        onRefresh={onLoad}
-      />
+      <CellMeasurer
+        cache={this.cache}
+        parent={parent}
+        columnIndex={0}
+        key={key}
+        rowIndex={index}
+      >
+        <Row
+          intl={intl}
+          message={message}
+          prevMessage={messages[index - 1]}
+          newMessagesAmount={index === 0 ? newMessagesAmount : 0}
+          user={user}
+          onSelect={onSelect}
+          onRefresh={onLoad}
+          style={style}
+        />
+      </CellMeasurer>
     )
   }
-
-  renderRowForCellMeasurer = ({rowIndex: index}) => this.renderRow({index})
 
   renderNoContent = () => (this.props.isLoading ? null : <NoContent />)
 
@@ -190,32 +193,23 @@ export default class LabeledMessages extends PureComponent {
     return (
       <AutoSizer>
         {({width, height}) => (
-          <CellMeasurer
-            cellRenderer={this.renderRowForCellMeasurer}
-            columnCount={1}
-            rowCount={messages.length}
+          <List
+            ref={(ref) => {
+              registerChild(ref)
+              this.list = ref
+            }}
             width={width}
-            ref={this.onRefCellMeasurer}
-          >
-            {({getRowHeight}) => (
-              <List
-                ref={(ref) => {
-                  registerChild(ref)
-                  this.list = ref
-                }}
-                width={width}
-                height={height}
-                rowCount={messages.length}
-                rowHeight={getRowHeight}
-                rowRenderer={this.renderRow}
-                noRowsRenderer={this.renderNoContent}
-                onRowsRendered={onRowsRendered}
-                overscanRowCount={5}
-                isLoading={isLoading}
-                className={classes.list}
-              />
-            )}
-          </CellMeasurer>
+            height={height}
+            rowCount={messages.length}
+            rowHeight={this.cache.rowHeight}
+            rowRenderer={this.renderRow}
+            noRowsRenderer={this.renderNoContent}
+            onRowsRendered={onRowsRendered}
+            overscanRowCount={5}
+            isLoading={isLoading}
+            className={classes.list}
+            deferredMeasurementCache={this.cache}
+          />
         )}
       </AutoSizer>
     )

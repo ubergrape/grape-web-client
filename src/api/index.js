@@ -9,6 +9,7 @@ import Emitter from 'component-emitter'
 import conf from '../conf'
 import {loadConfig} from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
+import ie10Polyfills from './ie10Polyfills'
 
 let resolveAppReady
 
@@ -49,43 +50,18 @@ const init = (config) => {
   docReady.then(app.render)
 }
 
-const resume = () => {
-  appReady.then((app) => {
-    app.resume()
-  })
-}
+const resume = () => appReady.then((app) => {
+  app.resume()
+})
 
-const suspend = () => {
-  appReady.then((app) => {
-    app.suspend()
-  })
-}
+const suspend = () => appReady.then((app) => {
+  app.suspend()
+})
 
 const embed = (options) => {
   if (!options.serviceUrl) {
     throw new Error('Missing serviceUrl option.')
   }
-
-  const intlPolyfill = new Promise((resolve) => {
-    if (window.Intl) {
-      resolve()
-      return
-    }
-
-    // eslint-disable-next-line camelcase, no-undef
-    __webpack_public_path__ = `${options.staticBaseUrl}app/`
-
-    require.ensure([
-      'intl',
-      'intl/locale-data/jsonp/en.js',
-      'intl/locale-data/jsonp/de.js'
-    ], (require) => {
-      require('intl')
-      require('intl/locale-data/jsonp/en.js')
-      require('intl/locale-data/jsonp/de.js')
-      resolve()
-    })
-  })
 
   const config = loadConfig({serviceUrl: options.serviceUrl})
     .then(res => merge({}, res, {
@@ -101,14 +77,14 @@ const embed = (options) => {
       embed: true
     }))
 
-  Promise.all([intlPolyfill, config]).then((values) => {
-    init(values[1])
+  return Promise.all([config, ie10Polyfills(options)]).then((values) => {
+    init(values[0])
   })
 }
 
 const show = (name, options) => {
   checkShowHideComponent(name)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.showSidebar(name, options)
   })
 }
@@ -116,21 +92,21 @@ const show = (name, options) => {
 const hide = (name) => {
   // Validate it for the future, we might be using it to hide other things than sidebar.
   checkShowHideComponent(name)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.hideSidebar()
   })
 }
 
 const searchMessages = (query, options) => {
   show('search', options)
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.updateMessageSearchQuery(query)
   })
 }
 
 const setOpenFileDialogHandler = (fn) => {
   if (typeof fn !== 'function') throw new TypeError('Expected function argument.')
-  actionsReady.then((actions) => {
+  return actionsReady.then((actions) => {
     actions.setOpenFileDialogHandler(fn)
   })
 }

@@ -39,9 +39,9 @@ export const searchUsers = search => (dispatch, getState) => {
   const org = orgSelector(getState())
 
   api
-    .searchUsers({orgId: org.id, search})
-    .then(({results, q}) => ({
-      search: q,
+    .getUsers(org.id, {query: search, pageSize: 50})
+    .then(({results}) => ({
+      search,
       users: results.map(normalizeUserData)
     }))
     .then((payload) => {
