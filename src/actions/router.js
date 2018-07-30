@@ -78,6 +78,7 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channel = findLastUsedChannel(channels)
   if (channel) dispatch(goToChannel(channel))
   else if (channels.length) dispatch(goToChannel(channels[0]))
+  else dispatch(goTo('/chat'))
 }
 
 export function goToPayment() {
