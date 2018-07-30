@@ -2,10 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import findIndex from 'lodash/array/findIndex'
-import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import assign from 'lodash/object/assign'
-import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 import injectSheet from 'grape-web/lib/jss'
@@ -55,15 +53,7 @@ class Browser extends Component {
   static defaultProps = {
     focused: false,
     images: {},
-    height: 400,
-    maxWidth: 292,
-    // Temporary hotfix. Emoji browser shouldn't be part of grape-browser at all.
-    right: -90,
     className: '',
-    onSelectItem: noop,
-    onDidMount: noop,
-    onAbort: noop,
-    onClick: noop,
   }
 
   constructor(props) {
@@ -252,16 +242,6 @@ class Browser extends Component {
         })
         e.preventDefault()
         break
-      case 'backspace':
-        if (!query.key) {
-          this.props.onAbort({
-            reason: 'backspace',
-            query,
-          })
-          e.preventDefault()
-        }
-        break
-
       default:
     }
   }
@@ -270,12 +250,16 @@ class Browser extends Component {
     const { classes } = this.props.sheet
     const { formatMessage } = this.props.intl
     const { sections } = this.state
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth', 'right')}
+        style={{
+          height: 400,
+          maxWidth: 292,
+          right: -90,
+        }}
         onClick={this.props.onClick}
+        role="presentation"
       >
         <GlobalEvent event="resize" handler={this.onResize} debounce={500} />
         <Input
