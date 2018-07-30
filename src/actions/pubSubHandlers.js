@@ -24,7 +24,8 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser
+  addNewUser,
+  goToLastUsedChannel
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -135,7 +136,7 @@ export function handleMembershipUpdate({membership}) {
     })
 
     const user = userSelector(getState())
-    if (userId === user.id) dispatch(goTo('/'))
+    if (userId === user.id) dispatch(goToLastUsedChannel())
   }
 }
 
@@ -152,48 +153,23 @@ const addUserToChannel = payload => (dispatch) => {
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
-    const users = usersSelector(getState())
     const currentUser = userSelector(getState())
     const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
 
-    // If user exist in get_overview call
-    if (user) {
-      dispatch(addUserToChannel({channelId, user, isCurrentUser}))
-      return
-    }
     api
       .getUser(orgSelector(getState()).id, userId)
       .then((foundUser) => {
-        dispatch(addUserToChannel({channelId, user: foundUser, isCurrentUser}))
+        dispatch(addUserToChannel({channelId, user: foundUser, userId, isCurrentUser}))
       })
   }
 }
 
-const removeUserFromChannel = payload => (dispatch) => {
-  dispatch({
-    type: types.REMOVE_USER_FROM_CHANNEL,
-    payload
-  })
-}
-
 export function handleLeftChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
-    const users = usersSelector(getState())
-    const currentUser = userSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-    const user = isCurrentUser ? currentUser : find(users, ({partner}) => partner.id === userId)
-
-    // If user exist in get_overview call
-    if (user) {
-      dispatch(removeUserFromChannel({channelId, user, isCurrentUser}))
-    } else {
-      api
-        .getUser(orgSelector(getState()).id, userId)
-        .then((foundUser) => {
-          dispatch(removeUserFromChannel({channelId, user: foundUser, isCurrentUser}))
-        })
-    }
+    dispatch({
+      type: types.REMOVE_USER_FROM_CHANNEL,
+      payload: {channelId, userId}
+    })
 
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))

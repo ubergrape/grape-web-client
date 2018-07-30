@@ -14,9 +14,10 @@ const messages = defineMessages({
   }
 })
 
-const Filter = ({intl, theme, onKeyDown, onChange}) => (
+const Filter = ({intl, theme, value, onKeyDown, onChange}) => (
   <input
     type="search"
+    value={value}
     onKeyDown={onKeyDown}
     onChange={onChange}
     placeholder={intl.formatMessage(messages.placeholder)}
@@ -27,6 +28,7 @@ const Filter = ({intl, theme, onKeyDown, onChange}) => (
 Filter.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
   onKeyDown: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired
 }

@@ -17,7 +17,7 @@ import GrapeObject from './GrapeObject'
 import {LineBreak} from '../line-break'
 
 export function renderTag(tag, props, children) {
-  const {href, key, forcebreak} = props
+  const {href, key, forcebreak, user} = props
 
   if (tag === 'br' && forcebreak) {
     return createElement(LineBreak, {key})
@@ -28,6 +28,15 @@ export function renderTag(tag, props, children) {
     if (isGrapeUrl(href)) {
       return createElement(GrapeObject, props, children)
     }
+
+    // Split chat pm path and user id
+    const [, chatPmPath, pmUserId] = href.match(/^(\/chat\/pm)\/(\d+)\/?$/) || []
+
+    // No link if it's the current logged in user
+    if (chatPmPath && user.id === Number(pmUserId)) {
+      return <span>{children}</span>
+    }
+
     return (
       <Link to={href} key={key}>
         {children}

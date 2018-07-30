@@ -1,30 +1,31 @@
-import jsEmoji from 'grape-js-emoji'
+import EmojiConvertor from 'grape-js-emoji'
+import {getSliceStyle} from 'grape-browser/lib/components/emoji'
 import {emojiSheet} from '../../constants/images'
 
-jsEmoji.sheet_path = emojiSheet
-jsEmoji.use_sheet = true
+const emoji = new EmojiConvertor()
+
+emoji.img_sets.apple.sheet = emojiSheet
+emoji.img_set = 'apple'
+emoji.use_sheet = true
 
 // https://github.com/ubergrape/chatgrape/issues/839
 // https://bugzilla.mozilla.org/show_bug.cgi?id=923007
-if (navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel') {
-  jsEmoji.allow_native = false
+const isFirefoxOnOsx = navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel'
+// Since Windows7 can't render emojis natively the decision was
+// to render images for all Windows environments
+const isWindows = navigator.platform === 'Win32'
+if (isFirefoxOnOsx || isWindows) {
+  emoji.allow_native = false
 }
+// only convert an emoji to a colon string since we manually
+// render emoji images with the markdown converter
+emoji.colons_mode = true
 
-jsEmoji.init_colons()
+emoji.init_colons()
 
-export default jsEmoji
+export default emoji
 
-export function getEmojiSliceStyle(id) {
-  const px = jsEmoji.data[id][4]
-  const py = jsEmoji.data[id][5]
-  const mul = 100 / (jsEmoji.sheet_size - 1)
-
-  return {
-    backgroundPosition: `${mul * px}% ${mul * py}%`,
-    backgroundSize: jsEmoji.sheet_size + '00%',
-    backgroundImage: `url(${emojiSheet})`
-  }
-}
+export const getEmojiSliceStyle = getSliceStyle
 
 export const emojiRegex = /(^|\s):[a-zA-Z0-9-_]+:(?=($|\s))/g
 

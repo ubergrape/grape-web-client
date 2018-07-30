@@ -91,13 +91,13 @@ export default class Input extends PureComponent {
 
   render() {
     const {error, theme, sheet} = this.props
-    const {classes, arrowOffset, tooltipOffset, placement} = theme
+    const {classes, arrowOffset, tooltipOffsetLeft, tooltipOffsetTop, placement} = theme
     return (
-      <span className={sheet.classes.input}>
+      <div className={sheet.classes.input}>
         {this.renderInput()}
         {error &&
           <Tooltip
-            style={{left: tooltipOffset}}
+            style={{left: tooltipOffsetLeft, top: tooltipOffsetTop}}
             arrowOffsetLeft={arrowOffset}
             onOutsideClick={this.onToolipOutsideClick}
             placement={placement}
@@ -109,7 +109,7 @@ export default class Input extends PureComponent {
             </div>
           </Tooltip>
         }
-      </span>
+      </div>
     )
   }
 }

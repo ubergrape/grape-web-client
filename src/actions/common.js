@@ -1,11 +1,13 @@
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
+import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import {reopen} from '../app/client'
 import {
-  channelsSelector, userSelector, appSelector, joinedRoomsSelector,
-  pmsSelector, orgSelector
+  channelsSelector, userSelector, joinedRoomsSelector,
+  pmsSelector, orgSelector, appSelector
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -21,7 +23,6 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  handleChangeRoute,
   addChannel,
   handleRoomCreateError
 } from './'
@@ -71,10 +72,10 @@ export const addNewUser = userId => (dispatch, getState) => {
   return api
     .openPm(org.id, userId)
     .then(({id, users}) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, channel]) => {
-      dispatch(addUser(channel))
+    .then(([users, pmChannel]) => {
+      dispatch(addUser(pmChannel))
       dispatch(addChannel({
-        ...channel,
+        ...pmChannel,
         users
       }))
     })
@@ -171,7 +172,8 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.getOrg(conf.organization.id),
     api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
-    api.joinOrg(conf.organization.id, clientId)
+    api.joinOrg(conf.organization.id, clientId),
+    api.setProfile({timezone: moment.tz.guess()})
   ]).then(([org, users, profile]) => {
     dispatch(handleUserProfile(profile))
     dispatch(setChannels(org.channels))
@@ -186,24 +188,26 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       return
     }
 
-    // In embedded chat conf.channelId is defined.
-    const channelId = conf.channelId || findLastUsedChannel(channelsSelector(getState())).id
-
-    dispatch(setChannel(channelId))
+    const {route} = appSelector(getState())
+    // A route for the embedded client can be 'undefined', and for the full
+    // client the channelId can also be 'undefined' in case no channel is defined
+    if (route && route.params.channelId) {
+      dispatch(setChannel(route.params.channelId, route.params.messageId))
+    } else {
+      const channels = channelsSelector(getState())
+      const channelToSet = findLastUsedChannel(channels) || channels[0]
+      // In embedded chat conf.channelId is defined.
+      const channelId = conf.channelId || channelToSet.id
+      dispatch(setChannel(channelId))
+    }
 
     dispatch({
       type: types.SET_INITIAL_DATA_LOADING,
       payload: false
     })
-
-    // On initial load route has changed, but data was not loaded,
-    // so we need to trigger it here again.
-    const {route} = appSelector(getState())
-    if (route) {
-      dispatch(handleChangeRoute(route))
-    }
   })
   .catch((err) => {
     dispatch(error(err))
+    reopen()
   })
 }

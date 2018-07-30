@@ -3,6 +3,7 @@ import emoji from 'markdown-it-emoji'
 import pick from 'lodash/object/pick'
 import {defineMessages} from 'react-intl'
 import forcebreak from '../../utils/markdown-it-plugins/forcebreak'
+import jsEmoji from '../emoji/emoji'
 
 import {
   renderTag,
@@ -70,7 +71,10 @@ class Renderer {
 
   render(props) {
     this.props = props
-    return this.renderer(props.text)
+    if (navigator.platform === 'Win32') {
+      return this.renderer(jsEmoji.replace_unified(this.props.text))
+    }
+    return this.renderer(this.props.text)
   }
 }
 

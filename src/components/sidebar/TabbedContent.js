@@ -31,6 +31,11 @@ import Title from './Title'
     color: palette.text.secondary,
     opacity: 1
   },
+  tabInherit: {
+    '@media (min-width: 960px)': {
+      minWidth: 40
+    }
+  },
   tabSelected: {
     color: palette.secondary.A200
   },
@@ -84,7 +89,10 @@ export default class TabbedContent extends PureComponent {
   render() {
     const {index, classes, tabs, title, body, onSelect} = this.props
 
-    const tabClasses = {rootInheritSelected: classes.tabSelected}
+    const tabClasses = {
+      rootInheritSelected: classes.tabSelected,
+      root: classes.tabInherit
+    }
 
     return (
       <section className={classes.root}>
