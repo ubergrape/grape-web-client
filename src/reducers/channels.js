@@ -65,7 +65,6 @@ export default function reduce(state = initialState, action) {
         // As a workaround of API bug,
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
-        favorited: null,
         users: includes(users, userId) ? users : [...users, userId],
         joined: isCurrentUser || channel.joined,
       })
