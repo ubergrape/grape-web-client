@@ -158,11 +158,13 @@ export default class GrapeInput extends Component {
         ...this.state.objects,
         [token]: object,
       },
-      // Emojis are objects we want to highlight, but not apiObjects
+      // Emojis are objects we want to highlight, but not apiObjects. Objects are highlighted
+      // but storing an Emoji as API object could cause trouble when you only have one emoji
+      // and it would be sent to the backend as media message instead of a text message.
       apiObjects:
         object.type === 'emoji'
-          ? [...this.state.apiObjects, result]
-          : this.state.apiObjects,
+          ? this.state.apiObjects
+          : [...this.state.apiObjects, result],
     }
     this.setState(state, () => {
       this.input.replace(token)
