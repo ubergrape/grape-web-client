@@ -25,7 +25,7 @@ import {
   goToLastUsedChannel,
   showSidebar,
   showNoContent,
-  setChannel,
+  resetHistoryChannel,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -146,15 +146,7 @@ export function handleMembershipUpdate({ membership }) {
 }
 
 export function handleNewChannel({ channel }) {
-  return (dispatch, getState) => {
-    dispatch(addChannel(channel))
-    if (
-      !joinedRoomsSelector(getState()).length &&
-      !pmsSelector(getState()).length
-    ) {
-      dispatch(setChannel(channel.id))
-    }
-  }
+  return addChannel(channel)
 }
 
 const addUserToChannel = payload => dispatch => {
@@ -178,13 +170,11 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
 }
 
 export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-
-    if (!joinedRoomsSelector(getState()).length) dispatch(goTo('/chat'))
   }
 }
 
@@ -246,6 +236,7 @@ export function handleRemoveRoom({ channel: id }) {
       !pmsSelector(getState()).length
     ) {
       dispatch(goTo('/chat'))
+      dispatch(resetHistoryChannel())
       dispatch(showSidebar(false))
       dispatch(showNoContent(false))
     }

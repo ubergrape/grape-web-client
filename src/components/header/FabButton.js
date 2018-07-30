@@ -32,6 +32,26 @@ const styles = ({ palette }) => ({
     },
   },
   disabled: {},
+  label: {
+    isolate: false,
+    // This `before` pseudo-selector needs to implement `cursor: pointer` for SVG icon
+    // https://stackoverflow.com/questions/19255296/is-there-a-way-to-use-svg-as-content-in-a-pseudo-element-before-or-after
+    '&:before': {
+      isolate: false,
+      content: '""',
+      position: 'absolute',
+      width: iconSize,
+      height: iconSize,
+      cursor: 'pointer',
+    },
+    '&:hover > *': {
+      isolate: false,
+      width: iconSize,
+      height: iconSize,
+      color: ({ disabled }) =>
+        disabled ? palette.text.primar : palette.secondary.A200,
+    },
+  },
   // TODO use function value once https://github.com/cssinjs/react-jss/issues/165
   // is fixed.
   active: {
@@ -45,16 +65,8 @@ const styles = ({ palette }) => ({
   icon: {
     width: iconSize,
     height: iconSize,
-    cursor: 'inherit',
     color: ({ isSelected }) =>
       isSelected ? palette.secondary.A200 : palette.text.primary,
-    '&:hover': {
-      isolate: false,
-      width: iconSize,
-      height: iconSize,
-      color: ({ disabled }) =>
-        disabled ? palette.text.primar : palette.secondary.A200,
-    },
   },
 })
 
@@ -67,6 +79,7 @@ const FabButton = ({ classes, disabled, onClick, isSelected, icon }) => (
     className={classes[isSelected ? 'active' : 'root']}
     classes={{
       disabled: classes.disabled,
+      label: classes.label,
     }}
   >
     <Icon name={icon} className={classes.icon} />

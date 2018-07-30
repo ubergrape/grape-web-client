@@ -62,12 +62,11 @@ export default class NewConversationDialog extends PureComponent {
   }
 
   componentWillReceiveProps({ show, error, isChatEmpty }) {
-    if (isChatEmpty) {
-      // this.props.showNewConversation()
-    }
-
     if (!show) {
       this.setState(getInitialState())
+      if (this.props.isChatEmpty !== isChatEmpty && isChatEmpty) {
+        this.props.showNewConversation()
+      }
       return
     }
 
@@ -199,6 +198,7 @@ export default class NewConversationDialog extends PureComponent {
       addToNewConversation,
       removeFromNewConversation,
       organization,
+      isChatEmpty,
       intl: { formatMessage },
       ...chooseUsersProps
     } = this.props

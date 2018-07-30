@@ -404,3 +404,9 @@ export const showNoContent = show => dispatch => {
     payload: show,
   })
 }
+
+export const resetHistoryChannel = () => dispatch => {
+  dispatch({
+    type: types.RESET_HISTORY_CHANNEL,
+  })
+}

@@ -10,6 +10,7 @@ import {
   userSelector,
   orgSelector,
   appSelector,
+  emptyChatSelector,
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -27,6 +28,7 @@ import {
   goToLastUsedChannel,
   addChannel,
   handleRoomCreateError,
+  showNewConversation,
 } from './'
 
 export function error(err) {
@@ -164,11 +166,15 @@ export const handleBadChannel = alertType => dispatch => {
   )
 }
 
-export const loadInitialData = clientId => (dispatch, getState) => {
+export const initialDataLoading = payload => dispatch => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
-    payload: true,
+    payload,
   })
+}
+
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch(initialDataLoading(true))
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
   dispatch({ type: types.REQUEST_USERS })
@@ -189,6 +195,11 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(ensureBrowserNotificationPermission())
 
       const { route } = appSelector(getState())
+      const isChatEmpty = emptyChatSelector(getState())
+
+      if (isChatEmpty) {
+        dispatch(showNewConversation())
+      }
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
       if (route && route.params.channelId) {
@@ -203,10 +214,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
         }
       }
 
-      dispatch({
-        type: types.SET_INITIAL_DATA_LOADING,
-        payload: false,
-      })
+      dispatch(initialDataLoading(false))
     })
     .catch(err => {
       dispatch(error(err))
