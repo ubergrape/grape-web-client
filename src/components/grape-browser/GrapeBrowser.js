@@ -436,6 +436,7 @@ export default class GrapeBrowser extends Component {
           onSelectItem={this.onSelectEmojiBrowserItem}
           onOutsideClick={this.onEmojiBrowserOutsideClick}
           onDidMount={this.onDidMountBrowser}
+          focused
         />
       )
     }
