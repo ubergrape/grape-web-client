@@ -10,10 +10,11 @@ const styles = ({ palette }) => ({
   root: {
     extend: small,
     background: {
-      color: palette.background.paper,
       repeat: 'no-repeat',
       position: [12, '50%'],
     },
+    backgroundColor: ({ disabled }) =>
+      disabled ? palette.background.appBar : palette.background.paper,
     backgroundImage: `url(${getColoredIcon({
       name: 'magnifier',
       color: palette.text.secondary,
@@ -45,12 +46,19 @@ const messages = defineMessages({
   },
 })
 
-const Search = ({ classes, onFocus, onChange, intl: { formatMessage } }) => (
+const Search = ({
+  classes,
+  onFocus,
+  onChange,
+  disabled,
+  intl: { formatMessage },
+}) => (
   <input
     className={classes.root}
     onFocus={onFocus}
     onChange={onChange}
     placeholder={formatMessage(messages.placeholder)}
+    disabled={disabled}
     type="search"
   />
 )
@@ -59,6 +67,7 @@ Search.propTypes = {
   classes: PropTypes.object.isRequired,
   onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
 }
 

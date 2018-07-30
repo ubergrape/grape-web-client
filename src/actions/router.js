@@ -73,6 +73,7 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
   if (channel) dispatch(goToChannel(channel))
+  else if (channels.length) dispatch(goToChannel(channels[0]))
 }
 
 export function goToPayment() {

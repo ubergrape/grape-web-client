@@ -113,6 +113,11 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'pm'),
 )
 
+export const isChatEmptySelector = createSelector(
+  [joinedRoomsSelector, pmsSelector],
+  (joinedRooms, pms) => !joinedRooms.length && !pms.length,
+)
+
 export const activePmsSelector = createSelector(pmsSelector, pms =>
   pms.filter(pm => pm.firstMessageTime),
 )
@@ -250,8 +255,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  state => state.newConversation,
-  state => state,
+  [state => state.newConversation, isChatEmptySelector],
+  (newConversation, isChatEmpty) => ({
+    ...newConversation,
+    isChatEmpty,
+  }),
 )
 
 export const inviteToOrgSelector = createSelector(
@@ -505,14 +513,24 @@ export const headerSelector = createSelector(
     sidebarSelector,
     unreadMentionsAmountSelector,
     userProfileSelector,
+    isChatEmptySelector,
   ],
-  ({ features }, favorite, channel, { show: sidebar }, mentions, partner) => ({
+  (
+    { features },
+    favorite,
+    channel,
+    { show: sidebar },
+    mentions,
+    partner,
+    isChatEmpty,
+  ) => ({
     favorite,
     channel,
     sidebar,
     mentions,
     partner,
     features,
+    isChatEmpty,
   }),
 )
 
@@ -552,6 +570,7 @@ export const footerComponentSelector = createSelector(
   [
     typingNotificationSelector,
     footerSelector,
+    isChatEmptySelector,
     orgSelector,
     historySelector,
     isChannelDisabledSelector,
@@ -560,6 +579,7 @@ export const footerComponentSelector = createSelector(
   (
     typingNotification,
     footer,
+    isChatEmpty,
     org,
     history,
     isChannelDisabled,
@@ -571,7 +591,7 @@ export const footerComponentSelector = createSelector(
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
-    disabled: isChannelDisabled,
+    disabled: isChannelDisabled || isChatEmpty,
     channelsToMention,
   }),
 )

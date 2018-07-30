@@ -397,3 +397,10 @@ export function quoteMessage({ message }) {
     })
   }
 }
+
+export const showNoContent = show => dispatch => {
+  dispatch({
+    type: types.SHOW_NO_CONTENT,
+    payload: show,
+  })
+}

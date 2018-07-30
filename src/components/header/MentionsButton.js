@@ -23,9 +23,20 @@ const styles = ({ palette }) => ({
 
 const tip = <FormattedMessage id="mentions" defaultMessage="Mentions" />
 
-const MentionsButton = ({ classes, onClick, isSelected, mentions }) => (
+const MentionsButton = ({
+  classes,
+  disabled,
+  onClick,
+  isSelected,
+  mentions,
+}) => (
   <Tooltip message={tip}>
-    <FabButton onClick={onClick} isSelected={isSelected} icon="at" />
+    <FabButton
+      onClick={onClick}
+      disabled={disabled}
+      isSelected={isSelected}
+      icon="at"
+    />
     {mentions > 0 && !isSelected && <i className={classes.badge} />}
   </Tooltip>
 )
@@ -35,6 +46,7 @@ MentionsButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   mentions: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default injectSheet(styles)(MentionsButton)

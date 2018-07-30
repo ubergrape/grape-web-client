@@ -53,6 +53,11 @@ export default function reduce(state = initialState, action) {
       }
     case types.SET_USERS:
       return { ...state, users: payload }
+    case types.SHOW_NO_CONTENT:
+      return {
+        ...state,
+        showNoContent: payload,
+      }
     case types.HANDLE_INITIAL_HISTORY:
       return {
         ...state,

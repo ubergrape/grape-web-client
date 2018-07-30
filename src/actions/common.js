@@ -8,8 +8,6 @@ import { reopen } from '../app/client'
 import {
   channelsSelector,
   userSelector,
-  joinedRoomsSelector,
-  pmsSelector,
   orgSelector,
   appSelector,
 } from '../selectors'
@@ -190,20 +188,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 
-      if (
-        !joinedRoomsSelector(getState()).length &&
-        !pmsSelector(getState()).length
-      ) {
-        dispatch(
-          error(
-            new Error(
-              'This account has neither joined rooms nor pm channels. This state is currently not supported.',
-            ),
-          ),
-        )
-        return
-      }
-
       const { route } = appSelector(getState())
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
@@ -213,8 +197,10 @@ export const loadInitialData = clientId => (dispatch, getState) => {
         const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
         // In embedded chat conf.channelId is defined.
-        const channelId = conf.channelId || channelToSet.id
-        dispatch(setChannel(channelId))
+        if (conf.channelId || channelToSet) {
+          const channelId = conf.channelId || channelToSet.id
+          dispatch(setChannel(channelId))
+        }
       }
 
       dispatch({

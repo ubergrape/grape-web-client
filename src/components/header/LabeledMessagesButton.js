@@ -12,15 +12,21 @@ const tip = (
   />
 )
 
-const LabeledMessagesButton = ({ onClick, isSelected }) => (
+const LabeledMessagesButton = ({ onClick, isSelected, disabled }) => (
   <Tooltip message={tip} align="right">
-    <FabButton onClick={onClick} isSelected={isSelected} icon="tag" />
+    <FabButton
+      onClick={onClick}
+      disabled={disabled}
+      isSelected={isSelected}
+      icon="tag"
+    />
   </Tooltip>
 )
 
 LabeledMessagesButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default LabeledMessagesButton

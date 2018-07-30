@@ -22,7 +22,16 @@ const styles = ({ palette }) => ({
       isolate: false,
       boxShadow: 'none',
     },
+    '&$disabled': {
+      isolate: false,
+      background: palette.background.contentFrame,
+      '&:hover': {
+        isolate: false,
+        background: palette.background.contentFrame,
+      },
+    },
   },
+  disabled: {},
   // TODO use function value once https://github.com/cssinjs/react-jss/issues/165
   // is fixed.
   active: {
@@ -41,17 +50,24 @@ const styles = ({ palette }) => ({
       isSelected ? palette.secondary.A200 : palette.text.primary,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200,
+      width: iconSize,
+      height: iconSize,
+      color: ({ disabled }) =>
+        disabled ? palette.text.primar : palette.secondary.A200,
     },
   },
 })
 
-const FabButton = ({ classes, onClick, isSelected, icon }) => (
+const FabButton = ({ classes, disabled, onClick, isSelected, icon }) => (
   <Button
     raised
     fab
+    disabled={disabled}
     onClick={onClick}
     className={classes[isSelected ? 'active' : 'root']}
+    classes={{
+      disabled: classes.disabled,
+    }}
   >
     <Icon name={icon} className={classes.icon} />
   </Button>
@@ -62,6 +78,7 @@ FabButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   icon: PropTypes.oneOf(['at', 'tag', 'sidebar']).isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default injectSheet(styles)(FabButton)
