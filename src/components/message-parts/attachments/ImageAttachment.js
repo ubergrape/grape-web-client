@@ -1,10 +1,27 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import { borderRadius } from 'grape-theme/dist/sizes'
+import { grayLighter } from 'grape-theme/dist/base-colors'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
 
-import { styles } from './imageAttachmentTheme'
+export const styles = {
+  thumbnail: {
+    borderRadius: borderRadius.big,
+    background: 'no-repeat center',
+    backgroundSize: 'contain',
+    backgroundColor: grayLighter,
+    cursor: 'pointer',
+    maxWidth: '100%',
+    display: 'block',
+    marginBottom: 5,
+    '&:last-of-type': {
+      isolate: false,
+      marginBottom: 0,
+    },
+  },
+}
 
 function calcThumbnailSize(options) {
   const {
@@ -35,8 +52,8 @@ export default class ImageAttachment extends PureComponent {
     thumbnailUrl: PropTypes.string.isRequired,
     thumbnailWidth: PropTypes.number.isRequired,
     thumbnailHeight: PropTypes.number.isRequired,
-    maxThumbnailWidth: PropTypes.number.isRequired,
-    maxThumbnailHeight: PropTypes.number.isRequired,
+    maxThumbnailWidth: PropTypes.number,
+    maxThumbnailHeight: PropTypes.number,
   }
 
   static defaultProps = {
@@ -55,6 +72,10 @@ export default class ImageAttachment extends PureComponent {
       sheet: { classes },
       url,
       thumbnailUrl,
+      thumbnailWidth,
+      thumbnailHeight,
+      maxThumbnailWidth,
+      maxThumbnailHeight,
     } = this.props
     const backgroundImage = `url(${thumbnailUrl})`
 
@@ -64,7 +85,15 @@ export default class ImageAttachment extends PureComponent {
         url={url}
         className={classes.thumbnail}
         ref={this.setThumbnailRef}
-        style={{ backgroundImage, ...calcThumbnailSize(this.props) }}
+        style={{
+          backgroundImage,
+          ...calcThumbnailSize({
+            thumbnailWidth,
+            thumbnailHeight,
+            maxThumbnailWidth,
+            maxThumbnailHeight,
+          }),
+        }}
       />
     )
   }
