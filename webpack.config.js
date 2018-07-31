@@ -1,9 +1,9 @@
 const path = require('path')
-const webpack = require('webpack')
-const CopyFilesPlugin = require('copy-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+const webpack = require('webpack') // eslint-disable-line import/no-extraneous-dependencies
+const CopyFilesPlugin = require('copy-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // eslint-disable-line import/no-extraneous-dependencies
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
 
 const { NODE_ENV, STATIC_PATH, APP, ANALIZE } = process.env
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
@@ -37,7 +37,7 @@ const plugins = [
   new DuplicatePackageCheckerPlugin(),
 ]
 
-const exports = {
+const exportsObject = {
   entry: () => {
     const app = ['babel-polyfill', './src/index.js']
     const embedded = ['babel-polyfill', './src/embedded.js']
@@ -92,14 +92,14 @@ const exports = {
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map',
 }
 
-module.exports = exports
+module.exports = exportsObject
 
 if (isDevServer) {
-  exports.output.publicPath = '/static/app/'
+  exportsObject.output.publicPath = '/static/app/'
 }
 
 if (NODE_ENV === 'production') {
-  exports.plugins.push(
+  exportsObject.plugins.push(
     // This plugin turns all loader into minimize mode!!!
     // https://github.com/webpack/webpack/issues/283
     new UglifyJsPlugin({
@@ -108,7 +108,7 @@ if (NODE_ENV === 'production') {
       },
     }),
   )
-  exports.performance = {
+  exportsObject.performance = {
     hints: 'error',
     maxEntrypointSize: 2850 * 1024,
     maxAssetSize: 2650 * 1024,
@@ -116,5 +116,5 @@ if (NODE_ENV === 'production') {
 }
 
 if (ANALIZE) {
-  exports.plugins.push(new BundleAnalyzerPlugin())
+  exportsObject.plugins.push(new BundleAnalyzerPlugin())
 }
