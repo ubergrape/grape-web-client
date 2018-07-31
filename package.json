@@ -139,7 +139,7 @@
     "i18n:export": "npm run clear:i18n && npm run build && babel-node i18n/scripts/export.js",
     "i18n:import": "npm run clear:i18n && npm run build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
-    "prepublishOnly": "cross-env NODE_ENV=production npm run test && npm run build",
+    "prepublishOnly": "npm run test && cross-env NODE_ENV=production npm run build",
     "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
     "sg:build": "styleguidist build"
   },
