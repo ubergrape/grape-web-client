@@ -41,7 +41,14 @@ export function getOptions(text, grapeUrl) {
   let validUrl = url
   // Checking javascript:// is an XSS protection.
   if (!url || hasJsProtocol(url)) validUrl = ''
-
+  let nameWithoutTrigger
+  // 'text' can be empty because of broken jira integration
+  // https://jira.ubergrape.com/browse/GRAPE-14163
+  if (text) {
+    nameWithoutTrigger = text[0] === getTrigger(type) ? text.substr(1) : text
+  } else {
+    nameWithoutTrigger = ''
+  }
   return {
     id,
     service,
@@ -49,6 +56,6 @@ export function getOptions(text, grapeUrl) {
     url: validUrl,
     name: text,
     slug: validUrl.replace('/chat/', ''),
-    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text,
+    nameWithoutTrigger
   }
 }
