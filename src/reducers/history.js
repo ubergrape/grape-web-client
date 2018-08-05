@@ -7,7 +7,7 @@ import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 30,
+  minimumBatchSize: 50,
   receivedMessageViaSocket: false,
   scrollTo: null,
   scrollToAlignment: null,

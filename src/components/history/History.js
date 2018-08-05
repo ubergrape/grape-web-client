@@ -21,7 +21,7 @@ function createState(state, props) {
   }
 }
 
-@injectSheet({
+const styles = {
   history: {
     position: 'absolute',
     top: 0,
@@ -29,8 +29,9 @@ function createState(state, props) {
     right: 0,
     bottom: 0,
   },
-})
-export default class History extends PureComponent {
+}
+
+class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -230,3 +231,5 @@ export default class History extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(History)
