@@ -7,13 +7,6 @@ import GlobalEvent from '../global-event/GlobalEvent'
 
 export default function listenOutsideClick(ChildComponent) {
   return class OutsideClick extends Component {
-    constructor() {
-      super()
-      this.state = {
-        isInsideClick: false,
-      }
-    }
-
     static propTypes = {
       onOutsideClick: PropTypes.func.isRequired,
       onClick: PropTypes.func,
@@ -21,6 +14,13 @@ export default function listenOutsideClick(ChildComponent) {
 
     static defaultProps = {
       onClick: noop,
+    }
+
+    constructor() {
+      super()
+      this.state = {
+        isInsideClick: false,
+      }
     }
 
     onClickWindow = e => {

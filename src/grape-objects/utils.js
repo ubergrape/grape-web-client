@@ -56,6 +56,6 @@ export function getOptions(text, grapeUrl) {
     url: validUrl,
     name: text,
     slug: validUrl.replace('/chat/', ''),
-    nameWithoutTrigger
+    nameWithoutTrigger,
   }
 }

@@ -7,14 +7,12 @@ import { openUrl, createNotification as createWebNotification } from './web'
 
 // Electron implements require on window.
 let electron
-let remote
 
 // This is a hack to avoid webpack trying to find this dependency.
 // We could add `externals` to webpack config, but this will be needed to be done
 // in every package that uses this one.
 if (window.require) {
   electron = window.require('electron')
-  remote = electron.remote
 }
 
 const notificationClickTimeout = 20000
@@ -42,7 +40,7 @@ function replaceEmojisWithText(content) {
 
 export function createNotification(options, callback = noop) {
   // This will show native HTML Notification.
-  if (remote.getGlobal('isNotificationSupported')) {
+  if (electron.remote.getGlobal('isNotificationSupported')) {
     createWebNotification(options, callback)
     return
   }
