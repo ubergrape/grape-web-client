@@ -184,6 +184,11 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, users, profile]) => {
+      dispatch({
+        type: types.SET_INITIAL_DATA_LOADING,
+        payload: false,
+      })
+
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(org.channels))
       dispatch(setUsers(users))
@@ -216,11 +221,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
         const channelId = conf.channelId || channelToSet.id
         dispatch(setChannel(channelId))
       }
-
-      dispatch({
-        type: types.SET_INITIAL_DATA_LOADING,
-        payload: false,
-      })
     })
     .catch(err => {
       dispatch(error(err))

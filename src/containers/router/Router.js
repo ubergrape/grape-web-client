@@ -12,8 +12,8 @@ import RouteChanger from './RouteChanger'
 
 const Container = withRouter(AppContainer)
 
-const Router = ({ onChangeRoute, children }) => (
-  <ConnectedRouter basename={'/chat'} history={history}>
+const Router = ({ onChangeRoute, initialDataLoading, children }) => (
+  <ConnectedRouter basename="/chat" history={history}>
     <Container>
       <Route
         path="/chat"
@@ -23,6 +23,7 @@ const Router = ({ onChangeRoute, children }) => (
             name="root"
             location={location}
             params={match.params}
+            isLoading={initialDataLoading}
             onChangeRoute={onChangeRoute}
           >
             {children}
@@ -37,6 +38,7 @@ const Router = ({ onChangeRoute, children }) => (
             name="pm"
             location={location}
             params={match.params}
+            isLoading={initialDataLoading}
             onChangeRoute={onChangeRoute}
           >
             {children}
@@ -50,6 +52,7 @@ const Router = ({ onChangeRoute, children }) => (
             name="channel"
             location={location}
             params={match.params}
+            isLoading={initialDataLoading}
             onChangeRoute={onChangeRoute}
           >
             {children}
