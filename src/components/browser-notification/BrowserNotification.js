@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import { createNotification } from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'

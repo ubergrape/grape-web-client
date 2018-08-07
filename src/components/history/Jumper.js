@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import { gainsboroDark } from 'grape-theme/dist/base-colors'
 
@@ -46,8 +45,6 @@ export default class Jumper extends PureComponent {
   }
 
   static defaultProps = {
-    children: noop,
-    onJump: noop,
     pagesBeforeShow: 2,
   }
 

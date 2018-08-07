@@ -1,6 +1,6 @@
 import debug from 'debug'
 import request from 'superagent'
-import assign from 'lodash/object/assign'
+import assign from 'lodash/assign'
 
 import conf from '../../conf'
 import { toSnake, toCamel } from './convertCase'

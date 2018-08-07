@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/lang/isEmpty'
+import isEmpty from 'lodash/isEmpty'
 import joinStrings from 'join-strings-in-array'
 
 import { emojiRegex, style } from '../emoji/emoji'

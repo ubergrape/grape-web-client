@@ -3056,9 +3056,9 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
-eslint-config-ubergrape@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmjs.org/eslint-config-ubergrape/-/eslint-config-ubergrape-5.2.0.tgz#b48dfce66add200acedb703281444ecea2edd5d2"
+eslint-config-ubergrape@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-ubergrape/-/eslint-config-ubergrape-5.3.0.tgz#c756e98186ea962d2c46f964f5bf84e6ac6b7a72"
 
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
@@ -5749,14 +5749,6 @@ lodash.camelcase@^4.3.0:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
-
-lodash.differenceby@^4.0.1:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/lodash.differenceby/-/lodash.differenceby-4.8.0.tgz#cfd59e94353af5de51da5d302ca4ebff33faac57"
-
-lodash.differencewith@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.differencewith/-/lodash.differencewith-4.5.0.tgz#bafafbc918b55154e179176a00bb0aefaac854b7"
 
 lodash.get@^4.4.2:
   version "4.4.2"

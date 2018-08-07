@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/lang/isEmpty'
-import find from 'lodash/collection/find'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 

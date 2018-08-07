@@ -1,5 +1,5 @@
-import startsWith from 'lodash/string/startsWith'
-import get from 'lodash/object/get'
+import startsWith from 'lodash/startsWith'
+import get from 'lodash/get'
 import { defineMessages } from 'react-intl'
 
 /**
@@ -36,10 +36,7 @@ export function getEmojiSearchData(emoji, search) {
 
 export function searchChannelsToMention(mentions, channel) {
   const result = mentions.map(
-    (
-      { id, name, displayName, username, type, user, avatar, isPrivate, slug },
-      i,
-    ) => {
+    ({ id, name, displayName, username, type, avatar, isPrivate, slug }, i) => {
       if (type === 'user') {
         return {
           id,

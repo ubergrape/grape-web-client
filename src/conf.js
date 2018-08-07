@@ -1,4 +1,4 @@
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import parseUrl from 'grape-web/lib/parse-url'
 
 const parseServiceUrl = url => {
@@ -28,7 +28,7 @@ class Config {
     wsUrl: null,
     pubsubUrl: null,
     sentryJsDsn: null,
-    serviceUrl: location.origin,
+    serviceUrl: window.location.origin,
     host: null,
     uploadPath: null,
     staticPath: null,

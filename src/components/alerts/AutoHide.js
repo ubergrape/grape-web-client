@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 export default class AutoHide extends PureComponent {
   static propTypes = {
