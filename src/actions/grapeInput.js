@@ -1,4 +1,4 @@
-import uniq from 'lodash/array/uniq'
+import uniq from 'lodash/uniq'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import { error } from './'

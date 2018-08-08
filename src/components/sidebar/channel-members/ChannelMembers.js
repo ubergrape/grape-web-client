@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import User from './User'
 
@@ -18,7 +18,6 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
-    users: [],
   }
 
   componentDidMount() {

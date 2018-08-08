@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import sample from 'lodash/collection/sample'
+import sample from 'lodash/sample'
 import { colors, icons } from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'

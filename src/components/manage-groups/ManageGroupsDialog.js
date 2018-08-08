@@ -7,7 +7,7 @@ import {
   injectIntl,
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import capitalize from 'lodash/string/capitalize'
+import capitalize from 'lodash/capitalize'
 import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'

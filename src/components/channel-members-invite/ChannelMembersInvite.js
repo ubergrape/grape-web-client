@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import pluck from 'lodash/collection/pluck'
+import map from 'lodash/map'
 import {
   FormattedMessage,
   defineMessages,
@@ -64,28 +64,16 @@ const InviteButton = ({ listed, channelType, classes, onClick }) => (
 
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string.isRequired,
+  channelType: PropTypes.string,
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 
-@injectSheet({
-  submit: {
-    display: 'block',
-    marginTop: 20,
-    textAlign: 'right',
-  },
-  buttonInvite: {
-    extend: [buttonIcon('invite', { color: white }), buttonPrimary],
-    '&:disabled': {
-      isolate: false,
-      opacity: 0.5,
-      pointerEvents: 'none',
-    },
-  },
-})
-@injectIntl
-export default class ChannelMembersInvite extends PureComponent {
+InviteButton.defaultProps = {
+  channelType: '',
+}
+
+class ChannelMembersInvite extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -99,6 +87,10 @@ export default class ChannelMembersInvite extends PureComponent {
     channelType: PropTypes.string,
   }
 
+  static defaultProps = {
+    channelType: '',
+  }
+
   onInvite = () => {
     const {
       listed,
@@ -109,10 +101,10 @@ export default class ChannelMembersInvite extends PureComponent {
     } = this.props
 
     if (!listed.length) return
-    if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
+    if (channelType === 'room') inviteToChannel(map(listed, 'email'))
     hideChannelMembersInvite()
     showToastNotification(
-      <InviteSuccess invited={pluck(listed, 'displayName')} />,
+      <InviteSuccess invited={map(listed, 'displayName')} />,
     )
   }
 
@@ -153,3 +145,19 @@ export default class ChannelMembersInvite extends PureComponent {
     )
   }
 }
+
+export default injectSheet({
+  submit: {
+    display: 'block',
+    marginTop: 20,
+    textAlign: 'right',
+  },
+  buttonInvite: {
+    extend: [buttonIcon('invite', { color: white }), buttonPrimary],
+    '&:disabled': {
+      isolate: false,
+      opacity: 0.5,
+      pointerEvents: 'none',
+    },
+  },
+})(injectIntl(ChannelMembersInvite))

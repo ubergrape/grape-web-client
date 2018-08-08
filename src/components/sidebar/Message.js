@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { icon as iconSize, spacer } from 'grape-theme/dist/sizes'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import cn from 'classnames'
 
 import Avatar from '../avatar/Avatar'
@@ -112,13 +112,13 @@ export default class Message extends Component {
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn} />
           <Bubble className={classes.rightColumn} theme={{ classes }}>
-            <div
+            <button
               className={classes.innerContent}
               ref={onRefContent}
               onClick={this.onSelectMessage}
             >
               {children}
-            </div>
+            </button>
             {renderMenu()}
           </Bubble>
         </div>

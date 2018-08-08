@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import cn from 'classnames'
 
 import conf from '../../../../conf'
@@ -33,30 +33,30 @@ const toggleMenuDropdown = state => ({
 export default class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
-    attachments: PropTypes.array.isRequired,
-    linkAttachments: PropTypes.array.isRequired,
-    customEmojis: PropTypes.object.isRequired,
-    children: PropTypes.string.isRequired,
-    hasBubbleArrow: PropTypes.bool.isRequired,
-    isOwn: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    isPinned: PropTypes.bool.isRequired,
+    time: PropTypes.instanceOf(Date),
+    attachments: PropTypes.array,
+    linkAttachments: PropTypes.array,
+    customEmojis: PropTypes.object,
+    children: PropTypes.string,
+    hasBubbleArrow: PropTypes.bool,
+    isOwn: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    isPinned: PropTypes.bool,
     /* eslint-disable react/no-unused-prop-types */
-    userTime: PropTypes.string.isRequired,
-    isPm: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onCopyLink: PropTypes.func.isRequired,
-    onQuote: PropTypes.func.isRequired,
+    userTime: PropTypes.string,
+    isPm: PropTypes.bool,
+    onEdit: PropTypes.func,
+    onRemove: PropTypes.func,
+    onCopyLink: PropTypes.func,
+    onQuote: PropTypes.func,
     /* eslint-enable react/no-unused-prop-types */
-    onResend: PropTypes.func.isRequired,
-    onOpenPm: PropTypes.func.isRequired,
-    onRemoveLinkAttachment: PropTypes.func.isRequired,
+    onResend: PropTypes.func,
+    onOpenPm: PropTypes.func,
+    onRemoveLinkAttachment: PropTypes.func,
     onPin: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    duplicates: PropTypes.number.isRequired,
+    user: PropTypes.object,
+    duplicates: PropTypes.number,
     /**
      * Author and avatar are optional because we show them only for the first
      * message in the row.
@@ -68,8 +68,8 @@ export default class RegularMessage extends PureComponent {
     avatar: PropTypes.string,
     state: PropTypes.oneOf(messageDeliveryStates),
     nlp: PropTypes.object,
-    id: PropTypes.string.isRequired,
-    channelId: PropTypes.number.isRequired,
+    id: PropTypes.string,
+    channelId: PropTypes.number,
   }
 
   static defaultProps = {

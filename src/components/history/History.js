@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import get from 'lodash/object/get'
-import differenceWith from 'lodash.differencewith'
-import isEqual from 'lodash/lang/isEqual'
+import get from 'lodash/get'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'

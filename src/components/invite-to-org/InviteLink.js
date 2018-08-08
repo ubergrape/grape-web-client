@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import random from 'lodash/number/random'
+import random from 'lodash/random'
 
 import Input from '../input/GrayInputNormal'
 
@@ -19,6 +19,7 @@ export default function InviteLink(props) {
   const id = `inviteLink${random(1000000)}`
   return (
     <div className={classes.inviteLink}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       <label className={classes.inviteLinkLabel} htmlFor={id}>
         <FormattedMessage
           id="inviteLink"
@@ -44,8 +45,4 @@ InviteLink.propTypes = {
   link: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-}
-
-InviteLink.defaultProps = {
-  link: '',
 }

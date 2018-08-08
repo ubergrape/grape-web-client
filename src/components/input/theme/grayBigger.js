@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/lang/cloneDeep'
+import cloneDeep from 'lodash/cloneDeep'
 import fonts from 'grape-theme/dist/fonts'
 import * as gray from './gray'
 

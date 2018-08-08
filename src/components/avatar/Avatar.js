@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 
 import { size } from './constants'
@@ -44,13 +44,13 @@ export default class Avatar extends PureComponent {
     if (src) style = { ...style, backgroundImage: `url(${src})` }
 
     return (
-      <span
+      <button
         className={`${classes.avatar} ${className}`}
         style={style}
         onClick={onClick}
       >
         {children}
-      </span>
+      </button>
     )
   }
 }

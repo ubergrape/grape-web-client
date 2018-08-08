@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import capitalize from 'lodash/string/capitalize'
+import capitalize from 'lodash/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import Icon from 'grape-web/lib/svg-icons/Icon'

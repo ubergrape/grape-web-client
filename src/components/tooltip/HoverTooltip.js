@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import capitalize from 'lodash/string/capitalize'
+import capitalize from 'lodash/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 
 import { getArrowOffset } from './utils'
@@ -12,18 +12,17 @@ const initialState = {
   show: false,
 }
 
-@injectSheet(theme.styles)
-export default class HoverTooltip extends PureComponent {
+class HoverTooltip extends PureComponent {
   static propTypes = {
     message: PropTypes.node,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,
     align: PropTypes.oneOf(['left', 'right', 'center']),
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-    inline: PropTypes.bool.isRequired,
-    delay: PropTypes.number.isRequired,
-    disabled: PropTypes.bool.isRequired,
-    arrowMargin: PropTypes.number.isRequired,
+    inline: PropTypes.bool,
+    delay: PropTypes.number,
+    disabled: PropTypes.bool,
+    arrowMargin: PropTypes.number,
   }
 
   static defaultProps = {
@@ -80,7 +79,9 @@ export default class HoverTooltip extends PureComponent {
       <div className={classes[`wrapper${inline ? 'Inline' : ''}`]}>
         <span
           onMouseOver={this.onMouseOver}
+          onFocus={this.onMouseOver}
           onMouseOut={this.onMouseOut}
+          onBlur={this.onMouseOut}
           className={classes.childrenWrapper}
         >
           {children}
@@ -100,3 +101,5 @@ export default class HoverTooltip extends PureComponent {
     )
   }
 }
+
+export default injectSheet(theme.styles)(HoverTooltip)

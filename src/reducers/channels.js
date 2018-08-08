@@ -1,6 +1,6 @@
-import findIndex from 'lodash/array/findIndex'
-import includes from 'lodash/collection/includes'
-import find from 'lodash/collection/find'
+import findIndex from 'lodash/findIndex'
+import includes from 'lodash/includes'
+import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
 

@@ -1,4 +1,4 @@
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import {
   blueLight,
   grayBlueLighter,

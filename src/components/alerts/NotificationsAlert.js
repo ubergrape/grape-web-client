@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import Button from 'grape-web/lib/components/button'
 
 @injectSheet({

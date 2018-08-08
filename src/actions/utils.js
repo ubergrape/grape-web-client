@@ -1,10 +1,10 @@
-import find from 'lodash/collection/find'
-import pluck from 'lodash/collection/pluck'
-import each from 'lodash/collection/each'
-import intersection from 'lodash/array/intersection'
-import isEmpty from 'lodash/lang/isEmpty'
-import indexBy from 'lodash/collection/indexBy'
-import omit from 'lodash/object/omit'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import each from 'lodash/each'
+import intersection from 'lodash/intersection'
+import isEmpty from 'lodash/isEmpty'
+import keyBy from 'lodash/keyBy'
+import omit from 'lodash/omit'
 
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
@@ -130,7 +130,7 @@ export const loadLabelsConfigCached = (() => {
 
 export const normalizeMessage = (() => {
   function normalizeLabels(labels, labelConfigs) {
-    const configsMap = indexBy(labelConfigs, 'name')
+    const configsMap = keyBy(labelConfigs, 'name')
     return (
       labels
         // Just a precaution in case the config doesn't have all labels.
@@ -315,7 +315,7 @@ export function countMentions(message, user, rooms) {
   }
 
   if (mentions.room) {
-    const joinedRoomsIds = pluck(rooms, 'id')
+    const joinedRoomsIds = map(rooms, 'id')
     const roomMentions = intersection(mentions.room, joinedRoomsIds)
     count += roomMentions.length
   }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash/debounce'
 
 /**
  * Determines if the specified start/stop range is visible based on the most

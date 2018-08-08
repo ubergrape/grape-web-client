@@ -1,5 +1,5 @@
-import omit from 'lodash/object/omit'
-import find from 'lodash/collection/find'
+import omit from 'lodash/omit'
+import find from 'lodash/find'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
