@@ -6,11 +6,17 @@ import omit from 'lodash/object/omit'
 import differenceBy from 'lodash.differenceby'
 import * as images from '../constants/images'
 
-export const appSelector = createSelector(state => state.app, state => state)
-
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading,
   state => state,
+)
+
+export const appSelector = createSelector(
+  [state => state.app, initialDataLoadingSelector],
+  (app, initialDataLoading) => ({
+    ...app,
+    initialDataLoading,
+  }),
 )
 
 /**
