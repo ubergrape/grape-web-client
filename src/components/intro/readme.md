@@ -30,12 +30,7 @@ const onClose = () => {
 
 ### Step 2
 
-```
-<div style={{minHeight: 400}}>
-  Some test <Beacon id="manageGroups" placement="bottom" />
-  <Intro step={2} />
-</div>
-```
+TODO new conversation dialog
 
 ### Step 3
 

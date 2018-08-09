@@ -211,21 +211,6 @@
   "_loginHint.comment": "Embedded chat login view hint.",
   "loginSubmit": "Jetzt anmelden",
   "_loginSubmit.comment": "Embedded chat login view submit button.",
-  "manageGroupsJoinableBtn": "beitreten",
-  "_manageGroupsJoinableBtn.comment": "Manage Groups Dialog: join button label",
-  "manageGroupsJoinedBtn": "verlassen",
-  "_manageGroupsJoinedBtn.comment": "Manage Groups Dialog: leave button label",
-  "manageGroupsDialogTitle": "Gruppen",
-  "_manageGroupsDialogTitle.comment": "Manage Groups Dialog: dialog title",
-  "manageGroupsLinkJoinable": "Verfügbare Gruppen",
-  "_manageGroupsLinkJoinable.comment":
-    "Manage Groups Dialog: show joinable groups link",
-  "manageGroupsLinkJoined": "Meine Gruppen",
-  "_manageGroupsLinkJoined.comment":
-    "Manage Groups Dialog: show \"Groups you belong to\" link",
-  "manageGroupsCreateNew": "Neue Konversation",
-  "_manageGroupsCreateNew.comment":
-    "Manage Groups Dialog: create new conversation button",
   "markdownTipsLinkMessage": "Sie können auch {markdown} verwenden",
   "example": "Beispiel",
   "_example.comment": "Title",
