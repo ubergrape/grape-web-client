@@ -55,14 +55,18 @@ function RenderIcons({ theme, channel, onSetRoomIcon }) {
           }
           return (
             <li className={classes.iconSettingsItem} key={slug}>
-              <button
-                onClick={() => {
-                  onSetRoomIcon(slug)
-                }}
+              <div
                 className={classes[`chooserButton${isCurrent ? 'Active' : ''}`]}
               >
-                <Icon className={classes.icon} name={slug} theme={iconTheme} />
-              </button>
+                <Icon
+                  onClick={() => {
+                    onSetRoomIcon(slug)
+                  }}
+                  className={classes.icon}
+                  name={slug}
+                  theme={iconTheme}
+                />
+              </div>
             </li>
           )
         })}
