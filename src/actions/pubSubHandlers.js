@@ -230,6 +230,7 @@ export function handleRemoveRoom({ channel: id }) {
       type: types.REMOVE_ROOM,
       payload: id,
     })
+    dispatch(goToLastUsedChannel())
     if (id === currentId) dispatch(goTo('/chat'))
     if (
       !joinedRoomsSelector(getState()).length &&

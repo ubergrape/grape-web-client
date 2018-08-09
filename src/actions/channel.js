@@ -405,12 +405,7 @@ export function hideRoomDeleteDialog() {
 
 export function deleteChannel({ roomId, roomName }) {
   return dispatch =>
-    api
-      .deleteChannel(roomId, roomName)
-      .then(() => {
-        dispatch(goToLastUsedChannel())
-      })
-      .catch(err => dispatch(error(err)))
+    api.deleteChannel(roomId, roomName).catch(err => dispatch(error(err)))
 }
 
 export function clearRoomRenameError() {
