@@ -1,5 +1,5 @@
-import omit from 'lodash/object/omit'
-import find from 'lodash/collection/find'
+import omit from 'lodash/omit'
+import find from 'lodash/find'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
@@ -188,6 +188,11 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, users, profile]) => {
+      dispatch({
+        type: types.SET_INITIAL_DATA_LOADING,
+        payload: false,
+      })
+
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(org.channels))
       dispatch(setUsers(users))
@@ -213,8 +218,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
           dispatch(setChannel(channelId))
         }
       }
-
-      dispatch(initialDataLoading(false))
     })
     .catch(err => {
       dispatch(error(err))

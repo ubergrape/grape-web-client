@@ -1,6 +1,6 @@
 import { render } from 'react-dom'
 import { createElement } from 'react'
-import random from 'lodash/number/random'
+import random from 'lodash/random'
 import moment from 'moment-timezone'
 
 import History from '../History'

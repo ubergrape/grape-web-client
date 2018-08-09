@@ -5,9 +5,9 @@ import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
-import debounce from 'lodash/function/debounce'
-import throttle from 'lodash/function/throttle'
-import get from 'lodash/object/get'
+import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
+import get from 'lodash/get'
 import cn from 'classnames'
 
 import {

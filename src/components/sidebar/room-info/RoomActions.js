@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'

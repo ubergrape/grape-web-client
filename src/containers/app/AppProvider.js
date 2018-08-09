@@ -13,10 +13,16 @@ import { Login } from '../../components/login'
 import * as translations from '../../i18n'
 import conf from '../../conf'
 
-const AppOrLogin = ({ show, children, onChangeRoute, ...rest }) => {
+const AppOrLogin = ({
+  show,
+  children,
+  onChangeRoute,
+  initialDataLoading,
+  ...rest
+}) => {
   switch (show) {
     case 'app':
-      return children({ onChangeRoute })
+      return children({ initialDataLoading, onChangeRoute })
     case 'login':
       return <Login {...rest} />
     default:

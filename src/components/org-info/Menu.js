@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import Divider from 'grape-web/lib/components/divider'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import conf from '../../conf'
 import {
@@ -19,21 +19,16 @@ import {
   LogoutItem,
 } from './menuItems'
 
-@injectSheet({
-  root: {
-    minWidth: 220,
-  },
-})
-export default class Menu extends PureComponent {
+class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onInvite: PropTypes.func.isRequired,
-    onShowIntro: PropTypes.func.isRequired,
-    inviterRole: PropTypes.number.isRequired,
+    onInvite: PropTypes.func,
+    onShowIntro: PropTypes.func,
+    inviterRole: PropTypes.number,
     supportLink: PropTypes.string.isRequired,
     user: PropTypes.shape({
       role: PropTypes.number.isRequired,
-    }).isRequired,
+    }),
   }
 
   static defaultProps = {
@@ -88,3 +83,9 @@ export default class Menu extends PureComponent {
     return <MenuList className={classes.root}>{items}</MenuList>
   }
 }
+
+export default injectSheet({
+  root: {
+    minWidth: 220,
+  },
+})(Menu)

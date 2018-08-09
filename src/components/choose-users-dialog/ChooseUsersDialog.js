@@ -8,7 +8,7 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import { styles } from './theme'
 import { getFilteredUsers } from './utils'

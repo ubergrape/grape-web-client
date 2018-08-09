@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 
 /**
  * Theming based on https://github.com/kof/theme-standard

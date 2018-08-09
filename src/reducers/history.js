@@ -1,13 +1,13 @@
-import reject from 'lodash/collection/reject'
-import findIndex from 'lodash/array/findIndex'
-import uniq from 'lodash/array/uniq'
+import reject from 'lodash/reject'
+import findIndex from 'lodash/findIndex'
+import uniq from 'lodash/uniq'
 
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 30,
+  minimumBatchSize: 50,
   receivedMessageViaSocket: false,
   scrollTo: null,
   scrollToAlignment: null,

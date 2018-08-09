@@ -45,6 +45,10 @@ export const styles = {
     display: 'inline-block',
     width: 22,
   },
+  checkbox: {
+    isolate: false,
+    marginRight: 10,
+  },
   titleIconMuteAll: createIcon('bellMuted'),
   titleIconDesktop: createIcon('laptop'),
   titleIconPush: createIcon('mobile'),

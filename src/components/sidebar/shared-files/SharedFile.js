@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import icons from 'grape-web/lib/svg-icons/data'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
@@ -8,9 +8,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import ImageZoom from '../../image-zoom/ImageZoom'
 import { styles } from './sharedFileTheme'
 
-@injectSheet(styles)
-@injectIntl
-export default class SharedFile extends PureComponent {
+class SharedFile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -111,7 +109,7 @@ export default class SharedFile extends PureComponent {
     }
 
     return (
-      <section
+      <button
         className={classes.sharedFile}
         onClick={handleClick ? this.onOpen : noop}
       >
@@ -121,7 +119,7 @@ export default class SharedFile extends PureComponent {
           <p className={classes.meta}>{when}</p>
           <p className={classes.meta}>{message}</p>
         </div>
-      </section>
+      </button>
     )
   }
 
@@ -140,3 +138,5 @@ export default class SharedFile extends PureComponent {
     return section
   }
 }
+
+export default injectSheet(styles)(injectIntl(SharedFile))

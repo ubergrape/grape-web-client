@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import get from 'lodash/object/get'
-import differenceWith from 'lodash.differencewith'
-import isEqual from 'lodash/lang/isEqual'
+import get from 'lodash/get'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
@@ -21,7 +21,7 @@ function createState(state, props) {
   }
 }
 
-@injectSheet({
+const styles = {
   history: {
     position: 'absolute',
     top: 0,
@@ -29,8 +29,9 @@ function createState(state, props) {
     right: 0,
     bottom: 0,
   },
-})
-export default class History extends PureComponent {
+}
+
+class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -236,3 +237,5 @@ export default class History extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(History)

@@ -1,5 +1,5 @@
-import findLast from 'lodash/collection/findLast'
-import last from 'lodash/array/last'
+import findLast from 'lodash/findLast'
+import last from 'lodash/last'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'

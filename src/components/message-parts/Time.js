@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 
 import Tooltip from '../tooltip/Tooltip'
@@ -53,7 +53,6 @@ UserTime.propTypes = {
   time: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired,
   isOpened: PropTypes.bool.isRequired,
-  formatTime: PropTypes.func.isRequired,
 }
 
 /**
@@ -70,14 +69,16 @@ function isReadersTimezone(time) {
   return readersOffset === writersOffset
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class Time extends PureComponent {
+class Time extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     intl: intlShape.isRequired,
     userTime: PropTypes.string,
+  }
+
+  static defaultProps = {
+    userTime: '',
   }
 
   constructor(props) {
@@ -105,20 +106,19 @@ export default class Time extends PureComponent {
       intl: { formatTime },
       sheet: { classes },
     } = this.props
+    const { timeContainer, timeContainerHoverable } = classes
     const { isSameTimezone, isWritersTimeOpened } = this.state
 
     return (
       <div
         className={classes.time}
         onMouseOver={this.onMouseOver}
+        onFocus={this.onMouseOver}
         onMouseOut={this.onMouseOut}
+        onBlur={this.onMouseOut}
       >
         <span
-          className={
-            isSameTimezone
-              ? classes.timeContainer
-              : classes.timeContainerHoverable
-          }
+          className={isSameTimezone ? timeContainer : timeContainerHoverable}
         >
           {formatTime(time)}
         </span>
@@ -127,7 +127,6 @@ export default class Time extends PureComponent {
             <UserTime
               isOpened={isWritersTimeOpened}
               time={userTime}
-              formatTime={formatTime}
               theme={{ classes }}
             />
           )}
@@ -135,3 +134,5 @@ export default class Time extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(Time))

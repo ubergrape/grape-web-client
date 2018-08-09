@@ -1,6 +1,6 @@
-import pick from 'lodash/object/pick'
-import find from 'lodash/collection/find'
-import findIndex from 'lodash/array/findIndex'
+import pick from 'lodash/pick'
+import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
 import * as api from '../utils/backend/api'
 
 import * as types from '../constants/actionTypes'

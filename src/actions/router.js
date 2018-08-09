@@ -1,4 +1,4 @@
-import find from 'lodash/collection/find'
+import find from 'lodash/find'
 import { openUrl, getMode } from 'grape-web/lib/x-platform'
 
 import conf from '../conf'

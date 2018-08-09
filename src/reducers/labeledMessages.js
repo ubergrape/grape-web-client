@@ -1,5 +1,5 @@
-import find from 'lodash/collection/find'
-import merge from 'lodash/object/merge'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
 
 import * as types from '../constants/actionTypes'
 

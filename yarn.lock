@@ -3056,9 +3056,9 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
-eslint-config-ubergrape@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmjs.org/eslint-config-ubergrape/-/eslint-config-ubergrape-5.2.0.tgz#b48dfce66add200acedb703281444ecea2edd5d2"
+eslint-config-ubergrape@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-ubergrape/-/eslint-config-ubergrape-5.3.0.tgz#c756e98186ea962d2c46f964f5bf84e6ac6b7a72"
 
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
@@ -3924,9 +3924,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grape-browser@^3.17.10:
-  version "3.17.10"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.10.tgz#2e8a4138dca34326c2d20ef7cf1525bc0c979055"
+grape-browser@^3.17.11:
+  version "3.17.11"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.11.tgz#c1213223ea9e7d3686c2f89e5aff50c963e28c5f"
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -3965,7 +3965,38 @@ grape-theme@3.x, grape-theme@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
-grape-web@1.x, grape-web@^1.7.3:
+grape-web@1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.4.tgz#ff967559fb16a0ae3fc3d7a2974574636aedc94c"
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^0.3.8"
+    grape-js-emoji "^0.0.1"
+    grape-theme "3.x"
+    jss "^9.8.0"
+    jss-default-unit "^8.0.0"
+    jss-expand "^5.0.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.0.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^7.0.0"
+    lodash "^3.10.0"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^15.3.0"
+    react-dom "^15.3.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^1.2.0"
+
+grape-web@1.x:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.3.tgz#5b44dc40cf945fa9162fdb78a9c3851d5ff82dac"
   dependencies:
@@ -5718,14 +5749,6 @@ lodash.camelcase@^4.3.0:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
-
-lodash.differenceby@^4.0.1:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/lodash.differenceby/-/lodash.differenceby-4.8.0.tgz#cfd59e94353af5de51da5d302ca4ebff33faac57"
-
-lodash.differencewith@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.differencewith/-/lodash.differencewith-4.5.0.tgz#bafafbc918b55154e179176a00bb0aefaac854b7"
 
 lodash.get@^4.4.2:
   version "4.4.2"

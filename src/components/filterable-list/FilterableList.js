@@ -1,20 +1,14 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
-import noop from 'lodash/utility/noop'
-import isEqual from 'lodash/lang/isEqual'
+import noop from 'lodash/noop'
+import isEqual from 'lodash/isEqual'
 
 import TagsInput from '../tags-input/TagsInput'
 
-@injectSheet({
-  list: {
-    display: 'block',
-    marginTop: 20,
-  },
-})
-export default class FilterableList extends PureComponent {
+class FilterableList extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isFilterFocused: PropTypes.bool.isRequired,
@@ -38,7 +32,6 @@ export default class FilterableList extends PureComponent {
     listClassName: undefined,
     placeholder: undefined,
     children: null,
-    isFilterFocused: true,
     onSelect: noop,
     onClick: noop,
     onRemoveSelected: noop,
@@ -170,7 +163,7 @@ export default class FilterableList extends PureComponent {
     } = this.props
 
     return (
-      <div onClick={onClick}>
+      <button className={classes.listWrapper} onClick={onClick}>
         <TagsInput
           onKeyDown={this.onKeyDown}
           onChange={onChange}
@@ -184,7 +177,18 @@ export default class FilterableList extends PureComponent {
         />
         {children}
         <div className={classes.list}>{this.renderList()}</div>
-      </div>
+      </button>
     )
   }
 }
+
+export default injectSheet({
+  listWrapper: {
+    background: 'none',
+    width: '100%',
+  },
+  list: {
+    display: 'block',
+    marginTop: 20,
+  },
+})(FilterableList)

@@ -1,4 +1,4 @@
-import find from 'lodash/collection/find'
+import find from 'lodash/find'
 
 import * as types from '../constants/actionTypes'
 import { alertsSelector } from '../selectors'

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import random from 'lodash/number/random'
+import random from 'lodash/random'
 
 import Input from '../input/GrayInputNormal'
 
@@ -23,6 +23,7 @@ export default function EmailsInput(props) {
   const id = `emailAddresses${random(1000000)}`
   return (
     <div className={classes.line}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
       <label className={classes.label} htmlFor={id}>
         <FormattedMessage
           id="emailAddresses"
@@ -44,6 +45,11 @@ export default function EmailsInput(props) {
       <div className={noteClassNames}>{placeholder}</div>
     </div>
   )
+}
+
+EmailsInput.defaultProps = {
+  error: {},
+  focused: false,
 }
 
 EmailsInput.propTypes = {
