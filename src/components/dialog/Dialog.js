@@ -4,9 +4,8 @@ import Normalize from 'grape-web/lib/components/normalize'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'grape-web/lib/components/icon-button'
-import { black, white } from 'grape-theme/dist/base-colors'
+import { white } from 'grape-theme/dist/base-colors'
 import { small, biggest } from 'grape-theme/dist/fonts'
-import { borderRadius } from 'grape-theme/dist/sizes'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 
@@ -36,14 +35,11 @@ import { zIndex } from '../../utils/z-index'
   },
   backdrop: {
     composes: '$overlay',
-    backgroundColor: black,
-    opacity: 0.3,
+    backgroundColor: white,
     zIndex: zIndex('below'),
   },
   content: {
     width: 525,
-    borderRadius: borderRadius.big,
-    boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden',
     outline: 0,
   },
