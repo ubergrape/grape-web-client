@@ -9,7 +9,7 @@ import { HistoryProvider } from '../containers/history'
 import { SidebarProvider } from '../containers/sidebar'
 import { BillingWarningProvider } from '../containers/billing-warning'
 import { ChannelMembersInviteProvider } from '../containers/channel-members-invite'
-import { NewConversationDialogProvider } from '../containers/new-conversation-dialog'
+import { NewConversationProvider } from '../containers/new-conversation'
 import { InviteToOrgProvider } from '../containers/invite-to-org'
 import { NotificationSettingsProvider } from '../containers/notification-settings'
 import { ToastNotificationProvider } from '../containers/toast-notification'
@@ -37,7 +37,7 @@ const Globals = () => (
   <section>
     <BillingWarningProvider />
     <ChannelMembersInviteProvider />
-    <NewConversationDialogProvider />
+    <NewConversationProvider />
     <InviteToOrgProvider />
     <NotificationSettingsProvider />
     <UnreadChannelsProvider />

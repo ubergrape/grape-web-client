@@ -1,9 +1,6 @@
 import { createSelector } from 'reselect'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
-// TODO: use this from lodash 4 after
-// https://github.com/ubergrape/chatgrape/issues/3326
-import differenceBy from 'lodash/differenceBy'
 import * as images from '../constants/images'
 
 export const initialDataLoadingSelector = createSelector(
@@ -255,11 +252,6 @@ export const inviteChannelMembersSelector = createSelector(
   state => state,
 )
 
-export const newConversationSelector = createSelector(
-  state => state.newConversation,
-  state => state,
-)
-
 export const inviteToOrgSelector = createSelector(
   state => state.inviteToOrg,
   state => state,
@@ -299,19 +291,10 @@ export const isInviterSelector = createSelector(
   ({ inviterRole }, { role }) => role >= inviterRole,
 )
 
-export const newConversationDialog = createSelector(
-  [
-    newConversationSelector,
-    orgSelector,
-    isInviterSelector,
-    createRoomErrorSelector,
-  ],
-  (newConversation, { id: organization }, isInviter, error) => ({
+export const newConversationSelector = createSelector(
+  [createSelector(state => state.newConversation, state => state)],
+  newConversation => ({
     ...newConversation,
-    isInviter,
-    organization,
-    error,
-    users: differenceBy(newConversation.found, newConversation.listed, 'id'),
   }),
 )
 
