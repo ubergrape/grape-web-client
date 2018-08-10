@@ -21,7 +21,7 @@ export default class RoomIconSettings extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    dropdownPlacement: PropTypes.string.isRequired,
+    dropdownPlacement: PropTypes.string,
     container: PropTypes.object.isRequired,
   }
 
@@ -60,18 +60,18 @@ export default class RoomIconSettings extends PureComponent {
 
     return (
       <div>
-        <button
-          onClick={this.onShowDropdown}
+        <div
           className={classes[`iconSettingsButton${show ? 'Active' : ''}`]}
           ref={this.onRefButton}
         >
           <Icon
             name={icon}
+            onClick={this.onShowDropdown}
             isPrivate={!isPublic}
             theme={{ ...iconTheme, backgroundColor }}
             showPrivateStatus
           />
-        </button>
+        </div>
         {show && (
           <Dropdown
             container={container}

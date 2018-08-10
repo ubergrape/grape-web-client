@@ -11,9 +11,10 @@ import Editable from './Editable'
 import { styles } from './theme'
 
 const Wrapper = listenOutsideClick(({ onClick, className, children }) => (
-  <button className={className} onClick={onClick}>
+  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+  <div className={className} onClick={onClick}>
     {children}
-  </button>
+  </div>
 ))
 
 /**
