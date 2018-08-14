@@ -69,11 +69,18 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
+    // console.log(rowsHasChanged, nextProps.rows.length > rows.length, this.direction > 0, !nextProps.receivedMessageViaSocket)
+    const loadedNewerMessagesViaScrolling =
+      rowsHasChanged &&
+      nextProps.rows.length > rows.length &&
+      this.direction > 0 &&
+      !nextProps.receivedMessageViaSocket
+
     // We way need to auto scroll to the bottom when:
-    // - When a new message was received.
+    // - When a new message was received or any of the messages on screen changed e.g. got longer.
     // - Parent size has changed and the scroll position was close to the bottom.
     if (
-      (nextProps.receivedMessageViaSocket && rowsHasChanged) ||
+      (rowsHasChanged && !loadedNewerMessagesViaScrolling) ||
       nextProps.height !== height
     ) {
       const endThreshold =
