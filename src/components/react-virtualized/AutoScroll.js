@@ -69,7 +69,7 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    // console.log(rowsHasChanged, nextProps.rows.length > rows.length, this.direction > 0, !nextProps.receivedMessageViaSocket)
+    // console.log('AutoScroll', rows.length, nextProps.rows.length)
     const loadedNewerMessagesViaScrolling =
       rowsHasChanged &&
       nextProps.rows.length > rows.length &&

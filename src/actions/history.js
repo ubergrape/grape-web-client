@@ -334,7 +334,11 @@ export function createMessage({ channelId, text, attachments = [] }) {
 
     const message = normalizeMessage(
       {
+        // Nik: I consider assigning the clientId to id bad software design,
+        // Still I'm concerned that some part of the code relies on it and
+        // in order to ship a stable version we are going to keep it for now.
         id,
+        clientId: id,
         text,
         author,
         time: new Date(),

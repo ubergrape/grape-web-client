@@ -1,6 +1,7 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
+import some from 'lodash/some'
 import * as api from '../utils/backend/api'
 
 import * as types from '../constants/actionTypes'
@@ -43,18 +44,21 @@ const addNewMessage = message => (dispatch, getState) => {
       isCurrentUser: user.id === nMessage.author.id,
     },
   })
-  // We remove a message first, because if user sends a message, it is
-  // added immediately, with a generated clientsideId.
-  // Then we receive the same message from the server which might contain
-  // additional information and a server-side id.
-  dispatch({
-    type: types.REMOVE_MESSAGE,
-    payload: message.clientsideId,
-  })
-  dispatch({
-    type: types.ADD_NEW_MESSAGE,
-    payload: nMessage,
-  })
+
+  // TODO In case a clientsideId is a available
+  if (
+    some(state.history.messages, msg => msg.clientId === message.clientsideId)
+  ) {
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: nMessage,
+    })
+  } else {
+    dispatch({
+      type: types.ADD_NEW_MESSAGE,
+      payload: nMessage,
+    })
+  }
 
   // Mark own message as sent.
   if (nMessage.author.id === user.id) {
