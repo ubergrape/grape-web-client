@@ -90,7 +90,6 @@ function Items(props) {
     features,
     intl,
     channel,
-    isChatEmpty,
   } = props
 
   return (
@@ -98,14 +97,12 @@ function Items(props) {
       className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
     >
       <li className={classes.favorite}>
-        {!isChatEmpty && (
-          <FavoriteButton
-            id={favorite.id}
-            favorited={favorite.favorited}
-            onFavorize={requestAddChannelToFavorites}
-            onUnfavorize={requestRemoveChannelFromFavorites}
-          />
-        )}
+        <FavoriteButton
+          id={favorite.id}
+          favorited={favorite.favorited}
+          onFavorize={requestAddChannelToFavorites}
+          onUnfavorize={requestRemoveChannelFromFavorites}
+        />
       </li>
       <li className={classes.title}>
         <Title channel={channel} partner={partner} />
@@ -113,7 +110,6 @@ function Items(props) {
           <PinButton
             onClick={itemClickHandler(channel.type, props)}
             className={classes.pinButton}
-            disabled={isChatEmpty}
           />
         )}
       </li>
@@ -124,7 +120,6 @@ function Items(props) {
             onClick={itemClickHandler(channel.type, props)}
             isSelected={sidebar === channel.type}
             channel={channel.type}
-            disabled={isChatEmpty}
           />
         </li>
         <li className={classes.search}>
@@ -132,7 +127,6 @@ function Items(props) {
             onFocus={onFocusMessageSearch}
             onChange={onChangeMessageSearch}
             intl={intl}
-            disabled={isChatEmpty}
           />
           <Beacon
             id="search"
@@ -145,7 +139,6 @@ function Items(props) {
             onClick={itemClickHandler('mentions', props)}
             isSelected={sidebar === 'mentions'}
             mentions={mentions}
-            disabled={isChatEmpty}
           />
         </li>
         {features.labeledMessagesList && (
@@ -153,7 +146,6 @@ function Items(props) {
             <LabeledMessagesButton
               isSelected={sidebar === 'labeledMessages'}
               onClick={itemClickHandler('labeledMessages', props)}
-              disabled={isChatEmpty}
             />
           </li>
         )}
@@ -166,7 +158,6 @@ Items.propTypes = {
   intl: intlShape.isRequired,
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
-  isChatEmpty: PropTypes.bool.isRequired,
   partner: PropTypes.object.isRequired,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

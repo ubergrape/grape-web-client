@@ -42,16 +42,12 @@ const styles = ({ palette }) => ({
   },
 })
 
-const PinButton = ({ classes, className, onClick, disabled }) => (
+const PinButton = ({ classes, className, onClick }) => (
   <div className={cn(classes.root, className)}>
     <Tooltip message={<PinnedMessagesText />}>
       <div className={classes.pipeAndButton}>
         <span className={classes.divider} />
-        <IconButton
-          disabled={disabled}
-          onClick={onClick}
-          className={classes.button}
-        >
+        <IconButton onClick={onClick} className={classes.button}>
           <Icon name="pinFilled" className={classes.icon} />
         </IconButton>
       </div>
@@ -63,7 +59,6 @@ PinButton.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  disabled: PropTypes.bool.isRequired,
 }
 
 PinButton.defaultProps = {

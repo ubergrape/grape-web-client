@@ -22,16 +22,7 @@ const styles = ({ palette }) => ({
       isolate: false,
       boxShadow: 'none',
     },
-    '&$disabled': {
-      isolate: false,
-      background: palette.background.contentFrame,
-      '&:hover': {
-        isolate: false,
-        background: palette.background.contentFrame,
-      },
-    },
   },
-  disabled: {},
   label: {
     isolate: false,
     // This `before` pseudo-selector needs to implement `cursor: pointer` for SVG icon
@@ -48,8 +39,7 @@ const styles = ({ palette }) => ({
       isolate: false,
       width: iconSize,
       height: iconSize,
-      color: ({ disabled }) =>
-        disabled ? palette.text.primar : palette.secondary.A200,
+      color: palette.secondary.A200,
     },
   },
   // TODO use function value once https://github.com/cssinjs/react-jss/issues/165
@@ -70,15 +60,13 @@ const styles = ({ palette }) => ({
   },
 })
 
-const FabButton = ({ classes, disabled, onClick, isSelected, icon }) => (
+const FabButton = ({ classes, onClick, isSelected, icon }) => (
   <Button
     raised
     fab
-    disabled={disabled}
     onClick={onClick}
     className={classes[isSelected ? 'active' : 'root']}
     classes={{
-      disabled: classes.disabled,
       label: classes.label,
     }}
   >
@@ -91,7 +79,6 @@ FabButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   icon: PropTypes.oneOf(['at', 'tag', 'sidebar']).isRequired,
-  disabled: PropTypes.bool.isRequired,
 }
 
 export default injectSheet(styles)(FabButton)

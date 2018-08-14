@@ -399,6 +399,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    emptyChatSelector,
   ],
   (
     joinedRooms,
@@ -408,6 +409,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    isChatEmpty,
   ) => {
     const joined = [...joinedRooms, ...pms].filter(({ id }) => id !== user.id)
     const recent = joined
@@ -425,6 +427,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      isChatEmpty,
     }
   },
 )
@@ -598,7 +601,8 @@ export const footerComponentSelector = createSelector(
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
-    disabled: isChannelDisabled || isChatEmpty,
+    disabled: isChannelDisabled,
+    isChatEmpty,
     channelsToMention,
   }),
 )

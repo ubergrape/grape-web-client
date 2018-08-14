@@ -46,19 +46,12 @@ const messages = defineMessages({
   },
 })
 
-const Search = ({
-  classes,
-  onFocus,
-  onChange,
-  disabled,
-  intl: { formatMessage },
-}) => (
+const Search = ({ classes, onFocus, onChange, intl: { formatMessage } }) => (
   <input
     className={classes.root}
     onFocus={onFocus}
     onChange={onChange}
     placeholder={formatMessage(messages.placeholder)}
-    disabled={disabled}
     type="search"
   />
 )
@@ -67,7 +60,6 @@ Search.propTypes = {
   classes: PropTypes.object.isRequired,
   onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
 }
 
