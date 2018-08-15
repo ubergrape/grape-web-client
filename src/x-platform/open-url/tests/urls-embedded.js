@@ -22,6 +22,25 @@ describe('goTo with url in embedded mode', () => {
     })
   })
 
+  it('should call onExternal callback if the path lead to chat', () => {
+    const { map, called, args } = callbacks()
+    goTo('https://grape.io/chat', {
+      currChannel: 6009,
+      serviceUrl: 'https://grape.io',
+      mode: 'embedded',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 1,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 0,
+      },
+      args: ['https://grape.io/chat', 'grape'],
+    })
+  })
+
   it('should call onSilentChange callback if URL contains messageId and channel is current', () => {
     const { map, called, args } = callbacks()
     goTo(
