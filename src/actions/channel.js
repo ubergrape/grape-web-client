@@ -11,6 +11,7 @@ import {
   orgSelector,
   pmsSelector,
   manageGroupsSelector,
+  emptyChatSelector,
 } from '../selectors'
 import {
   normalizeChannelData,
@@ -25,6 +26,7 @@ import {
   addUser,
   setChannel,
   handleBadChannel,
+  showNoContent,
 } from './'
 
 const removeManageGroupChannel = channelId => (dispatch, getState) => {
@@ -259,6 +261,7 @@ export function createRoomWithUsers(room, users) {
     dispatch(requestRoomCreate())
 
     const user = userSelector(getState())
+    const isChatEmpty = emptyChatSelector(getState())
     const emailAddresses = users.map(({ email }) => email)
     let newRoom
 
@@ -279,6 +282,9 @@ export function createRoomWithUsers(room, users) {
         if (newRoom) {
           dispatch(goToChannel(newRoom.id))
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
+          if (isChatEmpty) {
+            dispatch(showNoContent(true))
+          }
         }
       })
       .catch(err => {
@@ -399,12 +405,7 @@ export function hideRoomDeleteDialog() {
 
 export function deleteChannel({ roomId, roomName }) {
   return dispatch =>
-    api
-      .deleteChannel(roomId, roomName)
-      .then(() => {
-        dispatch(goToLastUsedChannel())
-      })
-      .catch(err => dispatch(error(err)))
+    api.deleteChannel(roomId, roomName).catch(err => dispatch(error(err)))
 }
 
 export function clearRoomRenameError() {

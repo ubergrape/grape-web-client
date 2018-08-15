@@ -45,7 +45,12 @@ export function goToMessage(message) {
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
     const { id: currentId } = channelSelector(getState())
-    if (channelOrChannelId === currentId || channelOrChannelId.id === currentId)
+    const channels = channelsSelector(getState())
+    if (
+      (channelOrChannelId === currentId ||
+        channelOrChannelId.id === currentId) &&
+      channels.length > 1
+    )
       return
     if (!conf.embed) {
       dispatch({
@@ -57,13 +62,11 @@ export function goToChannel(channelOrChannelId, options) {
     let channel = channelOrChannelId
 
     if (typeof channelOrChannelId === 'number') {
-      const channels = channelsSelector(getState())
       channel = find(channels, ({ id }) => id === channelOrChannelId)
       // Assume we don't have always have all channels in the future.
       if (!channel) channel = { id: channelOrChannelId, slug: '' }
     }
     const slug = channel.slug == null ? channel.partner.username : channel.slug
-
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     if (!conf.embed) dispatch(setChannel(channel.id))
   }
@@ -73,6 +76,8 @@ export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = findLastUsedChannel(channels)
   if (channel) dispatch(goToChannel(channel))
+  else if (channels.length) dispatch(goToChannel(channels[0]))
+  else goTo('/chat')
 }
 
 export function goToPayment() {

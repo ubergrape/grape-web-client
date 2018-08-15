@@ -9,6 +9,7 @@ export default class Header extends PureComponent {
   static propTypes = {
     showSidebar: PropTypes.func.isRequired,
     updateMessageSearchQuery: PropTypes.func.isRequired,
+    isChatEmpty: PropTypes.bool.isRequired,
   }
 
   onFocusMessageSearch = ({ target }) => {
@@ -22,11 +23,15 @@ export default class Header extends PureComponent {
 
   render() {
     return (
-      <Items
-        {...this.props}
-        onChangeMessageSearch={this.onChangeMessageSearch}
-        onFocusMessageSearch={this.onFocusMessageSearch}
-      />
+      <div>
+        {!this.props.isChatEmpty && (
+          <Items
+            {...this.props}
+            onChangeMessageSearch={this.onChangeMessageSearch}
+            onFocusMessageSearch={this.onFocusMessageSearch}
+          />
+        )}
+      </div>
     )
   }
 }

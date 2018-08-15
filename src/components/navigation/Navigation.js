@@ -27,9 +27,7 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class Navigation extends PureComponent {
+class Navigation extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -46,6 +44,7 @@ export default class Navigation extends PureComponent {
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
+    isChatEmpty: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -285,7 +284,7 @@ export default class Navigation extends PureComponent {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, isChatEmpty } = this.props
 
     return (
       <div className={classes.wrapper}>
@@ -296,17 +295,21 @@ export default class Navigation extends PureComponent {
         >
           <div ref={this.onListsContainerRef}>{this.renderNavigation()}</div>
         </div>
-        <div className={classes.filter}>
-          <Filter
-            {...this.props}
-            ref={this.onFilterRef}
-            theme={{ classes }}
-            value={this.state.filter}
-            onKeyDown={this.onKeyDown}
-            onChange={this.onChangeFilter}
-          />
-        </div>
+        {!isChatEmpty && (
+          <div className={classes.filter}>
+            <Filter
+              {...this.props}
+              ref={this.onFilterRef}
+              theme={{ classes }}
+              value={this.state.filter}
+              onKeyDown={this.onKeyDown}
+              onChange={this.onChangeFilter}
+            />
+          </div>
+        )}
       </div>
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(Navigation))

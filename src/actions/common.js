@@ -8,10 +8,9 @@ import { reopen } from '../app/client'
 import {
   channelsSelector,
   userSelector,
-  joinedRoomsSelector,
-  pmsSelector,
   orgSelector,
   appSelector,
+  emptyChatSelector,
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -29,6 +28,7 @@ import {
   goToLastUsedChannel,
   addChannel,
   handleRoomCreateError,
+  showNewConversation,
 } from './'
 
 export function error(err) {
@@ -166,11 +166,15 @@ export const handleBadChannel = alertType => dispatch => {
   )
 }
 
-export const loadInitialData = clientId => (dispatch, getState) => {
+export const initialDataLoading = payload => dispatch => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
-    payload: true,
+    payload,
   })
+}
+
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch(initialDataLoading(true))
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
   dispatch({ type: types.REQUEST_USERS })
@@ -195,21 +199,12 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 
-      if (
-        !joinedRoomsSelector(getState()).length &&
-        !pmsSelector(getState()).length
-      ) {
-        dispatch(
-          error(
-            new Error(
-              'This account has neither joined rooms nor pm channels. This state is currently not supported.',
-            ),
-          ),
-        )
-        return
-      }
-
       const { route } = appSelector(getState())
+      const isChatEmpty = emptyChatSelector(getState())
+
+      if (isChatEmpty) {
+        dispatch(showNewConversation())
+      }
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
       if (route && route.params.channelId) {
@@ -218,8 +213,10 @@ export const loadInitialData = clientId => (dispatch, getState) => {
         const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
         // In embedded chat conf.channelId is defined.
-        const channelId = conf.channelId || channelToSet.id
-        dispatch(setChannel(channelId))
+        if (conf.channelId || channelToSet) {
+          const channelId = conf.channelId || channelToSet.id
+          dispatch(setChannel(channelId))
+        }
       }
     })
     .catch(err => {

@@ -57,6 +57,7 @@ class History extends PureComponent {
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
     receivedMessageViaSocket: PropTypes.bool.isRequired,
+    isChatEmpty: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -136,8 +137,13 @@ class History extends PureComponent {
   }
 
   load() {
-    const { isLoadingInitialData, channel, onLoad } = this.props
-    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
+    const { isLoadingInitialData, channel, onLoad, isChatEmpty } = this.props
+    if (
+      this.needsInitialLoad &&
+      !isLoadingInitialData &&
+      channel &&
+      !isChatEmpty
+    ) {
       this.needsInitialLoad = false
       onLoad()
     }

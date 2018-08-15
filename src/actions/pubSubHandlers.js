@@ -11,6 +11,7 @@ import {
   channelSelector,
   joinedRoomsSelector,
   channelsSelector,
+  pmsSelector,
 } from '../selectors'
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
@@ -22,6 +23,9 @@ import {
   removeMention,
   addNewUser,
   goToLastUsedChannel,
+  showSidebar,
+  showNoContent,
+  resetHistoryChannel,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -166,14 +170,11 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
 }
 
 export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-
-    const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo('/chat'))
   }
 }
 
@@ -229,7 +230,17 @@ export function handleRemoveRoom({ channel: id }) {
       type: types.REMOVE_ROOM,
       payload: id,
     })
+    dispatch(goToLastUsedChannel())
     if (id === currentId) dispatch(goTo('/chat'))
+    if (
+      !joinedRoomsSelector(getState()).length &&
+      !pmsSelector(getState()).length
+    ) {
+      dispatch(goTo('/chat'))
+      dispatch(resetHistoryChannel())
+      dispatch(showSidebar(false))
+      dispatch(showNoContent(false))
+    }
   }
 }
 

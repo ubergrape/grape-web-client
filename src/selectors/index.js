@@ -119,6 +119,11 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'pm'),
 )
 
+export const emptyChatSelector = createSelector(
+  [joinedRoomsSelector, pmsSelector],
+  (joinedRooms, pms) => !joinedRooms.length && !pms.length,
+)
+
 export const activePmsSelector = createSelector(pmsSelector, pms =>
   pms.filter(pm => pm.firstMessageTime),
 )
@@ -256,8 +261,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  state => state.newConversation,
-  state => state,
+  [state => state.newConversation, emptyChatSelector],
+  (newConversation, isChatEmpty) => ({
+    ...newConversation,
+    isChatEmpty,
+  }),
 )
 
 export const inviteToOrgSelector = createSelector(
@@ -391,6 +399,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    emptyChatSelector,
   ],
   (
     joinedRooms,
@@ -400,6 +409,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    isChatEmpty,
   ) => {
     const joined = [...joinedRooms, ...pms].filter(({ id }) => id !== user.id)
     const recent = joined
@@ -417,6 +427,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      isChatEmpty,
     }
   },
 )
@@ -511,14 +522,24 @@ export const headerSelector = createSelector(
     sidebarSelector,
     unreadMentionsAmountSelector,
     userProfileSelector,
+    emptyChatSelector,
   ],
-  ({ features }, favorite, channel, { show: sidebar }, mentions, partner) => ({
+  (
+    { features },
+    favorite,
+    channel,
+    { show: sidebar },
+    mentions,
+    partner,
+    isChatEmpty,
+  ) => ({
     favorite,
     channel,
     sidebar,
     mentions,
     partner,
     features,
+    isChatEmpty,
   }),
 )
 
@@ -528,11 +549,12 @@ export const historySelector = createSelector(
 )
 
 export const historyComponentSelector = createSelector(
-  [historySelector, orgSelector, initialDataLoadingSelector],
-  (history, { customEmojis }, isLoadingInitialData) => ({
+  [historySelector, orgSelector, initialDataLoadingSelector, emptyChatSelector],
+  (history, { customEmojis }, isLoadingInitialData, isChatEmpty) => ({
     ...omit(history, 'olderMessages', 'newerMessages'),
     customEmojis,
     isLoadingInitialData,
+    isChatEmpty,
   }),
 )
 
@@ -558,6 +580,7 @@ export const footerComponentSelector = createSelector(
   [
     typingNotificationSelector,
     footerSelector,
+    emptyChatSelector,
     orgSelector,
     historySelector,
     isChannelDisabledSelector,
@@ -566,6 +589,7 @@ export const footerComponentSelector = createSelector(
   (
     typingNotification,
     footer,
+    isChatEmpty,
     org,
     history,
     isChannelDisabled,
@@ -578,6 +602,7 @@ export const footerComponentSelector = createSelector(
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
     disabled: isChannelDisabled,
+    isChatEmpty,
     channelsToMention,
   }),
 )

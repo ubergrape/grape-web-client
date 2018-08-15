@@ -10,10 +10,11 @@ const styles = ({ palette }) => ({
   root: {
     extend: small,
     background: {
-      color: palette.background.paper,
       repeat: 'no-repeat',
       position: [12, '50%'],
     },
+    backgroundColor: ({ disabled }) =>
+      disabled ? palette.background.appBar : palette.background.paper,
     backgroundImage: `url(${getColoredIcon({
       name: 'magnifier',
       color: palette.text.secondary,

@@ -35,6 +35,7 @@ export default class NewConversationDialog extends PureComponent {
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
+    showNewConversation: PropTypes.func.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
@@ -43,6 +44,7 @@ export default class NewConversationDialog extends PureComponent {
     clearRoomCreateError: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
+    isChatEmpty: PropTypes.bool.isRequired,
     show: PropTypes.bool,
   }
 
@@ -59,9 +61,12 @@ export default class NewConversationDialog extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ show, error }) {
+  componentWillReceiveProps({ show, error, isChatEmpty }) {
     if (!show) {
       this.setState(getInitialState())
+      if (this.props.isChatEmpty !== isChatEmpty && isChatEmpty) {
+        this.props.showNewConversation()
+      }
       return
     }
 
@@ -193,6 +198,7 @@ export default class NewConversationDialog extends PureComponent {
       addToNewConversation,
       removeFromNewConversation,
       organization,
+      isChatEmpty,
       intl: { formatMessage },
       ...chooseUsersProps
     } = this.props
