@@ -19,7 +19,7 @@ export default class AutoScroll extends PureComponent {
     height: PropTypes.number.isRequired,
     scrollToIndex: PropTypes.number,
     scrollToAlignment: PropTypes.string,
-    receivedMessageViaSocket: PropTypes.bool.isRequired,
+    // receivedMessageViaSocket: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -69,20 +69,16 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    // console.log('AutoScroll', rows.length, nextProps.rows.length)
-    const loadedNewerMessagesViaScrolling =
-      rowsHasChanged &&
-      nextProps.rows.length > rows.length &&
-      this.direction > 0 &&
-      !nextProps.receivedMessageViaSocket
+    // TODO track if a bulk of messages have been loaded while scrolling down
 
-    // We way need to auto scroll to the bottom when:
-    // - When a new message was received or any of the messages on screen changed e.g. got longer.
+    // Auto scrolling to the bottom when:
+    // - A new message was added by the current user
+    // - A new message was received (can be from another user or the same user on another client)
+    // - A any of the messages on screen changed e.g. got longer.
     // - Parent size has changed and the scroll position was close to the bottom.
-    if (
-      (rowsHasChanged && !loadedNewerMessagesViaScrolling) ||
-      nextProps.height !== height
-    ) {
+    // Prevent auto scrolling to the bottom when:
+    // - The scrolled to the bottom and a batch of new messages was loaded
+    if (rowsHasChanged || nextProps.height !== height) {
       const endThreshold =
         this.scrollHeight - this.scrollTop - this.clientHeight
 
