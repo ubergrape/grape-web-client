@@ -50,24 +50,16 @@ const addNewMessage = message => (dispatch, getState) => {
     some(state.history.messages, msg => msg.clientId === message.clientsideId)
   ) {
     dispatch({
-      type: types.UPDATE_MESSAGE,
-      payload: nMessage,
+      type: types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
+      payload: {
+        message: nMessage,
+        clientsideId: message.clientsideId,
+      },
     })
   } else {
     dispatch({
       type: types.ADD_NEW_MESSAGE,
       payload: nMessage,
-    })
-  }
-
-  // Mark own message as sent.
-  if (nMessage.author.id === user.id) {
-    dispatch({
-      type: types.MARK_MESSAGE_AS_SENT,
-      payload: {
-        messageId: nMessage.id,
-        channelId: nMessage.channelId,
-      },
     })
   }
 }

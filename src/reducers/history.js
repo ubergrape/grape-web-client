@@ -1,5 +1,6 @@
 import reject from 'lodash/reject'
 import findIndex from 'lodash/findIndex'
+import isNil from 'lodash/isNil'
 import uniq from 'lodash/uniq'
 
 import * as types from '../constants/actionTypes'
@@ -16,8 +17,8 @@ const initialState = {
 function updateMessage(state, newMessage) {
   const { messages } = state
   const index = findIndex(messages, { id: newMessage.id })
-  const currMessage = messages[index]
   if (index === -1) return state
+  const currMessage = messages[index]
   const message = { ...currMessage, ...newMessage }
   messages.splice(index, 1, message)
   return { ...state, messages: [...messages] }
@@ -116,6 +117,18 @@ export default function reduce(state = initialState, action) {
       return updateMessage(state, { ...payload, isSelected: true })
     case types.UPDATE_MESSAGE:
       return updateMessage(state, payload)
+    case types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE: {
+      if (isNil(payload.clientsideId)) return state
+      const { messages } = state
+      const index = findIndex(messages, { clientId: payload.clientsideId })
+      if (index === -1) return state
+      const currMessage = messages[index]
+      // state is changed to sent since after receiveing the message from
+      // the server we can be sure it has been sent
+      const message = { ...currMessage, ...payload.message, state: 'sent' }
+      messages.splice(index, 1, message)
+      return { ...state, messages: [...messages] }
+    }
     case types.MARK_MESSAGE_AS_UNSENT:
       return updateMessage(state, { ...payload, state: 'unsent' })
     case types.RESEND_MESSAGE:
@@ -123,8 +136,6 @@ export default function reduce(state = initialState, action) {
         ...payload,
         state: 'pending',
       })
-    case types.MARK_MESSAGE_AS_SENT:
-      return updateMessage(state, { id: payload.messageId, state: 'sent' })
     case types.MARK_CHANNEL_AS_READ: {
       // Currently backend logic is designed to mark all messages as read once
       // user read something in that channel.
