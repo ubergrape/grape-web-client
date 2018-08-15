@@ -30,6 +30,45 @@ Object {
 }
 `;
 
+exports[`history reducer UPDATE_MESSAGE should return the original state if the message is missing 1`] = `
+Object {
+  "messages": Array [
+    Object {
+      "id": "123",
+      "text": "Hello!",
+    },
+    Object {
+      "id": "234",
+      "text": "Hello!!",
+    },
+    Object {
+      "id": "345",
+      "text": "Hello!!!",
+    },
+  ],
+}
+`;
+
+exports[`history reducer UPDATE_MESSAGE should update the message 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "123",
+      "text": "Hello!",
+    },
+    Object {
+      "id": "234",
+      "text": "Hello World!",
+    },
+    Object {
+      "id": "345",
+      "text": "Hello!!!",
+    },
+  ],
+}
+`;
+
 exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the original state if clientsideId is missing 1`] = `
 Object {
   "messages": Array [

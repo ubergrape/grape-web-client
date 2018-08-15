@@ -2,6 +2,7 @@ import history from '../history'
 import {
   ADD_NEW_MESSAGE,
   UNSET_HISTORY_SCROLL_TO,
+  UPDATE_MESSAGE,
   UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
 } from '../../constants/actionTypes'
 
@@ -94,6 +95,44 @@ describe('history reducer', () => {
           {
             type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
             payload: { message: { id: '123' } },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+  })
+
+  describe('UPDATE_MESSAGE', () => {
+    it('should update the message', () => {
+      expect(
+        history(
+          {
+            messages: [
+              { id: '123', text: 'Hello!' },
+              { id: '234', text: 'Hello!!' },
+              { id: '345', text: 'Hello!!!' },
+            ],
+          },
+          {
+            type: UPDATE_MESSAGE,
+            payload: { id: '234', text: 'Hello World!' },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+
+    it('should return the original state if the message is missing', () => {
+      expect(
+        history(
+          {
+            messages: [
+              { id: '123', text: 'Hello!' },
+              { id: '234', text: 'Hello!!' },
+              { id: '345', text: 'Hello!!!' },
+            ],
+          },
+          {
+            type: UPDATE_MESSAGE,
+            payload: { id: '999', text: 'Hello World!' },
           },
         ),
       ).toMatchSnapshot()
