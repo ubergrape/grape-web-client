@@ -135,12 +135,12 @@ export default function reduce(state = initialState, action) {
     case types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE: {
       if (isNil(payload.clientsideId)) return state
       const { messages } = state
-      const index = findIndex(messages, { clientId: payload.clientsideId })
+      const index = findIndex(messages, { clientsideId: payload.clientsideId })
       if (index === -1) return state
       const currMessage = messages[index]
       // state is changed to sent since after receiveing the message from
       // the server we can be sure it has been sent
-      const message = { ...currMessage, ...payload.message, state: 'sent' }
+      const message = { ...currMessage, ...payload, state: 'sent' }
       messages.splice(index, 1, message)
       return { ...state, messages: [...messages], loadedNewerMessage: false }
     }

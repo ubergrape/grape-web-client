@@ -73,7 +73,7 @@ exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the o
 Object {
   "messages": Array [
     Object {
-      "clientId": "abc",
+      "clientsideId": "abc",
     },
   ],
 }
@@ -86,16 +86,16 @@ Object {
       "id": "234",
     },
     Object {
-      "clientId": "abc",
+      "clientsideId": "abc",
     },
     Object {
-      "clientId": "def",
+      "clientsideId": "def",
     },
   ],
 }
 `;
 
-exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should update the message id based on the clientId and set the state to sent 1`] = `
+exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should update the message id based on the clientsideId and set the state to sent 1`] = `
 Object {
   "loadedNewerMessage": false,
   "messages": Array [
@@ -103,12 +103,12 @@ Object {
       "id": "234",
     },
     Object {
-      "clientId": "abc",
+      "clientsideId": "abc",
       "id": "123",
       "state": "sent",
     },
     Object {
-      "clientId": "def",
+      "clientsideId": "def",
     },
   ],
 }

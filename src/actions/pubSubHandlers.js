@@ -45,16 +45,17 @@ const addNewMessage = message => (dispatch, getState) => {
     },
   })
 
-  // TODO In case a clientsideId is a available
   if (
-    some(state.history.messages, msg => msg.clientId === message.clientsideId)
+    some(
+      state.history.messages,
+      // this case occures when the messages was added to the history
+      // optimistically without waiting for a server response
+      msg => msg.clientsideId === message.clientsideId,
+    )
   ) {
     dispatch({
       type: types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-      payload: {
-        message: nMessage,
-        clientsideId: message.clientsideId,
-      },
+      payload: nMessage,
     })
   } else {
     dispatch({

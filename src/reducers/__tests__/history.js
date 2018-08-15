@@ -60,15 +60,19 @@ describe('history reducer', () => {
   })
 
   describe('UPDATE_OPTIMISTICALLY_ADDED_MESSAGE', () => {
-    it('should update the message id based on the clientId and set the state to sent', () => {
+    it('should update the message id based on the clientsideId and set the state to sent', () => {
       expect(
         history(
           {
-            messages: [{ id: '234' }, { clientId: 'abc' }, { clientId: 'def' }],
+            messages: [
+              { id: '234' },
+              { clientsideId: 'abc' },
+              { clientsideId: 'def' },
+            ],
           },
           {
             type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { clientsideId: 'abc', message: { id: '123' } },
+            payload: { id: '123', clientsideId: 'abc' },
           },
         ),
       ).toMatchSnapshot()
@@ -78,11 +82,15 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            messages: [{ id: '234' }, { clientId: 'abc' }, { clientId: 'def' }],
+            messages: [
+              { id: '234' },
+              { clientsideId: 'abc' },
+              { clientsideId: 'def' },
+            ],
           },
           {
             type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { clientsideId: 'xyz', message: { id: '123' } },
+            payload: { id: '123', clientsideId: 'xyz' },
           },
         ),
       ).toMatchSnapshot()
@@ -91,10 +99,10 @@ describe('history reducer', () => {
     it('should return the original state if clientsideId is missing', () => {
       expect(
         history(
-          { messages: [{ clientId: 'abc' }] },
+          { messages: [{ clientsideId: 'abc' }] },
           {
             type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { message: { id: '123' } },
+            payload: { id: '123' },
           },
         ),
       ).toMatchSnapshot()
