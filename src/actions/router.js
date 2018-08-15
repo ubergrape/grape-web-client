@@ -45,7 +45,10 @@ export function goToMessage(message) {
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
     const { id: currentId } = channelSelector(getState())
-    if (channelOrChannelId === currentId || channelOrChannelId.id === currentId)
+    if (
+      channelOrChannelId === currentId ||
+      (channelOrChannelId.id && channelOrChannelId.id === currentId)
+    )
       return
     if (!conf.embed) {
       dispatch({
@@ -63,7 +66,6 @@ export function goToChannel(channelOrChannelId, options) {
       if (!channel) channel = { id: channelOrChannelId, slug: '' }
     }
     const slug = channel.slug == null ? channel.partner.username : channel.slug
-
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     if (!conf.embed) dispatch(setChannel(channel.id))
   }
@@ -71,8 +73,12 @@ export function goToChannel(channelOrChannelId, options) {
 
 export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const channel = findLastUsedChannel(channels)
+  const channel = findLastUsedChannel(channels, true)
+  const joinedChannel = findLastUsedChannel(channels, false)
+
   if (channel) dispatch(goToChannel(channel))
+  else if (joinedChannel) dispatch(goToChannel(joinedChannel))
+  else goTo('/chat')
 }
 
 export function goToPayment() {

@@ -24,10 +24,6 @@ const messages = defineMessages({
     id: 'editMessagePlaceholder',
     defaultMessage: 'Enter a message …',
   },
-  placeholderDisabled: {
-    id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.',
-  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -72,9 +68,7 @@ const styles = {
   },
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class GrapeInput extends PureComponent {
+class GrapeInput extends PureComponent {
   static propTypes = {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
@@ -402,7 +396,7 @@ export default class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholderDisabled, placeholder } = messages
+    const { placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -431,9 +425,7 @@ export default class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(
-              disabled ? placeholderDisabled : placeholder,
-            )}
+            placeholder={formatMessage(placeholder)}
             disabled={disabled}
             focused={this.state.focused}
             customEmojis={customEmojis}
@@ -454,3 +446,5 @@ export default class GrapeInput extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(GrapeInput))

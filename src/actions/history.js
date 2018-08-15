@@ -397,3 +397,9 @@ export function quoteMessage({ message }) {
     })
   }
 }
+
+export const resetHistoryChannel = () => dispatch => {
+  dispatch({
+    type: types.RESET_HISTORY_CHANNEL,
+  })
+}
