@@ -49,8 +49,8 @@ export default function reduce(state = initialState, action) {
         channel: payload.channel,
         selectedMessageId: payload.messageId,
         selectedMessageIdTimestamp: Date.now(),
-        olderMessages: undefined,
-        newerMessages: undefined,
+        olderMessagesRequest: undefined,
+        newerMessagesRequest: undefined,
         loadedNewerMessage: false,
       }
     case types.SET_USERS:
@@ -68,14 +68,14 @@ export default function reduce(state = initialState, action) {
 
       let messages
       let loadedNewerMessage = false
-      let { olderMessages, newerMessages } = state
+      let { olderMessagesRequest, newerMessagesRequest } = state
 
       if (isScrollBack) {
         messages = [...newMessages, ...state.messages]
-        olderMessages = undefined
+        olderMessagesRequest = undefined
       } else {
         messages = [...state.messages, ...newMessages]
-        newerMessages = undefined
+        newerMessagesRequest = undefined
         loadedNewerMessage = true
       }
 
@@ -86,8 +86,8 @@ export default function reduce(state = initialState, action) {
         messages,
         scrollTo: null,
         scrollToAlignment: null,
-        olderMessages,
-        newerMessages,
+        olderMessagesRequest,
+        newerMessagesRequest,
         loadedNewerMessage,
         showNoContent: false,
       }
@@ -106,13 +106,13 @@ export default function reduce(state = initialState, action) {
     case types.REQUEST_OLDER_HISTORY:
       return {
         ...state,
-        olderMessages: payload.promise,
+        olderMessagesRequest: payload.promise,
         loadedNewerMessage: false,
       }
     case types.REQUEST_NEWER_HISTORY:
       return {
         ...state,
-        newerMessages: payload.promise,
+        newerMessagesRequest: payload.promise,
         loadedNewerMessage: false,
       }
     case types.UNSET_HISTORY_SCROLL_TO:

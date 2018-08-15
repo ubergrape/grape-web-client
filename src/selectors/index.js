@@ -530,7 +530,7 @@ export const historySelector = createSelector(
 export const historyComponentSelector = createSelector(
   [historySelector, orgSelector, initialDataLoadingSelector],
   (history, { customEmojis }, isLoadingInitialData) => ({
-    ...omit(history, 'olderMessages', 'newerMessages'),
+    ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
     isLoadingInitialData,
   }),

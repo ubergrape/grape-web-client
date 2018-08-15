@@ -80,10 +80,12 @@ function loadLatest(options = { clear: true }) {
 function loadOlder(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, olderMessages, channel } = historySelector(getState())
+    const { messages, olderMessagesRequest, channel } = historySelector(
+      getState(),
+    )
 
     // Ensures we don't have useless requests to the backend.
-    if (olderMessages) return
+    if (olderMessagesRequest) return
 
     const promise = api.loadHistory(channel.id, {
       limit: stopIndex - startIndex,
@@ -122,10 +124,12 @@ function loadOlder(params) {
 function loadNewer(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, newerMessages, channel } = historySelector(getState())
+    const { messages, newerMessagesRequest, channel } = historySelector(
+      getState(),
+    )
 
     // Ensures we don't have useless requests to the backend.
-    if (newerMessages) return
+    if (newerMessagesRequest) return
 
     const promise = api.loadHistory(channel.id, {
       limit: stopIndex - startIndex,
@@ -234,8 +238,8 @@ export function loadMoreHistory(params) {
  */
 export function renderOlderHistory() {
   return (dispatch, getState) => {
-    const { olderMessages } = historySelector(getState())
-    olderMessages.then(res => {
+    const { olderMessagesRequest } = historySelector(getState())
+    olderMessagesRequest.then(res => {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
