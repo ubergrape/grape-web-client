@@ -19,7 +19,7 @@ export default class AutoScroll extends PureComponent {
     height: PropTypes.number.isRequired,
     scrollToIndex: PropTypes.number,
     scrollToAlignment: PropTypes.string,
-    // receivedMessageViaSocket: PropTypes.bool.isRequired,
+    loadedNewerMessage: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -77,8 +77,11 @@ export default class AutoScroll extends PureComponent {
     // - A any of the messages on screen changed e.g. got longer.
     // - Parent size has changed and the scroll position was close to the bottom.
     // Prevent auto scrolling to the bottom when:
-    // - The scrolled to the bottom and a batch of new messages was loaded
-    if (rowsHasChanged || nextProps.height !== height) {
+    // - The scrolled to the bottom and a batch of new messages was loaded to prevent GRAPE-15407
+    if (
+      (rowsHasChanged && !nextProps.loadedNewerMessage) ||
+      nextProps.height !== height
+    ) {
       const endThreshold =
         this.scrollHeight - this.scrollTop - this.clientHeight
 
