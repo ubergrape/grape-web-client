@@ -30,6 +30,51 @@ Object {
 }
 `;
 
+exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the original state if clientsideId is missing 1`] = `
+Object {
+  "messages": Array [
+    Object {
+      "clientId": "abc",
+    },
+  ],
+}
+`;
+
+exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the original state if the message is missing 1`] = `
+Object {
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "clientId": "abc",
+    },
+    Object {
+      "clientId": "def",
+    },
+  ],
+}
+`;
+
+exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should update the message id based on the clientId and set the state to sent 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "clientId": "abc",
+      "id": "123",
+      "state": "sent",
+    },
+    Object {
+      "clientId": "def",
+    },
+  ],
+}
+`;
+
 exports[`history reducer should handle UNSET_HISTORY_SCROLL_TO 1`] = `
 Object {
   "loadedNewerMessage": false,

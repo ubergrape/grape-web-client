@@ -2,6 +2,7 @@ import history from '../history'
 import {
   ADD_NEW_MESSAGE,
   UNSET_HISTORY_SCROLL_TO,
+  UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
 } from '../../constants/actionTypes'
 
 describe('history reducer', () => {
@@ -51,6 +52,48 @@ describe('history reducer', () => {
               author: { id: 'userId2' },
               channel: { id: 'channelId1' },
             },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+  })
+
+  describe('UPDATE_OPTIMISTICALLY_ADDED_MESSAGE', () => {
+    it('should update the message id based on the clientId and set the state to sent', () => {
+      expect(
+        history(
+          {
+            messages: [{ id: '234' }, { clientId: 'abc' }, { clientId: 'def' }],
+          },
+          {
+            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
+            payload: { clientsideId: 'abc', message: { id: '123' } },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+
+    it('should return the original state if the message is missing', () => {
+      expect(
+        history(
+          {
+            messages: [{ id: '234' }, { clientId: 'abc' }, { clientId: 'def' }],
+          },
+          {
+            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
+            payload: { clientsideId: 'xyz', message: { id: '123' } },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+
+    it('should return the original state if clientsideId is missing', () => {
+      expect(
+        history(
+          { messages: [{ clientId: 'abc' }] },
+          {
+            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
+            payload: { message: { id: '123' } },
           },
         ),
       ).toMatchSnapshot()
