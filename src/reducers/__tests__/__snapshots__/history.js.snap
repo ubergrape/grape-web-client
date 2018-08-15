@@ -32,7 +32,7 @@ Object {
 
 exports[`history reducer should handle UNSET_HISTORY_SCROLL_TO 1`] = `
 Object {
-  "receivedMessageViaSocket": false,
+  "loadedNewerMessage": false,
   "scrollTo": null,
   "scrollToAlignment": null,
 }
