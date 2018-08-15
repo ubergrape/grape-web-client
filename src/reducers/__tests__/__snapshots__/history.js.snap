@@ -1,10 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`history reducer ADD_NEW_MESSAGE should add the new message if clientsideId is not available 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "clientsideId": "abc",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "id": "123",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should add the new message if the clientsideId can not be found 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "clientsideId": "abc",
+    },
+    Object {
+      "clientsideId": "def",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "clientsideId": "xyz",
+      "id": "123",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
 exports[`history reducer ADD_NEW_MESSAGE should not set scrollTo if the author is a different user 1`] = `
 Object {
   "channel": Object {
     "id": "channelId1",
   },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "id": "msgId1",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
   "user": Object {
     "id": "userId1",
   },
@@ -24,6 +98,51 @@ Object {
   "channel": Object {
     "id": "channelId1",
   },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "userId1",
+      },
+      "channelId": "channelId1",
+      "id": "msgId1",
+    },
+  ],
+  "scrollTo": "msgId1",
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should update the message based on the clientsideId and set the state of the message to sent 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "clientsideId": "abc",
+      "id": "123",
+      "state": "sent",
+    },
+    Object {
+      "clientsideId": "def",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
   "user": Object {
     "id": "userId1",
   },
@@ -64,51 +183,6 @@ Object {
     Object {
       "id": "345",
       "text": "Hello!!!",
-    },
-  ],
-}
-`;
-
-exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the original state if clientsideId is missing 1`] = `
-Object {
-  "messages": Array [
-    Object {
-      "clientsideId": "abc",
-    },
-  ],
-}
-`;
-
-exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should return the original state if the message is missing 1`] = `
-Object {
-  "messages": Array [
-    Object {
-      "id": "234",
-    },
-    Object {
-      "clientsideId": "abc",
-    },
-    Object {
-      "clientsideId": "def",
-    },
-  ],
-}
-`;
-
-exports[`history reducer UPDATE_OPTIMISTICALLY_ADDED_MESSAGE should update the message id based on the clientsideId and set the state to sent 1`] = `
-Object {
-  "loadedNewerMessage": false,
-  "messages": Array [
-    Object {
-      "id": "234",
-    },
-    Object {
-      "clientsideId": "abc",
-      "id": "123",
-      "state": "sent",
-    },
-    Object {
-      "clientsideId": "def",
     },
   ],
 }

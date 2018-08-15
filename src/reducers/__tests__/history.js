@@ -3,7 +3,6 @@ import {
   ADD_NEW_MESSAGE,
   UNSET_HISTORY_SCROLL_TO,
   UPDATE_MESSAGE,
-  UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
 } from '../../constants/actionTypes'
 
 describe('history reducer', () => {
@@ -21,7 +20,7 @@ describe('history reducer', () => {
       expect(
         history(
           { channel: { id: 'aaa' } },
-          { type: ADD_NEW_MESSAGE, payload: { channelId: 'bbb' } },
+          { type: ADD_NEW_MESSAGE, payload: { channelId: 'bbb', id: 'bbb' } },
         ),
       ).toMatchSnapshot()
     })
@@ -29,13 +28,17 @@ describe('history reducer', () => {
     it('should set scrollTo if the author is the current user', () => {
       expect(
         history(
-          { user: { id: 'userId1' }, channel: { id: 'channelId1' } },
+          {
+            user: { id: 'userId1' },
+            channel: { id: 'channelId1' },
+            messages: [],
+          },
           {
             type: ADD_NEW_MESSAGE,
             payload: {
               id: 'msgId1',
               author: { id: 'userId1' },
-              channel: { id: 'channelId1' },
+              channelId: 'channelId1',
             },
           },
         ),
@@ -45,64 +48,88 @@ describe('history reducer', () => {
     it('should not set scrollTo if the author is a different user', () => {
       expect(
         history(
-          { user: { id: 'userId1' }, channel: { id: 'channelId1' } },
+          {
+            user: { id: 'userId1' },
+            channel: { id: 'channelId1' },
+            messages: [],
+          },
           {
             type: ADD_NEW_MESSAGE,
             payload: {
               id: 'msgId1',
               author: { id: 'userId2' },
-              channel: { id: 'channelId1' },
+              channelId: 'channelId1',
             },
           },
         ),
       ).toMatchSnapshot()
     })
-  })
 
-  describe('UPDATE_OPTIMISTICALLY_ADDED_MESSAGE', () => {
-    it('should update the message id based on the clientsideId and set the state to sent', () => {
+    it('should update the message based on the clientsideId and set the state of the message to sent', () => {
       expect(
         history(
           {
+            user: { id: 'userId1' },
             messages: [
               { id: '234' },
               { clientsideId: 'abc' },
               { clientsideId: 'def' },
             ],
+            channel: { id: 'channelId1' },
           },
           {
-            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { id: '123', clientsideId: 'abc' },
+            type: ADD_NEW_MESSAGE,
+            payload: {
+              id: '123',
+              author: { id: 'userId2' },
+              clientsideId: 'abc',
+              channelId: 'channelId1',
+            },
           },
         ),
       ).toMatchSnapshot()
     })
 
-    it('should return the original state if the message is missing', () => {
+    it('should add the new message if the clientsideId can not be found', () => {
       expect(
         history(
           {
+            user: { id: 'userId1' },
             messages: [
               { id: '234' },
               { clientsideId: 'abc' },
               { clientsideId: 'def' },
             ],
+            channel: { id: 'channelId1' },
           },
           {
-            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { id: '123', clientsideId: 'xyz' },
+            type: ADD_NEW_MESSAGE,
+            payload: {
+              id: '123',
+              author: { id: 'userId2' },
+              clientsideId: 'xyz',
+              channelId: 'channelId1',
+            },
           },
         ),
       ).toMatchSnapshot()
     })
 
-    it('should return the original state if clientsideId is missing', () => {
+    it('should add the new message if clientsideId is not available', () => {
       expect(
         history(
-          { messages: [{ clientsideId: 'abc' }] },
           {
-            type: UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-            payload: { id: '123' },
+            user: { id: 'userId1' },
+            messages: [{ clientsideId: 'abc' }],
+            channel: { id: 'channelId1' },
+          },
+          {
+            type: ADD_NEW_MESSAGE,
+            payload: {
+              id: '123',
+              channelId: 'channelId1',
+              author: { id: 'userId2' },
+            },
           },
         ),
       ).toMatchSnapshot()

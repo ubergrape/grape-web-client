@@ -2,6 +2,7 @@ import reject from 'lodash/reject'
 import findIndex from 'lodash/findIndex'
 import isNil from 'lodash/isNil'
 import uniq from 'lodash/uniq'
+import some from 'lodash/some'
 
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
@@ -132,18 +133,6 @@ export default function reduce(state = initialState, action) {
       return updateMessage(state, { ...payload, isSelected: true })
     case types.UPDATE_MESSAGE:
       return updateMessage(state, payload)
-    case types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE: {
-      if (isNil(payload.clientsideId)) return state
-      const { messages } = state
-      const index = findIndex(messages, { clientsideId: payload.clientsideId })
-      if (index === -1) return state
-      const currMessage = messages[index]
-      // state is changed to sent since after receiveing the message from
-      // the server we can be sure it has been sent
-      const message = { ...currMessage, ...payload, state: 'sent' }
-      messages.splice(index, 1, message)
-      return { ...state, messages: [...messages], loadedNewerMessage: false }
-    }
     case types.MARK_MESSAGE_AS_UNSENT:
       return updateMessage(state, { ...payload, state: 'unsent' })
     case types.RESEND_MESSAGE:
@@ -182,12 +171,38 @@ export default function reduce(state = initialState, action) {
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
+      const { messages } = state
+
+      // this case occures when the message was added to the history
+      // optimistically without waiting for a server response
+      if (
+        !isNil(payload.clientsideId) &&
+        some(messages, msg => msg.clientsideId === payload.clientsideId)
+      ) {
+        const index = findIndex(messages, {
+          clientsideId: payload.clientsideId,
+        })
+        const currMessage = messages[index]
+        // state is changed to sent since after receiveing the message from
+        // the server we can be sure it has been sent
+        const message = { ...currMessage, ...payload, state: 'sent' }
+        messages.splice(index, 1, message)
+        return {
+          ...state,
+          scrollTo: null,
+          scrollToAlignment: null,
+          messages: [...messages],
+          showNoContent: false,
+          loadedNewerMessage: false,
+        }
+      }
+
       const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...state.messages, payload],
+        messages: [...messages, payload],
         showNoContent: false,
         loadedNewerMessage: false,
       }

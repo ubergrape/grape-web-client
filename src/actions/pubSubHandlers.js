@@ -1,7 +1,6 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
-import some from 'lodash/some'
 import * as api from '../utils/backend/api'
 
 import * as types from '../constants/actionTypes'
@@ -45,24 +44,10 @@ const addNewMessage = message => (dispatch, getState) => {
     },
   })
 
-  if (
-    some(
-      state.history.messages,
-      // this case occures when the messages was added to the history
-      // optimistically without waiting for a server response
-      msg => msg.clientsideId === message.clientsideId,
-    )
-  ) {
-    dispatch({
-      type: types.UPDATE_OPTIMISTICALLY_ADDED_MESSAGE,
-      payload: nMessage,
-    })
-  } else {
-    dispatch({
-      type: types.ADD_NEW_MESSAGE,
-      payload: nMessage,
-    })
-  }
+  dispatch({
+    type: types.ADD_NEW_MESSAGE,
+    payload: nMessage,
+  })
 }
 
 export const handleNewMessage = message => (dispatch, getState) => {
