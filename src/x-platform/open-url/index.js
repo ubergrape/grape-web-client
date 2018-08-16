@@ -80,6 +80,15 @@ const onChannel = (pathOrUrl, options) => {
   onUpdateRouter(pathname, 'push')
 }
 
+const onChatPath = (pathOrUrl, options) => {
+  const { onUpdateRouter, serviceUrl, mode, pathname, onExternal } = options
+  if (mode === 'embedded') {
+    onExternal(`${serviceUrl}${pathname}`, 'grape')
+    return
+  }
+  onUpdateRouter(pathname, 'push')
+}
+
 const onChat = (pathOrUrl, options) => {
   const { pathname, hostname } = options
   const channelMatch = matchPath(pathname, { path: routes.channel })
@@ -132,6 +141,9 @@ export default (pathOrUrl, options) => {
     return
   }
   if (pathname.substr(0, 5) === '/chat') {
+    if (pathname === '/chat') {
+      onChatPath(pathOrUrl, { ...options, hostname, pathname })
+    }
     onChat(pathOrUrl, { ...options, hostname, pathname })
     return
   }

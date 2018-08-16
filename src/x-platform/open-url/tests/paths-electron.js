@@ -21,6 +21,24 @@ describe('goTo with path in electron mode', () => {
     })
   })
 
+  it('should call onUpdateRouter callback if the path lead to chat', () => {
+    const { map, called, args } = callbacks()
+    goTo('/chat', {
+      currChannel: 6009,
+      mode: 'electron',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 0,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 1,
+      },
+      args: ['/chat', 'push'],
+    })
+  })
+
   it('should call onSilentChange callback if the path contains messageId and channel is current', () => {
     const { map, called, args } = callbacks()
     goTo('/chat/channel/6009:3d062f7810d411e8aa120242ac1d0003', {

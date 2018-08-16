@@ -22,6 +22,25 @@ describe('goTo with url in electron mode', () => {
     })
   })
 
+  it('should call onUpdateRouter callback if the path lead to chat', () => {
+    const { map, called, args } = callbacks()
+    goTo('https://grape.io/chat', {
+      currChannel: 6009,
+      serviceUrl: 'https://grape.io',
+      mode: 'electron',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 0,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 1,
+      },
+      args: ['/chat', 'push'],
+    })
+  })
+
   it('should call onSilentChange callback if URL contains messageId and channel is current', () => {
     const { map, called, args } = callbacks()
     goTo(
