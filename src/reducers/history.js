@@ -11,6 +11,7 @@ const initialState = {
   receivedMessageViaSocket: false,
   scrollTo: null,
   scrollToAlignment: null,
+  channel: null,
 }
 
 function updateMessage(state, newMessage) {
@@ -97,11 +98,6 @@ export default function reduce(state = initialState, action) {
     case types.SET_INITIAL_DATA_LOADING:
       if (!payload) return state
       return { ...initialState }
-    case types.RESET_HISTORY_CHANNEL:
-      return {
-        ...state,
-        channel: null,
-      }
     case types.CLEAR_HISTORY:
       return { ...state, messages: [] }
     case types.REQUEST_OLDER_HISTORY:

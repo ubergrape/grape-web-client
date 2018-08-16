@@ -12,7 +12,7 @@ import TypingNotification from './typing-notification/TypingNotification'
 export default class Footer extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
-    isAnyJoinedRooms: PropTypes.bool.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
@@ -87,7 +87,7 @@ export default class Footer extends PureComponent {
       customEmojis,
       images,
       disabled,
-      isAnyJoinedRooms,
+      isMemberOfAnyRooms,
       search,
       autocomplete,
       services,
@@ -123,7 +123,7 @@ export default class Footer extends PureComponent {
           targetMessage ? classes.highlighted : ''
         }`}
       >
-        {isAnyJoinedRooms && (
+        {isMemberOfAnyRooms && (
           <div>
             <div className={classes.above}>
               <div className={classes.typingNotificationContainer}>

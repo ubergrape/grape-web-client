@@ -2,7 +2,6 @@ import history from '../history'
 import {
   ADD_NEW_MESSAGE,
   UNSET_HISTORY_SCROLL_TO,
-  RESET_HISTORY_CHANNEL,
 } from '../../constants/actionTypes'
 
 describe('history reducer', () => {
@@ -56,16 +55,5 @@ describe('history reducer', () => {
         ),
       ).toMatchSnapshot()
     })
-  })
-
-  it('should reset current channel on RESET_HISTORY_CHANNEL', () => {
-    expect(
-      history(
-        { channel: { id: 'channelId1' } },
-        {
-          type: RESET_HISTORY_CHANNEL,
-        },
-      ),
-    ).toEqual({ channel: null })
   })
 })

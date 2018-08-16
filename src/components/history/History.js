@@ -60,7 +60,7 @@ class History extends PureComponent {
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
     receivedMessageViaSocket: PropTypes.bool.isRequired,
-    isAnyJoinedRooms: PropTypes.bool.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -144,13 +144,13 @@ class History extends PureComponent {
       isLoadingInitialData,
       channel,
       onLoad,
-      isAnyJoinedRooms,
+      isMemberOfAnyRooms,
     } = this.props
     if (
       this.needsInitialLoad &&
       !isLoadingInitialData &&
       channel &&
-      isAnyJoinedRooms
+      isMemberOfAnyRooms
     ) {
       this.needsInitialLoad = false
       onLoad()
@@ -184,7 +184,7 @@ class History extends PureComponent {
       selectedMessageId,
       scrollToAlignment,
       receivedMessageViaSocket,
-      isAnyJoinedRooms,
+      isMemberOfAnyRooms,
       onNewConversation,
       onJoinGroup,
     } = this.props
@@ -192,7 +192,7 @@ class History extends PureComponent {
 
     if (isLoadingInitialData) return <LoadingText />
 
-    if (!isAnyJoinedRooms) {
+    if (!isMemberOfAnyRooms) {
       return (
         <NoChannels
           onJoinGroup={onJoinGroup}

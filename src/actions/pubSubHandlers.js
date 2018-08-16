@@ -24,7 +24,7 @@ import {
   addNewUser,
   goToLastUsedChannel,
   showSidebar,
-  resetHistoryChannel,
+  setIntialDataLoading,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -168,10 +168,12 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
   }
 }
 
-const lastChannelLeftOrDeleted = () => (dispatch, getState) => {
+const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
   const channels = joinedChannelsSelector(getState())
-  if (!channels) {
-    dispatch(resetHistoryChannel())
+  if (channels) {
+    dispatch(goToLastUsedChannel())
+  } else {
+    dispatch(setIntialDataLoading(false))
     dispatch(showSidebar(false))
     dispatch(goTo('/chat'))
   }
@@ -183,8 +185,7 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-    dispatch(goToLastUsedChannel())
-    dispatch(lastChannelLeftOrDeleted())
+    dispatch(handleCurrentUserLeftChannel())
     const rooms = joinedRoomsSelector(getState())
     if (!rooms.length) dispatch(goTo('/chat'))
   }
@@ -243,8 +244,7 @@ export function handleRemoveRoom({ channel: id }) {
       payload: id,
     })
     if (id === currentId) dispatch(goTo('/chat'))
-    dispatch(lastChannelLeftOrDeleted())
-    dispatch(goToLastUsedChannel())
+    dispatch(handleCurrentUserLeftChannel())
   }
 }
 

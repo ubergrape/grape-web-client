@@ -174,11 +174,15 @@ export const handleBadChannel = alertType => dispatch => {
   )
 }
 
-export const loadInitialData = clientId => (dispatch, getState) => {
+export const setIntialDataLoading = payload => dispatch => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
-    payload: true,
+    payload,
   })
+}
+
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch(setIntialDataLoading(true))
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
   dispatch({ type: types.REQUEST_USERS })
@@ -192,10 +196,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, users, profile]) => {
-      dispatch({
-        type: types.SET_INITIAL_DATA_LOADING,
-        payload: false,
-      })
+      dispatch(setIntialDataLoading(false))
 
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(org.channels))
@@ -204,7 +205,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(ensureBrowserNotificationPermission())
 
       const { route } = appSelector(getState())
-      const isAnyJoinedRooms = joinedChannelsSelector(getState())
+      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
 
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
@@ -213,13 +214,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       } else {
         const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
-        if ((conf.channelId || channelToSet) && isAnyJoinedRooms) {
+        if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
           dispatch(setChannel(conf.channelId || channelToSet.id))
         }
       }
 
-      if (!isAnyJoinedRooms) {
+      if (!isMemberOfAnyRooms) {
         dispatch(showNewConversation())
       }
     })

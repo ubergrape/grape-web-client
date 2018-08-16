@@ -43,7 +43,7 @@ class NewConversationDialog extends PureComponent {
     openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     show: PropTypes.bool,
-    isAnyJoinedRooms: PropTypes.bool.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -59,12 +59,12 @@ class NewConversationDialog extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ show, error, isAnyJoinedRooms }) {
+  componentWillReceiveProps({ show, error, isMemberOfAnyRooms }) {
     if (!show) {
       this.setState(getInitialState())
       if (
-        this.props.isAnyJoinedRooms !== isAnyJoinedRooms &&
-        !isAnyJoinedRooms
+        this.props.isMemberOfAnyRooms !== isMemberOfAnyRooms &&
+        !isMemberOfAnyRooms
       ) {
         this.props.showNewConversation()
       }

@@ -262,9 +262,9 @@ export const inviteChannelMembersSelector = createSelector(
 
 export const newConversationSelector = createSelector(
   [state => state.newConversation, joinedChannelsSelector],
-  (newConversation, isAnyJoinedRooms) => ({
+  (newConversation, isMemberOfAnyRooms) => ({
     ...newConversation,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   }),
 )
 
@@ -528,7 +528,7 @@ export const headerSelector = createSelector(
     { show: sidebar },
     mentions,
     partner,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   ) => ({
     favorite,
     channel,
@@ -536,7 +536,7 @@ export const headerSelector = createSelector(
     mentions,
     partner,
     features,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   }),
 )
 
@@ -552,11 +552,11 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
   ],
-  (history, { customEmojis }, isLoadingInitialData, isAnyJoinedRooms) => ({
+  (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
     ...omit(history, 'olderMessages', 'newerMessages'),
     customEmojis,
     isLoadingInitialData,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   }),
 )
 
@@ -595,7 +595,7 @@ export const footerComponentSelector = createSelector(
     history,
     isChannelDisabled,
     channelsToMention,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   ) => ({
     ...typingNotification,
     ...footer,
@@ -605,7 +605,7 @@ export const footerComponentSelector = createSelector(
     images: { ...images, orgLogo: org.logo },
     disabled: isChannelDisabled,
     channelsToMention,
-    isAnyJoinedRooms,
+    isMemberOfAnyRooms,
   }),
 )
 
