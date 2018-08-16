@@ -21,7 +21,7 @@ class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     clearError: PropTypes.func,
     focused: PropTypes.bool,
     className: PropTypes.string,
@@ -36,6 +36,7 @@ class Input extends PureComponent {
     type: 'input',
     className: null,
     error: null,
+    onChange: noop,
     clearError: noop,
     focused: false,
   }

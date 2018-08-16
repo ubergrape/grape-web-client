@@ -207,7 +207,7 @@ class History extends PureComponent {
     // in order to respond immediately to users action with empty screen and
     // show messages later.
     if (!rows.length) {
-      if (showNoContent || isAnyJoinedRooms) {
+      if (showNoContent) {
         return (
           <NoContent
             channel={channel}
