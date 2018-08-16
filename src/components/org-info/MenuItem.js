@@ -5,6 +5,7 @@ import MuiMenuItem from 'grape-web/lib/components/menu/menuItem'
 import { grayDarker } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
+import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 const styles = {
   item: {
@@ -45,7 +46,11 @@ const MenuItem = ({ classes, icon, children, onClick, href, target }) => {
 
   if (href) {
     return (
-      <a href={href} target={target} className={classes.anchorItem}>
+      <a
+        href={`${href}${isElectron ? '?platform=electron' : ''}`}
+        target={target}
+        className={classes.anchorItem}
+      >
         {item}
       </a>
     )

@@ -10,16 +10,18 @@ import * as history from '../app/history'
 import { setChannel, openPm, openChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: types.GO_TO,
       payload: options,
     })
 
+    const currentChannel = channelSelector(getState())
+
     openUrl(pathOrUrl, {
       serviceUrl: conf.server.serviceUrl,
       mode: getMode(conf),
-      currChannel: conf.channelId,
+      currChannel: conf.channelId || currentChannel.id,
       replace: options.replace,
       onExternal: window.open,
       onRedirect: url => {
