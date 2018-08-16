@@ -26,7 +26,7 @@ export function loadMentions(params) {
       .searchMentions({
         orgId: id,
         offset: shouldReplace ? undefined : offsetDate,
-        mentionTypes: showRoomMentions ? ['room', 'user'] : ['user'],
+        mentionTypes: showRoomMentions ? ['room'] : ['room', 'user'],
         channels: channels.length ? channels : undefined,
       })
       .then(({ results, total }) => {
