@@ -22,6 +22,7 @@ import {
   removeMention,
   addNewUser,
   goToLastUsedChannel,
+  normalizeMessages,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -93,17 +94,26 @@ export const handleNewMessage = message => (dispatch, getState) => {
 }
 
 export function handleRemovedMessage({ id, channel }) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
       payload: id,
     })
-    dispatch({
-      type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
-      payload: channel,
-    })
+    const { id: currId } = channelSelector(getState())
+    if (currId !== channel) {
+      api.loadHistory(channel, { limit: 100 }).then(res => {
+        const messages = normalizeMessages(res, getState())
+        dispatch({
+          type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
+          payload: {
+            channel,
+            messagePosition: findIndex(messages, { id }) + 1,
+          },
+        })
+      })
+    }
   }
 }
 

@@ -21,7 +21,7 @@ import {
 } from './utils'
 import { error, showAlert, hideAlertByType } from './'
 
-function normalizeMessages(messages, state) {
+export function normalizeMessages(messages, state) {
   return messages
     .map(message => normalizeMessage(message, state))
     .filter(filterEmptyMessage)

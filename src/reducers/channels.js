@@ -150,12 +150,13 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.SUBTRACT_UNREAD_MESSAGE_COUNTER: {
-      const channelId = action.payload
-      const newState = [...state]
-      const index = findIndex(newState, { id: channelId })
+      const { channel: channelId, messagePosition } = action.payload
+      const index = findIndex(state, { id: channelId })
       if (index === -1) return state
-      const channel = newState[index]
-      if (channel.current) return newState
+      const channel = state[index]
+      if (channel.current) return state
+      if (messagePosition > channel.unread) return state
+      const newState = [...state]
       newState.splice(index, 1, {
         ...channel,
         unread: channel.unread - 1,
