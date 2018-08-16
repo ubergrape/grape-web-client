@@ -48,3 +48,17 @@ export const c3 = {
     'https://staging.chatgrape.com/imgsrc/m/cebabcff380f42ea8fd2395d86dbc4a0/200x200/',
   joined: true,
 }
+
+export const c4 = {
+  id: 6476,
+  type: 'pm',
+  creator: 2918,
+  created: 1521822165,
+  unread: 1,
+  mentioned: 0,
+  users: [2918, 13531],
+  invites: [],
+  name: 'ajv13028@soioa.com',
+  icon: 'https://staging.chatgrape.com/imgsrc/s/avatar_invited/200x200/',
+  joined: true,
+}

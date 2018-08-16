@@ -149,6 +149,20 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
+    case types.SUBTRACT_UNREAD_MESSAGE_COUNTER: {
+      const channelId = action.payload
+      const newState = [...state]
+      const index = findIndex(newState, { id: channelId })
+      if (index === -1) return state
+      const channel = newState[index]
+      if (channel.current) return newState
+      newState.splice(index, 1, {
+        ...channel,
+        unread: channel.unread - 1,
+      })
+      return newState
+    }
+
     case types.CHANGE_FAVORITED: {
       const newState = [...state]
       action.payload.forEach(({ channelId: id, favorited }) => {

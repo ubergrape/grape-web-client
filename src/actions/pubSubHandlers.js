@@ -92,13 +92,17 @@ export const handleNewMessage = message => (dispatch, getState) => {
   })
 }
 
-export function handleRemovedMessage({ id }) {
+export function handleRemovedMessage({ id, channel }) {
   return dispatch => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
       payload: id,
+    })
+    dispatch({
+      type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
+      payload: channel,
     })
   }
 }

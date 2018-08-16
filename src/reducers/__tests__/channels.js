@@ -1,7 +1,7 @@
 import channels from '../channels'
 import * as types from '../../constants/actionTypes'
 
-import { c1, c2, c3 } from './data/channels'
+import { c1, c2, c3, c4 } from './data/channels'
 
 describe('channels reducer', () => {
   it('should handle SET_CHANNELS', () => {
@@ -20,5 +20,14 @@ describe('channels reducer', () => {
         payload: [c1, c3],
       }),
     ).toEqual([c2, c1, c3])
+  })
+
+  it('should handle correct subtract unread on SUBTRACT_UNREAD_MESSAGE_COUNTER', () => {
+    expect(
+      channels([c4], {
+        type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
+        payload: 6476,
+      }),
+    ).toEqual([c1])
   })
 })
