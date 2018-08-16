@@ -149,6 +149,27 @@ Object {
 }
 `;
 
+exports[`history reducer CLEAR_HISTORY should reset messages and set loadedNewerMessage to false 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "messages": Array [],
+}
+`;
+
+exports[`history reducer REQUEST_NEWER_HISTORY should add the payload promise to newerMessagesRequest and set loadedNewerMessage to false 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "newerMessagesRequest": Promise {},
+}
+`;
+
+exports[`history reducer REQUEST_OLDER_HISTORY should add the payload promise to olderMessagesRequest and set loadedNewerMessage to false 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "olderMessagesRequest": Promise {},
+}
+`;
+
 exports[`history reducer UPDATE_MESSAGE should return the original state if the message is missing 1`] = `
 Object {
   "messages": Array [

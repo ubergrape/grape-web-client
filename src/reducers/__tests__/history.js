@@ -1,6 +1,9 @@
 import history from '../history'
 import {
   ADD_NEW_MESSAGE,
+  CLEAR_HISTORY,
+  REQUEST_NEWER_HISTORY,
+  REQUEST_OLDER_HISTORY,
   UNSET_HISTORY_SCROLL_TO,
   UPDATE_MESSAGE,
 } from '../../constants/actionTypes'
@@ -168,6 +171,44 @@ describe('history reducer', () => {
           {
             type: UPDATE_MESSAGE,
             payload: { id: '999', text: 'Hello World!' },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+  })
+
+  describe('CLEAR_HISTORY', () => {
+    it('should reset messages and set loadedNewerMessage to false', () => {
+      expect(history({}, { type: CLEAR_HISTORY })).toMatchSnapshot()
+    })
+  })
+
+  describe('REQUEST_OLDER_HISTORY', () => {
+    it('should add the payload promise to olderMessagesRequest and set loadedNewerMessage to false', () => {
+      expect(
+        history(
+          {},
+          {
+            type: REQUEST_OLDER_HISTORY,
+            payload: {
+              promise: Promise.resolve({}),
+            },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+  })
+
+  describe('REQUEST_NEWER_HISTORY', () => {
+    it('should add the payload promise to newerMessagesRequest and set loadedNewerMessage to false', () => {
+      expect(
+        history(
+          {},
+          {
+            type: REQUEST_NEWER_HISTORY,
+            payload: {
+              promise: Promise.resolve({}),
+            },
           },
         ),
       ).toMatchSnapshot()
