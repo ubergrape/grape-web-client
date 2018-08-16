@@ -180,14 +180,12 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 }
 
 export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
     dispatch(handleCurrentUserLeftChannel())
-    const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo('/chat'))
   }
 }
 
