@@ -13,6 +13,7 @@ const initialState = {
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
+  channel: null,
 }
 
 function updateMessage(state, newMessage) {

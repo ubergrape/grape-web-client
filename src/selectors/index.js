@@ -119,6 +119,11 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'pm'),
 )
 
+export const joinedChannelsSelector = createSelector(
+  [joinedRoomsSelector, pmsSelector],
+  (joinedRooms, pms) => Boolean(joinedRooms.length || pms.length),
+)
+
 export const activePmsSelector = createSelector(pmsSelector, pms =>
   pms.filter(pm => pm.firstMessageTime),
 )
@@ -256,8 +261,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  state => state.newConversation,
-  state => state,
+  [state => state.newConversation, joinedChannelsSelector],
+  (newConversation, isMemberOfAnyRooms) => ({
+    ...newConversation,
+    isMemberOfAnyRooms,
+  }),
 )
 
 export const inviteToOrgSelector = createSelector(
@@ -511,14 +519,24 @@ export const headerSelector = createSelector(
     sidebarSelector,
     unreadMentionsAmountSelector,
     userProfileSelector,
+    joinedChannelsSelector,
   ],
-  ({ features }, favorite, channel, { show: sidebar }, mentions, partner) => ({
+  (
+    { features },
+    favorite,
+    channel,
+    { show: sidebar },
+    mentions,
+    partner,
+    isMemberOfAnyRooms,
+  ) => ({
     favorite,
     channel,
     sidebar,
     mentions,
     partner,
     features,
+    isMemberOfAnyRooms,
   }),
 )
 
@@ -528,11 +546,17 @@ export const historySelector = createSelector(
 )
 
 export const historyComponentSelector = createSelector(
-  [historySelector, orgSelector, initialDataLoadingSelector],
-  (history, { customEmojis }, isLoadingInitialData) => ({
+  [
+    historySelector,
+    orgSelector,
+    initialDataLoadingSelector,
+    joinedChannelsSelector,
+  ],
+  (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
     isLoadingInitialData,
+    isMemberOfAnyRooms,
   }),
 )
 
@@ -562,6 +586,7 @@ export const footerComponentSelector = createSelector(
     historySelector,
     isChannelDisabledSelector,
     channelsToMentionSelector,
+    joinedChannelsSelector,
   ],
   (
     typingNotification,
@@ -570,6 +595,7 @@ export const footerComponentSelector = createSelector(
     history,
     isChannelDisabled,
     channelsToMention,
+    isMemberOfAnyRooms,
   ) => ({
     ...typingNotification,
     ...footer,
@@ -579,6 +605,7 @@ export const footerComponentSelector = createSelector(
     images: { ...images, orgLogo: org.logo },
     disabled: isChannelDisabled,
     channelsToMention,
+    isMemberOfAnyRooms,
   }),
 )
 
