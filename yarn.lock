@@ -3953,9 +3953,9 @@ grape-theme@3.x, grape-theme@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
-grape-web@1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.4.tgz#ff967559fb16a0ae3fc3d7a2974574636aedc94c"
+grape-web@1.x:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.3.tgz#5b44dc40cf945fa9162fdb78a9c3851d5ff82dac"
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -3984,9 +3984,9 @@ grape-web@1.7.4:
     reset-jss "^0.1.0"
     styled-jss "^1.2.0"
 
-grape-web@1.x:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.3.tgz#5b44dc40cf945fa9162fdb78a9c3851d5ff82dac"
+grape-web@^1.7.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.5.tgz#35b86e8ee7154310c1cb9f3f7ca13c47a0327b5b"
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
