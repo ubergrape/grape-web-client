@@ -553,7 +553,7 @@ export const historyComponentSelector = createSelector(
     joinedChannelsSelector,
   ],
   (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
-    ...omit(history, 'olderMessages', 'newerMessages'),
+    ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
     isLoadingInitialData,
     isMemberOfAnyRooms,

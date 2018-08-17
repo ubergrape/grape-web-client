@@ -46,29 +46,11 @@ const addNewMessage = message => (dispatch, getState) => {
       isCurrentUser: user.id === nMessage.author.id,
     },
   })
-  // We remove a message first, because if user sends a message, it is
-  // added immediately, with a generated clientsideId.
-  // Then we receive the same message from the server which might contain
-  // additional information and a server-side id.
-  dispatch({
-    type: types.REMOVE_MESSAGE,
-    payload: message.clientsideId,
-  })
+
   dispatch({
     type: types.ADD_NEW_MESSAGE,
     payload: nMessage,
   })
-
-  // Mark own message as sent.
-  if (nMessage.author.id === user.id) {
-    dispatch({
-      type: types.MARK_MESSAGE_AS_SENT,
-      payload: {
-        messageId: nMessage.id,
-        channelId: nMessage.channelId,
-      },
-    })
-  }
 }
 
 export const handleNewMessage = message => (dispatch, getState) => {

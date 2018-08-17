@@ -62,7 +62,7 @@ export default class InfiniteList extends PureComponent {
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
     scrollToAlignment: PropTypes.string,
-    receivedMessageViaSocket: PropTypes.bool.isRequired,
+    loadedNewerMessage: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -177,7 +177,7 @@ export default class InfiniteList extends PureComponent {
       minimumBatchSize,
       classes,
       scrollToAlignment,
-      receivedMessageViaSocket,
+      loadedNewerMessage,
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
@@ -206,7 +206,7 @@ export default class InfiniteList extends PureComponent {
                   scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
                   scrollToPosition={this.scrollToPosition}
-                  receivedMessageViaSocket={receivedMessageViaSocket}
+                  loadedNewerMessage={loadedNewerMessage}
                 >
                   {({
                     onScroll: onScrollInAutoScroll,

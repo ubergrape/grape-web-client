@@ -59,7 +59,7 @@ class History extends PureComponent {
     scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
-    receivedMessageViaSocket: PropTypes.bool.isRequired,
+    loadedNewerMessage: PropTypes.bool.isRequired,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
@@ -183,7 +183,7 @@ class History extends PureComponent {
       isLoadingInitialData,
       selectedMessageId,
       scrollToAlignment,
-      receivedMessageViaSocket,
+      loadedNewerMessage,
       isMemberOfAnyRooms,
       onNewConversation,
       onJoinGroup,
@@ -247,7 +247,7 @@ class History extends PureComponent {
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
                   renderRow={this.renderRow}
-                  receivedMessageViaSocket={receivedMessageViaSocket}
+                  loadedNewerMessage={loadedNewerMessage}
                 />
               )}
             </Jumper>

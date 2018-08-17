@@ -19,7 +19,7 @@ export default class AutoScroll extends PureComponent {
     height: PropTypes.number.isRequired,
     scrollToIndex: PropTypes.number,
     scrollToAlignment: PropTypes.string,
-    receivedMessageViaSocket: PropTypes.bool.isRequired,
+    loadedNewerMessage: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -69,11 +69,17 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    // We way need to auto scroll to the bottom when:
-    // - When a new message was received.
+    // TODO track if a bulk of messages have been loaded while scrolling down
+
+    // Auto scrolling to the bottom when:
+    // - A new message was added by the current user
+    // - A new message was received (can be from another user or the same user on another client)
+    // - A any of the messages on screen changed e.g. got longer.
     // - Parent size has changed and the scroll position was close to the bottom.
+    // Prevent auto scrolling to the bottom when:
+    // - The scrolled to the bottom and a batch of new messages was loaded to prevent GRAPE-15407
     if (
-      (nextProps.receivedMessageViaSocket && rowsHasChanged) ||
+      (rowsHasChanged && !nextProps.loadedNewerMessage) ||
       nextProps.height !== height
     ) {
       const endThreshold =
