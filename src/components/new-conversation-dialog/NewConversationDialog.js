@@ -27,14 +27,13 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class NewConversationDialog extends PureComponent {
+class NewConversationDialog extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
+    showNewConversation: PropTypes.func.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
@@ -44,6 +43,7 @@ export default class NewConversationDialog extends PureComponent {
     openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     show: PropTypes.bool,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -59,9 +59,15 @@ export default class NewConversationDialog extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ show, error }) {
+  componentWillReceiveProps({ show, error, isMemberOfAnyRooms }) {
     if (!show) {
       this.setState(getInitialState())
+      if (
+        this.props.isMemberOfAnyRooms !== isMemberOfAnyRooms &&
+        !isMemberOfAnyRooms
+      ) {
+        this.props.showNewConversation()
+      }
       return
     }
 
@@ -218,3 +224,5 @@ export default class NewConversationDialog extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(NewConversationDialog))

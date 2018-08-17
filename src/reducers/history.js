@@ -11,6 +11,7 @@ const initialState = {
   receivedMessageViaSocket: false,
   scrollTo: null,
   scrollToAlignment: null,
+  channel: null,
 }
 
 function updateMessage(state, newMessage) {

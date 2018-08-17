@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import capitalize from 'lodash/capitalize'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 import { pickHTMLProps } from 'pick-react-known-prop'
@@ -20,9 +21,9 @@ class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    clearError: PropTypes.func.isRequired,
-    focused: PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
+    clearError: PropTypes.func,
+    focused: PropTypes.bool,
     className: PropTypes.string,
     type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
@@ -35,6 +36,9 @@ class Input extends PureComponent {
     type: 'input',
     className: null,
     error: null,
+    onChange: noop,
+    clearError: noop,
+    focused: false,
   }
 
   componentDidMount() {
