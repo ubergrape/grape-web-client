@@ -22,7 +22,6 @@ import {
   removeMention,
   addNewUser,
   goToLastUsedChannel,
-  normalizeMessages,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -103,16 +102,23 @@ export function handleRemovedMessage({ id, channel }) {
     })
     const { id: currId } = channelSelector(getState())
     if (currId !== channel) {
-      api.loadHistory(channel, { limit: 100 }).then(res => {
-        const messages = normalizeMessages(res, getState())
-        dispatch({
-          type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
-          payload: {
-            channel,
-            messagePosition: findIndex(messages, { id }) + 1,
-          },
+      // setTimeout should be there because of backend updating issues
+      setTimeout(() => {
+        api.getChannel(channel).then(res => {
+          const {
+            unread,
+            lastMessage: { time },
+          } = res
+          dispatch({
+            type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+            payload: {
+              id: channel,
+              unread,
+              time,
+            },
+          })
         })
-      })
+      }, 1000)
     }
   }
 }
