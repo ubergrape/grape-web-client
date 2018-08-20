@@ -22,12 +22,16 @@ describe('channels reducer', () => {
     ).toEqual([c2, c1, c3])
   })
 
-  it('should handle correct subtract unread on SUBTRACT_UNREAD_MESSAGE_COUNTER', () => {
+  it('should handle correct update unread field on UPDATE_CHANNEL_UNREAD_COUNTER', () => {
     expect(
       channels([c4], {
-        type: types.SUBTRACT_UNREAD_MESSAGE_COUNTER,
-        payload: 6476,
+        type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: {
+          id: 3339,
+          unread: 0,
+          time: 'Mon Oct 23 2017 17:36:08 GMT+0200',
+        },
       }),
-    ).toEqual([c1])
+    ).toEqual([c2])
   })
 })
