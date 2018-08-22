@@ -189,7 +189,7 @@ export const normalizeMessage = (() => {
 
   function normalizeRegularMessage(msg, state, configs) {
     const channels = channelsSelector(state)
-    const { id, text, channel: channelId, pinned: isPinned } = msg
+    const { id, clientsideId, text, channel: channelId, pinned: isPinned } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -213,6 +213,7 @@ export const normalizeMessage = (() => {
     return {
       type,
       id,
+      clientsideId,
       text,
       time,
       userTime,
@@ -330,7 +331,12 @@ export function roomNameFromUsers(users) {
     .slice(0, maxChannelNameLength - 1)
 }
 
-export const findLastUsedChannel = channels =>
+export const findLastUsedChannel = (channels, withMessage) =>
   channels
-    .filter(channel => channel.joined && channel.firstMessageTime)
+    .filter(
+      channel =>
+        withMessage
+          ? channel.joined && channel.firstMessageTime
+          : channel.joined,
+    )
     .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]

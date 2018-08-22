@@ -40,8 +40,6 @@
   "_fileUploadTitleFinished.comment": "Upload notification title",
   "fileTooBig": "File exceeds size limit of {limit}mb.",
   "editMessagePlaceholder": "Enter a message …",
-  "disabledMessagePlaceholder":
-    "This user has been deleted. Messaging is disabled.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
   "quoteFooter": "- [Message]({messageUrl}) from [{author}]({pmPath})",
@@ -73,7 +71,6 @@
   "read": "Read",
   "_read.comment": "message delivery status in tooltip",
   "tasks": "Tasks",
-  "_tasks.comment": "NLP tasks list dialog title.",
   "createTask": "Create Task",
   "_createTask.comment": "NLP create task dialog title.",
   "moreServices": "More Services",
@@ -81,6 +78,7 @@
     "More Services button in message nlp create task dialog.",
   "linkToAConnectedTask": "Link to a connected Task",
   "_linkToAConnectedTask.comment": "Nlp create task dialog link label.",
+  "_tasks.comment": "NLP tasks list dialog title.",
   "messageNotSendCheckConnection":
     "The message couldn't be sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
@@ -90,11 +88,7 @@
     "This group is private. Only invited members can see and join this group.",
   "welcomeToRoom": "Welcome to {channel}",
   "inviteMoreToGroup": "Invite more people to this group",
-  "_inviteMoreToGroup.comment":
-    "Room Info Panel: link to invite people to the group/room",
   "addServiceIntegration": "Add service integration",
-  "_addServiceIntegration.comment":
-    "Room Info Panel: link to add an integration to the current room",
   "welcomeToPm": "Private messages with {partner}",
   "pmIntro":
     "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
@@ -106,7 +100,6 @@
   "showMore": "Show more",
   "showLess": "Show less",
   "contacts": "Contacts",
-  "groups": "Groups",
   "description": "Description",
   "create": "Create",
   "enter": "Enter",
@@ -118,6 +111,11 @@
   "userProfile": "User Profile",
   "loading": "Loading...",
   "communication": "Communicating with Grape universe, this may take a moment",
+  "wantToChat": "Want to chat?",
+  "noChannelsToChatIn":
+    "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
+  "joinGroup": "Join a group",
+  "startNewConversation": "Start a new conversation",
   "introHlWelcome": "Welcome",
   "_introHlWelcome.comment": "Intro welcome hl.",
   "introTextWelcome":
@@ -128,11 +126,6 @@
   "introTextSearchBrowser":
     "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #",
   "_introTextSearchBrowser.comment": "Intro SearchBrowser text.",
-  "introHlManageGroups": "Manage groups",
-  "_introHlManageGroups.comment": "Intro data hl.",
-  "introTextGroups":
-    "Chat groups can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).",
-  "_introTextGroups.comment": "Intro data text.",
   "introHlPm": "Communicate 1-to-1",
   "_introHlPm.comment": "Intro data hl.",
   "introTextPm":
@@ -256,9 +249,6 @@
   "nothingThatMatches": "There's nothing that matches ",
   "favorites": "Favorites",
   "recent": "Recent",
-  "enterGroupName": "Enter group name",
-  "private": "Private",
-  "public": "Public",
   "notificationSettingsTitle": "Notification in {group}",
   "_notificationSettingsTitle.comment": "Notification settings dialog.",
   "notificationSettingDefault": "Default Notification Settings",
@@ -363,6 +353,10 @@
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "_inviteMoreToGroup.comment":
+    "Room Info Panel: link to invite people to the group/room",
+  "_addServiceIntegration.comment":
+    "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",

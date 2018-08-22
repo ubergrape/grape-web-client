@@ -19,7 +19,6 @@ import {
 import {
   error,
   goToChannel,
-  goToLastUsedChannel,
   loadNotificationSettings,
   addUser,
   setChannel,
@@ -49,7 +48,6 @@ export const leaveChannel = channelId => dispatch => {
         type: types.LEAVE_CHANNEL,
         payload: channelId,
       })
-      dispatch(goToLastUsedChannel())
     })
     .catch(err => dispatch(error(err)))
 }
@@ -216,22 +214,15 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       if (channel.type === 'pm') {
         const currUser = userSelector(getState())
         const userIds = [currUser.id, channel.partner.id]
-        return { ...channel, users: userIds }
-      }
-
-      // TODO we will have to load th room members here once we get rid
-      // of `org.channels`. Right now all joined channels are loaded.
-      return {}
-    })
-    .then(pmChannel => {
-      if (Object.keys(pmChannel).length) {
+        const pmChannel = { ...channel, users: userIds }
         dispatch(addUser(pmChannel))
         dispatch(addChannel(pmChannel))
         dispatch(setChannel(pmChannel.id, messageId))
         return
       }
 
-      // It should be a channel user didn't join yet.
+      dispatch(addChannel(channel))
+      dispatch(setChannel(channel, messageId))
       dispatch(joinChannel(channelId))
     })
     .catch(() => dispatch(handleBadChannel()))
@@ -382,12 +373,7 @@ export function hideRoomDeleteDialog() {
 
 export function deleteChannel({ roomId, roomName }) {
   return dispatch =>
-    api
-      .deleteChannel(roomId, roomName)
-      .then(() => {
-        dispatch(goToLastUsedChannel())
-      })
-      .catch(err => dispatch(error(err)))
+    api.deleteChannel(roomId, roomName).catch(err => dispatch(error(err)))
 }
 
 export function clearRoomRenameError() {

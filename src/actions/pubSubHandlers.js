@@ -11,6 +11,7 @@ import {
   channelSelector,
   joinedRoomsSelector,
   channelsSelector,
+  joinedChannelsSelector,
 } from '../selectors'
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
@@ -22,6 +23,8 @@ import {
   removeMention,
   addNewUser,
   goToLastUsedChannel,
+  showSidebar,
+  setIntialDataLoading,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -43,29 +46,11 @@ const addNewMessage = message => (dispatch, getState) => {
       isCurrentUser: user.id === nMessage.author.id,
     },
   })
-  // We remove a message first, because if user sends a message, it is
-  // added immediately, with a generated clientsideId.
-  // Then we receive the same message from the server which might contain
-  // additional information and a server-side id.
-  dispatch({
-    type: types.REMOVE_MESSAGE,
-    payload: message.clientsideId,
-  })
+
   dispatch({
     type: types.ADD_NEW_MESSAGE,
     payload: nMessage,
   })
-
-  // Mark own message as sent.
-  if (nMessage.author.id === user.id) {
-    dispatch({
-      type: types.MARK_MESSAGE_AS_SENT,
-      payload: {
-        messageId: nMessage.id,
-        channelId: nMessage.channelId,
-      },
-    })
-  }
 }
 
 export const handleNewMessage = message => (dispatch, getState) => {
@@ -165,15 +150,24 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
   }
 }
 
+const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
+  const channels = joinedChannelsSelector(getState())
+  if (channels) {
+    dispatch(goToLastUsedChannel())
+  } else {
+    dispatch(setIntialDataLoading(false))
+    dispatch(showSidebar(false))
+    dispatch(goTo('/chat'))
+  }
+}
+
 export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-
-    const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo('/chat'))
+    dispatch(handleCurrentUserLeftChannel())
   }
 }
 
@@ -230,6 +224,7 @@ export function handleRemoveRoom({ channel: id }) {
       payload: id,
     })
     if (id === currentId) dispatch(goTo('/chat'))
+    dispatch(handleCurrentUserLeftChannel())
   }
 }
 

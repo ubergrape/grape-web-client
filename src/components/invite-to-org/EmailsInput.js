@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import random from 'lodash/random'
+import noop from 'lodash/noop'
 
 import Input from '../input/GrayInputNormal'
 
@@ -50,6 +51,7 @@ export default function EmailsInput(props) {
 EmailsInput.defaultProps = {
   error: {},
   focused: false,
+  clearError: noop,
 }
 
 EmailsInput.propTypes = {
@@ -59,6 +61,6 @@ EmailsInput.propTypes = {
   focused: PropTypes.bool,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
   error: PropTypes.object,
 }

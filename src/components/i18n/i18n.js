@@ -82,3 +82,25 @@ export const Communication = () => (
     defaultMessage="Communicating with Grape universe, this may take a moment"
   />
 )
+
+export const WantToChat = () => (
+  <FormattedMessage id="wantToChat" defaultMessage="Want to chat?" />
+)
+
+export const NoChannelsToChatIn = () => (
+  <FormattedMessage
+    id="noChannelsToChatIn"
+    defaultMessage="You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun."
+  />
+)
+
+export const JoinGroup = () => (
+  <FormattedMessage id="joinGroup" defaultMessage="Join a group" />
+)
+
+export const StartNewConversation = () => (
+  <FormattedMessage
+    id="startNewConversation"
+    defaultMessage="Start a new conversation"
+  />
+)

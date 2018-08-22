@@ -10,16 +10,18 @@ import * as history from '../app/history'
 import { setChannel, openPm, openChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: types.GO_TO,
       payload: options,
     })
 
+    const currentChannel = channelSelector(getState())
+
     openUrl(pathOrUrl, {
       serviceUrl: conf.server.serviceUrl,
       mode: getMode(conf),
-      currChannel: conf.channelId,
+      currChannel: conf.channelId || currentChannel.id,
       replace: options.replace,
       onExternal: window.open,
       onRedirect: url => {
@@ -45,7 +47,10 @@ export function goToMessage(message) {
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
     const { id: currentId } = channelSelector(getState())
-    if (channelOrChannelId === currentId || channelOrChannelId.id === currentId)
+    if (
+      channelOrChannelId === currentId ||
+      (channelOrChannelId.id && channelOrChannelId.id === currentId)
+    )
       return
     if (!conf.embed) {
       dispatch({
@@ -63,7 +68,6 @@ export function goToChannel(channelOrChannelId, options) {
       if (!channel) channel = { id: channelOrChannelId, slug: '' }
     }
     const slug = channel.slug == null ? channel.partner.username : channel.slug
-
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     if (!conf.embed) dispatch(setChannel(channel.id))
   }
@@ -71,8 +75,12 @@ export function goToChannel(channelOrChannelId, options) {
 
 export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const channel = findLastUsedChannel(channels)
+  const channel = findLastUsedChannel(channels, true)
+  const joinedChannel = findLastUsedChannel(channels, false)
+
   if (channel) dispatch(goToChannel(channel))
+  else if (joinedChannel) dispatch(goToChannel(joinedChannel))
+  else goTo('/chat')
 }
 
 export function goToPayment() {

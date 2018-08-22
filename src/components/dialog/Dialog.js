@@ -92,6 +92,7 @@ export default class Dialog extends PureComponent {
         className={classes.modal}
         backdropClassName={classes.backdrop}
         onHide={onHide}
+        autoFocus={false}
       >
         <Normalize className={classes.content}>
           <header className={classes.header}>
