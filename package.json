@@ -48,6 +48,7 @@
     "prop-types": "^15.5.10",
     "raven-js": "^3.22.1",
     "react": "^15.3.0",
+    "react-a11y-dialog": "2.0.0",
     "react-addons-shallow-compare": "^15.6.0",
     "react-dom": "^15.3.0",
     "react-dropzone": "^4.2.7",

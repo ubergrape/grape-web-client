@@ -187,6 +187,10 @@
   dependencies:
     common-tags "^1.7.2"
 
+a11y-dialog@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/a11y-dialog/-/a11y-dialog-4.0.1.tgz#41b45d04793f4064c9df3b044160d9fd006f4c0f"
+
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -2350,7 +2354,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.6.0:
+create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.6.0:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -7598,6 +7602,15 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-a11y-dialog@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-a11y-dialog/-/react-a11y-dialog-2.0.0.tgz#ae91fe804548a144c4f52e22da18700e4c11a280"
+  dependencies:
+    a11y-dialog "^4.0.0"
+    create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+    react "^15.3.2"
+
 react-addons-shallow-compare@^15.6.0:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-addons-shallow-compare/-/react-addons-shallow-compare-15.6.2.tgz#198a00b91fc37623db64a28fd17b596ba362702f"
@@ -7918,7 +7931,7 @@ react-visibility-sensor@^3.1.1:
     create-react-class "^15.5.1"
     prop-types "^15.5.4"
 
-react@^15.3.0, react@^15.5.4:
+react@^15.3.0, react@^15.3.2, react@^15.5.4:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
   dependencies:

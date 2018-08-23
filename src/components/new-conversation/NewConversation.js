@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import Dialog from '../dialog/Dialog'
+import A11yDialog from '../a11y-dialog/A11yDialog'
 
 export const styles = {}
 
@@ -18,11 +18,14 @@ class NewConversation extends Component {
   }
 
   render() {
-    const { show, hideNewConversation } = this.props
+    const { hideNewConversation, show } = this.props
     return (
-      <Dialog show={show} onHide={hideNewConversation} title="New Conversation">
-        <div>Hello World</div>
-      </Dialog>
+      <A11yDialog
+        id="new-conversation"
+        title="New conversation"
+        show={show}
+        onHide={hideNewConversation}
+      />
     )
   }
 }
