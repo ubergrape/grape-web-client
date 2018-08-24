@@ -2,7 +2,7 @@
  * Mini svg manipulation for simple attributes manipulation only.
  */
 
-import toArray from 'lodash/lang/toArray'
+import toArray from 'lodash/toArray'
 import svg2base64 from '../jss-utils/svg2base64'
 
 class List {

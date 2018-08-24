@@ -1,7 +1,7 @@
-import noop from 'lodash/utility/noop'
-import random from 'lodash/number/random'
+import noop from 'lodash/noop'
+import random from 'lodash/random'
 import emoji from 'grape-js-emoji'
-import get from 'lodash/object/get'
+import get from 'lodash/get'
 
 import { openUrl, createNotification as createWebNotification } from './web'
 

@@ -1,5 +1,5 @@
 import createMuiTheme from 'material-ui/styles/createMuiTheme'
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import palette from './palette'
 import typography, { constants as typographyConstants } from './typography'
 import * as overrides from './overrides'

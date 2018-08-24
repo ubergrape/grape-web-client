@@ -1,4 +1,4 @@
-import each from 'lodash/collection/each'
+import each from 'lodash/each'
 import * as raw from './raw'
 import svg2base64 from '../jss-utils/svg2base64'
 

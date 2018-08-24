@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import { white } from 'grape-theme/dist/base-colors'
 import color from 'color'
 import cn from 'classnames'
-import random from 'lodash/number/random'
+import random from 'lodash/random'
 
 import injectSheet from '../../jss'
 import svg2base64 from '../../jss-utils/svg2base64'

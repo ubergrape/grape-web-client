@@ -1,4 +1,4 @@
-import escapeRegExp from 'lodash/string/escapeRegExp'
+import escapeRegExp from 'lodash/escapeRegExp'
 
 /**
  * Find matches of search in text.
