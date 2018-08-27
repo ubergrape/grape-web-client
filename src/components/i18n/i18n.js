@@ -94,10 +94,6 @@ export const NoChannelsToChatIn = () => (
   />
 )
 
-export const JoinGroup = () => (
-  <FormattedMessage id="joinGroup" defaultMessage="Join a group" />
-)
-
 export const StartNewConversation = () => (
   <FormattedMessage
     id="startNewConversation"

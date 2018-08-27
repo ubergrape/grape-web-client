@@ -44,7 +44,6 @@ class History extends PureComponent {
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onNewConversation: PropTypes.func.isRequired,
-    onJoinGroup: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -186,19 +185,13 @@ class History extends PureComponent {
       loadedNewerMessage,
       isMemberOfAnyRooms,
       onNewConversation,
-      onJoinGroup,
     } = this.props
     const { rows, scrollTo } = this.state
 
     if (isLoadingInitialData) return <LoadingText />
 
     if (!isMemberOfAnyRooms) {
-      return (
-        <NoChannels
-          onJoinGroup={onJoinGroup}
-          onNewConversation={onNewConversation}
-        />
-      )
+      return <NoChannels onNewConversation={onNewConversation} />
     }
 
     if (!user || !channel) return null

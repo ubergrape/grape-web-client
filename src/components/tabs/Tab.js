@@ -1,41 +1,55 @@
-import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import { styles } from './tabTheme'
+const styles = {
+  tab: {
+    flex: '1 1 0',
+    height: 35,
+  },
+  button: {
+    isolate: false,
+    width: '100%',
+    height: '100%',
+    background: 'none',
+    border: 0,
+    textAlign: 'center',
+    fontSize: 17,
+    cursor: 'pointer',
+    borderBottom: '1px solid #EEEEEE',
+    color: '#333333',
+  },
+  buttonActive: {
+    isolate: false,
+    borderBottom: '1px solid #098DEC',
+    color: '#098DEC',
+  },
+}
 
-@injectSheet(styles)
-export default class Tab extends PureComponent {
-  static propTypes = {
-    active: PropTypes.bool,
-    children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired,
-  }
-
-  onClick = e => {
-    const { onClick, filter } = this.props
-    e.preventDefault()
-    onClick(filter)
+class Tab extends PureComponent {
+  handleClick = () => {
+    const { index, handleClick } = this.props
+    handleClick(index)
   }
 
   render() {
     const {
-      active,
-      children,
+      name,
+      isCurrentTab,
       sheet: { classes },
     } = this.props
-
-    if (active) {
-      return (
-        <span className={`${classes.tab} ${classes.active}`}>{children}</span>
-      )
-    }
-
     return (
-      <button className={classes.tab} type="button" onClick={this.onClick}>
-        {children}
-      </button>
+      <li className={classes.tab}>
+        <button
+          className={`${classes.button} ${
+            isCurrentTab ? classes.buttonActive : ''
+          }`}
+          onClick={this.handleClick}
+        >
+          {name}
+        </button>
+      </li>
     )
   }
 }
+
+export default injectSheet(styles)(Tab)

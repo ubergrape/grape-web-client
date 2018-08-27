@@ -25,7 +25,6 @@ const actionNames = {
   pinMessage: 'onPin',
   unpinMessage: 'onUnpin',
   showNewConversation: 'onNewConversation',
-  showManageGroups: 'onJoinGroup',
 }
 
 const ConnectedHistory = connect(
