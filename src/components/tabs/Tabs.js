@@ -7,7 +7,6 @@ const styles = {
   list: {
     display: 'flex',
     listStyleType: 'none',
-    marginTop: 25,
   },
   tab: {
     marginTop: 16,

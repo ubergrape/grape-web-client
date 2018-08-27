@@ -23,18 +23,20 @@ const NewConversation = ({ hideNewConversation, show, sheet: { classes } }) => (
         Start a conversation with one person. Join or create a group to chat
         with more people.
       </p>
-      <Tabs
-        tabs={[
-          {
-            name: 'Person',
-            component: Person,
-          },
-          {
-            name: 'Group',
-            component: Group,
-          },
-        ]}
-      />
+      <div className={classes.tabs}>
+        <Tabs
+          tabs={[
+            {
+              name: 'Person',
+              component: Person,
+            },
+            {
+              name: 'Group',
+              component: Group,
+            },
+          ]}
+        />
+      </div>
     </div>
   </A11yDialog>
 )

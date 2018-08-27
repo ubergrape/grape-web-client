@@ -1,3 +1,5 @@
+import theme from '../../constants/theme'
+
 export default {
   /*
     Styles for dialog window starts
@@ -29,21 +31,25 @@ export default {
     right: 24,
     top: 24,
     border: 0,
-    color: '#737373',
+    color: theme.colorIconBaseStandardWeb,
     fontSize: 28,
     cursor: 'pointer',
   },
   title: {
-    color: '#333',
-    fontSize: 23,
+    color: theme.grayDarkest,
+    fontSize: theme.fontSizeHeadingPageWeb,
     lineHeight: '27px',
     fontWeight: 600,
   },
   // Styles for dialog window ends
   description: {
     marginTop: 20,
-    color: '#333333',
-    fontSize: 14,
+    color: theme.grayDarkest,
+    fontSize: theme.fontSizeOverlineMobile,
     lineHeight: '23px',
+  },
+  tabs: {
+    marginTop: 25,
+    width: '100%',
   },
 }
