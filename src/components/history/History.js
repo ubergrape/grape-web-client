@@ -87,7 +87,12 @@ class History extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { channel, selectedMessageId, messages } = nextProps
+    const {
+      channel,
+      selectedMessageId,
+      messages,
+      isLoadingInitialData,
+    } = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -100,11 +105,11 @@ class History extends PureComponent {
         nextProps.selectedMessageIdTimestamp
     const channelHasChanged =
       get(channel, 'id') !== get(this.props, 'channel.id')
-
     if (
       channelHasChanged ||
       selectedMessageHasChanged ||
-      selectedMessageHasBeenClickedOnAgain
+      selectedMessageHasBeenClickedOnAgain ||
+      isLoadingInitialData
     ) {
       this.needsInitialLoad = true
       return

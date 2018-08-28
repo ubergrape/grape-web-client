@@ -162,12 +162,13 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 }
 
 export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const user = userSelector(getState())
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-    dispatch(handleCurrentUserLeftChannel())
+    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
@@ -178,7 +179,7 @@ const newNotification = (notification, channel) => (dispatch, getState) => {
     payload: {
       ...notification,
       channel,
-      inviter: find(users, { id: notification.inviterId }),
+      inviter: find(users, { partner: { id: notification.inviterId } }),
     },
   })
 }
