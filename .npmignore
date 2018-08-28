@@ -1,3 +1,9 @@
 src
 i18n
 lib
+.http-mitm-proxy
+.github
+design-system
+coverage
+ca
+bin
