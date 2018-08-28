@@ -1,6 +1,8 @@
 import reject from 'lodash/reject'
 import findIndex from 'lodash/findIndex'
+import isNil from 'lodash/isNil'
 import uniq from 'lodash/uniq'
+import some from 'lodash/some'
 
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
@@ -8,19 +10,20 @@ import conf from '../conf'
 const initialState = {
   messages: [],
   minimumBatchSize: 50,
-  receivedMessageViaSocket: false,
+  loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
+  channel: null,
 }
 
 function updateMessage(state, newMessage) {
   const { messages } = state
   const index = findIndex(messages, { id: newMessage.id })
-  const currMessage = messages[index]
   if (index === -1) return state
+  const currMessage = messages[index]
   const message = { ...currMessage, ...newMessage }
   messages.splice(index, 1, message)
-  return { ...state, messages: [...messages] }
+  return { ...state, messages: [...messages], loadedNewerMessage: false }
 }
 
 /**
@@ -48,8 +51,9 @@ export default function reduce(state = initialState, action) {
         channel: payload.channel,
         selectedMessageId: payload.messageId,
         selectedMessageIdTimestamp: Date.now(),
-        olderMessages: undefined,
-        newerMessages: undefined,
+        olderMessagesRequest: undefined,
+        newerMessagesRequest: undefined,
+        loadedNewerMessage: false,
       }
     case types.SET_USERS:
       return { ...state, users: payload }
@@ -58,21 +62,23 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...payload,
         showNoContent: payload.messages.length === 0 && !conf.embed,
-        receivedMessageViaSocket: false,
+        loadedNewerMessage: false,
       }
     case types.HANDLE_MORE_HISTORY: {
       const { messages: newMessages, isScrollBack } = payload
       if (!newMessages.length) return state
 
       let messages
-      let { olderMessages, newerMessages } = state
+      let loadedNewerMessage = false
+      let { olderMessagesRequest, newerMessagesRequest } = state
 
       if (isScrollBack) {
         messages = [...newMessages, ...state.messages]
-        olderMessages = undefined
+        olderMessagesRequest = undefined
       } else {
         messages = [...state.messages, ...newMessages]
-        newerMessages = undefined
+        newerMessagesRequest = undefined
+        loadedNewerMessage = true
       }
 
       messages = uniq(messages, 'id')
@@ -82,36 +88,48 @@ export default function reduce(state = initialState, action) {
         messages,
         scrollTo: null,
         scrollToAlignment: null,
-        olderMessages,
-        newerMessages,
+        olderMessagesRequest,
+        newerMessagesRequest,
+        loadedNewerMessage,
         showNoContent: false,
-        receivedMessageViaSocket: false,
       }
     }
     case types.GO_TO_CHANNEL:
       // Clicked on the current channel.
       if (state.channel && payload === state.channel.id) return state
-      return { ...state, messages: [] }
+      return { ...state, messages: [], loadedNewerMessage: false }
     // when the client is disconnected and re-connects SET_INITIAL_DATA_LOADING is triggered
     // to avoid unexpected behaviour from existing data this case resets the state
     case types.SET_INITIAL_DATA_LOADING:
       if (!payload) return state
       return { ...initialState }
     case types.CLEAR_HISTORY:
-      return { ...state, messages: [] }
+      return { ...state, messages: [], loadedNewerMessage: false }
     case types.REQUEST_OLDER_HISTORY:
-      return { ...state, olderMessages: payload.promise }
+      return {
+        ...state,
+        olderMessagesRequest: payload.promise,
+        loadedNewerMessage: false,
+      }
     case types.REQUEST_NEWER_HISTORY:
-      return { ...state, newerMessages: payload.promise }
+      return {
+        ...state,
+        newerMessagesRequest: payload.promise,
+        loadedNewerMessage: false,
+      }
     case types.UNSET_HISTORY_SCROLL_TO:
       return {
         ...state,
         scrollTo: null,
         scrollToAlignment: null,
-        receivedMessageViaSocket: false,
+        loadedNewerMessage: false,
       }
     case types.REMOVE_MESSAGE:
-      return { ...state, messages: reject(state.messages, { id: payload }) }
+      return {
+        ...state,
+        messages: reject(state.messages, { id: payload }),
+        loadedNewerMessage: false,
+      }
     case types.EDIT_MESSAGE:
       return updateMessage(state, { ...payload, isSelected: true })
     case types.UPDATE_MESSAGE:
@@ -123,8 +141,6 @@ export default function reduce(state = initialState, action) {
         ...payload,
         state: 'pending',
       })
-    case types.MARK_MESSAGE_AS_SENT:
-      return updateMessage(state, { id: payload.messageId, state: 'sent' })
     case types.MARK_CHANNEL_AS_READ: {
       // Currently backend logic is designed to mark all messages as read once
       // user read something in that channel.
@@ -139,6 +155,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         messages: markLastMessageAsRead(state.messages, userId),
+        loadedNewerMessage: false,
       }
     }
     case types.REQUEST_POST_MESSAGE:
@@ -151,18 +168,44 @@ export default function reduce(state = initialState, action) {
         ...state,
         messages: [...state.messages, { ...payload, state: 'pending' }],
         showNoContent: false,
-        receivedMessageViaSocket: false,
+        loadedNewerMessage: false,
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
+      const { messages } = state
+
+      // this case occures when the message was added to the history
+      // optimistically without waiting for a server response
+      if (
+        !isNil(payload.clientsideId) &&
+        some(messages, msg => msg.clientsideId === payload.clientsideId)
+      ) {
+        const index = findIndex(messages, {
+          clientsideId: payload.clientsideId,
+        })
+        const currMessage = messages[index]
+        // state is changed to sent since after receiveing the message from
+        // the server we can be sure it has been sent
+        const message = { ...currMessage, ...payload, state: 'sent' }
+        messages.splice(index, 1, message)
+        return {
+          ...state,
+          scrollTo: null,
+          scrollToAlignment: null,
+          messages: [...messages],
+          showNoContent: false,
+          loadedNewerMessage: false,
+        }
+      }
+
       const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...state.messages, payload],
+        messages: [...messages, payload],
         showNoContent: false,
-        receivedMessageViaSocket: true,
+        loadedNewerMessage: false,
       }
     }
     default:

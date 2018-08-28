@@ -7,6 +7,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
+import NoChannels from './NoChannels'
 import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
@@ -42,6 +43,8 @@ class History extends PureComponent {
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
+    onNewConversation: PropTypes.func.isRequired,
+    onJoinGroup: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -56,7 +59,8 @@ class History extends PureComponent {
     scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
     isLoadingInitialData: PropTypes.bool,
-    receivedMessageViaSocket: PropTypes.bool.isRequired,
+    loadedNewerMessage: PropTypes.bool.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -84,7 +88,12 @@ class History extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { channel, selectedMessageId, messages } = nextProps
+    const {
+      channel,
+      selectedMessageId,
+      messages,
+      isLoadingInitialData,
+    } = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -97,11 +106,11 @@ class History extends PureComponent {
         nextProps.selectedMessageIdTimestamp
     const channelHasChanged =
       get(channel, 'id') !== get(this.props, 'channel.id')
-
     if (
       channelHasChanged ||
       selectedMessageHasChanged ||
-      selectedMessageHasBeenClickedOnAgain
+      selectedMessageHasBeenClickedOnAgain ||
+      isLoadingInitialData
     ) {
       this.needsInitialLoad = true
       return
@@ -136,8 +145,18 @@ class History extends PureComponent {
   }
 
   load() {
-    const { isLoadingInitialData, channel, onLoad } = this.props
-    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
+    const {
+      isLoadingInitialData,
+      channel,
+      onLoad,
+      isMemberOfAnyRooms,
+    } = this.props
+    if (
+      this.needsInitialLoad &&
+      !isLoadingInitialData &&
+      channel &&
+      isMemberOfAnyRooms
+    ) {
       this.needsInitialLoad = false
       onLoad()
     }
@@ -169,11 +188,23 @@ class History extends PureComponent {
       isLoadingInitialData,
       selectedMessageId,
       scrollToAlignment,
-      receivedMessageViaSocket,
+      loadedNewerMessage,
+      isMemberOfAnyRooms,
+      onNewConversation,
+      onJoinGroup,
     } = this.props
     const { rows, scrollTo } = this.state
 
     if (isLoadingInitialData) return <LoadingText />
+
+    if (!isMemberOfAnyRooms) {
+      return (
+        <NoChannels
+          onJoinGroup={onJoinGroup}
+          onNewConversation={onNewConversation}
+        />
+      )
+    }
 
     if (!user || !channel) return null
 
@@ -221,7 +252,7 @@ class History extends PureComponent {
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
                   renderRow={this.renderRow}
-                  receivedMessageViaSocket={receivedMessageViaSocket}
+                  loadedNewerMessage={loadedNewerMessage}
                 />
               )}
             </Jumper>
