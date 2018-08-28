@@ -83,10 +83,6 @@ class History extends PureComponent {
     this.needsInitialLoad = true
   }
 
-  componentDidMount() {
-    this.load()
-  }
-
   componentWillReceiveProps(nextProps) {
     const {
       channel,
