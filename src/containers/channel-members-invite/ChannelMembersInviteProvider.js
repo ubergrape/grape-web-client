@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { inviteDialogSelector as selector } from '../../selectors'
-import ChannelMembersInvite from '../../components/channel-members-invite/ChannelMembersInvite'
+import ChannelMembersInvite from '../../components/old/channel-members-invite/ChannelMembersInvite'
 
 const actionNames = [
   'showInviteToOrg',

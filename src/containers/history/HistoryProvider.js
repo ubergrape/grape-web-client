@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { historyComponentSelector as selector } from '../../selectors'
-import History from '../../components/history/History'
+import History from '../../components/old/history/History'
 
 const actionNames = {
   loadHistory: 'onLoad',
@@ -32,10 +32,8 @@ const ConnectedHistory = connect(
   mapActionsToProps(actionNames),
 )(History)
 
-const HistoryProvider = () => (
+export default () => (
   <Provider store={getStore()}>
     <ConnectedHistory />
   </Provider>
 )
-
-export default HistoryProvider

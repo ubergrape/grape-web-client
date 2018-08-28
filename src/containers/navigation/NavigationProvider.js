@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { navigationSelector as selector } from '../../selectors'
-import Navigation from '../../components/navigation/Navigation'
+import Navigation from '../../components/old/navigation/Navigation'
 
 const actionNames = [
   'showNewConversation',

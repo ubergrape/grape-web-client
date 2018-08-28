@@ -6,7 +6,7 @@ import {
   ConnectedRouter,
 } from 'grape-web/lib/router'
 
-import { AppContainer } from '../../components/app-container'
+import { AppContainer } from '../../components/old/app-container'
 import history from '../../app/history'
 import RouteChanger from './RouteChanger'
 

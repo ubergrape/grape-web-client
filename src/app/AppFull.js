@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Router } from '../containers/router'
@@ -24,7 +24,7 @@ import { RoomDeleteDialogProvider } from '../containers/room-delete'
 import { FileUploadProvider } from '../containers/file-upload'
 import { IntroProvider } from '../containers/intro'
 import { AppProvider } from '../containers/app'
-import { AppLayout } from '../components/app-layout'
+import { AppLayout } from '../components/old/app-layout'
 
 const Aside = ({ className }) => (
   <aside className={className}>
@@ -51,7 +51,7 @@ const Globals = () => (
   </section>
 )
 
-@injectSheet(
+export default injectSheet(
   {
     '@global': {
       'html, body': {
@@ -62,26 +62,21 @@ const Globals = () => (
     },
   },
   { increaseSpecificity: false, isolate: false },
-)
-export default class App extends PureComponent {
-  render() {
-    return (
-      <AppProvider>
-        {props => (
-          <Router {...props}>
-            <AppLayout
-              Aside={Aside}
-              Header={HeaderProvider}
-              Alerts={AlertsProvider}
-              History={HistoryProvider}
-              Sidebar={SidebarProvider}
-              Globals={Globals}
-              FileUpload={FileUploadProvider}
-              Footer={FooterProvider}
-            />
-          </Router>
-        )}
-      </AppProvider>
-    )
-  }
-}
+)(() => (
+  <AppProvider>
+    {props => (
+      <Router {...props}>
+        <AppLayout
+          Aside={Aside}
+          Header={HeaderProvider}
+          Alerts={AlertsProvider}
+          History={HistoryProvider}
+          Sidebar={SidebarProvider}
+          Globals={Globals}
+          FileUpload={FileUploadProvider}
+          Footer={FooterProvider}
+        />
+      </Router>
+    )}
+  </AppProvider>
+))

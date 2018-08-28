@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { orgInfoSelector as selector } from '../../selectors'
-import OrgInfo from '../../components/org-info/OrgInfo'
+import OrgInfo from '../../components/old/org-info/OrgInfo'
 
 const actionNames = {
   showInviteToOrg: 'onInvite',
@@ -16,12 +16,8 @@ const ConnectedOrgInfo = connect(
   mapActionsToProps(actionNames),
 )(OrgInfo)
 
-export default class OrgInfoProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedOrgInfo />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedOrgInfo />
+  </Provider>
+)

@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { footerComponentSelector as selector } from '../../selectors'
-import { Footer } from '../../components/footer'
+import { Footer } from '../../components/old/footer'
 
 const actionNames = {
   cleanupTyping: 'onCleanupTyping',

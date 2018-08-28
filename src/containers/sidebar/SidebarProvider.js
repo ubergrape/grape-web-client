@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { sidebarComponentSelector as selector } from '../../selectors'
-import { Sidebar } from '../../components/sidebar'
+import { Sidebar } from '../../components/old/sidebar'
 
 const actionNames = [
   'hideSidebar',
@@ -47,10 +47,8 @@ const ConnectedSidebar = connect(
   mapActionsToProps(actionNames),
 )(Sidebar)
 
-const SidebarProvider = props => (
+export default props => (
   <Provider store={getStore()}>
     <ConnectedSidebar {...props} />
   </Provider>
 )
-
-export default SidebarProvider

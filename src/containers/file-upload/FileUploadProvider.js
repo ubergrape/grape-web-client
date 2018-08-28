@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import { fileUploadComponentSelector } from '../../selectors'
 import getStore from '../../app/store'
-import { FileUpload } from '../../components/file-upload'
+import { FileUpload } from '../../components/old/file-upload'
 
 const actionNames = {
   uploadFiles: 'onUpload',
@@ -18,14 +18,10 @@ const ConnectedFileUpload = connect(
   mapActionsToProps(actionNames),
 )(FileUpload)
 
-export default class FileUploadProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedFileUpload className={this.props.className}>
-          {this.props.children}
-        </ConnectedFileUpload>
-      </Provider>
-    )
-  }
-}
+export default props => (
+  <Provider store={getStore()}>
+    <ConnectedFileUpload className={props.className}>
+      {props.children}
+    </ConnectedFileUpload>
+  </Provider>
+)

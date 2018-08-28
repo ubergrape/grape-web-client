@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { headerSelector as selector } from '../../selectors'
-import { Header } from '../../components/header'
+import { Header } from '../../components/old/header'
 
 const actionNames = [
   'showChannelMembersInvite',
@@ -20,12 +20,8 @@ const ConnectedHeader = connect(
   mapActionsToProps(actionNames),
 )(Header)
 
-export default class HeaderProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedHeader />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedHeader />
+  </Provider>
+)

@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { alertsAndChannelSelector as selector } from '../../selectors'
-import Alerts from '../../components/alerts/Alerts'
+import Alerts from '../../components/old/alerts/Alerts'
 
 const actionNames = ['enableNotifications', 'hideAlert', 'clearAlertDelay']
 
@@ -13,12 +13,8 @@ const ConnectedAlerts = connect(
   mapActionsToProps(actionNames),
 )(Alerts)
 
-export default class AlertsProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedAlerts />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedAlerts />
+  </Provider>
+)
