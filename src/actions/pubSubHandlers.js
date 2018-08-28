@@ -87,7 +87,8 @@ export function handleRemovedMessage({ id, channel }) {
     })
     const { id: currId } = channelSelector(getState())
     if (currId !== channel) {
-      // setTimeout should be there because of backend updating issues
+      // setTimeout should be there because of backend updating issues.
+      // It can be removed if GRAPE-15530 issue resolved.
       setTimeout(() => {
         api.getChannel(channel).then(res => {
           const {
