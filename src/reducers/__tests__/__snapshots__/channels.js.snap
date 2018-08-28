@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`channels reducer should handle SET_CHANNELS 1`] = `
+Array [
+  Object {
+    "created": 1521822165,
+    "creator": 2918,
+    "icon": "https://staging.chatgrape.com/imgsrc/s/avatar_invited/200x200/",
+    "id": 6476,
+    "invites": Array [],
+    "joined": true,
+    "mentioned": 0,
+    "name": "ajv13028@soioa.com",
+    "type": "pm",
+    "unread": 0,
+    "users": Array [
+      2918,
+      13531,
+    ],
+  },
+  Object {
+    "abbr": "TT",
+    "color": "#EA4C3A",
+    "created": 1498568936,
+    "creator": 2674,
+    "description": "",
+    "firstMessageTime": 1498568939879,
+    "icon": "dinner",
+    "id": 3339,
+    "invites": Array [],
+    "isManaged": false,
+    "isPublic": true,
+    "joined": false,
+    "latestMessageTime": 1508772968000,
+    "mentioned": 0,
+    "name": "team testing",
+    "slug": "team-testing",
+    "type": "room",
+    "unread": 0,
+    "users": Array [
+      2404,
+    ],
+  },
+]
+`;
+
+exports[`channels reducer should handle correct merge channels on SET_CHANNELS 1`] = `
+Array [
+  Object {
+    "abbr": "TT",
+    "color": "#EA4C3A",
+    "created": 1498568936,
+    "creator": 2674,
+    "description": "",
+    "firstMessageTime": 1498568939879,
+    "icon": "dinner",
+    "id": 3339,
+    "invites": Array [],
+    "isManaged": false,
+    "isPublic": true,
+    "joined": false,
+    "latestMessageTime": 1508772968000,
+    "mentioned": 0,
+    "name": "team testing",
+    "slug": "team-testing",
+    "type": "room",
+    "unread": 0,
+    "users": Array [
+      2404,
+    ],
+  },
+  Object {
+    "created": 1521822165,
+    "creator": 2918,
+    "icon": "https://staging.chatgrape.com/imgsrc/s/avatar_invited/200x200/",
+    "id": 6476,
+    "invites": Array [],
+    "joined": true,
+    "mentioned": 0,
+    "name": "ajv13028@soioa.com",
+    "type": "pm",
+    "unread": 0,
+    "users": Array [
+      2918,
+      13531,
+    ],
+  },
+  Object {
+    "created": 1524044323,
+    "creator": 2918,
+    "icon": "https://staging.chatgrape.com/imgsrc/m/cebabcff380f42ea8fd2395d86dbc4a0/200x200/",
+    "id": 6952,
+    "invites": Array [],
+    "joined": true,
+    "mentioned": 0,
+    "name": "asdf",
+    "type": "pm",
+    "unread": 0,
+    "users": Array [
+      2918,
+      13258,
+    ],
+  },
+]
+`;
+
+exports[`channels reducer should handle correct update unread field on UPDATE_CHANNEL_UNREAD_COUNTER 1`] = `
+Array [
+  Object {
+    "latestMessageTime": 1508772967000,
+    "unread": 1,
+  },
+]
+`;
+
+exports[`channels reducer should handle correct updating channel with current field on UPDATE_CHANNEL_UNREAD_COUNTER 1`] = `
+Array [
+  Object {
+    "current": true,
+    "latestMessageTime": 1508772967000,
+    "unread": 1,
+  },
+]
+`;
