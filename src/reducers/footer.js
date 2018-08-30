@@ -6,6 +6,11 @@ const initialState = {
   showBrowser: false,
   editMessage: null,
   quoteMessage: null,
+  autocomplete: {
+    search: {},
+    results: [],
+    services: [],
+  },
 }
 
 export default function reduce(state = initialState, action) {
@@ -28,7 +33,15 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_SEARCH_BROWSER:
       return { ...state, showBrowser: 'search', search: action.payload }
     case types.HIDE_BROWSER:
-      return { ...state, showBrowser: false, autocomplete: null }
+      return {
+        ...state,
+        showBrowser: false,
+        autocomplete: {
+          search: {},
+          results: [],
+          services: [],
+        },
+      }
     case types.HANDLE_CHANNELS_TO_MENTION: {
       const { search, results } = action.payload
       if (search !== state.searchMention) return state
