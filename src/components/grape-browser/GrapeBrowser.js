@@ -273,6 +273,7 @@ class GrapeBrowser extends Component {
     const isBrowserOpened = Boolean(this.state.browser)
     const hasTrigger = Boolean(query && query.trigger)
 
+    clearTimeout(this.searchBrowserInputTimeoutId)
     if (hasTrigger && contentHasChanged) {
       this.query.set(query, { silent: true })
       this.props.onComplete({ ...this.query.toJSON(), emoji })

@@ -280,8 +280,9 @@ class SearchBrowser extends PureComponent {
     if (query.trigger === SERVICES_TRIGGER) {
       onShowServices({ query, services })
       onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
+    } else if (search) {
+      onShowResults()
     }
-    onShowResults()
     onChange({
       search,
       filters: filters.map(filter => find(services, { id: filter }).key),
