@@ -98,7 +98,11 @@ class SearchBrowser extends PureComponent {
     search: '',
     className: '',
     height: 400,
-    data: undefined,
+    data: {
+      search: {},
+      results: [],
+      services: [],
+    },
     onUpdateResults: noop,
     onBlurAction: noop,
     onDidMount: noop,
@@ -357,7 +361,7 @@ class SearchBrowser extends PureComponent {
       return { element, height }
     }
 
-    if (!isLoading && data && data.search && data.search.text && search) {
+    if (!isLoading && data.search.text && search) {
       return {
         element: <Empty text={formatMessage(messages.empty)} />,
         height: 'auto',

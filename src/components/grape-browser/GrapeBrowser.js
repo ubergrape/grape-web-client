@@ -75,7 +75,11 @@ class GrapeBrowser extends Component {
     // componentWillReceiveProps, because this is the only new prop.
     externalServicesInputDelay: 150,
     browser: undefined,
-    data: undefined,
+    data: {
+      search: {},
+      results: [],
+      services: [],
+    },
     images: {},
     services: [],
     results: [],
