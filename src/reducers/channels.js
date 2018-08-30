@@ -154,11 +154,9 @@ export default function reduce(state = initialState, action) {
       const { id, unread, time } = action.payload
       const index = findIndex(state, { id })
       if (index === -1) return state
-      const channel = state[index]
-      if (channel.current) return state
       const newState = [...state]
       newState.splice(index, 1, {
-        ...channel,
+        ...state[index],
         unread,
         latestMessageTime: new Date(time).getTime(),
       })

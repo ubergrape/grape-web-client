@@ -38,20 +38,16 @@ describe('channels reducer', () => {
     ).toMatchSnapshot()
   })
 
-  it('should handle correct updating channel with current field on UPDATE_CHANNEL_UNREAD_COUNTER', () => {
+  it('should return same state if channel not found on UPDATE_CHANNEL_UNREAD_COUNTER', () => {
     expect(
-      channels(
-        [{ unread: 1, current: true, latestMessageTime: 1508772967000 }],
-        {
-          type: UPDATE_CHANNEL_UNREAD_COUNTER,
-          payload: {
-            id: 3339,
-            unread: 1,
-            current: true,
-            time: 'Mon Oct 23 2017 17:36:08 GMT+0200',
-          },
+      channels([{ unread: 1, id: 3338, latestMessageTime: 1508772967000 }], {
+        type: UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: {
+          id: 3339,
+          unread: 0,
+          time: 'Mon Oct 23 2017 17:36:08 GMT+0200',
         },
-      ),
+      }),
     ).toMatchSnapshot()
   })
 })

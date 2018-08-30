@@ -113,10 +113,10 @@ Array [
 ]
 `;
 
-exports[`channels reducer should handle correct updating channel with current field on UPDATE_CHANNEL_UNREAD_COUNTER 1`] = `
+exports[`channels reducer should return same state if channel not found on UPDATE_CHANNEL_UNREAD_COUNTER 1`] = `
 Array [
   Object {
-    "current": true,
+    "id": 3338,
     "latestMessageTime": 1508772967000,
     "unread": 1,
   },
