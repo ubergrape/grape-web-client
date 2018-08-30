@@ -150,6 +150,19 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
+    case types.UPDATE_CHANNEL_UNREAD_COUNTER: {
+      const { id, unread, time } = action.payload
+      const index = findIndex(state, { id })
+      if (index === -1) return state
+      const newState = [...state]
+      newState.splice(index, 1, {
+        ...state[index],
+        unread,
+        latestMessageTime: new Date(time).getTime(),
+      })
+      return newState
+    }
+
     case types.CHANGE_FAVORITED: {
       const newState = [...state]
       action.payload.forEach(({ channelId: id, favorited }) => {
