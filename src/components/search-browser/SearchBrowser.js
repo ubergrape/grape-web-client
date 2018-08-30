@@ -28,9 +28,7 @@ const messages = defineMessages({
 /**
  * Main search browser component.
  */
-@injectSheet(style)
-@injectIntl
-export default class SearchBrowser extends PureComponent {
+class SearchBrowser extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -100,7 +98,11 @@ export default class SearchBrowser extends PureComponent {
     search: '',
     className: '',
     height: 400,
-    data: undefined,
+    data: {
+      search: {},
+      results: [],
+      services: [],
+    },
     onUpdateResults: noop,
     onBlurAction: noop,
     onDidMount: noop,
@@ -140,7 +142,7 @@ export default class SearchBrowser extends PureComponent {
     const { query, search } = this.state
     if (data && data !== this.props.data) this.onUpdateResults(data)
 
-    if (services !== this.props.services && query) {
+    if (services !== this.props.services && query && query.trigger === '+') {
       onShowServices({ query, services })
       onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
     }
@@ -154,7 +156,6 @@ export default class SearchBrowser extends PureComponent {
 
   onUpdateResults(data) {
     const { onUpdateResults, search } = this.props
-
     if (
       data &&
       search &&
@@ -261,10 +262,9 @@ export default class SearchBrowser extends PureComponent {
     const { onUpdateInput, onReset } = this.props
     if (!value) {
       onReset()
-      return
     }
-    onUpdateInput({ value, search, filters })
     this.onChangeInput({ search, filters, query })
+    onUpdateInput({ value, search, filters })
   }
 
   onChangeInput = debounce(({ search, filters, query }) => {
@@ -277,17 +277,16 @@ export default class SearchBrowser extends PureComponent {
     } = this.props
 
     this.setState({ search, query })
-
     if (query.trigger === SERVICES_TRIGGER) {
       onShowServices({ query, services })
       onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
     } else if (search) {
       onShowResults()
-      onChange({
-        search,
-        filters: filters.map(filter => find(services, { id: filter }).key),
-      })
     }
+    onChange({
+      search,
+      filters: filters.map(filter => find(services, { id: filter }).key),
+    })
   }, debouncingTime)
 
   onExecAction = () => {
@@ -327,6 +326,7 @@ export default class SearchBrowser extends PureComponent {
       hoveredAction,
       onFocusAction,
       onBlurAction,
+      data,
     } = this.props
 
     if (focusedView === 'services') {
@@ -362,7 +362,7 @@ export default class SearchBrowser extends PureComponent {
       return { element, height }
     }
 
-    if (!isLoading && search.trim()) {
+    if (!isLoading && data.search.text && search) {
       return {
         element: <Empty text={formatMessage(messages.empty)} />,
         height: 'auto',
@@ -406,3 +406,5 @@ export default class SearchBrowser extends PureComponent {
     )
   }
 }
+
+export default injectSheet(style)(injectIntl(SearchBrowser))

@@ -35,8 +35,7 @@ const browserWithInput = {
 /**
  * Uses all types of auto completes to provide end component.
  */
-@injectSheet(style)
-export default class GrapeBrowser extends Component {
+class GrapeBrowser extends Component {
   static propTypes = {
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
@@ -52,6 +51,7 @@ export default class GrapeBrowser extends Component {
     images: PropTypes.object,
     externalServicesInputDelay: PropTypes.number,
     services: PropTypes.array,
+    results: PropTypes.array,
     servicesStats: PropTypes.object,
     onDidMount: PropTypes.func,
     onEditPrevious: PropTypes.func,
@@ -75,9 +75,14 @@ export default class GrapeBrowser extends Component {
     // componentWillReceiveProps, because this is the only new prop.
     externalServicesInputDelay: 150,
     browser: undefined,
-    data: undefined,
+    data: {
+      search: {},
+      results: [],
+      services: [],
+    },
     images: {},
     services: [],
+    results: [],
     servicesStats: {},
     customEmojis: undefined,
     placeholder: undefined,
@@ -152,7 +157,9 @@ export default class GrapeBrowser extends Component {
     if (
       this.state.browserOpened !== nextState.browserOpened ||
       !nextState.browserOpened ||
-      nextProps.services !== this.props.services
+      nextProps.services !== this.props.services ||
+      nextProps.isLoading !== this.props.isLoading ||
+      nextProps.results !== this.props.results
     )
       return true
     if (isEqual(this.props.data, nextProps.data)) return false
@@ -267,7 +274,6 @@ export default class GrapeBrowser extends Component {
     const hasTrigger = Boolean(query && query.trigger)
 
     clearTimeout(this.searchBrowserInputTimeoutId)
-
     if (hasTrigger && contentHasChanged) {
       this.query.set(query, { silent: true })
       this.props.onComplete({ ...this.query.toJSON(), emoji })
@@ -480,3 +486,5 @@ export default class GrapeBrowser extends Component {
     )
   }
 }
+
+export default injectSheet(style)(GrapeBrowser)
