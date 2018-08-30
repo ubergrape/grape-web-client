@@ -29,7 +29,10 @@ export const styles = {
     position: 'relative',
     background: white,
     borderRadius,
-    padding: [5, 13],
     wordBreak: 'break-word',
+    '& > *': {
+      isolate: false,
+      padding: [5, 13],
+    },
   },
 }
