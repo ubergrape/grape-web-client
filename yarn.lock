@@ -3056,9 +3056,9 @@ eslint-config-prettier@^2.9.0:
   dependencies:
     get-stdin "^5.0.1"
 
-eslint-config-ubergrape@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-ubergrape/-/eslint-config-ubergrape-5.3.0.tgz#c756e98186ea962d2c46f964f5bf84e6ac6b7a72"
+eslint-config-ubergrape@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-ubergrape/-/eslint-config-ubergrape-5.4.0.tgz#8ce164499fdfa832118120a6cac837664286a03f"
 
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
@@ -3912,9 +3912,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grape-browser@^3.17.11:
-  version "3.17.11"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.11.tgz#c1213223ea9e7d3686c2f89e5aff50c963e28c5f"
+grape-browser@^3.17.12:
+  version "3.17.12"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.12.tgz#598179aeb66dcee0e2ea7c5a3e814f33a6bb208d"
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
