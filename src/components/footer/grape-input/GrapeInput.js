@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {injectIntl, FormattedMessage, defineMessages} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { injectIntl, FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
-import {GrapeBrowser} from 'grape-browser'
+import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
 import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
@@ -14,7 +14,7 @@ import {
   getEmojiSearchData,
   searchChannelsToMention,
   getImageAttachments,
-  formatQuote
+  formatQuote,
 } from './utils'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
@@ -22,26 +22,26 @@ const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 const messages = defineMessages({
   placeholder: {
     id: 'editMessagePlaceholder',
-    defaultMessage: 'Enter a message …'
+    defaultMessage: 'Enter a message …',
   },
   placeholderDisabled: {
     id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.'
+    defaultMessage: 'This user has been deleted. Messaging is disabled.',
   },
   keyESC: {
     id: 'keyESC',
-    defaultMessage: 'ESC'
-  }
+    defaultMessage: 'ESC',
+  },
 })
 
 const styles = {
   wrapper: {
     width: '100%',
     display: 'flex',
-    position: 'relative'
+    position: 'relative',
   },
   wrapperDisabled: {
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
   editMessage: {
     position: 'absolute',
@@ -55,11 +55,11 @@ const styles = {
     transition: 'opacity 0.2s ease-out, top 0.2s ease-out',
     willChange: 'opacity, top',
     color: '#666666',
-    fontSize: '0.8em'
+    fontSize: '0.8em',
   },
   editMessageVisible: {
     opacity: 1,
-    top: -22
+    top: -22,
   },
   editMessageButton: {
     borderRadius: 3,
@@ -68,8 +68,8 @@ const styles = {
     margin: [0, 2],
     color: '#666666',
     background: '#FBFBFB',
-    fontSize: '100%'
-  }
+    fontSize: '100%',
+  },
 }
 
 @injectSheet(styles)
@@ -85,7 +85,13 @@ export default class GrapeInput extends PureComponent {
     classes: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
-    showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    showBrowser: PropTypes.oneOf([
+      false,
+      'emoji',
+      'emojiSuggest',
+      'user',
+      'search',
+    ]).isRequired,
     search: PropTypes.string,
     autocomplete: PropTypes.object,
     services: PropTypes.array,
@@ -107,7 +113,8 @@ export default class GrapeInput extends PureComponent {
     onRequestAutocompleteServicesStats: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
-    goTo: PropTypes.func.isRequired
+    goTo: PropTypes.func.isRequired,
+    usersToMention: PropTypes.array,
   }
 
   static defaultProps = {
@@ -121,7 +128,7 @@ export default class GrapeInput extends PureComponent {
     usersToMention: [],
     channelsToMention: [],
     customEmojis: {},
-    autocomplete: {}
+    autocomplete: {},
   }
 
   constructor(props) {
@@ -130,7 +137,7 @@ export default class GrapeInput extends PureComponent {
     this.unsent = {}
     this.input = null
     this.state = {
-      focused: false
+      focused: false,
     }
   }
 
@@ -139,13 +146,13 @@ export default class GrapeInput extends PureComponent {
       channel: curChannel,
       targetMessage: currTargetMessage,
       quoteMessage: currQuoteMessage,
-      intl
+      intl,
     } = this.props
 
     const {
       channel: nextChannel,
       targetMessage: nextTargetMessage,
-      quoteMessage: nextQuoteMessage
+      quoteMessage: nextQuoteMessage,
     } = nextProps
 
     if (curChannel.id !== nextChannel.id) {
@@ -162,9 +169,9 @@ export default class GrapeInput extends PureComponent {
     if (nextQuoteMessage && nextQuoteMessage !== currQuoteMessage) {
       const quote = formatQuote({
         intl,
-        message: nextQuoteMessage
+        message: nextQuoteMessage,
       })
-      this.input.setTextContent(quote, {silent: true, caretPosition: 'start'})
+      this.input.setTextContent(quote, { silent: true, caretPosition: 'start' })
     }
   }
 
@@ -172,7 +179,7 @@ export default class GrapeInput extends PureComponent {
    * Focus grape input to make user type in it when he started to type somewhere
    * outside, but not in some other input cabable field.
    */
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     // For e.g. when trying to copy text from history.
     if (e.altKey || e.ctrlKey || e.metaKey) return
     // Skip every combinination with Shift that doesn't produce a single letter.
@@ -183,26 +190,30 @@ export default class GrapeInput extends PureComponent {
   }
 
   onEditMessage(msg) {
-    this.input.setTextContent(msg.text, {silent: true})
+    this.input.setTextContent(msg.text, { silent: true })
   }
 
   onSelectChannel(prev, next) {
-    const {targetMessage, onSetUnsentMessage} = this.props
+    const { targetMessage, onSetUnsentMessage } = this.props
     if (prev.id && !targetMessage) {
       onSetUnsentMessage(prev.id, this.input.getTextContent())
     }
-    this.input.setTextContent(next.unsent || '', {silent: true})
+    this.input.setTextContent(next.unsent || '', { silent: true })
     this.focus()
   }
 
-  onGrapeBrowserRef = (ref) => {
+  onGrapeBrowserRef = ref => {
     this.input = ref
   }
 
-  onSubmit = (data) => {
+  onSubmit = data => {
     const {
-      targetMessage, onCreateMessage, onUpdateMessage,
-      channel, onSetUnsentMessage, onHideBrowser
+      targetMessage,
+      onCreateMessage,
+      onUpdateMessage,
+      channel,
+      onSetUnsentMessage,
+      onHideBrowser,
     } = this.props
 
     let sendText = true
@@ -211,7 +222,7 @@ export default class GrapeInput extends PureComponent {
       onUpdateMessage({
         channelId: channel.id,
         messageId: targetMessage.id,
-        text: data.content
+        text: data.content,
       })
     } else {
       const attachments = getImageAttachments(data.objects)
@@ -221,30 +232,35 @@ export default class GrapeInput extends PureComponent {
         sendText = false
       }
       // Separate message to make it separately editable and removable.
-      if (sendText) onCreateMessage({channelId: channel.id, text: data.content})
+      if (sendText)
+        onCreateMessage({ channelId: channel.id, text: data.content })
       if (attachments.length) {
-        onCreateMessage({channelId: channel.id, attachments})
+        onCreateMessage({ channelId: channel.id, attachments })
       }
     }
     onSetUnsentMessage(channel.id, '')
     onHideBrowser()
   }
 
-  onComplete = (data) => {
-    const {filters, search, query, trigger} = data
+  onComplete = data => {
+    const { filters, search, query, trigger } = data
     const {
-      org, channel, showBrowser, onShowSearchBrowser, onShowUsersAndRoomsBrowser,
-      onShowEmojiSuggestBrowser, onShowEmojiBrowser, onRequestAutocomplete,
-      onSearchChannelsToMention
+      org,
+      channel,
+      showBrowser,
+      onShowSearchBrowser,
+      onShowUsersAndRoomsBrowser,
+      onShowEmojiSuggestBrowser,
+      onShowEmojiBrowser,
+      onRequestAutocomplete,
+      onSearchChannelsToMention,
     } = this.props
 
     switch (trigger) {
       case '#':
         // Avoid browser opening in case of `#s` input.
         if (!showBrowser && query.length > 1) return
-        if (search || (filters && filters.length)) {
-          onRequestAutocomplete({search, filters})
-        }
+        onRequestAutocomplete({ search, filters })
         onShowSearchBrowser(search)
         break
       case '@':
@@ -265,8 +281,12 @@ export default class GrapeInput extends PureComponent {
 
   onAbort = () => {
     const {
-      showBrowser, onHideBrowser, targetMessage,
-      onAbortEdit, channel, onSetUnsentMessage
+      showBrowser,
+      onHideBrowser,
+      targetMessage,
+      onAbortEdit,
+      channel,
+      onSetUnsentMessage,
     } = this.props
 
     if (showBrowser) {
@@ -274,7 +294,7 @@ export default class GrapeInput extends PureComponent {
       this.focus()
     } else if (targetMessage) {
       onAbortEdit()
-      this.input.setTextContent('', {silent: true})
+      this.input.setTextContent('', { silent: true })
       onSetUnsentMessage(channel.id, '')
     }
   }
@@ -294,14 +314,14 @@ export default class GrapeInput extends PureComponent {
       servicesStats,
       onRequestAutocompleteServices,
       onAddIntegration,
-      channelsToMention
+      channelsToMention,
     } = this.props
 
     switch (showBrowser) {
       case 'emoji': {
         return {
           browser,
-          setTrigger: true
+          setTrigger: true,
         }
       }
       case 'emojiSuggest': {
@@ -309,7 +329,7 @@ export default class GrapeInput extends PureComponent {
           browser,
           setTrigger: true,
           maxSuggestions: 6,
-          data: getEmojiSearchData(emoji, search)
+          data: getEmojiSearchData(emoji, search),
         }
       }
       case 'user': {
@@ -317,7 +337,7 @@ export default class GrapeInput extends PureComponent {
           browser,
           setTrigger: true,
           maxSuggestions: 12,
-          data: searchChannelsToMention(channelsToMention, channel)
+          data: searchChannelsToMention(channelsToMention, channel),
         }
       }
       case 'search': {
@@ -329,7 +349,8 @@ export default class GrapeInput extends PureComponent {
           onAddIntegration,
           services,
           servicesStats,
-          isLoading: search !== '' && get(autocomplete, 'search.text') !== search
+          isLoading:
+            search !== '' && get(autocomplete, 'search.text') !== search,
         }
       }
       default:
@@ -337,49 +358,62 @@ export default class GrapeInput extends PureComponent {
     }
   }
 
-  startTypingThrottled = (
-    throttle(() => {
-      const {channel, onSetTyping} = this.props
+  startTypingThrottled = throttle(
+    () => {
+      const { channel, onSetTyping } = this.props
       if (channel) {
-        onSetTyping({channel, typing: true})
+        onSetTyping({ channel, typing: true })
       }
     },
-    5000, {trailing: false})
+    5000,
+    { trailing: false },
   )
 
-  stopTypingDebounced = (
-    debounce(() => {
-      const {channel, onSetTyping} = this.props
-      if (channel) {
-        onSetTyping({channel, typing: false})
-      }
-    },
-    5000)
-  )
+  stopTypingDebounced = debounce(() => {
+    const { channel, onSetTyping } = this.props
+    if (channel) {
+      onSetTyping({ channel, typing: false })
+    }
+  }, 5000)
 
   focus() {
     // TODO: grape-browser needs a better way to support this.
-    this.setState({focused: false}, () => {
-      this.setState({focused: true})
+    this.setState({ focused: false }, () => {
+      this.setState({ focused: true })
     })
   }
 
   render() {
     const {
-      classes, customEmojis, images, showBrowser, targetMessage,
-      disabled, onEditPreviousMessage, onHideBrowser,
-      onRequestAutocompleteServicesStats, goTo,
-      intl: {formatMessage}
+      classes,
+      customEmojis,
+      images,
+      showBrowser,
+      targetMessage,
+      disabled,
+      onEditPreviousMessage,
+      onHideBrowser,
+      onRequestAutocompleteServicesStats,
+      goTo,
+      intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const {placeholderDisabled, placeholder} = messages
+    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
     return (
       <GlobalEvent event="keydown" handler={this.onKeyDown}>
-        <div className={cn(classes.wrapper, {[classes.wrapperDisabled]: disabled})}>
-          <div className={cn(classes.editMessage, {[classes.editMessageVisible]: targetMessage})}>
+        <div
+          className={cn(classes.wrapper, {
+            [classes.wrapperDisabled]: disabled,
+          })}
+        >
+          <div
+            className={cn(classes.editMessage, {
+              [classes.editMessageVisible]: targetMessage,
+            })}
+          >
             <FormattedMessage
               id="hitKeyToCancelEditing"
               defaultMessage="Hit {key} to cancel editing."
@@ -388,12 +422,14 @@ export default class GrapeInput extends PureComponent {
                   <span className={classes.editMessageButton}>
                     {formatMessage(messages.keyESC)}
                   </span>
-                )
+                ),
               }}
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(disabled ? placeholderDisabled : placeholder)}
+            placeholder={formatMessage(
+              disabled ? placeholderDisabled : placeholder,
+            )}
             disabled={disabled}
             focused={this.state.focused}
             customEmojis={customEmojis}
