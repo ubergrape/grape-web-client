@@ -9,6 +9,7 @@ export const styles = {
     position: 'relative',
     minWidth: 0,
     maxWidth: '100%',
+    verticalAlign: 'top',
   },
   bubbleWithArrow: {
     composes: '$bubble',
