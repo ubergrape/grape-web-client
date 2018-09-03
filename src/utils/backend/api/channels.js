@@ -101,16 +101,21 @@ export const loadHistory = (channelId, options = {}) =>
       args: [channelId, options],
     },
     { camelize: true },
-  )
-
+  ).then(response => ({
+    messages: response,
+    backendHasNewerMessages: true,
+  }))
 /**
  * Load history at a position of specified message id.
  */
 export const loadHistoryAt = (channelId, messageId, options = {}) => {
+  const limit = options.limit || 50
   // Amount of messages before the passed message id.
-  const before = Math.round(options.limit / 2)
+  const before = Math.round(limit / 2)
   // Amount of messages after the passed message id.
-  const after = before
+  const after = limit - before
+  // Aking for one additional entry to figure if there are more messages to load
+  const afterPlusOne = after + 1
   // Return an error when message id not found, otherwise return fallback results.
   const strict = true
 
@@ -118,10 +123,13 @@ export const loadHistoryAt = (channelId, messageId, options = {}) => {
     {
       ns: 'channels',
       action: 'focus_message',
-      args: [channelId, messageId, before, after, strict],
+      args: [channelId, messageId, before, afterPlusOne, strict],
     },
     { camelize: true },
-  )
+  ).then(response => ({
+    messages: response.slice(0, limit),
+    backendHasNewerMessages: !(response.length < before + afterPlusOne),
+  }))
 }
 
 export const removeMessage = (channelId, messageId) =>

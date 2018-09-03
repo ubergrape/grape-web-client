@@ -63,6 +63,7 @@ function loadLatest(options = { clear: true }) {
             messages,
             scrollTo: lastMessage ? lastMessage.id : null,
             scrollToAlignment: lastMessage ? SCROLL_TO_ALIGNMENT_END : null,
+            backendHasNewerMessages: false,
           },
         })
       })
@@ -158,6 +159,8 @@ function loadNewer(params) {
           payload: {
             messages: normalizeMessages(res, getState()),
             isScrollBack: false,
+            // setting it to undefined since this request doesn't provide this information
+            backendHasNewerMessages: undefined,
           },
         })
       })
@@ -196,10 +199,11 @@ function loadFragment() {
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res.messages, getState()),
             scrollTo: selectedMessageId,
             scrollToAlignment: SCROLL_TO_ALIGNMENT_START,
             selectedMessageId,
+            backendHasNewerMessages: res.backendHasNewerMessages,
           },
         })
       })
@@ -245,6 +249,7 @@ export function renderOlderHistory() {
         payload: {
           messages: normalizeMessages(res.reverse(), getState()),
           isScrollBack: true,
+          backendHasNewerMessages: true, // TODO
         },
       })
     })
