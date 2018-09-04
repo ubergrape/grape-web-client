@@ -359,24 +359,54 @@ export function createMessage({ channelId, text, attachments = [] }) {
       state,
     )
 
-    dispatch({
-      type: types.REQUEST_POST_MESSAGE,
-      payload: message,
-    })
+    if (state.history.backendHasNewerMessages) {
+      // TODO avoid triggering loadLatest twice and ideal wait on the response to then append the new
+      // message using REQUEST_POST_MESSAGE, followed by markAsUnsent, followed by sending the API call
+      // background: this call triggers loadLatest, but once it's done the component also triggers load latest
+      dispatch(loadLatest())
 
-    const options = {
-      clientsideId: id,
-      attachments,
-    }
+      // TODO! THIS IS BAD as it relies on loadLatest being done quicker than postMessage comes back
+      // as mentioned above, after refactoring we can wait on loadLatest and then execute this codeblock
+      setTimeout(() => {
+        dispatch({
+          type: types.REQUEST_POST_MESSAGE,
+          payload: message,
+        })
 
-    dispatch(markAsUnsent(message))
+        const options = {
+          clientsideId: id,
+          attachments,
+        }
 
-    api
-      .postMessage(channelId, text, options)
-      .then(messageId => {
-        dispatch(readMessage({ channelId, messageId }))
+        dispatch(markAsUnsent(message))
+
+        api
+          .postMessage(channelId, text, options)
+          .then(messageId => {
+            dispatch(readMessage({ channelId, messageId }))
+          })
+          .catch(err => dispatch(error(err)))
+      }, 800)
+    } else {
+      dispatch({
+        type: types.REQUEST_POST_MESSAGE,
+        payload: message,
       })
-      .catch(err => dispatch(error(err)))
+
+      const options = {
+        clientsideId: id,
+        attachments,
+      }
+
+      dispatch(markAsUnsent(message))
+
+      api
+        .postMessage(channelId, text, options)
+        .then(messageId => {
+          dispatch(readMessage({ channelId, messageId }))
+        })
+        .catch(err => dispatch(error(err)))
+    }
   }
 }
 
