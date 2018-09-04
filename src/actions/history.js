@@ -51,9 +51,9 @@ function loadLatest(options = { clear: true }) {
     )
 
     api
-      .loadHistory(channel.id, { limit })
+      .loadLatestHistory(channel.id, limit)
       .then(res => {
-        const messages = normalizeMessages(res.reverse(), getState())
+        const messages = normalizeMessages(res.messages.reverse(), getState())
         const lastMessage = last(messages)
 
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -63,6 +63,7 @@ function loadLatest(options = { clear: true }) {
             messages,
             scrollTo: lastMessage ? lastMessage.id : null,
             scrollToAlignment: lastMessage ? SCROLL_TO_ALIGNMENT_END : null,
+            backendHasNewerMessages: false,
           },
         })
       })
@@ -87,10 +88,11 @@ function loadOlder(params) {
     // Ensures we don't have useless requests to the backend.
     if (olderMessagesRequest) return
 
-    const promise = api.loadHistory(channel.id, {
-      limit: stopIndex - startIndex,
-      timeTo: messages[0].time,
-    })
+    const promise = api.loadOlderHistory(
+      channel.id,
+      stopIndex - startIndex,
+      messages[0].time,
+    )
 
     dispatch({
       type: types.REQUEST_OLDER_HISTORY,
@@ -131,11 +133,12 @@ function loadNewer(params) {
     // Ensures we don't have useless requests to the backend.
     if (newerMessagesRequest) return
 
-    const promise = api.loadHistory(channel.id, {
-      limit: stopIndex - startIndex,
-      timeFrom: last(messages).time,
-      sort: 'time:asc',
-    })
+    const promise = api.loadNewerHistory(
+      channel.id,
+      stopIndex - startIndex,
+      last(messages).time,
+      'time:asc',
+    )
 
     dispatch({
       type: types.REQUEST_NEWER_HISTORY,
@@ -156,8 +159,9 @@ function loadNewer(params) {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res.messages, getState()),
             isScrollBack: false,
+            backendHasNewerMessages: res.backendHasNewerMessages,
           },
         })
       })
@@ -196,10 +200,11 @@ function loadFragment() {
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res.messages, getState()),
             scrollTo: selectedMessageId,
             scrollToAlignment: SCROLL_TO_ALIGNMENT_START,
             selectedMessageId,
+            backendHasNewerMessages: res.backendHasNewerMessages,
           },
         })
       })
@@ -243,8 +248,10 @@ export function renderOlderHistory() {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
-          messages: normalizeMessages(res.reverse(), getState()),
+          messages: normalizeMessages(res.messages.reverse(), getState()),
           isScrollBack: true,
+          // set to undefined since loading older messages doesn't provide this information
+          backendHasNewerMessages: undefined,
         },
       })
     })
@@ -352,24 +359,54 @@ export function createMessage({ channelId, text, attachments = [] }) {
       state,
     )
 
-    dispatch({
-      type: types.REQUEST_POST_MESSAGE,
-      payload: message,
-    })
+    if (state.history.backendHasNewerMessages) {
+      // TODO avoid triggering loadLatest twice and ideal wait on the response to then append the new
+      // message using REQUEST_POST_MESSAGE, followed by markAsUnsent, followed by sending the API call
+      // background: this call triggers loadLatest, but once it's done the component also triggers load latest
+      dispatch(loadLatest())
 
-    const options = {
-      clientsideId: id,
-      attachments,
-    }
+      // TODO! THIS IS BAD as it relies on loadLatest being done quicker than postMessage comes back
+      // as mentioned above, after refactoring we can wait on loadLatest and then execute this codeblock
+      setTimeout(() => {
+        dispatch({
+          type: types.REQUEST_POST_MESSAGE,
+          payload: message,
+        })
 
-    dispatch(markAsUnsent(message))
+        const options = {
+          clientsideId: id,
+          attachments,
+        }
 
-    api
-      .postMessage(channelId, text, options)
-      .then(messageId => {
-        dispatch(readMessage({ channelId, messageId }))
+        dispatch(markAsUnsent(message))
+
+        api
+          .postMessage(channelId, text, options)
+          .then(messageId => {
+            dispatch(readMessage({ channelId, messageId }))
+          })
+          .catch(err => dispatch(error(err)))
+      }, 800)
+    } else {
+      dispatch({
+        type: types.REQUEST_POST_MESSAGE,
+        payload: message,
       })
-      .catch(err => dispatch(error(err)))
+
+      const options = {
+        clientsideId: id,
+        attachments,
+      }
+
+      dispatch(markAsUnsent(message))
+
+      api
+        .postMessage(channelId, text, options)
+        .then(messageId => {
+          dispatch(readMessage({ channelId, messageId }))
+        })
+        .catch(err => dispatch(error(err)))
+    }
   }
 }
 
