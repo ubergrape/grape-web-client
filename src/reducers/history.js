@@ -18,12 +18,13 @@ const initialState = {
 
 function updateMessage(state, newMessage) {
   const { messages } = state
-  const index = findIndex(messages, { id: newMessage.id })
+  const newMessages = [...messages]
+  const index = findIndex(newMessages, { id: newMessage.id })
   if (index === -1) return state
-  const currMessage = messages[index]
+  const currMessage = newMessages[index]
   const message = { ...currMessage, ...newMessage }
-  messages.splice(index, 1, message)
-  return { ...state, messages: [...messages], loadedNewerMessage: false }
+  newMessages.splice(index, 1, message)
+  return { ...state, messages: [...newMessages], loadedNewerMessage: false }
 }
 
 /**
@@ -173,26 +174,26 @@ export default function reduce(state = initialState, action) {
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
       const { messages } = state
-
+      const newMessages = [...messages]
       // this case occures when the message was added to the history
       // optimistically without waiting for a server response
       if (
         !isNil(payload.clientsideId) &&
-        some(messages, msg => msg.clientsideId === payload.clientsideId)
+        some(newMessages, msg => msg.clientsideId === payload.clientsideId)
       ) {
-        const index = findIndex(messages, {
+        const index = findIndex(newMessages, {
           clientsideId: payload.clientsideId,
         })
-        const currMessage = messages[index]
+        const currMessage = newMessages[index]
         // state is changed to sent since after receiveing the message from
         // the server we can be sure it has been sent
         const message = { ...currMessage, ...payload, state: 'sent' }
-        messages.splice(index, 1, message)
+        newMessages.splice(index, 1, message)
         return {
           ...state,
           scrollTo: null,
           scrollToAlignment: null,
-          messages: [...messages],
+          messages: [...newMessages],
           showNoContent: false,
           loadedNewerMessage: false,
         }
@@ -203,7 +204,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...messages, payload],
+        messages: [...newMessages, payload],
         showNoContent: false,
         loadedNewerMessage: false,
       }
