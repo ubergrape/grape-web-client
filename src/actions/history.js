@@ -51,9 +51,9 @@ function loadLatest(options = { clear: true }) {
     )
 
     api
-      .loadHistory(channel.id, { limit })
+      .loadLatestHistory(channel.id, limit)
       .then(res => {
-        const messages = normalizeMessages(res.reverse(), getState())
+        const messages = normalizeMessages(res.messages.reverse(), getState())
         const lastMessage = last(messages)
 
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -88,10 +88,11 @@ function loadOlder(params) {
     // Ensures we don't have useless requests to the backend.
     if (olderMessagesRequest) return
 
-    const promise = api.loadHistory(channel.id, {
-      limit: stopIndex - startIndex,
-      timeTo: messages[0].time,
-    })
+    const promise = api.loadOlderHistory(
+      channel.id,
+      stopIndex - startIndex,
+      messages[0].time,
+    )
 
     dispatch({
       type: types.REQUEST_OLDER_HISTORY,
@@ -132,11 +133,12 @@ function loadNewer(params) {
     // Ensures we don't have useless requests to the backend.
     if (newerMessagesRequest) return
 
-    const promise = api.loadHistory(channel.id, {
-      limit: stopIndex - startIndex,
-      timeFrom: last(messages).time,
-      sort: 'time:asc',
-    })
+    const promise = api.loadNewerHistory(
+      channel.id,
+      stopIndex - startIndex,
+      last(messages).time,
+      'time:asc',
+    )
 
     dispatch({
       type: types.REQUEST_NEWER_HISTORY,
@@ -157,10 +159,9 @@ function loadNewer(params) {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res.messages, getState()),
             isScrollBack: false,
-            // setting it to undefined since this request doesn't provide this information
-            backendHasNewerMessages: undefined,
+            backendHasNewerMessages: res.backendHasNewerMessages,
           },
         })
       })
@@ -247,9 +248,10 @@ export function renderOlderHistory() {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
-          messages: normalizeMessages(res.reverse(), getState()),
+          messages: normalizeMessages(res.messages.reverse(), getState()),
           isScrollBack: true,
-          backendHasNewerMessages: true, // TODO
+          // set to undefined since loading older messages doesn't provide this information
+          backendHasNewerMessages: undefined,
         },
       })
     })

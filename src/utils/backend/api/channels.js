@@ -93,17 +93,53 @@ export const removeChannelFromFavorites = channelId =>
     args: [channelId],
   })
 
-export const loadHistory = (channelId, options = {}) =>
+export const loadLatestHistory = (channelId, limit) =>
   rpc(
     {
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, options],
+      args: [channelId, { limit }],
     },
     { camelize: true },
   ).then(response => ({
     messages: response,
-    backendHasNewerMessages: true,
+    backendHasNewerMessages: false,
+  }))
+
+export const loadOlderHistory = (channelId, limit, timeTo) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_history',
+      args: [channelId, { limit, timeTo }],
+    },
+    { camelize: true },
+  ).then(response => ({
+    messages: response,
+    // set to undefined since this call doesn't provide any information if
+    // the backend has newer messages available for this channel
+    backendHasNewerMessages: undefined,
+  }))
+
+export const loadNewerHistory = (channelId, limit, timeFrom, sort) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_history',
+      args: [
+        channelId,
+        {
+          // when fetching newer messages one more is fetched to identify if there are more messages
+          limit: limit + 1,
+          timeFrom,
+          sort,
+        },
+      ],
+    },
+    { camelize: true },
+  ).then(response => ({
+    messages: response.slice(0, limit),
+    backendHasNewerMessages: !(response.length < limit),
   }))
 /**
  * Load history at a position of specified message id.
