@@ -12,6 +12,7 @@ class TagsInput extends PureComponent {
     sheet: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     renderTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     focused: PropTypes.bool.isRequired,
@@ -66,7 +67,7 @@ class TagsInput extends PureComponent {
   }
 
   onBlur = () => {
-    if (this.props.focused) this.input.focus()
+    if (this.props.focused) this.props.onBlur()
   }
 
   onKeyDown = e => {

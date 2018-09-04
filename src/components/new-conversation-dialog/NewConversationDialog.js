@@ -141,6 +141,10 @@ class NewConversationDialog extends PureComponent {
     this.setState({ focusedInput: 'users' })
   }
 
+  onClickFocusReset = () => {
+    this.setState({ focusedInput: '' })
+  }
+
   renderSettings = () => {
     const { classes, clearRoomCreateError } = this.props
     const {
@@ -213,7 +217,8 @@ class NewConversationDialog extends PureComponent {
         theme={{ classes }}
         onHide={this.onHide}
         onClickList={this.onClickList}
-        isFilterFocused={focusedInput !== 'name'}
+        onClickFocusReset={this.onClickFocusReset}
+        isFilterFocused={focusedInput === 'users'}
         onChangeFilter={searchUsers}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}
