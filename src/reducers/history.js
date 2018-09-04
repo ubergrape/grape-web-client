@@ -187,7 +187,7 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage: false,
       }
     }
-    case types.REQUEST_POST_MESSAGE:
+    case types.REQUEST_POST_MESSAGE: {
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
       if (state.channel && payload.channelId !== state.channel.id) {
@@ -195,12 +195,16 @@ export default function reduce(state = initialState, action) {
       }
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
+        scrollTo,
+        scrollToAlignment: null,
         messages: [...state.messages, { ...payload, state: 'pending' }],
         showNoContent: false,
         loadedNewerMessage: false,
       }
+    }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
       // Do not append a message if the history is not up to date
