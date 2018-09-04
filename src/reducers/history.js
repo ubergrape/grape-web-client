@@ -14,6 +14,7 @@ const initialState = {
   scrollTo: null,
   scrollToAlignment: null,
   channel: null,
+  backendHasNewerMessages: true,
 }
 
 function updateMessage(state, newMessage) {
@@ -55,19 +56,37 @@ export default function reduce(state = initialState, action) {
         olderMessagesRequest: undefined,
         newerMessagesRequest: undefined,
         loadedNewerMessage: false,
+        backendHasNewerMessages: true,
       }
     case types.SET_USERS:
       return { ...state, users: payload }
-    case types.HANDLE_INITIAL_HISTORY:
+    case types.HANDLE_INITIAL_HISTORY: {
+      const {
+        messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
+      } = payload
       return {
         ...state,
-        ...payload,
+        messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
         showNoContent: payload.messages.length === 0 && !conf.embed,
         loadedNewerMessage: false,
       }
+    }
     case types.HANDLE_MORE_HISTORY: {
-      const { messages: newMessages, isScrollBack } = payload
-      if (!newMessages.length) return state
+      const {
+        messages: newMessages,
+        isScrollBack,
+        backendHasNewerMessages,
+      } = payload
+      if (!newMessages.length && typeof backendHasNewerMessages !== 'boolean')
+        return state
 
       let messages
       let loadedNewerMessage = false
@@ -93,6 +112,10 @@ export default function reduce(state = initialState, action) {
         newerMessagesRequest,
         loadedNewerMessage,
         showNoContent: false,
+        backendHasNewerMessages:
+          backendHasNewerMessages === 'boolean'
+            ? backendHasNewerMessages
+            : state.backendHasNewerMessages,
       }
     }
     case types.GO_TO_CHANNEL:
@@ -105,7 +128,12 @@ export default function reduce(state = initialState, action) {
       if (!payload) return state
       return { ...initialState }
     case types.CLEAR_HISTORY:
-      return { ...state, messages: [], loadedNewerMessage: false }
+      return {
+        ...state,
+        messages: [],
+        loadedNewerMessage: false,
+        backendHasNewerMessages: true,
+      }
     case types.REQUEST_OLDER_HISTORY:
       return {
         ...state,
@@ -165,6 +193,8 @@ export default function reduce(state = initialState, action) {
       if (state.channel && payload.channelId !== state.channel.id) {
         return state
       }
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
       return {
         ...state,
         messages: [...state.messages, { ...payload, state: 'pending' }],
@@ -173,6 +203,9 @@ export default function reduce(state = initialState, action) {
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
+
       const { messages } = state
       const newMessages = [...messages]
       // this case occures when the message was added to the history
