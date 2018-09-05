@@ -20,7 +20,7 @@ export const c2 = {
   unread: 0,
   mentioned: 0,
   firstMessageTime: 1498568939879,
-  latestMessageTime: 1508772967267,
+  latestMessageTime: 1508772968000,
   users: [2404],
   invites: [],
   name: 'team testing',

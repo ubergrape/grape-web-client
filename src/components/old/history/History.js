@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import get from 'lodash/get'
-import differenceWith from 'lodash/differenceWith'
 import isEqual from 'lodash/isEqual'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -112,10 +111,9 @@ class History extends PureComponent {
       isLoadingInitialData
     ) {
       this.needsInitialLoad = true
-      return
     }
 
-    if (differenceWith(messages, this.props.messages, isEqual)) {
+    if (!isEqual(messages, this.props.messages)) {
       this.setState(createState(this.state, nextProps))
     }
     if (this.props.scrollTo !== nextProps.scrollTo) {

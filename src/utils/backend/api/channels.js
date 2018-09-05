@@ -93,24 +93,65 @@ export const removeChannelFromFavorites = channelId =>
     args: [channelId],
   })
 
-export const loadHistory = (channelId, options = {}) =>
+export const loadLatestHistory = (channelId, limit) =>
   rpc(
     {
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, options],
+      args: [channelId, { limit }],
     },
     { camelize: true },
-  )
+  ).then(response => ({
+    messages: response,
+    backendHasNewerMessages: false,
+  }))
 
+export const loadOlderHistory = (channelId, limit, timeTo) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_history',
+      args: [channelId, { limit, timeTo }],
+    },
+    { camelize: true },
+  ).then(response => ({
+    messages: response,
+    // set to undefined since this call doesn't provide any information if
+    // the backend has newer messages available for this channel
+    backendHasNewerMessages: undefined,
+  }))
+
+export const loadNewerHistory = (channelId, limit, timeFrom, sort) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_history',
+      args: [
+        channelId,
+        {
+          // when fetching newer messages one more is fetched to identify if there are more messages
+          limit: limit + 1,
+          timeFrom,
+          sort,
+        },
+      ],
+    },
+    { camelize: true },
+  ).then(response => ({
+    messages: response.slice(0, limit),
+    backendHasNewerMessages: !(response.length < limit),
+  }))
 /**
  * Load history at a position of specified message id.
  */
 export const loadHistoryAt = (channelId, messageId, options = {}) => {
+  const limit = options.limit || 50
   // Amount of messages before the passed message id.
-  const before = Math.round(options.limit / 2)
+  const before = Math.round(limit / 2)
   // Amount of messages after the passed message id.
-  const after = before
+  const after = limit - before
+  // Aking for one additional entry to figure if there are more messages to load
+  const afterPlusOne = after + 1
   // Return an error when message id not found, otherwise return fallback results.
   const strict = true
 
@@ -118,10 +159,13 @@ export const loadHistoryAt = (channelId, messageId, options = {}) => {
     {
       ns: 'channels',
       action: 'focus_message',
-      args: [channelId, messageId, before, after, strict],
+      args: [channelId, messageId, before, afterPlusOne, strict],
     },
     { camelize: true },
-  )
+  ).then(response => ({
+    messages: response.slice(0, limit),
+    backendHasNewerMessages: !(response.length < before + afterPlusOne),
+  }))
 }
 
 export const removeMessage = (channelId, messageId) =>

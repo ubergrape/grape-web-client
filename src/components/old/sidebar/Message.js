@@ -125,5 +125,5 @@ export default injectSheet({
       boxShadow: `0px 1px 8px ${shadowColor}`,
     },
   },
-  innerContent: contentStyles,
+  innerContent: { ...contentStyles, width: '100%' },
 })(Message)

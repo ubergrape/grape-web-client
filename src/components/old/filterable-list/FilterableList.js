@@ -19,6 +19,7 @@ class FilterableList extends Component {
     placeholder: PropTypes.string,
     onSelect: PropTypes.func,
     onClick: PropTypes.func,
+    onBlur: PropTypes.func,
     onRemoveSelected: PropTypes.func,
     onChange: PropTypes.func,
     renderItem: PropTypes.func,
@@ -34,6 +35,7 @@ class FilterableList extends Component {
     children: null,
     onSelect: noop,
     onClick: noop,
+    onBlur: noop,
     onRemoveSelected: noop,
     onChange: noop,
     renderItem: noop,
@@ -113,8 +115,8 @@ class FilterableList extends Component {
   }
 
   shouldFocusFilter() {
-    if (!this.props.isFilterFocused) return false
-    return true
+    if (this.props.isFilterFocused) return true
+    return false
   }
 
   renderList() {
@@ -157,27 +159,31 @@ class FilterableList extends Component {
       filter,
       placeholder,
       onChange,
+      onBlur,
       onClick,
       renderSelected,
       onRemoveSelected,
     } = this.props
 
     return (
-      <button className={classes.listWrapper} onClick={onClick}>
-        <TagsInput
-          onKeyDown={this.onKeyDown}
-          onChange={onChange}
-          deleteTag={onRemoveSelected}
-          list={selected}
-          value={filter}
-          placeholder={placeholder}
-          focused={this.shouldFocusFilter()}
-          renderTag={renderSelected}
-          className={classes.filterArea}
-        />
-        {children}
+      <div>
+        <button className={classes.listWrapper} onClick={onClick}>
+          <TagsInput
+            onKeyDown={this.onKeyDown}
+            onChange={onChange}
+            onBlur={onBlur}
+            deleteTag={onRemoveSelected}
+            list={selected}
+            value={filter}
+            placeholder={placeholder}
+            focused={this.shouldFocusFilter()}
+            renderTag={renderSelected}
+            className={classes.filterArea}
+          />
+          {children}
+        </button>
         <div className={classes.list}>{this.renderList()}</div>
-      </button>
+      </div>
     )
   }
 }

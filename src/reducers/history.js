@@ -14,16 +14,18 @@ const initialState = {
   scrollTo: null,
   scrollToAlignment: null,
   channel: null,
+  backendHasNewerMessages: true,
 }
 
 function updateMessage(state, newMessage) {
   const { messages } = state
-  const index = findIndex(messages, { id: newMessage.id })
+  const newMessages = [...messages]
+  const index = findIndex(newMessages, { id: newMessage.id })
   if (index === -1) return state
-  const currMessage = messages[index]
+  const currMessage = newMessages[index]
   const message = { ...currMessage, ...newMessage }
-  messages.splice(index, 1, message)
-  return { ...state, messages: [...messages], loadedNewerMessage: false }
+  newMessages.splice(index, 1, message)
+  return { ...state, messages: [...newMessages], loadedNewerMessage: false }
 }
 
 /**
@@ -54,19 +56,37 @@ export default function reduce(state = initialState, action) {
         olderMessagesRequest: undefined,
         newerMessagesRequest: undefined,
         loadedNewerMessage: false,
+        backendHasNewerMessages: true,
       }
     case types.SET_USERS:
       return { ...state, users: payload }
-    case types.HANDLE_INITIAL_HISTORY:
+    case types.HANDLE_INITIAL_HISTORY: {
+      const {
+        messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
+      } = payload
       return {
         ...state,
-        ...payload,
+        messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
         showNoContent: payload.messages.length === 0 && !conf.embed,
         loadedNewerMessage: false,
       }
+    }
     case types.HANDLE_MORE_HISTORY: {
-      const { messages: newMessages, isScrollBack } = payload
-      if (!newMessages.length) return state
+      const {
+        messages: newMessages,
+        isScrollBack,
+        backendHasNewerMessages,
+      } = payload
+      if (!newMessages.length && typeof backendHasNewerMessages !== 'boolean')
+        return state
 
       let messages
       let loadedNewerMessage = false
@@ -92,6 +112,10 @@ export default function reduce(state = initialState, action) {
         newerMessagesRequest,
         loadedNewerMessage,
         showNoContent: false,
+        backendHasNewerMessages:
+          backendHasNewerMessages === 'boolean'
+            ? backendHasNewerMessages
+            : state.backendHasNewerMessages,
       }
     }
     case types.GO_TO_CHANNEL:
@@ -104,7 +128,12 @@ export default function reduce(state = initialState, action) {
       if (!payload) return state
       return { ...initialState }
     case types.CLEAR_HISTORY:
-      return { ...state, messages: [], loadedNewerMessage: false }
+      return {
+        ...state,
+        messages: [],
+        loadedNewerMessage: false,
+        backendHasNewerMessages: true,
+      }
     case types.REQUEST_OLDER_HISTORY:
       return {
         ...state,
@@ -158,41 +187,50 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage: false,
       }
     }
-    case types.REQUEST_POST_MESSAGE:
+    case types.REQUEST_POST_MESSAGE: {
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
       if (state.channel && payload.channelId !== state.channel.id) {
         return state
       }
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
+        scrollTo,
+        scrollToAlignment: null,
         messages: [...state.messages, { ...payload, state: 'pending' }],
         showNoContent: false,
         loadedNewerMessage: false,
       }
+    }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channelId !== state.channel.id) return state
-      const { messages } = state
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
 
+      const { messages } = state
+      const newMessages = [...messages]
       // this case occures when the message was added to the history
       // optimistically without waiting for a server response
       if (
         !isNil(payload.clientsideId) &&
-        some(messages, msg => msg.clientsideId === payload.clientsideId)
+        some(newMessages, msg => msg.clientsideId === payload.clientsideId)
       ) {
-        const index = findIndex(messages, {
+        const index = findIndex(newMessages, {
           clientsideId: payload.clientsideId,
         })
-        const currMessage = messages[index]
+        const currMessage = newMessages[index]
         // state is changed to sent since after receiveing the message from
         // the server we can be sure it has been sent
         const message = { ...currMessage, ...payload, state: 'sent' }
-        messages.splice(index, 1, message)
+        newMessages.splice(index, 1, message)
         return {
           ...state,
           scrollTo: null,
           scrollToAlignment: null,
-          messages: [...messages],
+          messages: [...newMessages],
           showNoContent: false,
           loadedNewerMessage: false,
         }
@@ -203,7 +241,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...messages, payload],
+        messages: [...newMessages, payload],
         showNoContent: false,
         loadedNewerMessage: false,
       }

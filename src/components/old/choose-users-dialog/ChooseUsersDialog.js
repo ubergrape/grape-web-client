@@ -60,6 +60,7 @@ class ChooseUsersDialog extends PureComponent {
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     onClickList: PropTypes.func,
+    onClickFocusReset: PropTypes.func,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
@@ -69,6 +70,7 @@ class ChooseUsersDialog extends PureComponent {
 
   static defaultProps = {
     onClickList: noop,
+    onClickFocusReset: noop,
     title: null,
     isFilterFocused: true,
   }
@@ -141,6 +143,7 @@ class ChooseUsersDialog extends PureComponent {
       onSelectUser,
       onRemoveSelectedUser,
       onClickList,
+      onClickFocusReset,
     } = this.props
 
     return (
@@ -154,6 +157,7 @@ class ChooseUsersDialog extends PureComponent {
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
             onClick={onClickList}
+            onBlur={onClickFocusReset}
             onChange={onChangeFilter}
             onSelect={onSelectUser}
             onRemoveSelected={onRemoveSelectedUser}

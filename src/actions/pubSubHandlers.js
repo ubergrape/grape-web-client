@@ -77,7 +77,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
   })
 }
 
-export function handleRemovedMessage({ id }) {
+export function handleRemovedMessage({ id, channel }) {
   return dispatch => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
@@ -85,6 +85,24 @@ export function handleRemovedMessage({ id }) {
       type: types.REMOVE_MESSAGE,
       payload: id,
     })
+    // setTimeout should be there because of backend updating issues.
+    // It can be removed if GRAPE-15530 issue resolved.
+    setTimeout(() => {
+      api.getChannel(channel).then(res => {
+        const {
+          unread,
+          lastMessage: { time },
+        } = res
+        dispatch({
+          type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+          payload: {
+            id: channel,
+            unread,
+            time,
+          },
+        })
+      })
+    }, 1000)
   }
 }
 
