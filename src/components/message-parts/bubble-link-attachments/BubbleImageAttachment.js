@@ -35,7 +35,7 @@ function calcThumbnailSize(options) {
 
   // Portrait
   const portHeight = Math.min(maxThumbnailHeight, height)
-  const portWidth = (portHeight * width) / portHeight
+  const portWidth = (portHeight * width) / height
   return { width: portWidth, height: portHeight }
 }
 
