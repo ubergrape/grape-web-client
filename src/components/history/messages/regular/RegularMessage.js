@@ -21,6 +21,8 @@ import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
 
+const files = ['archive_icon', 'image_icon', 'video_icon']
+
 const canPm = ({ isPm, isOwn, author }) =>
   isPm ? false : Boolean(!isOwn && author && author.id)
 
@@ -193,15 +195,13 @@ export default class RegularMessage extends PureComponent {
     const isImage = linkAttachments.some(o => !o.embedHtml && o.imageUrl)
     const isFile = linkAttachments.some(o => {
       const path = o.footerIcon.split('/')
-      return path[path.length - 2] === 'archive_icon'
+      return files.includes(path[path.length - 2])
     })
 
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
     }
-
-    // console.log(attachments, linkAttachments)
 
     return (
       <div className={classes.message}>
