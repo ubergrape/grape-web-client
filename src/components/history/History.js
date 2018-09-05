@@ -112,7 +112,6 @@ class History extends PureComponent {
       isLoadingInitialData
     ) {
       this.needsInitialLoad = true
-      return
     }
 
     if (!isEqual(messages, this.props.messages)) {
