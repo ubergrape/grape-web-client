@@ -8,7 +8,7 @@ import { Grapedown } from '../../../grapedown'
 import Header from '../../../message-parts/Header'
 
 import DuplicatesBadge from '../DuplicatesBadge'
-import BubbleLinkAttachment from '../BubbleLinkAttachment'
+import BubbleAttachment from '../BubbleAttachment'
 import { styles } from '../baseMessageTheme'
 import { ActivityBubble, SelectedBubble } from './bubbles'
 import Expander from './Expander'
@@ -37,7 +37,7 @@ class ActivityMessage extends PureComponent {
     channel: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool,
     isSelected: PropTypes.bool,
-    attachments: PropTypes.array,
+    linkAttachments: PropTypes.array,
   }
 
   static defaultProps = {
@@ -49,7 +49,7 @@ class ActivityMessage extends PureComponent {
     avatar: null,
     isExpanded: false,
     isSelected: false,
-    attachments: [],
+    linkAttachments: [],
   }
 
   state = { isMenuOpened: false }
@@ -74,7 +74,7 @@ class ActivityMessage extends PureComponent {
   getContentNode = () => this.content
 
   renderAttachment = (attachment, key) => (
-    <BubbleLinkAttachment {...attachment} key={key} />
+    <BubbleAttachment {...attachment} key={key} />
   )
 
   renderMenu() {
@@ -105,7 +105,7 @@ class ActivityMessage extends PureComponent {
       duplicates,
       isExpanded,
       hasBubbleArrow,
-      attachments,
+      linkAttachments,
       isSelected,
       customEmojis,
     } = this.props
@@ -145,7 +145,7 @@ class ActivityMessage extends PureComponent {
                   text={children}
                   user={user}
                 />
-                {attachments.map(this.renderAttachment)}
+                {linkAttachments.map(this.renderAttachment)}
               </div>
             </Expander>
             {this.renderMenu()}

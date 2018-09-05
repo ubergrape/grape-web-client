@@ -13,7 +13,7 @@ import { messageDeliveryStates } from '../../../../constants/app'
 
 import getBubble from './getBubble'
 import DuplicatesBadge from '../DuplicatesBadge'
-import BubbleLinkAttachment from '../BubbleLinkAttachment'
+import BubbleAttachment from '../BubbleAttachment'
 import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
@@ -163,7 +163,7 @@ export default class RegularMessage extends PureComponent {
   }
 
   renderBubbleAttachment = (attachment, key) => (
-    <BubbleLinkAttachment {...attachment} key={key} />
+    <BubbleAttachment {...attachment} key={key} />
   )
 
   render() {
@@ -191,11 +191,17 @@ export default class RegularMessage extends PureComponent {
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
     const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
     const isImage = linkAttachments.some(o => !o.embedHtml && o.imageUrl)
+    const isFile = linkAttachments.some(o => {
+      const path = o.footerIcon.split('/')
+      return path[path.length - 2] === 'archive_icon'
+    })
 
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
     }
+
+    // console.log(attachments, linkAttachments)
 
     return (
       <div className={classes.message}>
@@ -231,7 +237,8 @@ export default class RegularMessage extends PureComponent {
                     customEmojis={customEmojis}
                   />
                 )}
-                {isImage && linkAttachments.map(this.renderBubbleAttachment)}
+                {(isImage || isFile) &&
+                  linkAttachments.map(this.renderBubbleAttachment)}
               </div>
               {isMenuOpened && (
                 <Menu
@@ -249,7 +256,8 @@ export default class RegularMessage extends PureComponent {
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
             {linkAttachments.length > 0 &&
-              !isImage && (
+              !isImage &&
+              !isFile && (
                 <LinkAttachments
                   attachments={linkAttachments}
                   isAdmin={isAdmin}

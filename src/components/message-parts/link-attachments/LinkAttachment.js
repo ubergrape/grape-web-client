@@ -6,7 +6,7 @@ import { grayBlueDark } from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
 import groupConsecutive from '../../../utils/group-consecutive'
-import ImageAttachment from '../attachments/ImageAttachment'
+import ImageAttachment from '../bubble-link-attachments/BubbleImageAttachment'
 import Menu from '../menu/Menu'
 import {
   Author,
@@ -78,12 +78,12 @@ export default class LinkAttachment extends PureComponent {
     text: PropTypes.string,
     imageUrl: PropTypes.string,
     thumbUrl: PropTypes.string,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     embedHtml: PropTypes.string,
     ts: PropTypes.number,
-    fields: PropTypes.array.isRequired,
-    className: PropTypes.string.isRequired,
+    fields: PropTypes.array,
+    className: PropTypes.string,
     classes: PropTypes.object.isRequired,
     onRemove: PropTypes.func,
   }
