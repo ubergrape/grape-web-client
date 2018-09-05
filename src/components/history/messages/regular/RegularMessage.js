@@ -13,7 +13,7 @@ import { messageDeliveryStates } from '../../../../constants/app'
 
 import getBubble from './getBubble'
 import DuplicatesBadge from '../DuplicatesBadge'
-import Attachment from '../Attachment'
+import BubbleLinkAttachment from '../BubbleLinkAttachment'
 import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
@@ -34,7 +34,6 @@ export default class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date),
-    attachments: PropTypes.array,
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
     children: PropTypes.string,
@@ -83,7 +82,6 @@ export default class RegularMessage extends PureComponent {
     isPm: false,
     isPinned: false,
     duplicates: 0,
-    attachments: [],
     linkAttachments: [],
     customEmojis: {},
     children: '',
@@ -164,8 +162,8 @@ export default class RegularMessage extends PureComponent {
     }
   }
 
-  renderAttachment = (attachment, key) => (
-    <Attachment {...attachment} key={key} />
+  renderBubbleAttachment = (attachment, key) => (
+    <BubbleLinkAttachment {...attachment} key={key} />
   )
 
   render() {
@@ -180,7 +178,6 @@ export default class RegularMessage extends PureComponent {
       isOwn,
       isSelected,
       isPinned,
-      attachments,
       customEmojis,
       duplicates,
       classes,
@@ -191,10 +188,10 @@ export default class RegularMessage extends PureComponent {
     const { isMenuOpened, isMenuDropdownOpened } = this.state
 
     const Bubble = getBubble({ isSelected, isPinned, isOwn })
-
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
-
     const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
+    const isImage = linkAttachments.some(o => !o.embedHtml && o.imageUrl)
+
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
       onRemoveLinkAttachment = this.makeOnRemoveLinkAttachment()
@@ -234,13 +231,13 @@ export default class RegularMessage extends PureComponent {
                     customEmojis={customEmojis}
                   />
                 )}
-                {attachments.map(this.renderAttachment)}
+                {isImage && linkAttachments.map(this.renderBubbleAttachment)}
               </div>
               {isMenuOpened && (
                 <Menu
                   {...this.props}
                   onSelect={this.onSelectMenuItem}
-                  hasAttachments={attachments.length !== 0}
+                  hasAttachments={linkAttachments.length !== 0}
                   isDropdownOpened={isMenuDropdownOpened}
                   getContentNode={this.getContentNode}
                   onPin={this.onPin}
@@ -251,9 +248,8 @@ export default class RegularMessage extends PureComponent {
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {/* We are migrating towards using link attachments only */
-            !attachments.length &&
-              linkAttachments.length > 0 && (
+            {linkAttachments.length > 0 &&
+              !isImage && (
                 <LinkAttachments
                   attachments={linkAttachments}
                   isAdmin={isAdmin}

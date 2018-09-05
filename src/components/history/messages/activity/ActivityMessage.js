@@ -8,7 +8,7 @@ import { Grapedown } from '../../../grapedown'
 import Header from '../../../message-parts/Header'
 
 import DuplicatesBadge from '../DuplicatesBadge'
-import Attachment from '../Attachment'
+import BubbleLinkAttachment from '../BubbleLinkAttachment'
 import { styles } from '../baseMessageTheme'
 import { ActivityBubble, SelectedBubble } from './bubbles'
 import Expander from './Expander'
@@ -74,7 +74,7 @@ class ActivityMessage extends PureComponent {
   getContentNode = () => this.content
 
   renderAttachment = (attachment, key) => (
-    <Attachment {...attachment} key={key} />
+    <BubbleLinkAttachment {...attachment} key={key} />
   )
 
   renderMenu() {
