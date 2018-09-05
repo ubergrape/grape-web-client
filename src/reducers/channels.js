@@ -76,14 +76,14 @@ export default function reduce(state = initialState, action) {
       const { channelId, userId } = action.payload
       const index = findIndex(state, { id: channelId })
       if (index === -1) return state
-      const channels = [...state]
+      const newState = [...state]
       const channel = state[index]
-      channels.splice(index, 1, {
+      newState.splice(index, 1, {
         ...channel,
         users: channel.users.filter(id => id !== userId),
         joined: conf.user.id !== userId,
       })
-      return channels
+      return newState
     }
 
     case types.UPDATE_CHANNEL: {
