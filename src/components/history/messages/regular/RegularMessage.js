@@ -4,7 +4,6 @@ import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/noop'
 import cn from 'classnames'
 
-import conf from '../../../../conf'
 import Avatar from '../../../avatar/Avatar'
 import { Grapedown } from '../../../grapedown'
 import { LinkAttachments } from '../../../message-parts'
@@ -13,15 +12,12 @@ import { messageDeliveryStates } from '../../../../constants/app'
 
 import getBubble from './getBubble'
 import DuplicatesBadge from '../DuplicatesBadge'
-import BubbleAttachment from '../BubbleAttachment'
 import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
 import Author from './Author'
 import Menu from './Menu'
 import Footer from './Footer'
-
-const files = ['archive_icon', 'image_icon', 'video_icon']
 
 const canPm = ({ isPm, isOwn, author }) =>
   isPm ? false : Boolean(!isOwn && author && author.id)
@@ -71,6 +67,8 @@ export default class RegularMessage extends PureComponent {
     nlp: PropTypes.object,
     id: PropTypes.string,
     channelId: PropTypes.number,
+    text: PropTypes.string,
+    isAdmin: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -99,6 +97,8 @@ export default class RegularMessage extends PureComponent {
     user: {},
     state: undefined,
     nlp: undefined,
+    text: '',
+    isAdmin: false,
   }
 
   state = {
@@ -164,10 +164,6 @@ export default class RegularMessage extends PureComponent {
     }
   }
 
-  renderBubbleAttachment = (attachment, key) => (
-    <BubbleAttachment {...attachment} key={key} />
-  )
-
   render() {
     const {
       author,
@@ -185,18 +181,14 @@ export default class RegularMessage extends PureComponent {
       classes,
       linkAttachments,
       nlp,
+      text,
+      isAdmin,
     } = this.props
 
     const { isMenuOpened, isMenuDropdownOpened } = this.state
 
     const Bubble = getBubble({ isSelected, isPinned, isOwn })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
-    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
-    const isImage = linkAttachments.some(o => !o.embedHtml && o.imageUrl)
-    const isFile = linkAttachments.some(o => {
-      const path = o.footerIcon.split('/')
-      return files.includes(path[path.length - 2])
-    })
 
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
@@ -206,11 +198,7 @@ export default class RegularMessage extends PureComponent {
     return (
       <div className={classes.message}>
         {author && <Author {...this.props} onClickAuthor={onOpenPm} />}
-        <div
-          className={classes.row}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-        >
+        <div className={classes.row}>
           <div className={classes.avatarColumn}>
             {avatar && (
               <Avatar
@@ -221,7 +209,11 @@ export default class RegularMessage extends PureComponent {
             )}
           </div>
           <div className={classes.contentWrapper}>
-            <Bubble hasArrow={hasBubbleArrow}>
+            <Bubble
+              onMouseEnter={this.onMouseEnter}
+              onMouseLeave={this.onMouseLeave}
+              hasArrow={hasBubbleArrow}
+            >
               <div
                 ref={this.onRefContent}
                 className={cn(
@@ -237,8 +229,14 @@ export default class RegularMessage extends PureComponent {
                     customEmojis={customEmojis}
                   />
                 )}
-                {(isImage || isFile) &&
-                  linkAttachments.map(this.renderBubbleAttachment)}
+                {!text && (
+                  <LinkAttachments
+                    attachments={linkAttachments}
+                    messageText={text}
+                    isAdmin={isAdmin}
+                    onRemove={onRemoveLinkAttachment}
+                  />
+                )}
               </div>
               {isMenuOpened && (
                 <Menu
@@ -255,15 +253,14 @@ export default class RegularMessage extends PureComponent {
               {nlp && <Footer nlp={nlp} />}
             </Bubble>
             {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-            {linkAttachments.length > 0 &&
-              !isImage &&
-              !isFile && (
-                <LinkAttachments
-                  attachments={linkAttachments}
-                  isAdmin={isAdmin}
-                  onRemove={onRemoveLinkAttachment}
-                />
-              )}
+            {text && (
+              <LinkAttachments
+                attachments={linkAttachments}
+                messageText={text}
+                isAdmin={isAdmin}
+                onRemove={onRemoveLinkAttachment}
+              />
+            )}
           </div>
         </div>
         <DeliveryState state={state} time={time} />

@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { borderRadius } from 'grape-theme/dist/sizes'
 import { grayLighter } from 'grape-theme/dist/base-colors'
 
-import ImageZoom from '../../image-zoom/ImageZoom'
+import ImageZoom from '../../../image-zoom/ImageZoom'
 
 export const styles = {
   thumbnail: {
@@ -44,7 +44,6 @@ export default class ImageAttachment extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     maxThumbnailWidth: PropTypes.number,
@@ -66,14 +65,13 @@ export default class ImageAttachment extends PureComponent {
     const {
       sheet: { classes },
       url,
-      imageUrl,
       width,
       height,
       maxThumbnailWidth,
       maxThumbnailHeight,
     } = this.props
 
-    const backgroundImage = `url(${imageUrl})`
+    const backgroundImage = `url(${url})`
 
     return (
       <ImageZoom
