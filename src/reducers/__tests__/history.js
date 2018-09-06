@@ -6,6 +6,7 @@ import {
   REQUEST_OLDER_HISTORY,
   UNSET_HISTORY_SCROLL_TO,
   UPDATE_MESSAGE,
+  HANDLE_MORE_HISTORY,
 } from '../../constants/actionTypes'
 
 describe('history reducer', () => {
@@ -133,6 +134,22 @@ describe('history reducer', () => {
               channelId: 'channelId1',
               author: { id: 'userId2' },
             },
+          },
+        ),
+      ).toMatchSnapshot()
+    })
+  })
+
+  describe('HANDLE_MORE_HISTORY', () => {
+    it('should remove duplicates for messages with same id', () => {
+      expect(
+        history(
+          {
+            messages: [{ id: '123' }, { id: '234' }, { id: '345' }],
+          },
+          {
+            type: HANDLE_MORE_HISTORY,
+            payload: { messages: [{ id: '123' }, { id: '456' }] },
           },
         ),
       ).toMatchSnapshot()

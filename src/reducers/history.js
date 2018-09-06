@@ -1,7 +1,7 @@
 import reject from 'lodash/reject'
 import findIndex from 'lodash/findIndex'
 import isNil from 'lodash/isNil'
-import uniq from 'lodash/uniq'
+import uniqBy from 'lodash/uniqBy'
 import some from 'lodash/some'
 
 import * as types from '../constants/actionTypes'
@@ -25,7 +25,11 @@ function updateMessage(state, newMessage) {
   const currMessage = newMessages[index]
   const message = { ...currMessage, ...newMessage }
   newMessages.splice(index, 1, message)
-  return { ...state, messages: [...newMessages], loadedNewerMessage: false }
+  return {
+    ...state,
+    messages: uniqBy([...newMessages], 'id'),
+    loadedNewerMessage: false,
+  }
 }
 
 /**
@@ -75,7 +79,7 @@ export default function reduce(state = initialState, action) {
         scrollToAlignment,
         selectedMessageId,
         backendHasNewerMessages,
-        showNoContent: payload.messages.length === 0 && !conf.embed,
+        showNoContent: messages.length === 0 && !conf.embed,
         loadedNewerMessage: false,
       }
     }
@@ -101,11 +105,9 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage = true
       }
 
-      messages = uniq(messages, 'id')
-
       return {
         ...state,
-        messages,
+        messages: uniqBy(messages, 'id'),
         scrollTo: null,
         scrollToAlignment: null,
         olderMessagesRequest,
@@ -156,7 +158,7 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_MESSAGE:
       return {
         ...state,
-        messages: reject(state.messages, { id: payload }),
+        messages: uniqBy(reject(state.messages, { id: payload }), 'id'),
         loadedNewerMessage: false,
       }
     case types.EDIT_MESSAGE:
@@ -183,7 +185,7 @@ export default function reduce(state = initialState, action) {
 
       return {
         ...state,
-        messages: markLastMessageAsRead(state.messages, userId),
+        messages: uniqBy(markLastMessageAsRead(state.messages, userId), 'id'),
         loadedNewerMessage: false,
       }
     }
@@ -200,7 +202,10 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...state.messages, { ...payload, state: 'pending' }],
+        messages: uniqBy(
+          [...state.messages, { ...payload, state: 'pending' }],
+          'id',
+        ),
         showNoContent: false,
         loadedNewerMessage: false,
       }
@@ -230,7 +235,7 @@ export default function reduce(state = initialState, action) {
           ...state,
           scrollTo: null,
           scrollToAlignment: null,
-          messages: [...newMessages],
+          messages: uniqBy([...newMessages], 'id'),
           showNoContent: false,
           loadedNewerMessage: false,
         }
@@ -241,7 +246,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: [...newMessages, payload],
+        messages: uniqBy([...newMessages, payload], 'clientsideId'),
         showNoContent: false,
         loadedNewerMessage: false,
       }
