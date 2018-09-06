@@ -80,7 +80,8 @@ export default injectSheet({
     maxHeight,
   },
   panel: {
-    position: 'absolute',
+    position: props => (props.isExpanded ? 'relative' : 'absolute'),
+    width: '100%',
     bottom: 0,
     left: 0,
     right: 0,
