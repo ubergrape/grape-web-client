@@ -246,7 +246,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: uniqBy([...newMessages, payload], 'clientsideId'),
+        messages: uniqBy([...newMessages, payload], 'id'),
         showNoContent: false,
         loadedNewerMessage: false,
       }
