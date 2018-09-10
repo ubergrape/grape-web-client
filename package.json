@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.10.3",
+  "version": "1.10.5",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -151,7 +151,8 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "git add"
+      "git add",
+      "jest --bail --findRelatedTests"
     ],
     "*.{json,md}": [
       "prettier --write",
