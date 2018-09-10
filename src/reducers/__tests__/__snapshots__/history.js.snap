@@ -39,9 +39,11 @@ Object {
     },
     Object {
       "clientsideId": "abc",
+      "id": "345",
     },
     Object {
       "clientsideId": "def",
+      "id": "456",
     },
     Object {
       "author": Object {

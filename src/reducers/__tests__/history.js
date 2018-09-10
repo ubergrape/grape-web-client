@@ -101,8 +101,8 @@ describe('history reducer', () => {
             user: { id: 'userId1' },
             messages: [
               { id: '234' },
-              { clientsideId: 'abc' },
-              { clientsideId: 'def' },
+              { id: '345', clientsideId: 'abc' },
+              { id: '456', clientsideId: 'def' },
             ],
             channel: { id: 'channelId1' },
           },
