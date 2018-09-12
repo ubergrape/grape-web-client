@@ -1,44 +1,43 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import Avatar from '../../../avatar/Avatar'
-import {Grapedown} from '../../../grapedown'
+import { Grapedown } from '../../../grapedown'
 import Header from '../../../message-parts/Header'
 
 import DuplicatesBadge from '../DuplicatesBadge'
 import Attachment from '../Attachment'
-import {styles} from '../baseMessageTheme'
-import {ActivityBubble, SelectedBubble} from './bubbles'
+import { styles } from '../baseMessageTheme'
+import { ActivityBubble, SelectedBubble } from './bubbles'
 import Expander from './Expander'
 import Menu from './Menu'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
-@injectSheet(styles)
-export default class ActivityMessage extends PureComponent {
+class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    title: PropTypes.node.isRequired,
-    children: PropTypes.node.isRequired,
+    title: PropTypes.node,
+    children: PropTypes.node,
     duplicates: PropTypes.number.isRequired,
-    onToggleExpander: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func,
     customEmojis: PropTypes.object.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
-    hasBubbleArrow: PropTypes.bool.isRequired,
+    hasBubbleArrow: PropTypes.bool,
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    attachments: PropTypes.array.isRequired
+    isExpanded: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    attachments: PropTypes.array,
   }
 
   static defaultProps = {
@@ -50,35 +49,37 @@ export default class ActivityMessage extends PureComponent {
     avatar: null,
     isExpanded: false,
     isSelected: false,
-    attachments: []
+    attachments: [],
   }
 
-  state = {isMenuOpened: false}
+  state = { isMenuOpened: false }
 
   onMouseEnter = () => {
-    this.setState({isMenuOpened: true})
+    this.setState({ isMenuOpened: true })
   }
 
   onMouseLeave = () => {
-    this.setState({isMenuOpened: false})
+    this.setState({ isMenuOpened: false })
   }
 
-  onToggleExpander = ({isExpanded}) => {
-    const {onToggleExpander, id} = this.props
-    onToggleExpander({id, isExpanded})
+  onToggleExpander = ({ isExpanded }) => {
+    const { onToggleExpander, id } = this.props
+    onToggleExpander({ id, isExpanded })
   }
 
-  onRefContent = (ref) => {
+  onRefContent = ref => {
     this.content = ref
   }
 
   getContentNode = () => this.content
 
-  renderAttachment = (attachment, key) => <Attachment {...attachment} key={key} />
+  renderAttachment = (attachment, key) => (
+    <Attachment {...attachment} key={key} />
+  )
 
   renderMenu() {
     if (!this.state.isMenuOpened) return null
-    const {user, channel, onCopyLink, onQuote, onRemove} = this.props
+    const { user, channel, onCopyLink, onQuote, onRemove } = this.props
 
     return (
       <Menu
@@ -94,15 +95,26 @@ export default class ActivityMessage extends PureComponent {
 
   render() {
     const {
-      sheet: {classes}, user, author, time, avatar, title, children, duplicates,
-      isExpanded, hasBubbleArrow, attachments, isSelected, customEmojis
+      sheet: { classes },
+      user,
+      author,
+      time,
+      avatar,
+      title,
+      children,
+      duplicates,
+      isExpanded,
+      hasBubbleArrow,
+      attachments,
+      isSelected,
+      customEmojis,
     } = this.props
 
     const Bubble = isSelected ? SelectedBubble : ActivityBubble
 
     return (
       <div className={classes.message}>
-        {author &&
+        {author && (
           <div className={classes.row}>
             <div className={classes.avatarColumn} />
             <Header
@@ -111,7 +123,7 @@ export default class ActivityMessage extends PureComponent {
               className={classes.header}
             />
           </div>
-        }
+        )}
         <div
           className={classes.row}
           onMouseEnter={this.onMouseEnter}
@@ -123,8 +135,16 @@ export default class ActivityMessage extends PureComponent {
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
               <div className={classes.content} ref={this.onRefContent}>
-                <Grapedown customEmojis={customEmojis} text={title} user={user} />
-                <Grapedown customEmojis={customEmojis} text={children} user={user} />
+                <Grapedown
+                  customEmojis={customEmojis}
+                  text={title}
+                  user={user}
+                />
+                <Grapedown
+                  customEmojis={customEmojis}
+                  text={children}
+                  user={user}
+                />
                 {attachments.map(this.renderAttachment)}
               </div>
             </Expander>
@@ -136,3 +156,5 @@ export default class ActivityMessage extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(ActivityMessage)

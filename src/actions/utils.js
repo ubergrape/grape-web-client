@@ -1,15 +1,15 @@
-import find from 'lodash/collection/find'
-import pluck from 'lodash/collection/pluck'
-import each from 'lodash/collection/each'
-import intersection from 'lodash/array/intersection'
-import isEmpty from 'lodash/lang/isEmpty'
-import indexBy from 'lodash/collection/indexBy'
-import omit from 'lodash/object/omit'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import each from 'lodash/each'
+import intersection from 'lodash/intersection'
+import isEmpty from 'lodash/isEmpty'
+import keyBy from 'lodash/keyBy'
+import omit from 'lodash/omit'
 
 import staticUrl from '../utils/static-url'
-import {defaultAvatar, invitedAvatar} from '../constants/images'
-import {maxChannelNameLength, maxLinkAttachments} from '../constants/app'
-import {channelsSelector} from '../selectors'
+import { defaultAvatar, invitedAvatar } from '../constants/images'
+import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
+import { channelsSelector } from '../selectors'
 import * as api from '../utils/backend/api'
 import conf from '../conf'
 
@@ -18,7 +18,7 @@ import conf from '../conf'
  * There are some PM's with only one participant.
  */
 export function removeBrokenPms(channel) {
-  const {type, users} = channel
+  const { type, users } = channel
   if (type === 'pm' && users.length !== 2) return false
   return true
 }
@@ -29,17 +29,17 @@ export function removeBrokenPms(channel) {
  */
 export function doesMessageChannelExist(msg, state) {
   const channels = channelsSelector(state)
-  const channel = find(channels, {id: msg.channel})
+  const channel = find(channels, { id: msg.channel })
   return Boolean(channel)
 }
 
 const removeNullValues = channel => omit(channel, value => value === null)
 
 export function pinToFavorite(channel) {
-  const {pin} = channel
+  const { pin } = channel
   const newChannel = {
     ...channel,
-    favorited: (pin || pin === 0) ? {order: pin} : null
+    favorited: pin || pin === 0 ? { order: pin } : null,
   }
   delete newChannel.pin
   return newChannel
@@ -56,37 +56,37 @@ export function pinToFavorite(channel) {
  * not from old frontend architecture
  */
 export function reduceChannelUsersToId(channel) {
-  let creator = channel.creator
+  let { creator } = channel
   if (creator && typeof creator === 'object') {
     creator = creator.id
   }
-  let history = channel.history
+  let { history } = channel
   if (history && typeof history === 'object') {
     history = channel.history.map(h => (h.id ? h.id : h))
   }
 
-  let {users} = channel
+  let { users } = channel
   if (users && typeof users === 'object') {
-    users = users
-      .filter(u => Boolean(u))
-      .map(u => (u.id ? u.id : u))
+    users = users.filter(u => Boolean(u)).map(u => (u.id ? u.id : u))
   }
 
   return {
     ...channel,
     creator,
     history,
-    users
+    users,
   }
 }
 
 const setJoined = (channel, userId) => ({
   ...channel,
-  joined: channel.users.indexOf(userId) !== -1
+  joined: channel.users.indexOf(userId) !== -1,
 })
 
 export function normalizeChannelData(channel, userId) {
-  const normalized = removeNullValues(pinToFavorite(reduceChannelUsersToId(channel)))
+  const normalized = removeNullValues(
+    pinToFavorite(reduceChannelUsersToId(channel)),
+  )
   if (userId) return setJoined(normalized, userId)
   return normalized
 }
@@ -94,13 +94,12 @@ export function normalizeChannelData(channel, userId) {
 export function normalizeUserData(user, organizations) {
   const normalized = removeNullValues({
     isActive: true,
-    status: 0,
     ...user,
-    avatar: user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
+    avatar: user.isOnlyInvited ? invitedAvatar : user.avatar || defaultAvatar,
   })
 
   if (Array.isArray(organizations)) {
-    normalized.role = find(organizations, {id: conf.organization.id}).role
+    normalized.role = find(organizations, { id: conf.organization.id }).role
   }
 
   return normalized
@@ -111,13 +110,14 @@ export const loadLabelsConfigCached = (() => {
   let promise
   let prevOrgId
 
-  const normalize = configs => configs.map(config => ({
-    name: config.name,
-    nameLocalized: config.localized,
-    color: config.color
-  }))
+  const normalize = configs =>
+    configs.map(config => ({
+      name: config.name,
+      nameLocalized: config.localized,
+      color: config.color,
+    }))
 
-  return (orgId) => {
+  return orgId => {
     if (prevOrgId !== orgId) {
       prevOrgId = orgId
       promise = api
@@ -130,28 +130,30 @@ export const loadLabelsConfigCached = (() => {
 
 export const normalizeMessage = (() => {
   function normalizeLabels(labels, labelConfigs) {
-    const configsMap = indexBy(labelConfigs, 'name')
-    return labels
-      // Just a precaution in case the config doesn't have all labels.
-      .filter(label => !!configsMap[label.name])
-      // Deduplicate labels. There might the same label at different position.
-      .reduce((uniqLabels, label) => {
-        if (!find(uniqLabels, {name: label.name})) {
-          uniqLabels.push(label)
-        }
-        return uniqLabels
-      }, [])
-      .map((label) => {
-        const config = configsMap[label.name]
-        return {
-          id: label.id,
-          ...config
-        }
-      })
+    const configsMap = keyBy(labelConfigs, 'name')
+    return (
+      labels
+        // Just a precaution in case the config doesn't have all labels.
+        .filter(label => !!configsMap[label.name])
+        // Deduplicate labels. There might the same label at different position.
+        .reduce((uniqLabels, label) => {
+          if (!find(uniqLabels, { name: label.name })) {
+            uniqLabels.push(label)
+          }
+          return uniqLabels
+        }, [])
+        .map(label => {
+          const config = configsMap[label.name]
+          return {
+            id: label.id,
+            ...config,
+          }
+        })
+    )
   }
 
   function normalizeAttachment(attachment) {
-    const {id, mimeType, name, thumbnailUrl, url, category} = attachment
+    const { id, mimeType, name, thumbnailUrl, url, category } = attachment
     const thumbnailHeight = Number(attachment.thumbnailHeight)
     const thumbnailWidth = Number(attachment.thumbnailWidth)
     const time = new Date(attachment.time)
@@ -168,47 +170,50 @@ export const normalizeMessage = (() => {
       thumbnailWidth,
       thumbnailHeight,
       time,
-      type
+      type,
     }
   }
 
   function createLinkToMessage(channel, messageId) {
-    const {serviceUrl} = conf.server
+    const { serviceUrl } = conf.server
     return `${serviceUrl}/chat/channel/${channel.id}:${messageId}/`
   }
 
   function normalizeMentions(mentions) {
-    const nMentions = {...mentions}
+    const nMentions = { ...mentions }
     each(nMentions, (values, type) => {
       nMentions[type] = values.map(Number)
     })
     return nMentions
   }
 
-  function normalizeRegularMessage(msg, state, labelConfigs) {
+  function normalizeRegularMessage(msg, state, configs) {
     const channels = channelsSelector(state)
-    const {
-      id, text, channel: channelId, pinned: isPinned
-    } = msg
+    const { id, clientsideId, text, channel: channelId, pinned: isPinned } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
     const avatar = msg.author.avatar || defaultAvatar
     const author = {
       id: msg.author.id,
-      name: msg.author.displayName || 'Deleted User'
+      name: msg.author.displayName || 'Deleted User',
     }
 
-    const channel = find(channels, {id: channelId})
+    const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
-    const linkAttachments = (msg.linkAttachments || []).slice(0, maxLinkAttachments)
-    const labels = msg.labels && labelConfigs ? normalizeLabels(msg.labels, labelConfigs) : []
+    const linkAttachments = (msg.linkAttachments || []).slice(
+      0,
+      maxLinkAttachments,
+    )
+    const labels =
+      msg.labels && configs ? normalizeLabels(msg.labels, configs) : []
 
     return {
       type,
       id,
+      clientsideId,
       text,
       time,
       userTime,
@@ -221,7 +226,7 @@ export const normalizeMessage = (() => {
       channel,
       linkAttachments,
       labels,
-      isPinned
+      isPinned,
     }
   }
 
@@ -229,12 +234,12 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const {id, channel: channelId} = msg
+    const { id, channel: channelId } = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
       id: msg.author.id,
-      name: msg.author.username
+      name: msg.author.username,
     }
     let avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
     if (msg.author.icon) {
@@ -244,13 +249,13 @@ export const normalizeMessage = (() => {
 
     if (msg.objects) {
       const objectsText = msg.objects
-        .filter(({visible, type: _type}) => {
+        .filter(({ visible, type: _type }) => {
           if (visible === false || ignoreActivityObjects.includes(_type)) {
             return false
           }
           return true
         })
-        .map(({author: _author, name, url, sha, content, summary}) => {
+        .map(({ author: _author, name, url, sha, content, summary }) => {
           let str = ''
           if (_author && _author.username) str += ` __${_author.username}__`
           if (name) str += ` __[${name}](${url})__`
@@ -258,15 +263,27 @@ export const normalizeMessage = (() => {
           if (content) str += ` ${content}`
           if (summary) str += ` ${summary}`
           return str
-        }).join('\n')
+        })
+        .join('\n')
       text += `\n${objectsText}`
     }
 
     const attachments = (msg.attachments || []).map(normalizeAttachment)
-    const channel = find(channels, {id: channelId})
+    const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
 
-    return {type, id, channelId, channel, link, text, time, author, avatar, attachments}
+    return {
+      type,
+      id,
+      channelId,
+      channel,
+      link,
+      text,
+      time,
+      author,
+      avatar,
+      attachments,
+    }
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
@@ -279,7 +296,7 @@ export const normalizeMessage = (() => {
   }
 })()
 
-export function filterEmptyMessage({text, attachments}) {
+export function filterEmptyMessage({ text, attachments }) {
   return (text && text.trim().length !== 0) || !isEmpty(attachments)
 }
 
@@ -289,7 +306,7 @@ export function filterEmptyMessage({text, attachments}) {
  * some user or room is mentioned.
  */
 export function countMentions(message, user, rooms) {
-  const {mentions} = message
+  const { mentions } = message
   let count = 0
   if (isEmpty(mentions)) return count
 
@@ -299,7 +316,7 @@ export function countMentions(message, user, rooms) {
   }
 
   if (mentions.room) {
-    const joinedRoomsIds = pluck(rooms, 'id')
+    const joinedRoomsIds = map(rooms, 'id')
     const roomMentions = intersection(mentions.room, joinedRoomsIds)
     count += roomMentions.length
   }
@@ -308,13 +325,18 @@ export function countMentions(message, user, rooms) {
 }
 
 export function roomNameFromUsers(users) {
-  return users.map(user => user.displayName)
+  return users
+    .map(user => user.displayName)
     .join(', ')
     .slice(0, maxChannelNameLength - 1)
 }
 
-export const findLastUsedChannel = channels => (
+export const findLastUsedChannel = (channels, withMessage) =>
   channels
-    .filter(channel => channel.joined && channel.firstMessageTime)
+    .filter(
+      channel =>
+        withMessage
+          ? channel.joined && channel.firstMessageTime
+          : channel.joined,
+    )
     .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
-)

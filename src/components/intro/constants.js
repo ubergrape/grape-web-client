@@ -1,6 +1,6 @@
-import {blue, white} from 'grape-theme/dist/base-colors'
-import {spacer} from 'grape-theme/dist/sizes'
-import {rgba} from 'css-functions'
+import { blue, white } from 'grape-theme/dist/base-colors'
+import { spacer } from 'grape-theme/dist/sizes'
+import { rgba } from 'css-functions'
 
 export const containerStyle = {
   width: 530,
@@ -11,7 +11,7 @@ export const containerStyle = {
     x: 0,
     y: 3,
     blur: 8,
-    color: rgba(0, 0, 0, 0.15)
+    color: rgba(0, 0, 0, 0.15),
   },
-  background: ({background = blue}) => background
+  background: ({ background = blue }) => background,
 }

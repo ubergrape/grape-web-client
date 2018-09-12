@@ -1,4 +1,4 @@
-export function shouldNotify({time, sourceChannelId, currentChannelId}) {
+export function shouldNotify({ time, sourceChannelId, currentChannelId }) {
   const hasExpired = (new Date() - time) / 1000 > 60
 
   // Message is too old - to prevent old msgs avalanche when server reloads
@@ -11,6 +11,5 @@ export function shouldNotify({time, sourceChannelId, currentChannelId}) {
   return true
 }
 
-export const shouldRequestPermission = () => (
+export const shouldRequestPermission = () =>
   window.Notification && Notification.permission === 'default'
-)

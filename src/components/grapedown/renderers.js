@@ -1,26 +1,20 @@
-import React, {createElement} from 'react'
-import {isGrapeUrl} from 'grape-web/lib/grape-objects'
-import omit from 'lodash/object/omit'
-import {Link} from 'grape-web/lib/router'
+import React, { createElement } from 'react'
+import { isGrapeUrl } from 'grape-web/lib/grape-objects'
+import omit from 'lodash/omit'
 
-import jsEmoji, {
-  getEmojiSliceStyle,
-  style
-} from '../emoji/emoji'
+import jsEmoji, { getEmojiSliceStyle, style } from '../emoji/emoji'
 
-import {
-  nonStandardProps,
-  replaceCustomEmojis
-} from './utils'
+import { nonStandardProps, replaceCustomEmojis } from './utils'
+import Link from '../link/Link'
 
 import GrapeObject from './GrapeObject'
-import {LineBreak} from '../line-break'
+import { LineBreak } from '../line-break'
 
 export function renderTag(tag, props, children) {
-  const {href, key, forcebreak, user} = props
+  const { href, key, forcebreak, user } = props
 
   if (tag === 'br' && forcebreak) {
-    return createElement(LineBreak, {key})
+    return createElement(LineBreak, { key })
   }
 
   // Open link in a new window if it is not a grape url.
@@ -30,15 +24,16 @@ export function renderTag(tag, props, children) {
     }
 
     // Split chat pm path and user id
-    const [, chatPmPath, pmUserId] = href.match(/^(\/chat\/pm)\/(\d+)\/?$/) || []
+    const [, chatPmPath, pmUserId] =
+      href.match(/^(\/chat\/pm)\/(\d+)\/?$/) || []
 
     // No link if it's the current logged in user
     if (chatPmPath && user.id === Number(pmUserId)) {
-      return <span>{children}</span>
+      return <span key={key}>{children}</span>
     }
 
     return (
-      <Link to={href} key={key}>
+      <Link key={key} href={href}>
         {children}
       </Link>
     )
@@ -47,7 +42,7 @@ export function renderTag(tag, props, children) {
   return createElement(
     tag,
     omit(props, nonStandardProps),
-    children && children.length ? children : undefined
+    children && children.length ? children : undefined,
   )
 }
 
@@ -55,11 +50,7 @@ export function renderTag(tag, props, children) {
  * We render inline images as a link as we don't really support them.
  */
 export function renderInlineImage(href, text) {
-  return [[
-    'a',
-    {href, alt: text},
-    ['text', text]
-  ]]
+  return [['a', { href, alt: text }, ['text', text]]]
 }
 
 /**
@@ -72,16 +63,18 @@ export function renderEmoji(markup) {
   const styles = getEmojiSliceStyle(image)
   if (!styles) return `:${markup}:`
 
-  return [[
-    'span',
-    {
-      style: {
-        ...styles,
-        ...style,
-        fontSize: '1.5em'
-      }
-    }
-  ]]
+  return [
+    [
+      'span',
+      {
+        style: {
+          ...styles,
+          ...style,
+          fontSize: '1.5em',
+        },
+      },
+    ],
+  ]
 }
 
 /**

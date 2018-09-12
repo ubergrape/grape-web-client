@@ -1,6 +1,6 @@
-import pick from 'lodash/object/pick'
-import find from 'lodash/collection/find'
-import findIndex from 'lodash/array/findIndex'
+import pick from 'lodash/pick'
+import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
 import * as api from '../utils/backend/api'
 
 import * as types from '../constants/actionTypes'
@@ -30,8 +30,10 @@ const addNewMessage = message => (dispatch, getState) => {
   const rooms = joinedRoomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
+  const currentChannel = channelSelector(state)
 
-  if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
+  if (nMessage.attachments.length && currentChannel.id === nMessage.id)
+    dispatch(addSharedFiles(nMessage))
   if (mentionsCount) dispatch(addMention(nMessage))
   dispatch({
     type: types.UPDATE_CHANNEL_STATS,
@@ -49,6 +51,7 @@ const addNewMessage = message => (dispatch, getState) => {
     type: types.REMOVE_MESSAGE,
     payload: message.clientsideId,
   })
+
   dispatch({
     type: types.ADD_NEW_MESSAGE,
     payload: nMessage,
@@ -91,6 +94,24 @@ export function handleRemovedMessage({ id }) {
       type: types.REMOVE_MESSAGE,
       payload: id,
     })
+    // setTimeout should be there because of backend updating issues.
+    // It can be removed if GRAPE-15530 issue resolved.
+    setTimeout(() => {
+      api.getChannel(channel).then(res => {
+        const {
+          unread,
+          lastMessage: { time },
+        } = res
+        dispatch({
+          type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+          payload: {
+            id: channel,
+            unread,
+            time,
+          },
+        })
+      })
+    }, 1000)
   }
 }
 
@@ -158,13 +179,12 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
 
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
+    const user = userSelector(getState())
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
-
-    const rooms = joinedRoomsSelector(getState())
-    if (!rooms.length) dispatch(goTo('/chat'))
+    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
@@ -222,6 +242,7 @@ export function handleRemoveRoom({ channel: id }) {
     })
     dispatch(goToLastUsedChannel())
     if (id === currentId) dispatch(goTo('/chat'))
+    dispatch(handleCurrentUserLeftChannel())
   }
 }
 

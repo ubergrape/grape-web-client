@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import List from 'react-finite-list'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 export default class FilteredList extends PureComponent {
   static propTypes = {
@@ -9,14 +9,14 @@ export default class FilteredList extends PureComponent {
     filter: PropTypes.string.isRequired,
     foundChannels: PropTypes.array.isRequired,
     focusedChannel: PropTypes.object,
-    searchingChannels: PropTypes.bool.isRequired
+    searchingChannels: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
-    focusedChannel: undefined
+    focusedChannel: undefined,
   }
 
-  onRefList = (list) => {
+  onRefList = list => {
     this.list = list
   }
 
@@ -30,9 +30,9 @@ export default class FilteredList extends PureComponent {
       foundChannels,
       focusedChannel,
       searchingChannels,
-      theme
+      theme,
     } = this.props
-    const {classes} = theme
+    const { classes } = theme
     if (searchingChannels) {
       return (
         <div className={classes.notFound}>
@@ -49,8 +49,7 @@ export default class FilteredList extends PureComponent {
           <FormattedMessage
             id="nothingThatMatches"
             defaultMessage="There's nothing that matches"
-          />
-          {' '}
+          />{' '}
           <strong>{filter}</strong>
         </div>
       )

@@ -1,17 +1,17 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import publicApi from '../api'
-import {type as connection} from '../utils/backend/client'
-import {disconnect} from '../app/client'
-import {appSelector} from '../selectors'
+import { type as connection } from '../utils/backend/client'
+import { disconnect } from '../app/client'
+import { appSelector } from '../selectors'
 import conf from '../conf'
-import {goTo} from './'
+import { goTo } from './'
 
 function handleAuthError(err) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.AUTH_ERROR,
-      payload: err
+      payload: err,
     })
     dispatch(goTo('/accounts/login'))
   }
@@ -25,17 +25,17 @@ export const checkAuth = () => (dispatch, getState) => {
       if (app.auth === 'nok') {
         dispatch({
           type: types.HANDLE_AUTH_STATUS,
-          payload: 'ok'
+          payload: 'ok',
         })
       }
       publicApi.setAuthStatus('authorized')
     })
-    .catch((err) => {
+    .catch(err => {
       // It might be a connection loss which is handled in a different place.
       if (err.status !== 401) return
       dispatch({
         type: types.HANDLE_AUTH_STATUS,
-        payload: 'nok'
+        payload: 'nok',
       })
       publicApi.setAuthStatus('unauthorized')
       disconnect()
@@ -44,10 +44,10 @@ export const checkAuth = () => (dispatch, getState) => {
 }
 
 export function handleConnectionError(err) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.CONNECTION_ERROR,
-      payload: err
+      payload: err,
     })
 
     if (connection === 'ws') {

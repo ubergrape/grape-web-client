@@ -1,4 +1,4 @@
-import {small} from 'grape-theme/dist/fonts'
+import { small } from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import sizes from 'grape-theme/dist/sizes'
@@ -8,10 +8,10 @@ const title = {
   marginLeft: sizes.spacer.m,
   textTransform: 'uppercase',
   background: '0 0 no-repeat',
-  color: colors.grayBlueDark
+  color: colors.grayBlueDark,
 }
 
-export const styles = ({palette}) => ({
+export const styles = ({ palette }) => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -19,55 +19,61 @@ export const styles = ({palette}) => ({
     flex: 1,
     // Fixes flex box bug in Firefox.
     overflowY: 'hidden',
-    background: colors.grayBlueLighter
+    background: colors.grayBlueLighter,
   },
   navigation: {
     overflowY: 'auto',
-    flex: '1 0'
+    flex: '1 0',
   },
   navigationWrapper: {
     display: 'block',
     padding: [sizes.spacer.m, 0],
-    height: '100%'
+    height: '100%',
   },
   manage: {
-    paddingLeft: sizes.spacer.m
+    paddingLeft: sizes.spacer.m,
   },
   manageItem: {
     display: 'block',
     marginTop: sizes.spacer.s,
-    listStyle: 'none'
+    listStyle: 'none',
   },
   section: {
     display: 'block',
-    marginTop: sizes.spacer.m
+    marginTop: sizes.spacer.m,
   },
   list: {
     display: 'block',
-    marginTop: sizes.spacer.xs
+    marginTop: sizes.spacer.xs,
   },
   notFound: {
     padding: sizes.spacer.s,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     ...title,
-    paddingLeft: sizes.spacer.l
+    paddingLeft: sizes.spacer.l,
   },
   unjoinedTitle: {
     ...title,
     marginTop: sizes.spacer.l,
-    marginBottom: sizes.spacer.s
+    marginBottom: sizes.spacer.s,
   },
   recent: {
-    backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlueDark})})`,
+    backgroundImage: `url(${getColoredIcon({
+      name: 'timeMachine',
+      color: colors.grayBlueDark,
+    })})`,
     backgroundSize: 'auto 12px',
-    backgroundPosition: '0 2px'
+    backgroundPosition: '0 2px',
   },
   favorites: {
-    backgroundImage: `url(${getColoredIcon({name: 'starFilled', color: colors.grayBlueDark})})`,
+    backgroundImage: `url(${getColoredIcon({
+      name: 'starFilled',
+      color: colors.grayBlueDark,
+    })})`,
     backgroundSize: 'auto 13px',
-    backgroundPosition: '0 2px'
+    backgroundPosition: '0 2px',
   },
   channel: {
     extend: small,
@@ -75,20 +81,20 @@ export const styles = ({palette}) => ({
     padding: [3, sizes.spacer.m],
     '&:hover': {
       isolate: false,
-      background: palette.blueGrey[70]
+      background: palette.blueGrey[70],
     },
     '&:hover $channelName': {
       isolate: false,
-      color: colors.grayDark
+      color: colors.grayDark,
     },
     '&, & *': {
       isolate: false,
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   channelInner: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   channelCurrent: {
     color: colors.grayDarker,
@@ -96,17 +102,17 @@ export const styles = ({palette}) => ({
     '& $channelName': {
       isolate: false,
       fontWeight: 'bold',
-      color: colors.grayDarker
-    }
+      color: colors.grayDarker,
+    },
   },
   channelFocused: {
-    background: palette.blueGrey[70]
+    background: palette.blueGrey[70],
   },
   channelName: {
-    color: colors.grayBlueDark
+    color: colors.grayBlueDark,
   },
   avatarName: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   sign: {
     extend: small,
@@ -115,23 +121,26 @@ export const styles = ({palette}) => ({
     padding: [1, 7, 0],
     textAlign: 'center',
     borderRadius: 50,
-    color: colors.white
+    color: colors.white,
   },
   importantSign: {
-    background: colors.green
+    background: colors.green,
   },
   defaultSign: {
-    background: palette.blueGrey[400]
+    background: palette.blueGrey[400],
   },
   filter: {
     flexShrink: 0,
     padding: 8,
-    background: colors.grayBlueLighter
+    background: colors.grayBlueLighter,
   },
   filterInput: {
     extend: small,
     background: `${palette.blueGrey[70]} no-repeat 10px 50%`,
-    backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayBlueDark})})`,
+    backgroundImage: `url(${getColoredIcon({
+      name: 'conversationsSearch',
+      color: colors.grayBlueDark,
+    })})`,
     backgroundSize: 19,
     border: 'none',
     padding: [7, 5, 6, 35],
@@ -141,11 +150,14 @@ export const styles = ({palette}) => ({
     width: '100%',
     '&::-webkit-search-cancel-button': {
       isolate: false,
-      WebkitAppearance: 'searchfield-cancel-button !important'
+      WebkitAppearance: 'searchfield-cancel-button !important',
     },
     '&:focus': {
       isolate: false,
-      backgroundImage: `url(${getColoredIcon({name: 'conversationsSearch', color: colors.grayDark})})`
-    }
-  }
+      backgroundImage: `url(${getColoredIcon({
+        name: 'conversationsSearch',
+        color: colors.grayDark,
+      })})`,
+    },
+  },
 })

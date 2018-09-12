@@ -1,2 +1,2 @@
 export FileUpload from './FileUpload'
-export {maxSize} from './constants'
+export { maxSize } from './constants'

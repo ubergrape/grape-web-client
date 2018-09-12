@@ -3,19 +3,23 @@ import React from 'react'
 
 import LinkWithIcon from '../LinkWithIcon'
 
-export default function LinkAttachment({category, children, ...rest}) {
+export default function LinkAttachment({ category, children, ...rest }) {
+  // LinkWithIcon is used in other placed. That's why we use a wrapper div
+  // for the LinkAttachment. It ensures this has display: block
   return (
-    <LinkWithIcon {...rest} icon={category} target="_blank">
-      {children}
-    </LinkWithIcon>
+    <div>
+      <LinkWithIcon {...rest} icon={category} target="_blank">
+        {children}
+      </LinkWithIcon>
+    </div>
   )
 }
 
 LinkAttachment.propTypes = {
   category: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 LinkAttachment.defaultProps = {
-  category: 'file'
+  category: 'file',
 }

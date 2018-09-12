@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`history reducer ADD_NEW_MESSAGE should add the new message if clientsideId is not available 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "clientsideId": "abc",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "id": "123",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should add the new message if the clientsideId can not be found 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "clientsideId": "abc",
+      "id": "345",
+    },
+    Object {
+      "clientsideId": "def",
+      "id": "456",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "clientsideId": "xyz",
+      "id": "123",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should not set scrollTo if the author is a different user 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "id": "msgId1",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should not update the state on a different channel 1`] = `
+Object {
+  "channel": Object {
+    "id": "aaa",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should set scrollTo if the author is the current user 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "userId1",
+      },
+      "channelId": "channelId1",
+      "id": "msgId1",
+    },
+  ],
+  "scrollTo": "msgId1",
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer ADD_NEW_MESSAGE should update the message based on the clientsideId and set the state of the message to sent 1`] = `
+Object {
+  "channel": Object {
+    "id": "channelId1",
+  },
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "234",
+    },
+    Object {
+      "author": Object {
+        "id": "userId2",
+      },
+      "channelId": "channelId1",
+      "clientsideId": "abc",
+      "id": "123",
+      "state": "sent",
+    },
+    Object {
+      "clientsideId": "def",
+    },
+  ],
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+  "user": Object {
+    "id": "userId1",
+  },
+}
+`;
+
+exports[`history reducer CLEAR_HISTORY should reset messages and set loadedNewerMessage to false 1`] = `
+Object {
+  "backendHasNewerMessages": true,
+  "loadedNewerMessage": false,
+  "messages": Array [],
+}
+`;
+
+exports[`history reducer HANDLE_MORE_HISTORY should remove duplicates for messages with same id 1`] = `
+Object {
+  "backendHasNewerMessages": undefined,
+  "loadedNewerMessage": true,
+  "messages": Array [
+    Object {
+      "id": "123",
+    },
+    Object {
+      "id": "234",
+    },
+    Object {
+      "id": "345",
+    },
+    Object {
+      "id": "456",
+    },
+  ],
+  "newerMessagesRequest": undefined,
+  "olderMessagesRequest": undefined,
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
+}
+`;
+
+exports[`history reducer REQUEST_NEWER_HISTORY should add the payload promise to newerMessagesRequest and set loadedNewerMessage to false 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "newerMessagesRequest": Promise {},
+}
+`;
+
+exports[`history reducer REQUEST_OLDER_HISTORY should add the payload promise to olderMessagesRequest and set loadedNewerMessage to false 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "olderMessagesRequest": Promise {},
+}
+`;
+
+exports[`history reducer UPDATE_MESSAGE should return the original state if the message is missing 1`] = `
+Object {
+  "messages": Array [
+    Object {
+      "id": "123",
+      "text": "Hello!",
+    },
+    Object {
+      "id": "234",
+      "text": "Hello!!",
+    },
+    Object {
+      "id": "345",
+      "text": "Hello!!!",
+    },
+  ],
+}
+`;
+
+exports[`history reducer UPDATE_MESSAGE should update the message 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "messages": Array [
+    Object {
+      "id": "123",
+      "text": "Hello!",
+    },
+    Object {
+      "id": "234",
+      "text": "Hello World!",
+    },
+    Object {
+      "id": "345",
+      "text": "Hello!!!",
+    },
+  ],
+}
+`;
+
+exports[`history reducer should handle UNSET_HISTORY_SCROLL_TO 1`] = `
+Object {
+  "loadedNewerMessage": false,
+  "scrollTo": null,
+  "scrollToAlignment": null,
+}
+`;

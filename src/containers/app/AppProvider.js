@@ -1,22 +1,28 @@
-import React, {PureComponent} from 'react'
-import {Provider as ReduxProvider, connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { Provider as ReduxProvider, connect } from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
 import ThemeProvider from 'grape-web/lib/components/theme-provider'
-import {JssProvider, jss} from 'grape-web/lib/jss'
-import {IntlProvider} from 'react-intl'
+import { JssProvider, jss } from 'grape-web/lib/jss'
+import { IntlProvider } from 'react-intl'
 
-import {mapActionsToProps} from '../../app/redux'
-import {appSelector} from '../../selectors'
+import { mapActionsToProps } from '../../app/redux'
+import { appSelector } from '../../selectors'
 import getStore from '../../app/store'
-import {Login} from '../../components/login'
+import { Login } from '../../components/login'
 import * as translations from '../../i18n'
 import conf from '../../conf'
 
-const AppOrLogin = ({show, children, onChangeRoute, ...rest}) => {
+const AppOrLogin = ({
+  show,
+  children,
+  onChangeRoute,
+  initialDataLoading,
+  ...rest
+}) => {
   switch (show) {
     case 'app':
-      return children({onChangeRoute})
+      return children({ initialDataLoading, onChangeRoute })
     case 'login':
       return <Login {...rest} />
     default:
@@ -27,10 +33,13 @@ const AppOrLogin = ({show, children, onChangeRoute, ...rest}) => {
 const actionNames = {
   checkAuth: 'onCheckAuth',
   loginFromEmbedded: 'onLogin',
-  handleChangeRoute: 'onChangeRoute'
+  handleChangeRoute: 'onChangeRoute',
 }
 
-const AppOrLoginConnected = connect(appSelector, mapActionsToProps(actionNames))(AppOrLogin)
+const AppOrLoginConnected = connect(
+  appSelector,
+  mapActionsToProps(actionNames),
+)(AppOrLogin)
 
 export default class AppProvider extends PureComponent {
   render() {

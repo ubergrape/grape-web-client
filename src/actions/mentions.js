@@ -1,23 +1,22 @@
-import sortBy from 'lodash/collection/sortBy'
+import sortBy from 'lodash/sortBy'
 import conf from '../conf'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {
-  orgSelector,
-  mentionsSelector,
-  channelSelector
-} from '../selectors'
-import {normalizeMessage} from './utils'
-import {setSidebarIsLoading, error} from './'
+import { orgSelector, mentionsSelector, channelSelector } from '../selectors'
+import { normalizeMessage } from './utils'
+import { setSidebarIsLoading, error } from './'
 
 export function loadMentions(params) {
   return (dispatch, getState) => {
-    dispatch({type: types.LOAD_MENTIONS})
+    dispatch({ type: types.LOAD_MENTIONS })
     dispatch(setSidebarIsLoading(true))
     const state = getState()
-    const {id} = orgSelector(state)
-    const {offset, options: {shouldReplace, showRoomMentions, showCurrentRoomMentions}} = params
+    const { id } = orgSelector(state)
+    const {
+      offsetDate,
+      options: { shouldReplace, showRoomMentions, showCurrentRoomMentions },
+    } = params
     const channels = []
     if (conf.embed || showCurrentRoomMentions) {
       const channelId = channelSelector(state).id
@@ -26,24 +25,26 @@ export function loadMentions(params) {
     return api
       .searchMentions({
         orgId: id,
-        offset: shouldReplace ? undefined : offset,
+        offset: shouldReplace ? undefined : offsetDate,
         mentionTypes: showRoomMentions ? ['room', 'user'] : ['user'],
-        channels: channels.length ? channels : undefined
+        channels: channels.length ? channels : undefined,
       })
-      .then(({results, total}) => {
+      .then(({ results, total }) => {
         dispatch(setSidebarIsLoading(false))
-        const {items: prevItems} = mentionsSelector(state)
-        const nextItems = results.map(data => normalizeMessage(data.message, state))
+        const { items: prevItems } = mentionsSelector(state)
+        const nextItems = results.map(data =>
+          normalizeMessage(data.message, state),
+        )
         const items = shouldReplace ? nextItems : [...prevItems, ...nextItems]
         return dispatch({
           type: types.LOADED_MENTIONS,
           payload: {
             total,
-            items
-          }
+            items,
+          },
         })
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })
@@ -52,7 +53,9 @@ export function loadMentions(params) {
 
 export function addMention(message) {
   return (dispatch, getState) => {
-    const {items: mentions, total, showRoomMentions} = mentionsSelector(getState())
+    const { items: mentions, total, showRoomMentions } = mentionsSelector(
+      getState(),
+    )
     if (!showRoomMentions && !message.mentions.user) return
     let items = [...mentions, message]
 
@@ -64,8 +67,8 @@ export function addMention(message) {
       type: types.ADD_MENTION,
       payload: {
         items,
-        total: total + 1
-      }
+        total: total + 1,
+      },
     })
   }
 }
@@ -73,8 +76,8 @@ export function addMention(message) {
 export function removeMention(messageId) {
   return (dispatch, getState) => {
     const mentions = mentionsSelector(getState())
-    const {items} = mentions
-    const cleanedItems = items.filter(({id}) => id !== messageId)
+    const { items } = mentions
+    const cleanedItems = items.filter(({ id }) => id !== messageId)
 
     // Nothing to remove.
     if (cleanedItems.length === items.length) return
@@ -83,20 +86,20 @@ export function removeMention(messageId) {
       type: types.REMOVE_MENTION,
       payload: {
         items: cleanedItems,
-        total: mentions.total - 1
-      }
+        total: mentions.total - 1,
+      },
     })
   }
 }
 
 export function toggleShowRoomMentions() {
   return {
-    type: types.TOGGLE_SHOW_ROOM_MENTIONS
+    type: types.TOGGLE_SHOW_ROOM_MENTIONS,
   }
 }
 
 export function toggleShowCurrentRoomMentions() {
   return {
-    type: types.TOGGLE_SHOW_CURRENT_ROOM_MENTIONS
+    type: types.TOGGLE_SHOW_CURRENT_ROOM_MENTIONS,
   }
 }

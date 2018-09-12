@@ -7,18 +7,18 @@ export const styles = {
     display: 'block',
     margin: [0, horizontalMargin],
     position: 'relative',
-    minWidth: 200
+    minWidth: 200,
   },
   row: {
     display: 'flex',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   avatarColumn: {
-    minWidth: 45
+    minWidth: 45,
   },
   bubble: {
     display: 'block',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
-  content: contentStyles
+  content: contentStyles,
 }

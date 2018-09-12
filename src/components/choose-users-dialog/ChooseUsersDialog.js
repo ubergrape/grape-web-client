@@ -1,34 +1,31 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import {
   FormattedMessage,
   defineMessages,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
-import {styles} from './theme'
-import {getFilteredUsers} from './utils'
+import { styles } from './theme'
+import { getFilteredUsers } from './utils'
 
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 import Username from '../avatar-name/Username'
-import {userStatusMap} from '../../constants/app'
+import { userStatusMap } from '../../constants/app'
 
-const SelectedUser = ({displayName}) => displayName
+const SelectedUser = ({ displayName }) => displayName
 
-function OrgInviteButton({isInviter, onClick, classes}) {
+function OrgInviteButton({ isInviter, onClick, classes }) {
   if (!isInviter) return null
 
   return (
     <div className={classes.orgInvite}>
-      <button
-        className={classes.orgInviteButton}
-        onClick={onClick}
-      >
+      <button className={classes.orgInviteButton} onClick={onClick}>
         <FormattedMessage
           id="inviteToTeam"
           defaultMessage="Invite a new person to your team…"
@@ -41,14 +38,14 @@ function OrgInviteButton({isInviter, onClick, classes}) {
 OrgInviteButton.propTypes = {
   classes: PropTypes.object.isRequired,
   isInviter: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 const messages = defineMessages({
   placeholder: {
     id: 'typeName',
-    defaultMessage: 'Add members…'
-  }
+    defaultMessage: 'Add members…',
+  },
 })
 
 @injectSheet(styles)
@@ -65,31 +62,30 @@ export default class ChooseUsersDialog extends PureComponent {
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     onClickList: PropTypes.func,
-    title: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]),
+    onClickFocusReset: PropTypes.func,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
     isFilterFocused: PropTypes.bool,
-    show: PropTypes.bool.isRequired
+    show: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     onClickList: noop,
+    onClickFocusReset: noop,
     title: null,
-    isFilterFocused: true
+    isFilterFocused: true,
   }
 
   onInvite = () => {
-    const {onHide, showInviteToOrg} = this.props
+    const { onHide, showInviteToOrg } = this.props
     onHide()
     showInviteToOrg()
   }
 
-  renderItem = ({item, focused}) => {
-    const {classes} = this.props
-    const {displayName, avatar, status, id} = item
+  renderItem = ({ item, focused }) => {
+    const { classes } = this.props
+    const { displayName, avatar, status, id } = item
 
     let className = classes.user
     if (focused) className += ` ${classes.focusedUser}`
@@ -107,7 +103,7 @@ export default class ChooseUsersDialog extends PureComponent {
   }
 
   renderEmptyItems = () => {
-    const {classes} = this.props
+    const { classes } = this.props
 
     return (
       <div className={classes.note}>
@@ -120,15 +116,14 @@ export default class ChooseUsersDialog extends PureComponent {
   }
 
   renderNotFound = () => {
-    const {classes, filter} = this.props
+    const { classes, filter } = this.props
 
     return (
       <div className={classes.note}>
         <FormattedMessage
           id="usersNotFoundFor"
           defaultMessage="No one found for"
-        />
-        {' '}
+        />{' '}
         <strong>{filter}</strong>
       </div>
     )
@@ -137,20 +132,24 @@ export default class ChooseUsersDialog extends PureComponent {
   render() {
     const {
       classes,
-      intl: {formatMessage},
-      show, filter, listed, title,
-      children, isInviter,
-      isFilterFocused, onHide,
-      onChangeFilter, onSelectUser,
-      onRemoveSelectedUser, onClickList
+      intl: { formatMessage },
+      show,
+      filter,
+      listed,
+      title,
+      children,
+      isInviter,
+      isFilterFocused,
+      onHide,
+      onChangeFilter,
+      onSelectUser,
+      onRemoveSelectedUser,
+      onClickList,
+      onClickFocusReset,
     } = this.props
 
     return (
-      <Dialog
-        show={show}
-        onHide={onHide}
-        title={title}
-      >
+      <Dialog show={show} onHide={onHide} title={title}>
         <div className={classes.wrapper}>
           <FilterableList
             listClassName={classes.list}
@@ -160,6 +159,7 @@ export default class ChooseUsersDialog extends PureComponent {
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
             onClick={onClickList}
+            onBlur={onClickFocusReset}
             onChange={onChangeFilter}
             onSelect={onSelectUser}
             onRemoveSelected={onRemoveSelectedUser}

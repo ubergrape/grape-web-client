@@ -1,31 +1,31 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 export default class AutoHide extends PureComponent {
   static propTypes = {
     delay: PropTypes.number,
     onHide: PropTypes.func,
     data: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     delay: undefined,
     children: undefined,
     data: undefined,
-    onHide: noop
+    onHide: noop,
   }
 
-  state = {timeoutId: undefined}
+  state = { timeoutId: undefined }
 
   componentWillReceiveProps(nextProps) {
-    const {delay, data} = nextProps
+    const { delay, data } = nextProps
     if (delay) {
       this.setState({
         timeoutId: setTimeout(() => {
           this.props.onHide(data)
-        }, delay)
+        }, delay),
       })
     }
   }

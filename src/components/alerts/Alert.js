@@ -1,11 +1,17 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
-import {white, green, indigo, blue, yellow} from 'grape-theme/dist/base-colors'
+import {
+  white,
+  green,
+  indigo,
+  blue,
+  yellow,
+} from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 import IconButton from 'grape-web/lib/components/icon-button'
 
@@ -17,17 +23,17 @@ import NotificationsAlert from './NotificationsAlert'
 @injectSheet({
   alert: {
     display: 'block',
-    font: 'inherit'
+    font: 'inherit',
   },
   body: {
     font: 'inherit',
-    display: 'flex'
+    display: 'flex',
   },
   content: {
     padding: 10,
     color: white,
     font: 'inherit',
-    flexGrow: 1
+    flexGrow: 1,
   },
   close: {
     isolate: false,
@@ -38,20 +44,20 @@ import NotificationsAlert from './NotificationsAlert'
     opacity: 0.8,
     '&:hover': {
       isolate: false,
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   infoContainer: {
-    background: webColors.alertInfo
+    background: webColors.alertInfo,
   },
   successContainer: {
-    background: webColors.alertSuccess
+    background: webColors.alertSuccess,
   },
   warningContainer: {
-    background: webColors.alertWarning
+    background: webColors.alertWarning,
   },
   dangerContainer: {
-    background: webColors.alertDanger
+    background: webColors.alertDanger,
   },
   button: {
     font: 'inherit',
@@ -60,51 +66,52 @@ import NotificationsAlert from './NotificationsAlert'
     '&:hover': {
       isolate: false,
       background: 'none',
-      textDecoration: 'underline'
-    }
+      textDecoration: 'underline',
+    },
   },
   infoButton: {
     composes: '$button',
-    color: green
+    color: green,
   },
   successButton: {
     composes: '$button',
-    color: indigo
+    color: indigo,
   },
   warningButton: {
     composes: '$button',
-    color: blue
+    color: blue,
   },
   dangerButton: {
     composes: '$button',
-    color: yellow
-  }
+    color: yellow,
+  },
 })
 export default class Alert extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     alert: PropTypes.shape({
       type: PropTypes.string.isRequired,
-      level: PropTypes.oneOf(['info', 'success', 'warning', 'danger']).isRequired,
+      level: PropTypes.oneOf(['info', 'success', 'warning', 'danger'])
+        .isRequired,
       closeAfter: PropTypes.number,
-      isClosable: PropTypes.bool
+      isClosable: PropTypes.bool,
     }).isRequired,
     onHide: PropTypes.func,
-    enableNotifications: PropTypes.func
+    enableNotifications: PropTypes.func,
   }
 
   static defaultProps = {
     onHide: noop,
-    enableNotifications: noop
+    enableNotifications: noop,
   }
 
   onHide = () => {
-    const {onHide, alert} = this.props
+    const { onHide, alert } = this.props
     onHide(alert)
   }
 
   renderContent(alert) {
-    const {classes, enableNotifications} = this.props
+    const { classes, enableNotifications } = this.props
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:
         return (
@@ -121,19 +128,16 @@ export default class Alert extends PureComponent {
   }
 
   render() {
-    const {classes, alert, onHide} = this.props
+    const { classes, alert, onHide } = this.props
 
     return (
-      <div className={cn(classes.alert, classes[`${alert.level}Container`])} key={alert.type}>
-        <AutoHide
-          data={alert}
-          delay={alert.closeAfter}
-          onHide={onHide}
-        >
+      <div
+        className={cn(classes.alert, classes[`${alert.level}Container`])}
+        key={alert.type}
+      >
+        <AutoHide data={alert} delay={alert.closeAfter} onHide={onHide}>
           <div className={classes.body}>
-            <div className={classes.content}>
-              {this.renderContent(alert)}
-            </div>
+            <div className={classes.content}>{this.renderContent(alert)}</div>
             {alert.isClosable && (
               <IconButton className={classes.close} onClick={this.onHide}>
                 <Icon name="close" />

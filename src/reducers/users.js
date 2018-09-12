@@ -1,4 +1,4 @@
-import findIndex from 'lodash/array/findIndex'
+import findIndex from 'lodash/findIndex'
 
 import * as types from '../constants/actionTypes'
 
@@ -29,7 +29,7 @@ export default function reduce(state = initialState, action) {
       const { userId: id, status } = payload
 
       const newState = [...state]
-      const index = findIndex(newState, (user) => {
+      const index = findIndex(newState, user => {
         if (user.partner) {
           return user.partner.id === id
         }
@@ -41,22 +41,23 @@ export default function reduce(state = initialState, action) {
         ...user,
         partner: {
           ...user.partner,
-          status
-        }
+          status,
+        },
       })
       return newState
     }
 
     case types.UPDATE_USER: {
       const newState = [...state]
-      const index = findIndex(newState, { id: payload.id })
+      const index = findIndex(newState, { partner: { id: payload.id } })
       if (index === -1) return state
       const user = newState[index]
-      const avatar = payload.avatar || user.avatar
       newState.splice(index, 1, {
         ...user,
-        ...payload,
-        avatar
+        partner: {
+          ...payload,
+          status: user.partner.status,
+        },
       })
       return newState
     }
@@ -70,7 +71,7 @@ export default function reduce(state = initialState, action) {
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
-        ...update
+        ...update,
       })
       return newState
     }

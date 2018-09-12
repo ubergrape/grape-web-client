@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
-import noop from 'lodash/utility/noop'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
 
-import {ShowMore} from '../../i18n'
-import {styles} from './sharedFilesTheme'
+import { ShowMore } from '../../i18n'
+import { styles } from './sharedFilesTheme'
 import SharedFile from './SharedFile'
 
 @injectSheet(styles)
@@ -18,12 +18,12 @@ export default class SharedFiles extends PureComponent {
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
     onOpen: PropTypes.func,
-    total: PropTypes.number
+    total: PropTypes.number,
   }
 
   static defaultProps = {
     total: undefined,
-    onOpen: noop
+    onOpen: noop,
   }
 
   componentDidMount() {
@@ -31,7 +31,8 @@ export default class SharedFiles extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const reset = !nextProps.items.length &&
+    const reset =
+      !nextProps.items.length &&
       nextProps.total == null &&
       this.props.total != null
     if (reset) this.load(nextProps)
@@ -41,34 +42,27 @@ export default class SharedFiles extends PureComponent {
     this.load()
   }
 
-  load({items, limit, onLoad} = this.props) {
+  load({ items, limit, onLoad } = this.props) {
     onLoad({
       offset: items.length,
-      limit
+      limit,
     })
   }
 
   renderFiles() {
-    const {items, onOpen} = this.props
+    const { items, onOpen } = this.props
     return items.map(item => (
-      <SharedFile
-        {...item}
-        key={item.id}
-        onOpen={onOpen}
-      />
+      <SharedFile {...item} key={item.id} onOpen={onOpen} />
     ))
   }
 
   renderLoadMore() {
-    const {classes, total, items} = this.props
+    const { classes, total, items } = this.props
     if (!total || items.length >= total) return null
 
     return (
       <div className={classes.loadMoreContainer}>
-        <button
-          onClick={this.onLoadMore}
-          className={classes.button}
-        >
+        <button onClick={this.onLoadMore} className={classes.button}>
           <ShowMore />
         </button>
       </div>
@@ -76,20 +70,17 @@ export default class SharedFiles extends PureComponent {
   }
 
   renderEmpty() {
-    const {classes, total} = this.props
+    const { classes, total } = this.props
     if (total !== 0) return null
     return (
       <div className={classes.empty}>
-        <FormattedMessage
-          id="noSharedFiles"
-          defaultMessage="No shared files"
-        />.
+        <FormattedMessage id="noSharedFiles" defaultMessage="No shared files" />.
       </div>
     )
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
 
     return (
       <div className={classes.sharedFiles}>

@@ -1,9 +1,9 @@
-import React, {PureComponent} from 'react'
-import {Provider, connect} from 'react-redux'
+import React from 'react'
+import { Provider, connect } from 'react-redux'
 
-import {mapActionsToProps} from '../../app/redux'
+import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import {historyComponentSelector as selector} from '../../selectors'
+import { historyComponentSelector as selector } from '../../selectors'
 import History from '../../components/history/History'
 
 const actionNames = {
@@ -23,20 +23,20 @@ const actionNames = {
   quoteMessage: 'onQuote',
   showRemoveLinkAttachments: 'onRemoveLinkAttachment',
   pinMessage: 'onPin',
-  unpinMessage: 'onUnpin'
+  unpinMessage: 'onUnpin',
+  showNewConversation: 'onNewConversation',
+  showManageGroups: 'onJoinGroup',
 }
 
 const ConnectedHistory = connect(
   selector,
-  mapActionsToProps(actionNames)
+  mapActionsToProps(actionNames),
 )(History)
 
-export default class HistoryProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedHistory />
-      </Provider>
-    )
-  }
-}
+const HistoryProvider = () => (
+  <Provider store={getStore()}>
+    <ConnectedHistory />
+  </Provider>
+)
+
+export default HistoryProvider

@@ -1,4 +1,4 @@
-import find from 'lodash/collection/find'
+import find from 'lodash/find'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -6,15 +6,15 @@ import {
   sharedFilesSelector,
   orgSelector,
   channelSelector,
-  usersSelector
+  usersSelector,
 } from '../selectors'
-import {setSidebarIsLoading, error, goTo} from './'
+import { setSidebarIsLoading, error, goTo } from './'
 
 /**
  * Format data for shared files.
  */
 function formatFile(file, channel, users) {
-  const author = find(users, ({id}) => id === file.author.id)
+  const author = find(users, ({ id }) => id === file.author.id)
   return {
     ...file,
     author: author ? author.displayName : undefined,
@@ -23,13 +23,13 @@ function formatFile(file, channel, users) {
     channelName: channel.name || channel.users[0].displayName,
     channelType: channel.type,
     id: file.id || file.messageId,
-    time: new Date(file.time)
+    time: new Date(file.time),
   }
 }
 
 export function loadSharedFiles(params) {
   return (dispatch, getState) => {
-    dispatch({type: types.LOAD_SHARED_FILES})
+    dispatch({ type: types.LOAD_SHARED_FILES })
     dispatch(setSidebarIsLoading(true))
     const state = getState()
     const org = orgSelector(state)
@@ -39,22 +39,24 @@ export function loadSharedFiles(params) {
       .searchFiles({
         orgId: org.id,
         channelId: channel.id,
-        ...params
+        ...params,
       })
-      .then((files) => {
+      .then(files => {
         dispatch(setSidebarIsLoading(false))
         const prevItems = sharedFilesSelector(state).items
         const users = usersSelector(state)
-        const nextItems = files.results.map(file => formatFile(file, channel, users))
+        const nextItems = files.results.map(file =>
+          formatFile(file, channel, users),
+        )
         dispatch({
           type: types.LOADED_SHARED_FILES,
           payload: {
             items: [...prevItems, ...nextItems],
-            total: files.total
-          }
+            total: files.total,
+          },
         })
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(setSidebarIsLoading(false))
         dispatch(error(err))
       })
@@ -68,11 +70,11 @@ export function addSharedFiles(message) {
     const users = usersSelector(state)
     const sharedFiles = sharedFilesSelector(state)
     const prevItems = sharedFiles.items
-    const nextItems = message.attachments.map((attachment) => {
+    const nextItems = message.attachments.map(attachment => {
       const file = {
         ...attachment,
         author: message.author,
-        messageId: message.id
+        messageId: message.id,
       }
       return formatFile(file, channel, users)
     })
@@ -80,8 +82,8 @@ export function addSharedFiles(message) {
       type: types.ADD_SHARED_FILE,
       payload: {
         items: [...nextItems, ...prevItems],
-        total: sharedFiles.total - 1
-      }
+        total: sharedFiles.total - 1,
+      },
     })
   }
 }
@@ -89,7 +91,7 @@ export function addSharedFiles(message) {
 export function removeSharedFiles(messageId) {
   return (dispatch, getState) => {
     const sharedFiles = sharedFilesSelector(getState())
-    const {items} = sharedFiles
+    const { items } = sharedFiles
     const cleanedItems = items.filter(item => item.messageId !== messageId)
 
     // Nothing to remove.
@@ -99,17 +101,17 @@ export function removeSharedFiles(messageId) {
       type: types.REMOVE_SHARED_FILE,
       payload: {
         items: cleanedItems,
-        total: sharedFiles.total - 1
-      }
+        total: sharedFiles.total - 1,
+      },
     })
   }
 }
 
 export function openSharedFile(url) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: types.OPEN_SHARED_FILE,
-      payload: url
+      payload: url,
     })
     dispatch(goTo(url))
   }

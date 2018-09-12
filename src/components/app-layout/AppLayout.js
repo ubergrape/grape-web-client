@@ -1,68 +1,79 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {screenWidth} from 'grape-theme/dist/sizes'
+import { screenWidth } from 'grape-theme/dist/sizes'
 
-import {sidebarWidth, sidebarWidthXl} from './constants'
+import {
+  sidebarWidth,
+  sidebarWidthXl,
+  navigationWidth,
+  navigationWidthXl,
+} from './constants'
 
 const Noop = () => null
 
-@injectSheet({
+const styles = {
   appLayout: {
     display: 'flex',
     position: 'absolute',
     height: '100%',
     width: '100%',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    // avoid width recalculations in the sidebar that lead to a broken layout with overlaps
+    minWidth: navigationWidth + sidebarWidth,
   },
   aside: {
     display: 'flex',
     position: 'relative',
-    minWidth: 200,
-    width: 280,
+    width: navigationWidthXl,
     flexShrink: 0,
-    flexDirection: 'column'
+    flexDirection: 'column',
+  },
+  fileUpload: {
+    display: 'flex',
+    height: '100%',
   },
   main: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 0
+    minWidth: 0,
   },
   mainBody: {
     display: 'flex',
     flex: 1,
     // Flexbox fix, otherwise it stretches full height and you can't scroll
     // anywhere inside in Firefox at least.
-    height: '100%'
+    height: '100%',
   },
   mainLeft: {
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    position: 'relative'
+    position: 'relative',
   },
   historyWrapper: {
     position: 'relative',
-    flex: 1
+    flex: 1,
   },
   sidebar: {
     display: 'flex',
     alignItems: 'stretch',
     flexDirection: 'column',
     flexBasis: 'auto',
-    width: sidebarWidthXl
+    width: sidebarWidthXl,
   },
   [`@media (max-width: ${screenWidth.xl}px)`]: {
     aside: {
-      width: 230
+      width: navigationWidth,
     },
     sidebar: {
-      width: sidebarWidth
-    }
-  }
-})
-export default class AppLayout extends PureComponent {
+      width: sidebarWidth,
+    },
+  },
+}
+
+class AppLayout extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     Aside: PropTypes.func,
@@ -72,7 +83,7 @@ export default class AppLayout extends PureComponent {
     Footer: PropTypes.func,
     Sidebar: PropTypes.func,
     Globals: PropTypes.func,
-    FileUpload: PropTypes.func
+    FileUpload: PropTypes.func,
   }
 
   static defaultProps = {
@@ -83,7 +94,7 @@ export default class AppLayout extends PureComponent {
     Footer: Noop,
     Sidebar: Noop,
     Globals: Noop,
-    FileUpload: Noop
+    FileUpload: Noop,
   }
 
   render() {
@@ -96,11 +107,11 @@ export default class AppLayout extends PureComponent {
       Footer,
       Sidebar,
       Globals,
-      FileUpload
+      FileUpload,
     } = this.props
 
     return (
-      <FileUpload>
+      <FileUpload className={classes.fileUpload}>
         <div className={classes.appLayout}>
           <Globals />
           <Aside className={classes.aside} />
@@ -122,3 +133,5 @@ export default class AppLayout extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(AppLayout)

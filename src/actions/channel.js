@@ -1,4 +1,4 @@
-import find from 'lodash/collection/find'
+import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
@@ -20,7 +20,6 @@ import {
 import {
   error,
   goToChannel,
-  goToLastUsedChannel,
   loadNotificationSettings,
   addUser,
   setChannel,
@@ -61,7 +60,6 @@ export const leaveChannel = channelId => dispatch => {
         payload: channelId,
       })
       dispatch(removeManageGroupChannel(channelId))
-      dispatch(goToLastUsedChannel())
     })
     .catch(err => dispatch(error(err)))
 }
@@ -233,22 +231,15 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       if (channel.type === 'pm') {
         const currUser = userSelector(getState())
         const userIds = [currUser.id, channel.partner.id]
-        return { ...channel, users: userIds }
-      }
-
-      // TODO we will have to load th room members here once we get rid
-      // of `org.channels`. Right now all joined channels are loaded.
-      return {}
-    })
-    .then(pmChannel => {
-      if (Object.keys(pmChannel).length) {
+        const pmChannel = { ...channel, users: userIds }
         dispatch(addUser(pmChannel))
         dispatch(addChannel(pmChannel))
         dispatch(setChannel(pmChannel.id, messageId))
         return
       }
 
-      // It should be a channel user didn't join yet.
+      dispatch(addChannel(channel))
+      dispatch(setChannel(channel, messageId))
       dispatch(joinChannel(channelId))
     })
     .catch(() => dispatch(handleBadChannel()))

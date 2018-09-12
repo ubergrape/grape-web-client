@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {styles} from './bubbleTheme'
+import { styles } from './bubbleTheme'
 
 @injectSheet(styles)
 export default class Bubble extends PureComponent {
@@ -12,7 +12,7 @@ export default class Bubble extends PureComponent {
     className: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
     hasArrow: PropTypes.bool.isRequired,
-    style: PropTypes.object
+    style: PropTypes.object,
   }
 
   static defaultProps = {
@@ -20,20 +20,25 @@ export default class Bubble extends PureComponent {
     theme: {
       classes: {
         bubble: '',
-        content: ''
-      }
+        content: '',
+      },
     },
     hasArrow: true,
-    style: null
+    style: null,
   }
 
   render() {
-    const {children, className, theme, hasArrow, sheet, style} = this.props
-    const {classes} = sheet
+    const { children, className, theme, hasArrow, sheet, style } = this.props
+    const { classes } = sheet
     const bubbleClass = classes[hasArrow ? 'bubbleWithArrow' : 'bubble']
     return (
-      <div className={`${bubbleClass} ${theme.classes.bubble} ${className}`} style={style}>
-        <div className={`${classes.content} ${theme.classes.content}`}>{children}</div>
+      <div
+        className={`${bubbleClass} ${theme.classes.bubble} ${className}`}
+        style={style}
+      >
+        <div className={`${classes.content} ${theme.classes.content}`}>
+          {children}
+        </div>
       </div>
     )
   }

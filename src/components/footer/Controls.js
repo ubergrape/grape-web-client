@@ -1,18 +1,22 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Dropzone from 'react-dropzone'
-import {bigger} from 'grape-theme/dist/fonts'
+import { bigger } from 'grape-theme/dist/fonts'
 import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import {iconSize, buttonSize} from './constants'
+import { iconSize, buttonSize } from './constants'
 
-import {maxSize as maxFileSize} from '../file-upload'
-import {Beacon} from '../intro'
+import { maxSize as maxFileSize } from '../file-upload'
+import { Beacon } from '../intro'
 
-const AttachmentButton = (props) => {
+const AttachmentButton = props => {
   const {
-    classes, disabled, onDropAccepted, onDropRejected, onOpenFileDialog
+    classes,
+    disabled,
+    onDropAccepted,
+    onDropRejected,
+    onOpenFileDialog,
   } = props
 
   // Upload click will be handled using public API.
@@ -47,28 +51,35 @@ const AttachmentButton = (props) => {
   )
 }
 
-@injectSheet(({palette}) => ({
+@injectSheet(({ palette }) => ({
   controls: {
     extend: bigger,
-    flexShrink: 0
+    flexShrink: 0,
   },
   button: {
     width: buttonSize,
     height: buttonSize,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200
-    }
+      color: palette.secondary.A200,
+    },
   },
   contolIcon: {
     width: iconSize,
-    height: iconSize
+    height: iconSize,
+    cursor: 'pointer',
   },
-  dropzone: {}
+  dropzone: {},
 }))
 export default class Controls extends PureComponent {
   static propTypes = {
-    showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    showBrowser: PropTypes.oneOf([
+      false,
+      'emoji',
+      'emojiSuggest',
+      'user',
+      'search',
+    ]).isRequired,
     classes: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     onUpload: PropTypes.func.isRequired,
@@ -76,36 +87,36 @@ export default class Controls extends PureComponent {
     onShowSearchBrowser: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired,
-    onOpenFileDialog: PropTypes.func
+    onOpenFileDialog: PropTypes.func,
   }
 
   static defaultProps = {
     disabled: false,
-    onOpenFileDialog: undefined
+    onOpenFileDialog: undefined,
   }
 
-  onDropAccepted = (files) => {
-    this.props.onUpload({files})
+  onDropAccepted = files => {
+    this.props.onUpload({ files })
   }
 
-  onDropRejected = (files) => {
-    this.props.onRejectFiles({files})
+  onDropRejected = files => {
+    this.props.onRejectFiles({ files })
   }
 
-  onToggleEmojiBrowser = (e) => {
+  onToggleEmojiBrowser = e => {
     e.preventDefault()
     e.stopPropagation()
     if (this.props.showBrowser !== 'emoji') this.props.onShowEmojiBrowser()
     else this.props.onHideBrowser()
   }
 
-  onShowSearchBrowser = (e) => {
+  onShowSearchBrowser = e => {
     e.preventDefault()
     this.props.onShowSearchBrowser()
   }
 
   render() {
-    const {classes, disabled, onOpenFileDialog} = this.props
+    const { classes, disabled, onOpenFileDialog } = this.props
     return (
       <div className={classes.controls}>
         <AttachmentButton
@@ -129,7 +140,7 @@ export default class Controls extends PureComponent {
         >
           <Icon className={classes.contolIcon} name="windowSearch" />
         </IconButton>
-        <Beacon id="searchBrowser" placement="top" shift={{left: -15}} />
+        <Beacon id="searchBrowser" placement="top" shift={{ left: -15 }} />
       </div>
     )
   }

@@ -35,7 +35,6 @@ export default {
   "fileUploadTitleFinished": "Upload abgeschlossen",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit}mb.",
   "editMessagePlaceholder": "Nachricht eingeben …",
-  "disabledMessagePlaceholder": "Dieser Nutzer wurde gelöscht. Nachrichten versenden ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um die Bearbeitung zu beenden.",
   "quoteFooter": "- [{author}]({pmPath}) ([Originalnachricht]({messageUrl}))",
@@ -48,6 +47,7 @@ export default {
   "labeledMessagesTooltip": "Wichtige Nachrichten",
   "mentions": "Erwähnungen",
   "searchMessages": "Nachrichten durchsuchen",
+  "recalculateScrollPosition": "Scrollposition wird neu berechnet ...",
   "pending": "ausstehend",
   "unsent": "Nicht gesendet",
   "sent": "Gesendet",
@@ -230,5 +230,9 @@ export default {
   "email": "E-Mail",
   "skype": "Skype",
   "phone": "Telefon",
-  "aboutUserTitle": "Über diesen Nutzer"
+  "aboutUserTitle": "Über diesen Nutzer",
+  "wantToChat": "Möchten Sie chatten?",
+  "noChannelsToChatIn": "Im Moment haben Sie keine Personen oder Gruppen, mit denen Sie chatten können. Treten Sie einer Gruppe bei oder beginnen Sie eine neue Konversation um mehr Spaß zu haben.",
+  "joinGroup": "Einer Gruppe beitreten",
+  "startNewConversation": "Eine neue Konversation beginnen"
 }

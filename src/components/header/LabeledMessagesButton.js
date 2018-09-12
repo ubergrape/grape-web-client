@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import FabButton from './FabButton'
@@ -12,7 +12,7 @@ const tip = (
   />
 )
 
-const LabeledMessagesButton = ({onClick, isSelected}) => (
+const LabeledMessagesButton = ({ onClick, isSelected }) => (
   <Tooltip message={tip} align="right">
     <FabButton onClick={onClick} isSelected={isSelected} icon="tag" />
   </Tooltip>
@@ -20,7 +20,7 @@ const LabeledMessagesButton = ({onClick, isSelected}) => (
 
 LabeledMessagesButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired
+  isSelected: PropTypes.bool.isRequired,
 }
 
 export default LabeledMessagesButton

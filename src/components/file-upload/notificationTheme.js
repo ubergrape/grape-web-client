@@ -1,31 +1,31 @@
 import fonts from 'grape-theme/dist/fonts'
-import {white, green, red} from 'grape-theme/dist/base-colors'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import { white, green, red } from 'grape-theme/dist/base-colors'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 
 export const styles = {
   title: {
     extend: fonts.normal,
-    color: white
+    color: white,
   },
   list: {
-    display: 'block'
+    display: 'block',
   },
   upload: {
     display: 'block',
-    margin: [5, 0]
+    margin: [5, 0],
   },
   name: {
     display: 'flex',
     opacity: 0.7,
     alignItems: 'center',
-    color: white
+    color: white,
   },
   nameCompleted: {
     opacity: 1,
-    color: green
+    color: green,
   },
   nameErrored: {
-    color: red
+    color: red,
   },
   nameText: {
     display: 'flex',
@@ -36,26 +36,26 @@ export const styles = {
       isolate: false,
       extend: fonts.normal,
       whiteSpace: 'nowrap',
-      color: 'inherit'
-    }
+      color: 'inherit',
+    },
   },
   nameTextLeft: ellipsis,
   error: {
     extend: [ellipsis, fonts.normal],
     display: 'flex',
     alignItems: 'center',
-    color: red
+    color: red,
   },
   icon: {
     flexShrink: 0,
-    marginLeft: 5
+    marginLeft: 5,
   },
   iconSuccess: {
     composes: '$icon',
-    fill: green
+    fill: green,
   },
   iconError: {
     composes: '$icon',
-    fill: red
-  }
+    fill: red,
+  },
 }

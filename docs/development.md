@@ -12,8 +12,7 @@ cat package.json | grep \"node\"
 Make sure your npm is up to date:
 
 ```bash
-# needs sudo on mac
-sudo npm install -g npm
+npm install -g yarn
 ```
 
 Clone the `grape-web-client` repo and install the dependencies:
@@ -29,7 +28,7 @@ npm i
 Start a local dev server:
 
 ```bash
-npm run start:dev
+yarn start:dev
 ```
 
 This will start a local server at `0.0.0.0:8080` that will serve your assets to the prod app.
@@ -37,7 +36,7 @@ This will start a local server at `0.0.0.0:8080` that will serve your assets to 
 In another console session start a local web proxy:
 
 ```bash
-npm run start:proxy
+yarn start:proxy
 ```
 
 This will start a local web proxy at `0.0.0.0:3128` that redirects the assets of a chatgrape installation to the
@@ -79,7 +78,6 @@ Enable proxy in IE:
 Allow all of cookies in IE:
 ![A configuration dialog for cookies settings](./cookies-ie.png)
 
-
 ## Trusting certificate on Firefox
 
 Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
@@ -90,8 +88,8 @@ Add all certificates here manually.
 
 ## Trusting certificate on Windows
 
-1. Open shell as an admin (right click in start menu).
-1. Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
+1.  Open shell as an admin (right click in start menu).
+1.  Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
 
 ## Parallels
 
@@ -100,12 +98,23 @@ You can use your Mac's public IP address and default bridged network adapter to 
 ## Build once
 
 ```bash
-npm run build
+yarn build
 ```
 
-## Manage Dependencies
+## Develop dependencies like grape-web or grape-browser locally
 
-To add a dependency just call `npm install package --save ` or `npm install package --save-dev`.
-A shrinkwrap hook will be automatically called.
+You can use `yarn link` to switch to the specific package and use it locally.
 
-When changing or adding dependencies directly in `package.json` you need to call `npm shrinkwrap` afterwards.
+```sh
+cd <your_path>/grape-browser
+yarn link
+
+cd <your_path>/grape-web-client
+yarn link grape-browser
+yarn run start:dev:all # node_modules are cached! restart this process if it was already running
+
+cd <your_path>/grape-browser
+yarn run build:watch
+```
+
+Ideally the package has a `build:watch` script so you do not constantly need to re-run the build. If not please add one.

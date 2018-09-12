@@ -1,7 +1,12 @@
-import {gainsboroLight, gainsboroDark, grayDark, white} from 'grape-theme/dist/base-colors'
+import {
+  gainsboroLight,
+  gainsboroDark,
+  grayDark,
+  white,
+} from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-import {styles as linkStyles} from './linkTheme'
+import { styles as linkStyles } from './linkTheme'
 
 // TODO #149 use standard typography styles
 export default {
@@ -10,14 +15,14 @@ export default {
   '& p': {
     display: 'block',
     margin: 0,
-    wordBreak: 'break-word'
+    wordBreak: 'break-word',
   },
   '& strong, & b': {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   '& a': linkStyles.link,
   '& em': {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   '& blockquote': {
     display: 'block',
@@ -28,13 +33,21 @@ export default {
     '& p': {
       isolate: false,
       display: 'block',
-      color: gainsboroDark
-    }
+      color: gainsboroDark,
+      '& em': {
+        fontStyle: 'italic',
+        color: gainsboroDark,
+      },
+      '& strong, & b': {
+        fontWeight: 'bold',
+        color: gainsboroDark,
+      },
+    },
   },
   '& pre': {
     display: 'block',
     margin: 0,
-    whiteSpace: 'pre'
+    whiteSpace: 'pre',
   },
   '& code': {
     display: 'inline-block',
@@ -46,19 +59,19 @@ export default {
     background: white,
     wordBreak: 'break-all',
     fontFamily: 'monospace',
-    whiteSpace: 'pre'
+    whiteSpace: 'pre',
   },
   '& pre code': {
     isolate: false,
     overflow: 'auto',
     wordBreak: 'initial',
     transform: 'translateZ(0)',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
   // Increase specificity a bit to overtone the previous definitions,
   // saves us some writing.
   '&& *': {
     isolate: false,
-    extend: fonts.normal
-  }
+    extend: fonts.normal,
+  },
 }

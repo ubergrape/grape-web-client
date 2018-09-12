@@ -3,13 +3,13 @@ import getBoundActions from './boundActions'
 
 const history = createHistory()
 
-export const {push, replace} = history
+export const { push, replace } = history
 
-history.push = (url) => {
+history.push = url => {
   getBoundActions().goTo(url)
 }
-history.replace = (url) => {
-  getBoundActions().goTo(url, {replace: true})
+history.replace = url => {
+  getBoundActions().goTo(url, { replace: true })
 }
 
 export default history

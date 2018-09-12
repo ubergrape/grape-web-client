@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
-import {FormattedMessage} from 'react-intl'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import random from 'lodash/number/random'
-import {small} from 'grape-theme/dist/fonts'
-import {grayLight} from 'grape-theme/dist/base-colors'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import random from 'lodash/random'
+import { small } from 'grape-theme/dist/fonts'
+import { grayLight } from 'grape-theme/dist/base-colors'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 
 const dotAnimation = `dot-${random(1000000)}`
 
@@ -18,7 +18,7 @@ const getText = (users, max) => {
     return (
       <FormattedMessage
         id="userIsTyping"
-        values={{user: names[0]}}
+        values={{ user: names[0] }}
         defaultMessage="{user} is typing"
       />
     )
@@ -31,7 +31,7 @@ const getText = (users, max) => {
         id="userAndUsersAreTyping"
         values={{
           users: names.join(', '),
-          user: last
+          user: last,
         }}
         defaultMessage="{users} and {user} are typing"
       />
@@ -43,7 +43,7 @@ const getText = (users, max) => {
       id="usersAreTyping"
       values={{
         users: names.slice(0, max).join(', '),
-        othersAmount: names.length - max
+        othersAmount: names.length - max,
       }}
       defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
     />
@@ -69,35 +69,31 @@ const getText = (users, max) => {
       verticalAlign: 'bottom',
       width: 0,
       animation: `${dotAnimation} steps(4, end) 1s infinite`,
-      color: 'inherit'
-    }
+      color: 'inherit',
+    },
   },
   [`@keyframes ${dotAnimation}`]: {
     to: {
-      width: '1em'
-    }
-  }
+      width: '1em',
+    },
+  },
 })
 export default class TypingUsers extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     users: PropTypes.array,
-    max: PropTypes.number
+    max: PropTypes.number,
   }
 
   static defaultProps = {
     max: 3,
     className: null,
-    users: []
+    users: [],
   }
 
   render() {
-    const {classes, max, users} = this.props
+    const { classes, max, users } = this.props
 
-    return (
-      <div className={classes.typingUsers}>
-        {getText(users, max)}
-      </div>
-    )
+    return <div className={classes.typingUsers}>{getText(users, max)}</div>
   }
 }

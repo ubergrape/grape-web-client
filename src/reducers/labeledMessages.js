@@ -1,5 +1,5 @@
-import find from 'lodash/collection/find'
-import merge from 'lodash/object/merge'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
 
 import * as types from '../constants/actionTypes'
 
@@ -10,23 +10,23 @@ const initialState = {
   options: {
     currentChannelOnly: {
       show: true,
-      status: false
-    }
+      status: false,
+    },
   },
   newMessagesAmount: 0,
-  filter: 'all'
+  filter: 'all',
 }
 
 export default function reduce(state = initialState, action) {
-  const {payload} = action
+  const { payload } = action
 
   switch (action.type) {
     case types.SET_SIDEBAR_OPTIONS:
-      return {...state, options: merge({}, state.options, action.payload)}
+      return { ...state, options: merge({}, state.options, action.payload) }
     case types.REQUEST_LABELED_MESSAGES:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       }
     case types.HANDLE_LOADED_LABELED_MESSAGES:
       return {
@@ -34,14 +34,14 @@ export default function reduce(state = initialState, action) {
         isLoading: false,
         newMessagesAmount: 0,
         messages: payload.messages,
-        labelConfigs: payload.labelConfigs
+        labelConfigs: payload.labelConfigs,
       }
     case types.HANDLE_MORE_LOADED_LABELED_MESSAGES:
       return {
         ...state,
         isLoading: false,
         messages: [...state.messages, ...payload.messages],
-        labelConfigs: payload.labelConfigs
+        labelConfigs: payload.labelConfigs,
       }
     case types.HIDE_SIDEBAR:
       return initialState
@@ -53,7 +53,7 @@ export default function reduce(state = initialState, action) {
         options,
         messages: initialState.messages,
         labelConfigs: initialState.labelConfigs,
-        isLoading: true
+        isLoading: true,
       }
     }
     case types.SET_CHANNEL: {
@@ -63,7 +63,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = {
         ...state,
-        channel: payload.channel
+        channel: payload.channel,
       }
 
       if (state.options.currentChannelOnly.status) {
@@ -76,42 +76,40 @@ export default function reduce(state = initialState, action) {
     case types.SELECT_LABELED_MESSAGE_FILTER:
       return {
         ...state,
-        filter: payload
+        filter: payload,
       }
     case types.UPDATE_MESSAGE: {
-      const messages = state.messages.map(message => (
-        message.id === payload.id ? payload : message
-      ))
-
-      return {...state, messages}
-    }
-    case types.REMOVE_MESSAGE: {
-      const messages = state.messages.filter(
-        message => message.id !== payload
+      const messages = state.messages.map(
+        message => (message.id === payload.id ? payload : message),
       )
 
-      return {...state, messages}
+      return { ...state, messages }
+    }
+    case types.REMOVE_MESSAGE: {
+      const messages = state.messages.filter(message => message.id !== payload)
+
+      return { ...state, messages }
     }
     case types.HANDLE_MESSAGE_LABELED: {
-      const {
-        filter, options, channel, newMessagesAmount, messages
-      } = state
+      const { filter, options, channel, newMessagesAmount, messages } = state
 
       // Ignore messages which don't pass the filter.
-      const isFiltered = filter !== 'all' && payload.labels.indexOf(filter) === -1
+      const isFiltered =
+        filter !== 'all' && payload.labels.indexOf(filter) === -1
       // User doesn't need to see a new message from a different channel
       // when this option is turned on.
-      const isWrongChannel = options.currentChannelOnly.status && payload.channel !== channel.id
+      const isWrongChannel =
+        options.currentChannelOnly.status && payload.channel !== channel.id
 
       if (isFiltered || isWrongChannel) return state
 
-      const hasMessage = Boolean(find(messages, {id: payload.id}))
+      const hasMessage = Boolean(find(messages, { id: payload.id }))
 
       if (hasMessage) return state
 
       return {
         ...state,
-        newMessagesAmount: newMessagesAmount + 1
+        newMessagesAmount: newMessagesAmount + 1,
       }
     }
     default:

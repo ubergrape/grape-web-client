@@ -1,15 +1,21 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
-import random from 'lodash/number/random'
+import { FormattedMessage } from 'react-intl'
+import random from 'lodash/random'
+import noop from 'lodash/noop'
 
 import Input from '../input/GrayInputNormal'
 
 export default function EmailsInput(props) {
   const {
-    theme: {classes},
-    value, disabled, focused = false, placeholder,
-    onChange, error, clearError
+    theme: { classes },
+    value,
+    disabled,
+    focused = false,
+    placeholder,
+    onChange,
+    error,
+    clearError,
   } = props
 
   let noteClassNames = classes.note
@@ -18,10 +24,8 @@ export default function EmailsInput(props) {
   const id = `emailAddresses${random(1000000)}`
   return (
     <div className={classes.line}>
-      <label
-        className={classes.label}
-        htmlFor={id}
-      >
+      {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+      <label className={classes.label} htmlFor={id}>
         <FormattedMessage
           id="emailAddresses"
           defaultMessage="Email addresses"
@@ -39,11 +43,15 @@ export default function EmailsInput(props) {
         disabled={disabled}
         placeholder={placeholder}
       />
-      <div className={noteClassNames}>
-        {placeholder}
-      </div>
+      <div className={noteClassNames}>{placeholder}</div>
     </div>
   )
+}
+
+EmailsInput.defaultProps = {
+  error: {},
+  focused: false,
+  clearError: noop,
 }
 
 EmailsInput.propTypes = {
@@ -53,6 +61,6 @@ EmailsInput.propTypes = {
   focused: PropTypes.bool,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
-  error: PropTypes.object
+  clearError: PropTypes.func,
+  error: PropTypes.object,
 }

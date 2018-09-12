@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import {Link as MarkdownTipsLink} from '../markdown-tips'
+import { Link as MarkdownTipsLink } from '../markdown-tips'
 import Controls from './Controls'
-import {styles} from './footerTheme'
+import { styles } from './footerTheme'
 import GrapeInput from './grape-input/GrapeInput'
 import TypingNotification from './typing-notification/TypingNotification'
 
@@ -12,10 +12,17 @@ import TypingNotification from './typing-notification/TypingNotification'
 export default class Footer extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    showBrowser: PropTypes.oneOf([false, 'emoji', 'emojiSuggest', 'user', 'search']).isRequired,
+    showBrowser: PropTypes.oneOf([
+      false,
+      'emoji',
+      'emojiSuggest',
+      'user',
+      'search',
+    ]).isRequired,
     org: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
@@ -47,7 +54,7 @@ export default class Footer extends PureComponent {
     onEditMessageAbort: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
-    goTo: PropTypes.func.isRequired
+    goTo: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -61,10 +68,10 @@ export default class Footer extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
-    onOpenFileDialog: undefined
+    onOpenFileDialog: undefined,
   }
 
-  onRef = (ref) => {
+  onRef = ref => {
     this.inputWithControls = ref
   }
 
@@ -80,6 +87,7 @@ export default class Footer extends PureComponent {
       customEmojis,
       images,
       disabled,
+      isMemberOfAnyRooms,
       search,
       autocomplete,
       services,
@@ -106,69 +114,79 @@ export default class Footer extends PureComponent {
       onSetTyping,
       onAddIntegration,
       onSearchChannelsToMention,
-      goTo
+      goTo,
     } = this.props
 
     return (
-      <footer className={`${classes.footer} ${targetMessage ? classes.highlighted : ''}`}>
-        <div className={classes.above}>
-          <div className={classes.typingNotificationContainer}>
-            <TypingNotification
-              channels={channels}
-              channel={channel}
-              cleanupTyping={onCleanupTyping}
-              className={classes.typingNotification}
-            />
+      <footer
+        className={`${classes.footer} ${
+          targetMessage ? classes.highlighted : ''
+        }`}
+      >
+        {isMemberOfAnyRooms && (
+          <div>
+            <div className={classes.above}>
+              <div className={classes.typingNotificationContainer}>
+                <TypingNotification
+                  channels={channels}
+                  channel={channel}
+                  cleanupTyping={onCleanupTyping}
+                  className={classes.typingNotification}
+                />
+              </div>
+              <MarkdownTipsLink
+                onClick={onShowMarkdownTips}
+                className={classes.markdownTipsLink}
+              />
+            </div>
+            <div className={classes.inputWithControls} ref={this.onRef}>
+              <GrapeInput
+                customEmojis={customEmojis}
+                images={images}
+                channel={channel}
+                org={org}
+                targetMessage={targetMessage}
+                quoteMessage={quoteMessage}
+                disabled={disabled}
+                showBrowser={showBrowser}
+                search={search}
+                autocomplete={autocomplete}
+                services={services}
+                servicesStats={servicesStats}
+                channelsToMention={channelsToMention}
+                onShowEmojiBrowser={onShowEmojiBrowser}
+                onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
+                onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
+                onShowSearchBrowser={onShowSearchBrowser}
+                onHideBrowser={onHideBrowser}
+                onCreateMessage={onCreateMessage}
+                onUpdateMessage={onEditMessageSend}
+                onAbortEdit={onEditMessageAbort}
+                onSetUnsentMessage={onSetUnsentMessage}
+                onEditPreviousMessage={onEditPreviousMessage}
+                onRequestAutocomplete={onRequestAutocomplete}
+                onRequestAutocompleteServices={onRequestAutocompleteServices}
+                onRequestAutocompleteServicesStats={
+                  onRequestAutocompleteServicesStats
+                }
+                onSetTyping={onSetTyping}
+                onAddIntegration={onAddIntegration}
+                onSearchChannelsToMention={onSearchChannelsToMention}
+                goTo={goTo}
+              />
+              <Controls
+                disabled={disabled}
+                showBrowser={showBrowser}
+                onUpload={onUploadFiles}
+                onShowEmojiBrowser={onShowEmojiBrowser}
+                onShowSearchBrowser={onShowSearchBrowser}
+                onHideBrowser={onHideBrowser}
+                onRejectFiles={onRejectFiles}
+                onOpenFileDialog={onOpenFileDialog}
+              />
+            </div>
           </div>
-          <MarkdownTipsLink
-            onClick={onShowMarkdownTips}
-            className={classes.markdownTipsLink}
-          />
-        </div>
-        <div className={classes.inputWithControls} ref={this.onRef}>
-          <GrapeInput
-            customEmojis={customEmojis}
-            images={images}
-            channel={channel}
-            org={org}
-            targetMessage={targetMessage}
-            quoteMessage={quoteMessage}
-            disabled={disabled}
-            showBrowser={showBrowser}
-            search={search}
-            autocomplete={autocomplete}
-            services={services}
-            servicesStats={servicesStats}
-            channelsToMention={channelsToMention}
-            onShowEmojiBrowser={onShowEmojiBrowser}
-            onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
-            onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
-            onShowSearchBrowser={onShowSearchBrowser}
-            onHideBrowser={onHideBrowser}
-            onCreateMessage={onCreateMessage}
-            onUpdateMessage={onEditMessageSend}
-            onAbortEdit={onEditMessageAbort}
-            onSetUnsentMessage={onSetUnsentMessage}
-            onEditPreviousMessage={onEditPreviousMessage}
-            onRequestAutocomplete={onRequestAutocomplete}
-            onRequestAutocompleteServices={onRequestAutocompleteServices}
-            onRequestAutocompleteServicesStats={onRequestAutocompleteServicesStats}
-            onSetTyping={onSetTyping}
-            onAddIntegration={onAddIntegration}
-            onSearchChannelsToMention={onSearchChannelsToMention}
-            goTo={goTo}
-          />
-          <Controls
-            disabled={disabled}
-            showBrowser={showBrowser}
-            onUpload={onUploadFiles}
-            onShowEmojiBrowser={onShowEmojiBrowser}
-            onShowSearchBrowser={onShowSearchBrowser}
-            onHideBrowser={onHideBrowser}
-            onRejectFiles={onRejectFiles}
-            onOpenFileDialog={onOpenFileDialog}
-          />
-        </div>
+        )}
       </footer>
     )
   }

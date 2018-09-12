@@ -1,11 +1,11 @@
-import findIndex from 'lodash/array/findIndex'
+import findIndex from 'lodash/findIndex'
 
 import * as types from '../constants/actionTypes'
 
 const initialState = {
   items: [],
   isLoading: false,
-  channel: undefined
+  channel: undefined,
 }
 
 export default function reduce(state = initialState, action) {
@@ -13,18 +13,18 @@ export default function reduce(state = initialState, action) {
     case types.SET_SIDEBAR_IS_LOADING:
     case types.REQUEST_PINNED_MESSAGES:
     case types.HANDLE_PINNED_MESSAGES:
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     case types.REMOVE_MESSAGE:
       return {
         ...state,
-        items: state.items.filter(({id}) => id !== action.payload)
+        items: state.items.filter(({ id }) => id !== action.payload),
       }
     case types.SET_CHANNEL:
       // Don't reset the state if channel hasn't changed.
       if (state.channel && state.channel.id === action.payload.channel.id) {
         return state
       }
-      return {...initialState, channel: action.payload.channel}
+      return { ...initialState, channel: action.payload.channel }
     case types.UPDATE_MESSAGE: {
       const message = action.payload
 
@@ -37,7 +37,7 @@ export default function reduce(state = initialState, action) {
         return state
       }
 
-      const index = findIndex(state.items, {id: message.id})
+      const index = findIndex(state.items, { id: message.id })
 
       if (index === -1 && !message.isPinned) return state
 
@@ -47,15 +47,15 @@ export default function reduce(state = initialState, action) {
       if (index === -1) {
         items.push(message)
         items = items.sort((a, b) => (a.time > b.time ? -1 : 1))
-      // Update a message.
+        // Update a message.
       } else if (message.isPinned) {
-        items[index] = {...items[index], ...message}
-      // Remove a message.
+        items[index] = { ...items[index], ...message }
+        // Remove a message.
       } else {
         items.splice(index, 1)
       }
 
-      return {...state, items}
+      return { ...state, items }
     }
     default:
       return state

@@ -1,32 +1,32 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {spacer} from 'grape-theme/dist/sizes'
+import { spacer } from 'grape-theme/dist/sizes'
 import fonts from 'grape-theme/dist/fonts'
 
-import {Loading, Communication} from '../i18n'
+import { Loading, Communication } from '../i18n'
 
-const styles = ({palette}) => ({
+const styles = ({ palette }) => ({
   loading: {
     display: 'flex',
     flexDirection: 'column',
-    padding: [spacer.xxl * 4, spacer.xl * 2, 0]
+    padding: [spacer.xxl * 4, spacer.xl * 2, 0],
   },
   title: {
     extend: fonts.big,
     textAlign: 'center',
     color: palette.grey[800],
-    fontWeight: 600
+    fontWeight: 600,
   },
   text: {
     extend: fonts.normal,
     textAlign: 'center',
     color: palette.grey[800],
     paddingTop: spacer.l,
-    lineHeight: '150%'
-  }
+    lineHeight: '150%',
+  },
 })
 
-const LoadingText = ({classes}) => (
+const LoadingText = ({ classes }) => (
   <div className={classes.loading}>
     <span className={classes.title}>
       <Loading />

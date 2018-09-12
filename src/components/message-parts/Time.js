@@ -1,44 +1,50 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
-import merge from 'lodash/object/merge'
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
+import merge from 'lodash/merge'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 
 import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
 import * as tooltipTheme from '../tooltip/themes/gray'
 
-import {styles} from './timeTheme'
+import { styles } from './timeTheme'
 
-const ThemedTooltip = useTheme(Tooltip, merge({}, tooltipTheme, {
-  styles: {tooltip: styles.tooltip},
-  arrowOffsetLeft: 10
-}))
+const ThemedTooltip = useTheme(
+  Tooltip,
+  merge({}, tooltipTheme, {
+    styles: { tooltip: styles.tooltip },
+    arrowOffsetLeft: 10,
+  }),
+)
 
 function UserTime(props) {
-  const {time, isOpened, theme: {classes}} = props
+  const {
+    time,
+    isOpened,
+    theme: { classes },
+  } = props
 
   return (
     <div className={classes.userTime}>
       <span className={isOpened ? classes.globeActive : classes.globe} />
-      {isOpened &&
+      {isOpened && (
         <ThemedTooltip placement="bottom">
           <div className={classes.userTimeContainer}>
             <span className={classes.userTimeText}>
-              <FormattedMessage
-                id="localTime"
-                defaultMessage="Local time"
-              />
+              <FormattedMessage id="localTime" defaultMessage="Local time" />
               {': '}
             </span>
             <span className={classes.userTimeTime}>
               {/* Moment.js is the only too who can properly handle utc offset. */}
-              {moment(time).utcOffset(time).format('LT')}
+              {moment(time)
+                .utcOffset(time)
+                .format('LT')}
             </span>
           </div>
         </ThemedTooltip>
-      }
+      )}
     </div>
   )
 }
@@ -47,7 +53,6 @@ UserTime.propTypes = {
   time: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired,
   isOpened: PropTypes.bool.isRequired,
-  formatTime: PropTypes.func.isRequired
 }
 
 /**
@@ -64,60 +69,70 @@ function isReadersTimezone(time) {
   return readersOffset === writersOffset
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class Time extends PureComponent {
+class Time extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     intl: intlShape.isRequired,
-    userTime: PropTypes.string
+    userTime: PropTypes.string,
+  }
+
+  static defaultProps = {
+    userTime: '',
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isWritersTimeOpened: false,
-      isSameTimezone: isReadersTimezone(props.userTime)
+      isSameTimezone: isReadersTimezone(props.userTime),
     }
   }
 
   onMouseOver = () => {
     if (this.state.isWritersTimeOpened) return
-    this.setState({isWritersTimeOpened: true})
+    this.setState({ isWritersTimeOpened: true })
   }
 
   onMouseOut = () => {
     if (!this.state.isWritersTimeOpened) return
-    this.setState({isWritersTimeOpened: false})
+    this.setState({ isWritersTimeOpened: false })
   }
 
   render() {
     const {
-      time, userTime,
-      intl: {formatTime},
-      sheet: {classes}
+      time,
+      userTime,
+      intl: { formatTime },
+      sheet: { classes },
     } = this.props
-    const {isSameTimezone, isWritersTimeOpened} = this.state
+    const { timeContainer, timeContainerHoverable } = classes
+    const { isSameTimezone, isWritersTimeOpened } = this.state
 
     return (
       <div
         className={classes.time}
         onMouseOver={this.onMouseOver}
+        onFocus={this.onMouseOver}
         onMouseOut={this.onMouseOut}
+        onBlur={this.onMouseOut}
       >
-        <span className={isSameTimezone ? classes.timeContainer : classes.timeContainerHoverable}>
+        <span
+          className={isSameTimezone ? timeContainer : timeContainerHoverable}
+        >
           {formatTime(time)}
         </span>
-        {!isSameTimezone && userTime &&
-          <UserTime
-            isOpened={isWritersTimeOpened}
-            time={userTime}
-            formatTime={formatTime}
-            theme={{classes}}
-          />
-        }
+        {!isSameTimezone &&
+          userTime && (
+            <UserTime
+              isOpened={isWritersTimeOpened}
+              time={userTime}
+              theme={{ classes }}
+            />
+          )}
       </div>
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(Time))

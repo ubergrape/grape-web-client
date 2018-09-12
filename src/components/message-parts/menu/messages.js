@@ -1,5 +1,5 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 export const edit = (
   <FormattedMessage
@@ -10,10 +10,7 @@ export const edit = (
 )
 
 export const more = (
-  <FormattedMessage
-    id="showMoreActions"
-    defaultMessage="Show more actions"
-  />
+  <FormattedMessage id="showMoreActions" defaultMessage="Show more actions" />
 )
 
 export const copyLink = (
@@ -56,8 +53,5 @@ export const removeLinkAttachment = (
 )
 
 export const quote = (
-  <FormattedMessage
-    id="quoteMessage"
-    defaultMessage="Quote message"
-  />
+  <FormattedMessage id="quoteMessage" defaultMessage="Quote message" />
 )

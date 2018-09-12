@@ -1,18 +1,18 @@
-import noop from 'lodash/utility/noop'
-import find from 'lodash/collection/find'
-import filter from 'lodash/collection/filter'
-import every from 'lodash/collection/every'
+import noop from 'lodash/noop'
+import find from 'lodash/find'
+import filter from 'lodash/filter'
+import every from 'lodash/every'
 import warning from 'warning'
 
-import {transports, dispatchers} from '../../constants/notification'
+import { transports, dispatchers } from '../../constants/notification'
 
 function createSequence(value, predicate = noop) {
   return transports.reduce((sequence, transport) => {
-    dispatchers.all.forEach((dispatcher) => {
+    dispatchers.all.forEach(dispatcher => {
       const setting = {
         transport,
         dispatcher,
-        active: value
+        active: value,
       }
       if (predicate(setting) !== false) sequence.push(setting)
     })
@@ -27,10 +27,13 @@ function createResetSequence(transport) {
 
 // Create a sequence which enables all mentions.
 function createAnyMentionSequence(transport) {
-  const sequence = createSequence(false, setting => setting.transport === transport)
-  return sequence.map((setting) => {
+  const sequence = createSequence(
+    false,
+    setting => setting.transport === transport,
+  )
+  return sequence.map(setting => {
     if (dispatchers.mentions.includes(setting.dispatcher)) {
-      return {...setting, active: true}
+      return { ...setting, active: true }
     }
 
     return setting
@@ -39,10 +42,13 @@ function createAnyMentionSequence(transport) {
 
 // Create a sequence which enables direct mentions only.
 function createDirectMentionSequence(transport) {
-  const sequence = createSequence(false, setting => setting.transport === transport)
-  return sequence.map((setting) => {
+  const sequence = createSequence(
+    false,
+    setting => setting.transport === transport,
+  )
+  return sequence.map(setting => {
     if (setting.dispatcher === 'mention') {
-      return {...setting, active: true}
+      return { ...setting, active: true }
     }
 
     return setting
@@ -56,7 +62,7 @@ function createAllMessagesSeqence(transport, value) {
 }
 
 // Returns a sequence for a given transport and setting.
-export function settingsToSequence({transport, setting, value}) {
+export function settingsToSequence({ transport, setting, value }) {
   if (transport === 'all' && setting === 'all') {
     return createSequence(value ? false : null)
   }
@@ -80,28 +86,30 @@ export function settingsToSequence({transport, setting, value}) {
 // Converts a sequence to settings object.
 export function sequenceToSettings(sequence) {
   // Returns true if all settings in the sequence are inactive.
-  const isInactive = seq => every(seq, {active: false})
+  const isInactive = seq => every(seq, { active: false })
 
   // Returns true if all settings in the sequence are active.
-  const isActive = seq => every(seq, {active: true})
+  const isActive = seq => every(seq, { active: true })
 
   // Returns true if all settings in the sequence are inherited.
-  const isInherit = seq => every(seq, {inherit: true})
+  const isInherit = seq => every(seq, { inherit: true })
 
   // Returns true if sequence has all kinds of mentions.
-  const isAnyMention = seq => Boolean(
-    find(seq, {dispatcher: 'mention', active: true}) &&
-    find(seq, {dispatcher: 'group_mention', active: true})
-  )
+  const isAnyMention = seq =>
+    Boolean(
+      find(seq, { dispatcher: 'mention', active: true }) &&
+        find(seq, { dispatcher: 'group_mention', active: true }),
+    )
 
   // Returns true if sequence has only direct mention.
-  const isDirectMention = seq => Boolean(
-    find(seq, {dispatcher: 'mention', active: true}) &&
-    !find(seq, {dispatcher: 'group_mention', active: true})
-  )
+  const isDirectMention = seq =>
+    Boolean(
+      find(seq, { dispatcher: 'mention', active: true }) &&
+        !find(seq, { dispatcher: 'group_mention', active: true }),
+    )
 
   const getValue = (seq, transport) => {
-    const transportSeq = filter(seq, {transport})
+    const transportSeq = filter(seq, { transport })
 
     if (isInherit(transportSeq)) return 'inherit'
     if (isActive(transportSeq)) return 'all'
@@ -109,7 +117,11 @@ export function sequenceToSettings(sequence) {
     if (isAnyMention(transportSeq)) return 'anyMention'
     if (isDirectMention(transportSeq)) return 'directMention'
 
-    warning(false, 'Bad notification settings: \n\r %s', JSON.stringify(sequence, null, 2))
+    warning(
+      false,
+      'Bad notification settings: \n\r %s',
+      JSON.stringify(sequence, null, 2),
+    )
 
     return 'inherit'
   }
@@ -117,5 +129,5 @@ export function sequenceToSettings(sequence) {
   const desktop = getValue(sequence, 'desktop')
   const push = getValue(sequence, 'push')
 
-  return {desktop, push}
+  return { desktop, push }
 }

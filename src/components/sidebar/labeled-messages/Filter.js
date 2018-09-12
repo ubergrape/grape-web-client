@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import webColors from 'grape-theme/dist/web-colors'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import FilterButton from './FilterButton'
 
@@ -10,25 +10,25 @@ import FilterButton from './FilterButton'
   filter: {
     padding: 15,
     textAlign: 'center',
-    borderBottom: [1, 'solid', webColors.borderDefault]
-  }
+    borderBottom: [1, 'solid', webColors.borderDefault],
+  },
 })
 export default class Filter extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
     selected: PropTypes.string,
-    items: PropTypes.array
+    items: PropTypes.array,
   }
 
   static defaultProps = {
     items: [],
     selected: null,
-    onSelect: noop
+    onSelect: noop,
   }
 
   render() {
-    const {classes, items, selected, onSelect} = this.props
+    const { classes, items, selected, onSelect } = this.props
 
     return (
       <div className={classes.filter}>

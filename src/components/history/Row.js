@@ -1,48 +1,41 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import {
-  intlShape,
-  injectIntl,
-  defineMessages
-} from 'react-intl'
+import { intlShape, injectIntl, defineMessages } from 'react-intl'
 
 import RegularMessage from './messages/regular/RegularMessage'
 import ActivityMessage from './messages/activity/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
-import {styles} from './rowTheme'
+import { styles } from './rowTheme'
 
 const messages = defineMessages({
   confirm: {
     id: 'deleteMessagesQuestion',
-    defaultMessage: 'Delete the selected Message?'
+    defaultMessage: 'Delete the selected Message?',
   },
   copy: {
     id: 'linkInClipboard',
-    defaultMessage: 'Message link added to clipboard'
-  }
+    defaultMessage: 'Message link added to clipboard',
+  },
 })
 
 const messageComponents = {
   regular: RegularMessage,
-  activity: ActivityMessage
+  activity: ActivityMessage,
 }
 
-const idPropType = PropTypes.oneOfType([
-  PropTypes.number,
-  PropTypes.string
-])
+const idPropType = PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
 const messagePropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(Object.keys(messageComponents)).isRequired,
   author: PropTypes.shape({
-    id: idPropType.isRequired
+    id: idPropType.isRequired,
   }).isRequired,
   time: PropTypes.instanceOf(Date).isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
 })
 
 @injectSheet(styles)
@@ -52,7 +45,7 @@ export default class Row extends PureComponent {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     user: PropTypes.shape({
-      id: idPropType.isRequired
+      id: idPropType.isRequired,
     }).isRequired,
     channel: PropTypes.object.isRequired,
     message: messagePropType.isRequired,
@@ -76,7 +69,7 @@ export default class Row extends PureComponent {
     selectedMessageId: PropTypes.string,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
-    onUnpin: PropTypes.func.isRequired
+    onUnpin: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -87,19 +80,19 @@ export default class Row extends PureComponent {
     prevMessage: null,
     style: null,
     key: null,
-    selectedMessageId: null
+    selectedMessageId: null,
   }
 
   onEdit = () => {
-    const {onEdit, message} = this.props
+    const { onEdit, message } = this.props
     onEdit(message)
   }
 
   onCopyLink = () => {
     const {
-      intl: {formatMessage},
+      intl: { formatMessage },
       onCopyLink,
-      message: {link}
+      message: { link },
     } = this.props
     copy(link)
     onCopyLink(formatMessage(messages.copy))
@@ -107,45 +100,57 @@ export default class Row extends PureComponent {
 
   onRemove = () => {
     const {
-      intl: {formatMessage},
+      intl: { formatMessage },
       onRemove,
       message,
-      duplicates
+      duplicates,
     } = this.props
 
     // eslint-disable-next-line no-alert
     if (confirm(formatMessage(messages.confirm))) {
-      onRemove([...duplicates, message.id].map(id => ({id})))
+      onRemove([...duplicates, message.id].map(id => ({ id })))
     }
   }
 
   onQuote = () => {
-    const {
-      message,
-      onQuote
-    } = this.props
+    const { message, onQuote } = this.props
 
-    onQuote({message})
+    onQuote({ message })
   }
 
   onResend = () => {
-    const {onResend, message} = this.props
+    const { onResend, message } = this.props
     onResend(message)
   }
 
   render() {
     const {
-      sheet: {classes},
-      user, onOpenPm, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, onPin, onUnpin,
-      isExpanded, isPm, style, key, onRemoveLinkAttachment, channel
+      sheet: { classes },
+      user,
+      onOpenPm,
+      selectedMessageId,
+      message,
+      prevMessage,
+      customEmojis,
+      isLast,
+      isGroupable,
+      duplicates,
+      onToggleExpander,
+      onPin,
+      onUnpin,
+      isExpanded,
+      isPm,
+      style,
+      key,
+      onRemoveLinkAttachment,
+      channel,
     } = this.props
 
     let separator = null
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
       separator = (
         <DateSeparator
-          theme={{date: classes.separator}}
+          theme={{ date: classes.separator }}
           date={message.time}
           key={`date-separator-${message.id}`}
         />
@@ -173,7 +178,7 @@ export default class Row extends PureComponent {
       onResend: this.onResend,
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
-      onRemoveLinkAttachment
+      onRemoveLinkAttachment,
     }
 
     if (message.type === 'activity') {
@@ -188,14 +193,14 @@ export default class Row extends PureComponent {
 
     return (
       <div
-        className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}
+        className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${
+          isLast ? classes.lastRow : ''
+        }`}
         style={style}
         key={key}
       >
         {separator}
-        <Message {...props}>
-          {message.text}
-        </Message>
+        <Message {...props}>{message.text}</Message>
       </div>
     )
   }

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
-import noop from 'lodash/utility/noop'
+import { FormattedMessage } from 'react-intl'
+import noop from 'lodash/noop'
 
-import {styles} from './noContentTheme'
+import { styles } from './noContentTheme'
 
-function Illustration({type, theme: {classes}}) {
+function Illustration({ type, theme: { classes } }) {
   return (
     <div className={classes.illustration}>
       <div className={classes[`${type}ChannelImage`]} />
@@ -16,7 +16,7 @@ function Illustration({type, theme: {classes}}) {
 
 Illustration.propTypes = {
   theme: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(['private', 'public', 'pm']).isRequired
+  type: PropTypes.oneOf(['private', 'public', 'pm']).isRequired,
 }
 
 const text = {
@@ -31,36 +31,34 @@ const text = {
       id="roomIsPrivate"
       defaultMessage="This group is private. Only invited members can see and join this group."
     />
-  )
+  ),
 }
 
 function RoomContent(props) {
   const {
     name,
     isPublic,
-    theme: {classes},
+    theme: { classes },
     onAddIntegration,
-    onInvite
+    onInvite,
   } = props
 
   return (
     <div className={classes.noContent}>
-      <Illustration type={isPublic ? 'public' : 'private'} theme={{classes}} />
+      <Illustration
+        type={isPublic ? 'public' : 'private'}
+        theme={{ classes }}
+      />
       <div className={classes.description}>
         <h2 className={classes.title}>
           <FormattedMessage
             id="welcomeToRoom"
             defaultMessage="Welcome to {channel}"
-            values={{channel: name}}
+            values={{ channel: name }}
           />
         </h2>
-        <p className={classes.text}>
-          {text[isPublic ? 'public' : 'private']}
-        </p>
-        <button
-          onClick={onInvite}
-          className={classes.buttonInvite}
-        >
+        <p className={classes.text}>{text[isPublic ? 'public' : 'private']}</p>
+        <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
             defaultMessage="Invite more people to this group"
@@ -85,24 +83,21 @@ RoomContent.propTypes = {
   isPublic: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
   onAddIntegration: PropTypes.func.isRequired,
-  onInvite: PropTypes.func.isRequired
+  onInvite: PropTypes.func.isRequired,
 }
 
 function PmContent(props) {
-  const {
-    partner,
-    classes
-  } = props
+  const { partner, classes } = props
 
   return (
     <div className={classes.noContent}>
-      <Illustration type="pm" theme={{classes}} />
+      <Illustration type="pm" theme={{ classes }} />
       <div className={classes.description}>
         <h2 className={classes.title}>
           <FormattedMessage
             id="welcomeToPm"
             defaultMessage="Private messages with {partner}"
-            values={{partner: partner.displayName}}
+            values={{ partner: partner.displayName }}
           />
         </h2>
         <p className={classes.text}>
@@ -111,7 +106,7 @@ function PmContent(props) {
             defaultMessage="This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you."
             values={{
               partner: partner.displayName,
-              br: <br />
+              br: <br />,
             }}
           />
         </p>
@@ -122,9 +117,9 @@ function PmContent(props) {
 
 PmContent.propTypes = {
   partner: PropTypes.shape({
-    displayName: PropTypes.string.isRequired
+    displayName: PropTypes.string.isRequired,
   }).isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 @injectSheet(styles)
@@ -137,13 +132,13 @@ export default class NoContent extends PureComponent {
       type: PropTypes.oneOf(['pm', 'room']).isRequired,
       name: PropTypes.string,
       isPublic: PropTypes.bool,
-      partner: PropTypes.shape({})
-    }).isRequired
+      partner: PropTypes.shape({}),
+    }).isRequired,
   }
 
   static defaultProps = {
     onInvite: noop,
-    onAddIntegration: noop
+    onAddIntegration: noop,
   }
 
   onInvite = () => {
@@ -151,18 +146,14 @@ export default class NoContent extends PureComponent {
   }
 
   render() {
-    const {
-      channel,
-      classes,
-      onAddIntegration
-    } = this.props
+    const { channel, classes, onAddIntegration } = this.props
 
     if (channel.type === 'room') {
       return (
         <RoomContent
           name={channel.name}
           isPublic={channel.isPublic}
-          theme={{classes}}
+          theme={{ classes }}
           onAddIntegration={onAddIntegration}
           onInvite={this.onInvite}
         />

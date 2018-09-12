@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
-import uniqueId from 'lodash/utility/uniqueId'
+import { FormattedMessage } from 'react-intl'
+import uniqueId from 'lodash/uniqueId'
 import Button from 'grape-web/lib/components/button'
 import Input from 'grape-web/lib/components/input'
 import FormControl from 'grape-web/lib/components/form/formControl'
@@ -11,19 +11,19 @@ import fonts from 'grape-theme/dist/fonts'
 const styles = {
   root: {
     display: 'block',
-    padding: [20, 0]
+    padding: [20, 0],
   },
   label: fonts.small,
   formControl: {
-    width: '100%'
+    width: '100%',
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   button: {
-    padding: [12, 16]
-  }
+    padding: [12, 16],
+  },
 }
 
 const Form = ({
@@ -36,7 +36,7 @@ const Form = ({
   isValid,
   errorMessage,
   inputId = uniqueId(),
-  inputPlaceholder
+  inputPlaceholder,
 }) => (
   <form onSubmit={onSubmit}>
     <div className={classes.root}>
@@ -68,12 +68,7 @@ const Form = ({
       </FormControl>
     </div>
     <div className={classes.buttonContainer}>
-      <Button
-        color="accent"
-        raised
-        type="submit"
-        className={classes.button}
-      >
+      <Button color="accent" raised type="submit" className={classes.button}>
         <FormattedMessage
           id="roomDeleteDialogDelete"
           defaultMessage="delete"

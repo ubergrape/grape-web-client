@@ -1,27 +1,27 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
-import {orgSelector} from '../selectors'
-import {error} from './'
+import { orgSelector } from '../selectors'
+import { error } from './'
 
 export const searchChannelsForNavigation = search => (dispatch, getState) => {
   dispatch({
     type: types.REQUEST_SEARCH_CHANNELS_FOR_NAV,
-    payload: search
+    payload: search,
   })
 
   const org = orgSelector(getState())
   api
     .searchChannels({
       orgId: org.id,
-      search
+      search,
     })
-    .then(({q, results}) => {
+    .then(({ q, results }) => {
       dispatch({
         type: types.HANDLE_FOUND_CHANNELS_FOR_NAV,
         payload: {
           search: q,
-          results
-        }
+          results,
+        },
       })
     })
     .catch(err => dispatch(error(err)))

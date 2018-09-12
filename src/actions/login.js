@@ -1,12 +1,14 @@
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
-import {goTo} from './'
+import { goTo } from './'
 
-export const loginFromEmbedded = () => (dispatch) => {
-  dispatch({type: types.LOGIN_FROM_EMBEDDED})
+export const loginFromEmbedded = () => dispatch => {
+  dispatch({ type: types.LOGIN_FROM_EMBEDDED })
   if (conf.organization.ssoEnabled) {
     dispatch(goTo(`${conf.server.serviceUrl}/sso/sso?next=${location.href}`))
     return
   }
-  dispatch(goTo(`${conf.server.serviceUrl}/accounts/login/?next=${location.href}`))
+  dispatch(
+    goTo(`${conf.server.serviceUrl}/accounts/login/?next=${location.href}`),
+  )
 }

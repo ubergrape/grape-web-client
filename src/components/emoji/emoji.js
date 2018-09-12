@@ -1,6 +1,6 @@
 import EmojiConvertor from 'grape-js-emoji'
-import {getSliceStyle} from 'grape-browser/lib/components/emoji'
-import {emojiSheet} from '../../constants/images'
+import { getSliceStyle } from 'grape-browser/lib/components/emoji'
+import { emojiSheet } from '../../constants/images'
 
 const emoji = new EmojiConvertor()
 
@@ -10,7 +10,8 @@ emoji.use_sheet = true
 
 // https://github.com/ubergrape/chatgrape/issues/839
 // https://bugzilla.mozilla.org/show_bug.cgi?id=923007
-const isFirefoxOnOsx = navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel'
+const isFirefoxOnOsx =
+  navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel'
 // Since Windows7 can't render emojis natively the decision was
 // to render images for all Windows environments
 const isWindows = navigator.platform === 'Win32'
@@ -34,5 +35,5 @@ export const style = {
   display: 'inline-block',
   verticalAlign: 'middle',
   width: '1em',
-  height: '1em'
+  height: '1em',
 }

@@ -1,13 +1,14 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/lang/isEmpty'
-import find from 'lodash/collection/find'
-import {FormattedMessage} from 'react-intl'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
 import {
-  SharedFiles as SharedFilesText, PinnedMessages as PinnedMessagesText,
-  GroupInfo as GroupInfoText
+  SharedFiles as SharedFilesText,
+  PinnedMessages as PinnedMessagesText,
+  GroupInfo as GroupInfoText,
 } from '../../i18n'
 import SidebarPanel from '../SidebarPanel'
 import Divider from '../Divider'
@@ -18,33 +19,28 @@ import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
 import RoomActions from './RoomActions'
 import Description from './Description'
-import {getRoles} from '../utils'
-import {styles} from './roomInfoTheme.js'
+import { getRoles } from '../utils'
+import { styles } from './roomInfoTheme.js'
 
 const tabs = [
   {
     name: 'pinnedMessages',
     icon: 'pinFilled',
     render: 'renderPinnedMessages',
-    title: <PinnedMessagesText />
+    title: <PinnedMessagesText />,
   },
   {
     name: 'members',
     icon: 'accountGroup',
     render: 'renderMembers',
-    title: (
-      <FormattedMessage
-        id="members"
-        defaultMessage="Members"
-      />
-    )
+    title: <FormattedMessage id="members" defaultMessage="Members" />,
   },
   {
     name: 'files',
     icon: 'folderPicture',
     render: 'renderSharedFiles',
-    title: <SharedFilesText />
-  }
+    title: <SharedFilesText />,
+  },
 ]
 
 @injectSheet(styles)
@@ -79,26 +75,26 @@ export default class RoomInfo extends PureComponent {
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
-    notificationSettings: PropTypes.object.isRequired
+    notificationSettings: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     renameError: null,
     showSubview: 'pinnedMessages',
     subview: undefined,
-    onOpenSharedFile: undefined
+    onOpenSharedFile: undefined,
   }
 
   componentDidMount() {
-    const {onLoad, onShowSubview, channel} = this.props
+    const { onLoad, onShowSubview, channel } = this.props
     onShowSubview(tabs[0].name)
-    onLoad({channel})
+    onLoad({ channel })
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, onLoad} = this.props
+    const { channel, onLoad } = this.props
     const channelHasChanged = channel !== nextProps.channel
-    if (channelHasChanged) onLoad({channel: nextProps.channel})
+    if (channelHasChanged) onLoad({ channel: nextProps.channel })
   }
 
   onInvite = () => {
@@ -111,38 +107,43 @@ export default class RoomInfo extends PureComponent {
   }
 
   onChangePrivacy = () => {
-    const {setRoomPrivacy, channel} = this.props
+    const { setRoomPrivacy, channel } = this.props
     setRoomPrivacy(channel.id, !channel.isPublic)
   }
 
-  onSetRoomColor = (color) => {
-    const {setRoomColor, channel} = this.props
+  onSetRoomColor = color => {
+    const { setRoomColor, channel } = this.props
     setRoomColor(channel.id, color)
   }
 
-  onSetRoomIcon = (icon) => {
-    const {setRoomIcon, channel} = this.props
+  onSetRoomIcon = icon => {
+    const { setRoomIcon, channel } = this.props
     setRoomIcon(channel.id, icon)
   }
 
-  onSetRoomDescription = (description) => {
-    const {setRoomDescription, channel} = this.props
+  onSetRoomDescription = description => {
+    const { setRoomDescription, channel } = this.props
     setRoomDescription(channel.id, description)
   }
 
-  onRenameRoom = (name) => {
-    const {renameRoom, channel} = this.props
+  onRenameRoom = name => {
+    const { renameRoom, channel } = this.props
     renameRoom(channel.id, name)
   }
 
-  onChangeTab = (index) => {
+  onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
   }
 
   renderMembers = () => {
     const {
-      channel, goToAddIntegrations, user, openPm,
-      kickMemberFromChannel, subview: {users}, onLoadMembers
+      channel,
+      goToAddIntegrations,
+      user,
+      openPm,
+      kickMemberFromChannel,
+      subview: { users },
+      onLoadMembers,
     } = this.props
 
     return (
@@ -167,7 +168,7 @@ export default class RoomInfo extends PureComponent {
   }
 
   renderSharedFiles = () => {
-    const {onLoadSharedFiles, onOpenSharedFile, subview} = this.props
+    const { onLoadSharedFiles, onOpenSharedFile, subview } = this.props
 
     return (
       <SharedFiles
@@ -180,7 +181,11 @@ export default class RoomInfo extends PureComponent {
 
   renderPinnedMessages = () => {
     const {
-      onLoadPinnedMessages, onSelectPinnedMessage, onUnpin, subview, user
+      onLoadPinnedMessages,
+      onSelectPinnedMessage,
+      onUnpin,
+      subview,
+      user,
     } = this.props
 
     return (
@@ -196,25 +201,25 @@ export default class RoomInfo extends PureComponent {
 
   render() {
     const {
-      channel, renameError, clearRoomRenameError,
+      channel,
+      renameError,
+      clearRoomRenameError,
       classes,
-      showNotificationSettings, notificationSettings,
+      showNotificationSettings,
+      notificationSettings,
       showRoomDeleteDialog,
       user: currUser,
       showSubview,
-      onClose
+      onClose,
     } = this.props
 
     if (isEmpty(channel)) return null
 
-    const {allowEdit} = getRoles({channel, user: currUser})
-    const tab = find(tabs, {name: showSubview})
+    const { allowEdit } = getRoles({ channel, user: currUser })
+    const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel
-        title={<GroupInfoText />}
-        onClose={onClose}
-      >
+      <SidebarPanel title={<GroupInfoText />} onClose={onClose}>
         <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}

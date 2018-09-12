@@ -1,29 +1,31 @@
-import {mdReact} from 'markdown-react-js'
-import emoji from 'markdown-it-emoji'
-import pick from 'lodash/object/pick'
-import {defineMessages} from 'react-intl'
-import forcebreak from '../../utils/markdown-it-plugins/forcebreak'
+import { mdReact } from 'markdown-react-js'
+import pick from 'lodash/pick'
+import { defineMessages } from 'react-intl'
+import emojiPlugin from './markdown-it-emoji'
+import forcebreakPlugin from '../../utils/markdown-it-plugins/forcebreak'
 import jsEmoji from '../emoji/emoji'
 
 import {
   renderTag,
   renderEmoji,
   renderCustomEmojis,
-  renderInlineImage
+  renderInlineImage,
 } from './renderers'
-import {nonStandardProps} from './utils'
+import { nonStandardProps } from './utils'
 
 const messages = defineMessages({
   imageWithDescr: {
     id: 'imageWithDescr',
     defaultMessage: 'Image: [{description}]',
-    description: '**Used when rendered inline image from markdown with description.**'
+    description:
+      '**Used when rendered inline image from markdown with description.**',
   },
   imageWithoutDescr: {
     id: 'imageWithoutDescr',
     defaultMessage: 'Image: [No Description]',
-    description: '**Used when rendered inline image from markdown without description.**'
-  }
+    description:
+      '**Used when rendered inline image from markdown without description.**',
+  },
 })
 
 /**
@@ -37,34 +39,39 @@ class Renderer {
       markdownOptions: {
         linkify: true,
         html: false,
-        breaks: true
+        breaks: true,
       },
       onIterate: this.renderTag,
       convertRules: {
         emoji: this.renderEmoji,
         inline: this.renderInline,
-        image: this.renderInlineImage
+        image: this.renderInlineImage,
       },
-      plugins: [emoji, forcebreak]
+      plugins: [emojiPlugin, forcebreakPlugin],
     })
   }
 
   renderTag = (tag, props, children) => {
     const handler = this.props.renderTag || renderTag
-    return handler(tag, {...props, ...pick(this.props, nonStandardProps)}, children)
+    return handler(
+      tag,
+      { ...props, ...pick(this.props, nonStandardProps) },
+      children,
+    )
   }
 
-  renderEmoji = ({markup}) => renderEmoji(markup)
+  renderEmoji = ({ markup }) => renderEmoji(markup)
 
-  renderInline = (token, attrs, children) => renderCustomEmojis(children, this.props.customEmojis)
+  renderInline = (token, attrs, children) =>
+    renderCustomEmojis(children, this.props.customEmojis)
 
   renderInlineImage = (token, attrs, children) => {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     let message = messages.imageWithoutDescr
     let values
     if (children.length) {
       message = messages.imageWithDescr
-      values = {description: children[0]}
+      values = { description: children[0] }
     }
     return renderInlineImage(attrs.src, formatMessage(message, values))
   }
@@ -79,4 +86,4 @@ class Renderer {
 }
 
 const renderer = new Renderer()
-export default ::renderer.render
+export default renderer.render.bind(renderer)

@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import mapParams from './mapParams'
@@ -11,39 +11,40 @@ export default class RouteChanger extends Component {
     params: PropTypes.shape({
       mateId: PropTypes.string,
       channelId: PropTypes.string,
-      messageId: PropTypes.string
+      messageId: PropTypes.string,
     }),
-    name: PropTypes.oneOf(['root', 'pm', 'channel'])
+    name: PropTypes.oneOf(['root', 'pm', 'channel']),
+    isLoading: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     params: {
       mateId: '',
-      channel: ''
+      channel: '',
     },
-    name: 'root'
+    name: 'root',
   }
 
   componentDidMount() {
-    this.onChangeRoute()
+    if (!this.props.isLoading) {
+      this.onChangeRoute()
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location ||
+      this.props.isLoading !== prevProps.isLoading
+    ) {
       this.onChangeRoute()
     }
   }
 
   onChangeRoute() {
-    const {
-      params,
-      name,
-      onChangeRoute
-    } = this.props
-
+    const { params, name, onChangeRoute } = this.props
     onChangeRoute({
       name,
-      params: mapParams(name, params)
+      params: mapParams(name, params),
     })
   }
 

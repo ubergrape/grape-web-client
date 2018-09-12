@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 
 /**
  * Theming based on https://github.com/kof/theme-standard
@@ -11,15 +11,15 @@ import omit from 'lodash/object/omit'
 export default function useTheme(Component, options = {}) {
   const theme = omit(options, 'styles', 'jss')
 
-  const Theme = (props) => {
-    const {sheet, ...rest} = props
+  const Theme = props => {
+    const { sheet, ...rest } = props
     theme.classes = sheet.classes
     delete rest.theme
     return <Component theme={theme} {...rest} />
   }
 
   Theme.propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
   }
 
   return injectSheet(options.styles, options.jss)(Theme)

@@ -3,16 +3,16 @@ import React from 'react'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import IconButton from './IconButton'
 
-export default ({classes, title, description, icon, onPrev, onClose}) => (
+export default ({ classes, title, description, icon, onPrev, onClose }) => (
   <header className={classes.header}>
-    {onPrev &&
+    {onPrev && (
       <IconButton
         classes={classes}
         className={classes.headerControlPrev}
         icon="angleLeft"
         onClick={onPrev}
       />
-    }
+    )}
     <div className={classes.headerContent}>
       <h2 className={classes.headerTitle}>
         {icon && <Icon name={icon} className={classes.headerTitleIcon} />}
@@ -20,13 +20,13 @@ export default ({classes, title, description, icon, onPrev, onClose}) => (
       </h2>
       <p className={classes.headerDescr}>{description}</p>
     </div>
-    {onClose &&
+    {onClose && (
       <IconButton
         classes={classes}
         className={classes.headerControlClose}
         icon="close"
         onClick={onClose}
       />
-    }
+    )}
   </header>
 )

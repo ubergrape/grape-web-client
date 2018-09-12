@@ -1,35 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/utility/noop'
-import {FormattedMessage} from 'react-intl'
+import noop from 'lodash/noop'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import sizes from 'grape-theme/dist/sizes'
 import fonts from 'grape-theme/dist/fonts'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import {settingsButtonSize} from './constants'
+import { settingsButtonSize } from './constants'
 
-const icon = (name, palette) => buttonIcon(name, {
-  color: palette.text.primary,
-  hoverColor: palette.secondary.A200,
-  size: settingsButtonSize
-})
+const icon = (name, palette) =>
+  buttonIcon(name, {
+    color: palette.text.primary,
+    hoverColor: palette.secondary.A200,
+    size: settingsButtonSize,
+  })
 
-const styles = ({palette}) => ({
+const styles = ({ palette }) => ({
   action: {
     display: 'block',
     listStyleType: 'none',
     marginTop: sizes.spacer.s,
     '&:first-child': {
       isolate: false,
-      marginTop: 0
+      marginTop: 0,
     },
     '&:last-child': {
       isolate: false,
-      marginBottom: 0
-    }
+      marginBottom: 0,
+    },
   },
   baseButton: {
     extend: [linkButton, fonts.small, ellipsis],
@@ -38,33 +39,36 @@ const styles = ({palette}) => ({
     marginBottom: sizes.spacer.xs,
     '&:hover': {
       isolate: false,
-      color: palette.text.primary
-    }
+      color: palette.text.primary,
+    },
   },
   buttonInvite: {
     composes: '$baseButton',
     extend: icon('invite', palette),
-    color: palette.text.secondary
+    color: palette.text.secondary,
   },
   buttonIntegration: {
     composes: '$baseButton',
     extend: icon('plug', palette),
-    color: palette.text.secondary
+    color: palette.text.secondary,
   },
   buttonLeave: {
     composes: '$baseButton',
     extend: icon('leave', palette),
-    color: palette.text.secondary
-  }
+    color: palette.text.secondary,
+  },
 })
 
-const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) => (
+const RoomActions = ({
+  classes,
+  onLeave,
+  onInvite,
+  onAddIntegration,
+  channel,
+}) => (
   <ul>
     <li className={classes.action}>
-      <button
-        onClick={onInvite}
-        className={classes.buttonInvite}
-      >
+      <button onClick={onInvite} className={classes.buttonInvite}>
         <FormattedMessage
           id="inviteMoreToGroup"
           defaultMessage="Invite more people to this group"
@@ -73,10 +77,7 @@ const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) =>
       </button>
     </li>
     <li className={classes.action}>
-      <button
-        onClick={onAddIntegration}
-        className={classes.buttonIntegration}
-      >
+      <button onClick={onAddIntegration} className={classes.buttonIntegration}>
         <FormattedMessage
           id="addServiceIntegration"
           defaultMessage="Add service integration"
@@ -85,14 +86,11 @@ const RoomActions = ({classes, onLeave, onInvite, onAddIntegration, channel}) =>
       </button>
     </li>
     <li className={classes.action}>
-      <button
-        onClick={onLeave}
-        className={classes.buttonLeave}
-      >
+      <button onClick={onLeave} className={classes.buttonLeave}>
         <FormattedMessage
           id="leaveChannel"
           defaultMessage="Leave {channel}"
-          values={{channel: channel.name}}
+          values={{ channel: channel.name }}
           description="Room Info Panel: leave room link"
         />
       </button>
@@ -106,8 +104,8 @@ RoomActions.propTypes = {
   onInvite: PropTypes.func,
   onAddIntegration: PropTypes.func,
   channel: PropTypes.shape({
-    name: PropTypes.string.isRequired
-  })
+    name: PropTypes.string.isRequired,
+  }),
 }
 
 RoomActions.defaultProps = {
@@ -115,8 +113,8 @@ RoomActions.defaultProps = {
   onInvite: noop,
   onAddIntegration: noop,
   channel: {
-    name: 'Undefined'
-  }
+    name: 'Undefined',
+  },
 }
 
 export default injectSheet(styles)(RoomActions)

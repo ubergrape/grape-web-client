@@ -1,9 +1,9 @@
 import debug from 'debug'
 import request from 'superagent'
-import assign from 'lodash/object/assign'
+import assign from 'lodash/assign'
 
 import conf from '../../conf'
-import {toSnake, toCamel} from './convertCase'
+import { toSnake, toCamel } from './convertCase'
 import client from './client'
 
 const log = debug('rpc')
@@ -32,15 +32,19 @@ if (conf.forceLongpolling) {
   }
 } else {
   rpc = (data, callback) => {
-    client().call(`${data.ns}/${data.action}`, ...(data.args || []), (err, res) => {
-      if (err) log('err', err, err.details)
-      else log('res', res)
-      callback(err, res)
-    })
+    client().call(
+      `${data.ns}/${data.action}`,
+      ...(data.args || []),
+      (err, res) => {
+        if (err) log('err', err, err.details)
+        else log('res', res)
+        callback(err, res)
+      },
+    )
   }
 }
 
-export default function (data, ...args) {
+export default function(data, ...args) {
   let options = args[0]
   let callback = args[1]
   if (typeof options === 'function') {

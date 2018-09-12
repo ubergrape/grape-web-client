@@ -1,13 +1,18 @@
-import find from 'lodash/collection/find'
+import find from 'lodash/find'
 
 import * as types from '../constants/actionTypes'
-import {alertsSelector} from '../selectors'
+import { alertsSelector } from '../selectors'
 
 const delayedTimeoutIds = {}
 
 export function showAlert(options) {
   const {
-    level, type, closeAfter, minLifeTime = 1000, delay, isClosable
+    level,
+    type,
+    closeAfter,
+    minLifeTime = 1000,
+    delay,
+    isClosable,
   } = options
 
   const action = {
@@ -18,12 +23,12 @@ export function showAlert(options) {
       timestamp: Date.now(),
       closeAfter,
       minLifeTime,
-      isClosable
-    }
+      isClosable,
+    },
   }
 
   if (delay) {
-    return (dispatch) => {
+    return dispatch => {
       clearTimeout(delayedTimeoutIds[type])
       delayedTimeoutIds[type] = setTimeout(() => {
         dispatch(action)
@@ -37,14 +42,14 @@ export function showAlert(options) {
 export function hideAlert(alert) {
   const action = {
     type: types.HIDE_ALERT,
-    payload: alert
+    payload: alert,
   }
 
   const delay = Date.now() - (alert.minLifeTime + alert.timestamp)
   const isInThePast = delay < 0
 
   if (isInThePast) {
-    return (dispatch) => {
+    return dispatch => {
       setTimeout(() => {
         clearTimeout(delayedTimeoutIds[alert.type])
         dispatch(action)
@@ -57,7 +62,7 @@ export function hideAlert(alert) {
 
 export function hideAlertByType(type) {
   return (dispatch, getState) => {
-    const {alerts} = alertsSelector(getState())
+    const { alerts } = alertsSelector(getState())
     const alertByType = find(alerts, alertItem => type === alertItem.type)
     if (alertByType) {
       dispatch(hideAlert(alertByType))
