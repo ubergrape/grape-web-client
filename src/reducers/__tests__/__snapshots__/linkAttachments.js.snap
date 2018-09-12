@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`linkAttachments reducer should handle HIDE_REMOVE_LINK_ATTACHMENT 1`] = `
+Object {
+  "show": false,
+}
+`;
+
+exports[`linkAttachments reducer should handle SHOW_REMOVE_LINK_ATTACHMENT 1`] = `
+Object {
+  "channelId": 666,
+  "isAdmin": true,
+  "messageId": "dfsdfv3432sdfk234",
+  "show": true,
+  "url": "https://google.com",
+}
+`;
