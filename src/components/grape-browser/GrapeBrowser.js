@@ -53,6 +53,7 @@ class GrapeBrowser extends Component {
     services: PropTypes.array,
     results: PropTypes.array,
     servicesStats: PropTypes.object,
+    channel: PropTypes.object,
     onDidMount: PropTypes.func,
     onEditPrevious: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -84,6 +85,7 @@ class GrapeBrowser extends Component {
     services: [],
     results: [],
     servicesStats: {},
+    channel: {},
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
@@ -459,7 +461,7 @@ class GrapeBrowser extends Component {
   }
 
   render() {
-    const { classes, onFocus, onEditPrevious, onResize } = this.props
+    const { classes, onFocus, onEditPrevious, onResize, channel } = this.props
 
     return (
       <div className={classes.grapeBrowser} data-test="grape-browser">
@@ -479,6 +481,7 @@ class GrapeBrowser extends Component {
             disabled={this.props.disabled}
             focused={this.state.inputFocused}
             content={this.state.content}
+            channel={channel}
             caretPosition={this.state.caretPosition}
           />
         </div>
