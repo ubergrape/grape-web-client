@@ -363,7 +363,7 @@ export const orgInfoSelector = createSelector(
 
 export const navigationPmsSelector = createSelector([pmsSelector], pms =>
   pms.filter(
-    pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
+    pm => pm.lastMessage.time || pm.temporaryInNavigation || pm.favorited,
   ),
 )
 
@@ -378,13 +378,16 @@ function sortRecentChannels(a, b) {
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
   } else {
-    aCompareValue = a.latestMessageTime || unixToIsoTimestamp(a.created)
+    aCompareValue =
+      Date.parse(a.lastMessage && a.lastMessage.time) ||
+      unixToIsoTimestamp(a.created)
   }
-
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue = b.latestMessageTime || unixToIsoTimestamp(b.created)
+    bCompareValue =
+      Date.parse(b.lastMessage && b.lastMessage.time) ||
+      unixToIsoTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue

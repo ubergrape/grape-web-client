@@ -14,16 +14,6 @@ import * as api from '../utils/backend/api'
 import conf from '../conf'
 
 /**
- * Fix data inconsistencies at the backend.
- * There are some PM's with only one participant.
- */
-export function removeBrokenPms(channel) {
-  const { type, users } = channel
-  if (type === 'pm' && users.length !== 2) return false
-  return true
-}
-
-/**
  * Checks if the channel where message has been posted exists.
  * This should only happen when db is inconsistent.
  */
@@ -78,17 +68,14 @@ export function reduceChannelUsersToId(channel) {
   }
 }
 
-const setJoined = (channel, userId) => ({
-  ...channel,
-  joined: channel.users.indexOf(userId) !== -1,
-})
-
-export function normalizeChannelData(channel, userId) {
+export function normalizeChannelData(channel) {
   const normalized = removeNullValues(
     pinToFavorite(reduceChannelUsersToId(channel)),
   )
-  if (userId) return setJoined(normalized, userId)
-  return normalized
+  return {
+    ...normalized,
+    joined: true,
+  }
 }
 
 export function normalizeUserData(user, organizations) {

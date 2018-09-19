@@ -48,6 +48,16 @@ export const getChannel = channelId =>
     { camelize: true },
   )
 
+export const getChannelsOverview = (organizationId, params) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_overview',
+      args: [organizationId, params],
+    },
+    { camelize: true },
+  )
+
 export const deleteChannel = (channelId, name) =>
   rpc({
     ns: 'channels',

@@ -7,7 +7,6 @@ import * as types from '../constants/actionTypes'
 import { reopen } from '../app/client'
 import {
   channelsSelector,
-  userSelector,
   orgSelector,
   appSelector,
   joinedChannelsSelector,
@@ -17,7 +16,6 @@ import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
   normalizeUserData,
-  removeBrokenPms,
   findLastUsedChannel,
 } from './utils'
 import {
@@ -43,12 +41,8 @@ export function error(err) {
   }
 }
 
-export const setChannels = channels => (dispatch, getState) => {
-  const user = userSelector(getState())
-
-  const payload = channels
-    .filter(removeBrokenPms)
-    .map(channel => normalizeChannelData(channel, user.id))
+export const setChannels = channels => dispatch => {
+  const payload = channels.map(channel => normalizeChannelData(channel))
 
   dispatch({
     type: types.SET_CHANNELS,
@@ -191,15 +185,16 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   Promise.all([
     api.getOrg(conf.organization.id),
     api.getPmsOverview(conf.organization.id),
+    api.getChannelsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, users, profile]) => {
+    .then(([org, users, { channels }, profile]) => {
       dispatch(setIntialDataLoading(false))
 
       dispatch(handleUserProfile(profile))
-      dispatch(setChannels(org.channels))
+      dispatch(setChannels(channels))
       dispatch(setUsers(users))
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
@@ -212,7 +207,6 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       if (route && route.params.channelId) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
-        const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
