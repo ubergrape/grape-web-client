@@ -14,6 +14,10 @@ const arrowWidth = 7
 const marginRight = 10
 const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
+const displayInline = {
+  isolate: false,
+  display: 'inline',
+}
 
 @injectSheet({
   message: {
@@ -55,7 +59,13 @@ const transition = 'box-shadow 150ms ease-out'
       boxShadow: `0px 1px 8px ${shadowColor}`,
     },
   },
-  innerContent: { ...contentStyles, width: '100%' },
+  innerContent: {
+    ...contentStyles,
+    width: '100%',
+    '& p': displayInline,
+    '& strong': displayInline,
+    '& span': displayInline,
+  },
 })
 export default class Message extends Component {
   static propTypes = {
