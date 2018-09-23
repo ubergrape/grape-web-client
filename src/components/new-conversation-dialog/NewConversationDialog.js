@@ -125,7 +125,9 @@ class NewConversationDialog extends PureComponent {
         isPublic,
       },
       listed,
-    )
+    ).then(() => {
+      this.setState({ saving: false })
+    })
   }
 
   onHide = () => {
@@ -181,14 +183,14 @@ class NewConversationDialog extends PureComponent {
 
   renderFooter() {
     const { classes, listed } = this.props
-    const { name } = this.state
+    const { name, saving } = this.state
 
     return (
       <div className={classes.footer}>
         <button
           onClick={this.onCreate}
           className={classes.createButton}
-          disabled={!listed.length && !name}
+          disabled={(!listed.length && !name) || saving}
         >
           <Create />
         </button>
