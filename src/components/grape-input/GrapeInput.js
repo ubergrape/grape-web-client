@@ -26,6 +26,7 @@ export default class GrapeInput extends Component {
     sheet: PropTypes.object.isRequired,
     // Prop `content` is a makrdown string.
     content: PropTypes.string,
+    channel: PropTypes.object,
     Editable: PropTypes.any,
   }
 
@@ -37,6 +38,7 @@ export default class GrapeInput extends Component {
     onChange: noop,
     onKeyDown: noop,
     Editable: Textarea,
+    channel: {},
     content: '',
   }
 
@@ -57,6 +59,9 @@ export default class GrapeInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.channel.id !== this.props.channel.id) {
+      this.onChange({ value: nextProps.content })
+    }
     if (nextProps.content !== this.state.content) {
       const { value, objects } = fromMarkdown(nextProps.content)
       this.setState({
