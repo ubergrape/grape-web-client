@@ -55,7 +55,14 @@ const transition = 'box-shadow 150ms ease-out'
       boxShadow: `0px 1px 8px ${shadowColor}`,
     },
   },
-  innerContent: { ...contentStyles, width: '100%' },
+  innerContent: {
+    ...contentStyles,
+    width: '100%',
+    '& p, & strong, & span': {
+      isolate: false,
+      display: 'inline',
+    },
+  },
 })
 export default class Message extends Component {
   static propTypes = {

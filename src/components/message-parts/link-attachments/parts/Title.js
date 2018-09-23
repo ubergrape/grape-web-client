@@ -11,7 +11,9 @@ const lighterLink = color(webColors.link)
 
 @injectSheet({
   text: {
+    isolate: false,
     extend: normal,
+    cursor: 'pointer',
     fontWeight: 'bold',
   },
   title: {
@@ -19,13 +21,11 @@ const lighterLink = color(webColors.link)
     '& $text': {
       isolate: false,
       color: webColors.link,
-      borderBottom: [1, 'solid', 'transparent'],
     },
     '&:hover $text, &:focus $text': {
       isolate: false,
       textDecoration: 'none',
       color: lighterLink,
-      borderBottomColor: lighterLink,
     },
   },
 })
