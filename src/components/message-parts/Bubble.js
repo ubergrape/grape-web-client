@@ -9,9 +9,11 @@ export default class Bubble extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
-    hasArrow: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    theme: PropTypes.object,
+    hasArrow: PropTypes.bool,
+    onMouseEnter: PropTypes.func.isRequired,
+    onMouseLeave: PropTypes.func.isRequired,
     style: PropTypes.object,
   }
 
@@ -35,6 +37,8 @@ export default class Bubble extends PureComponent {
       <div
         className={`${bubbleClass} ${theme.classes.bubble} ${className}`}
         style={style}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
       >
         <div className={`${classes.content} ${theme.classes.content}`}>
           {children}

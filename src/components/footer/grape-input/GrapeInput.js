@@ -73,6 +73,7 @@ class GrapeInput extends PureComponent {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     channel: PropTypes.object.isRequired,
@@ -114,6 +115,7 @@ class GrapeInput extends PureComponent {
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: null,
     quoteMessage: null,
     search: '',
@@ -392,6 +394,7 @@ class GrapeInput extends PureComponent {
       onRequestAutocompleteServicesStats,
       goTo,
       channel,
+      conf,
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
@@ -426,6 +429,7 @@ class GrapeInput extends PureComponent {
           <GrapeBrowser
             placeholder={formatMessage(placeholder)}
             disabled={disabled}
+            locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
             images={images}
