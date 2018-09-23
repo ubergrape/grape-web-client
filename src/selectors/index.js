@@ -515,6 +515,16 @@ export const markdownTipsSelector = createSelector(
   state => state,
 )
 
+export const isChannelDisabledSelector = createSelector(
+  [channelSelector, channelsSelector],
+  (channel, channels) => {
+    if (channel) return channel.type === 'pm' && !channel.isActive
+    return channels.length === 0 || !channel
+  },
+)
+
+export const confSelector = createSelector(state => state.conf, state => state)
+
 export const footerSelector = createSelector(
   state => state.footer,
   state => state,
@@ -528,6 +538,7 @@ export const footerComponentSelector = createSelector(
     historySelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
+    confSelector,
   ],
   (
     typingNotification,
@@ -536,6 +547,7 @@ export const footerComponentSelector = createSelector(
     history,
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
   ) => ({
     ...typingNotification,
     ...footer,
@@ -545,6 +557,7 @@ export const footerComponentSelector = createSelector(
     images: { ...images, orgLogo: org.logo },
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
   }),
 )
 

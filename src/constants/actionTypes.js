@@ -19,6 +19,8 @@ export const SET_CHANNEL = 'SET_CHANNEL'
 export const HANDLE_CHANGE_ROUTE = 'HANDLE_CHANGE_ROUTE'
 export const CHANGE_CHANNEL_STATUS = 'CHANGE_CHANNEL_STATUS'
 
+export const SET_CONF = 'SET_CONF'
+
 export const SHOW_INTRO = 'SHOW_INTRO'
 export const SHOW_NEXT_INTRO = 'SHOW_NEXT_INTRO'
 export const HIDE_INTRO = 'HIDE_INTRO'
