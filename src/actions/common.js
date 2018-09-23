@@ -50,28 +50,13 @@ export const setChannels = channels => dispatch => {
   })
 }
 
-export const setUsers = users => dispatch => {
-  dispatch({
-    type: types.SET_USERS,
-    payload: users.map(normalizeUserData),
-  })
-}
-
-export const addUser = user => dispatch => {
-  dispatch({
-    type: types.ADD_USER_TO_ORG,
-    payload: normalizeUserData(user),
-  })
-}
-
-export const addNewUser = userId => (dispatch, getState) => {
+export const addNewChannel = userId => (dispatch, getState) => {
   const org = orgSelector(getState())
 
   return api
     .openPm(org.id, userId)
     .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
     .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
       dispatch(
         addChannel({
           ...pmChannel,
@@ -82,13 +67,6 @@ export const addNewUser = userId => (dispatch, getState) => {
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
     })
-}
-
-export const updateUserPartnerInfo = userInfo => dispatch => {
-  dispatch({
-    type: types.UPDATE_USER_PARTNER_INFO,
-    payload: userInfo,
-  })
 }
 
 export function setOrg(org) {
@@ -184,18 +162,16 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getPmsOverview(conf.organization.id),
     api.getChannelsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, users, { channels }, profile]) => {
+    .then(([org, { channels }, profile]) => {
       dispatch(setIntialDataLoading(false))
 
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(channels))
-      dispatch(setUsers(users))
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 

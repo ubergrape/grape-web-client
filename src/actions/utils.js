@@ -29,7 +29,7 @@ export function pinToFavorite(channel) {
   const { pin } = channel
   const newChannel = {
     ...channel,
-    favorited: pin || pin === 0 ? { order: pin } : null,
+    favorited: pin ? { order: pin } : null,
   }
   delete newChannel.pin
   return newChannel

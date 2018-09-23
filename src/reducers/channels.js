@@ -1,5 +1,4 @@
 import findIndex from 'lodash/findIndex'
-import includes from 'lodash/includes'
 import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
@@ -52,26 +51,6 @@ export default function reduce(state = initialState, action) {
       return [...state, channel]
     }
 
-    case types.ADD_USER_TO_CHANNEL: {
-      const { user, channelId: id, userId, isCurrentUser } = action.payload
-      if (!user) return state
-
-      const newState = [...state]
-      const index = findIndex(newState, { id })
-      if (index === -1) return state
-      const channel = newState[index]
-      const { users } = channel
-      newState.splice(index, 1, {
-        ...channel,
-        // As a workaround of API bug,
-        // we have to ensure that user isn't joined already.
-        // https://github.com/ubergrape/chatgrape/issues/3804
-        users: includes(users, userId) ? users : [...users, userId],
-        joined: isCurrentUser || channel.joined,
-      })
-      return newState
-    }
-
     case types.REMOVE_USER_FROM_CHANNEL: {
       const { channelId, userId } = action.payload
       const index = findIndex(state, { id: channelId })
@@ -80,7 +59,6 @@ export default function reduce(state = initialState, action) {
       const channel = state[index]
       newState.splice(index, 1, {
         ...channel,
-        users: channel.users.filter(id => id !== userId),
         joined: conf.user.id !== userId,
       })
       return newState
@@ -186,6 +164,57 @@ export default function reduce(state = initialState, action) {
       newState.splice(index, 1, {
         ...channel,
         unsent: msg,
+      })
+      return newState
+    }
+
+    case types.CHANGE_CHANNEL_STATUS: {
+      const { userId: id, status } = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, pmChannel => {
+        if (pmChannel.partner) {
+          return pmChannel.partner.id === id
+        }
+        return pmChannel.id === id
+      })
+      if (index === -1) return state
+      const pmChannel = newState[index]
+      newState.splice(index, 1, {
+        ...pmChannel,
+        partner: {
+          ...pmChannel.partner,
+          status,
+        },
+      })
+      return newState
+    }
+
+    case types.UPDATE_PM_CHANNEL: {
+      const newState = [...state]
+      const index = findIndex(newState, { partner: { id: action.payload.id } })
+      if (index === -1) return state
+      const pmChannel = newState[index]
+      newState.splice(index, 1, {
+        ...pmChannel,
+        partner: {
+          ...action.payload,
+          status: pmChannel.partner.status,
+        },
+      })
+      return newState
+    }
+
+    case types.UPDATE_MEMBERSHIP: {
+      const { userId: id, update } = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+      if (index === -1) return state
+      const pmChannel = newState[index]
+      newState.splice(index, 1, {
+        ...pmChannel,
+        ...update,
       })
       return newState
     }

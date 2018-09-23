@@ -36,14 +36,27 @@ export function getEmojiSearchData(emoji, search) {
 
 export function searchChannelsToMention(mentions, channel) {
   const result = mentions.map(
-    ({ id, name, displayName, username, type, avatar, isPrivate, slug }, i) => {
+    (
+      {
+        id,
+        name,
+        displayName,
+        username,
+        type,
+        avatar,
+        membership,
+        isPrivate,
+        slug,
+      },
+      i,
+    ) => {
       if (type === 'user') {
         return {
           id,
           name: displayName,
           username,
           iconURL: avatar,
-          inRoom: channel.users.some(userId => userId === id),
+          inRoom: membership,
           rank: mentions.length - (i + 1),
           type: 'user',
         }

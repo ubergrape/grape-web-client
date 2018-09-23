@@ -6,10 +6,10 @@ import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import {
   orgSelector,
-  usersSelector,
+  pmsSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector,
+  roomsSelector,
   channelsSelector,
   joinedChannelsSelector,
 } from '../selectors'
@@ -21,7 +21,7 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser,
+  addNewChannel,
   goToLastUsedChannel,
   showSidebar,
   setIntialDataLoading,
@@ -30,7 +30,7 @@ import {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = joinedRoomsSelector(state)
+  const rooms = roomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
@@ -59,7 +59,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
   const user = userSelector(state)
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke addNewUser
+  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
   // which would result in the undesired API call open_pm.
   if (message.type) {
     dispatch(addNewMessage(message))
@@ -72,7 +72,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  dispatch(addNewUser(message.author.id)).then(() => {
+  dispatch(addNewChannel(message.author.id)).then(() => {
     dispatch(addNewMessage(message))
   })
 }
@@ -157,14 +157,12 @@ const addUserToChannel = payload => dispatch => {
 
 export function handleJoinedChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
-    const currentUser = userSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-
-    api.getUser(orgSelector(getState()).id, userId).then(foundUser => {
-      dispatch(
-        addUserToChannel({ channelId, user: foundUser, userId, isCurrentUser }),
-      )
-    })
+    const currentChannel = channelSelector(getState())
+    if (currentChannel.id === channelId) {
+      api.getUser(orgSelector(getState()).id, userId).then(user => {
+        dispatch(addUserToChannel({ user }))
+      })
+    }
   }
 }
 
@@ -191,7 +189,7 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
 }
 
 const newNotification = (notification, channel) => (dispatch, getState) => {
-  const users = usersSelector(getState())
+  const users = pmsSelector(getState())
   dispatch({
     type: types.HANDLE_NOTIFICATION,
     payload: {
@@ -210,7 +208,7 @@ export function handleNotification(notification) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewUser(notification.author.id)).then(() => {
+    dispatch(addNewChannel(notification.author.id)).then(() => {
       const updatedChannels = channelsSelector(getState())
       const addedChannel = find(updatedChannels, { id: notification.channelId })
       dispatch(newNotification(notification, addedChannel))
@@ -247,34 +245,34 @@ export function handleRemoveRoom({ channel: id }) {
   }
 }
 
-const changeUserStatue = payload => dispatch => {
+const changeChannelStatus = payload => dispatch => {
   dispatch({
-    type: types.CHANGE_USER_STATUS,
+    type: types.CHANGE_CHANNEL_STATUS,
     payload,
   })
 }
 
-export const handleUserStatusChange = ({ status, user: userId }) => (
+export const handlePmChannelStatusChange = ({ status, user: userId }) => (
   dispatch,
   getState,
 ) => {
-  const users = usersSelector(getState())
-  const user = find(users, { id: userId })
+  const channels = channelsSelector(getState())
+  const user = find(channels, { id: userId })
   if (user) {
-    dispatch(changeUserStatue({ status, userId }))
+    dispatch(changeChannelStatus({ status, userId }))
     return
   }
-  dispatch(addNewUser(userId)).then(() => {
-    dispatch(changeUserStatue({ status, userId }))
+  dispatch(addNewChannel(userId)).then(() => {
+    dispatch(changeChannelStatus({ status, userId }))
   })
 }
 
-export function handleUserUpdate({ user }) {
+export function handlePmChannelUpdate({ user }) {
   // TODO: handle if user change username and
   // he is current mate in active PM and
   // redirect at the new PM URL in this case
   return {
-    type: types.UPDATE_USER,
+    type: types.UPDATE_PM_CHANNEL,
     payload: user,
   }
 }
