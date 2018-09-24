@@ -40,7 +40,15 @@ export default function reduce(state = initialState, action) {
 
       return {
         ...state,
-        found: users,
+        found: users.length
+          ? users
+          : [
+              {
+                displayName: search,
+                email: search,
+                username: search,
+              },
+            ],
       }
     }
     case types.REQUEST_ROOM_CREATE:
