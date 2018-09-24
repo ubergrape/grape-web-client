@@ -27,7 +27,10 @@ export default function reduce(state = initialState, action) {
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
           // for the current session lifetime.
-          if (type === 'pm' && !channel.firstMessageTime) {
+          if (
+            type === 'pm' &&
+            !(channel.lastMessage && channel.lastMessage.time)
+          ) {
             newChannel.temporaryInNavigation = Date.now()
           }
           newState.push(newChannel)
@@ -104,8 +107,10 @@ export default function reduce(state = initialState, action) {
       const mentioned = channel.mentioned || 0
       newState.splice(index, 1, {
         ...channel,
-        latestMessageTime: timestamp,
-        firstMessageTime: channel.firstMessageTime || timestamp,
+        lastMessage: {
+          ...channel.lastMessage,
+          time: timestamp,
+        },
         mentioned: mentioned + mentionsCount || channel.mentioned,
         unread: isCurrentUser ? 0 : channel.unread + 1,
       })

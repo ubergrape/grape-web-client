@@ -77,7 +77,7 @@ export const joinedChannelsSelector = createSelector(
 )
 
 export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.firstMessageTime),
+  pms.filter(pm => pm.lastMessage && pm.lastMessage.time),
 )
 
 export const currentPmsSelector = createSelector(
@@ -334,15 +334,13 @@ function sortRecentChannels(a, b) {
     aCompareValue = a.temporaryInNavigation
   } else {
     aCompareValue =
-      Date.parse(a.lastMessage && a.lastMessage.time) ||
-      unixToIsoTimestamp(a.created)
+      (a.lastMessage && a.lastMessage.time) || unixToIsoTimestamp(a.created)
   }
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
     bCompareValue =
-      Date.parse(b.lastMessage && b.lastMessage.time) ||
-      unixToIsoTimestamp(b.created)
+      (b.lastMessage && b.lastMessage.time) || unixToIsoTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue

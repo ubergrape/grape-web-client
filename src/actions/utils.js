@@ -69,8 +69,15 @@ export function reduceChannelUsersToId(channel) {
 }
 
 export function normalizeChannelData(channel) {
+  const newChannel = {
+    ...channel,
+    lastMessage: {
+      ...channel.lastMessage,
+      time: channel.lastMessage && Date.parse(channel.lastMessage.time),
+    },
+  }
   const normalized = removeNullValues(
-    pinToFavorite(reduceChannelUsersToId(channel)),
+    pinToFavorite(reduceChannelUsersToId(newChannel)),
   )
   return {
     ...normalized,
@@ -323,7 +330,12 @@ export const findLastUsedChannel = (channels, withMessage) =>
     .filter(
       channel =>
         withMessage
-          ? channel.joined && channel.firstMessageTime
+          ? channel.joined && channel.lastMessage && channel.lastMessage.time
           : channel.joined,
     )
-    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
+    .sort(
+      (a, b) =>
+        b.latestMessage &&
+        b.latestMessage.time - a.latestMessage &&
+        a.latestMessage.time,
+    )[0]
