@@ -29,6 +29,7 @@ import {
   addChannel,
   handleRoomCreateError,
   showNewConversation,
+  hideBrowser,
 } from './'
 
 export function error(err) {
@@ -153,6 +154,8 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   if (!channel) return
 
+  dispatch(hideBrowser())
+
   dispatch({
     type: types.SET_CHANNEL,
     payload: {
@@ -181,8 +184,17 @@ export const setIntialDataLoading = payload => dispatch => {
   })
 }
 
+export const setConf = payload => dispatch => {
+  dispatch({
+    type: types.SET_CONF,
+    payload,
+  })
+}
+
 export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch(setIntialDataLoading(true))
+  dispatch(setConf(conf))
+
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
   dispatch({ type: types.REQUEST_USERS })

@@ -39,9 +39,11 @@ Object {
     },
     Object {
       "clientsideId": "abc",
+      "id": "345",
     },
     Object {
       "clientsideId": "def",
+      "id": "456",
     },
     Object {
       "author": Object {
@@ -154,6 +156,32 @@ Object {
   "backendHasNewerMessages": true,
   "loadedNewerMessage": false,
   "messages": Array [],
+}
+`;
+
+exports[`history reducer HANDLE_MORE_HISTORY should remove duplicates for messages with same id 1`] = `
+Object {
+  "backendHasNewerMessages": undefined,
+  "loadedNewerMessage": true,
+  "messages": Array [
+    Object {
+      "id": "123",
+    },
+    Object {
+      "id": "234",
+    },
+    Object {
+      "id": "345",
+    },
+    Object {
+      "id": "456",
+    },
+  ],
+  "newerMessagesRequest": undefined,
+  "olderMessagesRequest": undefined,
+  "scrollTo": null,
+  "scrollToAlignment": null,
+  "showNoContent": false,
 }
 `;
 

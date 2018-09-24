@@ -553,6 +553,8 @@ export const isChannelDisabledSelector = createSelector(
   },
 )
 
+export const confSelector = createSelector(state => state.conf, state => state)
+
 export const footerSelector = createSelector(
   state => state.footer,
   state => state,
@@ -567,6 +569,7 @@ export const footerComponentSelector = createSelector(
     isChannelDisabledSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
+    confSelector,
   ],
   (
     typingNotification,
@@ -576,6 +579,7 @@ export const footerComponentSelector = createSelector(
     isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
   ) => ({
     ...typingNotification,
     ...footer,
@@ -586,6 +590,7 @@ export const footerComponentSelector = createSelector(
     disabled: isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
   }),
 )
 

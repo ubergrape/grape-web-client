@@ -6,7 +6,7 @@ import { grayBlueDark } from 'grape-theme/dist/base-colors'
 import cn from 'classnames'
 
 import groupConsecutive from '../../../../utils/group-consecutive'
-import ImageAttachment from '../attachments/ImageAttachment'
+import BubbleImageAttachment from './parts/ImageAttachment'
 import Menu from '../menu/Menu'
 import {
   Author,
@@ -31,7 +31,40 @@ const groupFields = fields =>
 const getThumbUrl = ({ imageUrl, width, height }) =>
   `${imageUrl}${width}x${height}`
 
-class LinkAttachment extends PureComponent {
+@injectSheet({
+  main: {
+    flex: 1,
+    minWidth: 0,
+  },
+  side: {
+    marginLeft: 10,
+  },
+  text: {
+    extend: fonts.normal,
+    lineHeight: 1.4,
+    margin: 0,
+    color: grayBlueDark,
+  },
+  fields: {
+    display: 'block',
+    margin: [3, 0],
+  },
+  fieldGroup: {
+    display: 'block',
+    marginTop: 8,
+    '&:first-child': {
+      isolate: false,
+      marginTop: 0,
+    },
+  },
+  fieldGroupShort: {
+    display: 'flex',
+  },
+  embed: {
+    maxWidth: 480,
+  },
+})
+export default class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
     footerIcon: PropTypes.string,
@@ -45,17 +78,20 @@ class LinkAttachment extends PureComponent {
     text: PropTypes.string,
     imageUrl: PropTypes.string,
     thumbUrl: PropTypes.string,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     embedHtml: PropTypes.string,
     ts: PropTypes.number,
     fields: PropTypes.array,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     classes: PropTypes.object.isRequired,
     onRemove: PropTypes.func,
+    messageText: PropTypes.string,
   }
 
   static defaultProps = {
+    width: 360,
+    height: 360,
     fields: [],
     footerIcon: null,
     footer: null,
@@ -70,7 +106,9 @@ class LinkAttachment extends PureComponent {
     thumbUrl: null,
     embedHtml: null,
     ts: null,
+    className: '',
     onRemove: null,
+    messageText: '',
   }
 
   state = { isMenuOpened: false }
@@ -151,11 +189,11 @@ class LinkAttachment extends PureComponent {
 
     return (
       <Row spaced>
-        <ImageAttachment
+        <BubbleImageAttachment
           url={imageUrl}
           thumbnailUrl={thumbUrl}
-          thumbnailWidth={width}
-          thumbnailHeight={height}
+          width={width}
+          height={height}
         />
       </Row>
     )
@@ -231,81 +269,76 @@ class LinkAttachment extends PureComponent {
     )
   }
 
-  render() {
+  renderRemoveButton = () => {
+    const { isMenuOpened } = this.state
+
+    const isAllowedToRemove = this.props.onRemove && isMenuOpened
+
+    return (
+      isAllowedToRemove && (
+        <Menu {...this.menuProps} getContentNode={this.getContentNode} />
+      )
+    )
+  }
+
+  renderAttachments = () => {
     const {
       authorName,
       title,
       text,
       imageUrl,
-      thumbUrl,
       embedHtml,
       fields,
       footer,
-      className,
-      onRemove,
       classes,
     } = this.props
 
-    const { isMenuOpened } = this.state
-    const isAllowedToRemove = onRemove && isMenuOpened
+    return (
+      <div className={classes.main}>
+        {authorName && this.renderAuthor()}
+        {title && this.renderTitle()}
+        {text && this.renderText()}
+        {fields.length > 0 && this.renderFields()}
+        {footer && this.renderFooter()}
+        {imageUrl && !embedHtml && this.renderImage()}
+        {embedHtml && this.renderEmbed()}
+      </div>
+    )
+  }
+
+  render() {
+    const { imageUrl, embedHtml, thumbUrl } = this.props
+
+    const { className, messageText } = this.props
 
     return (
-      <div
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-        ref={this.onRefContent}
-        className={className}
-      >
-        <Bubble hasArrow={false}>
-          {isAllowedToRemove && (
-            <Menu {...this.menuProps} getContentNode={this.getContentNode} />
-          )}
-          <div className={classes.main}>
-            {authorName && this.renderAuthor()}
-            {title && this.renderTitle()}
-            {text && this.renderText()}
-            {fields.length > 0 && this.renderFields()}
-            {footer && this.renderFooter()}
-            {imageUrl && !embedHtml && this.renderImage()}
-            {embedHtml && this.renderEmbed()}
+      <div ref={this.onRefContent} className={className}>
+        {messageText ? (
+          <Bubble
+            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
+            hasArrow={false}
+          >
+            {this.renderRemoveButton()}
+            {this.renderAttachments()}
+            {!imageUrl &&
+              !embedHtml &&
+              thumbUrl &&
+              this.renderImageLinkPreview()}
+          </Bubble>
+        ) : (
+          <div
+            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
+          >
+            {this.renderAttachments()}
+            {!imageUrl &&
+              !embedHtml &&
+              thumbUrl &&
+              this.renderImageLinkPreview()}
           </div>
-          {!imageUrl && !embedHtml && thumbUrl && this.renderImageLinkPreview()}
-        </Bubble>
+        )}
       </div>
     )
   }
 }
-
-export default injectSheet({
-  main: {
-    flex: 1,
-    minWidth: 0,
-  },
-  side: {
-    marginLeft: 10,
-  },
-  text: {
-    extend: fonts.normal,
-    lineHeight: 1.4,
-    margin: 0,
-    color: grayBlueDark,
-  },
-  fields: {
-    display: 'block',
-    margin: [3, 0],
-  },
-  fieldGroup: {
-    display: 'block',
-    marginTop: 8,
-    '&:first-child': {
-      isolate: false,
-      marginTop: 0,
-    },
-  },
-  fieldGroupShort: {
-    display: 'flex',
-  },
-  embed: {
-    maxWidth: 480,
-  },
-})(LinkAttachment)

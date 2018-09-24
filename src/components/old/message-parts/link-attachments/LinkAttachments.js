@@ -10,11 +10,13 @@ class LinkAttachments extends PureComponent {
     classes: PropTypes.object.isRequired,
     onRemove: PropTypes.func,
     isAdmin: PropTypes.bool,
+    messageText: PropTypes.string,
   }
 
   static defaultProps = {
     onRemove: null,
     isAdmin: false,
+    messageText: '',
   }
 
   makeOnRemove = url => {
@@ -23,7 +25,7 @@ class LinkAttachments extends PureComponent {
   }
 
   render() {
-    const { onRemove, attachments, classes } = this.props
+    const { onRemove, attachments, classes, messageText } = this.props
 
     return (
       <div className={classes.root}>
@@ -31,6 +33,7 @@ class LinkAttachments extends PureComponent {
           <LinkAttachment
             {...meta}
             key={meta.sourceUrl}
+            messageText={messageText}
             onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
             className={classes.linkAttachment}
           />

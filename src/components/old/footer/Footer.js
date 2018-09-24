@@ -23,6 +23,7 @@ class Footer extends PureComponent {
       'search',
     ]).isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
@@ -59,6 +60,7 @@ class Footer extends PureComponent {
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: undefined,
     quoteMessage: undefined,
     search: '',
@@ -80,6 +82,7 @@ class Footer extends PureComponent {
       channels,
       channel,
       org,
+      conf,
       targetMessage,
       quoteMessage,
       showBrowser,
@@ -144,6 +147,7 @@ class Footer extends PureComponent {
                 images={images}
                 channel={channel}
                 org={org}
+                conf={conf}
                 targetMessage={targetMessage}
                 quoteMessage={quoteMessage}
                 disabled={disabled}

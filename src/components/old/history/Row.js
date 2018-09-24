@@ -5,6 +5,7 @@ import moment from 'moment'
 import copy from 'copy-to-clipboard'
 import { intlShape, injectIntl, defineMessages } from 'react-intl'
 
+import conf from '../../../conf'
 import RegularMessage from './messages/regular/RegularMessage'
 import ActivityMessage from './messages/activity/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
@@ -56,10 +57,10 @@ class Row extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    isLast: PropTypes.bool.isRequired,
-    isGroupable: PropTypes.bool.isRequired,
+    isLast: PropTypes.bool,
+    isGroupable: PropTypes.bool,
     isPm: PropTypes.bool.isRequired,
-    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string),
     style: PropTypes.object,
     key: PropTypes.string,
     isExpanded: PropTypes.bool,
@@ -71,7 +72,10 @@ class Row extends PureComponent {
   }
 
   static defaultProps = {
+    isLast: false,
+    isGroupable: false,
     isExpanded: false,
+    duplicates: [],
     prevMessage: null,
     style: null,
     key: null,
@@ -186,6 +190,8 @@ class Row extends PureComponent {
       props.hasBubbleArrow = false
     }
 
+    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
+
     return (
       <div
         className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${
@@ -195,7 +201,9 @@ class Row extends PureComponent {
         key={key}
       >
         {separator}
-        <Message {...props}>{message.text}</Message>
+        <Message {...props} isAdmin={isAdmin}>
+          {message.text}
+        </Message>
       </div>
     )
   }

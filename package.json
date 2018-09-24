@@ -1,11 +1,11 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.10.3",
+  "version": "1.10.5",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": "8.11.4"
+    "node": "8.12.0"
   },
   "dependencies": {
     "@ubergrape/react-notification": "^6.5.3",
@@ -155,7 +155,8 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "git add"
+      "git add",
+      "jest --bail --findRelatedTests"
     ],
     "*.{json,md}": [
       "prettier --write",

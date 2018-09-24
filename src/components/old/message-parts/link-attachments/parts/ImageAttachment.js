@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { borderRadius } from 'grape-theme/dist/sizes'
 import { grayLighter } from 'grape-theme/dist/base-colors'
 
-import ImageZoom from '../../image-zoom/ImageZoom'
+import ImageZoom from '../../../image-zoom/ImageZoom'
 
 export const styles = {
   thumbnail: {
@@ -24,33 +24,28 @@ export const styles = {
 }
 
 function calcThumbnailSize(options) {
-  const {
-    thumbnailWidth,
-    thumbnailHeight,
-    maxThumbnailWidth,
-    maxThumbnailHeight,
-  } = options
+  const { width, height, maxThumbnailWidth, maxThumbnailHeight } = options
 
   // Landscape
-  if (thumbnailWidth >= thumbnailHeight) {
-    const width = Math.min(thumbnailWidth, maxThumbnailWidth)
-    const height = Math.round((width * thumbnailHeight) / thumbnailWidth)
-    return { width, height }
+  if (width >= height) {
+    const landWidth = Math.min(width, maxThumbnailWidth)
+    const landHeight = Math.round((landWidth * height) / width)
+    return { width: landWidth, height: landHeight }
   }
 
   // Portrait
-  const height = Math.min(maxThumbnailHeight, thumbnailHeight)
-  const width = (height * thumbnailWidth) / thumbnailHeight
-  return { width, height }
+  const portHeight = Math.min(maxThumbnailHeight, height)
+  const portWidth = (portHeight * width) / height
+  return { width: portWidth, height: portHeight }
 }
 
-class ImageAttachment extends PureComponent {
+@injectSheet(styles)
+export default class ImageAttachment extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
-    thumbnailUrl: PropTypes.string.isRequired,
-    thumbnailWidth: PropTypes.number.isRequired,
-    thumbnailHeight: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     maxThumbnailWidth: PropTypes.number,
     maxThumbnailHeight: PropTypes.number,
   }
@@ -70,13 +65,13 @@ class ImageAttachment extends PureComponent {
     const {
       sheet: { classes },
       url,
-      thumbnailUrl,
-      thumbnailWidth,
-      thumbnailHeight,
+      width,
+      height,
       maxThumbnailWidth,
       maxThumbnailHeight,
     } = this.props
-    const backgroundImage = `url(${thumbnailUrl})`
+
+    const backgroundImage = `url(${url})`
 
     return (
       <ImageZoom
@@ -87,8 +82,8 @@ class ImageAttachment extends PureComponent {
         style={{
           backgroundImage,
           ...calcThumbnailSize({
-            thumbnailWidth,
-            thumbnailHeight,
+            width,
+            height,
             maxThumbnailWidth,
             maxThumbnailHeight,
           }),
@@ -97,5 +92,3 @@ class ImageAttachment extends PureComponent {
     )
   }
 }
-
-export default injectSheet(styles)(ImageAttachment)

@@ -7,11 +7,9 @@ export const styles = {
     alignItems: 'center',
   },
   link: {
+    cursor: 'pointer',
     color: grayBombay,
     textDecoration: 'none',
-    '&:hover, &:focus': {
-      textDecoration: 'underline',
-    },
   },
   icon: {
     width: normal.fontSize,
@@ -19,6 +17,7 @@ export const styles = {
     marginRight: 5,
   },
   text: {
+    cursor: 'pointer',
     lineHeight: 'normal',
     marginTop: 2,
     color: grayBombay,
