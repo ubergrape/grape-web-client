@@ -393,6 +393,7 @@ class GrapeInput extends PureComponent {
       onHideBrowser,
       onRequestAutocompleteServicesStats,
       goTo,
+      channel,
       conf,
       intl: { formatMessage },
     } = this.props
@@ -440,6 +441,7 @@ class GrapeInput extends PureComponent {
             onDidMount={this.onGrapeBrowserRef}
             onChange={this.onChange}
             goTo={goTo}
+            channel={channel}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
             {...browserProps}
           />

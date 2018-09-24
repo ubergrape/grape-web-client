@@ -29,6 +29,7 @@ import {
   addChannel,
   handleRoomCreateError,
   showNewConversation,
+  hideBrowser,
 } from './'
 
 export function error(err) {
@@ -152,6 +153,8 @@ export const setChannel = (channelOrChannelId, messageId) => (
   }
 
   if (!channel) return
+
+  dispatch(hideBrowser())
 
   dispatch({
     type: types.SET_CHANNEL,
