@@ -11,22 +11,12 @@ import { maxSize as maxFileSize } from '../file-upload'
 import { Beacon } from '../intro'
 
 const AttachmentButton = props => {
-  const {
-    classes,
-    disabled,
-    onDropAccepted,
-    onDropRejected,
-    onOpenFileDialog,
-  } = props
+  const { classes, onDropAccepted, onDropRejected, onOpenFileDialog } = props
 
   // Upload click will be handled using public API.
   if (onOpenFileDialog) {
     return (
-      <IconButton
-        className={classes.button}
-        onClick={onOpenFileDialog}
-        disabled={disabled}
-      >
+      <IconButton className={classes.button} onClick={onOpenFileDialog}>
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     )
@@ -36,15 +26,10 @@ const AttachmentButton = props => {
     <Dropzone
       className={classes.dropzone}
       maxSize={maxFileSize}
-      disableClick={disabled}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     >
-      <IconButton
-        className={classes.button}
-        onClick={onOpenFileDialog}
-        disabled={disabled}
-      >
+      <IconButton className={classes.button} onClick={onOpenFileDialog}>
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     </Dropzone>
@@ -81,7 +66,6 @@ export default class Controls extends PureComponent {
       'search',
     ]).isRequired,
     classes: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
     onUpload: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
@@ -91,7 +75,6 @@ export default class Controls extends PureComponent {
   }
 
   static defaultProps = {
-    disabled: false,
     onOpenFileDialog: undefined,
   }
 
@@ -116,12 +99,11 @@ export default class Controls extends PureComponent {
   }
 
   render() {
-    const { classes, disabled, onOpenFileDialog } = this.props
+    const { classes, onOpenFileDialog } = this.props
     return (
       <div className={classes.controls}>
         <AttachmentButton
           classes={classes}
-          disabled={disabled}
           onOpenFileDialog={onOpenFileDialog}
           onDropAccepted={this.onDropAccepted}
           onDropRejected={this.onDropRejected}
@@ -129,14 +111,12 @@ export default class Controls extends PureComponent {
         <IconButton
           className={classes.button}
           onClick={this.onToggleEmojiBrowser}
-          disabled={disabled}
         >
           <Icon className={classes.contolIcon} name="smileOpen" />
         </IconButton>
         <IconButton
           className={classes.button}
           onClick={this.onShowSearchBrowser}
-          disabled={disabled}
         >
           <Icon className={classes.contolIcon} name="windowSearch" />
         </IconButton>

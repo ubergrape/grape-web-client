@@ -96,7 +96,7 @@ export default function subscribe(channel) {
         boundActions.handleLeftChannel(cData)
         break
       case 'channel.updated':
-        boundActions.handleUpateChannel(cData)
+        boundActions.handleUpdateChannel(cData)
         break
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)

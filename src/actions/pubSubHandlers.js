@@ -216,7 +216,7 @@ export function handleNotification(notification) {
   }
 }
 
-export function handleUpateChannel({ channel }) {
+export function handleUpdateChannel({ channel }) {
   const updatable = [
     'id',
     'type',
