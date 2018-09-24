@@ -34,10 +34,6 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
 
 export const userSelector = createSelector(state => state.user, state => state)
 
-export const activeUsersSelector = createSelector(pmsSelector, users =>
-  users.filter(user => user.isActive),
-)
-
 export const invitedUsersSelector = createSelector(pmsSelector, users =>
   users.filter(user => user.isOnlyInvited),
 )
@@ -77,7 +73,7 @@ export const joinedChannelsSelector = createSelector(
 )
 
 export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.lastMessage && pm.lastMessage.time),
+  pms.filter(pm => pm.lastMessage.time),
 )
 
 export const currentPmsSelector = createSelector(
@@ -333,14 +329,12 @@ function sortRecentChannels(a, b) {
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
   } else {
-    aCompareValue =
-      (a.lastMessage && a.lastMessage.time) || unixToIsoTimestamp(a.created)
+    aCompareValue = a.lastMessage.time || unixToIsoTimestamp(a.created)
   }
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue =
-      (b.lastMessage && b.lastMessage.time) || unixToIsoTimestamp(b.created)
+    bCompareValue = b.lastMessage.time || unixToIsoTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue

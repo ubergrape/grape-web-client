@@ -330,12 +330,7 @@ export const findLastUsedChannel = (channels, withMessage) =>
     .filter(
       channel =>
         withMessage
-          ? channel.joined && channel.lastMessage && channel.lastMessage.time
+          ? channel.joined && channel.lastMessage.time
           : channel.joined,
     )
-    .sort(
-      (a, b) =>
-        b.latestMessage &&
-        b.latestMessage.time - a.latestMessage &&
-        a.latestMessage.time,
-    )[0]
+    .sort((a, b) => b.lastMessage.time - a.lastMessage.time)[0]

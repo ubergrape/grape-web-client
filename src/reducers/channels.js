@@ -27,10 +27,7 @@ export default function reduce(state = initialState, action) {
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
           // for the current session lifetime.
-          if (
-            type === 'pm' &&
-            !(channel.lastMessage && channel.lastMessage.time)
-          ) {
+          if (type === 'pm' && !channel.lastMessage.time) {
             newChannel.temporaryInNavigation = Date.now()
           }
           newState.push(newChannel)
