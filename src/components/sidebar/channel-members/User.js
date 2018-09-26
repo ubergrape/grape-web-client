@@ -93,13 +93,9 @@ export default class User extends PureComponent {
     const hasCreated = channel.creator === user.id
     const isKickMaster = (isAdmin || isCreator) && !isSelf
 
-    if (
-      !isKickMaster ||
-      isSelf ||
-      hasCreated ||
-      (permissions && permissions.canRemoveMembers)
-    )
-      return null
+    if (permissions && !permissions.canRemoveMembers) return null
+
+    if (!isKickMaster || isSelf || hasCreated) return null
 
     return <button className={classes.buttonKick} onClick={this.onKickMember} />
   }
