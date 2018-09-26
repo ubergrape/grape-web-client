@@ -53,7 +53,7 @@ export default class Navigation extends PureComponent {
     shortcuts: ['mod+k'],
     isLoading: false,
     permissions: {
-      canCreateConversation: true,
+      canCreateRoom: true,
     },
   }
 

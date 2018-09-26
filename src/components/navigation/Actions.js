@@ -25,7 +25,7 @@ function Actions(props) {
 
   return (
     <List className={classes.root}>
-      {permissions.canCreateConversation && (
+      {permissions.canCreateRoom && (
         <Action icon="createConversation" onClick={onNewConversation}>
           {({ renderText }) => (
             <FormattedMessage
