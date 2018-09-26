@@ -12,7 +12,6 @@ import {
 import { userStatusMap } from '../../../constants/app'
 import { Username } from '../../avatar-name'
 import buttonIcon from '../../button/icon'
-import { getRoles } from '../utils'
 
 const hoverColor = color(blue)
   .lighten(0.05)
@@ -53,9 +52,17 @@ export default class User extends PureComponent {
     classes: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    currUser: PropTypes.object.isRequired,
     onKick: PropTypes.func.isRequired,
     onOpen: PropTypes.func.isRequired,
+    permissions: PropTypes.shape({
+      canRemoveMembers: PropTypes.bool,
+    }),
+  }
+
+  static defaultProps = {
+    permissions: {
+      canRemoveMembers: true,
+    },
   }
 
   constructor(props) {
@@ -81,24 +88,12 @@ export default class User extends PureComponent {
     onOpen(user.id)
   }
 
-  renderDeleteButton() {
-    const { channel, user, currUser, classes } = this.props
-    const { isAdmin, isCreator } = getRoles({ channel, user: currUser })
-    const isSelf = currUser.id === user.id
-    const hasCreated = channel.creator === user.id
-    const isKickMaster = (isAdmin || isCreator) && !isSelf
-
-    if (!isKickMaster || isSelf || hasCreated) return null
-
-    return <button className={classes.buttonKick} onClick={this.onKickMember} />
-  }
-
   render() {
-    const { classes, user } = this.props
+    const { classes, user, permissions } = this.props
 
     return (
       <div className={classes.row}>
-        <div
+        <button
           className={classes.userNameContainer}
           onClick={this.onSelectMember}
         >
@@ -109,8 +104,10 @@ export default class User extends PureComponent {
             name={user.displayName}
             theme={this.userNameTheme}
           />
-        </div>
-        {this.renderDeleteButton()}
+        </button>
+        {permissions.canRemoveMembers && (
+          <button className={classes.buttonKick} onClick={this.onKickMember} />
+        )}
       </div>
     )
   }

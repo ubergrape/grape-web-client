@@ -156,12 +156,17 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   dispatch(hideBrowser())
 
-  dispatch({
-    type: types.SET_CHANNEL,
-    payload: {
-      channel: normalizeChannelData(channel),
-      messageId,
-    },
+  api.getChannel(channel.id).then(({ permissions }) => {
+    dispatch({
+      type: types.SET_CHANNEL,
+      payload: {
+        channel: {
+          ...normalizeChannelData(channel),
+          permissions,
+        },
+        messageId,
+      },
+    })
   })
 }
 
