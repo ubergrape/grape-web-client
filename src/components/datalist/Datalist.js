@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
+import isEqual from 'lodash/lang/isEqual'
 import noop from 'lodash/utility/noop'
 import {
   white,
@@ -21,54 +22,7 @@ const createState = props => {
   return { data, focused }
 }
 
-@injectSheet({
-  datalist: {
-    background: white,
-    border: [1, 'solid', gainsboroLight],
-    boxShadow: `0px 3px 4px 0 ${color(grayDark)
-      .alpha(0.5)
-      .rgbaString()}`,
-    overflow: 'auto',
-  },
-  item: {
-    display: 'flex',
-    alignItems: 'center',
-    extend: fonts.normal,
-    padding: [5, 7],
-    color: grayDark,
-    '&, & *': {
-      isolate: false,
-      cursor: 'pointer',
-    },
-  },
-  itemFocused: {
-    color: white,
-    background: grapeLight,
-  },
-  icon: {
-    minWidth: 22,
-    display: 'inline-block',
-    lineHeight: 0,
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    color: gainsboroDark
-  },
-  name: {
-    lineHeight: 1,
-    marginLeft: 5,
-    color: 'inherit',
-    flex: '0 0 auto',
-  },
-  note: {
-    extend: [fonts.small, ellipsis],
-    color: gainsboroDark,
-    marginLeft: 6,
-  },
-  noteFocused: {
-    color: white,
-  },
-})
-export default class Datalist extends Component {
+class Datalist extends Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     data: PropTypes.array,
@@ -98,6 +52,16 @@ export default class Datalist extends Component {
     this.setState(createState(nextProps))
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.browserOpened !== nextState.browserOpened ||
+      !nextState.browserOpened
+    )
+      return true
+    if (isEqual(this.props.data, nextProps.data)) return false
+    return true
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onMouseOver(item) {
@@ -116,7 +80,7 @@ export default class Datalist extends Component {
     let index = findIndex(data, item => item === this.state.focused)
     let item
 
-    if (typeof id == 'string') {
+    if (typeof id === 'string') {
       if (id === 'next') index++
       else if (id === 'prev') index--
       item = data[index]
@@ -139,10 +103,12 @@ export default class Datalist extends Component {
     } = this.props.classes
 
     return (
-      <div
+      <button
         onMouseDown={this.onMouseDown}
-        // eslint-disable-next-line react/jsx-no-bind
+        /* eslint-disable react/jsx-no-bind */
         onMouseOver={this.onMouseOver.bind(this, listItem)}
+        onFocus={this.onMouseOver.bind(this, listItem)}
+        /* eslint-enable react/jsx-no-bind */
         className={`${item} ${focused ? itemFocused : ''}`}
         key={i}
       >
@@ -151,7 +117,7 @@ export default class Datalist extends Component {
         <span className={`${note} ${focused ? noteFocused : ''}`}>
           {listItem.note}
         </span>
-      </div>
+      </button>
     )
   }
 
@@ -172,3 +138,52 @@ export default class Datalist extends Component {
     )
   }
 }
+
+export default injectSheet({
+  datalist: {
+    background: white,
+    border: [1, 'solid', gainsboroLight],
+    boxShadow: `0px 3px 4px 0 ${color(grayDark)
+      .alpha(0.5)
+      .rgbaString()}`,
+    overflow: 'auto',
+  },
+  item: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    extend: fonts.normal,
+    padding: [5, 7],
+    color: grayDark,
+    '&, & *': {
+      isolate: false,
+      cursor: 'pointer',
+    },
+  },
+  itemFocused: {
+    color: white,
+    background: grapeLight,
+  },
+  icon: {
+    minWidth: 22,
+    display: 'inline-block',
+    lineHeight: 0,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    color: gainsboroDark,
+  },
+  name: {
+    lineHeight: 1,
+    marginLeft: 5,
+    color: 'inherit',
+    flex: '0 0 auto',
+  },
+  note: {
+    extend: [fonts.small, ellipsis],
+    color: gainsboroDark,
+    marginLeft: 6,
+  },
+  noteFocused: {
+    color: white,
+  },
+})(Datalist)
