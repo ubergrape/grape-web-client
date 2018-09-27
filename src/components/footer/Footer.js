@@ -56,6 +56,7 @@ export default class Footer extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
@@ -71,6 +72,9 @@ export default class Footer extends PureComponent {
     customEmojis: {},
     autocomplete: {},
     onOpenFileDialog: undefined,
+    permissions: {
+      canUseGrapesearch: true,
+    },
   }
 
   onRef = ref => {
@@ -118,6 +122,7 @@ export default class Footer extends PureComponent {
       onAddIntegration,
       onSearchChannelsToMention,
       goTo,
+      permissions,
     } = this.props
 
     return (
@@ -177,6 +182,7 @@ export default class Footer extends PureComponent {
                 onAddIntegration={onAddIntegration}
                 onSearchChannelsToMention={onSearchChannelsToMention}
                 goTo={goTo}
+                permissions={permissions}
               />
               <Controls
                 disabled={disabled}

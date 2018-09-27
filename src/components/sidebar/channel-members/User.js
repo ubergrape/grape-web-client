@@ -52,10 +52,15 @@ export default class User extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     onKick: PropTypes.func.isRequired,
     onOpen: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
+  }
+
+  static defaultProps = {
+    permissions: undefined,
   }
 
   constructor(props) {
@@ -82,11 +87,13 @@ export default class User extends PureComponent {
   }
 
   renderDeleteButton() {
-    const { channel, user, currUser, classes } = this.props
+    const { channel, user, currUser, classes, permissions } = this.props
     const { isAdmin, isCreator } = getRoles({ channel, user: currUser })
     const isSelf = currUser.id === user.id
     const hasCreated = channel.creator === user.id
     const isKickMaster = (isAdmin || isCreator) && !isSelf
+
+    if (permissions && !permissions.canRemoveMembers) return null
 
     if (!isKickMaster || isSelf || hasCreated) return null
 
@@ -98,7 +105,7 @@ export default class User extends PureComponent {
 
     return (
       <div className={classes.row}>
-        <div
+        <button
           className={classes.userNameContainer}
           onClick={this.onSelectMember}
         >
@@ -109,7 +116,7 @@ export default class User extends PureComponent {
             name={user.displayName}
             theme={this.userNameTheme}
           />
-        </div>
+        </button>
         {this.renderDeleteButton()}
       </div>
     )

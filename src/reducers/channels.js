@@ -19,11 +19,11 @@ export default function reduce(state = initialState, action) {
       ]
 
     case types.SET_CHANNEL: {
-      const { id, type } = action.payload.channel
+      const { id, type, permissions } = action.payload.channel
 
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
-          const newChannel = { ...channel, current: true }
+          const newChannel = { ...channel, permissions, current: true }
           // In case of empty PM we're adding it to the navigation
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only

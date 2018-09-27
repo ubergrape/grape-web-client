@@ -46,11 +46,15 @@ export default class Navigation extends PureComponent {
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     shortcuts: ['mod+k'],
     isLoading: false,
+    permissions: {
+      canCreateRoom: true,
+    },
   }
 
   constructor(props) {
@@ -269,6 +273,7 @@ export default class Navigation extends PureComponent {
       classes,
       showNewConversation,
       showManageGroups,
+      permissions,
     } = this.props
     if (isLoading) return null
     return (
@@ -277,6 +282,7 @@ export default class Navigation extends PureComponent {
           <Actions
             onNewConversation={showNewConversation}
             onManageGroups={showManageGroups}
+            permissions={permissions}
           />
         )}
         {this.renderList()}

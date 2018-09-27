@@ -110,6 +110,7 @@ class GrapeInput extends PureComponent {
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
     usersToMention: PropTypes.array,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
@@ -125,6 +126,9 @@ class GrapeInput extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
+    permissions: {
+      canUseGrapesearch: true,
+    },
   }
 
   constructor(props) {
@@ -252,14 +256,17 @@ class GrapeInput extends PureComponent {
       onShowEmojiBrowser,
       onRequestAutocomplete,
       onSearchChannelsToMention,
+      permissions,
     } = this.props
 
     switch (trigger) {
       case '#':
-        // Avoid browser opening in case of `#s` input.
-        if (!showBrowser && query.length > 1) return
-        onRequestAutocomplete({ search, filters })
-        onShowSearchBrowser(search)
+        if (permissions.canUseGrapesearch) {
+          // Avoid browser opening in case of `#s` input.
+          if (!showBrowser && query.length > 1) return
+          onRequestAutocomplete({ search, filters })
+          onShowSearchBrowser(search)
+        }
         break
       case '@':
         onSearchChannelsToMention(org, search, 12, channel.id)
