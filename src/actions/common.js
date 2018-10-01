@@ -213,13 +213,13 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, users, profile]) => {
-      dispatch(setIntialDataLoading(false))
-
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(org.channels))
       dispatch(setUsers(users))
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
+
+      dispatch(setIntialDataLoading(false))
 
       const { route } = appSelector(getState())
       const isMemberOfAnyRooms = joinedChannelsSelector(getState())

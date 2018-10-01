@@ -515,7 +515,10 @@ export const sidebarComponentSelector = createSelector(
       ...select,
       ...views[show],
       channel,
-      org,
+      permissions: {
+        ...org.permissions,
+        ...channel.permissions,
+      },
       subview: subviews[showSubview],
     }
   },
@@ -660,6 +663,14 @@ export const fileUploadComponentSelector = createSelector(
 export const manageGroupsSelector = createSelector(
   state => state.manageGroups,
   state => state,
+)
+
+export const manageGroupsComponentSelector = createSelector(
+  [manageGroupsSelector, orgSelector],
+  (manageGroups, org) => ({
+    ...manageGroups,
+    permissions: org.permissions,
+  }),
 )
 
 export const linkAttachmentsSelector = createSelector(

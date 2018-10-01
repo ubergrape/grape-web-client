@@ -50,11 +50,13 @@ export default class ManageGroupsDialog extends PureComponent {
     show: PropTypes.bool.isRequired,
     groups: PropTypes.arrayOf(PropTypes.object.isRequired),
     activeFilter: PropTypes.string,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     groups: [],
     activeFilter: 'unjoined',
+    permissions: undefined,
   }
 
   componentDidUpdate(prevProps) {
@@ -136,6 +138,7 @@ export default class ManageGroupsDialog extends PureComponent {
     const {
       intl: { formatMessage },
       classes,
+      permissions,
     } = this.props
 
     return (
@@ -143,13 +146,15 @@ export default class ManageGroupsDialog extends PureComponent {
         <span className={classes.title}>
           {formatMessage(messages.dialogTitle)}
         </span>
-        <button className={classes.create} onClick={this.onCreate}>
-          <FormattedMessage
-            id="manageGroupsCreateNew"
-            defaultMessage="new conversation"
-            description="Manage Groups Dialog: create new conversation button"
-          />
-        </button>
+        {(!permissions || (permissions && permissions.canCreateRoom)) && (
+          <button className={classes.create} onClick={this.onCreate}>
+            <FormattedMessage
+              id="manageGroupsCreateNew"
+              defaultMessage="new conversation"
+              description="Manage Groups Dialog: create new conversation button"
+            />
+          </button>
+        )}
       </span>
     )
   }

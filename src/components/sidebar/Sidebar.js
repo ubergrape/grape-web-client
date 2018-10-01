@@ -240,26 +240,19 @@ Content.defaultProps = {
 export default class Sidebar extends PureComponent {
   static propTypes = {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-    channel: PropTypes.object,
-    org: PropTypes.object,
+    permissions: PropTypes.object,
     className: PropTypes.string,
   }
 
   static defaultProps = {
     className: null,
-    channel: {},
-    org: {},
+    permissions: {},
   }
 
   render() {
-    const { show, className, channel, org } = this.props
+    const { show, className, permissions } = this.props
 
     if (!show) return null
-
-    const permissions = {
-      ...org.permissions,
-      ...channel.permissions,
-    }
 
     return (
       <div className={className}>
