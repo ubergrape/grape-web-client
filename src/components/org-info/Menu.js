@@ -113,10 +113,17 @@ class Menu extends PureComponent {
       <NotificationSettingsItem key={++key} />,
       <TutorialItem onClick={onShowIntro} key={++key} />,
       <SupportItem href={supportLink} key={++key} />,
-      <SwitchOrganizationsItem key={++key} />,
-      <Divider key={++key} />,
-      <LogoutItem key={++key} />,
     )
+
+    if (permissions) {
+      if (permissions.canSwitchOrganization) {
+        items.push(<SwitchOrganizationsItem key={++key} />)
+      }
+    } else {
+      items.push(<SwitchOrganizationsItem key={++key} />)
+    }
+
+    items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
 
     return <MenuList className={classes.root}>{items}</MenuList>
   }
