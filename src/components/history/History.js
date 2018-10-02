@@ -60,6 +60,7 @@ class History extends PureComponent {
     isLoadingInitialData: PropTypes.bool,
     loadedNewerMessage: PropTypes.bool.isRequired,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
@@ -74,6 +75,7 @@ class History extends PureComponent {
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
+    permissions: undefined,
   }
 
   constructor(props) {
@@ -190,6 +192,7 @@ class History extends PureComponent {
       isMemberOfAnyRooms,
       onNewConversation,
       onJoinGroup,
+      permissions,
     } = this.props
     const { rows, scrollTo } = this.state
 
@@ -216,6 +219,7 @@ class History extends PureComponent {
             channel={channel}
             users={users}
             onInvite={onInvite}
+            permissions={permissions}
             onAddIntegration={onAddIntegration}
           />
         )

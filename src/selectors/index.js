@@ -565,9 +565,15 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
   ],
-  (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
+  (
+    history,
+    { customEmojis, permissions },
+    isLoadingInitialData,
+    isMemberOfAnyRooms,
+  ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
+    permissions,
     isLoadingInitialData,
     isMemberOfAnyRooms,
   }),
@@ -663,14 +669,6 @@ export const fileUploadComponentSelector = createSelector(
 export const manageGroupsSelector = createSelector(
   state => state.manageGroups,
   state => state,
-)
-
-export const manageGroupsComponentSelector = createSelector(
-  [manageGroupsSelector, orgSelector],
-  (manageGroups, org) => ({
-    ...manageGroups,
-    permissions: org.permissions,
-  }),
 )
 
 export const linkAttachmentsSelector = createSelector(

@@ -3,7 +3,7 @@ import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { manageGroupsComponentSelector as selector } from '../../selectors'
+import { manageGroupsSelector as selector } from '../../selectors'
 import { ManageGroupsDialog } from '../../components/manage-groups'
 
 const actionNames = {

@@ -43,22 +43,24 @@ function Actions(props) {
           )}
         </Action>
       )}
-      <Action icon="conversations" onClick={onManageGroups}>
-        {({ renderText }) => (
-          <GroupsText>
-            {(...children) => (
-              <span>
-                {renderText(children)}
-                <Beacon
-                  id="manageGroups"
-                  placement="right"
-                  shift={beaconShift}
-                />
-              </span>
-            )}
-          </GroupsText>
-        )}
-      </Action>
+      {permissions.canCreateRoom && (
+        <Action icon="conversations" onClick={onManageGroups}>
+          {({ renderText }) => (
+            <GroupsText>
+              {(...children) => (
+                <span>
+                  {renderText(children)}
+                  <Beacon
+                    id="manageGroups"
+                    placement="right"
+                    shift={beaconShift}
+                  />
+                </span>
+              )}
+            </GroupsText>
+          )}
+        </Action>
+      )}
     </List>
   )
 }
