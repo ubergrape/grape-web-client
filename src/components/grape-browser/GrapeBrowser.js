@@ -5,6 +5,7 @@ import noop from 'lodash/utility/noop'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
+import isEqual from 'lodash/lang/isEqual'
 import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
@@ -49,6 +50,7 @@ class GrapeBrowser extends Component {
     customEmojis: PropTypes.object,
     images: PropTypes.object,
     externalServicesInputDelay: PropTypes.number,
+    results: PropTypes.array,
     services: PropTypes.array,
     servicesStats: PropTypes.object,
     channel: PropTypes.object,
@@ -80,6 +82,7 @@ class GrapeBrowser extends Component {
       services: [],
     },
     images: {},
+    results: [],
     services: [],
     servicesStats: {},
     channel: {},
@@ -150,6 +153,19 @@ class GrapeBrowser extends Component {
       })
     }
     this.setState(this.createState(nextProps))
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.browserOpened !== nextState.browserOpened ||
+      !nextState.browserOpened ||
+      nextProps.services !== this.props.services ||
+      nextProps.isLoading !== this.props.isLoading ||
+      nextProps.results !== this.props.results
+    )
+      return true
+    if (isEqual(this.props.data, nextProps.data)) return false
+    return true
   }
 
   componentWillUpdate(nextProps, nextState) {

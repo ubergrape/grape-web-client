@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
-import isEqual from 'lodash/lang/isEqual'
 import noop from 'lodash/utility/noop'
 import {
   white,
@@ -50,16 +49,6 @@ class Datalist extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(createState(nextProps))
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state.browserOpened !== nextState.browserOpened ||
-      !nextState.browserOpened
-    )
-      return true
-    if (isEqual(this.props.data, nextProps.data)) return false
-    return true
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
