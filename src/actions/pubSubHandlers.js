@@ -226,6 +226,7 @@ export function handleUpdateChannel({ channel }) {
     'color',
     'icon',
     'slug',
+    'permissions',
   ]
   return {
     type: types.UPDATE_CHANNEL,

@@ -96,6 +96,9 @@ export default class OrgInfo extends PureComponent {
 
   static defaultProps = {
     isLoading: false,
+    logo: '',
+    name: '',
+    user: undefined,
   }
 
   render() {

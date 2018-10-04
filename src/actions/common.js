@@ -128,12 +128,17 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   dispatch(hideBrowser())
 
-  dispatch({
-    type: types.SET_CHANNEL,
-    payload: {
-      channel: normalizeChannelData(channel),
-      messageId,
-    },
+  api.getChannel(channel.id).then(({ permissions }) => {
+    dispatch({
+      type: types.SET_CHANNEL,
+      payload: {
+        channel: {
+          ...normalizeChannelData(channel),
+          permissions,
+        },
+        messageId,
+      },
+    })
   })
 }
 
@@ -180,12 +185,12 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, { channels }, profile]) => {
-      dispatch(setIntialDataLoading(false))
-
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(channels))
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
+
+      dispatch(setIntialDataLoading(false))
 
       const { route } = appSelector(getState())
       const isMemberOfAnyRooms = joinedChannelsSelector(getState())

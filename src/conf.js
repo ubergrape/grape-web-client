@@ -15,6 +15,8 @@ class Config {
       ROLE_USER: 0,
       ROLE_ADMIN: 1,
       ROLE_OWNER: 2,
+      ROLE_GUEST: 3,
+      ROLE_INVITED: 5,
     },
   }
   user = {

@@ -21,42 +21,46 @@ const styles = () => ({
 })
 
 function Actions(props) {
-  const { onNewConversation, onManageGroups, classes } = props
+  const { onNewConversation, onManageGroups, classes, permissions } = props
 
   return (
     <List className={classes.root}>
-      <Action icon="createConversation" onClick={onNewConversation}>
-        {({ renderText }) => (
-          <FormattedMessage
-            id="newConversation"
-            description="*Describe NewConversation*: this is used in Navigation"
-            defaultMessage="New Conversation"
-          >
-            {(...children) => (
-              <span>
-                {renderText(children)}
-                <Beacon id="pm" placement="right" shift={beaconShift} />
-              </span>
-            )}
-          </FormattedMessage>
-        )}
-      </Action>
-      <Action icon="conversations" onClick={onManageGroups}>
-        {({ renderText }) => (
-          <GroupsText>
-            {(...children) => (
-              <span>
-                {renderText(children)}
-                <Beacon
-                  id="manageGroups"
-                  placement="right"
-                  shift={beaconShift}
-                />
-              </span>
-            )}
-          </GroupsText>
-        )}
-      </Action>
+      {permissions.canCreateRoom && (
+        <Action icon="createConversation" onClick={onNewConversation}>
+          {({ renderText }) => (
+            <FormattedMessage
+              id="newConversation"
+              description="*Describe NewConversation*: this is used in Navigation"
+              defaultMessage="New Conversation"
+            >
+              {(...children) => (
+                <span>
+                  {renderText(children)}
+                  <Beacon id="pm" placement="right" shift={beaconShift} />
+                </span>
+              )}
+            </FormattedMessage>
+          )}
+        </Action>
+      )}
+      {permissions.canCreateRoom && (
+        <Action icon="conversations" onClick={onManageGroups}>
+          {({ renderText }) => (
+            <GroupsText>
+              {(...children) => (
+                <span>
+                  {renderText(children)}
+                  <Beacon
+                    id="manageGroups"
+                    placement="right"
+                    shift={beaconShift}
+                  />
+                </span>
+              )}
+            </GroupsText>
+          )}
+        </Action>
+      )}
     </List>
   )
 }
@@ -65,6 +69,7 @@ Actions.propTypes = {
   classes: PropTypes.object.isRequired,
   onNewConversation: PropTypes.func.isRequired,
   onManageGroups: PropTypes.func.isRequired,
+  permissions: PropTypes.object.isRequired,
 }
 
 export default injectSheet(styles)(Actions)

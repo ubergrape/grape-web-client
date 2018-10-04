@@ -74,7 +74,11 @@ Title.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired,
   setting: PropTypes.oneOf(['muteAll', 'desktop', 'push']).isRequired,
-  status: PropTypes.oneOf(statuses).isRequired,
+  status: PropTypes.oneOf(statuses),
+}
+
+Title.defaultProps = {
+  status: undefined,
 }
 
 const id = `muteAllNotifications${random(1000000)}`
