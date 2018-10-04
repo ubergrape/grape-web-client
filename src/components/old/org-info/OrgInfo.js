@@ -97,7 +97,7 @@ class OrgInfo extends PureComponent {
     isLoading: false,
     logo: '',
     name: '',
-    user: {},
+    user: undefined,
   }
 
   render() {

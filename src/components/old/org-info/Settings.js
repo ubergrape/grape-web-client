@@ -11,9 +11,10 @@ import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from '../header'
 import Menu from './Menu'
 
-const SettingsButton = ({ classes, onClick, onButtonRef }) => (
+const SettingsButton = ({ classes, onClick, onButtonRef, disabled }) => (
   <Tooltip
     message={<FormattedMessage id="settings" defaultMessage="Settings" />}
+    disabled={disabled}
   >
     <IconButton
       onClick={onClick}
@@ -75,6 +76,7 @@ class Settings extends PureComponent {
           classes={classes}
           onClick={this.onToggleMenu}
           onButtonRef={this.onSettingsButtonRef}
+          disabled={showMenu}
         />
         {showMenu && (
           <Dropdown
@@ -99,12 +101,12 @@ export default injectSheet(({ palette }) => ({
   settings: {
     position: 'relative',
     flexShrink: 0,
+    marginRight: sizes.spacer.s,
   },
   button: {
     display: 'flex',
     width: iconSize + 16,
     height: iconSize + 16,
-    marginRight: sizes.spacer.s,
   },
   buttonIcon: {
     isolate: false,

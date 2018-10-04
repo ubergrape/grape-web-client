@@ -41,6 +41,7 @@ function RoomContent(props) {
     theme: { classes },
     onAddIntegration,
     onInvite,
+    permissions,
   } = props
 
   return (
@@ -58,21 +59,25 @@ function RoomContent(props) {
           />
         </h2>
         <p className={classes.text}>{text[isPublic ? 'public' : 'private']}</p>
-        <button onClick={onInvite} className={classes.buttonInvite}>
-          <FormattedMessage
-            id="inviteMoreToGroup"
-            defaultMessage="Invite more people to this group"
-          />
-        </button>
-        <button
-          onClick={onAddIntegration}
-          className={classes.buttonIntegration}
-        >
-          <FormattedMessage
-            id="addServiceIntegration"
-            defaultMessage="Add service integration"
-          />
-        </button>
+        {(!permissions || (permissions && permissions.canInviteMembers)) && (
+          <button onClick={onInvite} className={classes.buttonInvite}>
+            <FormattedMessage
+              id="inviteMoreToGroup"
+              defaultMessage="Invite more people to this group"
+            />
+          </button>
+        )}
+        {(!permissions || (permissions && permissions.canAddIntegration)) && (
+          <button
+            onClick={onAddIntegration}
+            className={classes.buttonIntegration}
+          >
+            <FormattedMessage
+              id="addServiceIntegration"
+              defaultMessage="Add service integration"
+            />
+          </button>
+        )}
       </div>
     </div>
   )
@@ -84,6 +89,11 @@ RoomContent.propTypes = {
   theme: PropTypes.object.isRequired,
   onAddIntegration: PropTypes.func.isRequired,
   onInvite: PropTypes.func.isRequired,
+  permissions: PropTypes.object,
+}
+
+RoomContent.defaultProps = {
+  permissions: undefined,
 }
 
 function PmContent(props) {
@@ -133,11 +143,13 @@ class NoContent extends PureComponent {
       isPublic: PropTypes.bool,
       partner: PropTypes.shape({}),
     }).isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     onInvite: noop,
     onAddIntegration: noop,
+    permissions: undefined,
   }
 
   onInvite = () => {
@@ -145,7 +157,7 @@ class NoContent extends PureComponent {
   }
 
   render() {
-    const { channel, classes, onAddIntegration } = this.props
+    const { channel, classes, onAddIntegration, permissions } = this.props
 
     if (channel.type === 'room') {
       return (
@@ -155,6 +167,7 @@ class NoContent extends PureComponent {
           theme={{ classes }}
           onAddIntegration={onAddIntegration}
           onInvite={this.onInvite}
+          permissions={permissions}
         />
       )
     }

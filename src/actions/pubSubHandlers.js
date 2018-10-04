@@ -228,6 +228,7 @@ export function handleUpateChannel({ channel }) {
     'color',
     'icon',
     'slug',
+    'permissions',
   ]
   return {
     type: types.UPDATE_CHANNEL,

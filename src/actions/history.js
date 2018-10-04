@@ -85,6 +85,11 @@ function loadOlder(params) {
       getState(),
     )
 
+    // There is a race-condition where loadOlder is invoked before we actually
+    // have messages in the store. Canceling this one function is not an issue
+    // since it is invoked many times when you scroll up.
+    if (messages.length === 0) return
+
     // Ensures we don't have useless requests to the backend.
     if (olderMessagesRequest) return
 

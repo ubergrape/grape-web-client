@@ -331,11 +331,12 @@ export const inviteToOrgDialog = createSelector(
 
 export const orgInfoSelector = createSelector(
   [orgSelector, initialDataLoadingSelector, userSelector],
-  ({ logo, name, inviterRole, supportLink }, isLoading, user) => ({
+  ({ logo, name, inviterRole, supportLink, permissions }, isLoading, user) => ({
     logo,
     name,
     inviterRole,
     supportLink,
+    permissions,
     isLoading,
     user,
   }),
@@ -379,6 +380,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    orgSelector,
   ],
   (
     joinedRooms,
@@ -388,6 +390,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    { permissions },
   ) => {
     const joined = [...joinedRooms, ...pms].filter(({ id }) => id !== user.id)
     const recent = joined
@@ -405,6 +408,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      permissions,
     }
   },
 )
@@ -439,6 +443,8 @@ export const channelMembersSelector = createSelector(
 
 export const sidebarComponentSelector = createSelector(
   [
+    orgSelector,
+    channelSelector,
     sidebarSelector,
     roomInfoSelector,
     userProfileSelector,
@@ -451,6 +457,8 @@ export const sidebarComponentSelector = createSelector(
     pinnedMessagesSelector,
   ],
   (
+    org,
+    channel,
     { show, showSubview },
     room,
     pm,
@@ -486,6 +494,11 @@ export const sidebarComponentSelector = createSelector(
     return {
       ...select,
       ...views[show],
+      channel,
+      permissions: {
+        ...org.permissions,
+        ...channel.permissions,
+      },
       subview: subviews[showSubview],
     }
   },
@@ -532,9 +545,15 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
   ],
-  (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
+  (
+    history,
+    { customEmojis, permissions },
+    isLoadingInitialData,
+    isMemberOfAnyRooms,
+  ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
+    permissions,
     isLoadingInitialData,
     isMemberOfAnyRooms,
   }),
@@ -548,7 +567,11 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.isActive
+    if (channel && Object.keys(channel).length)
+      return (
+        (channel.type === 'pm' && !channel.isActive) ||
+        (channel.permissions && !channel.permissions.canPostMessages)
+      )
     return channels.length === 0 || !channel
   },
 )
@@ -570,6 +593,7 @@ export const footerComponentSelector = createSelector(
     channelsToMentionSelector,
     joinedChannelsSelector,
     confSelector,
+    orgSelector,
   ],
   (
     typingNotification,
@@ -580,6 +604,7 @@ export const footerComponentSelector = createSelector(
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
+    { permissions },
   ) => ({
     ...typingNotification,
     ...footer,
@@ -591,6 +616,7 @@ export const footerComponentSelector = createSelector(
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
+    permissions,
   }),
 )
 

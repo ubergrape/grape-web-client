@@ -43,11 +43,15 @@ class Navigation extends PureComponent {
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     shortcuts: ['mod+k'],
     isLoading: false,
+    permissions: {
+      canCreateRoom: true,
+    },
   }
 
   constructor(props) {
@@ -261,13 +265,16 @@ class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    const { isLoading, classes, showNewConversation } = this.props
+    const { isLoading, classes, showNewConversation, permissions } = this.props
     if (isLoading) return null
     // TODO since it's only one action (new conversation) we could inline the action directly here
     return (
       <div className={classes.navigationWrapper}>
         {!this.state.filter && (
-          <Actions onNewConversation={showNewConversation} />
+          <Actions
+            onNewConversation={showNewConversation}
+            permissions={permissions}
+          />
         )}
         {this.renderList()}
       </div>
