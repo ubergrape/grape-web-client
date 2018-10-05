@@ -96,6 +96,7 @@ class Message extends PureComponent {
 
 export default injectSheet({
   message: {
+    width: '100%',
     extend: contentStyles,
     '&:hover': {
       isolate: false,
