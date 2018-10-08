@@ -17,7 +17,6 @@ export const styles = {
     marginRight: 5,
   },
   text: {
-    cursor: 'pointer',
     lineHeight: 'normal',
     marginTop: 2,
     color: grayBombay,
