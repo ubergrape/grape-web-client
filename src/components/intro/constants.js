@@ -13,5 +13,5 @@ export const containerStyle = {
     blur: 8,
     color: rgba(0, 0, 0, 0.15),
   },
-  background: ({ background = blue }) => background,
+  background: blue,
 }

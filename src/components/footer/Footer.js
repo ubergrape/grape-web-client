@@ -193,6 +193,7 @@ export default class Footer extends PureComponent {
                 onHideBrowser={onHideBrowser}
                 onRejectFiles={onRejectFiles}
                 onOpenFileDialog={onOpenFileDialog}
+                permissions={permissions}
               />
             </div>
           </div>

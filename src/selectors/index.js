@@ -565,16 +565,11 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
   ],
-  (
-    history,
-    { customEmojis, permissions },
-    isLoadingInitialData,
-    isMemberOfAnyRooms,
-  ) => ({
+  (history, { customEmojis, permissions }, isLoading, isMemberOfAnyRooms) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
     permissions,
-    isLoadingInitialData,
+    isLoading,
     isMemberOfAnyRooms,
   }),
 )
