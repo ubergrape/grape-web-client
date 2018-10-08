@@ -75,7 +75,7 @@ class History extends PureComponent {
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
-    permissions: undefined,
+    permissions: {},
   }
 
   constructor(props) {

@@ -94,9 +94,7 @@ export default class Controls extends PureComponent {
   static defaultProps = {
     disabled: false,
     onOpenFileDialog: undefined,
-    permissions: {
-      canUseGrapesearch: true,
-    },
+    permissions: {},
   }
 
   onDropAccepted = files => {
