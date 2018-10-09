@@ -8,7 +8,6 @@ import { reopen } from '../app/client'
 import {
   channelsSelector,
   userSelector,
-  orgSelector,
   appSelector,
   joinedChannelsSelector,
 } from '../selectors'
@@ -71,18 +70,17 @@ export const addUser = user => dispatch => {
   })
 }
 
-export const addNewUser = userId => (dispatch, getState) => {
-  const org = orgSelector(getState())
+export const addNewUser = id => (dispatch, getState) => {
+  const user = userSelector(getState())
 
   return api
-    .openPm(org.id, userId)
-    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
+    .getChannel(id)
+    .then(channel => {
+      dispatch(addUser(channel))
       dispatch(
         addChannel({
-          ...pmChannel,
-          users,
+          ...channel,
+          users: [id, user.id],
         }),
       )
     })

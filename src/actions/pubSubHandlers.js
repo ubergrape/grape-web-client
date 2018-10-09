@@ -72,7 +72,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  dispatch(addNewUser(message.author.id)).then(() => {
+  dispatch(addNewUser(message.channel)).then(() => {
     dispatch(addNewMessage(message))
   })
 }
@@ -210,7 +210,7 @@ export function handleNotification(notification) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewUser(notification.author.id)).then(() => {
+    dispatch(addNewUser(notification.id)).then(() => {
       const updatedChannels = channelsSelector(getState())
       const addedChannel = find(updatedChannels, { id: notification.channelId })
       dispatch(newNotification(notification, addedChannel))
@@ -248,26 +248,22 @@ export function handleRemoveRoom({ channel: id }) {
   }
 }
 
-const changeUserStatue = payload => dispatch => {
+const changeUserStatus = payload => dispatch => {
   dispatch({
     type: types.CHANGE_USER_STATUS,
     payload,
   })
 }
 
-export const handleUserStatusChange = ({ status, user: userId }) => (
+export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
   const users = usersSelector(getState())
-  const user = find(users, { id: userId })
+  const user = find(users, { partner: { id } })
   if (user) {
-    dispatch(changeUserStatue({ status, userId }))
-    return
+    dispatch(changeUserStatus({ status, id }))
   }
-  dispatch(addNewUser(userId)).then(() => {
-    dispatch(changeUserStatue({ status, userId }))
-  })
 }
 
 export function handleUserUpdate({ user }) {
