@@ -69,7 +69,7 @@ const RoomActions = ({
 }) => (
   <ul>
     <li className={classes.action}>
-      {(!permissions || (permissions && permissions.canInviteMembers)) && (
+      {permissions.canInviteMembers && (
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
@@ -80,7 +80,7 @@ const RoomActions = ({
       )}
     </li>
     <li className={classes.action}>
-      {(!permissions || (permissions && permissions.canAddIntegration)) && (
+      {permissions.canAddIntegration && (
         <button
           onClick={onAddIntegration}
           className={classes.buttonIntegration}
@@ -94,7 +94,7 @@ const RoomActions = ({
       )}
     </li>
     <li className={classes.action}>
-      {(!permissions || (permissions && permissions.canLeaveChannel)) && (
+      {permissions.canLeaveChannel && (
         <button onClick={onLeave} className={classes.buttonLeave}>
           <FormattedMessage
             id="leaveChannel"
@@ -126,7 +126,7 @@ RoomActions.defaultProps = {
   channel: {
     name: 'Undefined',
   },
-  permissions: undefined,
+  permissions: {},
 }
 
 export default injectSheet(styles)(RoomActions)

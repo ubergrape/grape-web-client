@@ -9,7 +9,7 @@ import omit from 'lodash/omit'
  * Theming based on https://github.com/kof/theme-standard
  */
 export default function useTheme(Component, options = {}) {
-  const theme = omit(options, 'styles', 'jss')
+  const theme = omit(options, 'jss')
 
   const Theme = props => {
     const { sheet, ...rest } = props
