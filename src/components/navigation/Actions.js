@@ -69,7 +69,11 @@ Actions.propTypes = {
   classes: PropTypes.object.isRequired,
   onNewConversation: PropTypes.func.isRequired,
   onManageGroups: PropTypes.func.isRequired,
-  permissions: PropTypes.object.isRequired,
+  permissions: PropTypes.object,
+}
+
+Actions.defaultProps = {
+  permissions: {},
 }
 
 export default injectSheet(styles)(Actions)

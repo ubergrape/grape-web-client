@@ -565,16 +565,11 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
   ],
-  (
-    history,
-    { customEmojis, permissions },
-    isLoadingInitialData,
-    isMemberOfAnyRooms,
-  ) => ({
+  (history, { customEmojis, permissions }, isLoading, isMemberOfAnyRooms) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
     permissions,
-    isLoadingInitialData,
+    isLoading,
     isMemberOfAnyRooms,
   }),
 )
@@ -590,7 +585,7 @@ export const isChannelDisabledSelector = createSelector(
     if (channel && Object.keys(channel).length)
       return (
         (channel.type === 'pm' && !channel.isActive) ||
-        (channel.permissions && !channel.permissions.canPostMessages)
+        !channel.permissions.canPostMessages
       )
     return channels.length === 0 || !channel
   },

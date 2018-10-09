@@ -60,7 +60,7 @@ export default class User extends PureComponent {
   }
 
   static defaultProps = {
-    permissions: undefined,
+    permissions: {},
   }
 
   constructor(props) {
@@ -93,9 +93,8 @@ export default class User extends PureComponent {
     const hasCreated = channel.creator === user.id
     const isKickMaster = (isAdmin || isCreator) && !isSelf
 
-    if (permissions && !permissions.canRemoveMembers) return null
-
-    if (!isKickMaster || isSelf || hasCreated) return null
+    if (!isKickMaster || isSelf || hasCreated || !permissions.canRemoveMembers)
+      return null
 
     return <button className={classes.buttonKick} onClick={this.onKickMember} />
   }

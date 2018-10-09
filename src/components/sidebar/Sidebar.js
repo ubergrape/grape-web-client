@@ -256,12 +256,7 @@ export default class Sidebar extends PureComponent {
 
     return (
       <div className={className}>
-        <Content
-          {...this.props}
-          permissions={
-            Object.keys(permissions).length ? permissions : undefined
-          }
-        />
+        <Content {...this.props} permissions={permissions} />
       </div>
     )
   }
