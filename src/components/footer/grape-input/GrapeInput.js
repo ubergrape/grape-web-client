@@ -126,9 +126,7 @@ class GrapeInput extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
-    permissions: {
-      canUseGrapesearch: true,
-    },
+    permissions: {},
   }
 
   constructor(props) {
