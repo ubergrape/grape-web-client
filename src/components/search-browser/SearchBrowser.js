@@ -140,25 +140,29 @@ class SearchBrowser extends PureComponent {
     const { data, services } = nextProps
     const { onShowServices, onLoadServicesStats } = this.props
     const { query, search } = this.state
-    if (data && data !== this.props.data) this.onUpdateResults(data)
+    const service = this.state.lastAddedService
 
+    if ((data && data.results !== this.props.data.results) || service)
+      this.onUpdateResults(data, service)
     if (services !== this.props.services && query && query.trigger === '+') {
       onShowServices({ query, services })
       onLoadServicesStats({ search: search.replace(QUERY_REGEX, '') })
     }
 
-    const service = this.state.lastAddedService
     if (service && nextProps.filters.indexOf(service.id) >= 0) {
       this.setState({ lastAddedService: null })
       this.input.replace(service.label)
     }
   }
 
-  onUpdateResults(data) {
+  onUpdateResults(data, service) {
     const { onUpdateResults, search } = this.props
+
     if (
       data &&
-      search &&
+      // Only update if search empty, like on initial mount. Or if service
+      // already picked and search field is empty, and service equals `null`.
+      (search || (search === '' && service === null)) &&
       // Only update results when the results have been returned for the
       // current search state.
       // This will avoid unneded rerendering when:
