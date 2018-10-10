@@ -180,8 +180,8 @@ class FilterableList extends Component {
             renderTag={renderSelected}
             className={classes.filterArea}
           />
-          {children}
         </button>
+        {children}
         <div className={classes.list}>{this.renderList()}</div>
       </div>
     )

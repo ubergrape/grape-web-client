@@ -56,5 +56,6 @@ export const styles = {
     position: 'absolute',
     opacity: 0.5,
     transform: 'translateY(50%)',
+    pointerEvents: 'none',
   },
 }
