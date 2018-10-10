@@ -68,11 +68,13 @@ class Controls extends PureComponent {
     onHideBrowser: PropTypes.func.isRequired,
     onRejectFiles: PropTypes.func.isRequired,
     onOpenFileDialog: PropTypes.func,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
     onOpenFileDialog: undefined,
+    permissions: {},
   }
 
   onDropAccepted = files => {
@@ -96,7 +98,7 @@ class Controls extends PureComponent {
   }
 
   render() {
-    const { classes, disabled, onOpenFileDialog } = this.props
+    const { classes, disabled, onOpenFileDialog, permissions } = this.props
     return (
       <div className={classes.controls}>
         <AttachmentButton
@@ -113,13 +115,15 @@ class Controls extends PureComponent {
         >
           <Icon className={classes.contolIcon} name="smileOpen" />
         </IconButton>
-        <IconButton
-          className={classes.button}
-          onClick={this.onShowSearchBrowser}
-          disabled={disabled}
-        >
-          <Icon className={classes.contolIcon} name="windowSearch" />
-        </IconButton>
+        {permissions.canUseGrapesearch && (
+          <IconButton
+            className={classes.button}
+            onClick={this.onShowSearchBrowser}
+            disabled={disabled}
+          >
+            <Icon className={classes.contolIcon} name="windowSearch" />
+          </IconButton>
+        )}
         <Beacon id="searchBrowser" placement="top" shift={{ left: -15 }} />
       </div>
     )

@@ -49,7 +49,11 @@ function Actions(props) {
 Actions.propTypes = {
   classes: PropTypes.object.isRequired,
   onNewConversation: PropTypes.func.isRequired,
-  permissions: PropTypes.object.isRequired,
+  permissions: PropTypes.object,
+}
+
+Actions.defaultProps = {
+  permissions: {},
 }
 
 export default injectSheet(styles)(Actions)

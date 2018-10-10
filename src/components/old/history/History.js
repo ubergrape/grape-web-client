@@ -56,7 +56,7 @@ class History extends PureComponent {
     scrollTo: PropTypes.string,
     scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
-    isLoadingInitialData: PropTypes.bool,
+    isLoading: PropTypes.bool,
     loadedNewerMessage: PropTypes.bool.isRequired,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
     permissions: PropTypes.object,
@@ -65,7 +65,7 @@ class History extends PureComponent {
   static defaultProps = {
     messages: [],
     showNoContent: false,
-    isLoadingInitialData: false,
+    isLoading: false,
     user: null,
     channel: null,
     users: [],
@@ -74,7 +74,7 @@ class History extends PureComponent {
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
-    permissions: undefined,
+    permissions: {},
   }
 
   constructor(props) {
@@ -88,12 +88,7 @@ class History extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      channel,
-      selectedMessageId,
-      messages,
-      isLoadingInitialData,
-    } = nextProps
+    const { channel, selectedMessageId, messages, isLoading } = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -110,7 +105,7 @@ class History extends PureComponent {
       channelHasChanged ||
       selectedMessageHasChanged ||
       selectedMessageHasBeenClickedOnAgain ||
-      isLoadingInitialData
+      isLoading
     ) {
       this.needsInitialLoad = true
     }
@@ -144,18 +139,8 @@ class History extends PureComponent {
   }
 
   load() {
-    const {
-      isLoadingInitialData,
-      channel,
-      onLoad,
-      isMemberOfAnyRooms,
-    } = this.props
-    if (
-      this.needsInitialLoad &&
-      !isLoadingInitialData &&
-      channel &&
-      isMemberOfAnyRooms
-    ) {
+    const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
+    if (this.needsInitialLoad && !isLoading && channel && isMemberOfAnyRooms) {
       this.needsInitialLoad = false
       onLoad()
     }
@@ -184,7 +169,7 @@ class History extends PureComponent {
       onInvite,
       onAddIntegration,
       onRead,
-      isLoadingInitialData,
+      isLoading,
       selectedMessageId,
       scrollToAlignment,
       loadedNewerMessage,
@@ -194,7 +179,7 @@ class History extends PureComponent {
     } = this.props
     const { rows, scrollTo } = this.state
 
-    if (isLoadingInitialData) return <LoadingText />
+    if (isLoading) return <LoadingText />
 
     if (!isMemberOfAnyRooms) {
       return <NoChannels onNewConversation={onNewConversation} />

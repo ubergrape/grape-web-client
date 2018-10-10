@@ -19,7 +19,7 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
-    permissions: undefined,
+    permissions: {},
   }
 
   componentDidMount() {
