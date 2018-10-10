@@ -59,7 +59,7 @@ function RoomContent(props) {
           />
         </h2>
         <p className={classes.text}>{text[isPublic ? 'public' : 'private']}</p>
-        {(!permissions || (permissions && permissions.canInviteMembers)) && (
+        {permissions.canInviteMembers && (
           <button onClick={onInvite} className={classes.buttonInvite}>
             <FormattedMessage
               id="inviteMoreToGroup"
@@ -67,7 +67,7 @@ function RoomContent(props) {
             />
           </button>
         )}
-        {(!permissions || (permissions && permissions.canAddIntegration)) && (
+        {permissions.canAddIntegration && (
           <button
             onClick={onAddIntegration}
             className={classes.buttonIntegration}
@@ -93,7 +93,7 @@ RoomContent.propTypes = {
 }
 
 RoomContent.defaultProps = {
-  permissions: undefined,
+  permissions: {},
 }
 
 function PmContent(props) {
@@ -150,7 +150,7 @@ export default class NoContent extends PureComponent {
   static defaultProps = {
     onInvite: noop,
     onAddIntegration: noop,
-    permissions: undefined,
+    permissions: {},
   }
 
   onInvite = () => {

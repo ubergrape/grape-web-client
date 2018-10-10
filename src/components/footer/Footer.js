@@ -70,9 +70,7 @@ export default class Footer extends PureComponent {
     customEmojis: {},
     autocomplete: {},
     onOpenFileDialog: undefined,
-    permissions: {
-      canUseGrapesearch: true,
-    },
+    permissions: {},
   }
 
   onRef = ref => {
@@ -188,6 +186,7 @@ export default class Footer extends PureComponent {
                 onHideBrowser={onHideBrowser}
                 onRejectFiles={onRejectFiles}
                 onOpenFileDialog={onOpenFileDialog}
+                permissions={permissions}
               />
             </div>
           </div>

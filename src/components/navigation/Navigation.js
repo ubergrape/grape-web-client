@@ -52,9 +52,7 @@ export default class Navigation extends PureComponent {
   static defaultProps = {
     shortcuts: ['mod+k'],
     isLoading: false,
-    permissions: {
-      canCreateRoom: true,
-    },
+    permissions: {},
   }
 
   constructor(props) {

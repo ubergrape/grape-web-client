@@ -49,7 +49,10 @@ const addNewMessage = message => (dispatch, getState) => {
 
   dispatch({
     type: types.ADD_NEW_MESSAGE,
-    payload: nMessage,
+    payload: {
+      message: nMessage,
+      currentUserId: user.id,
+    },
   })
 }
 
@@ -242,7 +245,6 @@ export function handleRemoveRoom({ channel: id }) {
       payload: id,
     })
     if (id === currentId) dispatch(goTo('/chat'))
-    dispatch(handleCurrentUserLeftChannel())
   }
 }
 
