@@ -24,7 +24,10 @@ describe('history reducer', () => {
       expect(
         history(
           { channel: { id: 'aaa' } },
-          { type: ADD_NEW_MESSAGE, payload: { channelId: 'bbb', id: 'bbb' } },
+          {
+            type: ADD_NEW_MESSAGE,
+            payload: { message: { channelId: 'bbb', id: 'bbb' } },
+          },
         ),
       ).toMatchSnapshot()
     })
@@ -33,16 +36,18 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            user: { id: 'userId1' },
             channel: { id: 'channelId1' },
             messages: [],
           },
           {
             type: ADD_NEW_MESSAGE,
             payload: {
-              id: 'msgId1',
-              author: { id: 'userId1' },
-              channelId: 'channelId1',
+              message: {
+                id: 'msgId1',
+                author: { id: 'userId1' },
+                channelId: 'channelId1',
+              },
+              currentUserId: 'userId1',
             },
           },
         ),
@@ -53,16 +58,18 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            user: { id: 'userId1' },
             channel: { id: 'channelId1' },
             messages: [],
           },
           {
             type: ADD_NEW_MESSAGE,
             payload: {
-              id: 'msgId1',
-              author: { id: 'userId2' },
-              channelId: 'channelId1',
+              message: {
+                id: 'msgId1',
+                author: { id: 'userId2' },
+                channelId: 'channelId1',
+              },
+              currentUserId: 'userId1',
             },
           },
         ),
@@ -73,7 +80,6 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            user: { id: 'userId1' },
             messages: [
               { id: '234' },
               { clientsideId: 'abc' },
@@ -84,10 +90,13 @@ describe('history reducer', () => {
           {
             type: ADD_NEW_MESSAGE,
             payload: {
-              id: '123',
-              author: { id: 'userId2' },
-              clientsideId: 'abc',
-              channelId: 'channelId1',
+              message: {
+                id: '123',
+                author: { id: 'userId2' },
+                clientsideId: 'abc',
+                channelId: 'channelId1',
+              },
+              currentUserId: 'userId1',
             },
           },
         ),
@@ -98,7 +107,6 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            user: { id: 'userId1' },
             messages: [
               { id: '234' },
               { id: '345', clientsideId: 'abc' },
@@ -109,10 +117,13 @@ describe('history reducer', () => {
           {
             type: ADD_NEW_MESSAGE,
             payload: {
-              id: '123',
-              author: { id: 'userId2' },
-              clientsideId: 'xyz',
-              channelId: 'channelId1',
+              message: {
+                id: '123',
+                author: { id: 'userId2' },
+                clientsideId: 'xyz',
+                channelId: 'channelId1',
+              },
+              currentUserId: 'userId1',
             },
           },
         ),
@@ -123,16 +134,18 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            user: { id: 'userId1' },
             messages: [{ clientsideId: 'abc' }],
             channel: { id: 'channelId1' },
           },
           {
             type: ADD_NEW_MESSAGE,
             payload: {
-              id: '123',
-              channelId: 'channelId1',
-              author: { id: 'userId2' },
+              message: {
+                id: '123',
+                channelId: 'channelId1',
+                author: { id: 'userId2' },
+              },
+              currentUserId: 'userId1',
             },
           },
         ),

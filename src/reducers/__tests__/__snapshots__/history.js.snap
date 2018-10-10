@@ -21,9 +21,6 @@ Object {
   "scrollTo": null,
   "scrollToAlignment": null,
   "showNoContent": false,
-  "user": Object {
-    "id": "userId1",
-  },
 }
 `;
 
@@ -57,9 +54,6 @@ Object {
   "scrollTo": null,
   "scrollToAlignment": null,
   "showNoContent": false,
-  "user": Object {
-    "id": "userId1",
-  },
 }
 `;
 
@@ -81,9 +75,6 @@ Object {
   "scrollTo": null,
   "scrollToAlignment": null,
   "showNoContent": false,
-  "user": Object {
-    "id": "userId1",
-  },
 }
 `;
 
@@ -113,9 +104,6 @@ Object {
   "scrollTo": "msgId1",
   "scrollToAlignment": null,
   "showNoContent": false,
-  "user": Object {
-    "id": "userId1",
-  },
 }
 `;
 
@@ -145,9 +133,6 @@ Object {
   "scrollTo": null,
   "scrollToAlignment": null,
   "showNoContent": false,
-  "user": Object {
-    "id": "userId1",
-  },
 }
 `;
 
