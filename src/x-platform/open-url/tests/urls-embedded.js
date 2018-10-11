@@ -267,4 +267,23 @@ describe('goTo with url in embedded mode', () => {
       args: ['https://grape.io/', 'grape'],
     })
   })
+
+  it('should call onExternal callback if the path have parameters', () => {
+    const { map, called, args } = callbacks()
+    goTo('https://grape.io/guests/invite/?group_id=5&next=/chat', {
+      currChannel: 2000,
+      serviceUrl: 'https://grape.io',
+      mode: 'embedded',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 1,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 0,
+      },
+      args: ['https://grape.io/guests/invite/?group_id=5&next=/chat', 'grape'],
+    })
+  })
 })

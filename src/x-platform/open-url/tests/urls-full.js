@@ -262,4 +262,23 @@ describe('goTo with url in full mode', () => {
       args: ['https://grape.io/'],
     })
   })
+
+  it('should call onRedirect callback if the path have parameters', () => {
+    const { map, called, args } = callbacks()
+    goTo('https://grape.io/guests/invite/?group_id=5&next=/chat', {
+      currChannel: 2000,
+      serviceUrl: 'https://grape.io',
+      mode: 'full',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 0,
+        onRedirect: 1,
+        onSilentChange: 0,
+        onUpdateRouter: 0,
+      },
+      args: ['https://grape.io/guests/invite/?group_id=5&next=/chat'],
+    })
+  })
 })
