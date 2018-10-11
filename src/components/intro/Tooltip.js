@@ -25,6 +25,7 @@ export default class IntroTooltip extends PureComponent {
     beacon: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     container: PropTypes.object,
+    background: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -46,7 +47,7 @@ export default class IntroTooltip extends PureComponent {
   }
 
   render() {
-    const { container, children } = this.props
+    const { container, children, background } = this.props
     const { beacon } = this.state
 
     if (!beacon) return null
@@ -60,7 +61,9 @@ export default class IntroTooltip extends PureComponent {
         target={target}
         shouldUpdatePosition
       >
-        <Tooltip {...tooltipProps}>{children}</Tooltip>
+        <Tooltip {...tooltipProps} background={background}>
+          {children}
+        </Tooltip>
       </Position>
     )
   }

@@ -691,3 +691,11 @@ export const introSelector = createSelector(
   state => state.intro,
   state => state,
 )
+
+export const introSelectorComponent = createSelector(
+  [introSelector, orgSelector],
+  (intro, { permissions }) => ({
+    ...intro,
+    permissions,
+  }),
+)

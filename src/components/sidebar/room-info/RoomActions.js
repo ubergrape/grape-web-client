@@ -64,12 +64,24 @@ const RoomActions = ({
   onLeave,
   onInvite,
   onAddIntegration,
+  goTo,
   channel,
   permissions,
 }) => (
   <ul>
-    <li className={classes.action}>
-      {permissions.canInviteMembers && (
+    {permissions.canInviteGuests && (
+      <li className={classes.action}>
+        <button onClick={goTo()} className={classes.buttonInvite}>
+          <FormattedMessage
+            id="inviteMoreToGroup"
+            defaultMessage="Invite more people to this group"
+            description="Room Info Panel: link to invite people to the group/room"
+          />
+        </button>
+      </li>
+    )}
+    {permissions.canInviteMembers && (
+      <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
@@ -77,10 +89,10 @@ const RoomActions = ({
             description="Room Info Panel: link to invite people to the group/room"
           />
         </button>
-      )}
-    </li>
-    <li className={classes.action}>
-      {permissions.canAddIntegration && (
+      </li>
+    )}
+    {permissions.canAddIntegration && (
+      <li className={classes.action}>
         <button
           onClick={onAddIntegration}
           className={classes.buttonIntegration}
@@ -91,10 +103,10 @@ const RoomActions = ({
             description="Room Info Panel: link to add an integration to the current room"
           />
         </button>
-      )}
-    </li>
-    <li className={classes.action}>
-      {permissions.canLeaveChannel && (
+      </li>
+    )}
+    {permissions.canLeaveChannel && (
+      <li className={classes.action}>
         <button onClick={onLeave} className={classes.buttonLeave}>
           <FormattedMessage
             id="leaveChannel"
@@ -103,8 +115,8 @@ const RoomActions = ({
             description="Room Info Panel: leave room link"
           />
         </button>
-      )}
-    </li>
+      </li>
+    )}
   </ul>
 )
 
@@ -113,6 +125,7 @@ RoomActions.propTypes = {
   onLeave: PropTypes.func,
   onInvite: PropTypes.func,
   onAddIntegration: PropTypes.func,
+  goTo: PropTypes.func,
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
@@ -123,6 +136,7 @@ RoomActions.defaultProps = {
   onLeave: noop,
   onInvite: noop,
   onAddIntegration: noop,
+  goTo: noop,
   channel: {
     name: 'Undefined',
   },
