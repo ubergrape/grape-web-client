@@ -110,12 +110,12 @@ const onChat = (pathOrUrl, options) => {
 }
 
 const onRootAndFull = (pathOrUrl, options) => {
-  const { onExternal, onRedirect, mode, pathname, serviceUrl } = options
+  const { onExternal, onRedirect, mode, pathname, serviceUrl, search } = options
   if (mode === 'embedded') {
-    onExternal(`${serviceUrl}${pathname}`, 'grape')
+    onExternal(`${serviceUrl}${pathname}${search || ''}`, 'grape')
     return
   }
-  onRedirect(`${serviceUrl}${pathname}`)
+  onRedirect(`${serviceUrl}${pathname}${search || ''}`)
 }
 
 export default (pathOrUrl, options) => {
@@ -123,7 +123,7 @@ export default (pathOrUrl, options) => {
   const logoutPath = '/accounts/logout'
   const ssoPath = '/sso/sso'
   const { onExternal, mode, serviceUrl } = options
-  const { pathname, hostname } = parseUrl(pathOrUrl)
+  const { pathname, hostname, search } = parseUrl(pathOrUrl)
   if (hostname && hostname !== parseUrl(serviceUrl).hostname) {
     onForeign(pathOrUrl, options)
     return
@@ -148,8 +148,8 @@ export default (pathOrUrl, options) => {
     return
   }
   if (pathname === '/' || mode === 'full') {
-    onRootAndFull(pathOrUrl, { ...options, pathname })
+    onRootAndFull(pathOrUrl, { ...options, pathname, search })
     return
   }
-  onExternal(`${serviceUrl}${pathname}`, 'grape')
+  onExternal(`${serviceUrl}${pathname}${search || ''}`, 'grape')
 }

@@ -155,6 +155,24 @@ describe('goTo with path in embedded mode', () => {
     })
   })
 
+  it('should call onExternal callback if the path have parameters', () => {
+    const { map, called, args } = callbacks()
+    goTo('/guests/invite/?group_id=5&next=/chat', {
+      mode: 'embedded',
+      serviceUrl: 'https://grape.io',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 1,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 0,
+      },
+      args: ['https://grape.io/guests/invite/?group_id=5&next=/chat', 'grape'],
+    })
+  })
+
   it('should call onExternal callback if the path leads to /chat/pm and replace is true', () => {
     const { map, called, args } = callbacks()
     // We need replace: true, to not store current path in browser's history
