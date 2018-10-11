@@ -50,45 +50,46 @@ function getFormattedMessage(channelType, mission) {
   return null
 }
 
-const InviteButton = ({ listed, channelType, classes, onClick }) => (
+const InviteButton = ({ listed, channel, classes, onClick }) => (
   <div className={classes.submit}>
     <button
       className={classes.buttonInvite}
       onClick={onClick}
       disabled={!listed.length}
     >
-      {getFormattedMessage(channelType, 'button')}
+      {getFormattedMessage(channel.type, 'button')}
     </button>
   </div>
 )
 
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string,
+  channel: PropTypes.object,
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 
 InviteButton.defaultProps = {
-  channelType: '',
+  channel: {},
 }
 
 class ChannelMembersInvite extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
+    channel: PropTypes.object,
     addToChannelMembersInvite: PropTypes.func.isRequired,
     removeFromChannelMembersInvite: PropTypes.func.isRequired,
     inviteToChannel: PropTypes.func.isRequired,
+    goTo: PropTypes.func.isRequired,
     hideChannelMembersInvite: PropTypes.func.isRequired,
     searchUsersToInvite: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
-    channelType: PropTypes.string,
   }
 
   static defaultProps = {
-    channelType: '',
+    channel: {},
   }
 
   onInvite = () => {
@@ -96,12 +97,12 @@ class ChannelMembersInvite extends PureComponent {
       listed,
       inviteToChannel,
       hideChannelMembersInvite,
-      channelType,
+      channel,
       showToastNotification,
     } = this.props
 
     if (!listed.length) return
-    if (channelType === 'room') inviteToChannel(map(listed, 'email'))
+    if (channel.type === 'room') inviteToChannel(map(listed, 'email'))
     hideChannelMembersInvite()
     showToastNotification(
       <InviteSuccess invited={map(listed, 'displayName')} />,
@@ -112,8 +113,9 @@ class ChannelMembersInvite extends PureComponent {
     const {
       sheet: { classes },
       intl: { formatMessage },
-      channelType,
+      channel,
       searchUsersToInvite,
+      goTo,
       addToChannelMembersInvite,
       removeFromChannelMembersInvite,
       listed,
@@ -122,23 +124,25 @@ class ChannelMembersInvite extends PureComponent {
       ...rest
     } = this.props
 
-    if (!channelType) return null
+    if (!channel.type) return null
 
     return (
       <ChooseUsersDialog
         {...rest}
-        title={formatMessage(getFormattedMessage(channelType, 'title'))}
+        title={formatMessage(getFormattedMessage(channel.type, 'title'))}
         theme={{ classes }}
         listed={listed}
         onHide={hideChannelMembersInvite}
         onChangeFilter={searchUsersToInvite}
         onSelectUser={addToChannelMembersInvite}
         onRemoveSelectedUser={removeFromChannelMembersInvite}
+        goTo={goTo}
+        channel={channel}
       >
         <InviteButton
           classes={classes}
           listed={listed}
-          channelType={channelType}
+          channel={channel}
           onClick={this.onInvite}
         />
       </ChooseUsersDialog>

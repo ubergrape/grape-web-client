@@ -64,7 +64,6 @@ export default class RoomInfo extends PureComponent {
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
-    goTo: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
     setRoomDescription: PropTypes.func.isRequired,
     setRoomPrivacy: PropTypes.func.isRequired,
@@ -143,7 +142,6 @@ export default class RoomInfo extends PureComponent {
       goToAddIntegrations,
       user,
       openPm,
-      goTo,
       kickMemberFromChannel,
       subview: { users },
       onLoadMembers,
@@ -157,7 +155,6 @@ export default class RoomInfo extends PureComponent {
           permissions={permissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}
-          goTo={goTo}
           onAddIntegration={goToAddIntegrations}
         />
         {(permissions.canLeaveChannel ||

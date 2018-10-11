@@ -11,6 +11,8 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
+export const confSelector = createSelector(state => state.conf, state => state)
+
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
   (app, initialDataLoading) => ({
@@ -324,8 +326,13 @@ export const newConversationDialog = createSelector(
 )
 
 export const inviteDialogSelector = createSelector(
-  [channelSelector, inviteChannelMembersSelector, isInviterSelector],
-  (channel, inviteChannelMembers, isInviter) => ({
+  [
+    channelSelector,
+    inviteChannelMembersSelector,
+    isInviterSelector,
+    confSelector,
+  ],
+  (channel, inviteChannelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
       // Sift users which already participate in channel
@@ -335,17 +342,26 @@ export const inviteDialogSelector = createSelector(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
       ),
     isInviter,
-    channelType: channel.type,
+    channel,
+    conf,
   }),
 )
 
 export const inviteToOrgDialog = createSelector(
-  [inviteToOrgSelector, orgSelector, isInviterSelector],
-  (inviteToOrg, { id, features }, isInviter) => ({
+  [
+    inviteToOrgSelector,
+    orgSelector,
+    isInviterSelector,
+    channelSelector,
+    confSelector,
+  ],
+  (inviteToOrg, { id, features }, isInviter, channel, conf) => ({
     ...inviteToOrg,
     isInviter,
     orgId: id,
     showInviteLinkFeature: Boolean(features && features.inviteLink),
+    channel,
+    conf,
   }),
 )
 
@@ -601,8 +617,6 @@ export const isChannelDisabledSelector = createSelector(
     return channels.length === 0 || !channel
   },
 )
-
-export const confSelector = createSelector(state => state.conf, state => state)
 
 export const footerSelector = createSelector(
   state => state.footer,

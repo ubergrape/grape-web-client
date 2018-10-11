@@ -23,7 +23,6 @@ const actionNames = [
   'loadLabeledMessages',
   'selectLabeledMessagesFilter',
   'goToMessage',
-  'goTo',
   'searchMessages',
   'toggleSearchOnlyInChannel',
   'toggleSearchActivities',

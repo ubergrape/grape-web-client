@@ -64,22 +64,10 @@ const RoomActions = ({
   onLeave,
   onInvite,
   onAddIntegration,
-  goTo,
   channel,
   permissions,
 }) => (
   <ul>
-    {permissions.canInviteGuests && (
-      <li className={classes.action}>
-        <button onClick={goTo()} className={classes.buttonInvite}>
-          <FormattedMessage
-            id="inviteMoreToGroup"
-            defaultMessage="Invite more people to this group"
-            description="Room Info Panel: link to invite people to the group/room"
-          />
-        </button>
-      </li>
-    )}
     {permissions.canInviteMembers && (
       <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
@@ -125,7 +113,6 @@ RoomActions.propTypes = {
   onLeave: PropTypes.func,
   onInvite: PropTypes.func,
   onAddIntegration: PropTypes.func,
-  goTo: PropTypes.func,
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
@@ -136,7 +123,6 @@ RoomActions.defaultProps = {
   onLeave: noop,
   onInvite: noop,
   onAddIntegration: noop,
-  goTo: noop,
   channel: {
     name: 'Undefined',
   },
