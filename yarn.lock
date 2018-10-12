@@ -2480,6 +2480,12 @@ css-vendor@^1.0.0:
   dependencies:
     is-in-browser "^1.0.2"
 
+css-vendor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-1.1.0.tgz#39bc1bb46b633528a9041ad5e107ddd353240388"
+  dependencies:
+    is-in-browser "^1.0.2"
+
 css@^2.2.3:
   version "2.2.3"
   resolved "https://registry.npmjs.org/css/-/css-2.2.3.tgz#f861f4ba61e79bedc962aa548e5780fd95cbc6be"
@@ -3984,6 +3990,37 @@ grape-web@1.x:
     reset-jss "^0.1.0"
     styled-jss "^1.2.0"
 
+grape-web@^1.7.6:
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.6.tgz#94141eee8166b8699a02014b119ecb974a6b7de5"
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^0.3.8"
+    grape-js-emoji "^0.0.1"
+    grape-theme "3.x"
+    jss "^9.8.7"
+    jss-default-unit "^8.0.2"
+    jss-expand "^5.3.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.1.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^8.0.1"
+    lodash "^4.17.10"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^15.3.0"
+    react-dom "^15.3.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^1.2.0"
+
 "growl@~> 1.10.0":
   version "1.10.5"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
@@ -5472,6 +5509,12 @@ jss-vendor-prefixer@^7.0.0:
   dependencies:
     css-vendor "^0.3.8"
 
+jss-vendor-prefixer@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/jss-vendor-prefixer/-/jss-vendor-prefixer-8.0.1.tgz#80bcf2840fad7c383e3215e9098b2b7d549f91ac"
+  dependencies:
+    css-vendor "^1.1.0"
+
 jss@^7.1.7:
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/jss/-/jss-7.1.7.tgz#f2ace208247f1a68166dd20ccd69c866105fa404"
@@ -5479,7 +5522,7 @@ jss@^7.1.7:
     is-in-browser "1.0.2"
     warning "3.0.0"
 
-jss@^9.3.3, jss@^9.7.0, jss@^9.8.0, jss@^9.8.1:
+jss@^9.3.3, jss@^9.7.0, jss@^9.8.0, jss@^9.8.1, jss@^9.8.7:
   version "9.8.7"
   resolved "https://registry.yarnpkg.com/jss/-/jss-9.8.7.tgz#ed9763fc0f2f0260fc8260dac657af61e622ce05"
   dependencies:
