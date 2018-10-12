@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { sync as globSync } from 'glob'
 import { basename } from 'path'
-import camelCase from 'lodash/string/camelCase'
+import camelCase from 'lodash/camelCase'
 import { writeFileSync } from 'fs'
 
 const basePath = `${process.cwd()}/src/svg-icons`
@@ -18,5 +19,5 @@ const data = `${[
   .join('\n')}\n`
 
 writeFileSync(target, data)
-
+// eslint-disable-next-line no-console
 console.log(`Generated svg icons exports in "${target}"`)
