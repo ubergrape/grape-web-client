@@ -24,6 +24,8 @@ export default {
   "inviteToGroup": "Zur Gruppe einladen",
   "createGroup": "Gruppe erstellen",
   "inviteMembers": "Mitglieder einladen",
+  "inviteToOrganization": "Laden Sie eine neue Person in Ihre Organisation ein",
+  "inviteGuest": "Laden Sie einen Gast in diese Gruppe ein",
   "typeName": "Mitglieder hinzufügen…",
   "everyoneInvited": "Alle Mitglieder wurden bereits zu dieser Gruppe eingeladen",
   "usersNotFoundFor": "Niemand gefunden für",
