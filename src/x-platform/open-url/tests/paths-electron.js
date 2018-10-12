@@ -156,6 +156,24 @@ describe('goTo with path in electron mode', () => {
     })
   })
 
+  it('should call onExternal callback if the path have parameters', () => {
+    const { map, called, args } = callbacks()
+    goTo('/guests/invite/?group_id=5&next=/chat', {
+      mode: 'electron',
+      serviceUrl: 'https://grape.io',
+      ...map,
+    })
+    expect({ called, args }).to.eql({
+      called: {
+        onExternal: 1,
+        onRedirect: 0,
+        onSilentChange: 0,
+        onUpdateRouter: 0,
+      },
+      args: ['https://grape.io/guests/invite/?group_id=5&next=/chat', 'grape'],
+    })
+  })
+
   it('should call onRedirect callback if the path leads to the root', () => {
     const { map, called, args } = callbacks()
     goTo('/', {
