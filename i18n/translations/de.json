@@ -402,7 +402,6 @@
   "sharedInPm": "Geteilt mit {channelName}",
   "_sharedInPm.comment": "*Describe sharedInPm*, example: Shared with Felix'",
   "noSharedFiles": "Keine geteilten Dateien",
-  "showRoomMentions": "Raum Erwähnungen anzeigen",
   "showRoomMentions": "Gruppen-Erwähnungen anzeigen",
   "_showRoomMentions.comment": "Option in messages mention sidebar.",
   "onlyInThisConversationMentions": "Nur in dieser Konversation",

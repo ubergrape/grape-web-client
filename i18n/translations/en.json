@@ -337,10 +337,6 @@
     "Are you sure you want to delete this group?",
   "_roomDeleteDialogConfirmMessage.comment":
     "Room Delete Dialog: confirm (info) message",
-  "roomDeleteDialogProvideName":
-    "Please enter the name of the room you want to delete.",
-  "_roomDeleteDialogProvideName.comment":
-    "Room Delete Dialog: validation message",
   "roomDeleteDialogNotMatchingName": "Room name doesn't match",
   "_roomDeleteDialogNotMatchingName.comment":
     "Room Delete Dialog: validation message",
