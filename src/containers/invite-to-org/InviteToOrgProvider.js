@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -12,6 +12,7 @@ const actionNames = {
   inviteToOrg: 'onInvite',
   clearInviteToOrgError: 'onHideError',
   showToastNotification: 'onSuccess',
+  goTo: 'goTo',
 }
 
 const ConnectedInviteToOrg = connect(
@@ -19,12 +20,8 @@ const ConnectedInviteToOrg = connect(
   mapActionsToProps(actionNames),
 )(InviteToOrg)
 
-export default class InviteToOrgProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedInviteToOrg />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedInviteToOrg />
+  </Provider>
+)
