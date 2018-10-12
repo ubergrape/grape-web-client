@@ -337,6 +337,11 @@
     "Are you sure you want to delete this group?",
   "_roomDeleteDialogConfirmMessage.comment":
     "Room Delete Dialog: confirm (info) message",
+  "roomDeleteDialogConfirmWarning": "Warning: This action can't be undone!",
+  "_roomDeleteDialogConfirmWarning.comment":
+    "Room Delete Dialog: confirm (warning) message",
+  "roomDeleteDialogTitle": "Delete \"{roomName}\"?",
+  "_roomDeleteDialogTitle.comment": "Room Delete Dialog: dialog title",
   "roomDeleteDialogProvideName":
     "Please enter the name of the group you want to delete.",
   "_roomDeleteDialogProvideName.comment":

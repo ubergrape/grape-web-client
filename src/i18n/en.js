@@ -194,6 +194,8 @@ export default {
   "roomDeleteDialogInputLabel": "Please type in the name of the group to confirm",
   "roomDeleteDialogDelete": "delete",
   "roomDeleteDialogConfirmMessage": "Are you sure you want to delete this group?",
+  "roomDeleteDialogConfirmWarning": "Warning: This action can't be undone!",
+  "roomDeleteDialogTitle": "Delete \"{roomName}\"?",
   "roomDeleteDialogProvideName": "Please enter the name of the group you want to delete.",
   "roomDeleteDialogNotMatchingName": "Group name doesn't match",
   "roomDeleteDialoginputPlaceholder": "Confirm group name...",
