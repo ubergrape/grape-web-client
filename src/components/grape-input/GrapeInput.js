@@ -63,7 +63,8 @@ export default class GrapeInput extends Component {
       nextProps.channel.id !== this.props.channel.id &&
       // Can be undefined, and trigget typing event on initial loading,
       // because of undefined not equals real channel id.
-      this.props.channel.id
+      this.props.channel.id &&
+      nextProps.channel.id
     ) {
       this.onChange({ value: nextProps.content })
     }
