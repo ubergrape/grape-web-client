@@ -263,10 +263,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  [state => state.newConversation, joinedChannelsSelector],
-  (newConversation, isMemberOfAnyRooms) => ({
+  [state => state.newConversation, joinedChannelsSelector, channelSelector],
+  (newConversation, isMemberOfAnyRooms, channel) => ({
     ...newConversation,
     isMemberOfAnyRooms,
+    channel,
   }),
 )
 
