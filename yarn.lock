@@ -3918,9 +3918,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grape-browser@^3.17.13:
-  version "3.17.13"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.13.tgz#52ae38cad7cc20f425e0f71b70e3fc78d1e65d7a"
+grape-browser@^3.17.14:
+  version "3.17.14"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.14.tgz#fbe7d99ced9f17399954d10a192cb8be78466a02"
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -3959,38 +3959,7 @@ grape-theme@3.x, grape-theme@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
-grape-web@1.x:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.5.tgz#35b86e8ee7154310c1cb9f3f7ca13c47a0327b5b"
-  dependencies:
-    classnames "^2.2.5"
-    color "^0.10.1"
-    css-functions "^1.0.5"
-    css-vendor "^0.3.8"
-    grape-js-emoji "^0.0.1"
-    grape-theme "3.x"
-    jss "^9.8.0"
-    jss-default-unit "^8.0.0"
-    jss-expand "^5.0.0"
-    jss-extend "^6.2.0"
-    jss-increase-specificity "^0.3.5"
-    jss-isolate "^5.0.0"
-    jss-props-sort "^6.0.0"
-    jss-vendor-prefixer "^7.0.0"
-    lodash "^3.10.0"
-    material-ui "1.0.0-beta.22"
-    mdurl "^1.0.1"
-    normalize-jss "^3.1.0"
-    prop-types "^15.5.10"
-    react "^15.3.0"
-    react-dom "^15.3.0"
-    react-jss "^8.3.3"
-    react-router-dom "^4.2.2"
-    react-router-redux "^5.0.0-alpha.9"
-    reset-jss "^0.1.0"
-    styled-jss "^1.2.0"
-
-grape-web@^1.7.6:
+grape-web@1.x, grape-web@^1.7.6:
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.6.tgz#94141eee8166b8699a02014b119ecb974a6b7de5"
   dependencies:
@@ -5400,7 +5369,7 @@ jss-default-unit@^6.0.0:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/jss-default-unit/-/jss-default-unit-6.1.2.tgz#6c460154129b7be304a4a4dcd2b283584954aec5"
 
-jss-default-unit@^8.0.0, jss-default-unit@^8.0.2:
+jss-default-unit@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/jss-default-unit/-/jss-default-unit-8.0.2.tgz#cc1e889bae4c0b9419327b314ab1c8e2826890e6"
 
@@ -5408,7 +5377,7 @@ jss-expand@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/jss-expand/-/jss-expand-3.0.1.tgz#90f1b30ad0ab700e666ea54f7186341c50d7feed"
 
-jss-expand@^5.0.0, jss-expand@^5.3.0:
+jss-expand@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/jss-expand/-/jss-expand-5.3.0.tgz#02be076efe650125c842f5bb6fb68786fe441ed6"
 
@@ -5436,7 +5405,7 @@ jss-increase-specificity@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/jss-increase-specificity/-/jss-increase-specificity-0.3.5.tgz#694a85acb5218ddcf5bb202e64b3d6b3fa20bdb5"
 
-jss-isolate@^5.0.0, jss-isolate@^5.1.0:
+jss-isolate@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/jss-isolate/-/jss-isolate-5.1.0.tgz#8eff1294c3659f86535852f4aeb79370743d890e"
   dependencies:
@@ -5522,7 +5491,7 @@ jss@^7.1.7:
     is-in-browser "1.0.2"
     warning "3.0.0"
 
-jss@^9.3.3, jss@^9.7.0, jss@^9.8.0, jss@^9.8.1, jss@^9.8.7:
+jss@^9.3.3, jss@^9.7.0, jss@^9.8.1, jss@^9.8.7:
   version "9.8.7"
   resolved "https://registry.yarnpkg.com/jss/-/jss-9.8.7.tgz#ed9763fc0f2f0260fc8260dac657af61e622ce05"
   dependencies:
