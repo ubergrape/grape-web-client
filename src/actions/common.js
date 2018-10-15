@@ -70,19 +70,22 @@ export const addUser = user => dispatch => {
   })
 }
 
-export const addNewUser = id => (dispatch, getState) => {
+export const addNewChannel = id => (dispatch, getState) => {
   const user = userSelector(getState())
 
   return api
     .getChannel(id)
     .then(channel => {
+      if (channel.type === 'room') {
+        dispatch(
+          addChannel({
+            ...channel,
+            users: [id, user.id],
+          }),
+        )
+        return
+      }
       dispatch(addUser(channel))
-      dispatch(
-        addChannel({
-          ...channel,
-          users: [id, user.id],
-        }),
-      )
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
