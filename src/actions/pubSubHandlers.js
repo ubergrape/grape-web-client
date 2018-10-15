@@ -21,7 +21,7 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser,
+  addNewChannel,
   goToLastUsedChannel,
   showSidebar,
   setIntialDataLoading,
@@ -62,7 +62,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
   const user = userSelector(state)
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke addNewUser
+  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
   // which would result in the undesired API call open_pm.
   if (message.type) {
     dispatch(addNewMessage(message))
@@ -75,7 +75,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  dispatch(addNewUser(message.channel)).then(() => {
+  dispatch(addNewChannel(message.channel)).then(() => {
     dispatch(addNewMessage(message))
   })
 }
@@ -213,7 +213,7 @@ export function handleNotification(notification) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewUser(notification.id)).then(() => {
+    dispatch(addNewChannel(notification.id)).then(() => {
       const updatedChannels = channelsSelector(getState())
       const addedChannel = find(updatedChannels, { id: notification.channelId })
       dispatch(newNotification(notification, addedChannel))
