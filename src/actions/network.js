@@ -5,7 +5,8 @@ import { type as connection } from '../utils/backend/client'
 import { disconnect } from '../app/client'
 import { appSelector } from '../selectors'
 import conf from '../conf'
-import { goTo } from './'
+import { goTo, showAlert } from './'
+import * as alerts from '../constants/alerts'
 
 function handleAuthError(err) {
   return dispatch => {
@@ -45,10 +46,12 @@ export const checkAuth = () => (dispatch, getState) => {
 
 export function handleConnectionError(err) {
   return dispatch => {
-    dispatch({
-      type: types.CONNECTION_ERROR,
-      payload: err,
-    })
+    dispatch(
+      showAlert({
+        level: 'danger',
+        type: alerts.CONNECTION_LOST,
+      }),
+    )
 
     if (connection === 'ws') {
       dispatch(checkAuth())
