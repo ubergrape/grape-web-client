@@ -111,7 +111,7 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage,
         showNoContent: false,
         backendHasNewerMessages:
-          backendHasNewerMessages === 'boolean'
+          typeof backendHasNewerMessages === 'boolean'
             ? backendHasNewerMessages
             : state.backendHasNewerMessages,
       }

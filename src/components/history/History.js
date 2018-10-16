@@ -61,6 +61,7 @@ class History extends PureComponent {
     loadedNewerMessage: PropTypes.bool.isRequired,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
     permissions: PropTypes.object,
+    backendHasNewerMessages: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -178,6 +179,7 @@ class History extends PureComponent {
       onNewConversation,
       onJoinGroup,
       permissions,
+      backendHasNewerMessages,
     } = this.props
     const { rows, scrollTo } = this.state
 
@@ -222,7 +224,10 @@ class History extends PureComponent {
           selectedMessageId={selectedMessageId}
         >
           {({ onRowsRendered: onRowsRenderedInReadMessageDispatcher }) => (
-            <Jumper onJump={onJump}>
+            <Jumper
+              onJump={onJump}
+              backendHasNewerMessages={backendHasNewerMessages}
+            >
               {({ onScroll }) => (
                 <InfiniteList
                   onRowsRendered={params => {
