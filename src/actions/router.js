@@ -7,7 +7,7 @@ import { channelsSelector, channelSelector } from '../selectors'
 import { findLastUsedChannel } from './utils'
 import * as history from '../app/history'
 
-import { setChannel, openPm, openChannel } from './'
+import { openPm, openChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
   return (dispatch, getState) => {
@@ -72,7 +72,6 @@ export function goToChannel(channelOrChannelId, options) {
 
     const slug = channel.slug == null ? channel.partner.username : channel.slug
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
-    if (!conf.embed) dispatch(setChannel(channel.id))
   }
 }
 
