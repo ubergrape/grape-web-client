@@ -138,6 +138,7 @@ class ChannelMembersInvite extends PureComponent {
         onRemoveSelectedUser={removeFromChannelMembersInvite}
         goTo={goTo}
         channel={channel}
+        showInviteGuests
       >
         <InviteButton
           classes={classes}

@@ -72,6 +72,7 @@ export default class ChooseUsersDialog extends PureComponent {
     isInviter: PropTypes.bool.isRequired,
     isFilterFocused: PropTypes.bool,
     show: PropTypes.bool.isRequired,
+    showInviteGuests: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -156,6 +157,7 @@ export default class ChooseUsersDialog extends PureComponent {
       onClickFocusReset,
       goTo,
       conf,
+      showInviteGuests,
     } = this.props
 
     return (
@@ -186,7 +188,9 @@ export default class ChooseUsersDialog extends PureComponent {
             onClick={this.onInvite}
             classes={classes}
           />
-          <InviteGuests channel={channel} onClick={goTo} conf={conf} />
+          {showInviteGuests && (
+            <InviteGuests channel={channel} onClick={goTo} conf={conf} />
+          )}
         </div>
       </Dialog>
     )

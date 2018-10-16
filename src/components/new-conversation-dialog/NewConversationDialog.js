@@ -228,6 +228,7 @@ class NewConversationDialog extends PureComponent {
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}
         channel={channel}
+        showInviteGuests={false}
       >
         {this.renderSettings()}
         {this.renderFooter()}
