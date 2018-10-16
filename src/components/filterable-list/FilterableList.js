@@ -67,7 +67,8 @@ class FilterableList extends Component {
     if (
       nextProps.isFilterFocused !== this.props.isFilterFocused ||
       nextState.focusedItem !== this.state.focusedItem ||
-      nextProps.selected !== this.props.selected
+      nextProps.selected !== this.props.selected ||
+      !nextProps.items.length
     )
       return true
     if (isEqual(nextProps.items, this.props.items)) return false
