@@ -17,6 +17,8 @@
   "grapeTrial": "Grape Testphase",
   "continueTrial": "Test fortsetzen",
   "enterDetails": "Details eingeben",
+  "privateMessageHint": "(Privatnachricht)",
+  "_privateMessageHint.comment": "Browser notification private message hint.",
   "groupInviteNotificationTitle": "{name} wurde der Gruppe {group} hinzugefügt",
   "_groupInviteNotificationTitle.comment":
     "Browser notification group invite title.",

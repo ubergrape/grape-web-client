@@ -18,6 +18,7 @@ export default {
   "grapeTrial": "Grape Testphase",
   "continueTrial": "Test fortsetzen",
   "enterDetails": "Details eingeben",
+  "privateMessageHint": "(Privatnachricht)",
   "groupInviteNotificationTitle": "{name} wurde der Gruppe {group} hinzugefügt",
   "groupInviteNotificationContent": "{name} (Gruppeneinladung)",
   "createNewPrivateGroup": "Neue private Gruppe erstellen",
