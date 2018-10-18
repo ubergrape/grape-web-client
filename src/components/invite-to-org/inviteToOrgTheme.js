@@ -54,8 +54,9 @@ export const styles = {
   },
   inviteLink: {
     marginTop: 20,
-    paddingTop: 10,
-    borderTop: [1, 'solid', grayBlueLighter],
+    padding: [10, 20],
+    borderTop: [3, 'solid', grayBlueLighter],
+    borderBottom: [3, 'solid', grayBlueLighter],
     display: 'flex',
   },
   inviteLinkLabel: {

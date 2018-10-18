@@ -255,7 +255,7 @@ class GrapeInput extends PureComponent {
       case '#':
         if (permissions.canUseGrapesearch) {
           // Avoid browser opening in case of `#s` input.
-          if (!showBrowser && query.length > 1) return
+          if (!showBrowser && (query && query.length > 1)) return
           onRequestAutocomplete({ search, filters })
           onShowSearchBrowser(search)
         }

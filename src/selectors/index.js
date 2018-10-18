@@ -11,6 +11,8 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
+export const confSelector = createSelector(state => state.conf, state => state)
+
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
   (app, initialDataLoading) => ({
@@ -209,10 +211,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  [state => state.newConversation, joinedChannelsSelector],
-  (newConversation, isMemberOfAnyRooms) => ({
+  [state => state.newConversation, joinedChannelsSelector, channelSelector],
+  (newConversation, isMemberOfAnyRooms, channel) => ({
     ...newConversation,
     isMemberOfAnyRooms,
+    channel,
   }),
 )
 
@@ -272,8 +275,13 @@ export const newConversationDialog = createSelector(
 )
 
 export const inviteDialogSelector = createSelector(
-  [channelSelector, inviteChannelMembersSelector, isInviterSelector],
-  (channel, inviteChannelMembers, isInviter) => ({
+  [
+    channelSelector,
+    inviteChannelMembersSelector,
+    isInviterSelector,
+    confSelector,
+  ],
+  (channel, inviteChannelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
       // Sift users which already participate in channel
@@ -283,17 +291,26 @@ export const inviteDialogSelector = createSelector(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
       ),
     isInviter,
-    channelType: channel.type,
+    channel,
+    conf,
   }),
 )
 
 export const inviteToOrgDialog = createSelector(
-  [inviteToOrgSelector, orgSelector, isInviterSelector],
-  (inviteToOrg, { id, features }, isInviter) => ({
+  [
+    inviteToOrgSelector,
+    orgSelector,
+    isInviterSelector,
+    channelSelector,
+    confSelector,
+  ],
+  (inviteToOrg, { id, features }, isInviter, channel, conf) => ({
     ...inviteToOrg,
     isInviter,
     orgId: id,
     showInviteLinkFeature: Boolean(features && features.inviteLink),
+    channel,
+    conf,
   }),
 )
 
@@ -549,8 +566,6 @@ export const isChannelDisabledSelector = createSelector(
   },
 )
 
-export const confSelector = createSelector(state => state.conf, state => state)
-
 export const footerSelector = createSelector(
   state => state.footer,
   state => state,
@@ -633,4 +648,12 @@ export const browserNotificationSelector = createSelector(
 export const introSelector = createSelector(
   state => state.intro,
   state => state,
+)
+
+export const introSelectorComponent = createSelector(
+  [introSelector, orgSelector],
+  (intro, { permissions }) => ({
+    ...intro,
+    permissions,
+  }),
 )
