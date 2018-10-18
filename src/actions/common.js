@@ -7,7 +7,6 @@ import * as types from '../constants/actionTypes'
 import { reopen } from '../app/client'
 import {
   channelsSelector,
-  userSelector,
   appSelector,
   joinedChannelsSelector,
 } from '../selectors'
@@ -51,23 +50,15 @@ export const setChannels = channels => dispatch => {
   })
 }
 
-export const addNewChannel = id => (dispatch, getState) => {
-  const user = userSelector(getState())
-
-  return api
+export const addNewChannel = id => dispatch =>
+  api
     .getChannel(id)
     .then(channel => {
-      dispatch(
-        addChannel({
-          ...channel,
-          users: [id, user.id],
-        }),
-      )
+      dispatch(addChannel(channel))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
     })
-}
 
 export function setOrg(org) {
   return {

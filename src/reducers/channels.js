@@ -47,7 +47,6 @@ export default function reduce(state = initialState, action) {
       if (find(state, { id: channel.id })) {
         return state
       }
-      if (!channel.users) channel.users = []
       return [...state, channel]
     }
 

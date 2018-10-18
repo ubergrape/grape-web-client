@@ -274,18 +274,24 @@ export const newConversationDialog = createSelector(
   }),
 )
 
+export const channelMembersSelector = createSelector(
+  state => state.channelMembers,
+  state => state,
+)
+
 export const inviteDialogSelector = createSelector(
   [
     channelSelector,
     inviteChannelMembersSelector,
+    channelMembersSelector,
     isInviterSelector,
     confSelector,
   ],
-  (channel, inviteChannelMembers, isInviter, conf) => ({
+  (channel, inviteChannelMembers, channelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
       // Sift users which already participate in channel
-      .filter(user => !channel.users.some(id => id === user.id))
+      .filter(user => !channelMembers.users.some(({ id }) => id === user.id))
       // Sift users which picked to be invited
       .filter(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
@@ -420,11 +426,6 @@ export const labeledMessagesSelector = createSelector(
 
 export const pinnedMessagesSelector = createSelector(
   state => state.pinnedMessages,
-  state => state,
-)
-
-export const channelMembersSelector = createSelector(
-  state => state.channelMembers,
   state => state,
 )
 
