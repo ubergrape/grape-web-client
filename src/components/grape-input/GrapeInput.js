@@ -66,7 +66,7 @@ export default class GrapeInput extends Component {
       this.props.channel.id &&
       nextProps.channel.id
     ) {
-      this.onChange({ value: nextProps.content })
+      this.onChange({ value: nextProps.content, isTyping: false })
     }
     if (nextProps.content !== this.state.content) {
       const { value, objects } = fromMarkdown(nextProps.content)
@@ -136,7 +136,7 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onChange = ({ value }) => {
+  onChange = ({ value, isTyping = true }) => {
     const emojiObjects = getEmojiObjects(value)
     const objects = { ...this.state.objects, ...emojiObjects }
     const content = toMarkdown(this.input.splitByTokens(), objects)
@@ -144,7 +144,7 @@ export default class GrapeInput extends Component {
     this.setState({ value, objects, content }, () => {
       const word = this.input.getTouchedWord()
       const query = parseQuery(word)
-      this.props.onChange({ query, content })
+      this.props.onChange({ query, content, isTyping })
     })
   }
 
