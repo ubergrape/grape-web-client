@@ -16,7 +16,6 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
-  addChannel,
   addSharedFiles,
   removeSharedFiles,
   addMention,
@@ -147,9 +146,7 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export function handleNewChannel({ channel }) {
-  return addChannel(channel)
-}
+export const handleNewChannel = ({ channel }) => addNewChannel(channel.id)
 
 const addUserToChannel = payload => dispatch => {
   dispatch({
