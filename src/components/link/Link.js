@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { Link as RouterLink } from 'grape-web/lib/router'
+import parseUrl from 'grape-web/lib/parse-url'
 
 import isChatUrl from '../../utils/is-chat-url'
 
@@ -27,7 +28,7 @@ export default class Link extends PureComponent {
 
     return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <RouterLink to={href}>{children}</RouterLink>
+      <RouterLink to={parseUrl(href).pathname}>{children}</RouterLink>
     )
   }
 }
