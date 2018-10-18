@@ -337,7 +337,7 @@ export const navigationPmsSelector = createSelector([pmsSelector], pms =>
 )
 
 function unixToIsoTimestamp(timestamp) {
-  return new Date(timestamp * 1000).getTime()
+  return new Date(timestamp).getTime()
 }
 
 function sortRecentChannels(a, b) {
