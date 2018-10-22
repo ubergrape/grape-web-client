@@ -235,7 +235,11 @@ export default class InfiniteList extends PureComponent {
                       rowCount={rows.length}
                       rowHeight={this.cache.rowHeight}
                       rowRenderer={this.renderRow}
-                      overscanRowCount={5}
+                      // A high overscanRowCount like 15 feels a smoother on high end devices
+                      // but creates quite an overhead rendering on low end devices.
+                      // Until hardware has improved or we could speed up the rendering (and calculating
+                      // the height of the message) we keep a low overscanRowCount.
+                      overscanRowCount={3}
                       ref={this.onRefList}
                     />
                   )}

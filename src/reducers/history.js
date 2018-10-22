@@ -9,7 +9,7 @@ import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 50,
+  minimumBatchSize: 40,
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
