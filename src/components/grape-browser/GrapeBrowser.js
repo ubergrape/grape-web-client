@@ -268,7 +268,7 @@ class GrapeBrowser extends Component {
     )
   }
 
-  onChangeInput = ({ query, content, isTyping } = {}) => {
+  onChangeInput = ({ query, content, channelChanged } = {}) => {
     // Handler might be called when content has been just set, so it is changed
     // for the underlying component but not here.
     const contentHasChanged = content !== this.state.content
@@ -287,7 +287,7 @@ class GrapeBrowser extends Component {
       if (isBrowserOpened) this.onAbort({ reason: 'deleteTrigger' })
     }
 
-    if (!isTyping) return
+    if (!channelChanged) return
     if (content === undefined) this.props.onChange()
     else this.setState({ content }, this.props.onChange)
   }
