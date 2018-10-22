@@ -3918,9 +3918,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grape-browser@^3.17.14:
-  version "3.17.14"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.14.tgz#fbe7d99ced9f17399954d10a192cb8be78466a02"
+grape-browser@^3.17.15:
+  version "3.17.15"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.15.tgz#4a6e0be3e1a582e0a108a4e10ad364d21c5b3cbb"
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
