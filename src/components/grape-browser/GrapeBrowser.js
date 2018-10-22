@@ -287,7 +287,7 @@ class GrapeBrowser extends Component {
       if (isBrowserOpened) this.onAbort({ reason: 'deleteTrigger' })
     }
 
-    if (!channelChanged) return
+    if (channelChanged) return
     if (content === undefined) this.props.onChange()
     else this.setState({ content }, this.props.onChange)
   }
