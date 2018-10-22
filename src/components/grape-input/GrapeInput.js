@@ -66,7 +66,10 @@ export default class GrapeInput extends Component {
       this.props.channel.id &&
       nextProps.channel.id
     ) {
-      this.onChange({ value: nextProps.content })
+      // When a user switches to another channel the input changes the content,
+      // but the user actually didn't made any change to the input and therefor
+      // an update even triggering typing should be avoided
+      this.onChange({ value: nextProps.content, channelChanged: true })
     }
     if (nextProps.content !== this.state.content) {
       const { value, objects } = fromMarkdown(nextProps.content)
@@ -136,7 +139,7 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onChange = ({ value }) => {
+  onChange = ({ value, channelChanged = false }) => {
     const emojiObjects = getEmojiObjects(value)
     const objects = { ...this.state.objects, ...emojiObjects }
     const content = toMarkdown(this.input.splitByTokens(), objects)
@@ -144,7 +147,7 @@ export default class GrapeInput extends Component {
     this.setState({ value, objects, content }, () => {
       const word = this.input.getTouchedWord()
       const query = parseQuery(word)
-      this.props.onChange({ query, content })
+      this.props.onChange({ query, content, channelChanged })
     })
   }
 
