@@ -59,15 +59,10 @@ export default class Menu extends PureComponent {
 
     if (state === 'pending' || state === 'unsent') return null
 
-    const items = []
+    const items = ['copyLink', 'quote', 'pin']
 
     if (isOwn) items.push('remove')
     if (isOwn && !hasAttachments) items.push('edit')
-    items.push('copyLink')
-    if (!hasAttachments) {
-      items.push('quote')
-      items.push('pin')
-    }
 
     return (
       <BaseMenu
