@@ -28,7 +28,7 @@ export default class Link extends PureComponent {
 
     return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <RouterLink to={parseUrl(href).pathname}>{children}</RouterLink>
+      <RouterLink to={parseUrl(href).pathname || href}>{children}</RouterLink>
     )
   }
 }
