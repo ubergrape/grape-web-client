@@ -61,13 +61,9 @@ export default class Menu extends PureComponent {
 
     const items = []
 
-    if (isOwn) items.push('remove')
     if (isOwn && !hasAttachments) items.push('edit')
-    items.push('copyLink')
-    if (!hasAttachments) {
-      items.push('quote')
-      items.push('pin')
-    }
+    if (isOwn) items.push('remove')
+    items.push('copyLink', 'quote', 'pin')
 
     return (
       <BaseMenu
