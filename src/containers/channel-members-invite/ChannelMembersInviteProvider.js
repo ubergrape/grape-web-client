@@ -14,6 +14,7 @@ const actionNames = [
   'removeFromChannelMembersInvite',
   'searchUsersToInvite',
   'showToastNotification',
+  'goTo',
 ]
 
 const ConnectedChannelMembersInvite = connect(

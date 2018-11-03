@@ -9,17 +9,25 @@ export const styles = {
     position: 'relative',
     padding: 15,
     borderTop: [3, 'solid', grayBlueLighter],
+    borderBottom: [3, 'solid', grayBlueLighter],
   },
   list: {
     display: 'block',
     height: 150,
   },
-  orgInvite: {
+  linkWrapper: {
     display: 'block',
-    textAlign: 'right',
-    marginTop: 5,
+    padding: [5, 0, 5, 20],
+    '&:first-child': {
+      isolate: false,
+      paddingTop: 10,
+    },
+    '&:last-child': {
+      isolate: false,
+      paddingBottom: 10,
+    },
   },
-  orgInviteButton: {
+  link: {
     extend: [link, small],
   },
   user: {

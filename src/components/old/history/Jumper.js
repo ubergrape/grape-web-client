@@ -16,6 +16,7 @@ class Jumper extends PureComponent {
     children: PropTypes.func.isRequired,
     onJump: PropTypes.func.isRequired,
     pagesBeforeShow: PropTypes.number,
+    backendHasNewerMessages: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -29,10 +30,11 @@ class Jumper extends PureComponent {
 
   onScroll = ({ scrollHeight, scrollTop, clientHeight }) => {
     const show =
+      this.props.backendHasNewerMessages ||
       // When messages height is smaller than the container, for some reason
       // clientHeight is 0.
-      clientHeight > 0 &&
-      scrollHeight - scrollTop > clientHeight * (this.props.pagesBeforeShow * 2)
+      (clientHeight > 0 &&
+        scrollHeight - scrollTop > clientHeight * this.props.pagesBeforeShow)
 
     if (this.state.show !== show) this.setState({ show })
   }

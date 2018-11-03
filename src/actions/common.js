@@ -8,7 +8,6 @@ import { reopen } from '../app/client'
 import {
   channelsSelector,
   userSelector,
-  orgSelector,
   appSelector,
   joinedChannelsSelector,
 } from '../selectors'
@@ -71,20 +70,22 @@ export const addUser = user => dispatch => {
   })
 }
 
-export const addNewUser = userId => (dispatch, getState) => {
-  const org = orgSelector(getState())
+export const addNewChannel = id => (dispatch, getState) => {
+  const user = userSelector(getState())
 
   return api
-    .openPm(org.id, userId)
-    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
-      dispatch(
-        addChannel({
-          ...pmChannel,
-          users,
-        }),
-      )
+    .getChannel(id)
+    .then(channel => {
+      if (channel.type === 'room') {
+        dispatch(
+          addChannel({
+            ...channel,
+            users: [id, user.id],
+          }),
+        )
+        return
+      }
+      dispatch(addUser(channel))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))

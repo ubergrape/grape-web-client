@@ -68,8 +68,8 @@ const RoomActions = ({
   permissions,
 }) => (
   <ul>
-    <li className={classes.action}>
-      {permissions.canInviteMembers && (
+    {permissions.canInviteMembers && (
+      <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
@@ -77,10 +77,10 @@ const RoomActions = ({
             description="Room Info Panel: link to invite people to the group/room"
           />
         </button>
-      )}
-    </li>
-    <li className={classes.action}>
-      {permissions.canAddIntegration && (
+      </li>
+    )}
+    {permissions.canAddIntegration && (
+      <li className={classes.action}>
         <button
           onClick={onAddIntegration}
           className={classes.buttonIntegration}
@@ -91,10 +91,10 @@ const RoomActions = ({
             description="Room Info Panel: link to add an integration to the current room"
           />
         </button>
-      )}
-    </li>
-    <li className={classes.action}>
-      {permissions.canLeaveChannel && (
+      </li>
+    )}
+    {permissions.canLeaveChannel && (
+      <li className={classes.action}>
         <button onClick={onLeave} className={classes.buttonLeave}>
           <FormattedMessage
             id="leaveChannel"
@@ -103,8 +103,8 @@ const RoomActions = ({
             description="Room Info Panel: leave room link"
           />
         </button>
-      )}
-    </li>
+      </li>
+    )}
   </ul>
 )
 

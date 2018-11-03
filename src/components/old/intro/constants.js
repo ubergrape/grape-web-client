@@ -3,6 +3,7 @@ import { spacer } from 'grape-theme/dist/sizes'
 import { rgba } from 'css-functions'
 
 export const containerStyle = {
+  isolate: false,
   width: 530,
   padding: spacer.xxl,
   borderRadius: spacer.s,
@@ -13,5 +14,5 @@ export const containerStyle = {
     blur: 8,
     color: rgba(0, 0, 0, 0.15),
   },
-  background: blue,
+  background: ({ background = blue }) => background,
 }

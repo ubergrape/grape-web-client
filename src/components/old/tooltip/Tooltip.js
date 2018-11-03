@@ -10,11 +10,11 @@ function Tooltip(props) {
     sheet,
     theme,
     children,
-    onClick,
     placement,
     arrowOffsetLeft,
     arrowOffsetTop,
     shift,
+    className,
   } = props
   const { arrowSize, borderSize } = theme
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
@@ -36,8 +36,7 @@ function Tooltip(props) {
   }
 
   return (
-    <button
-      onClick={onClick}
+    <div
       className={`${sheet.classes.tooltip} ${theme.classes.tooltip || ''}`}
       style={style}
     >
@@ -50,10 +49,10 @@ function Tooltip(props) {
           style={pointerStyle}
         />
       </i>
-      <div className={`${theme.classes.body}`} style={bodyStyle}>
+      <div className={`${className} ${theme.classes.body}`} style={bodyStyle}>
         {children}
       </div>
-    </button>
+    </div>
   )
 }
 
@@ -75,10 +74,10 @@ Tooltip.propTypes = {
     }),
   }).isRequired,
   style: PropTypes.object,
+  className: PropTypes.string,
   placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom']),
   arrowOffsetLeft: offsetType,
   arrowOffsetTop: offsetType,
-  onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
   shift: PropTypes.shape({
     top: PropTypes.number,
@@ -90,9 +89,9 @@ Tooltip.defaultProps = {
   placement: 'right',
   shift: undefined,
   style: undefined,
+  className: undefined,
   arrowOffsetLeft: undefined,
   arrowOffsetTop: undefined,
-  onClick: undefined,
 }
 
 export default injectSheet(styles)(Tooltip)

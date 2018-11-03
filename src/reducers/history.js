@@ -9,7 +9,7 @@ import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 50,
+  minimumBatchSize: 40,
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
@@ -111,7 +111,7 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage,
         showNoContent: false,
         backendHasNewerMessages:
-          backendHasNewerMessages === 'boolean'
+          typeof backendHasNewerMessages === 'boolean'
             ? backendHasNewerMessages
             : state.backendHasNewerMessages,
       }

@@ -26,7 +26,7 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.CHANGE_USER_STATUS: {
-      const { userId: id, status } = payload
+      const { id, status } = payload
 
       const newState = [...state]
       const index = findIndex(newState, user => {

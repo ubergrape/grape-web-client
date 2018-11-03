@@ -10,22 +10,25 @@ class Intro extends PureComponent {
     classes: PropTypes.object.isRequired,
     step: PropTypes.number,
     show: PropTypes.bool,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     step: 0,
     show: true,
+    permissions: {},
   }
 
   render() {
-    const { classes, step, show, ...rest } = this.props
-    const Step = steps[step]
+    const { classes, step, show, permissions, ...rest } = this.props
+    const filteredSteps = steps(permissions)
+    const Step = filteredSteps[step]
 
     if (!show) return null
 
     return (
       <div className={classes.root}>
-        <Step {...rest} isLast={!steps[step + 1]} container={this} />
+        <Step {...rest} isLast={!filteredSteps[step + 1]} container={this} />
       </div>
     )
   }

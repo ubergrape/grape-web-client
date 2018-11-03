@@ -16,7 +16,7 @@ const styles = {
   hl: {
     extend: fonts.biggest,
     lineHeight: 1,
-    color: 'inherit',
+    color: 'white',
     fontWeight: 'bold',
     margin: 0,
     paddingBottom: spacer.m,
@@ -24,12 +24,12 @@ const styles = {
   row: {
     display: 'flex',
     alignItems: 'flex-start',
-    color: 'inherit',
+    color: 'white',
     marginBottom: spacer.xxl,
   },
   text: {
     extend: fonts.normal,
-    color: 'inherit',
+    color: 'white',
   },
   image: {
     flexShrink: 0,
@@ -49,17 +49,17 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: 'inherit',
+    color: 'white',
   },
   button: {
     backgroundColor: rgba(0, 0, 0, 0.5),
     border: 'none',
-    color: 'inherit',
+    color: 'white',
     cursor: 'pointer',
   },
   skip: {
     extend: fonts.small,
-    color: 'inherit',
+    color: 'white',
     cursor: 'pointer',
   },
 }

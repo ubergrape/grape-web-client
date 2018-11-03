@@ -158,6 +158,7 @@ class RoomInfo extends PureComponent {
         />
         {(permissions.canLeaveChannel ||
           permissions.canInviteMembers ||
+          permissions.canInviteGuests ||
           permissions.canAddIntegration) && <Divider />}
         <ChannelMembers
           channel={channel}
