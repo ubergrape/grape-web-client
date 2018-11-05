@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import ImageZoom from 'image-zoom'
 import injectSheet from 'grape-web/lib/jss'
 import { zIndex } from '../../../utils/z-index'
@@ -25,7 +26,8 @@ class ImageZoomComponent extends PureComponent {
 
   onZoom = () => {
     const { getPreviewRef, url } = this.props
-    const previewNode = getPreviewRef()
+    // eslint-disable-next-line react/no-find-dom-node
+    const previewNode = findDOMNode(getPreviewRef())
     return new ImageZoom(previewNode, url)
       .overlay()
       .padding(20)
