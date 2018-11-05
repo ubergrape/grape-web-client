@@ -1,52 +1,22 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import theme from '../../../constants/theme'
+import styles from './styles/TabStyles'
 
-const styles = {
-  tab: {
-    flex: '1 1 0',
-  },
-  buttonLarge: {
-    isolate: false,
-    width: '100%',
-    height: 35,
-    background: 'none',
-    border: 0,
-    textAlign: 'center',
-    fontSize: theme.fontSizeLargeWeb,
-    cursor: 'pointer',
-    borderBottom: `1px solid ${theme.colorBorderSeparator}`,
-    color: theme.grayDarkest,
-    '&:hover': {
-      isolate: false,
-      borderBottom: `1px solid ${theme.colorIconBaseHoverWeb}`,
-    },
-  },
-  buttonActive: {
-    isolate: false,
-    borderBottom: `1px solid ${theme.colorTextActive}`,
-    color: theme.colorTextActive,
-    '&:hover': {
-      isolate: false,
-      borderBottom: `1px solid ${theme.colorTextActive}`,
-      color: theme.colorTextActive,
-    },
-  },
-}
+class Tab extends Component {
+  componentDidMount() {
+    const { tab, isCurrentTab } = this.props
+    if (isCurrentTab) tab.onLoad()
+  }
 
-class Tab extends PureComponent {
   handleClick = () => {
-    const { index, handleClick } = this.props
+    const { index, handleClick, tab } = this.props
     handleClick(index)
+    tab.onChange()
   }
 
   render() {
-    const {
-      name,
-      isCurrentTab,
-      sheet: { classes },
-    } = this.props
+    const { name, isCurrentTab, classes } = this.props
     return (
       <li className={classes.tab}>
         <button

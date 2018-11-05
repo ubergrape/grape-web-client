@@ -1,28 +1,44 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Dialog from 'react-a11y-dialog'
 
-class A11yDialog extends PureComponent {
+class A11yDialog extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     classNames: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     closeButtonLabel: PropTypes.string,
   }
 
   static defaultProps = {
     closeButtonLabel: 'Close this dialog window',
+    children: null,
+  }
+
+  componentDidMount() {
+    const dialog = document.getElementById(this.props.id)
+
+    const callback = mutationsList => {
+      mutationsList.forEach(mutation => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'aria-hidden' &&
+          mutation.target.getAttribute('aria-hidden')
+        ) {
+          this.props.onHide()
+        }
+      })
+    }
+
+    const observer = new MutationObserver(callback)
+    observer.observe(dialog, { attributes: true })
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show) this.dialog.show()
-  }
-
-  componentDidUpdate() {
-    if (this.dialog.shown) this.props.onHide()
   }
 
   onDialogRef = dialog => {
@@ -31,6 +47,7 @@ class A11yDialog extends PureComponent {
 
   render() {
     const { id, title, children, classNames, closeButtonLabel } = this.props
+
     return (
       <Dialog
         id={id}

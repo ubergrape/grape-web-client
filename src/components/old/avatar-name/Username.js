@@ -29,7 +29,7 @@ class Username extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
+    theme: PropTypes.object,
     avatar: PropTypes.string,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string,
@@ -37,6 +37,7 @@ class Username extends PureComponent {
   }
 
   static defaultProps = {
+    theme: { classes: {} },
     className: undefined,
     statusBorderColor: undefined,
     status: undefined,

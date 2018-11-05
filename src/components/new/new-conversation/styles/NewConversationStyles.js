@@ -1,4 +1,4 @@
-import theme from '../../../constants/theme'
+import theme from '../../../../constants/theme'
 
 export default {
   /*
@@ -21,7 +21,11 @@ export default {
     alignItems: 'center',
   },
   document: {
+    display: 'flex',
+    flexDirection: 'column',
     minWidth: 680,
+    maxWidth: 680,
+    height: '80%',
   },
   closeButton: {
     isolate: false,
@@ -39,9 +43,14 @@ export default {
     color: theme.grayDarkest,
     fontSize: theme.fontSizeHeadingPageWeb,
     lineHeight: '27px',
-    fontWeight: 600,
+    fontWeight: theme.fontWeightEmphasis,
   },
   // Styles for dialog window ends
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
   description: {
     marginTop: 20,
     color: theme.grayDarkest,
@@ -49,7 +58,10 @@ export default {
     lineHeight: '23px',
   },
   tabs: {
+    display: 'flex',
+    flexDirection: 'column',
     marginTop: 25,
     width: '100%',
+    height: '100%',
   },
 }

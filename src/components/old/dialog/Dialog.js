@@ -4,7 +4,7 @@ import Normalize from 'grape-web/lib/components/normalize'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
 import IconButton from 'grape-web/lib/components/icon-button'
-import { white } from 'grape-theme/dist/base-colors'
+import { black, white } from 'grape-theme/dist/base-colors'
 import { small, biggest } from 'grape-theme/dist/fonts'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -75,7 +75,8 @@ export default injectSheet({
   },
   backdrop: {
     composes: '$overlay',
-    backgroundColor: white,
+    backgroundColor: black,
+    opacity: 0.3,
     zIndex: zIndex('below'),
   },
   content: {

@@ -1,29 +1,20 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import Tab from './Tab'
+import styles from './styles/TabsStyles'
 
-const styles = {
-  list: {
-    display: 'flex',
-    listStyleType: 'none',
-  },
-  tab: {
-    marginTop: 16,
-  },
-}
-
-class Tabs extends PureComponent {
+class Tabs extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      value: 0,
+      index: 0,
     }
   }
 
-  handleClick = value => {
-    this.setState({ value })
+  handleClick = index => {
+    this.setState({ index })
   }
 
   render() {
@@ -31,21 +22,27 @@ class Tabs extends PureComponent {
       tabs,
       sheet: { classes },
     } = this.props
-    const { value } = this.state
+
+    const { index } = this.state
+    const CurrentTab = tabs[index].component
+
     return (
-      <div>
+      <div className={classes.tabs}>
         <ul className={classes.list}>
           {tabs.map((tab, i) => (
             <Tab
               key={tab.name}
               index={i}
               name={tab.name}
-              isCurrentTab={value === i}
+              tab={tab}
+              isCurrentTab={index === i}
               handleClick={this.handleClick}
             />
           ))}
         </ul>
-        <div className={classes.tab}>{tabs[value].component()}</div>
+        <div className={classes.tab}>
+          <CurrentTab data={tabs[index].data} />
+        </div>
       </div>
     )
   }

@@ -1,2 +1,2 @@
 export NewConversation from './NewConversation'
-export NewConversationTheme from './NewConversationTheme'
+export NewConversationStyles from './styles/NewConversationStyles'

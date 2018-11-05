@@ -6,7 +6,13 @@ import getStore from '../../app/store'
 import { newConversationSelector } from '../../selectors'
 import { NewConversation } from '../../components/new/new-conversation'
 
-const actionNames = ['showNewConversation', 'hideNewConversation']
+const actionNames = [
+  'changeTabNewConversation',
+  'showNewConversation',
+  'hideNewConversation',
+  'changeInputNewConversation',
+  'searchUsersNewConversation',
+]
 
 const ConnectedNewConversation = connect(
   newConversationSelector,

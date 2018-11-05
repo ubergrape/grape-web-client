@@ -2,56 +2,52 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
+  isLoaded: false,
+  page: 1,
+  filterUsers: '',
+  users: [],
+  groups: [],
 }
 
 export default function reduce(state = initialState, action) {
-  switch (action.type) {
+  const { payload, type } = action
+  switch (type) {
+    case types.CHANGE_TAB_NEW_CONVERSATION:
+      return {
+        ...initialState,
+        filterUsers: state.filterUsers,
+        show: true,
+      }
     case types.SHOW_NEW_CONVERSATION:
       return {
         ...initialState,
         show: true,
       }
     case types.HIDE_NEW_CONVERSATION:
-    case types.SET_CHANNEL:
-      return initialState
-    case types.ADD_TO_NEW_CONVERSATION:
       return {
-        ...state,
-        listed: [...state.listed, action.payload],
+        ...initialState,
+        show: false,
       }
-    case types.REMOVE_FROM_NEW_CONVERSATION:
+    case types.CHANGE_INPUT_NEW_CONVERSATION:
       return {
         ...state,
-        listed: state.listed.filter(member => member.id !== action.payload.id),
+        filterUsers: action.payload,
+        users: [],
+        page: 1,
       }
-    case types.REQUEST_SEARCH_USERS:
+    case types.REQUEST_SEARCH_USERS_NEW_CONVERSATION:
       return {
         ...state,
-        filter: action.payload,
+        isLoaded: action.payload,
       }
-    case types.HANDLE_SEARCH_USERS: {
-      const { search, users } = action.payload
-      // Filter has changed while we have been waiting for result, ignore the result.
-      if (state.filter !== search) return state
-
+    case types.HANDLE_SEARCH_USERS_NEW_CONVERSATION: {
+      const { users } = payload
       return {
         ...state,
-        found: users.length
-          ? users
-          : [
-              {
-                displayName: search,
-                email: search,
-                username: search,
-              },
-            ],
+        users: [...state.users, ...users],
+        page: state.page + 1,
       }
     }
-    case types.REQUEST_ROOM_CREATE:
-      return {
-        ...state,
-        creatingRoom: true,
-      }
     default:
       return state
   }
