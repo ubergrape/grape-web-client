@@ -2474,12 +2474,6 @@ css-vendor@^0.3.8:
   dependencies:
     is-in-browser "^1.0.2"
 
-css-vendor@^1.0.0:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-1.0.4.tgz#8642a19e12780f4351ece4a893cdff16ca8c35b4"
-  dependencies:
-    is-in-browser "^1.0.2"
-
 css-vendor@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-1.1.0.tgz#39bc1bb46b633528a9041ad5e107ddd353240388"
@@ -3990,14 +3984,14 @@ grape-web@1.x:
     reset-jss "^0.1.0"
     styled-jss "^1.2.0"
 
-grape-web@^1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.7.tgz#e4b388f0a9eb4c3c4412915c8cde29143da112fc"
+grape-web@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.8.tgz#78be9f1a23629e02a19722fe56dbdd6d15b3471b"
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
     css-functions "^1.0.5"
-    css-vendor "^0.3.8"
+    css-vendor "^1.1.0"
     grape-js-emoji "^0.0.1"
     grape-theme "3.x"
     jss "^9.8.7"
