@@ -11,7 +11,7 @@ let electron
 // This is a hack to avoid webpack trying to find this dependency.
 // We could add `externals` to webpack config, but this will be needed to be done
 // in every package that uses this one.
-if (window.require && process.versions.electron) {
+if (window.require && (window && window.process && window.process.type)) {
   electron = window.require('electron')
 }
 
