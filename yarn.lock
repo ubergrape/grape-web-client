@@ -4426,7 +4426,7 @@ grape-theme@3.x, grape-theme@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
-grape-web@1.x, grape-web@^1.7.6:
+grape-web@1.x:
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.6.tgz#94141eee8166b8699a02014b119ecb974a6b7de5"
   dependencies:
@@ -4434,6 +4434,37 @@ grape-web@1.x, grape-web@^1.7.6:
     color "^0.10.1"
     css-functions "^1.0.5"
     css-vendor "^0.3.8"
+    grape-js-emoji "^0.0.1"
+    grape-theme "3.x"
+    jss "^9.8.7"
+    jss-default-unit "^8.0.2"
+    jss-expand "^5.3.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.1.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^8.0.1"
+    lodash "^4.17.10"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^15.3.0"
+    react-dom "^15.3.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^1.2.0"
+
+grape-web@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.8.tgz#78be9f1a23629e02a19722fe56dbdd6d15b3471b"
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^1.1.0"
     grape-js-emoji "^0.0.1"
     grape-theme "3.x"
     jss "^9.8.7"
