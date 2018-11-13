@@ -429,7 +429,7 @@ export const navigationSelector = createSelector(
     searchingChannels,
     { permissions },
   ) => {
-    const joined = [...joinedRooms, ...pms].filter(({ id }) => id !== user.id)
+    const joined = [...joinedRooms, ...pms]
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
