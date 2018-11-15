@@ -39,8 +39,8 @@ const plugins = [
 
 const exportsObject = {
   entry: () => {
-    const app = ['babel-polyfill', './src/index.js']
-    const embedded = ['babel-polyfill', './src/embedded.js']
+    const app = ['idempotent-babel-polyfill', './src/index.js']
+    const embedded = ['idempotent-babel-polyfill', './src/embedded.js']
     if (APP === 'full') return { app }
     if (APP === 'embedded') return { embedded }
     return { app, embedded }

@@ -240,6 +240,9 @@ class RegularMessage extends PureComponent {
               {isMenuOpened && (
                 <Menu
                   {...this.props}
+                  isLinkAttachments={
+                    !text && linkAttachments && linkAttachments.length > 0
+                  }
                   onSelect={this.onSelectMenuItem}
                   isDropdownOpened={isMenuDropdownOpened}
                   getContentNode={this.getContentNode}
