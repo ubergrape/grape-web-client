@@ -156,7 +156,7 @@
   "introHlDone": "Well done!",
   "_introHlDone.comment": "Intro data hl.",
   "introTextDone":
-    "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.",
+    "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!",
   "_introTextDone.comment": "Intro data text.",
   "skipIntro": "Skip tutorial",
   "_skipIntro.comment": "Intro footer skip button",

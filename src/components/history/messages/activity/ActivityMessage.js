@@ -81,10 +81,21 @@ class ActivityMessage extends PureComponent {
 
   renderMenu() {
     if (!this.state.isMenuOpened) return null
-    const { user, channel, onCopyLink, onQuote, onRemove } = this.props
+    const {
+      user,
+      channel,
+      onCopyLink,
+      onQuote,
+      onRemove,
+      text,
+      linkAttachments,
+    } = this.props
 
     return (
       <Menu
+        isLinkAttachments={
+          !text && linkAttachments && linkAttachments.length > 0
+        }
         getContentNode={this.getContentNode}
         user={user}
         channel={channel}
