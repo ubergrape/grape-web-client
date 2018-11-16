@@ -144,45 +144,50 @@ class ActivityMessage extends PureComponent {
           <div className={classes.avatarColumn}>
             {avatar && <Avatar src={avatar} className={classes.avatar} />}
           </div>
-          <Bubble
-            onMouseEnter={this.onMouseEnter}
-            onMouseLeave={this.onMouseLeave}
-            className={classes.bubble}
-            hasArrow={hasBubbleArrow}
-          >
-            <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
-              <div className={classes.content} ref={this.onRefContent}>
-                <Grapedown
-                  customEmojis={customEmojis}
-                  text={title}
-                  user={user}
-                />
-                <Grapedown
-                  customEmojis={customEmojis}
-                  text={children}
-                  user={user}
-                />
-                {!text && (
-                  <LinkAttachments
-                    attachments={linkAttachments}
-                    messageText={text}
-                    isAdmin={isAdmin}
-                    onRemove={onRemoveLinkAttachment}
+          <div className={classes.contentWrapper}>
+            <Bubble
+              onMouseEnter={this.onMouseEnter}
+              onMouseLeave={this.onMouseLeave}
+              className={classes.bubble}
+              hasArrow={hasBubbleArrow}
+            >
+              <Expander
+                onToggle={this.onToggleExpander}
+                isExpanded={isExpanded}
+              >
+                <div className={classes.content} ref={this.onRefContent}>
+                  <Grapedown
+                    customEmojis={customEmojis}
+                    text={title}
+                    user={user}
                   />
-                )}
-              </div>
-            </Expander>
-            {this.renderMenu()}
-          </Bubble>
-          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
-          {text && (
-            <LinkAttachments
-              attachments={linkAttachments}
-              messageText={text}
-              isAdmin={isAdmin}
-              onRemove={onRemoveLinkAttachment}
-            />
-          )}
+                  <Grapedown
+                    customEmojis={customEmojis}
+                    text={children}
+                    user={user}
+                  />
+                  {!text && (
+                    <LinkAttachments
+                      attachments={linkAttachments}
+                      messageText={text}
+                      isAdmin={isAdmin}
+                      onRemove={onRemoveLinkAttachment}
+                    />
+                  )}
+                </div>
+              </Expander>
+              {this.renderMenu()}
+            </Bubble>
+            {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+            {text && (
+              <LinkAttachments
+                attachments={linkAttachments}
+                messageText={text}
+                isAdmin={isAdmin}
+                onRemove={onRemoveLinkAttachment}
+              />
+            )}
+          </div>
         </div>
       </div>
     )
