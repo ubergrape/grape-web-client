@@ -10,8 +10,10 @@ const actionNames = [
   'changeTabNewConversation',
   'showNewConversation',
   'hideNewConversation',
-  'changeInputNewConversation',
+  'changeInputUsersNewConversation',
+  'changeInputGroupsNewConversation',
   'searchUsersNewConversation',
+  'searchGroupsNewConversation',
 ]
 
 const ConnectedNewConversation = connect(

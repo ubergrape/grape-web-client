@@ -2,11 +2,14 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
-  isLoaded: false,
+  isLoaded: true,
+  isNotMembersLoaded: false,
+  isMemberOfEachGroup: false,
   page: 1,
   filterUsers: '',
-  users: [],
+  filterGroups: '',
   groups: [],
+  users: [],
 }
 
 export default function reduce(state = initialState, action) {
@@ -16,6 +19,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...initialState,
         filterUsers: state.filterUsers,
+        filterGroups: state.filterGroups,
         show: true,
       }
     case types.SHOW_NEW_CONVERSATION:
@@ -28,26 +32,45 @@ export default function reduce(state = initialState, action) {
         ...initialState,
         show: false,
       }
-    case types.CHANGE_INPUT_NEW_CONVERSATION:
+    case types.CHANGE_INPUT_USERS_NEW_CONVERSATION:
       return {
         ...state,
         filterUsers: action.payload,
+        isNotMembersLoaded: false,
         users: [],
         page: 1,
       }
-    case types.REQUEST_SEARCH_USERS_NEW_CONVERSATION:
+    case types.CHANGE_INPUT_GROUPS_NEW_CONVERSATION:
+      return {
+        ...state,
+        filterGroups: action.payload,
+        isNotMembersLoaded: false,
+        groups: [],
+        page: 1,
+      }
+    case types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION:
+      return {
+        ...state,
+        isNotMembersLoaded: true,
+        page: 1,
+      }
+    case types.REQUEST_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
         isLoaded: action.payload,
       }
-    case types.HANDLE_SEARCH_USERS_NEW_CONVERSATION: {
-      const { users } = payload
+    case types.HANDLE_USERS_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        users: [...state.users, ...users],
+        users: [...state.users, ...payload],
         page: state.page + 1,
       }
-    }
+    case types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION:
+      return {
+        ...state,
+        groups: [...state.groups, ...payload],
+        page: state.page + 1,
+      }
     default:
       return state
   }

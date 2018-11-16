@@ -3,16 +3,16 @@ import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
-import { InputSearch } from '../input'
-import { InfiniteAutoRowHeightList } from '../list'
-import NoRowsRenderer from './NoRowsRenderer'
-import RowRenderer from './RowRenderer'
-import styles from './styles/TabStyles'
+import { InputSearch } from '../../input'
+import { InfiniteAutoRowHeightList } from '../../list'
+import NoRowsRendererUsers from '../NoRowsRenderers/NoRowsRendererUsers'
+import RowRendererUsers from '../RowRenderers/RowRendererUsers'
+import styles from '../styles/TabStyles'
 
 class Person extends Component {
   onChangeFilterDebounced = debounce(value => {
-    this.props.data.changeInputNewConversation(value)
-    this.props.data.searchUsersNewConversation()
+    this.props.actions.changeInputUsersNewConversation(value)
+    this.props.actions.searchUsersNewConversation()
   }, debouncingTime)
 
   onChange = ({ target }) => {
@@ -23,12 +23,12 @@ class Person extends Component {
   isRowLoaded = index => !!this.props.data.users[index]
 
   rowHeight = (list, index) => {
-    if (list[index].height) return list[index].height
+    if (list[index].text) return 70
     return 40
   }
 
   render() {
-    const { classes, data } = this.props
+    const { classes, data, actions } = this.props
     return (
       <div className={classes.tab}>
         <div className={classes.input}>
@@ -43,18 +43,25 @@ class Person extends Component {
           <InfiniteAutoRowHeightList
             rowHeight={this.rowHeight}
             loadMoreRows={() => {
-              data.searchUsersNewConversation()
+              actions.searchUsersNewConversation()
             }}
             isRowLoaded={this.isRowLoaded}
             list={data.users}
-            rowCount={1000}
+            rowCount={Infinity}
             minimumBatchSize={50}
             width={680}
             threshold={30}
             rowRenderer={(index, key, style) => (
-              <RowRenderer data={data} index={index} key={key} style={style} />
+              <RowRendererUsers
+                data={data}
+                index={index}
+                key={key}
+                style={style}
+              />
             )}
-            noRowsRenderer={() => <NoRowsRenderer isLoaded={data.isLoaded} />}
+            noRowsRenderer={() => (
+              <NoRowsRendererUsers isLoaded={data.isLoaded} />
+            )}
           />
         </div>
       </div>

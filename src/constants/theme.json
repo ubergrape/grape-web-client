@@ -1,6 +1,5 @@
 {
-  "fontFamilyBase":
-    "'Noto Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif",
+  "fontFamilyBase": "'Noto Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif",
   "fontFamilyMonospaced": "Consolas, Menlo, Monaco, Courier, monospace",
   "fontSizeStandardMobile": "16px",
   "fontSizeButtonWeb": "14px",

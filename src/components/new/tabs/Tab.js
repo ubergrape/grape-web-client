@@ -10,16 +10,18 @@ class Tab extends Component {
   }
 
   handleClick = () => {
-    const { index, handleClick, tab } = this.props
+    const { index, handleClick, isCurrentTab, tab } = this.props
+    if (isCurrentTab) return
     handleClick(index)
     tab.onChange()
   }
 
   render() {
-    const { name, isCurrentTab, classes } = this.props
+    const { name, isCurrentTab, classes, disabled } = this.props
     return (
       <li className={classes.tab}>
         <button
+          disabled={disabled}
           className={`${classes.buttonLarge} ${
             isCurrentTab ? classes.buttonActive : ''
           }`}

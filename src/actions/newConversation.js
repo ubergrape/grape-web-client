@@ -16,34 +16,167 @@ export const changeTabNewConversation = () => ({
   type: types.CHANGE_TAB_NEW_CONVERSATION,
 })
 
-export const changeInputNewConversation = filter => dispatch => {
+export const changeInputUsersNewConversation = filter => dispatch => {
   dispatch({
-    type: types.CHANGE_INPUT_NEW_CONVERSATION,
+    type: types.CHANGE_INPUT_USERS_NEW_CONVERSATION,
     payload: filter,
   })
 }
 
-export const searchUsersNewConversation = () => (dispatch, getState) => {
+export const changeInputGroupsNewConversation = filter => dispatch => {
   dispatch({
-    type: types.REQUEST_SEARCH_USERS_NEW_CONVERSATION,
-    payload: false,
+    type: types.CHANGE_INPUT_GROUPS_NEW_CONVERSATION,
+    payload: filter,
+  })
+}
+
+const flipLoadingStatus = payload => dispatch => {
+  dispatch({
+    type: types.REQUEST_SEARCH_NEW_CONVERSATION,
+    payload,
+  })
+}
+
+const handleUsersResults = results => dispatch => {
+  dispatch({
+    type: types.HANDLE_USERS_SEARCH_NEW_CONVERSATION,
+    payload: results,
   })
 
+  dispatch(flipLoadingStatus(true))
+}
+
+const handleGroupsResults = results => dispatch => {
+  dispatch({
+    type: types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION,
+    payload: results,
+  })
+
+  dispatch(flipLoadingStatus(true))
+}
+
+const loadUsersMembers = () => (dispatch, getState) => {
   const org = orgSelector(getState())
   const { page, filterUsers } = newConversationSelector(getState())
 
   return api
-    .getUsers(org.id, { page, pageSize: 50, query: filterUsers })
+    .getUsers(org.id, {
+      page,
+      pageSize: 50,
+      query: filterUsers,
+      membership: true,
+    })
     .then(({ results }) => {
-      dispatch({
-        type: types.HANDLE_SEARCH_USERS_NEW_CONVERSATION,
-        payload: { users: results },
-      })
+      if (page === 1 && results.length) {
+        dispatch(
+          handleUsersResults([
+            { text: 'People you already have a conversation with' },
+            ...results,
+          ]),
+        )
+        return
+      }
 
-      dispatch({
-        type: types.REQUEST_SEARCH_USERS_NEW_CONVERSATION,
-        payload: true,
-      })
+      dispatch(handleUsersResults(results))
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+export const searchUsersNewConversation = () => (dispatch, getState) => {
+  dispatch(flipLoadingStatus(false))
+
+  const org = orgSelector(getState())
+  const { page, filterUsers, isNotMembersLoaded } = newConversationSelector(
+    getState(),
+  )
+
+  if (isNotMembersLoaded) return dispatch(loadUsersMembers())
+
+  return api
+    .getUsers(org.id, {
+      page,
+      pageSize: 50,
+      query: filterUsers,
+      membership: false,
+    })
+    .then(({ results }) => {
+      if (!results.length) {
+        dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
+        dispatch(loadUsersMembers())
+        return
+      }
+
+      if (page === 1 && results.length) {
+        dispatch(
+          handleUsersResults([
+            { text: 'People you can start a new conversation with' },
+            ...results,
+          ]),
+        )
+        return
+      }
+
+      dispatch(handleUsersResults(results))
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+const loadGroupsMembers = () => (dispatch, getState) => {
+  const org = orgSelector(getState())
+  const { page, filterGroups } = newConversationSelector(getState())
+
+  return api
+    .getRooms(org.id, {
+      page,
+      pageSize: 50,
+      query: filterGroups,
+      membership: true,
+    })
+    .then(({ results }) => {
+      if (page === 1 && results.length) {
+        dispatch(
+          handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
+        )
+        return
+      }
+
+      dispatch(handleGroupsResults(results))
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+export const searchGroupsNewConversation = () => (dispatch, getState) => {
+  dispatch(flipLoadingStatus(false))
+
+  const org = orgSelector(getState())
+  const { page, filterGroups, isNotMembersLoaded } = newConversationSelector(
+    getState(),
+  )
+
+  if (isNotMembersLoaded) return dispatch(loadGroupsMembers())
+
+  return api
+    .getRooms(org.id, {
+      page,
+      pageSize: 50,
+      query: filterGroups,
+      membership: false,
+    })
+    .then(({ results }) => {
+      if (!results.length) {
+        dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
+        dispatch(loadGroupsMembers())
+        return
+      }
+
+      if (page === 1 && results.length) {
+        dispatch(
+          handleGroupsResults([{ text: 'Groups you can join' }, ...results]),
+        )
+        return
+      }
+
+      dispatch(handleGroupsResults(results))
     })
     .catch(err => dispatch(error(err)))
 }

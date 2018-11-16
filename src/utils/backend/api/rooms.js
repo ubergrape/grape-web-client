@@ -55,12 +55,15 @@ export const setRoomIcon = (roomId, icon) =>
     args: [roomId, icon],
   })
 
-export const getRooms = (orgId, { membership, page, pageSize = 2000 } = {}) =>
+export const getRooms = (
+  orgId,
+  { query = '', membership, page, pageSize = 2000 } = {},
+) =>
   rpc(
     {
       ns: 'rooms',
       action: 'get_rooms',
-      args: [orgId, { membership, page, pageSize }],
+      args: [orgId, { query, membership, page, pageSize }],
     },
     { camelize: true },
   )

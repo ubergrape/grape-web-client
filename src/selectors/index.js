@@ -194,9 +194,7 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({
-    ...pm.partner,
-  }),
+  pm => ({ ...pm.partner }),
 )
 
 const notificationSettingsSelector = createSelector(

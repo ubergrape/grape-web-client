@@ -9,7 +9,7 @@ const InputSearch = props => (
     <button className={props.classes.button} />
     <Input
       onChange={props.onChange}
-      placeholder="Search for a person ..."
+      placeholder={props.placeholder}
       type="search"
       defaultValue={props.defaultValue}
     />

@@ -24,7 +24,7 @@ class Tabs extends Component {
     } = this.props
 
     const { index } = this.state
-    const CurrentTab = tabs[index].component
+    const { component: TabComponent, actions, data } = tabs[index]
 
     return (
       <div className={classes.tabs}>
@@ -35,13 +35,14 @@ class Tabs extends Component {
               index={i}
               name={tab.name}
               tab={tab}
+              disabled={tab.disabled || false}
               isCurrentTab={index === i}
               handleClick={this.handleClick}
             />
           ))}
         </ul>
         <div className={classes.tab}>
-          <CurrentTab data={tabs[index].data} />
+          <TabComponent actions={actions} data={data} />
         </div>
       </div>
     )
