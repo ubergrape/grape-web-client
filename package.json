@@ -8,7 +8,6 @@
     "node": "10.13.0"
   },
   "dependencies": {
-    "@ubergrape/react-notification": "^6.5.3",
     "babel-plugin-macros": "^2.2.2",
     "babel-runtime": "^6.25.0",
     "backo": "^1.1.0",
@@ -53,6 +52,7 @@
     "react-dropzone": "^4.2.7",
     "react-finite-list": "^1.0.8",
     "react-intl": "^2.4.0",
+    "react-notification": "^6.8.4",
     "react-overlays": "^0.7.0",
     "react-redux": "^5.0.7",
     "react-virtualized": "^9.20.0",
