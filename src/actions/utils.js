@@ -263,6 +263,10 @@ export const normalizeMessage = (() => {
     }
 
     const attachments = (msg.attachments || []).map(normalizeAttachment)
+    const linkAttachments = (msg.linkAttachments || []).slice(
+      0,
+      maxLinkAttachments,
+    )
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
 
@@ -277,6 +281,7 @@ export const normalizeMessage = (() => {
       author,
       avatar,
       attachments,
+      linkAttachments,
     }
   }
 
