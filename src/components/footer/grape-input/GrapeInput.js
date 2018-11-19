@@ -24,6 +24,10 @@ const messages = defineMessages({
     id: 'editMessagePlaceholder',
     defaultMessage: 'Enter a message …',
   },
+  placeholderDisabled: {
+    id: 'disabledMessagePlaceholder',
+    defaultMessage: 'This user has been deleted. Messaging is disabled.',
+  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -35,6 +39,9 @@ const styles = {
     width: '100%',
     display: 'flex',
     position: 'relative',
+  },
+  wrapperDisabled: {
+    pointerEvents: 'none',
   },
   editMessage: {
     position: 'absolute',
@@ -76,6 +83,7 @@ class GrapeInput extends PureComponent {
     channel: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
     showBrowser: PropTypes.oneOf([
       false,
       'emoji',
@@ -110,6 +118,7 @@ class GrapeInput extends PureComponent {
   }
 
   static defaultProps = {
+    disabled: false,
     org: {},
     conf: {},
     targetMessage: null,
@@ -178,6 +187,7 @@ class GrapeInput extends PureComponent {
     // Skip every combinination with Shift that doesn't produce a single letter.
     if (e.shiftKey && e.key.length > 1) return
     if (inputNodes.indexOf(e.target.nodeName) >= 0) return
+    if (this.disabled) return
     this.focus()
   }
 
@@ -387,6 +397,7 @@ class GrapeInput extends PureComponent {
       images,
       showBrowser,
       targetMessage,
+      disabled,
       onEditPreviousMessage,
       onHideBrowser,
       onRequestAutocompleteServicesStats,
@@ -396,13 +407,17 @@ class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholder } = messages
+    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
     return (
       <GlobalEvent event="keydown" handler={this.onKeyDown}>
-        <div className={classes.wrapper}>
+        <div
+          className={cn(classes.wrapper, {
+            [classes.wrapperDisabled]: disabled,
+          })}
+        >
           <div
             className={cn(classes.editMessage, {
               [classes.editMessageVisible]: targetMessage,
@@ -421,7 +436,10 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(placeholder)}
+            placeholder={formatMessage(
+              disabled ? placeholderDisabled : placeholder,
+            )}
+            disabled={disabled}
             locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}

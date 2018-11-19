@@ -18,7 +18,7 @@ function formatFile(file, channel, users) {
   return {
     ...file,
     author: author ? author.displayName : undefined,
-    // If we are in pm channel, there is no channel name, we use disaplyName as
+    // If we are in pm channel, there is no channel name, we use displayName as
     // a channelName
     channelName: channel.name || channel.partner.displayName,
     channelType: channel.type,

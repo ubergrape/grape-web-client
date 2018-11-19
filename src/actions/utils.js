@@ -69,15 +69,8 @@ export function reduceChannelUsersToId(channel) {
 }
 
 export function normalizeChannelData(channel) {
-  const newChannel = {
-    ...channel,
-    lastMessage: {
-      ...channel.lastMessage,
-      time: channel.lastMessage && Date.parse(channel.lastMessage.time),
-    },
-  }
   const normalized = removeNullValues(
-    pinToFavorite(reduceChannelUsersToId(newChannel)),
+    pinToFavorite(reduceChannelUsersToId(channel)),
   )
   return {
     ...normalized,

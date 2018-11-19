@@ -75,7 +75,7 @@ export const joinedChannelsSelector = createSelector(
 )
 
 export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.lastMessage.time),
+  pms.filter(pm => pm.lastMessage),
 )
 
 export const currentPmsSelector = createSelector(
@@ -342,7 +342,7 @@ export const navigationPmsSelector = createSelector([pmsSelector], pms =>
   ),
 )
 
-function unixToIsoTimestamp(timestamp) {
+function isoToUnixTimestamp(timestamp) {
   return new Date(timestamp).getTime()
 }
 
@@ -353,12 +353,16 @@ function sortRecentChannels(a, b) {
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
   } else {
-    aCompareValue = a.lastMessage.time || unixToIsoTimestamp(a.created)
+    aCompareValue = a.lastMessage
+      ? isoToUnixTimestamp(a.lastMessage.time)
+      : isoToUnixTimestamp(a.created)
   }
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue = b.lastMessage.time || unixToIsoTimestamp(b.created)
+    bCompareValue = b.lastMessage
+      ? isoToUnixTimestamp(b.lastMessage.time)
+      : isoToUnixTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue
@@ -385,7 +389,7 @@ export const navigationSelector = createSelector(
     searchingChannels,
     { permissions },
   ) => {
-    const joined = [...rooms, ...pms].filter(({ id }) => id !== user.id)
+    const joined = [...rooms, ...pms]
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
@@ -578,6 +582,7 @@ export const footerComponentSelector = createSelector(
     footerSelector,
     orgSelector,
     historySelector,
+    isChannelDisabledSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
     confSelector,
@@ -588,6 +593,7 @@ export const footerComponentSelector = createSelector(
     footer,
     org,
     history,
+    isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -599,6 +605,7 @@ export const footerComponentSelector = createSelector(
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
+    disabled: isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -625,9 +632,10 @@ export const fileUploadSelector = createSelector(
 )
 
 export const fileUploadComponentSelector = createSelector(
-  [fileUploadSelector],
-  fileUpload => ({
+  [fileUploadSelector, isChannelDisabledSelector],
+  (fileUpload, disabled) => ({
     ...fileUpload,
+    disabled,
   }),
 )
 

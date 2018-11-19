@@ -11,12 +11,22 @@ import { maxSize as maxFileSize } from '../file-upload'
 import { Beacon } from '../intro'
 
 const AttachmentButton = props => {
-  const { classes, onDropAccepted, onDropRejected, onOpenFileDialog } = props
+  const {
+    classes,
+    disabled,
+    onDropAccepted,
+    onDropRejected,
+    onOpenFileDialog,
+  } = props
 
   // Upload click will be handled using public API.
   if (onOpenFileDialog) {
     return (
-      <IconButton className={classes.button} onClick={onOpenFileDialog}>
+      <IconButton
+        className={classes.button}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
+      >
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     )
@@ -26,10 +36,15 @@ const AttachmentButton = props => {
     <Dropzone
       className={classes.dropzone}
       maxSize={maxFileSize}
+      disableClick={disabled}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     >
-      <IconButton className={classes.button} onClick={onOpenFileDialog}>
+      <IconButton
+        className={classes.button}
+        onClick={onOpenFileDialog}
+        disabled={disabled}
+      >
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
     </Dropzone>
@@ -108,6 +123,7 @@ export default class Controls extends PureComponent {
       <div className={classes.controls}>
         <AttachmentButton
           classes={classes}
+          disabled={disabled}
           onOpenFileDialog={onOpenFileDialog}
           onDropAccepted={this.onDropAccepted}
           onDropRejected={this.onDropRejected}
@@ -115,6 +131,7 @@ export default class Controls extends PureComponent {
         <IconButton
           className={classes.button}
           onClick={this.onToggleEmojiBrowser}
+          disabled={disabled}
         >
           <Icon className={classes.contolIcon} name="smileOpen" />
         </IconButton>
