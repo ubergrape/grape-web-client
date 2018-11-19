@@ -26,6 +26,7 @@ export const styles = {
   },
   content: {
     extend: normal,
+    display: 'block',
     position: 'relative',
     background: white,
     borderRadius,
