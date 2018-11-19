@@ -63,7 +63,6 @@ export default class InviteToOrg extends PureComponent {
     onHideError: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    goTo: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -143,7 +142,6 @@ export default class InviteToOrg extends PureComponent {
       onHideError,
       channel,
       conf,
-      goTo,
     } = this.props
     const { value, isLoading, message } = this.state
 
@@ -192,7 +190,7 @@ export default class InviteToOrg extends PureComponent {
           placeholder={formatMessage(messages.loadingLinkPlaceholder)}
           onClick={this.onClickInviteLink}
         />
-        <InviteGuests channel={channel} onClick={goTo} conf={conf} />
+        <InviteGuests channel={channel} conf={conf} />
       </Dialog>
     )
   }
