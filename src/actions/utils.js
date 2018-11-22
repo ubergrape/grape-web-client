@@ -269,6 +269,10 @@ export const normalizeMessage = (() => {
     }
 
     const attachments = (msg.attachments || []).map(normalizeAttachment)
+    const linkAttachments = (msg.linkAttachments || []).slice(
+      0,
+      maxLinkAttachments,
+    )
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
 
@@ -283,6 +287,7 @@ export const normalizeMessage = (() => {
       author,
       avatar,
       attachments,
+      linkAttachments,
     }
   }
 
@@ -333,10 +338,7 @@ export function roomNameFromUsers(users) {
 
 export const findLastUsedChannel = (channels, withMessage) =>
   channels
-    .filter(
-      channel =>
-        withMessage
-          ? channel.joined && channel.firstMessageTime
-          : channel.joined,
+    .filter(channel =>
+      withMessage ? channel.joined && channel.firstMessageTime : channel.joined,
     )
     .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]

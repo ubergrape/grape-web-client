@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { NotificationStack } from '@ubergrape/react-notification'
+import { NotificationStack } from 'react-notification'
 import injectSheet, { inlineStyle } from 'grape-web/lib/jss'
 import cn from 'classnames'
 import { normal } from 'grape-theme/dist/fonts'

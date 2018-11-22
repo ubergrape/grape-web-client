@@ -16,10 +16,6 @@ export const styles = {
   authorClickable: {
     composes: '$clickable',
   },
-  contentWrapper: {
-    width: '100%',
-    minWidth: 0,
-  },
   disabled: {
     opacity: 0.5,
   },
