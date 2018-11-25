@@ -1,6 +1,9 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
+import Icon from '../../icon/Icon'
+import RoomIcon from '../../room-icon/RoomIcon'
+import Status from '../../status/Status'
 import styles from './../styles/RowRendererStyles'
 
 const RowRendererGroups = ({ data, key, style, index, classes }) => {
@@ -14,7 +17,19 @@ const RowRendererGroups = ({ data, key, style, index, classes }) => {
   const group = data.groups[index]
   return (
     <button className={classes.button} key={key} style={style}>
-      {group.name}
+      <div className={classes.avatar}>
+        <RoomIcon name={group.icon || 'bulb'} color={group.color} />
+        <Status status={group.isPublic ? 'public' : 'private'} />
+      </div>
+      <div className={classes.text}>
+        <span className={classes.name}>{group.name}</span>
+        <span className={classes.description}>
+          <Icon name="user" />
+          &nbsp;
+          {group.membersCount}&nbsp;
+          {group.description}
+        </span>
+      </div>
     </button>
   )
 }

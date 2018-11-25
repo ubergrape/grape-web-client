@@ -21,6 +21,7 @@ export default {
     textAlign: 'center',
     marginTop: 15,
     flexShrink: 0,
+    cursor: 'pointer',
   },
   input: {
     marginTop: 24,

@@ -179,15 +179,7 @@ class GrapeInput extends PureComponent {
    */
   onKeyDown = e => {
     // For e.g. when trying to copy text from history.
-    if (
-      e.altKey ||
-      e.ctrlKey ||
-      e.metaKey ||
-      e.keyCode === 9 ||
-      e.keyCode === 13 ||
-      e.keyCode === 32
-    )
-      return
+    if (e.altKey || e.ctrlKey || e.metaKey) return
     // Skip every combinination with Shift that doesn't produce a single letter.
     if (e.shiftKey && e.key.length > 1) return
     if (inputNodes.indexOf(e.target.nodeName) >= 0) return

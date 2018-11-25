@@ -13,4 +13,8 @@ export default {
     extend: 'circle',
     backgroundColor: theme.colorIconSuccess,
   },
+  private: {
+    extend: 'circle',
+    width: 8,
+  },
 }

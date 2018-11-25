@@ -44,6 +44,7 @@ export default {
     fontSize: theme.fontSizeLabelWeb,
     color: theme.colorTextHint,
     lineHeight: theme.lineHeightBase,
+    marginTop: 3,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
