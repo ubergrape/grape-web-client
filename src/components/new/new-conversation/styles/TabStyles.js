@@ -11,6 +11,16 @@ export default {
     color: theme.colorTextHint,
     fontSize: theme.fontSizeStandardWeb,
   },
+  title: {
+    fontSize: theme.fontSizeHeadingStandardWeb,
+    fontWeight: theme.fontWeightEmphasis,
+    lineHeight: '21px',
+    marginTop: 20,
+  },
+  text: {
+    lineHeight: '23px',
+    marginTop: 8,
+  },
   button: {
     width: 166,
     height: 32,

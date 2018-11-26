@@ -57,7 +57,9 @@ const handleGroupsResults = results => dispatch => {
 
 const loadUsersMembers = () => (dispatch, getState) => {
   const org = orgSelector(getState())
-  const { page, filterUsers } = newConversationSelector(getState())
+  const { page, filterUsers, isMemberOfEachChannel } = newConversationSelector(
+    getState(),
+  )
 
   return api
     .getUsers(org.id, {
@@ -68,6 +70,10 @@ const loadUsersMembers = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (page === 1 && results.length) {
+        if (isMemberOfEachChannel) {
+          dispatch(handleUsersResults(results))
+          return
+        }
         dispatch(
           handleUsersResults([
             { text: 'People you already have a conversation with' },
@@ -86,9 +92,12 @@ export const searchUsersNewConversation = () => (dispatch, getState) => {
   dispatch(flipLoadingStatus(false))
 
   const org = orgSelector(getState())
-  const { page, filterUsers, isNotMembersLoaded } = newConversationSelector(
-    getState(),
-  )
+  const {
+    page,
+    filterUsers,
+    isNotMembersLoaded,
+    isMemberOfEachChannel,
+  } = newConversationSelector(getState())
 
   if (isNotMembersLoaded) return dispatch(loadUsersMembers())
 
@@ -101,12 +110,18 @@ export const searchUsersNewConversation = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (!results.length) {
+        if (page === 1)
+          dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadUsersMembers())
         return
       }
 
       if (page === 1 && results.length) {
+        if (isMemberOfEachChannel) {
+          dispatch(handleUsersResults(results))
+          return
+        }
         dispatch(
           handleUsersResults([
             { text: 'People you can start a new conversation with' },
@@ -123,7 +138,9 @@ export const searchUsersNewConversation = () => (dispatch, getState) => {
 
 const loadGroupsMembers = () => (dispatch, getState) => {
   const org = orgSelector(getState())
-  const { page, filterGroups } = newConversationSelector(getState())
+  const { page, filterGroups, isMemberOfEachChannel } = newConversationSelector(
+    getState(),
+  )
 
   return api
     .getRooms(org.id, {
@@ -134,6 +151,10 @@ const loadGroupsMembers = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (page === 1 && results.length) {
+        if (isMemberOfEachChannel) {
+          dispatch(handleGroupsResults(results))
+          return
+        }
         dispatch(
           handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
         )
@@ -149,9 +170,12 @@ export const searchGroupsNewConversation = () => (dispatch, getState) => {
   dispatch(flipLoadingStatus(false))
 
   const org = orgSelector(getState())
-  const { page, filterGroups, isNotMembersLoaded } = newConversationSelector(
-    getState(),
-  )
+  const {
+    page,
+    filterGroups,
+    isNotMembersLoaded,
+    isMemberOfEachChannel,
+  } = newConversationSelector(getState())
 
   if (isNotMembersLoaded) return dispatch(loadGroupsMembers())
 
@@ -164,12 +188,18 @@ export const searchGroupsNewConversation = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (!results.length) {
+        if (page === 1)
+          dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadGroupsMembers())
         return
       }
 
       if (page === 1 && results.length) {
+        if (isMemberOfEachChannel) {
+          dispatch(handleGroupsResults(results))
+          return
+        }
         dispatch(
           handleGroupsResults([{ text: 'Groups you can join' }, ...results]),
         )

@@ -4,6 +4,7 @@ export default {
   title: {
     fontSize: theme.fontSizeHeadingStandardWeb,
     fontWeight: theme.fontWeightEmphasis,
+    lineHeight: '21px',
   },
   text: {
     marginTop: 10,

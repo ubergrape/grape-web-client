@@ -47,7 +47,6 @@ class History extends PureComponent {
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
     }),
-    users: PropTypes.array,
     messages: PropTypes.array,
     user: PropTypes.object,
     selectedMessageId: PropTypes.string,
@@ -69,7 +68,6 @@ class History extends PureComponent {
     isLoading: false,
     user: null,
     channel: null,
-    users: [],
     selectedMessageId: null,
     selectedMessageIdTimestamp: null,
     scrollTo: null,
@@ -162,7 +160,6 @@ class History extends PureComponent {
       user,
       minimumBatchSize,
       channel,
-      users,
       showNoContent,
       onTouchTopEdge,
       onLoadMore,
@@ -197,7 +194,6 @@ class History extends PureComponent {
         return (
           <NoContent
             channel={channel}
-            users={users}
             onInvite={onInvite}
             permissions={permissions}
             onAddIntegration={onAddIntegration}

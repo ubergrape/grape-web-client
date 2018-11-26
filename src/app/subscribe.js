@@ -106,16 +106,16 @@ export default function subscribe(channel) {
         boundActions.handleLeftChannel(cData)
         break
       case 'channel.updated':
-        boundActions.handleUpateChannel(cData)
+        boundActions.handleUpdateChannel(cData)
         break
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
       case 'user.status':
-        boundActions.handleUserStatusChange(cData)
+        boundActions.handlePmChannelStatusChange(cData)
         break
       case 'user.updated':
-        boundActions.handleUserUpdate(cData)
+        boundActions.handlePmChannelUpdate(cData)
         break
       case 'membership.updated':
         boundActions.handleMembershipUpdate(cData)

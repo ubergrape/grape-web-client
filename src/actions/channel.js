@@ -4,7 +4,7 @@ import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector,
+  roomsSelector,
   userSelector,
   channelSelector,
   channelsSelector,
@@ -20,7 +20,6 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
-  addUser,
   setChannel,
   handleBadChannel,
 } from './'
@@ -176,7 +175,6 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     .openPm(org.id, userId)
     .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
     .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
       dispatch(
         addChannel({
           ...pmChannel,
@@ -215,7 +213,6 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
         const currUser = userSelector(getState())
         const userIds = [currUser.id, channel.partner.id]
         const pmChannel = { ...channel, users: userIds }
-        dispatch(addUser(pmChannel))
         dispatch(addChannel(pmChannel))
         dispatch(setChannel(pmChannel.id, messageId))
         return
@@ -245,9 +242,8 @@ export function createRoomWithUsers(room, users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .then(
-        () =>
-          newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
+      .then(() =>
+        newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
       )
       .then(() => {
         if (newRoom) {
@@ -357,7 +353,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(joinedRoomsSelector(getState()), { id })
+    const room = find(roomsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,

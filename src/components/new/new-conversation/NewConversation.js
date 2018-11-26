@@ -16,6 +16,7 @@ const NewConversation = ({
   filterUsers,
   filterGroups,
   isLoaded,
+  isMemberOfEachChannel,
   hideNewConversation,
   changeTabNewConversation,
   changeInputUsersNewConversation,
@@ -48,6 +49,7 @@ const NewConversation = ({
                   users,
                   isLoaded,
                   filterUsers,
+                  isMemberOfEachChannel,
                 },
                 actions: {
                   searchUsersNewConversation,
@@ -68,6 +70,7 @@ const NewConversation = ({
                   groups,
                   isLoaded,
                   filterGroups,
+                  isMemberOfEachChannel,
                 },
                 actions: {
                   searchGroupsNewConversation,
@@ -96,6 +99,7 @@ NewConversation.propTypes = {
   filterUsers: PropTypes.string.isRequired,
   filterGroups: PropTypes.string.isRequired,
   isLoaded: PropTypes.bool.isRequired,
+  isMemberOfEachChannel: PropTypes.bool.isRequired,
   hideNewConversation: PropTypes.func.isRequired,
   changeTabNewConversation: PropTypes.func.isRequired,
   changeInputUsersNewConversation: PropTypes.func.isRequired,

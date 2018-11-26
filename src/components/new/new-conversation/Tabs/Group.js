@@ -7,6 +7,7 @@ import { InputSearch } from '../../input'
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRendererGroups from '../NoRowsRenderers/NoRowsRendererGroups'
 import RowRendererGroups from '../RowRenderers/RowRendererGroups'
+import EmptyOrgGroups from '../EmptyOrg/EmptyOrgGroups'
 import styles from '../styles/TabStyles'
 
 class Group extends Component {
@@ -29,6 +30,9 @@ class Group extends Component {
 
   render() {
     const { classes, data, actions } = this.props
+
+    if (!data.groups.length && data.isLoaded) return <EmptyOrgGroups />
+
     return (
       <div className={classes.tab}>
         <span className={classes.hint}>
@@ -44,6 +48,16 @@ class Group extends Component {
             type="search"
           />
         </div>
+        {data.isMemberOfEachChannel && (
+          <div>
+            <h3 className={classes.title}>You won’t miss any chat going on!</h3>
+            <p className={classes.text}>
+              You are already part of every existing group in this organization,
+              there is nothing that can be publicly said without your notice.
+              You may want to keep the conversations going on.
+            </p>
+          </div>
+        )}
         <div className={classes.list}>
           <InfiniteAutoRowHeightList
             rowHeight={this.rowHeight}

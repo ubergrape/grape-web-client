@@ -48,6 +48,16 @@ export const getChannel = channelId =>
     { camelize: true },
   )
 
+export const getChannelsOverview = (organizationId, params) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_overview',
+      args: [organizationId, params],
+    },
+    { camelize: true },
+  )
+
 export const deleteChannel = (channelId, name) =>
   rpc({
     ns: 'channels',
@@ -190,8 +200,8 @@ export const postMessage = (channelId, text = '', options) => {
     // If an id is already given, like for e.g. in case of file uploads,
     // backend expect an attachment to be the id.
     // Otherwise it expects an attachment object.
-    optionsArg.attachments = optionsArg.attachments.map(
-      attachment => (attachment.id ? attachment.id : attachment),
+    optionsArg.attachments = optionsArg.attachments.map(attachment =>
+      attachment.id ? attachment.id : attachment,
     )
   }
 

@@ -7,6 +7,7 @@ import { InputSearch } from '../../input'
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRendererUsers from '../NoRowsRenderers/NoRowsRendererUsers'
 import RowRendererUsers from '../RowRenderers/RowRendererUsers'
+import EmptyOrgUsers from '../EmptyOrg/EmptyOrgUsers'
 import styles from '../styles/TabStyles'
 
 class Person extends Component {
@@ -29,6 +30,9 @@ class Person extends Component {
 
   render() {
     const { classes, data, actions } = this.props
+
+    if (!data.users.length && data.isLoaded) return <EmptyOrgUsers />
+
     return (
       <div className={classes.tab}>
         <div className={classes.input}>
@@ -39,6 +43,17 @@ class Person extends Component {
             type="search"
           />
         </div>
+        {data.isMemberOfEachChannel && (
+          <div>
+            <h3 className={classes.title}>
+              You are a very communicative person!
+            </h3>
+            <p className={classes.text}>
+              All your coworkers are already chatting with you. Keep in touch
+              with them.
+            </p>
+          </div>
+        )}
         <div className={classes.list}>
           <InfiniteAutoRowHeightList
             rowHeight={this.rowHeight}

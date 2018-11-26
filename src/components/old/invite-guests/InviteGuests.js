@@ -20,7 +20,8 @@ class InviteGuests extends PureComponent {
   render() {
     const { classes, channel, conf } = this.props
 
-    if (!channel.permissions.canInviteGuests) return null
+    if (!channel.permissions || !channel.permissions.canInviteGuests)
+      return null
 
     return (
       <div className={classes.linkWrapper}>

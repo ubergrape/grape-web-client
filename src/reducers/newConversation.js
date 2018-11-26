@@ -4,7 +4,7 @@ const initialState = {
   show: false,
   isLoaded: true,
   isNotMembersLoaded: false,
-  isMemberOfEachGroup: false,
+  isMemberOfEachChannel: false,
   page: 1,
   filterUsers: '',
   filterGroups: '',
@@ -47,6 +47,11 @@ export default function reduce(state = initialState, action) {
         isNotMembersLoaded: false,
         groups: [],
         page: 1,
+      }
+    case types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION:
+      return {
+        ...state,
+        isMemberOfEachChannel: true,
       }
     case types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION:
       return {
