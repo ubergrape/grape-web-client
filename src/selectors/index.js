@@ -46,11 +46,6 @@ export const invitedUsersSelector = createSelector(
   users => users.filter(user => user.isOnlyInvited),
 )
 
-export const deletedUsersSelector = createSelector(
-  pmsSelector,
-  users => users.filter(user => !user.isActive),
-)
-
 export const channelSelector = createSelector(
   channelsSelector,
   channels => find(channels, 'current') || {},
@@ -96,11 +91,6 @@ export const invitedUsersWithPmSlector = createSelector(
   users => users.filter(user => user.pm),
 )
 
-export const deletedUsersWithPmSelector = createSelector(
-  deletedUsersSelector,
-  users => users.filter(user => user.pm),
-)
-
 export const orgSelector = createSelector(
   state => state.org,
   state => state,
@@ -140,7 +130,9 @@ export const setTypingSelector = createSelector(
 
 export const userProfileSelector = createSelector(
   [currentPmsSelector],
-  pm => ({ ...pm.partner }),
+  pm => ({
+    ...pm.partner,
+  }),
 )
 
 const notificationSettingsSelector = createSelector(
@@ -563,11 +555,12 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel && Object.keys(channel).length)
+    if (channel && Object.keys(channel).length) {
       return (
         (channel.type === 'pm' && !channel.isActive) ||
         !channel.permissions.canPostMessages
       )
+    }
     return channels.length === 0 || !channel
   },
 )
