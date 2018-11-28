@@ -5,7 +5,10 @@ export default {
     position: 'relative',
     width: '100%',
   },
-  button: {
+  search: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 32,
     height: 32,
     borderRadius: theme.borderRadiusButtonPillWeb,
@@ -13,5 +16,18 @@ export default {
     position: 'absolute',
     top: 0,
     left: 0,
+    '&:before': {
+      content: '""',
+      display: 'none',
+      position: 'absolute',
+      top: -1,
+      left: -1,
+      width: 32,
+      height: 32,
+      borderTopLeftRadius: 16,
+      borderBottomLeftRadius: 16,
+      border: `1px solid ${theme.colorIconActive}`,
+      borderRight: 0,
+    },
   },
 }

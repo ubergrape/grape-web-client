@@ -14,7 +14,7 @@ export default {
     fontSize: theme.fontSizeLargeWeb,
     cursor: 'pointer',
     borderBottom: `1px solid ${theme.colorBorderSeparator}`,
-    color: theme.grayDarkest,
+    color: theme.colorTextBase,
     '&:hover': {
       isolate: false,
       borderBottom: `1px solid ${theme.colorIconBaseHoverWeb}`,

@@ -1,7 +1,8 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import moment from 'moment'
 
-import Status from '../../status/Status'
+import { Status } from '../../status'
 import styles from './../styles/RowRendererStyles'
 
 const RowRendererUsers = ({ data, key, style, index, classes }) => {
@@ -27,6 +28,11 @@ const RowRendererUsers = ({ data, key, style, index, classes }) => {
         <span className={classes.name}>{user.displayName}</span>
         <span className={classes.description}>{user.whatIDo}</span>
       </div>
+      {user.lastMessageTimestamp && (
+        <div className={classes.time}>
+          {moment(Date.now()).diff(user.lastMessageTimestamp, 'minutes')}m
+        </div>
+      )}
     </button>
   )
 }

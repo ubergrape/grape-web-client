@@ -12,8 +12,9 @@ import styles from '../styles/TabStyles'
 
 class Group extends Component {
   onChangeFilterDebounced = debounce(value => {
-    this.props.actions.changeInputGroupsNewConversation(value)
-    this.props.actions.searchGroupsNewConversation()
+    const { onChangeInputGroups, onSearchGroups } = this.props.actions
+    onChangeInputGroups(value)
+    onSearchGroups()
   }, debouncingTime)
 
   onChange = ({ target }) => {
@@ -28,6 +29,10 @@ class Group extends Component {
     return 40
   }
 
+  openCreate = () => {
+    this.props.actions.onChangeView('create')
+  }
+
   render() {
     const { classes, data, actions } = this.props
 
@@ -39,7 +44,9 @@ class Group extends Component {
           Join an existing group or create a new one. Groups are best organized
           around a topic.
         </span>
-        <button className={classes.button}>Create a new group</button>
+        <button onClick={this.openCreate} className={classes.button}>
+          Create a new group
+        </button>
         <div className={classes.input}>
           <InputSearch
             onChange={this.onChange}
@@ -62,14 +69,14 @@ class Group extends Component {
           <InfiniteAutoRowHeightList
             rowHeight={this.rowHeight}
             loadMoreRows={() => {
-              actions.searchGroupsNewConversation()
+              actions.onSearchGroups()
             }}
             isRowLoaded={this.isRowLoaded}
             list={data.groups}
             rowCount={Infinity}
             minimumBatchSize={50}
             width={680}
-            threshold={30}
+            threshold={50}
             rowRenderer={(index, key, style) => (
               <RowRendererGroups
                 data={data}

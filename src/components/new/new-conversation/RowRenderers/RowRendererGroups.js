@@ -1,9 +1,9 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import Icon from '../../icon/Icon'
-import RoomIcon from '../../room-icon/RoomIcon'
-import Status from '../../status/Status'
+import { Icon } from '../../icon'
+import { RoomIcon } from '../../room-icon'
+import { Status } from '../../status'
 import styles from './../styles/RowRendererStyles'
 
 const RowRendererGroups = ({ data, key, style, index, classes }) => {
@@ -30,6 +30,14 @@ const RowRendererGroups = ({ data, key, style, index, classes }) => {
           {group.description}
         </span>
       </div>
+      {group.membership && (
+        <Icon
+          styles={{
+            flex: '0 0 auto',
+          }}
+          name="userRed"
+        />
+      )}
     </button>
   )
 }

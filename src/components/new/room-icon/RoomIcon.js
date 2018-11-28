@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
-import Icon from '../icon/Icon'
+import { Icon } from '../icon'
 import styles from './styles/RoomIconStyles'
 
 const RoomIcon = ({ classes, name }) => (

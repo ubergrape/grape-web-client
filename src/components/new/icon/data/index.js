@@ -1,6 +1,9 @@
 export lock from './lock.svg'
 export user from './user.svg'
+export userRed from './user-red.svg'
+export arrowRight from './arrow-right.svg'
 export search from './search.svg'
+export checked from './checked.svg'
 
 export basketball from './basketball.svg'
 export bulb from './bulb.svg'

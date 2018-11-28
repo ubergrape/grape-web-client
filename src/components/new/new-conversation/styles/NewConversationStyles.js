@@ -46,7 +46,7 @@ export default {
     fontWeight: theme.fontWeightEmphasis,
   },
   // Styles for dialog window ends
-  content: {
+  wrapper: {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',

@@ -24,7 +24,7 @@ const actionNames = {
   showRemoveLinkAttachments: 'onRemoveLinkAttachment',
   pinMessage: 'onPin',
   unpinMessage: 'onUnpin',
-  showNewConversation: 'onNewConversation',
+  onShow: 'onNewConversation',
 }
 
 const ConnectedHistory = connect(

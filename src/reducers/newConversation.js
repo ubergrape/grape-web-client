@@ -2,12 +2,21 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
+  view: 'tabs',
+  tab: 0,
   isLoaded: true,
   isNotMembersLoaded: false,
   isMemberOfEachChannel: false,
   page: 1,
   filterUsers: '',
   filterGroups: '',
+  newRoom: {
+    name: '',
+    description: '',
+    color: 0,
+    isPublic: true,
+    users: [],
+  },
   groups: [],
   users: [],
 }
@@ -15,13 +24,6 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   const { payload, type } = action
   switch (type) {
-    case types.CHANGE_TAB_NEW_CONVERSATION:
-      return {
-        ...initialState,
-        filterUsers: state.filterUsers,
-        filterGroups: state.filterGroups,
-        show: true,
-      }
     case types.SHOW_NEW_CONVERSATION:
       return {
         ...initialState,
@@ -31,6 +33,20 @@ export default function reduce(state = initialState, action) {
       return {
         ...initialState,
         show: false,
+      }
+    case types.CHANGE_TAB_NEW_CONVERSATION:
+      return {
+        ...initialState,
+        newRoom: state.newRoom,
+        filterUsers: state.filterUsers,
+        filterGroups: state.filterGroups,
+        show: true,
+        tab: action.payload,
+      }
+    case types.CHANGE_VIEW_NEW_CONVERSATION:
+      return {
+        ...state,
+        view: action.payload,
       }
     case types.CHANGE_INPUT_USERS_NEW_CONVERSATION:
       return {
@@ -75,6 +91,38 @@ export default function reduce(state = initialState, action) {
         ...state,
         groups: [...state.groups, ...payload],
         page: state.page + 1,
+      }
+    case types.CHANGE_NEW_ROOM_NAME_NEW_CONVERSATION:
+      return {
+        ...state,
+        newRoom: {
+          ...state.newRoom,
+          name: action.payload,
+        },
+      }
+    case types.CHANGE_NEW_ROOM_COLOR_NEW_CONVERSATION:
+      return {
+        ...state,
+        newRoom: {
+          ...state.newRoom,
+          color: action.payload,
+        },
+      }
+    case types.CHANGE_NEW_ROOM_TYPE_NEW_CONVERSATION:
+      return {
+        ...state,
+        newRoom: {
+          ...state.newRoom,
+          isPublic: action.payload,
+        },
+      }
+    case types.CHANGE_NEW_ROOM_DESCRIPTION_NEW_CONVERSATION:
+      return {
+        ...state,
+        newRoom: {
+          ...state.newRoom,
+          description: action.payload,
+        },
       }
     default:
       return state

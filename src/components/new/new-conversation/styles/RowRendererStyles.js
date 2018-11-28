@@ -11,9 +11,13 @@ export default {
     fontWeight: theme.fontWeightEmphasis,
   },
   button: {
+    isolate: false,
+    background: 'none',
+    border: 0,
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
+    justifyContent: 'space-between',
   },
   avatar: {
     position: 'relative',
@@ -29,6 +33,7 @@ export default {
   text: {
     display: 'flex',
     flexDirection: 'column',
+    flex: '1 1 auto',
     marginLeft: 10,
   },
   name: {
@@ -44,9 +49,13 @@ export default {
     fontSize: theme.fontSizeLabelWeb,
     color: theme.colorTextHint,
     lineHeight: theme.lineHeightBase,
-    marginTop: 3,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  time: {
+    color: theme.colorTextButtonStandardBasic,
+    fontSize: theme.fontSizeLabelWeb,
+    flex: '0 0 auto',
   },
 }

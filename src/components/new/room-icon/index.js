@@ -1,0 +1,1 @@
+export RoomIcon from './RoomIcon'

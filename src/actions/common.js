@@ -25,7 +25,7 @@ import {
   goToLastUsedChannel,
   addChannel,
   handleRoomCreateError,
-  showNewConversation,
+  onShow,
   hideBrowser,
 } from './'
 
@@ -198,7 +198,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       }
 
       if (!isMemberOfAnyRooms) {
-        dispatch(showNewConversation())
+        dispatch(onShow())
       }
     })
     .catch(err => {

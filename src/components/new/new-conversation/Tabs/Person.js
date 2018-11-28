@@ -12,8 +12,8 @@ import styles from '../styles/TabStyles'
 
 class Person extends Component {
   onChangeFilterDebounced = debounce(value => {
-    this.props.actions.changeInputUsersNewConversation(value)
-    this.props.actions.searchUsersNewConversation()
+    this.props.actions.onChangeInputUsers(value)
+    this.props.actions.onSearchUsers()
   }, debouncingTime)
 
   onChange = ({ target }) => {
@@ -58,7 +58,7 @@ class Person extends Component {
           <InfiniteAutoRowHeightList
             rowHeight={this.rowHeight}
             loadMoreRows={() => {
-              actions.searchUsersNewConversation()
+              actions.onSearchUsers()
             }}
             isRowLoaded={this.isRowLoaded}
             list={data.users}

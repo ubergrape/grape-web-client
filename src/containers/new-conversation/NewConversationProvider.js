@@ -7,13 +7,18 @@ import { newConversationSelector } from '../../selectors'
 import { NewConversation } from '../../components/new/new-conversation'
 
 const actionNames = [
-  'changeTabNewConversation',
-  'showNewConversation',
-  'hideNewConversation',
-  'changeInputUsersNewConversation',
-  'changeInputGroupsNewConversation',
-  'searchUsersNewConversation',
-  'searchGroupsNewConversation',
+  'onShow',
+  'onHide',
+  'onChangeTab',
+  'onChangeView',
+  'onChangeInputUsers',
+  'onChangeInputGroups',
+  'onSearchUsers',
+  'onSearchGroups',
+  'onChangeNewRoomColor',
+  'onChangeNewRoomName',
+  'onChangeNewRoomType',
+  'onChangeNewRoomDescription',
 ]
 
 const ConnectedNewConversation = connect(

@@ -9,12 +9,12 @@ class Tabs extends Component {
     super(props)
 
     this.state = {
-      index: 0,
+      current: props.current || 0,
     }
   }
 
-  handleClick = index => {
-    this.setState({ index })
+  handleClick = current => {
+    this.setState({ current })
   }
 
   render() {
@@ -23,8 +23,8 @@ class Tabs extends Component {
       sheet: { classes },
     } = this.props
 
-    const { index } = this.state
-    const { component: TabComponent, actions, data } = tabs[index]
+    const { current } = this.state
+    const { component: TabComponent, actions, data } = tabs[current]
 
     return (
       <div className={classes.tabs}>
@@ -36,7 +36,7 @@ class Tabs extends Component {
               name={tab.name}
               tab={tab}
               disabled={tab.disabled || false}
-              isCurrentTab={index === i}
+              isCurrentTab={current === i}
               handleClick={this.handleClick}
             />
           ))}

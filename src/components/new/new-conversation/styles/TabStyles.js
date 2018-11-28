@@ -32,6 +32,10 @@ export default {
     marginTop: 15,
     flexShrink: 0,
     cursor: 'pointer',
+    '&:focus': {
+      isolate: false,
+      borderColor: theme.colorIconActive,
+    },
   },
   input: {
     marginTop: 24,
