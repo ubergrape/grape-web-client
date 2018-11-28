@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { NotificationStack } from '@ubergrape/react-notification'
+import { NotificationStack } from 'react-notification'
 import injectSheet, { inlineStyle } from 'grape-web/lib/jss'
 import cn from 'classnames'
 import { normal } from 'grape-theme/dist/fonts'
@@ -93,8 +93,7 @@ const styleNotification = notification => {
 export default class ToastNotification extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-      .isRequired,
+    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired,
     sidebar: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,

@@ -2,13 +2,9 @@
 
 exports[`Render a simple hello text 1`] = `
 <div>
-  <span
-    data-reactroot=""
-  >
+  <span>
     <p>
-      <!-- react-text: 3 -->
       Hello
-      <!-- /react-text -->
     </p>
   </span>
 </div>
@@ -16,13 +12,9 @@ exports[`Render a simple hello text 1`] = `
 
 exports[`Render an emoji 1`] = `
 <div>
-  <span
-    data-reactroot=""
-  >
+  <span>
     <p>
-      <!-- react-text: 3 -->
       👩🏽‍🚒
-      <!-- /react-text -->
     </p>
   </span>
 </div>
@@ -30,9 +22,7 @@ exports[`Render an emoji 1`] = `
 
 exports[`Render an emoji image based on the emoji string 1`] = `
 <div>
-  <span
-    data-reactroot=""
-  >
+  <span>
     <p>
       <span
         style="background-position: 37.2624703087886% 92.13182897862234%; background-size: 5362.5%; background-image: url(undefined); font-size: 1.5em; display: inline-block; vertical-align: middle; width: 1em; height: 1em;"
