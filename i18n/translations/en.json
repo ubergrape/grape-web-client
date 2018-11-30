@@ -5,7 +5,7 @@
   "enableNotifications": "Enable notifications",
   "reconnectAlert": "Reconnected successfully.",
   "noRoomFound":
-    "We could not find what you were looking for - the room might have been deleted, renamed or moved.",
+    "We could not find what you were looking for - the group might have been deleted, renamed or moved.",
   "noMessageFound": "We could not find the message you were looking for.",
   "cannotMessageYourself": "You cannot message yourself.",
   "loadingChatHistory": "Loading your chat history…",
@@ -25,7 +25,8 @@
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
   "inviteMembers": "Invite members",
-  "inviteToTeam": "Invite a new person to your team…",
+  "inviteToOrganization": "Invite a new person to your organization",
+  "inviteGuest": "Invite a guest to this group",
   "typeName": "Add members…",
   "everyoneInvited": "Everyone has been invited to this group",
   "usersNotFoundFor": "No one found for",
@@ -155,7 +156,7 @@
   "introHlDone": "Well done!",
   "_introHlDone.comment": "Intro data hl.",
   "introTextDone":
-    "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.",
+    "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!",
   "_introTextDone.comment": "Intro data text.",
   "skipIntro": "Skip tutorial",
   "_skipIntro.comment": "Intro footer skip button",
@@ -283,7 +284,7 @@
   "_notificationSettingDefault.comment": "Notification setting name.",
   "notificationSettingAll": "All messages",
   "_notificationSettingAll.comment": "Notification setting name.",
-  "notificationSettingAnyMention": "Mentions and announcements (@room)",
+  "notificationSettingAnyMention": "Mentions and announcements (@group)",
   "_notificationSettingAnyMention.comment": "Notification setting name.",
   "notificationSettingDirectMention": "Direct mentions only (@{user})",
   "_notificationSettingDirectMention.comment": "Notification setting name.",
@@ -327,13 +328,13 @@
   "_logOut.comment": "Main org dropdown menu",
   "settings": "Settings",
   "roomDeleteDialogInputLabel":
-    "Please type in the name of the room to confirm",
+    "Please type in the name of the group to confirm",
   "_roomDeleteDialogInputLabel.comment": "Room Delete Dialog: input label",
   "roomDeleteDialogDelete": "delete",
   "_roomDeleteDialogDelete.comment":
     "Room Delete Dialog: delete button message",
   "roomDeleteDialogConfirmMessage":
-    "Are you sure you want to delete this room?",
+    "Are you sure you want to delete this group?",
   "_roomDeleteDialogConfirmMessage.comment":
     "Room Delete Dialog: confirm (info) message",
   "roomDeleteDialogConfirmWarning": "Warning: This action can't be undone!",
@@ -342,17 +343,17 @@
   "roomDeleteDialogTitle": "Delete \"{roomName}\"?",
   "_roomDeleteDialogTitle.comment": "Room Delete Dialog: dialog title",
   "roomDeleteDialogProvideName":
-    "Please enter the name of the room you want to delete.",
+    "Please enter the name of the group you want to delete.",
   "_roomDeleteDialogProvideName.comment":
     "Room Delete Dialog: validation message",
-  "roomDeleteDialogNotMatchingName": "Room name doesn't match",
+  "roomDeleteDialogNotMatchingName": "Group name doesn't match",
   "_roomDeleteDialogNotMatchingName.comment":
     "Room Delete Dialog: validation message",
-  "roomDeleteDialoginputPlaceholder": "Confirm room name...",
+  "roomDeleteDialoginputPlaceholder": "Confirm group name...",
   "_roomDeleteDialoginputPlaceholder.comment":
     "Room Delete Dialog: input's placeholder",
-  "roomColor": "Room Color",
-  "roomIcon": "Room Icon",
+  "roomColor": "Group Color",
+  "roomIcon": "Group Icon",
   "labeledMessagesSidebarTitle": "Important Messages",
   "sidebarLabelInChannel": "in {channel}",
   "labeledMessagesNoContentTitle": "This is where the magic happens.",

@@ -77,6 +77,7 @@ class GrapeInput extends PureComponent {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     channel: PropTypes.object.isRequired,
@@ -113,11 +114,13 @@ class GrapeInput extends PureComponent {
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
     usersToMention: PropTypes.array,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: null,
     quoteMessage: null,
     search: '',
@@ -127,6 +130,7 @@ class GrapeInput extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
+    permissions: {},
   }
 
   constructor(props) {
@@ -252,14 +256,17 @@ class GrapeInput extends PureComponent {
       onShowEmojiBrowser,
       onRequestAutocomplete,
       onSearchChannelsToMention,
+      permissions,
     } = this.props
 
     switch (trigger) {
       case '#':
-        // Avoid browser opening in case of `#s` input.
-        if (!showBrowser && query.length > 1) return
-        onRequestAutocomplete({ search, filters })
-        onShowSearchBrowser(search)
+        if (permissions.canUseGrapesearch) {
+          // Avoid browser opening in case of `#s` input.
+          if (!showBrowser && (query && query.length > 1)) return
+          onRequestAutocomplete({ search, filters })
+          onShowSearchBrowser(search)
+        }
         break
       case '@':
         onSearchChannelsToMention(org, search, 12, channel.id)
@@ -393,6 +400,8 @@ class GrapeInput extends PureComponent {
       onHideBrowser,
       onRequestAutocompleteServicesStats,
       goTo,
+      channel,
+      conf,
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
@@ -429,6 +438,7 @@ class GrapeInput extends PureComponent {
               disabled ? placeholderDisabled : placeholder,
             )}
             disabled={disabled}
+            locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
             images={images}
@@ -440,6 +450,7 @@ class GrapeInput extends PureComponent {
             onDidMount={this.onGrapeBrowserRef}
             onChange={this.onChange}
             goTo={goTo}
+            channel={channel}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
             {...browserProps}
           />

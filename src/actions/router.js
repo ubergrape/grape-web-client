@@ -47,11 +47,13 @@ export function goToMessage(message) {
 export function goToChannel(channelOrChannelId, options) {
   return (dispatch, getState) => {
     const { id: currentId } = channelSelector(getState())
+
     if (
       channelOrChannelId === currentId ||
       (channelOrChannelId.id && channelOrChannelId.id === currentId)
     )
       return
+
     if (!conf.embed) {
       dispatch({
         type: types.GO_TO_CHANNEL,
@@ -67,6 +69,7 @@ export function goToChannel(channelOrChannelId, options) {
       // Assume we don't have always have all channels in the future.
       if (!channel) channel = { id: channelOrChannelId, slug: '' }
     }
+
     const slug = channel.slug == null ? channel.partner.username : channel.slug
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
     if (!conf.embed) dispatch(setChannel(channel.id))

@@ -30,6 +30,7 @@ const messages = defineMessages({
 class NewConversationDialog extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    channel: PropTypes.object,
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
@@ -48,6 +49,7 @@ class NewConversationDialog extends PureComponent {
 
   static defaultProps = {
     organization: null,
+    channel: {},
     show: false,
   }
 
@@ -125,7 +127,9 @@ class NewConversationDialog extends PureComponent {
         isPublic,
       },
       listed,
-    )
+    ).then(() => {
+      this.setState({ saving: false })
+    })
   }
 
   onHide = () => {
@@ -181,14 +185,14 @@ class NewConversationDialog extends PureComponent {
 
   renderFooter() {
     const { classes, listed } = this.props
-    const { name } = this.state
+    const { name, saving } = this.state
 
     return (
       <div className={classes.footer}>
         <button
           onClick={this.onCreate}
           className={classes.createButton}
-          disabled={!listed.length && !name}
+          disabled={(!listed.length && !name) || saving}
         >
           <Create />
         </button>
@@ -203,6 +207,7 @@ class NewConversationDialog extends PureComponent {
       addToNewConversation,
       removeFromNewConversation,
       organization,
+      channel,
       intl: { formatMessage },
       ...chooseUsersProps
     } = this.props
@@ -222,6 +227,8 @@ class NewConversationDialog extends PureComponent {
         onChangeFilter={searchUsers}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}
+        channel={channel}
+        showInviteGuests={false}
       >
         {this.renderSettings()}
         {this.renderFooter()}

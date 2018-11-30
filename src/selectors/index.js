@@ -11,6 +11,8 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
+export const confSelector = createSelector(state => state.conf, state => state)
+
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
   (app, initialDataLoading) => ({
@@ -261,10 +263,11 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  [state => state.newConversation, joinedChannelsSelector],
-  (newConversation, isMemberOfAnyRooms) => ({
+  [state => state.newConversation, joinedChannelsSelector, channelSelector],
+  (newConversation, isMemberOfAnyRooms, channel) => ({
     ...newConversation,
     isMemberOfAnyRooms,
+    channel,
   }),
 )
 
@@ -324,8 +327,13 @@ export const newConversationDialog = createSelector(
 )
 
 export const inviteDialogSelector = createSelector(
-  [channelSelector, inviteChannelMembersSelector, isInviterSelector],
-  (channel, inviteChannelMembers, isInviter) => ({
+  [
+    channelSelector,
+    inviteChannelMembersSelector,
+    isInviterSelector,
+    confSelector,
+  ],
+  (channel, inviteChannelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
       // Sift users which already participate in channel
@@ -335,27 +343,37 @@ export const inviteDialogSelector = createSelector(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
       ),
     isInviter,
-    channelType: channel.type,
+    channel,
+    conf,
   }),
 )
 
 export const inviteToOrgDialog = createSelector(
-  [inviteToOrgSelector, orgSelector, isInviterSelector],
-  (inviteToOrg, { id, features }, isInviter) => ({
+  [
+    inviteToOrgSelector,
+    orgSelector,
+    isInviterSelector,
+    channelSelector,
+    confSelector,
+  ],
+  (inviteToOrg, { id, features }, isInviter, channel, conf) => ({
     ...inviteToOrg,
     isInviter,
     orgId: id,
     showInviteLinkFeature: Boolean(features && features.inviteLink),
+    channel,
+    conf,
   }),
 )
 
 export const orgInfoSelector = createSelector(
   [orgSelector, initialDataLoadingSelector, userSelector],
-  ({ logo, name, inviterRole, supportLink }, isLoading, user) => ({
+  ({ logo, name, inviterRole, supportLink, permissions }, isLoading, user) => ({
     logo,
     name,
     inviterRole,
     supportLink,
+    permissions,
     isLoading,
     user,
   }),
@@ -399,6 +417,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    orgSelector,
   ],
   (
     joinedRooms,
@@ -408,8 +427,9 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    { permissions },
   ) => {
-    const joined = [...joinedRooms, ...pms].filter(({ id }) => id !== user.id)
+    const joined = [...joinedRooms, ...pms]
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
@@ -425,6 +445,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      permissions,
     }
   },
 )
@@ -459,6 +480,8 @@ export const channelMembersSelector = createSelector(
 
 export const sidebarComponentSelector = createSelector(
   [
+    orgSelector,
+    channelSelector,
     sidebarSelector,
     roomInfoSelector,
     userProfileSelector,
@@ -471,6 +494,8 @@ export const sidebarComponentSelector = createSelector(
     pinnedMessagesSelector,
   ],
   (
+    org,
+    channel,
     { show, showSubview },
     room,
     pm,
@@ -506,6 +531,11 @@ export const sidebarComponentSelector = createSelector(
     return {
       ...select,
       ...views[show],
+      channel,
+      permissions: {
+        ...org.permissions,
+        ...channel.permissions,
+      },
       subview: subviews[showSubview],
     }
   },
@@ -551,12 +581,24 @@ export const historyComponentSelector = createSelector(
     orgSelector,
     initialDataLoadingSelector,
     joinedChannelsSelector,
+    userSelector,
+    usersSelector,
   ],
-  (history, { customEmojis }, isLoadingInitialData, isMemberOfAnyRooms) => ({
+  (
+    history,
+    { customEmojis, permissions },
+    isLoading,
+    isMemberOfAnyRooms,
+    user,
+    users,
+  ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
-    isLoadingInitialData,
+    permissions,
+    isLoading,
     isMemberOfAnyRooms,
+    user,
+    users,
   }),
 )
 
@@ -568,7 +610,11 @@ export const markdownTipsSelector = createSelector(
 export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
-    if (channel) return channel.type === 'pm' && !channel.isActive
+    if (channel && Object.keys(channel).length)
+      return (
+        (channel.type === 'pm' && !channel.isActive) ||
+        !channel.permissions.canPostMessages
+      )
     return channels.length === 0 || !channel
   },
 )
@@ -587,6 +633,8 @@ export const footerComponentSelector = createSelector(
     isChannelDisabledSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
+    confSelector,
+    orgSelector,
   ],
   (
     typingNotification,
@@ -596,6 +644,8 @@ export const footerComponentSelector = createSelector(
     isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
+    { permissions },
   ) => ({
     ...typingNotification,
     ...footer,
@@ -606,6 +656,8 @@ export const footerComponentSelector = createSelector(
     disabled: isChannelDisabled,
     channelsToMention,
     isMemberOfAnyRooms,
+    conf,
+    permissions,
   }),
 )
 
@@ -653,4 +705,12 @@ export const browserNotificationSelector = createSelector(
 export const introSelector = createSelector(
   state => state.intro,
   state => state,
+)
+
+export const introSelectorComponent = createSelector(
+  [introSelector, orgSelector],
+  (intro, { permissions }) => ({
+    ...intro,
+    permissions,
+  }),
 )

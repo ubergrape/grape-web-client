@@ -11,6 +11,7 @@ import {
   channelSelector,
   joinedRoomsSelector,
   channelsSelector,
+  joinedChannelsSelector,
 } from '../selectors'
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
@@ -20,8 +21,10 @@ import {
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewUser,
+  addNewChannel,
   goToLastUsedChannel,
+  showSidebar,
+  setIntialDataLoading,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -43,37 +46,28 @@ const addNewMessage = message => (dispatch, getState) => {
       isCurrentUser: user.id === nMessage.author.id,
     },
   })
-  // We remove a message first, because if user sends a message, it is
-  // added immediately, with a generated clientsideId.
-  // Then we receive the same message from the server which might contain
-  // additional information and a server-side id.
-  dispatch({
-    type: types.REMOVE_MESSAGE,
-    payload: message.clientsideId,
-  })
 
   dispatch({
     type: types.ADD_NEW_MESSAGE,
-    payload: nMessage,
+    payload: {
+      message: nMessage,
+      currentUserId: user.id,
+    },
   })
-
-  // Mark own message as sent.
-  if (nMessage.author.id === user.id) {
-    dispatch({
-      type: types.MARK_MESSAGE_AS_SENT,
-      payload: {
-        messageId: nMessage.id,
-        channelId: nMessage.channelId,
-      },
-    })
-  }
 }
 
 export const handleNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const channels = channelSelector(state)
   const user = userSelector(state)
-
+  // This is a special case for activity messages. These are special messages and the only
+  // one having the property type attached to it. It is showed in the
+  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
+  // which would result in the undesired API call open_pm.
+  if (message.type) {
+    dispatch(addNewMessage(message))
+    return
+  }
   if (
     message.author.id === user.id ||
     findIndex(channels, { id: message.author.id }) !== -1
@@ -81,12 +75,12 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  dispatch(addNewUser(message.author.id)).then(() => {
+  dispatch(addNewChannel(message.channel)).then(() => {
     dispatch(addNewMessage(message))
   })
 }
 
-export function handleRemovedMessage({ id }) {
+export function handleRemovedMessage({ id, channel }) {
   return dispatch => {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
@@ -177,6 +171,17 @@ export function handleJoinedChannel({ user: userId, channel: channelId }) {
   }
 }
 
+const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
+  const channels = joinedChannelsSelector(getState())
+  if (channels) {
+    dispatch(goToLastUsedChannel())
+  } else {
+    dispatch(setIntialDataLoading(false))
+    dispatch(showSidebar(false))
+    dispatch(goTo('/chat'))
+  }
+}
+
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
@@ -195,7 +200,7 @@ const newNotification = (notification, channel) => (dispatch, getState) => {
     payload: {
       ...notification,
       channel,
-      inviter: find(users, { id: notification.inviterId }),
+      inviter: find(users, { partner: { id: notification.inviterId } }),
     },
   })
 }
@@ -208,7 +213,7 @@ export function handleNotification(notification) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewUser(notification.author.id)).then(() => {
+    dispatch(addNewChannel(notification.id)).then(() => {
       const updatedChannels = channelsSelector(getState())
       const addedChannel = find(updatedChannels, { id: notification.channelId })
       dispatch(newNotification(notification, addedChannel))
@@ -226,6 +231,7 @@ export function handleUpateChannel({ channel }) {
     'color',
     'icon',
     'slug',
+    'permissions',
   ]
   return {
     type: types.UPDATE_CHANNEL,
@@ -240,32 +246,26 @@ export function handleRemoveRoom({ channel: id }) {
       type: types.REMOVE_ROOM,
       payload: id,
     })
-    dispatch(goToLastUsedChannel())
     if (id === currentId) dispatch(goTo('/chat'))
-    dispatch(handleCurrentUserLeftChannel())
   }
 }
 
-const changeUserStatue = payload => dispatch => {
+const changeUserStatus = payload => dispatch => {
   dispatch({
     type: types.CHANGE_USER_STATUS,
     payload,
   })
 }
 
-export const handleUserStatusChange = ({ status, user: userId }) => (
+export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
   const users = usersSelector(getState())
-  const user = find(users, { id: userId })
+  const user = find(users, { partner: { id } })
   if (user) {
-    dispatch(changeUserStatue({ status, userId }))
-    return
+    dispatch(changeUserStatus({ status, id }))
   }
-  dispatch(addNewUser(userId)).then(() => {
-    dispatch(changeUserStatue({ status, userId }))
-  })
 }
 
 export function handleUserUpdate({ user }) {

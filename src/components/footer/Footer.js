@@ -24,6 +24,7 @@ export default class Footer extends PureComponent {
       'search',
     ]).isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
@@ -55,11 +56,13 @@ export default class Footer extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: undefined,
     quoteMessage: undefined,
     search: '',
@@ -69,6 +72,7 @@ export default class Footer extends PureComponent {
     customEmojis: {},
     autocomplete: {},
     onOpenFileDialog: undefined,
+    permissions: {},
   }
 
   onRef = ref => {
@@ -81,6 +85,7 @@ export default class Footer extends PureComponent {
       channels,
       channel,
       org,
+      conf,
       targetMessage,
       quoteMessage,
       showBrowser,
@@ -115,6 +120,7 @@ export default class Footer extends PureComponent {
       onAddIntegration,
       onSearchChannelsToMention,
       goTo,
+      permissions,
     } = this.props
 
     return (
@@ -145,6 +151,7 @@ export default class Footer extends PureComponent {
                 images={images}
                 channel={channel}
                 org={org}
+                conf={conf}
                 targetMessage={targetMessage}
                 quoteMessage={quoteMessage}
                 disabled={disabled}
@@ -173,6 +180,7 @@ export default class Footer extends PureComponent {
                 onAddIntegration={onAddIntegration}
                 onSearchChannelsToMention={onSearchChannelsToMention}
                 goTo={goTo}
+                permissions={permissions}
               />
               <Controls
                 disabled={disabled}
@@ -183,6 +191,7 @@ export default class Footer extends PureComponent {
                 onHideBrowser={onHideBrowser}
                 onRejectFiles={onRejectFiles}
                 onOpenFileDialog={onOpenFileDialog}
+                permissions={permissions}
               />
             </div>
           </div>

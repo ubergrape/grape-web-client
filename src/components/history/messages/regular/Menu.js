@@ -28,7 +28,7 @@ export default class Menu extends PureComponent {
     isOwn: PropTypes.bool,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
-    hasAttachments: PropTypes.bool,
+    isLinkAttachments: PropTypes.bool,
     state: PropTypes.string,
   }
 
@@ -36,7 +36,7 @@ export default class Menu extends PureComponent {
     isOwn: false,
     isPinned: false,
     isDropdownOpened: false,
-    hasAttachments: false,
+    isLinkAttachments: false,
     state: undefined,
   }
 
@@ -51,23 +51,20 @@ export default class Menu extends PureComponent {
     const {
       isOwn,
       isPinned,
-      hasAttachments,
       state,
       getContentNode,
       isDropdownOpened,
+      isLinkAttachments,
     } = this.props
 
     if (state === 'pending' || state === 'unsent') return null
 
     const items = []
 
+    if (isOwn && !isLinkAttachments) items.push('edit')
     if (isOwn) items.push('remove')
-    if (isOwn && !hasAttachments) items.push('edit')
     items.push('copyLink')
-    if (!hasAttachments) {
-      items.push('quote')
-      items.push('pin')
-    }
+    if (!isLinkAttachments) items.push('quote', 'pin')
 
     return (
       <BaseMenu

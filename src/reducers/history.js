@@ -9,7 +9,7 @@ import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 50,
+  minimumBatchSize: 40,
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
@@ -49,8 +49,6 @@ function markLastMessageAsRead(messages, senderId) {
 export default function reduce(state = initialState, action) {
   const { payload } = action
   switch (action.type) {
-    case types.SET_USER:
-      return { ...state, user: payload }
     case types.SET_CHANNEL:
       return {
         ...state,
@@ -62,8 +60,6 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage: false,
         backendHasNewerMessages: true,
       }
-    case types.SET_USERS:
-      return { ...state, users: payload }
     case types.HANDLE_INITIAL_HISTORY: {
       const {
         messages,
@@ -115,7 +111,7 @@ export default function reduce(state = initialState, action) {
         loadedNewerMessage,
         showNoContent: false,
         backendHasNewerMessages:
-          backendHasNewerMessages === 'boolean'
+          typeof backendHasNewerMessages === 'boolean'
             ? backendHasNewerMessages
             : state.backendHasNewerMessages,
       }
@@ -129,6 +125,11 @@ export default function reduce(state = initialState, action) {
     case types.SET_INITIAL_DATA_LOADING:
       if (!payload) return state
       return { ...initialState }
+    case types.REMOVE_ROOM:
+      if (state.channel && payload === state.channel.id) {
+        return { ...initialState }
+      }
+      return state
     case types.CLEAR_HISTORY:
       return {
         ...state,
@@ -197,10 +198,11 @@ export default function reduce(state = initialState, action) {
       }
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
-      const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {
         ...state,
-        scrollTo,
+        // REQUEST_POST_MESSAGE is always triggered by the current user and thats
+        // why we can scroll to the message (bottom of the chat) right away
+        scrollTo: payload.id,
         scrollToAlignment: null,
         messages: uniqBy(
           [...state.messages, { ...payload, state: 'pending' }],
@@ -211,42 +213,45 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.ADD_NEW_MESSAGE: {
-      if (payload.channelId !== state.channel.id) return state
+      const newMessage = payload.message
+      if (newMessage.channelId !== state.channel.id) return state
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
 
-      const { messages } = state
-      const newMessages = [...messages]
+      const messages = [...state.messages]
       // this case occures when the message was added to the history
       // optimistically without waiting for a server response
       if (
-        !isNil(payload.clientsideId) &&
-        some(newMessages, msg => msg.clientsideId === payload.clientsideId)
+        !isNil(newMessage.clientsideId) &&
+        some(messages, msg => msg.clientsideId === newMessage.clientsideId)
       ) {
-        const index = findIndex(newMessages, {
-          clientsideId: payload.clientsideId,
+        const index = findIndex(messages, {
+          clientsideId: newMessage.clientsideId,
         })
-        const currMessage = newMessages[index]
+        const currMessage = messages[index]
         // state is changed to sent since after receiveing the message from
         // the server we can be sure it has been sent
-        const message = { ...currMessage, ...payload, state: 'sent' }
-        newMessages.splice(index, 1, message)
+        const message = { ...currMessage, ...newMessage, state: 'sent' }
+        messages.splice(index, 1, message)
         return {
           ...state,
           scrollTo: null,
           scrollToAlignment: null,
-          messages: uniqBy([...newMessages], 'id'),
+          messages: uniqBy([...messages], 'id'),
           showNoContent: false,
           loadedNewerMessage: false,
         }
       }
 
-      const scrollTo = payload.author.id === state.user.id ? payload.id : null
+      // If the message was added by the current user we are sure she/he has seen it and
+      // we scroll to the new message (bottom of the chat)
+      const scrollTo =
+        newMessage.author.id === payload.currentUserId ? newMessage.id : null
       return {
         ...state,
         scrollTo,
         scrollToAlignment: null,
-        messages: uniqBy([...newMessages, payload], 'id'),
+        messages: uniqBy([...messages, newMessage], 'id'),
         showNoContent: false,
         loadedNewerMessage: false,
       }

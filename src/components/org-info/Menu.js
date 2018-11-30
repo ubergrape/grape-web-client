@@ -5,7 +5,6 @@ import MenuList from 'grape-web/lib/components/menu/menuList'
 import Divider from 'grape-web/lib/components/divider'
 import noop from 'lodash/noop'
 
-import conf from '../../conf'
 import {
   InviteItem,
   OrgSettingsItem,
@@ -24,18 +23,14 @@ class Menu extends PureComponent {
     classes: PropTypes.object.isRequired,
     onInvite: PropTypes.func,
     onShowIntro: PropTypes.func,
-    inviterRole: PropTypes.number,
     supportLink: PropTypes.string.isRequired,
-    user: PropTypes.shape({
-      role: PropTypes.number.isRequired,
-    }),
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     onInvite: noop,
     onShowIntro: noop,
-    inviterRole: 2,
-    user: { role: 2 },
+    permissions: {},
   }
 
   render() {
@@ -44,30 +39,39 @@ class Menu extends PureComponent {
       onInvite,
       onShowIntro,
       supportLink,
-      user,
-      inviterRole,
+      permissions,
     } = this.props
-
-    const canInvite = user.role >= inviterRole
-    const isOrgManager = user.role >= conf.constants.roles.ROLE_ADMIN
-
     const items = []
     let key = 0
 
-    if (canInvite) {
+    const {
+      canInviteMembers,
+      canViewOrganizationSettings,
+      canManageMembers,
+      canAddIntegration,
+    } = permissions
+
+    if (canInviteMembers) {
       items.push(
         <InviteItem onClick={onInvite} key={key} />,
         <Divider key={++key} />,
       )
     }
 
-    if (isOrgManager) {
-      items.push(
-        <OrgSettingsItem key={++key} />,
-        <ManageMembersItem key={++key} />,
-        <AddServiceItem key={++key} />,
-        <Divider key={++key} />,
-      )
+    if (canViewOrganizationSettings) {
+      items.push(<OrgSettingsItem key={++key} />)
+    }
+
+    if (canManageMembers) {
+      items.push(<ManageMembersItem key={++key} />)
+    }
+
+    if (canAddIntegration) {
+      items.push(<AddServiceItem key={++key} />)
+    }
+
+    if (canViewOrganizationSettings || canManageMembers || canAddIntegration) {
+      items.push(<Divider key={++key} />)
     }
 
     items.push(
@@ -75,10 +79,13 @@ class Menu extends PureComponent {
       <NotificationSettingsItem key={++key} />,
       <TutorialItem onClick={onShowIntro} key={++key} />,
       <SupportItem href={supportLink} key={++key} />,
-      <SwitchOrganizationsItem key={++key} />,
-      <Divider key={++key} />,
-      <LogoutItem key={++key} />,
     )
+
+    if (permissions.canSwitchOrganization) {
+      items.push(<SwitchOrganizationsItem key={++key} />)
+    }
+
+    items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
 
     return <MenuList className={classes.root}>{items}</MenuList>
   }

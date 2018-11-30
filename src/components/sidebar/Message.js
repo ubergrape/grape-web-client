@@ -55,7 +55,14 @@ const transition = 'box-shadow 150ms ease-out'
       boxShadow: `0px 1px 8px ${shadowColor}`,
     },
   },
-  innerContent: { ...contentStyles, width: '100%' },
+  innerContent: {
+    ...contentStyles,
+    width: '100%',
+    '& p, & strong, & span': {
+      isolate: false,
+      display: 'inline',
+    },
+  },
 })
 export default class Message extends Component {
   static propTypes = {
@@ -103,15 +110,16 @@ export default class Message extends Component {
     } = this.props
 
     return (
-      <section
-        className={cn(classes.message, className)}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
+      <section className={cn(classes.message, className)}>
         <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn} />
-          <Bubble className={classes.rightColumn} theme={{ classes }}>
+          <Bubble
+            className={classes.rightColumn}
+            theme={{ classes }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
             <button
               className={classes.innerContent}
               ref={onRefContent}

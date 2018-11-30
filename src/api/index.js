@@ -118,6 +118,11 @@ const setOpenFileDialogHandler = fn => {
   })
 }
 
+const setChannel = (id, messageId) =>
+  actionsReady.then(actions => {
+    actions.setChannel(id, messageId)
+  })
+
 class Api extends Emitter {
   init = init
   embed = embed
@@ -125,6 +130,7 @@ class Api extends Emitter {
   hide = hide
   searchMessages = searchMessages
   setOpenFileDialogHandler = setOpenFileDialogHandler
+  setChannel = setChannel
   resume = resume
   suspend = suspend
   authStatus = 'unauthorized'

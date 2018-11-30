@@ -9,6 +9,7 @@ export default class ChannelMembers extends PureComponent {
     users: PropTypes.array.isRequired,
     channel: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
+    permissions: PropTypes.object,
     onLoad: PropTypes.func,
     onOpen: PropTypes.func,
     onKick: PropTypes.func,
@@ -18,6 +19,7 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
+    permissions: {},
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ export default class ChannelMembers extends PureComponent {
   }
 
   render() {
-    const { users, channel, currUser, onOpen, onKick } = this.props
+    const { users, channel, currUser, onOpen, onKick, permissions } = this.props
 
     return (
       <div>
@@ -43,6 +45,7 @@ export default class ChannelMembers extends PureComponent {
             currUser={currUser}
             onOpen={onOpen}
             onKick={onKick}
+            permissions={permissions}
           />
         ))}
       </div>

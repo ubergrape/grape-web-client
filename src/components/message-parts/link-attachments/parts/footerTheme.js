@@ -7,11 +7,9 @@ export const styles = {
     alignItems: 'center',
   },
   link: {
+    cursor: 'pointer',
     color: grayBombay,
     textDecoration: 'none',
-    '&:hover, &:focus': {
-      textDecoration: 'underline',
-    },
   },
   icon: {
     width: normal.fontSize,

@@ -65,36 +65,46 @@ const RoomActions = ({
   onInvite,
   onAddIntegration,
   channel,
+  permissions,
 }) => (
   <ul>
-    <li className={classes.action}>
-      <button onClick={onInvite} className={classes.buttonInvite}>
-        <FormattedMessage
-          id="inviteMoreToGroup"
-          defaultMessage="Invite more people to this group"
-          description="Room Info Panel: link to invite people to the group/room"
-        />
-      </button>
-    </li>
-    <li className={classes.action}>
-      <button onClick={onAddIntegration} className={classes.buttonIntegration}>
-        <FormattedMessage
-          id="addServiceIntegration"
-          defaultMessage="Add service integration"
-          description="Room Info Panel: link to add an integration to the current room"
-        />
-      </button>
-    </li>
-    <li className={classes.action}>
-      <button onClick={onLeave} className={classes.buttonLeave}>
-        <FormattedMessage
-          id="leaveChannel"
-          defaultMessage="Leave {channel}"
-          values={{ channel: channel.name }}
-          description="Room Info Panel: leave room link"
-        />
-      </button>
-    </li>
+    {permissions.canInviteMembers && (
+      <li className={classes.action}>
+        <button onClick={onInvite} className={classes.buttonInvite}>
+          <FormattedMessage
+            id="inviteMoreToGroup"
+            defaultMessage="Invite more people to this group"
+            description="Room Info Panel: link to invite people to the group/room"
+          />
+        </button>
+      </li>
+    )}
+    {permissions.canAddIntegration && (
+      <li className={classes.action}>
+        <button
+          onClick={onAddIntegration}
+          className={classes.buttonIntegration}
+        >
+          <FormattedMessage
+            id="addServiceIntegration"
+            defaultMessage="Add service integration"
+            description="Room Info Panel: link to add an integration to the current room"
+          />
+        </button>
+      </li>
+    )}
+    {permissions.canLeaveChannel && (
+      <li className={classes.action}>
+        <button onClick={onLeave} className={classes.buttonLeave}>
+          <FormattedMessage
+            id="leaveChannel"
+            defaultMessage="Leave {channel}"
+            values={{ channel: channel.name }}
+            description="Room Info Panel: leave room link"
+          />
+        </button>
+      </li>
+    )}
   </ul>
 )
 
@@ -106,6 +116,7 @@ RoomActions.propTypes = {
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
+  permissions: PropTypes.object,
 }
 
 RoomActions.defaultProps = {
@@ -115,6 +126,7 @@ RoomActions.defaultProps = {
   channel: {
     name: 'Undefined',
   },
+  permissions: {},
 }
 
 export default injectSheet(styles)(RoomActions)

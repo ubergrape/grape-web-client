@@ -33,8 +33,8 @@ const styles = {
   },
   right: {
     position: 'absolute',
-    top: 1,
-    left: `calc(100% + ${firstLastPadding}px)`,
+    top: -22,
+    left: `calc(100% - ${firstLastPadding * 4}px)`,
   },
 }
 

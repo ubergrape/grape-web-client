@@ -8,8 +8,8 @@ import { Grapedown } from '../../../grapedown'
 import Header from '../../../message-parts/Header'
 
 import DuplicatesBadge from '../DuplicatesBadge'
-import Attachment from '../Attachment'
 import { styles } from '../baseMessageTheme'
+import { LinkAttachments } from '../../../message-parts'
 import { ActivityBubble, SelectedBubble } from './bubbles'
 import Expander from './Expander'
 import Menu from './Menu'
@@ -23,6 +23,7 @@ class ActivityMessage extends PureComponent {
     children: PropTypes.node,
     duplicates: PropTypes.number.isRequired,
     onToggleExpander: PropTypes.func,
+    onRemoveLinkAttachment: PropTypes.func,
     customEmojis: PropTypes.object.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
@@ -37,7 +38,9 @@ class ActivityMessage extends PureComponent {
     channel: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool,
     isSelected: PropTypes.bool,
-    attachments: PropTypes.array,
+    linkAttachments: PropTypes.array,
+    isAdmin: PropTypes.bool,
+    text: PropTypes.string,
   }
 
   static defaultProps = {
@@ -45,11 +48,14 @@ class ActivityMessage extends PureComponent {
     title: '',
     hasBubbleArrow: true,
     onToggleExpander: noop,
+    onRemoveLinkAttachment: noop,
     author: null,
     avatar: null,
     isExpanded: false,
     isSelected: false,
-    attachments: [],
+    linkAttachments: [],
+    isAdmin: false,
+    text: '',
   }
 
   state = { isMenuOpened: false }
@@ -73,16 +79,23 @@ class ActivityMessage extends PureComponent {
 
   getContentNode = () => this.content
 
-  renderAttachment = (attachment, key) => (
-    <Attachment {...attachment} key={key} />
-  )
-
   renderMenu() {
     if (!this.state.isMenuOpened) return null
-    const { user, channel, onCopyLink, onQuote, onRemove } = this.props
+    const {
+      user,
+      channel,
+      onCopyLink,
+      onQuote,
+      onRemove,
+      text,
+      linkAttachments,
+    } = this.props
 
     return (
       <Menu
+        isLinkAttachments={
+          !text && linkAttachments && linkAttachments.length > 0
+        }
         getContentNode={this.getContentNode}
         user={user}
         channel={channel}
@@ -105,9 +118,12 @@ class ActivityMessage extends PureComponent {
       duplicates,
       isExpanded,
       hasBubbleArrow,
-      attachments,
+      onRemoveLinkAttachment,
+      linkAttachments,
       isSelected,
       customEmojis,
+      isAdmin,
+      text,
     } = this.props
 
     const Bubble = isSelected ? SelectedBubble : ActivityBubble
@@ -124,33 +140,54 @@ class ActivityMessage extends PureComponent {
             />
           </div>
         )}
-        <div
-          className={classes.row}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-        >
+        <div className={classes.row}>
           <div className={classes.avatarColumn}>
             {avatar && <Avatar src={avatar} className={classes.avatar} />}
           </div>
-          <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
-              <div className={classes.content} ref={this.onRefContent}>
-                <Grapedown
-                  customEmojis={customEmojis}
-                  text={title}
-                  user={user}
-                />
-                <Grapedown
-                  customEmojis={customEmojis}
-                  text={children}
-                  user={user}
-                />
-                {attachments.map(this.renderAttachment)}
-              </div>
-            </Expander>
-            {this.renderMenu()}
-          </Bubble>
-          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+          <div className={classes.contentWrapper}>
+            <Bubble
+              onMouseEnter={this.onMouseEnter}
+              onMouseLeave={this.onMouseLeave}
+              className={classes.bubble}
+              hasArrow={hasBubbleArrow}
+            >
+              <Expander
+                onToggle={this.onToggleExpander}
+                isExpanded={isExpanded}
+              >
+                <div className={classes.content} ref={this.onRefContent}>
+                  <Grapedown
+                    customEmojis={customEmojis}
+                    text={title}
+                    user={user}
+                  />
+                  <Grapedown
+                    customEmojis={customEmojis}
+                    text={children}
+                    user={user}
+                  />
+                  {!text && (
+                    <LinkAttachments
+                      attachments={linkAttachments}
+                      messageText={text}
+                      isAdmin={isAdmin}
+                      onRemove={onRemoveLinkAttachment}
+                    />
+                  )}
+                </div>
+              </Expander>
+              {this.renderMenu()}
+            </Bubble>
+            {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
+            {text && (
+              <LinkAttachments
+                attachments={linkAttachments}
+                messageText={text}
+                isAdmin={isAdmin}
+                onRemove={onRemoveLinkAttachment}
+              />
+            )}
+          </div>
         </div>
       </div>
     )
