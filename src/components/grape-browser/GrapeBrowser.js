@@ -178,6 +178,7 @@ class GrapeBrowser extends Component {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
     this.props.onSubmit(data)
+    this.setState({ content: '' })
   }
 
   onAbort = (data = {}) => {
