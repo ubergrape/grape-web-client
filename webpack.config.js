@@ -110,8 +110,8 @@ if (NODE_ENV === 'production') {
   )
   exportsObject.performance = {
     hints: 'error',
-    maxEntrypointSize: 3200 * 1024,
-    maxAssetSize: 4200 * 1024,
+    maxEntrypointSize: 5200 * 1024,
+    maxAssetSize: 6200 * 1024,
   }
 }
 
