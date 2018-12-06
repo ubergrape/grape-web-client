@@ -14,6 +14,7 @@ export default {
     background: 'none',
     border: 0,
     padding: 5,
+    height: 32,
     cursor: 'pointer',
     marginBottom: 25,
   },
@@ -42,6 +43,15 @@ export default {
   content: {
     marginTop: 4,
   },
+  list: {
+    marginTop: 12,
+    height: ({ users }) => (users.length > 0 ? 96 : 20),
+  },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    marginTop: 30,
+  },
   hint: {
     width: 620,
     color: theme.colorTextHint,
@@ -58,6 +68,15 @@ export default {
   },
   hintLargeWrapper: {
     marginLeft: 8,
+  },
+  hintDarkLargeMargin: {
+    color: theme.colorTextBase,
+    fontSize: theme.fontSizeLabelWeb,
+    marginTop: 16,
+  },
+  counter: {
+    color: theme.colorTextActive,
+    fontSize: theme.fontSizeLabelWeb,
   },
   highlight: {
     color: theme.colorTextBase,

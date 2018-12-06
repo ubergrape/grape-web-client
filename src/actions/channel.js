@@ -11,11 +11,7 @@ import {
   orgSelector,
   pmsSelector,
 } from '../selectors'
-import {
-  normalizeChannelData,
-  normalizeUserData,
-  roomNameFromUsers,
-} from './utils'
+import { normalizeChannelData, normalizeUserData } from './utils'
 import {
   error,
   goToChannel,
@@ -223,38 +219,6 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       dispatch(joinChannel(channelId))
     })
     .catch(() => dispatch(handleBadChannel()))
-}
-
-export function createRoomWithUsers(room, users) {
-  return (dispatch, getState) => {
-    dispatch(requestRoomCreate())
-
-    const user = userSelector(getState())
-    const emailAddresses = users.map(({ email }) => email)
-    let newRoom
-
-    return api
-      .createRoom({
-        ...room,
-        name: room.name || roomNameFromUsers([user, ...users]),
-      })
-      .then(_newRoom => {
-        newRoom = _newRoom
-        return api.joinChannel(newRoom.id)
-      })
-      .then(() =>
-        newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
-      )
-      .then(() => {
-        if (newRoom) {
-          dispatch(goToChannel(newRoom.id))
-          dispatch(invitedToChannel(emailAddresses, newRoom.id))
-        }
-      })
-      .catch(err => {
-        dispatch(handleRoomCreateError(err.message))
-      })
-  }
 }
 
 export function renameRoom(id, name) {

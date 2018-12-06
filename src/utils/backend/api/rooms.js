@@ -1,11 +1,11 @@
 import rpc from '../rpc'
 
-export const createRoom = roomId =>
+export const createRoom = args =>
   rpc(
     {
       ns: 'rooms',
       action: 'create',
-      args: [roomId],
+      args: [args],
     },
     { camelize: true },
   )

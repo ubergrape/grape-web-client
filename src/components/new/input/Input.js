@@ -14,7 +14,15 @@ class Input extends Component {
   }
 
   render() {
-    const { type, placeholder, classes, onChange } = this.props
+    const {
+      type,
+      placeholder,
+      classes,
+      onChange,
+      onClick,
+      onFocus,
+      onBlur,
+    } = this.props
 
     return (
       <input
@@ -23,6 +31,9 @@ class Input extends Component {
         placeholder={placeholder || ''}
         className={cn(classes.input, classes.inputPS)}
         onChange={onChange}
+        onClick={onClick}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
     )
   }

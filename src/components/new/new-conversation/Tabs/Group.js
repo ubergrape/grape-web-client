@@ -12,31 +12,32 @@ import styles from '../styles/TabStyles'
 
 class Group extends Component {
   onChangeFilterDebounced = debounce(value => {
-    const { onChangeInputGroups, onSearchGroups } = this.props.actions
-    onChangeInputGroups(value)
+    const { onChangeGroupsFilter, onSearchGroups } = this.props.actions
+    onChangeGroupsFilter(value)
     onSearchGroups()
   }, debouncingTime)
 
-  onChange = ({ target }) => {
+  onChangeFilter = ({ target }) => {
     const { value } = target
     this.onChangeFilterDebounced(value)
   }
 
-  isRowLoaded = index => !!this.props.data.groups[index]
+  onClickCreate = () => {
+    this.props.actions.onChangeView('create')
+  }
 
   rowHeight = (list, index) => {
     if (list[index].text) return 70
     return 40
   }
 
-  openCreate = () => {
-    this.props.actions.onChangeView('create')
-  }
+  isRowLoaded = index => !!this.props.data.groups[index]
 
   render() {
     const { classes, data, actions } = this.props
 
-    if (!data.groups.length && data.isLoaded) return <EmptyOrgGroups />
+    if (!data.groups.length && data.isLoaded && !data.filterGroups)
+      return <EmptyOrgGroups />
 
     return (
       <div className={classes.tab}>
@@ -44,12 +45,12 @@ class Group extends Component {
           Join an existing group or create a new one. Groups are best organized
           around a topic.
         </span>
-        <button onClick={this.openCreate} className={classes.button}>
+        <button onClick={this.onClickCreate} className={classes.button}>
           Create a new group
         </button>
         <div className={classes.input}>
           <InputSearch
-            onChange={this.onChange}
+            onChange={this.onChangeFilter}
             placeholder="Search for a group ..."
             defaultValue={data.filterGroups}
             type="search"
@@ -79,15 +80,14 @@ class Group extends Component {
             threshold={50}
             rowRenderer={(index, key, style) => (
               <RowRendererGroups
-                data={data}
+                actions={actions}
+                list={data.groups}
                 index={index}
                 key={key}
                 style={style}
               />
             )}
-            noRowsRenderer={() => (
-              <NoRowsRendererGroups isLoaded={data.isLoaded} />
-            )}
+            noRowsRenderer={() => <NoRowsRendererGroups />}
           />
         </div>
       </div>

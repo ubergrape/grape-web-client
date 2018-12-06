@@ -4,6 +4,7 @@ export userRed from './user-red.svg'
 export arrowRight from './arrow-right.svg'
 export search from './search.svg'
 export checked from './checked.svg'
+export cross from './cross.svg'
 
 export basketball from './basketball.svg'
 export bulb from './bulb.svg'

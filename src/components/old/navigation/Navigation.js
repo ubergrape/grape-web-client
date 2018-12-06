@@ -37,7 +37,7 @@ class Navigation extends PureComponent {
     goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
-    onShow: PropTypes.func.isRequired,
+    onShowNewConversation: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
@@ -263,13 +263,21 @@ class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    const { isLoading, classes, onShow, permissions } = this.props
+    const {
+      isLoading,
+      classes,
+      onShowNewConversation,
+      permissions,
+    } = this.props
     if (isLoading) return null
     // TODO since it's only one action (new conversation) we could inline the action directly here
     return (
       <div className={classes.navigationWrapper}>
         {!this.state.filter && (
-          <Actions onNewConversation={onShow} permissions={permissions} />
+          <Actions
+            onNewConversation={onShowNewConversation}
+            permissions={permissions}
+          />
         )}
         {this.renderList()}
       </div>

@@ -23,6 +23,7 @@ export default {
     position: 'relative',
     height: 32,
     flex: '0 0 32px',
+    pointerEvents: 'none',
   },
   image: {
     width: 32,
@@ -35,6 +36,7 @@ export default {
     flexDirection: 'column',
     flex: '1 1 auto',
     marginLeft: 10,
+    pointerEvents: 'none',
   },
   name: {
     fontSize: theme.fontSizeLabelWeb,
@@ -44,6 +46,7 @@ export default {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    pointerEvents: 'none',
   },
   description: {
     fontSize: theme.fontSizeLabelWeb,
@@ -52,6 +55,7 @@ export default {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    pointerEvents: 'none',
   },
   time: {
     color: theme.colorTextButtonStandardBasic,

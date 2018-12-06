@@ -1,4 +1,5 @@
 export * from './common'
+export * from './createRoom'
 export * from './pubSubHandlers'
 export * from './sharedFiles'
 export * from './mentions'

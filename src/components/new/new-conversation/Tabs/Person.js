@@ -12,11 +12,12 @@ import styles from '../styles/TabStyles'
 
 class Person extends Component {
   onChangeFilterDebounced = debounce(value => {
-    this.props.actions.onChangeInputUsers(value)
-    this.props.actions.onSearchUsers()
+    const { onChangeUsersFilter, onSearchUsers } = this.props.actions
+    onChangeUsersFilter(value)
+    onSearchUsers()
   }, debouncingTime)
 
-  onChange = ({ target }) => {
+  onChangeFilter = ({ target }) => {
     const { value } = target
     this.onChangeFilterDebounced(value)
   }
@@ -31,13 +32,14 @@ class Person extends Component {
   render() {
     const { classes, data, actions } = this.props
 
-    if (!data.users.length && data.isLoaded) return <EmptyOrgUsers />
+    if (!data.users.length && data.isLoaded && !data.filterUsers)
+      return <EmptyOrgUsers />
 
     return (
       <div className={classes.tab}>
         <div className={classes.input}>
           <InputSearch
-            onChange={this.onChange}
+            onChange={this.onChangeFilter}
             placeholder="Search for a person ..."
             defaultValue={data.filterUsers}
             type="search"
@@ -68,15 +70,14 @@ class Person extends Component {
             threshold={30}
             rowRenderer={(index, key, style) => (
               <RowRendererUsers
-                data={data}
+                actions={actions}
+                list={data.users}
                 index={index}
                 key={key}
                 style={style}
               />
             )}
-            noRowsRenderer={() => (
-              <NoRowsRendererUsers isLoaded={data.isLoaded} />
-            )}
+            noRowsRenderer={() => <NoRowsRendererUsers />}
           />
         </div>
       </div>

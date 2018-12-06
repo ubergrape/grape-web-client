@@ -10,13 +10,6 @@ const initialState = {
   page: 1,
   filterUsers: '',
   filterGroups: '',
-  newRoom: {
-    name: '',
-    description: '',
-    color: 0,
-    isPublic: true,
-    users: [],
-  },
   groups: [],
   users: [],
 }
@@ -41,25 +34,25 @@ export default function reduce(state = initialState, action) {
         filterUsers: state.filterUsers,
         filterGroups: state.filterGroups,
         show: true,
-        tab: action.payload,
+        tab: payload,
       }
     case types.CHANGE_VIEW_NEW_CONVERSATION:
       return {
         ...state,
-        view: action.payload,
+        view: payload,
       }
-    case types.CHANGE_INPUT_USERS_NEW_CONVERSATION:
+    case types.CHANGE_FILTER_USERS_NEW_CONVERSATION:
       return {
         ...state,
-        filterUsers: action.payload,
+        filterUsers: payload,
         isNotMembersLoaded: false,
         users: [],
         page: 1,
       }
-    case types.CHANGE_INPUT_GROUPS_NEW_CONVERSATION:
+    case types.CHANGE_FILTER_GROUPS_NEW_CONVERSATION:
       return {
         ...state,
-        filterGroups: action.payload,
+        filterGroups: payload,
         isNotMembersLoaded: false,
         groups: [],
         page: 1,
@@ -78,7 +71,7 @@ export default function reduce(state = initialState, action) {
     case types.REQUEST_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        isLoaded: action.payload,
+        isLoaded: payload,
       }
     case types.HANDLE_USERS_SEARCH_NEW_CONVERSATION:
       return {
@@ -91,38 +84,6 @@ export default function reduce(state = initialState, action) {
         ...state,
         groups: [...state.groups, ...payload],
         page: state.page + 1,
-      }
-    case types.CHANGE_NEW_ROOM_NAME_NEW_CONVERSATION:
-      return {
-        ...state,
-        newRoom: {
-          ...state.newRoom,
-          name: action.payload,
-        },
-      }
-    case types.CHANGE_NEW_ROOM_COLOR_NEW_CONVERSATION:
-      return {
-        ...state,
-        newRoom: {
-          ...state.newRoom,
-          color: action.payload,
-        },
-      }
-    case types.CHANGE_NEW_ROOM_TYPE_NEW_CONVERSATION:
-      return {
-        ...state,
-        newRoom: {
-          ...state.newRoom,
-          isPublic: action.payload,
-        },
-      }
-    case types.CHANGE_NEW_ROOM_DESCRIPTION_NEW_CONVERSATION:
-      return {
-        ...state,
-        newRoom: {
-          ...state.newRoom,
-          description: action.payload,
-        },
       }
     default:
       return state

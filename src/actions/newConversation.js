@@ -4,38 +4,38 @@ import { error } from './'
 
 import { orgSelector, newConversationSelector } from '../selectors'
 
-export const onShow = () => ({
+export const onShowNewConversation = () => ({
   type: types.SHOW_NEW_CONVERSATION,
 })
 
-export const onHide = () => ({
+export const onHideNewConversation = () => ({
   type: types.HIDE_NEW_CONVERSATION,
 })
 
-export const onChangeTab = tab => dispatch => {
+export const onChangeTabNewConversation = tab => dispatch => {
   dispatch({
     type: types.CHANGE_TAB_NEW_CONVERSATION,
     payload: tab,
   })
 }
 
-export const onChangeView = view => dispatch => {
+export const onChangeViewNewConversation = view => dispatch => {
   dispatch({
     type: types.CHANGE_VIEW_NEW_CONVERSATION,
     payload: view,
   })
 }
 
-export const onChangeInputUsers = filter => dispatch => {
+export const onChangeUsersFilterNewConversation = filter => dispatch => {
   dispatch({
-    type: types.CHANGE_INPUT_USERS_NEW_CONVERSATION,
+    type: types.CHANGE_FILTER_USERS_NEW_CONVERSATION,
     payload: filter,
   })
 }
 
-export const onChangeInputGroups = filter => dispatch => {
+export const onChangeGroupsFilterNewConversation = filter => dispatch => {
   dispatch({
-    type: types.CHANGE_INPUT_GROUPS_NEW_CONVERSATION,
+    type: types.CHANGE_FILTER_GROUPS_NEW_CONVERSATION,
     payload: filter,
   })
 }
@@ -66,13 +66,13 @@ const handleGroupsResults = results => dispatch => {
 }
 
 const loadUsersMembers = () => (dispatch, getState) => {
-  const org = orgSelector(getState())
+  const { id } = orgSelector(getState())
   const { page, filterUsers, isMemberOfEachChannel } = newConversationSelector(
     getState(),
   )
 
   return api
-    .getUsers(org.id, {
+    .getUsers(id, {
       page,
       pageSize: 50,
       query: filterUsers,
@@ -98,10 +98,10 @@ const loadUsersMembers = () => (dispatch, getState) => {
     .catch(err => dispatch(error(err)))
 }
 
-export const onSearchUsers = () => (dispatch, getState) => {
+export const onSearchUsersNewConversation = () => (dispatch, getState) => {
   dispatch(flipLoadingStatus(false))
 
-  const org = orgSelector(getState())
+  const { id } = orgSelector(getState())
   const {
     page,
     filterUsers,
@@ -112,7 +112,7 @@ export const onSearchUsers = () => (dispatch, getState) => {
   if (isNotMembersLoaded) return dispatch(loadUsersMembers())
 
   return api
-    .getUsers(org.id, {
+    .getUsers(id, {
       page,
       pageSize: 50,
       query: filterUsers,
@@ -120,7 +120,7 @@ export const onSearchUsers = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (!results.length) {
-        if (page === 1)
+        if (page === 1 && !filterUsers)
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadUsersMembers())
@@ -147,13 +147,13 @@ export const onSearchUsers = () => (dispatch, getState) => {
 }
 
 const loadGroupsMembers = () => (dispatch, getState) => {
-  const org = orgSelector(getState())
+  const { id } = orgSelector(getState())
   const { page, filterGroups, isMemberOfEachChannel } = newConversationSelector(
     getState(),
   )
 
   return api
-    .getRooms(org.id, {
+    .getRooms(id, {
       page,
       pageSize: 50,
       query: filterGroups,
@@ -176,10 +176,10 @@ const loadGroupsMembers = () => (dispatch, getState) => {
     .catch(err => dispatch(error(err)))
 }
 
-export const onSearchGroups = () => (dispatch, getState) => {
+export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
   dispatch(flipLoadingStatus(false))
 
-  const org = orgSelector(getState())
+  const { id } = orgSelector(getState())
   const {
     page,
     filterGroups,
@@ -190,7 +190,7 @@ export const onSearchGroups = () => (dispatch, getState) => {
   if (isNotMembersLoaded) return dispatch(loadGroupsMembers())
 
   return api
-    .getRooms(org.id, {
+    .getRooms(id, {
       page,
       pageSize: 50,
       query: filterGroups,
@@ -198,7 +198,7 @@ export const onSearchGroups = () => (dispatch, getState) => {
     })
     .then(({ results }) => {
       if (!results.length) {
-        if (page === 1)
+        if (page === 1 && !filterGroups)
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadGroupsMembers())
@@ -219,32 +219,4 @@ export const onSearchGroups = () => (dispatch, getState) => {
       dispatch(handleGroupsResults(results))
     })
     .catch(err => dispatch(error(err)))
-}
-
-export const onChangeNewRoomColor = color => dispatch => {
-  dispatch({
-    type: types.CHANGE_NEW_ROOM_COLOR_NEW_CONVERSATION,
-    payload: color,
-  })
-}
-
-export const onChangeNewRoomName = name => dispatch => {
-  dispatch({
-    type: types.CHANGE_NEW_ROOM_NAME_NEW_CONVERSATION,
-    payload: name,
-  })
-}
-
-export const onChangeNewRoomType = type => dispatch => {
-  dispatch({
-    type: types.CHANGE_NEW_ROOM_TYPE_NEW_CONVERSATION,
-    payload: type,
-  })
-}
-
-export const onChangeNewRoomDescription = text => dispatch => {
-  dispatch({
-    type: types.CHANGE_NEW_ROOM_DESCRIPTION_NEW_CONVERSATION,
-    payload: text,
-  })
 }

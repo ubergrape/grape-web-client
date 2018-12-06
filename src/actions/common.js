@@ -163,7 +163,7 @@ export const handleBadChannel = alertType => dispatch => {
   )
 }
 
-export const setIntialDataLoading = payload => dispatch => {
+export const setInitialDataLoading = payload => dispatch => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
     payload,
@@ -178,7 +178,7 @@ export const setConf = payload => dispatch => {
 }
 
 export const loadInitialData = clientId => (dispatch, getState) => {
-  dispatch(setIntialDataLoading(true))
+  dispatch(setInitialDataLoading(true))
   dispatch(setConf(conf))
 
   dispatch({ type: types.REQUEST_ORG_DATA })
@@ -199,7 +199,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 
-      dispatch(setIntialDataLoading(false))
+      dispatch(setInitialDataLoading(false))
 
       const { route } = appSelector(getState())
       const isMemberOfAnyRooms = joinedChannelsSelector(getState())

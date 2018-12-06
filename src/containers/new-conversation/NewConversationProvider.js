@@ -6,20 +6,19 @@ import getStore from '../../app/store'
 import { newConversationSelector } from '../../selectors'
 import { NewConversation } from '../../components/new/new-conversation'
 
-const actionNames = [
-  'onShow',
-  'onHide',
-  'onChangeTab',
-  'onChangeView',
-  'onChangeInputUsers',
-  'onChangeInputGroups',
-  'onSearchUsers',
-  'onSearchGroups',
-  'onChangeNewRoomColor',
-  'onChangeNewRoomName',
-  'onChangeNewRoomType',
-  'onChangeNewRoomDescription',
-]
+const actionNames = {
+  onShowNewConversation: 'onShow',
+  onHideNewConversation: 'onHide',
+  onChangeTabNewConversation: 'onChangeTab',
+  onChangeViewNewConversation: 'onChangeView',
+  onChangeUsersFilterNewConversation: 'onChangeUsersFilter',
+  onChangeGroupsFilterNewConversation: 'onChangeGroupsFilter',
+  onSearchUsersNewConversation: 'onSearchUsers',
+  onSearchGroupsNewConversation: 'onSearchGroups',
+  goToChannel: 'goToChannel',
+  joinChannel: 'joinChannel',
+  openPm: 'openPm',
+}
 
 const ConnectedNewConversation = connect(
   newConversationSelector,

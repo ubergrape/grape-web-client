@@ -5,6 +5,7 @@ export default {
     fontSize: theme.fontSizeHeadingStandardWeb,
     fontWeight: theme.fontWeightEmphasis,
     lineHeight: '21px',
+    display: 'block',
   },
   text: {
     marginTop: 10,

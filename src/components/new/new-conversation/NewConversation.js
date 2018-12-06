@@ -7,7 +7,7 @@ import { A11yDialog, A11yDialogStyles } from '../a11y-dialog'
 import { Tabs } from '../tabs'
 import Person from './Tabs/Person'
 import Group from './Tabs/Group'
-import CreateNewGroup from './CreateNewGroup/CreateNewGroup'
+import { CreateRoomProvider as CreateRoom } from '../../../containers/create-room'
 import styles from './styles/NewConversationStyles'
 
 const NewConversation = ({
@@ -16,7 +16,6 @@ const NewConversation = ({
   tab,
   users,
   groups,
-  newRoom,
   filterUsers,
   filterGroups,
   isLoaded,
@@ -24,14 +23,13 @@ const NewConversation = ({
   onHide,
   onChangeTab,
   onChangeView,
-  onChangeInputUsers,
-  onChangeInputGroups,
+  onChangeUsersFilter,
+  onChangeGroupsFilter,
   onSearchUsers,
   onSearchGroups,
-  onChangeNewRoomName,
-  onChangeNewRoomColor,
-  onChangeNewRoomType,
-  onChangeNewRoomDescription,
+  goToChannel,
+  joinChannel,
+  openPm,
   classes,
 }) => (
   <A11yDialog
@@ -66,7 +64,10 @@ const NewConversation = ({
                       },
                       actions: {
                         onSearchUsers,
-                        onChangeInputUsers,
+                        onChangeUsersFilter,
+                        goToChannel,
+                        openPm,
+                        onHide,
                       },
                       onLoad: () => {
                         onSearchUsers()
@@ -87,8 +88,11 @@ const NewConversation = ({
                       },
                       actions: {
                         onSearchGroups,
-                        onChangeInputGroups,
+                        onChangeGroupsFilter,
                         onChangeView,
+                        goToChannel,
+                        joinChannel,
+                        onHide,
                       },
                       onLoad: () => {
                         onSearchGroups()
@@ -105,16 +109,7 @@ const NewConversation = ({
             return tabs
           }
           case 'create': {
-            return (
-              <CreateNewGroup
-                newRoom={newRoom}
-                onChangeView={onChangeView}
-                onChangeNewRoomColor={onChangeNewRoomColor}
-                onChangeNewRoomName={onChangeNewRoomName}
-                onChangeNewRoomType={onChangeNewRoomType}
-                onChangeNewRoomDescription={onChangeNewRoomDescription}
-              />
-            )
+            return <CreateRoom />
           }
           default: {
             return null
@@ -131,7 +126,6 @@ NewConversation.propTypes = {
   tab: PropTypes.number.isRequired,
   users: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
-  newRoom: PropTypes.object.isRequired,
   filterUsers: PropTypes.string.isRequired,
   filterGroups: PropTypes.string.isRequired,
   isLoaded: PropTypes.bool.isRequired,
@@ -139,14 +133,13 @@ NewConversation.propTypes = {
   onHide: PropTypes.func.isRequired,
   onChangeTab: PropTypes.func.isRequired,
   onChangeView: PropTypes.func.isRequired,
-  onChangeInputUsers: PropTypes.func.isRequired,
-  onChangeInputGroups: PropTypes.func.isRequired,
+  onChangeUsersFilter: PropTypes.func.isRequired,
+  onChangeGroupsFilter: PropTypes.func.isRequired,
   onSearchUsers: PropTypes.func.isRequired,
   onSearchGroups: PropTypes.func.isRequired,
-  onChangeNewRoomName: PropTypes.func.isRequired,
-  onChangeNewRoomColor: PropTypes.func.isRequired,
-  onChangeNewRoomType: PropTypes.func.isRequired,
-  onChangeNewRoomDescription: PropTypes.func.isRequired,
+  goToChannel: PropTypes.func.isRequired,
+  joinChannel: PropTypes.func.isRequired,
+  openPm: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 }
 

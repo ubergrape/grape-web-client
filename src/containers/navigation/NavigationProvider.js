@@ -7,7 +7,7 @@ import { navigationSelector as selector } from '../../selectors'
 import Navigation from '../../components/old/navigation/Navigation'
 
 const actionNames = [
-  'onShow',
+  'onShowNewConversation',
   'goToChannel',
   'openPm',
   'joinChannel',

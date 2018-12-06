@@ -219,11 +219,6 @@ export const inviteToOrgSelector = createSelector(
   state => state,
 )
 
-export const createRoomErrorSelector = createSelector(
-  state => state.createRoomError,
-  state => state,
-)
-
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({ alerts }, channel) => ({ alerts, channel }),
@@ -262,6 +257,18 @@ export const newConversationSelector = createSelector(
   ],
   newConversation => ({
     ...newConversation,
+  }),
+)
+
+export const createRoomSelector = createSelector(
+  [
+    createSelector(
+      state => state.createRoom,
+      state => state,
+    ),
+  ],
+  createRoom => ({
+    ...createRoom,
   }),
 )
 
