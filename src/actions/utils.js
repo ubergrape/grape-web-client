@@ -325,9 +325,8 @@ export function roomNameFromUsers(users) {
 
 export const findLastUsedChannel = (channels, withMessage) =>
   channels
-    .filter(
-      channel =>
-        withMessage ? channel.joined && channel.lastMessage : channel.joined,
+    .filter(channel =>
+      withMessage ? channel.joined && channel.lastMessage : channel.joined,
     )
     .sort((a, b) => {
       if (b.lastMessage && a.lastMessage) {
