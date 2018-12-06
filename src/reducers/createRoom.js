@@ -12,6 +12,7 @@ const initialState = {
   page: 1,
   users: [],
   filter: '',
+  error: '',
 }
 
 export default function reduce(state = initialState, action) {
@@ -24,6 +25,7 @@ export default function reduce(state = initialState, action) {
     case types.CHANGE_NAME_CREATE_ROOM:
       return {
         ...state,
+        error: '',
         name: payload,
       }
     case types.CHANGE_COLOR_CREATE_ROOM:
@@ -56,6 +58,11 @@ export default function reduce(state = initialState, action) {
         ...state,
         users: [...state.users, ...payload],
         page: state.page + 1,
+      }
+    case types.HANDLE_ERROR_CREATE_ROOM:
+      return {
+        ...state,
+        error: payload,
       }
     case types.CHANGE_CHECKED_STATUS_CREATE_ROOM: {
       const { users } = state

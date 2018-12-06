@@ -41,6 +41,7 @@ export default {
     fontWeight: theme.fontWeightEmphasis,
   },
   content: {
+    position: 'relative',
     marginTop: 4,
   },
   list: {

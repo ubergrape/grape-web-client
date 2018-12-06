@@ -5,6 +5,7 @@ export arrowRight from './arrow-right.svg'
 export search from './search.svg'
 export checked from './checked.svg'
 export cross from './cross.svg'
+export warning from './warning.svg'
 
 export basketball from './basketball.svg'
 export bulb from './bulb.svg'

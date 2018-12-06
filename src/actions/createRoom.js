@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import { error, joinChannel, goToChannel } from './'
+import { error, joinChannel, goToChannel, onHideNewConversation } from './'
 
 import { orgSelector, createRoomSelector } from '../selectors'
 
@@ -99,8 +99,12 @@ export const onCreateRoom = () => (dispatch, getState) => {
     .then(room => {
       dispatch(joinChannel(room.id))
       dispatch(goToChannel(room.id))
+      dispatch(onHideNewConversation())
     })
     .catch(err => {
-      dispatch(error(err.message))
+      dispatch({
+        type: types.HANDLE_ERROR_CREATE_ROOM,
+        payload: err.message,
+      })
     })
 }

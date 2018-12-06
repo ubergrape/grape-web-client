@@ -62,7 +62,6 @@ class CreateNewGroup extends Component {
 
   onCreateRoom = () => {
     this.props.onCreateRoom()
-    this.props.onHide()
   }
 
   isRowLoaded = index => !!this.props.users[index]
@@ -77,6 +76,7 @@ class CreateNewGroup extends Component {
       isFocused,
       filter,
       users,
+      error,
       onChangeColor,
       onClickCheckedStatus,
     } = this.props
@@ -102,6 +102,7 @@ class CreateNewGroup extends Component {
             <div className={classes.content}>
               <Input
                 onChange={this.onChangeName}
+                error={error}
                 placeholder="Enter group name ..."
                 defaultValue={name}
                 styles={{
@@ -109,10 +110,12 @@ class CreateNewGroup extends Component {
                 }}
               />
             </div>
-            <span className={classes.hint}>
-              Should represent the topic of the group (maximum of 30 characters)
-              .
-            </span>
+            {!error && (
+              <span className={classes.hint}>
+                Should represent the topic of the group (maximum of 30
+                characters).
+              </span>
+            )}
           </div>
           <div className={classes.field}>
             <span className={classes.label}>Color</span>

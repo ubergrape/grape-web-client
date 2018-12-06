@@ -1,12 +1,12 @@
 import theme from '../../../../constants/theme'
 
 export default {
-  input: ({ styles }) => ({
+  input: ({ styles, error }) => ({
     width: '100%',
     height: 32,
-    padding: '0px 16px 0px 16px',
+    padding: error ? '0px 28px 0px 16px' : '0px 16px',
     borderRadius: theme.borderRadiusButtonPillWeb,
-    border: `1px solid ${theme.colorBorderButton}`,
+    border: `1px solid ${error ? '#B30F00' : theme.colorBorderButton}`,
     color: theme.colorTextButtonStandardBasic,
     fontSize: theme.fontSizeLabelWeb,
     ...styles,
@@ -24,5 +24,11 @@ export default {
       isolate: false,
       display: 'block',
     },
+  },
+  error: {
+    display: 'block',
+    marginTop: 4,
+    fontSize: theme.fontSizeLabelWeb,
+    color: '#B30F00',
   },
 }
