@@ -24,6 +24,10 @@ const messages = defineMessages({
     id: 'editMessagePlaceholder',
     defaultMessage: 'Enter a message …',
   },
+  placeholderDisabled: {
+    id: 'disabledMessagePlaceholder',
+    defaultMessage: 'This user has been deleted. Messaging is disabled.',
+  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -229,9 +233,7 @@ class GrapeInput extends PureComponent {
       if (data.objectsOnly && attachments.length === data.objects.length) {
         sendText = false
       }
-      // The currently desired behaviour is to create a text message and a separate message
-      // for all the attachments in that message.
-      // This is a desired feature to make them separately editable and removable.
+      // Separate message to make it separately editable and removable.
       if (sendText)
         onCreateMessage({ channelId: channel.id, text: data.content })
       if (attachments.length) {
@@ -403,7 +405,7 @@ class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholder } = messages
+    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -432,7 +434,9 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(placeholder)}
+            placeholder={formatMessage(
+              disabled ? placeholderDisabled : placeholder,
+            )}
             disabled={disabled}
             locale={conf.user.languageCode}
             focused={this.state.focused}

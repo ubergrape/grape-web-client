@@ -8,10 +8,6 @@ export const zIndex = (layerName, relative) => {
   return index + increment
 }
 
-export const above = layerName => {
-  return zIndex(layerName, 1)
-}
+export const above = layerName => zIndex(layerName, 1)
 
-export const below = layerName => {
-  return zIndex(layerName, -1)
-}
+export const below = layerName => zIndex(layerName, -1)

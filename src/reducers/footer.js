@@ -17,6 +17,7 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.EDIT_MESSAGE:
       return { ...state, targetMessage: action.payload.id }
+    case types.REQUEST_POST_MESSAGE:
     case types.SET_CHANNEL:
     case types.EDIT_MESSAGE_ABORT:
       return { ...state, targetMessage: null }
@@ -58,11 +59,6 @@ export default function reduce(state = initialState, action) {
       return { ...state, servicesStats: action.payload }
     case types.SET_OPEN_FILE_DIALOG_HANDLER:
       return { ...state, onOpenFileDialog: action.payload }
-    // NOTE when editing a message a new message can be created by uploading
-    // the attachement. targetMessage should not be reset for the footer to
-    // continue editing to work properly.
-    case types.REQUEST_POST_MESSAGE:
-      return state
     default:
       return state
   }
