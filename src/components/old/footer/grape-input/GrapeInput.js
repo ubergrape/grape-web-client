@@ -235,9 +235,7 @@ class GrapeInput extends PureComponent {
       if (data.objectsOnly && attachments.length === data.objects.length) {
         sendText = false
       }
-      // The currently desired behaviour is to create a text message and a separate message
-      // for all the attachments in that message.
-      // This is a desired feature to make them separately editable and removable.
+      // Separate message to make it separately editable and removable.
       if (sendText)
         onCreateMessage({ channelId: channel.id, text: data.content })
       if (attachments.length) {
