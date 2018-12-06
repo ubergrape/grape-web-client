@@ -91,7 +91,7 @@ class UserProfile extends PureComponent {
     }
   }
 
-  onChangeTabNewConversation = index => {
+  onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
   }
 
@@ -170,7 +170,7 @@ class UserProfile extends PureComponent {
         </div>
         <TabbedContent
           index={tabs.indexOf(tab)}
-          onChange={this.onChangeTabNewConversation}
+          onChange={this.onChangeTab}
           tabs={tabs}
           title={tab.title}
           body={this[tab.render]()}

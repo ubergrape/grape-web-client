@@ -131,7 +131,7 @@ class RoomInfo extends PureComponent {
     renameRoom(channel.id, name)
   }
 
-  onChangeTabNewConversation = index => {
+  onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
   }
 
@@ -250,7 +250,7 @@ class RoomInfo extends PureComponent {
           />
           <TabbedContent
             index={tabs.indexOf(tab)}
-            onChange={this.onChangeTabNewConversation}
+            onChange={this.onChangeTab}
             tabs={tabs}
             title={tab.title}
             body={this[tab.render]()}
