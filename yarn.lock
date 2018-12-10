@@ -184,10 +184,6 @@
   dependencies:
     samsam "1.3.0"
 
-"@ubergrape/react-notification@^6.5.3":
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/@ubergrape/react-notification/-/react-notification-6.5.3.tgz#5c05928f30f87a64ef8b5ddbae5f1c4f7a36b9d7"
-
 "@vxna/mini-html-webpack-template@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@vxna/mini-html-webpack-template/-/mini-html-webpack-template-0.1.7.tgz#2a8270e513ee14f395cc17c2ce22ced383c45d22"
@@ -501,10 +497,6 @@ assert@^1.1.1:
   resolved "https://registry.yarnpkg.com/assert/-/assert-1.4.1.tgz#99912d591836b5a6f5b345c0f07eefc08fc65d91"
   dependencies:
     util "0.10.3"
-
-assertion-error@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.0.0.tgz#c7f85438fdd466bc7ca16ab90c81513797a5d23b"
 
 assign-symbols@^1.0.0:
   version "1.0.0"
@@ -1782,13 +1774,6 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
-chai@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/chai/-/chai-2.3.0.tgz#8a2f6a34748da801090fd73287b2aa739a4e909a"
-  dependencies:
-    assertion-error "1.0.0"
-    deep-eql "0.1.3"
-
 chalk@1.1.3, chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -2652,12 +2637,6 @@ decode-uri-component@^0.2.0:
 dedent@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
-
-deep-eql@0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
-  dependencies:
-    type-detect "0.1.1"
 
 deep-equal@^1.0.1:
   version "1.0.1"
@@ -5952,13 +5931,14 @@ markdown-it@^8.4.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-markdown-react-js@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/markdown-react-js/-/markdown-react-js-0.3.0.tgz#c9eec3dc8aafd02f6b6c6909395da33ea6c352bd"
+markdown-react-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-react-js/-/markdown-react-js-1.0.0.tgz#a283d184ebe4eb48940e7ee5ca6020c12bd10077"
+  integrity sha512-WMGjhL8sMeViJOXEN+pzbLxA/ZM/P2wBC8N9zaHtcWMCQjm0Mok/JodxM528A663QcwZPyaMU92d/d9oGqWabQ==
   dependencies:
-    chai "^2.3.0"
     lodash "^3.8.0"
     markdown-it "^4.2.1"
+    prop-types "^15.6.0"
 
 markdown-table@^1.1.0:
   version "1.1.2"
@@ -7702,6 +7682,16 @@ react-dom@^15.3.0, react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
+react-dom@^16.6.2:
+  version "16.6.3"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.6.3.tgz#8fa7ba6883c85211b8da2d0efeffc9d3825cccc0"
+  integrity sha512-8ugJWRCWLGXy+7PmNh8WJz3g1TaTUt1XyoIcFN+x0Zbkoz+KKdUyx1AQLYJdbFXjuF41Nmjn5+j//rxvhFjgSQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.11.2"
+
 react-dropzone@^4.2.7:
   version "4.2.13"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-4.2.13.tgz#31393c079b4e5ddcc176c095cebc3545d1248b9d"
@@ -7786,6 +7776,13 @@ react-jss@^8.1.0, react-jss@^8.3.3:
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-notification@^6.8.4:
+  version "6.8.4"
+  resolved "https://registry.yarnpkg.com/react-notification/-/react-notification-6.8.4.tgz#c189d23f47b0e1b240932f4cfab2f4082cd420bf"
+  integrity sha512-El4aaIYeXNpL2M96t4+qg3ODgvAhvpORRCXhseukYlR0X8Efiak9ixGmxgm/Bm5Z43kRdFzpgHlh0uM242IFxA==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-overlays@^0.7.0:
   version "0.7.4"
@@ -7976,6 +7973,16 @@ react@^15.3.0, react@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react@^16.6.2:
+  version "16.6.3"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.6.3.tgz#25d77c91911d6bbdd23db41e70fb094cc1e0871c"
+  integrity sha512-zCvmH2vbEolgKxtqXL2wmGCUxUyNheYn/C+PD1YAjfxHC54+MhdruyhO7QieQrYsYeTxrn93PM2y0jRH1zEExw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.11.2"
 
 read-file-stdin@^0.2.0:
   version "0.2.1"
@@ -8506,6 +8513,14 @@ sax@~1.1.1:
 scale-to-bounds@ubergrape/scale-to-bounds:
   version "0.0.1"
   resolved "https://codeload.github.com/ubergrape/scale-to-bounds/tar.gz/f51290c85e5a12c13dd047f39168731c93176e59"
+
+scheduler@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.11.2.tgz#a8db5399d06eba5abac51b705b7151d2319d33d3"
+  integrity sha512-+WCP3s3wOaW4S7C1tl3TEXp4l9lJn0ZK8G3W3WKRWmw77Z2cIFUW2MiNTMHn5sCjxN+t7N43HAOOgMjyAg5hlg==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@^0.3.0:
   version "0.3.0"
@@ -9335,10 +9350,6 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
-
-type-detect@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
 
 type-detect@^4.0.8:
   version "4.0.8"
