@@ -102,7 +102,7 @@ export default {
   "addTeamMembersLinkIntro": "add your team members",
   "connectServicesLinkIntro": "connect your services",
   "introHlDone": "Well done!",
-  "introTextDone": "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.",
+  "introTextDone": "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!",
   "skipIntro": "Skip tutorial",
   "buttonContinue": "Continue",
   "skipIfDone": "Already done?{skip}",
@@ -235,5 +235,6 @@ export default {
   "email": "Email",
   "skype": "Skype",
   "phone": "Phone",
-  "aboutUserTitle": "About this user"
+  "aboutUserTitle": "About this user",
+  "joinVideoConference": "Join video conference"
 }

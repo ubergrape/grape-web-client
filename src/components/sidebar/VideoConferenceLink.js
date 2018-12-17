@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import { small } from 'grape-theme/dist/fonts'
@@ -42,7 +43,11 @@ class VideoConferenceLink extends React.Component {
     if (isElectron) {
       return (
         <button className={classes.root} onClick={this.onClick}>
-          Join Video Chat
+          <FormattedMessage
+            id="joinVideoConference"
+            defaultMessage="Join video conference"
+            description="Sidebar: link to join a video conference"
+          />
         </button>
       )
     }
@@ -54,7 +59,11 @@ class VideoConferenceLink extends React.Component {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Join Video Chat
+        <FormattedMessage
+          id="joinVideoConference"
+          defaultMessage="Join video conference"
+          description="Sidebar: link to join a video conference"
+        />
       </a>
     )
   }
