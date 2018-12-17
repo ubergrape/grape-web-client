@@ -20,7 +20,9 @@ import PinnedMessages from '../pinned-messages/PinnedMessages'
 import SidebarPanel from '../SidebarPanel'
 import { spacing } from '../constants'
 import TabbedContent from '../TabbedContent'
+import Divider from '../Divider'
 import About from './About'
+import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -80,6 +82,8 @@ export default class UserProfile extends PureComponent {
     displayName: PropTypes.string,
     showSubview: PropTypes.string,
     subview: PropTypes.object,
+    channel: PropTypes.object.isRequired,
+    orgFeatures: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -164,6 +168,8 @@ export default class UserProfile extends PureComponent {
       classes,
       onClose,
       showSubview,
+      channel,
+      orgFeatures,
     } = this.props
 
     const tab = find(tabs, { name: showSubview })
@@ -179,6 +185,12 @@ export default class UserProfile extends PureComponent {
             theme={this.userNameTheme}
           />
         </div>
+        {orgFeatures.videoconference && (
+          <div>
+            <Divider inset />
+            <VideoConferenceLink channel={channel} />
+          </div>
+        )}
         <TabbedContent
           index={tabs.indexOf(tab)}
           onChange={this.onChangeTab}
