@@ -34,7 +34,9 @@ class VideoConferenceLink extends React.Component {
   onClick = () => {
     window
       .require('electron')
-      .shell.openExternal(this.props.channel.videoconferenceUrl)
+      .shell.openExternal(
+        `${window.location.origin}${this.props.channel.videoconferenceUrl}`,
+      )
   }
 
   render() {
