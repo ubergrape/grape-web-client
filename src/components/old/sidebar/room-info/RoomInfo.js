@@ -20,6 +20,7 @@ import MainSettings from './MainSettings'
 import RoomActions from './RoomActions'
 import Description from './Description'
 import { styles } from './roomInfoTheme.js'
+import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -75,6 +76,7 @@ class RoomInfo extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired,
+    orgFeatures: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -217,6 +219,7 @@ class RoomInfo extends PureComponent {
       showSubview,
       onClose,
       permissions,
+      orgFeatures,
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -248,6 +251,12 @@ class RoomInfo extends PureComponent {
             className={classes.description}
             isPublic={channel.isPublic}
           />
+          {orgFeatures.videoconference && (
+            <div>
+              <Divider inset />
+              <VideoConferenceLink channel={channel} />
+            </div>
+          )}
           <TabbedContent
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}

@@ -61,6 +61,7 @@ const Content = props => {
     unpinMessage,
     getUser,
     options,
+    orgFeatures,
     ...rest
   } = props
 
@@ -78,6 +79,7 @@ const Content = props => {
           onLoadMembers={loadChannelMembers}
           onSelectPinnedMessage={goToMessage}
           onUnpin={unpinMessage}
+          orgFeatures={orgFeatures}
         />
       )
     case 'pm':
@@ -92,6 +94,7 @@ const Content = props => {
           onSelectPinnedMessage={goToMessage}
           onUnpin={unpinMessage}
           getUser={getUser}
+          orgFeatures={orgFeatures}
         />
       )
     case 'mentions':

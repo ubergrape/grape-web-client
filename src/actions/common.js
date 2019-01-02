@@ -118,32 +118,14 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   dispatch(hideBrowser())
 
-  api.getChannel(channel.id).then(({ permissions }) => {
-    if (channel.type === 'pm') {
-      api
-        .getUser(conf.organization.id, channel.partner.id)
-        .then(({ isActive }) => {
-          dispatch({
-            type: types.SET_CHANNEL,
-            payload: {
-              channel: {
-                ...normalizeChannelData(channel),
-                permissions,
-                isActive,
-              },
-              messageId,
-            },
-          })
-        })
-      return
-    }
-
+  api.getChannel(channel.id).then(({ permissions, videoconferenceUrl }) => {
     dispatch({
       type: types.SET_CHANNEL,
       payload: {
         channel: {
           ...normalizeChannelData(channel),
           permissions,
+          videoconferenceUrl,
         },
         messageId,
       },

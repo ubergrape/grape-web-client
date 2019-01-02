@@ -491,6 +491,7 @@ export const sidebarComponentSelector = createSelector(
         ...org.permissions,
         ...channel.permissions,
       },
+      orgFeatures: org.features,
       subview: subviews[showSubview],
     }
   },
