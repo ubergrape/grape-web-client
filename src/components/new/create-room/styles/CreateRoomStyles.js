@@ -7,6 +7,12 @@ export default {
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
+  buttonWrapper: {
+    isolate: false,
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 25,
+  },
   button: {
     isolate: false,
     display: 'flex',
@@ -16,16 +22,16 @@ export default {
     padding: 5,
     height: 32,
     cursor: 'pointer',
-    marginBottom: 25,
-  },
-  main: {
-    overflowY: 'auto',
   },
   buttonText: {
     marginLeft: 8,
     fontSize: theme.fontSizeButtonWeb,
     fontWeight: theme.fontWeightEmphasis,
     pointerEvents: 'none',
+  },
+  main: {
+    overflowY: 'auto',
+    marginTop: 25,
   },
   field: {
     display: 'flex',

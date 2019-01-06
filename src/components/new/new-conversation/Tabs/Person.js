@@ -22,7 +22,11 @@ class Person extends Component {
     this.onChangeFilterDebounced(value)
   }
 
-  isRowLoaded = index => !!this.props.data.users[index]
+  onClickCreate = () => {
+    this.props.actions.onChangeView('create')
+  }
+
+  isRowLoaded = index => !!this.props.data.list[index]
 
   rowHeight = (list, index) => {
     if (list[index].text) return 70
@@ -31,9 +35,10 @@ class Person extends Component {
 
   render() {
     const { classes, data, actions } = this.props
+    const { list, isLoaded, filterUsers, isMemberOfEachChannel } = data
 
-    if (!data.users.length && data.isLoaded && !data.filterUsers)
-      return <EmptyOrgUsers />
+    if (!list.length && isLoaded && !filterUsers)
+      return <EmptyOrgUsers onClick={this.onClickCreate} />
 
     return (
       <div className={classes.tab}>
@@ -41,11 +46,11 @@ class Person extends Component {
           <InputSearch
             onChange={this.onChangeFilter}
             placeholder="Search for a person ..."
-            defaultValue={data.filterUsers}
+            defaultValue={filterUsers}
             type="search"
           />
         </div>
-        {data.isMemberOfEachChannel && (
+        {isMemberOfEachChannel && (
           <div>
             <h3 className={classes.title}>
               You are a very communicative person!
@@ -56,30 +61,32 @@ class Person extends Component {
             </p>
           </div>
         )}
-        <div className={classes.list}>
-          <InfiniteAutoRowHeightList
-            rowHeight={this.rowHeight}
-            loadMoreRows={() => {
-              actions.onSearchUsers()
-            }}
-            isRowLoaded={this.isRowLoaded}
-            list={data.users}
-            rowCount={Infinity}
-            minimumBatchSize={50}
-            width={680}
-            threshold={30}
-            rowRenderer={(index, key, style) => (
-              <RowRendererUsers
-                actions={actions}
-                list={data.users}
-                index={index}
-                key={key}
-                style={style}
-              />
-            )}
-            noRowsRenderer={() => <NoRowsRendererUsers />}
-          />
-        </div>
+        {isLoaded && (
+          <div className={classes.list}>
+            <InfiniteAutoRowHeightList
+              rowHeight={this.rowHeight}
+              loadMoreRows={() => {
+                actions.onSearchUsers()
+              }}
+              isRowLoaded={this.isRowLoaded}
+              list={list}
+              rowCount={Infinity}
+              minimumBatchSize={50}
+              width={680}
+              threshold={30}
+              rowRenderer={(index, key, style) => (
+                <RowRendererUsers
+                  actions={actions}
+                  list={list}
+                  index={index}
+                  key={key}
+                  style={style}
+                />
+              )}
+              noRowsRenderer={() => <NoRowsRendererUsers />}
+            />
+          </div>
+        )}
       </div>
     )
   }

@@ -3,7 +3,7 @@ import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
-import { InputSearch } from '../../input'
+import { IconButton } from '../../buttons'
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRendererGroups from '../NoRowsRenderers/NoRowsRendererGroups'
 import RowRendererGroups from '../RowRenderers/RowRendererGroups'
@@ -31,13 +31,13 @@ class Group extends Component {
     return 40
   }
 
-  isRowLoaded = index => !!this.props.data.groups[index]
+  isRowLoaded = index => !!this.props.data.list[index]
 
   render() {
     const { classes, data, actions } = this.props
+    const { list, isLoaded, filterGroups, isMemberOfEachChannel } = data
 
-    if (!data.groups.length && data.isLoaded && !data.filterGroups)
-      return <EmptyOrgGroups />
+    if (!list.length && isLoaded && !filterGroups) return <EmptyOrgGroups />
 
     return (
       <div className={classes.tab}>
@@ -45,18 +45,12 @@ class Group extends Component {
           Join an existing group or create a new one. Groups are best organized
           around a topic.
         </span>
-        <button onClick={this.onClickCreate} className={classes.button}>
-          Create a new group
-        </button>
-        <div className={classes.input}>
-          <InputSearch
-            onChange={this.onChangeFilter}
-            placeholder="Search for a group ..."
-            defaultValue={data.filterGroups}
-            type="search"
-          />
+        <div className={classes.buttonWrapper}>
+          <IconButton name="group" onClick={this.onClickCreate}>
+            Create a new group
+          </IconButton>
         </div>
-        {data.isMemberOfEachChannel && (
+        {isMemberOfEachChannel && (
           <div>
             <h3 className={classes.title}>You won’t miss any chat going on!</h3>
             <p className={classes.text}>
@@ -66,30 +60,32 @@ class Group extends Component {
             </p>
           </div>
         )}
-        <div className={classes.list}>
-          <InfiniteAutoRowHeightList
-            rowHeight={this.rowHeight}
-            loadMoreRows={() => {
-              actions.onSearchGroups()
-            }}
-            isRowLoaded={this.isRowLoaded}
-            list={data.groups}
-            rowCount={Infinity}
-            minimumBatchSize={50}
-            width={680}
-            threshold={50}
-            rowRenderer={(index, key, style) => (
-              <RowRendererGroups
-                actions={actions}
-                list={data.groups}
-                index={index}
-                key={key}
-                style={style}
-              />
-            )}
-            noRowsRenderer={() => <NoRowsRendererGroups />}
-          />
-        </div>
+        {isLoaded && (
+          <div className={classes.list}>
+            <InfiniteAutoRowHeightList
+              rowHeight={this.rowHeight}
+              loadMoreRows={() => {
+                actions.onSearchGroups()
+              }}
+              isRowLoaded={this.isRowLoaded}
+              list={list}
+              rowCount={Infinity}
+              minimumBatchSize={50}
+              width={680}
+              threshold={50}
+              rowRenderer={(index, key, style) => (
+                <RowRendererGroups
+                  actions={actions}
+                  list={list}
+                  index={index}
+                  key={key}
+                  style={style}
+                />
+              )}
+              noRowsRenderer={() => <NoRowsRendererGroups />}
+            />
+          </div>
+        )}
       </div>
     )
   }

@@ -57,7 +57,7 @@ const NewConversation = ({
                       name: 'Person',
                       component: Person,
                       data: {
-                        users,
+                        list: users,
                         isLoaded,
                         filterUsers,
                         isMemberOfEachChannel,
@@ -65,6 +65,7 @@ const NewConversation = ({
                       actions: {
                         onSearchUsers,
                         onChangeUsersFilter,
+                        onChangeView,
                         goToChannel,
                         openPm,
                         onHide,
@@ -81,7 +82,7 @@ const NewConversation = ({
                       name: 'Group',
                       component: Group,
                       data: {
-                        groups,
+                        list: groups,
                         isLoaded,
                         filterGroups,
                         isMemberOfEachChannel,

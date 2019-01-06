@@ -1,6 +1,7 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
+import { IconButton } from '../../buttons'
 import styles from './../styles/EmptyOrgStyles'
 
 const EmptyOrgUsers = ({ classes }) => (
@@ -15,7 +16,11 @@ const EmptyOrgUsers = ({ classes }) => (
       that comes to your mind. You can invite other coworkers to this group
       later if you don&#39;t want to chat with yourself.
     </p>
-    <button className={classes.button}>Create a new group</button>
+    <div className={classes.buttonWrapper}>
+      <IconButton name="group" onClick={this.props.onClick}>
+        Create a new group
+      </IconButton>
+    </div>
   </div>
 )
 

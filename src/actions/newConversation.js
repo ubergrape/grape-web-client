@@ -99,15 +99,16 @@ const loadUsersMembers = () => (dispatch, getState) => {
 }
 
 export const onSearchUsersNewConversation = () => (dispatch, getState) => {
-  dispatch(flipLoadingStatus(false))
-
   const { id } = orgSelector(getState())
   const {
     page,
+    users,
     filterUsers,
     isNotMembersLoaded,
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
+
+  if (!users.length) dispatch(flipLoadingStatus(false))
 
   if (isNotMembersLoaded) return dispatch(loadUsersMembers())
 
@@ -177,15 +178,16 @@ const loadGroupsMembers = () => (dispatch, getState) => {
 }
 
 export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
-  dispatch(flipLoadingStatus(false))
-
   const { id } = orgSelector(getState())
   const {
     page,
+    groups,
     filterGroups,
     isNotMembersLoaded,
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
+
+  if (!groups.length) dispatch(flipLoadingStatus(false))
 
   if (isNotMembersLoaded) return dispatch(loadGroupsMembers())
 

@@ -1,13 +1,14 @@
 import React from 'react'
+import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
-import styles from './styles/IconStyles'
 
 import icons from './utils/icons'
+import styles from './styles/IconStyles'
 
-const Icon = ({ classes, name }) => (
+const Icon = ({ classes, isHoverable, name }) => (
   <div
     dangerouslySetInnerHTML={{ __html: icons[name] }}
-    className={classes.icon}
+    className={cn(classes.icon, isHoverable ? classes.iconHover : '')}
   />
 )
 

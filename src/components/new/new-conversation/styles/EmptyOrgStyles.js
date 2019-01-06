@@ -11,14 +11,7 @@ export default {
     marginTop: 10,
     lineHeight: '23px',
   },
-  button: {
-    height: 32,
-    padding: [0, 16, 0, 16],
+  buttonWrapper: {
     marginTop: 20,
-    fontWeight: theme.fontWeightEmphasis,
-    borderRadius: theme.borderRadiusButtonPillWeb,
-    backgroundColor: theme.colorTextButtonMinimalPrimary,
-    color: theme.colorTextButtonStandardPrimary,
-    cursor: 'pointer',
   },
 }

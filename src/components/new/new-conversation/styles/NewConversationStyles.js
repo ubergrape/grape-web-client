@@ -15,7 +15,7 @@ export default {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: theme.colorBackgroundNeutral,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
