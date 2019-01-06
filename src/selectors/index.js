@@ -556,7 +556,7 @@ export const isChannelDisabledSelector = createSelector(
   (channel, channels) => {
     if (channel && Object.keys(channel).length) {
       return (
-        (channel.type === 'pm' && !channel.isActive) ||
+        (channel.type === 'pm' && channel.isActive) ||
         !channel.permissions.canPostMessages
       )
     }
