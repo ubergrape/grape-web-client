@@ -236,5 +236,6 @@ export default {
   "email": "E-Mail",
   "skype": "Skype",
   "phone": "Telefon",
-  "aboutUserTitle": "Über diesen Nutzer"
+  "aboutUserTitle": "Über diesen Nutzer",
+  "joinVideoConference": "Video Konferenz beitreten"
 }

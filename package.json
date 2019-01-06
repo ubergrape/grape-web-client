@@ -1,11 +1,11 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.11.9",
+  "version": "1.13.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": "10.13.0"
+    "node": "10.15.0"
   },
   "dependencies": {
     "babel-plugin-macros": "^2.2.2",
@@ -25,7 +25,7 @@
     "grape-browser": "^3.17.15",
     "grape-js-emoji": "^3.4.0",
     "grape-theme": "^3.3.1",
-    "grape-web": "^1.7.8",
+    "grape-web": "^1.7.9",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",

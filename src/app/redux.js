@@ -9,11 +9,10 @@ export function mapActionsToProps(actionsNamesOrNamesMap) {
     actionsNames = Object.keys(actionsNamesOrNamesMap)
   }
 
-  return () => {
-    return actionsNames.reduce((selectedActions, actionName) => {
+  return () =>
+    actionsNames.reduce((selectedActions, actionName) => {
       const action = getBoundActions()[actionName]
       if (action) selectedActions[namesMap[actionName] || actionName] = action
       return selectedActions
     }, {})
-  }
 }

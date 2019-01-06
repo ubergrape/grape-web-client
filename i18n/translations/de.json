@@ -424,5 +424,6 @@
   "skype": "Skype",
   "phone": "Telefon",
   "aboutUserTitle": "Über diesen Nutzer",
-  "_aboutUserTitle.comment": "User profile sidebar, about user title."
+  "_aboutUserTitle.comment": "User profile sidebar, about user title.",
+  "joinVideoConference": "Video Konferenz beitreten"
 }
