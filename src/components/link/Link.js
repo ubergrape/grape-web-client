@@ -22,19 +22,21 @@ class Link extends PureComponent {
   render() {
     const { href, children, classes } = this.props
 
+    // If currect platform is Elector, we should render button to prevent remote
+    // code execution
+    if (isElectron) {
+      return (
+        <button className={classes.externalLink} onClick={this.onClick}>
+          {children}
+        </button>
+      )
+    }
+
     // If a link is external, or link without HTTP/https protocol app should
     // render the default link with target="_blank". More details here:
     // https://github.com/ReactTraining/react-router/issues/1147,
     // https://github.com/ReactTraining/react-router/issues/1147#issuecomment-113180174
     if (!isChatUrl(href) && /^https?:\/\//.test(href)) {
-      if (isElectron) {
-        return (
-          <button className={classes.externalLink} onClick={this.onClick}>
-            {children}
-          </button>
-        )
-      }
-
       return (
         <a
           href={href}
