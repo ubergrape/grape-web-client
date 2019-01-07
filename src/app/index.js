@@ -22,10 +22,13 @@ export const resume = () => {
   return client.connect()
 }
 
+// NOTE: we made sure suspend doesn't do anything as it causes WebSocket connection issues
+// In addition from a product perspective it only would make sense if it starts to
+// refetch the hisotry (which it odesn't do).
 export const suspend = () => {
-  if (isSuspended) return
-  isSuspended = true
-  client.suspend()
+  // if (isSuspended) return
+  // isSuspended = true
+  // client.suspend()
 }
 
 export function init() {
