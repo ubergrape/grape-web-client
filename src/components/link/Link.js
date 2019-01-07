@@ -22,7 +22,7 @@ class Link extends PureComponent {
   render() {
     const { href, children, classes } = this.props
 
-    // If currect platform is Elector, we should render button to prevent remote
+    // If currect platform is Electron, we should render button to prevent remote
     // code execution
     if (isElectron) {
       return (
