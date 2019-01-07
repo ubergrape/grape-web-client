@@ -5,7 +5,7 @@
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": "10.13.0"
+    "node": "10.15.0"
   },
   "dependencies": {
     "@ubergrape/react-notification": "^6.5.3",
