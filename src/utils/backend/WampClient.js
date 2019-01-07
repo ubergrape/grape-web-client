@@ -1,9 +1,10 @@
 import Emitter from 'component-emitter'
 import Wamp from 'wamp1'
-import Backoff from 'backo'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
+
+import Backoff from './Backoff'
 
 const log = debug('ws')
 const prefix = 'http://domain/'
@@ -38,7 +39,6 @@ export default class WampClient {
     this.socket = null
     this.id = null
     this.reopening = false
-    this.connected = false
     if (this.intervalId) clearInterval(this.intervalId)
   }
 
@@ -61,7 +61,7 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
-    if (backoff >= this.backoff.max) this.onDisconnected()
+    if (backoff >= this.backoff.max) window.location.reload()
     log('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
@@ -75,7 +75,7 @@ export default class WampClient {
    * session.
    */
   ping = () => {
-    if (!this.connected || this.reopening) return
+    if (this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
       this.onError(new Error("Didn't receive a pong."))
@@ -117,28 +117,11 @@ export default class WampClient {
   }
 
   onOpen = ({ sessionId }) => {
-    this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
       log('new session id %s', this.id)
       this.out.emit('set:id', this.id)
     }
-  }
-
-  onConnected = () => {
-    if (this.connected) return
-    this.connected = true
-    log('connected')
-    this.out.emit('connected')
-  }
-
-  onDisconnected = () => {
-    this.backoff.reset()
-    if (!this.connected) return
-    this.id = null
-    this.connected = false
-    log('disconnected')
-    this.out.emit('disconnected')
   }
 
   /**
@@ -155,7 +138,6 @@ export default class WampClient {
   }
 
   onError = err => {
-    this.backoff.reset()
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -170,7 +152,6 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
-    this.backoff.reset()
     log('socket close', event)
     this.close()
     this.reopen()
