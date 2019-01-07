@@ -39,6 +39,7 @@ export default class WampClient {
     this.socket = null
     this.id = null
     this.reopening = false
+    this.connected = false
     if (this.intervalId) clearInterval(this.intervalId)
   }
 
@@ -75,7 +76,7 @@ export default class WampClient {
    * session.
    */
   ping = () => {
-    if (this.reopening) return
+    if (!this.connected || this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
       this.onError(new Error("Didn't receive a pong."))
@@ -117,11 +118,27 @@ export default class WampClient {
   }
 
   onOpen = ({ sessionId }) => {
+    this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
       log('new session id %s', this.id)
       this.out.emit('set:id', this.id)
     }
+  }
+
+  onConnected = () => {
+    if (this.connected) return
+    this.connected = true
+    log('connected')
+    this.out.emit('connected')
+  }
+
+  onDisconnected = () => {
+    if (!this.connected) return
+    this.id = null
+    this.connected = false
+    log('disconnected')
+    this.out.emit('disconnected')
   }
 
   /**
