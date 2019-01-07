@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ImagesLoader from 'images-loader'
-import pick from 'lodash/object/pick'
+import pick from 'lodash/pick'
 
 import Spinner from 'grape-web/lib/components/spinner'
 

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { shouldPureComponentUpdate } from 'react-pure-render'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 import { create as createObject } from 'grape-web/lib/grape-objects'

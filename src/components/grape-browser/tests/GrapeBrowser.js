@@ -1,6 +1,6 @@
 import expect from 'expect.js'
 import React from 'react'
-// import times from 'lodash/utility/times'
+// import times from 'lodash/times'
 import { Simulate } from 'react-dom/test-utils'
 import { IntlProvider } from 'react-intl'
 

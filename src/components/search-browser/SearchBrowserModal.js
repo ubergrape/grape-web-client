@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import Modal from 'react-overlays/lib/Modal'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import Normalize from 'grape-web/lib/components/normalize'
 

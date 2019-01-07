@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import keyname from 'keyname'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 export default class Textarea extends Component {
   static propTypes = {

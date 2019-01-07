@@ -1,6 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import defaults from 'lodash/object/defaults'
+import defaults from 'lodash/defaults'
 import color from 'color'
 
 import * as tabStyle from './tabStyle'

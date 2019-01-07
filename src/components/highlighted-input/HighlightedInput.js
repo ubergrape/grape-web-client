@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
-import noop from 'lodash/utility/noop'
-import escape from 'lodash/string/escape'
-import pick from 'lodash/object/pick'
+import noop from 'lodash/noop'
+import escape from 'lodash/escape'
+import pick from 'lodash/pick'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
 

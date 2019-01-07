@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import find from 'lodash/collection/find'
-import pick from 'lodash/object/pick'
-import debounce from 'lodash/function/debounce'
+import find from 'lodash/find'
+import pick from 'lodash/pick'
+import debounce from 'lodash/debounce'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'
