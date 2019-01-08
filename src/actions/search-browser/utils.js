@@ -1,7 +1,7 @@
-import findIndex from 'lodash/array/findIndex'
-import find from 'lodash/collection/find'
-import groupBy from 'lodash/collection/groupBy'
-import reduce from 'lodash/collection/reduce'
+import findIndex from 'lodash/findIndex'
+import find from 'lodash/find'
+import groupBy from 'lodash/groupBy'
+import reduce from 'lodash/reduce'
 
 const warn = console.warn.bind(console) // eslint-disable-line no-console
 

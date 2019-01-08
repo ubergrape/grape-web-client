@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import injectSheet from 'grape-web/lib/jss'

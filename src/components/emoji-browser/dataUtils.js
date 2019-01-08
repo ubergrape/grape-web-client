@@ -1,9 +1,9 @@
 import React from 'react'
-import find from 'lodash/collection/find'
-import indexBy from 'lodash/collection/indexBy'
-import values from 'lodash/object/values'
-import compact from 'lodash/array/compact'
-import clone from 'lodash/lang/clone'
+import find from 'lodash/find'
+import keyBy from 'lodash/keyBy'
+import values from 'lodash/values'
+import compact from 'lodash/compact'
+import clone from 'lodash/clone'
 
 import * as grid from './grid'
 import EMOJI_META from '../emoji/meta'
@@ -29,7 +29,7 @@ const EMOJI_CATEGORY_ICON = {
   grapemoji: 'grapemoji',
 }
 
-const EMOJI_META_MAP = indexBy(EMOJI_META, 'name')
+const EMOJI_META_MAP = keyBy(EMOJI_META, 'name')
 
 let allSections = []
 

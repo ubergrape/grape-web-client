@@ -1,5 +1,5 @@
 import React from 'react'
-import each from 'lodash/collection/each'
+import each from 'lodash/each'
 import EmojiConvertor from 'grape-js-emoji'
 import ReactDOMServer from 'react-dom/server'
 

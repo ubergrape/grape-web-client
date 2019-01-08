@@ -5,7 +5,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import style from './actionsStyle'
 

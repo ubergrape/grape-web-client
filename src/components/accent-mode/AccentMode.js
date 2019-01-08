@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Component, cloneElement } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 /**
  * Accent mode detector which can be triggered by ~`´^ and maybe

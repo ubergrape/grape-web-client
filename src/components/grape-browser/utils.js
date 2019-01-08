@@ -1,5 +1,5 @@
-import isEmpty from 'lodash/lang/isEmpty'
-import get from 'lodash/object/get'
+import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 
 /**
  * Returns true if search is external.

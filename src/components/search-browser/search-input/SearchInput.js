@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import pick from 'lodash/object/pick'
-import noop from 'lodash/utility/noop'
+import pick from 'lodash/pick'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 

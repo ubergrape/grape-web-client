@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { shouldPureComponentUpdate } from 'react-pure-render'
-import findIndex from 'lodash/array/findIndex'
-import noop from 'lodash/utility/noop'
+import findIndex from 'lodash/findIndex'
+import noop from 'lodash/noop'
 import {
   white,
   gainsboroLight,
