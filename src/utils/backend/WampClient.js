@@ -1,9 +1,10 @@
 import Emitter from 'component-emitter'
 import Wamp from 'wamp1'
-import Backoff from 'backo'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
+
+import Backoff from './Backoff'
 
 const log = debug('ws')
 const prefix = 'http://domain/'
@@ -61,7 +62,7 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
-    if (backoff >= this.backoff.max) this.onDisconnected()
+    if (backoff >= this.backoff.max) window.location.reload()
     log('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
@@ -133,7 +134,6 @@ export default class WampClient {
   }
 
   onDisconnected = () => {
-    this.backoff.reset()
     if (!this.connected) return
     this.id = null
     this.connected = false
@@ -155,7 +155,6 @@ export default class WampClient {
   }
 
   onError = err => {
-    this.backoff.reset()
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -170,7 +169,6 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
-    this.backoff.reset()
     log('socket close', event)
     this.close()
     this.reopen()

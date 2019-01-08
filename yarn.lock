@@ -3994,7 +3994,6 @@ grape-web@1.x:
 grape-web@^1.7.9:
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.9.tgz#2e7ad61b2e9061cad4a2ce4fc949195a1deccd3f"
-  integrity sha512-9V7/YdWAu0KYyMp9HOF7qg/ozFCJzn+D7KweMQtemnvZfPyyu+15ellZK8+qzexnVBsFnZf9JlqV+oDy3zRzmA==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -7586,6 +7585,10 @@ rafl@~1.2.1:
   resolved "https://registry.yarnpkg.com/rafl/-/rafl-1.2.2.tgz#fe930f758211020d47e38815f5196a8be4150740"
   dependencies:
     global "~4.3.0"
+
+random-js@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/random-js/-/random-js-1.0.8.tgz#968fd689a6f25d6c0aac766283de2f688c9c190a"
 
 randomatic@^3.0.0:
   version "3.0.0"
