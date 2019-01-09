@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import expect from 'expect.js'
 import React from 'react'
-// import times from 'lodash/times'
+
 import { Simulate } from 'react-dom/test-utils'
 import { IntlProvider } from 'react-intl'
 
@@ -47,20 +48,25 @@ describe('app:', () => {
     }
 
     it('shound render "nothing found"', done => {
-      create(undefined, () => {
-        const node = $('search-browser editable', document.body)
-        node.value = 'asdef'
-        Simulate.change(node)
-        expect($('search-browser empty', document.body)).to.be.an(Element)
-        done()
-      })
+      const data = { ...data0, results: [] }
+      const input = (
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser browser="search" data={data} focused />
+        </IntlProvider>
+      )
+      render(input)
+      const node = $('search-browser editable', document.body)
+      node.value = 'asdef'
+      Simulate.change(node)
+      expect($('search-browser empty', document.body)).to.be.an(Element)
+      done()
     })
 
     it('should stay opened when space is not at the end', done => {
       create(component => {
         component.query.set('search', 'something else', { silent: true })
         create(undefined, () => {
-          const browser = $('search-browser', document.body)
+          const browser = $('search-browser editable', document.body)
           expect(browser).to.be.an(Element)
           done()
         })
