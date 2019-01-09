@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component, createElement } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import moment from 'moment'
 
 import injectSheet from 'grape-web/lib/jss'

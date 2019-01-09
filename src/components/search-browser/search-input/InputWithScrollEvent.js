@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import noop from 'lodash/utility/noop'
-import omit from 'lodash/object/omit'
+import noop from 'lodash/noop'
+import omit from 'lodash/omit'
 
 export default class InputWithScrollEvent extends Component {
   static propTypes = {

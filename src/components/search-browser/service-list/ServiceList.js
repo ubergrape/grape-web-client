@@ -6,7 +6,7 @@ import {
   FormattedMessage,
   injectIntl,
 } from 'react-intl'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import List from 'react-finite-list'
 import injectSheet from 'grape-web/lib/jss'
 

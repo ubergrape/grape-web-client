@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import { TYPES as QUERY_TYPES } from '../query/constants'

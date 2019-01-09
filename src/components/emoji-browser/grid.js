@@ -1,5 +1,5 @@
-import findIndex from 'lodash/array/findIndex'
-import find from 'lodash/collection/find'
+import findIndex from 'lodash/findIndex'
+import find from 'lodash/find'
 
 function getCurrentSection(sections) {
   return find(sections, section => section.items.some(item => item.focused))

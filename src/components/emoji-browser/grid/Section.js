@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import pick from 'lodash/object/pick'
+import pick from 'lodash/pick'
 import { shouldPureComponentUpdate } from 'react-pure-render'
 
 import SectionHeader from '../../section-header/SectionHeader'

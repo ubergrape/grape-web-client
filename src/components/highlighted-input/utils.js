@@ -1,4 +1,4 @@
-import escapeRegExp from 'lodash/string/escapeRegExp'
+import escapeRegExp from 'lodash/escapeRegExp'
 
 // white space or new line
 const emptySpaceRegExp = /^\s$/

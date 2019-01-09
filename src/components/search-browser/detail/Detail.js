@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import get from 'lodash/object/get'
-import isEmpty from 'lodash/lang/isEmpty'
-import noop from 'lodash/utility/noop'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import noop from 'lodash/noop'
 
 import injectSheet from 'grape-web/lib/jss'
 import Preview from './Preview'
