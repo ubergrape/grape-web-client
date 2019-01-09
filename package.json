@@ -73,15 +73,13 @@
     "raw-loader": "^0.5.1",
     "react-styleguidist": "^5.0.6",
     "svgo": "^0.6.1",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^3.1.14"
+    "webpack": "^2.6.1"
   },
   "scripts": {
     "all": "yarn test && yarn build && yarn i18n-export",
     "build": "yarn clear:lib && babel src --out-dir lib",
     "build:watch": "yarn clear:lib && babel --watch src --out-dir lib",
     "build:i18n": "yarn clear:i18n && yarn build && yarn i18n-export",
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
     "lint": "eslint src",
     "emoji": "bin/emoji",
     "test:watch": "cross-env NODE_ENV=test karma start",
