@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+import { Link } from 'grape-web/lib/router'
 import icons from 'grape-web/lib/svg-icons/data'
 import webColors from 'grape-theme/dist/web-colors'
 
 import inlineLink from '../button/inlineLink'
-import Link from '../link/Link'
 
 @injectSheet({
   link: {
@@ -54,7 +54,7 @@ export default class LinkWithIcon extends PureComponent {
     const style = { backgroundImage: `url(${this.getSvg()})` }
 
     return (
-      <Link href={url}>
+      <Link to={url}>
         <span className={classes.icon} style={style} /> {children}
       </Link>
     )
