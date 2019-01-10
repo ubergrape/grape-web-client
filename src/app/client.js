@@ -2,7 +2,7 @@ import { create } from '../utils/backend/client'
 import getBoundActions from './boundActions'
 
 let client
-let authIntervalId
+// let authIntervalId
 
 const get = () => {
   if (!client) client = create()
@@ -13,7 +13,7 @@ export const connect = () => {
   const channel = get().connect()
   const { checkAuth } = getBoundActions()
   checkAuth()
-  authIntervalId = setInterval(checkAuth, 5000)
+  // authIntervalId = setInterval(checkAuth, 5000)
   return channel
 }
 
@@ -22,7 +22,7 @@ export const reopen = () => {
 }
 
 export const disconnect = () => {
-  clearInterval(authIntervalId)
+  // clearInterval(authIntervalId)
   get().disconnect()
 }
 
