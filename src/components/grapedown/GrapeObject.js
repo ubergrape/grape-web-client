@@ -4,7 +4,8 @@ import markdownIt from 'markdown-it'
 import { getOptions, create } from 'grape-web/lib/grape-objects'
 import { Link } from 'grape-web/lib/router'
 
-import LinkWithIcon from '../message-parts/LinkWithIcon'
+import InternalLinkWithIcon from '../message-parts/link-with-icon/InternalLinkWithIcon'
+import LinkWithIcon from '../message-parts/link-with-icon/LinkWithIcon'
 import Highlight from '../highlight/YellowHighlight'
 import conf from '../../conf'
 
@@ -29,9 +30,12 @@ export default function GrapeObject({ children, href, user }) {
 
   if (type === 'room') {
     return (
-      <LinkWithIcon url={`/chat/channel/${id}/${slug}`} icon="bell">
+      <InternalLinkWithIcon
+        url={`${conf.server.serviceUrl}/chat/channel/${id}/${slug}`}
+        icon="bell"
+      >
         {children}
-      </LinkWithIcon>
+      </InternalLinkWithIcon>
     )
   }
 

@@ -1,16 +1,15 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.13.1",
+  "version": "1.13.5",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": "10.14.1"
+    "node": "10.15.0"
   },
   "dependencies": {
     "babel-plugin-macros": "^2.2.2",
     "babel-runtime": "^6.25.0",
-    "backo": "^1.1.0",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "common-tags": "^1.4.0",
@@ -45,6 +44,7 @@
     "pick-react-known-prop": "0.0.1",
     "pretty-bytes": "^4.0.2",
     "prop-types": "^15.5.10",
+    "random-js": "^1.0.8",
     "raven-js": "^3.22.1",
     "react": "^16.6.2",
     "react-addons-shallow-compare": "^15.6.0",
