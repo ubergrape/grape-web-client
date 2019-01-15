@@ -43,7 +43,18 @@ const checkShowHideComponent = (() => {
 })()
 
 const init = config => {
-  conf.setup(config)
+  conf.setup(
+    merge(config, {
+      organization: {
+        colors: {
+          notification: '#bbbbbb',
+          mention: '#f99820',
+          mateMessage: '#bbbbbb',
+          ownMessage: '#2081f9',
+        },
+      },
+    }),
+  )
   const app = require('../app')
   resolveAppReady(app)
 

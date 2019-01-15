@@ -417,6 +417,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    confSelector,
     orgSelector,
   ],
   (
@@ -427,6 +428,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    { organization: { colors } },
     { permissions },
   ) => {
     const joined = [...joinedRooms, ...pms]
@@ -445,6 +447,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      colors,
       permissions,
     }
   },
@@ -584,6 +587,7 @@ export const historyComponentSelector = createSelector(
     joinedChannelsSelector,
     userSelector,
     usersSelector,
+    confSelector,
   ],
   (
     history,
@@ -592,6 +596,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    { organization: { colors } },
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
@@ -600,6 +605,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    colors,
   }),
 )
 

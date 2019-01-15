@@ -123,12 +123,14 @@ export const styles = ({ palette }) => ({
     borderRadius: 50,
     color: colors.white,
   },
-  importantSign: {
-    background: colors.green,
-  },
-  defaultSign: {
-    background: palette.blueGrey[400],
-  },
+  importantSign: ({ colors: configColors }) => ({
+    background: configColors ? configColors.mention : colors.green,
+  }),
+  defaultSign: ({ colors: configColors }) => ({
+    background: configColors
+      ? configColors.notification
+      : palette.blueGrey[400],
+  }),
   filter: {
     flexShrink: 0,
     padding: 8,

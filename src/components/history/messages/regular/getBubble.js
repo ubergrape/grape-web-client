@@ -11,13 +11,17 @@ import { Bubble } from '../../../message-parts'
 import createInlineIcon from '../../../inline-icon/create'
 import { styles as baseStyles } from '../bubbleTheme'
 
-export const OwnBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: blueLight }),
-})
+export const OwnBubble = colors =>
+  useTheme(Bubble, {
+    styles: baseStyles({ color: colors ? colors.ownMessage : blueLight }),
+  })
 
-const MateBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: grayBlueLighter }),
-})
+const MateBubble = colors =>
+  useTheme(Bubble, {
+    styles: baseStyles({
+      color: colors ? colors.mateMessage : grayBlueLighter,
+    }),
+  })
 
 const SelectedBubble = useTheme(Bubble, {
   styles: baseStyles({ color: yellow }),
@@ -54,10 +58,10 @@ const PinnedSelectedBubble = useTheme(Bubble, {
     }),
 })
 
-export default ({ isSelected, isPinned, isOwn }) => {
+export default ({ isSelected, isPinned, isOwn, colors }) => {
   if (isPinned && isSelected) return PinnedSelectedBubble
   if (isPinned) return PinnedBubble
   if (isSelected) return SelectedBubble
-  if (isOwn) return OwnBubble
-  return MateBubble
+  if (isOwn) return OwnBubble(colors)
+  return MateBubble(colors)
 }
