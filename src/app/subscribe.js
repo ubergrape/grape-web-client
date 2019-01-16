@@ -12,8 +12,8 @@ export default function subscribe(channel) {
   let isSuspended = false
 
   channel.on('connected', () => {
+    boundActions.hideAlertByType(alerts.CONNECTION_LOST)
     if (showReconnectedAlert) {
-      boundActions.hideAlertByType(alerts.CONNECTION_LOST)
       boundActions.showAlert({
         level: 'success',
         type: alerts.RECONNECTED,
@@ -53,8 +53,8 @@ export default function subscribe(channel) {
   // Resync the whole data if we got a new client id, because we might have
   // missed some messages. This is related to the current serverside arch.
   channel.on('set:id', clientId => {
+    boundActions.hideAlertByType(alerts.CONNECTION_LOST)
     if (id && clientId !== id) {
-      boundActions.hideAlertByType(alerts.CONNECTION_LOST)
       boundActions.showAlert({
         level: 'success',
         type: alerts.RECONNECTED,
