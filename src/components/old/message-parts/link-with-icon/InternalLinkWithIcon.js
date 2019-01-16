@@ -6,8 +6,7 @@ import { Link } from 'grape-web/lib/router'
 import getSvg from './getSvg'
 import theme from './theme'
 
-@injectSheet(theme)
-export default class InternalLinkWithIcon extends PureComponent {
+class InternalLinkWithIcon extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
@@ -31,3 +30,5 @@ export default class InternalLinkWithIcon extends PureComponent {
     )
   }
 }
+
+export default injectSheet(theme)(InternalLinkWithIcon)

@@ -6,8 +6,7 @@ import Link from '../../link/Link'
 import getSvg from './getSvg'
 import theme from './theme'
 
-@injectSheet(theme)
-export default class LinkWithIcon extends PureComponent {
+class LinkWithIcon extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
@@ -31,3 +30,5 @@ export default class LinkWithIcon extends PureComponent {
     )
   }
 }
+
+export default injectSheet(theme)(LinkWithIcon)
