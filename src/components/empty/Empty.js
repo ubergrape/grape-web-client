@@ -8,8 +8,7 @@ import style from './style'
 /**
  * Display information when missing results.
  */
-@injectSheet(style)
-export default class Empty extends Component {
+class Empty extends Component {
   static propTypes = {
     text: PropTypes.string,
     sheet: PropTypes.object.isRequired,
@@ -30,3 +29,5 @@ export default class Empty extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Empty)

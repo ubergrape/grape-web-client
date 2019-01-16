@@ -4,8 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import style from './style'
 
-@injectSheet(style)
-export default class Service extends Component {
+class Service extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     text: PropTypes.string,
@@ -23,3 +22,5 @@ export default class Service extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Service)

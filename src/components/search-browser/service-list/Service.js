@@ -7,8 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import style from './serviceStyle'
 import ServiceIcon from '../service-icon/ServiceIcon'
 
-@injectSheet(style)
-export default class Service extends Component {
+class Service extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     focused: PropTypes.bool,
@@ -53,3 +52,5 @@ export default class Service extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Service)

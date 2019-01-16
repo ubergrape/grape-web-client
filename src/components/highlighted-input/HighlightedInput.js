@@ -19,8 +19,7 @@ import {
 } from './utils'
 import style from './style'
 
-@injectSheet(style)
-export default class HighlightedInput extends Component {
+class HighlightedInput extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,
     onChange: PropTypes.func,
@@ -294,3 +293,5 @@ export default class HighlightedInput extends Component {
     )
   }
 }
+
+export default injectSheet(style)(HighlightedInput)

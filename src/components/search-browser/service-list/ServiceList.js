@@ -22,9 +22,7 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(style)
-@injectIntl
-export default class ServiceList extends Component {
+class ServiceList extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -91,3 +89,5 @@ export default class ServiceList extends Component {
     return <div className={classes.serviceList}>{this.renderBody()}</div>
   }
 }
+
+export default injectSheet(style)(injectIntl(ServiceList))

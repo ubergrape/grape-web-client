@@ -5,16 +5,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 const size = 22
 
-@injectSheet({
-  icon: {
-    display: 'inline-block',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-    height: size,
-    width: size,
-  },
-})
-export default class ServiceIcon extends Component {
+class ServiceIcon extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
@@ -35,3 +26,13 @@ export default class ServiceIcon extends Component {
     return <span className={classes.icon} style={{ backgroundImage }} />
   }
 }
+
+export default injectSheet({
+  icon: {
+    display: 'inline-block',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    height: size,
+    width: size,
+  },
+})(ServiceIcon)

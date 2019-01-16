@@ -19,7 +19,7 @@ export default class Textarea extends Component {
     placeholder: '',
   }
 
-  onKeyDown(e) {
+  onKeyDown = e => {
     const isEnter = keyname(e.keyCode) === 'enter'
 
     if (isEnter) {
@@ -58,7 +58,7 @@ export default class Textarea extends Component {
 
   render() {
     return (
-      <textarea {...this.props} ref="textarea" onKeyDown={::this.onKeyDown} />
+      <textarea {...this.props} ref="textarea" onKeyDown={this.onKeyDown} />
     )
   }
 }

@@ -8,8 +8,7 @@ import style from './detailEmptyStyle'
 /**
  * Empty detail view.
  */
-@injectSheet(style)
-export default class DetailEmpty extends Component {
+class DetailEmpty extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     images: PropTypes.object,
@@ -35,3 +34,5 @@ export default class DetailEmpty extends Component {
     )
   }
 }
+
+export default injectSheet(style)(DetailEmpty)

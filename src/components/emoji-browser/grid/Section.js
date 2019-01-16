@@ -35,11 +35,11 @@ export default class Section extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onItemDidMount(item) {
+  onItemDidMount = item => {
     this.items[item.props.id] = item
   }
 
-  onItemWillUnmount(item) {
+  onItemWillUnmount = item => {
     delete this.items[item.props.id]
   }
 
@@ -68,8 +68,8 @@ export default class Section extends Component {
                 {...props}
                 sectionFocused={this.props.focused}
                 key={`item${i}`}
-                onDidMount={::this.onItemDidMount}
-                onWillUnmount={::this.onItemWillUnmount}
+                onDidMount={this.onItemDidMount}
+                onWillUnmount={this.onItemWillUnmount}
               />
             )
           })}

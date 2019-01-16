@@ -8,8 +8,7 @@ import style from './style'
 /**
  * Styled icon component.
  */
-@injectSheet(style)
-export default class Icon extends Component {
+class Icon extends Component {
   static propTypes = {
     className: PropTypes.string,
     sheet: PropTypes.object.isRequired,
@@ -30,3 +29,5 @@ export default class Icon extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Icon)

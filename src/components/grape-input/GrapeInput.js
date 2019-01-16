@@ -14,8 +14,7 @@ import HighlightedInput from '../highlighted-input/HighlightedInput'
 
 import { toMarkdown, fromMarkdown, getEmojiObjects } from './utils'
 
-@injectSheet(style)
-export default class GrapeInput extends Component {
+class GrapeInput extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     onAbort: PropTypes.func,
@@ -213,3 +212,5 @@ export default class GrapeInput extends Component {
     )
   }
 }
+
+export default injectSheet(style)(GrapeInput)
