@@ -1,8 +1,8 @@
-import cloneDeep from 'lodash/cloneDeep'
 import fonts from 'grape-theme/dist/fonts'
 import * as gray from './gray'
 
-const theme = cloneDeep(gray)
+const theme = gray
+
 theme.styles.input = {
   ...theme.styles.input,
   ...fonts.bigger,

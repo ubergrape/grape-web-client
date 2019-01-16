@@ -38,6 +38,7 @@ const plugins = [
 ]
 
 const exportsObject = {
+  mode: NODE_ENV === 'production' ? 'production' : 'development',
   entry: () => {
     const app = ['idempotent-babel-polyfill', './src/index.js']
     const embedded = ['idempotent-babel-polyfill', './src/embedded.js']
@@ -47,7 +48,8 @@ const exportsObject = {
   },
   output: {
     path: path.resolve(__dirname, 'dist/app'),
-    filename: '[name].js',
+    libraryTarget: 'umd',
+    libraryExport: 'default',
     library: 'grapeClient',
   },
   module: {

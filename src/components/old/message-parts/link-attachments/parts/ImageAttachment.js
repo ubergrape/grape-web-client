@@ -39,8 +39,7 @@ function calcThumbnailSize(options) {
   return { width: portWidth, height: portHeight }
 }
 
-@injectSheet(styles)
-export default class ImageAttachment extends PureComponent {
+class ImageAttachment extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
@@ -92,3 +91,5 @@ export default class ImageAttachment extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(ImageAttachment)

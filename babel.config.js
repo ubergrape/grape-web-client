@@ -1,10 +1,12 @@
 module.exports = api => {
   api.cache(true)
-  const presets = ['@babel/preset-env']
+  const presets = ['@babel/preset-env', '@babel/preset-react']
   const plugins = [
     'macros',
-    'transform-decorators-legacy',
     'transform-react-stateless-component-name',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-export-default-from',
+    '@babel/plugin-proposal-export-namespace-from',
     [
       'react-intl',
       {

@@ -31,40 +31,7 @@ const groupFields = fields =>
 const getThumbUrl = ({ imageUrl, width, height }) =>
   `${imageUrl}${width}x${height}`
 
-@injectSheet({
-  main: {
-    flex: 1,
-    minWidth: 0,
-  },
-  side: {
-    marginLeft: 10,
-  },
-  text: {
-    extend: fonts.normal,
-    lineHeight: 1.4,
-    margin: 0,
-    color: grayBlueDark,
-  },
-  fields: {
-    display: 'block',
-    margin: [3, 0],
-  },
-  fieldGroup: {
-    display: 'block',
-    marginTop: 8,
-    '&:first-child': {
-      isolate: false,
-      marginTop: 0,
-    },
-  },
-  fieldGroupShort: {
-    display: 'flex',
-  },
-  embed: {
-    maxWidth: 480,
-  },
-})
-export default class LinkAttachment extends PureComponent {
+class LinkAttachment extends PureComponent {
   static propTypes = {
     sourceUrl: PropTypes.string.isRequired,
     footerIcon: PropTypes.string,
@@ -342,3 +309,37 @@ export default class LinkAttachment extends PureComponent {
     )
   }
 }
+
+export default injectSheet({
+  main: {
+    flex: 1,
+    minWidth: 0,
+  },
+  side: {
+    marginLeft: 10,
+  },
+  text: {
+    extend: fonts.normal,
+    lineHeight: 1.4,
+    margin: 0,
+    color: grayBlueDark,
+  },
+  fields: {
+    display: 'block',
+    margin: [3, 0],
+  },
+  fieldGroup: {
+    display: 'block',
+    marginTop: 8,
+    '&:first-child': {
+      isolate: false,
+      marginTop: 0,
+    },
+  },
+  fieldGroupShort: {
+    display: 'flex',
+  },
+  embed: {
+    maxWidth: 480,
+  },
+})(LinkAttachment)
