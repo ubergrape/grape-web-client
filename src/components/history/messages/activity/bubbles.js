@@ -5,9 +5,12 @@ import { Bubble } from '../../../message-parts'
 import { styles as baseStyles } from '../bubbleTheme'
 import { expanderColor } from './constants'
 
-export const ActivityBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: expanderColor }),
-})
+export const ActivityBubble = colors =>
+  useTheme(Bubble, {
+    styles: baseStyles({
+      color: colors.mateMessage || expanderColor,
+    }),
+  })
 
 export const SelectedBubble = useTheme(Bubble, {
   styles: baseStyles({ color: yellow }),

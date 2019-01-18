@@ -47,6 +47,7 @@ const tabs = [
 export default class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
     permissions: PropTypes.object,
     user: PropTypes.object.isRequired,
@@ -82,6 +83,7 @@ export default class RoomInfo extends PureComponent {
 
   static defaultProps = {
     renameError: null,
+    colors: {},
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
@@ -214,6 +216,7 @@ export default class RoomInfo extends PureComponent {
       renameError,
       clearRoomRenameError,
       classes,
+      colors,
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
@@ -228,11 +231,12 @@ export default class RoomInfo extends PureComponent {
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<GroupInfoText />} onClose={onClose}>
+      <SidebarPanel colors={colors} title={<GroupInfoText />} onClose={onClose}>
         <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}
             channel={channel}
+            colors={colors}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={permissions.canEditChannel}
@@ -262,6 +266,7 @@ export default class RoomInfo extends PureComponent {
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
             tabs={tabs}
+            colors={colors}
             title={tab.title}
             body={this[tab.render]()}
           />

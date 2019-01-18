@@ -13,13 +13,15 @@ import { styles as baseStyles } from '../bubbleTheme'
 
 export const OwnBubble = colors =>
   useTheme(Bubble, {
-    styles: baseStyles({ color: colors ? colors.ownMessage : blueLight }),
+    styles: baseStyles({
+      color: colors.ownMessage || blueLight,
+    }),
   })
 
 const MateBubble = colors =>
   useTheme(Bubble, {
     styles: baseStyles({
-      color: colors ? colors.mateMessage : grayBlueLighter,
+      color: colors.mateMessage || grayBlueLighter,
     }),
   })
 

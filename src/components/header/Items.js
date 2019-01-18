@@ -90,6 +90,7 @@ function Items(props) {
     features,
     intl,
     channel,
+    colors,
   } = props
 
   return (
@@ -102,6 +103,7 @@ function Items(props) {
           favorited={favorite.favorited}
           onFavorize={requestAddChannelToFavorites}
           onUnfavorize={requestRemoveChannelFromFavorites}
+          colors={colors}
         />
       </li>
       <li className={classes.title}>
@@ -120,6 +122,7 @@ function Items(props) {
             onClick={itemClickHandler(channel.type, props)}
             isSelected={sidebar === channel.type}
             channel={channel.type}
+            colors={colors}
           />
         </li>
         <li className={classes.search}>
@@ -139,6 +142,7 @@ function Items(props) {
             onClick={itemClickHandler('mentions', props)}
             isSelected={sidebar === 'mentions'}
             mentions={mentions}
+            colors={colors}
           />
         </li>
         {features.labeledMessagesList && (
@@ -146,6 +150,7 @@ function Items(props) {
             <LabeledMessagesButton
               isSelected={sidebar === 'labeledMessages'}
               onClick={itemClickHandler('labeledMessages', props)}
+              colors={colors}
             />
           </li>
         )}
@@ -159,6 +164,7 @@ Items.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
+  colors: PropTypes.object,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   favorite: PropTypes.object.isRequired,
@@ -175,6 +181,7 @@ Items.defaultProps = {
   features: {},
   mentions: 0,
   sidebar: undefined,
+  colors: {},
 }
 
 export default injectSheet(styles)(Items)

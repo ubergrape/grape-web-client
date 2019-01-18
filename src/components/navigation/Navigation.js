@@ -43,6 +43,7 @@ export default class Navigation extends PureComponent {
     showNewConversation: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
@@ -51,6 +52,7 @@ export default class Navigation extends PureComponent {
 
   static defaultProps = {
     shortcuts: ['mod+k'],
+    colors: {},
     isLoading: false,
     permissions: {},
   }

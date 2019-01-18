@@ -3,10 +3,13 @@ import {
   gainsboroDark,
   grayDark,
   white,
+  black,
 } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 import { styles as linkStyles } from './linkTheme'
+
+const isMate = (author, user) => (author && author.id) !== user.id
 
 // TODO #149 use standard typography styles
 export default {
@@ -16,6 +19,10 @@ export default {
     display: 'block',
     margin: 0,
     wordBreak: 'break-word',
+    color: ({ author, user, colors }) =>
+      isMate(author, user)
+        ? colors.mateMessageText || black
+        : colors.ownMessageText || black,
   },
   '& strong, & b': {
     fontWeight: 'bold',

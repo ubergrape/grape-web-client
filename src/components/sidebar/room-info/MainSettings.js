@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import {
   FormattedMessage,
@@ -44,9 +45,10 @@ const NotificationSettingsButton = ({ classes, settings, onShow }) => {
       }
     >
       <button
-        className={`${classes.notificationsButton} ${
-          classes[`notificationsButton${state}`]
-        }`}
+        className={cn(
+          classes.notificationsButton,
+          classes[`notificationsButton${state}`],
+        )}
         onClick={onShow}
       />
     </Tooltip>

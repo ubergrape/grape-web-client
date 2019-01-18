@@ -47,16 +47,25 @@ const init = config => {
     merge(config, {
       organization: {
         colors: {
-          notification: '#bbbbbb',
-          mention: '#f99820',
-          mateMessage: '#bbbbbb',
-          ownMessage: '#2081f9',
+          // notification: '#ff9900',
+          mention: '#ff9900',
+          // mateMessage: '#ff9900',
+          mateMessageText: '#ff9900',
+          ownMessage: '#ff9900',
+          ownMessageText: '#ffffff',
+          tab: '#ff9900',
+          button: '#ff9900',
         },
       },
     }),
   )
+
   const app = require('../app')
   resolveAppReady(app)
+
+  actionsReady.then(actions => {
+    actions.setConf(conf)
+  })
 
   app.init()
   app.renderSheetsInsertionPoints()
