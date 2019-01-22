@@ -202,6 +202,7 @@ export default class UserProfile extends PureComponent {
           index={tabs.indexOf(tab)}
           onChange={this.onChangeTab}
           tabs={tabs}
+          colors={colors}
           title={tab.title}
           body={this[tab.render]()}
           onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}

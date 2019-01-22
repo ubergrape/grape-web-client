@@ -34,7 +34,6 @@ export default class RegularMessage extends PureComponent {
     time: PropTypes.instanceOf(Date),
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
-    colors: PropTypes.object,
     children: PropTypes.string,
     hasBubbleArrow: PropTypes.bool,
     isOwn: PropTypes.bool,
@@ -85,7 +84,6 @@ export default class RegularMessage extends PureComponent {
     duplicates: 0,
     linkAttachments: [],
     customEmojis: {},
-    colors: {},
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -171,7 +169,6 @@ export default class RegularMessage extends PureComponent {
       author,
       user,
       time,
-      colors,
       avatar,
       children,
       hasBubbleArrow,
@@ -190,7 +187,7 @@ export default class RegularMessage extends PureComponent {
 
     const { isMenuOpened, isMenuDropdownOpened } = this.state
 
-    const Bubble = getBubble({ isSelected, isPinned, isOwn, colors })
+    const Bubble = getBubble({ isSelected, isPinned, isOwn })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
 
     let onRemoveLinkAttachment

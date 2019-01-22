@@ -11,19 +11,25 @@ import { Bubble } from '../../../message-parts'
 import createInlineIcon from '../../../inline-icon/create'
 import { styles as baseStyles } from '../bubbleTheme'
 
-export const OwnBubble = colors =>
-  useTheme(Bubble, {
-    styles: baseStyles({
-      color: colors.ownMessage || blueLight,
-    }),
-  })
+// Should import server configuration here, because after wrapping e.g MateBubble,
+// bubble with buttons (delete, pin, etc.) will not load.
+import conf from '../../../../conf'
 
-const MateBubble = colors =>
-  useTheme(Bubble, {
-    styles: baseStyles({
-      color: colors.mateMessage || grayBlueLighter,
-    }),
-  })
+export const OwnBubble = useTheme(Bubble, {
+  styles: baseStyles({
+    color:
+      (conf.organization.colors && conf.organization.colors.ownMessage) ||
+      blueLight,
+  }),
+})
+
+const MateBubble = useTheme(Bubble, {
+  styles: baseStyles({
+    color:
+      (conf.organization.colors && conf.organization.colors.mateMessage) ||
+      grayBlueLighter,
+  }),
+})
 
 const SelectedBubble = useTheme(Bubble, {
   styles: baseStyles({ color: yellow }),
@@ -60,10 +66,10 @@ const PinnedSelectedBubble = useTheme(Bubble, {
     }),
 })
 
-export default ({ isSelected, isPinned, isOwn, colors }) => {
+export default ({ isSelected, isPinned, isOwn }) => {
   if (isPinned && isSelected) return PinnedSelectedBubble
   if (isPinned) return PinnedBubble
   if (isSelected) return SelectedBubble
-  if (isOwn) return OwnBubble(colors)
-  return MateBubble(colors)
+  if (isOwn) return OwnBubble
+  return MateBubble
 }

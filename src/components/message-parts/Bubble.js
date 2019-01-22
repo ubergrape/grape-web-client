@@ -36,6 +36,7 @@ export default class Bubble extends PureComponent {
     const { children, className, theme, hasArrow, sheet, style } = this.props
     const { classes } = sheet
     const bubbleClass = classes[hasArrow ? 'bubbleWithArrow' : 'bubble']
+
     return (
       <div
         className={`${bubbleClass} ${theme.classes.bubble} ${className}`}

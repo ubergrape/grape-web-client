@@ -143,6 +143,7 @@ export default class RoomInfo extends PureComponent {
   renderMembers = () => {
     const {
       channel,
+      colors,
       goToAddIntegrations,
       user,
       openPm,
@@ -156,6 +157,7 @@ export default class RoomInfo extends PureComponent {
       <div>
         <RoomActions
           channel={channel}
+          colors={colors}
           permissions={permissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}

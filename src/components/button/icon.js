@@ -6,21 +6,18 @@ import reset from './reset'
  */
 export default function create(name, options = {}) {
   const icon = createInlineIcon(name, options)
-  const { width, height, size, iconOnly } = options
   icon['&:before'] = {
     ...icon['&:before'],
     cursor: 'pointer',
-    verticalAlign: iconOnly ? 'top' : 'middle',
-    marginRight: iconOnly ? 0 : 5,
+    verticalAlign: options.iconOnly ? 'top' : 'middle',
+    marginRight: options.iconOnly ? 0 : 5,
   }
 
   return {
     ...reset,
     cursor: 'pointer',
     display: 'inline-block',
-    lineHeight: iconOnly ? 1 : 'inherit',
-    width: width || size || '1em',
-    height: height || size || '1em',
+    lineHeight: options.iconOnly ? 1 : 'inherit',
     ...icon,
   }
 }

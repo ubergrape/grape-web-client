@@ -19,7 +19,6 @@ class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    colors: PropTypes.object,
     title: PropTypes.node,
     children: PropTypes.node,
     duplicates: PropTypes.number.isRequired,
@@ -47,7 +46,6 @@ class ActivityMessage extends PureComponent {
   static defaultProps = {
     children: '',
     title: '',
-    colors: {},
     hasBubbleArrow: true,
     onToggleExpander: noop,
     onRemoveLinkAttachment: noop,
@@ -115,7 +113,6 @@ class ActivityMessage extends PureComponent {
       author,
       time,
       avatar,
-      colors,
       title,
       children,
       duplicates,
@@ -129,7 +126,7 @@ class ActivityMessage extends PureComponent {
       text,
     } = this.props
 
-    const Bubble = isSelected ? SelectedBubble(colors) : ActivityBubble(colors)
+    const Bubble = isSelected ? SelectedBubble : ActivityBubble
 
     return (
       <div className={classes.message}>
