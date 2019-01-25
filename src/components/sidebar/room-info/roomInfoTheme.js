@@ -49,6 +49,7 @@ export const styles = () => ({
       width: settingsButtonSize,
       height: settingsButtonSize,
       cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
       backgroundImage: ({ colors }) =>
         `url('${getColoredIcon({
           name: 'bell',
@@ -70,6 +71,7 @@ export const styles = () => ({
       width: settingsButtonSize,
       height: settingsButtonSize,
       cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
       backgroundImage: ({ colors }) =>
         `url('${getColoredIcon({
           name: 'bellMuted',
@@ -91,6 +93,7 @@ export const styles = () => ({
       width: settingsButtonSize,
       height: settingsButtonSize,
       cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
       backgroundImage: ({ colors }) =>
         `url('${getColoredIcon({
           name: 'bellCustom',
@@ -112,6 +115,7 @@ export const styles = () => ({
       width: settingsButtonSize,
       height: settingsButtonSize,
       cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
       backgroundImage: ({ colors }) =>
         `url('${getColoredIcon({
           name: 'cog',
@@ -130,7 +134,11 @@ export const styles = () => ({
     borderBottom: [1, 'solid', borderLight],
     '&:hover': {
       isolate: false,
-      color: red,
+      padding: 10,
+      cursor: 'pointer',
+      lineHeight: 1.5,
+      borderBottom: [1, 'solid', borderLight],
+      color: ({ colors }) => colors.button || red,
       textDecoration: 'underline',
     },
   },

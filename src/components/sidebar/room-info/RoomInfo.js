@@ -254,6 +254,7 @@ export default class RoomInfo extends PureComponent {
           <Description
             description={channel.description}
             allowEdit={permissions.canEditChannel}
+            colors={colors}
             onSetRoomDescription={this.onSetRoomDescription}
             className={classes.description}
             isPublic={channel.isPublic}

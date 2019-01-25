@@ -47,14 +47,14 @@ const init = config => {
     merge(config, {
       organization: {
         colors: {
-          // notification: '#ff9900',
-          mention: '#ff9900',
-          // mateMessage: '#ff9900',
-          mateMessageText: '#ff9900',
-          ownMessage: '#ff9900',
-          ownMessageText: '#ffffff',
-          tab: '#ff9900',
-          button: '#ff9900',
+          // notification: '#fda625',
+          mention: '#fda625',
+          // mateMessage: '#fda625',
+          mateMessageText: '#656565',
+          ownMessage: '#fff3e0',
+          ownMessageText: '#656565',
+          tab: '#fda625',
+          button: '#fda625',
         },
       },
     }),

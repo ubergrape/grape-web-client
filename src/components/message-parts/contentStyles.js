@@ -17,8 +17,12 @@ export default {
     display: 'block',
     margin: 0,
     wordBreak: 'break-word',
-    color: ({ isOwn, colors }) =>
-      isOwn ? colors.ownMessageText || black : colors.mateMessageText || black,
+    color: ({ isOwn, colors }) => {
+      if (!colors) return black
+      return isOwn
+        ? colors.ownMessageText || black
+        : colors.mateMessageText || black
+    },
   },
   '& strong, & b': {
     fontWeight: 'bold',
