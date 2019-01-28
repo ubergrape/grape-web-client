@@ -136,7 +136,6 @@ export default class WampClient {
     this.connected = true
     log('connected')
     this.out.emit('connected')
-    window.clearInterval(this.focusInterval)
   }
 
   onDisconnected = () => {
