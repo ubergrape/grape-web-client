@@ -37,15 +37,15 @@ export default class NotificationsAlert extends PureComponent {
 
     return (
       <div className={classes.notificationAlert}>
-        <FormattedMessage id="initialGreeting" defaultMessage="Hey there!" />{' '}
+        <FormattedMessage id="initialGreeting" defaultMessage="Hey there!" />&nbsp;
         <FormattedMessage
           id="enableNotificationsRequest"
           defaultMessage="Please enable desktop notifications"
-        />{' '}
+        />&nbsp;
         <FormattedMessage
           id="notificationsExplanation"
           defaultMessage="so your team members can reach you on Grape."
-        />{' '}
+        />&nbsp;
         <Button
           className={cn(buttonClass)}
           onClick={this.onEnableNotifications}

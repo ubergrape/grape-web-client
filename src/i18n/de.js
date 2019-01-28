@@ -9,12 +9,12 @@ export default {
   "enableNotificationsRequest": "Bitte aktivieren Sie Ihre Desktop Benachrichtigungen",
   "notificationsExplanation": "damit Ihre Mitglieder Sie auf Grape erreichen können.",
   "enableNotifications": "Benachrichtigungen aktivieren",
-  "reconnectAlert": "Verbindung wiederhergestellt.",
+  "reconnectAlert": "You've been successfully reconnected!",
   "noRoomFound": "Wir können leider nicht finden, wonach Sie suchen – die Gruppe wurde eventuell gelöscht, umbenannt oder verschoben.",
   "noMessageFound": "Wir konnten die gesuchte Nachricht nicht finden.",
   "cannotMessageYourself": "Sie können sich selbst keine Nachrichten schreiben.",
   "loadingChatHistory": "Konversationsverlauf wird geladen...",
-  "reconnectingAlert": "Verbindung zum Server verloren - versuche wieder zu verbinden. ",
+  "connectionTrouble": "Wir haben Schwierigkeiten, eine Verbindung mit Grape herzustellen.",
   "grapeTrial": "Grape Testphase",
   "continueTrial": "Test fortsetzen",
   "enterDetails": "Details eingeben",
@@ -236,5 +236,9 @@ export default {
   "skype": "Skype",
   "phone": "Telefon",
   "aboutUserTitle": "Über diesen Nutzer",
-  "joinVideoConference": "Video Konferenz beitreten"
+  "joinVideoConference": "Video Konferenz beitreten",
+  "tryingToReconnect": "Wir versuchen es erneut ...",
+  "tryToReconnect": "Wir versuchen es in",
+  "reconnectSeconds": "s erneut, oder Sie können es",
+  "reconnectNow": "gleich probieren"
 }
