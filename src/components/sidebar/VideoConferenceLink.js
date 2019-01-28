@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import { small } from 'grape-theme/dist/fonts'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
+import { Link as RouterLink } from 'grape-web/lib/router'
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
@@ -30,43 +31,37 @@ const styles = ({ palette }) => ({
   },
 })
 
-class VideoConferenceLink extends React.Component {
-  onClick = () => {
-    window
-      .require('electron')
-      .shell.openExternal(`${this.props.channel.videoconferenceUrl}`)
-  }
+// In Electron calls should be opened in a second window.
+// In a Browser it should be opened as a new tab.
+function VideoConferenceLink(props) {
+  const { channel, classes } = props
 
-  render() {
-    const { channel, classes } = this.props
-
-    if (isElectron) {
-      return (
-        <button className={classes.root} onClick={this.onClick}>
-          <FormattedMessage
-            id="joinVideoConference"
-            defaultMessage="Join video conference"
-            description="Sidebar: link to join a video conference"
-          />
-        </button>
-      )
-    }
-
+  if (isElectron) {
     return (
-      <a
-        href={channel.videoconferenceUrl}
-        className={classes.root}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <RouterLink to={channel.videoconferenceUrl} className={classes.root}>
         <FormattedMessage
           id="joinVideoConference"
           defaultMessage="Join video conference"
           description="Sidebar: link to join a video conference"
         />
-      </a>
+      </RouterLink>
     )
   }
+
+  return (
+    <a
+      href={channel.videoconferenceUrl}
+      className={classes.root}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FormattedMessage
+        id="joinVideoConference"
+        defaultMessage="Join video conference"
+        description="Sidebar: link to join a video conference"
+      />
+    </a>
+  )
 }
 
 export default injectSheet(styles)(VideoConferenceLink)

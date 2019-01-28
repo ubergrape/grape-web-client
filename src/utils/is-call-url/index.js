@@ -2,8 +2,8 @@ import parseUrl from 'grape-web/lib/parse-url'
 
 import conf from '../../conf'
 
-export default function isChatUrl(url) {
+export default function isCallUrl(url) {
   const { host } = conf.server
   const urlObj = parseUrl(url)
-  return urlObj.host === host && urlObj.pathname.indexOf('/chat') === 0
+  return urlObj.host === host && urlObj.pathname.indexOf('/call/jitsire/') !== 0
 }
