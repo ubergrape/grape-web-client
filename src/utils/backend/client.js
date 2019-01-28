@@ -13,7 +13,7 @@ export function create() {
     if (type === 'ws')
       instance = new WampClient({
         url: conf.server.wsUrl,
-        backoff: { min: 600, max: 60000, jitter: 1, factor: 10 },
+        backoff: { min: 600, max: 600000, jitter: 1, factor: 10 },
       })
   }
   return instance

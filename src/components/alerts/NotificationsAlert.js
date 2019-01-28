@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/noop'
 import Button from 'grape-web/lib/components/button'
+import cn from 'classnames'
 
 @injectSheet({
   notificationAlert: {
@@ -45,7 +46,10 @@ export default class NotificationsAlert extends PureComponent {
           id="notificationsExplanation"
           defaultMessage="so your team members can reach you on Grape."
         />{' '}
-        <Button className={buttonClass} onClick={this.onEnableNotifications}>
+        <Button
+          className={cn(buttonClass)}
+          onClick={this.onEnableNotifications}
+        >
           <FormattedMessage
             id="enableNotifications"
             defaultMessage="Enable notifications"

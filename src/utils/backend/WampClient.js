@@ -66,12 +66,8 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
-    if (backoff >= this.backoff.max) {
-      this.focusInterval = setInterval(() => {
-        if (document.hasFocus()) this.open()
-      }, 1000)
-      this.focusInterval()
-    }
+    this.out.emit('set:timer', backoff)
+    if (backoff >= this.backoff.max) window.location.reload()
     log('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
