@@ -27,7 +27,11 @@ class Link extends PureComponent {
     // In a Browser it should be opened as a new tab.
     if (isCallUrl(href)) {
       if (isElectron) {
-        return <RouterLink to={parseUrl(href).pathname}>{children}</RouterLink>
+        return (
+          <button className={classes.externalLink} onClick={this.onClick}>
+            {children}
+          </button>
+        )
       }
 
       return (

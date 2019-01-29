@@ -29,8 +29,6 @@ const styles = ({ palette }) => ({
   },
 })
 
-// In Electron calls should be opened in a second window.
-// In a Browser it should be opened as a new tab.
 function VideoConferenceLink(props) {
   const { channel, classes } = props
 
