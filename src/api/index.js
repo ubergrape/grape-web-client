@@ -11,6 +11,7 @@ import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'
 import grapeVersion from './version.macro'
+import themes from '../themes'
 
 let resolveAppReady
 
@@ -46,16 +47,8 @@ const init = config => {
   conf.setup(
     merge(config, {
       organization: {
-        colors: {
-          // notification: '#fda625',
-          mention: '#fda625',
-          // mateMessage: '#fda625',
-          mateMessageText: '#656565',
-          ownMessage: '#fff3e0',
-          ownMessageText: '#656565',
-          tab: '#fda625',
-          button: '#fda625',
-        },
+        // eslint-disable-next-line no-underscore-dangle
+        colors: __THEME__ ? themes[__THEME__] : {},
       },
     }),
   )

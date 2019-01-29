@@ -86,6 +86,7 @@ const Info = ({ classes, name, user }) => (
 export default class OrgInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     isLoading: PropTypes.bool,
     logo: PropTypes.string,
     name: PropTypes.string,
@@ -96,6 +97,7 @@ export default class OrgInfo extends PureComponent {
 
   static defaultProps = {
     isLoading: false,
+    colors: {},
     logo: '',
     name: '',
     user: undefined,

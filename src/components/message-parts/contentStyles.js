@@ -3,7 +3,6 @@ import {
   gainsboroDark,
   grayDark,
   white,
-  black,
 } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
@@ -18,10 +17,10 @@ export default {
     margin: 0,
     wordBreak: 'break-word',
     color: ({ isOwn, colors }) => {
-      if (!colors) return black
+      if (!colors) return grayDark
       return isOwn
-        ? colors.ownMessageText || black
-        : colors.mateMessageText || black
+        ? colors.ownMessageText || grayDark
+        : colors.mateMessageText || grayDark
     },
   },
   '& strong, & b': {

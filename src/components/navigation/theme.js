@@ -124,7 +124,7 @@ export const styles = ({ palette }) => ({
     color: baseColors.white,
   },
   importantSign: ({ colors }) => ({
-    background: colors.mention || colors.green,
+    background: colors.mention || baseColors.green,
   }),
   defaultSign: ({ colors }) => ({
     background: colors.notification || palette.blueGrey[400],
