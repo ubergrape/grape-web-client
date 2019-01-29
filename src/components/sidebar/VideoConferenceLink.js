@@ -18,6 +18,8 @@ const styles = ({ palette }) => ({
         size: 18,
       }),
     ],
+    disaply: 'flex',
+    alignItems: 'center',
     width: '100%',
     textAlign: 'left',
     marginBottom: sizes.spacer.s,
