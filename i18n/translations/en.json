@@ -3,13 +3,17 @@
   "enableNotificationsRequest": "Please enable desktop notifications",
   "notificationsExplanation": "so your team members can reach you on Grape.",
   "enableNotifications": "Enable notifications",
-  "reconnectAlert": "Reconnected successfully.",
+  "connectionTrouble": "We're having trouble connecting to Grape.",
+  "tryToReconnect": "Wir versuchen es in",
+  "reconnectSeconds": "s, or you can",
+  "reconnectNow": "try it now",
+  "tryingToReconnect": "Trying to reconnect ...",
+  "reconnectAlert": "You've been successfully reconnected!",
   "noRoomFound":
     "We could not find what you were looking for - the group might have been deleted, renamed or moved.",
   "noMessageFound": "We could not find the message you were looking for.",
   "cannotMessageYourself": "You cannot message yourself.",
   "loadingChatHistory": "Loading your chat history…",
-  "reconnectingAlert": "Lost connection to the server — trying to reconnect.",
   "grapeTrial": "Grape Trial",
   "continueTrial": "Continue Trial",
   "enterDetails": "Enter Details",
@@ -26,7 +30,6 @@
   "createGroup": "Create group",
   "inviteMembers": "Invite members",
   "inviteToOrganization": "Invite a new person to your organization",
-  "inviteGuest": "Invite a guest to this group",
   "typeName": "Add members…",
   "everyoneInvited": "Everyone has been invited to this group",
   "usersNotFoundFor": "No one found for",
@@ -41,6 +44,8 @@
   "_fileUploadTitleFinished.comment": "Upload notification title",
   "fileTooBig": "File exceeds size limit of {limit}mb.",
   "editMessagePlaceholder": "Enter a message …",
+  "disabledMessagePlaceholder":
+    "This user has been deleted. Messaging is disabled.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
   "quoteFooter": "- [Message]({messageUrl}) from [{author}]({pmPath})",
@@ -72,7 +77,6 @@
   "read": "Read",
   "_read.comment": "message delivery status in tooltip",
   "tasks": "Tasks",
-  "_tasks.comment": "NLP tasks list dialog title.",
   "createTask": "Create Task",
   "_createTask.comment": "NLP create task dialog title.",
   "moreServices": "More Services",
@@ -80,6 +84,7 @@
     "More Services button in message nlp create task dialog.",
   "linkToAConnectedTask": "Link to a connected Task",
   "_linkToAConnectedTask.comment": "Nlp create task dialog link label.",
+  "_tasks.comment": "NLP tasks list dialog title.",
   "messageNotSendCheckConnection":
     "The message couldn't be sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
@@ -89,11 +94,7 @@
     "This group is private. Only invited members can see and join this group.",
   "welcomeToRoom": "Welcome to {channel}",
   "inviteMoreToGroup": "Invite more people to this group",
-  "_inviteMoreToGroup.comment":
-    "Room Info Panel: link to invite people to the group/room",
   "addServiceIntegration": "Add service integration",
-  "_addServiceIntegration.comment":
-    "Room Info Panel: link to add an integration to the current room",
   "welcomeToPm": "Private messages with {partner}",
   "pmIntro":
     "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
@@ -164,6 +165,7 @@
   "_buttonContinue.comment": "Intro button continue.",
   "skipIfDone": "Already done?{skip}",
   "_skipIfDone.comment": "Intro footer",
+  "inviteGuest": "Invite a guest to this group",
   "emailAddresses": "Email addresses",
   "inviteLink": "Or use this invite-link",
   "inviteToOrgTitle": "Invite people to your organization",
@@ -382,6 +384,10 @@
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "_inviteMoreToGroup.comment":
+    "Room Info Panel: link to invite people to the group/room",
+  "_addServiceIntegration.comment":
+    "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",
@@ -410,5 +416,6 @@
   "phone": "Phone",
   "aboutUserTitle": "About this user",
   "_aboutUserTitle.comment": "User profile sidebar, about user title.",
-  "joinVideoConference": "Join video conference"
+  "joinVideoConference": "Join video conference",
+  "_joinVideoConference.comment": "Sidebar: link to join a video conference"
 }

@@ -292,9 +292,14 @@ export const createRoomErrorSelector = createSelector(
   state => state,
 )
 
+export const reconnectSelector = createSelector(
+  state => state.reconnect,
+  state => state,
+)
+
 export const alertsAndChannelSelector = createSelector(
-  [alertsSelector, channelSelector],
-  ({ alerts }, channel) => ({ alerts, channel }),
+  [alertsSelector, channelSelector, reconnectSelector],
+  ({ alerts }, channel, reconnect) => ({ alerts, channel, reconnect }),
 )
 
 export const unreadChannelsSelector = createSelector(

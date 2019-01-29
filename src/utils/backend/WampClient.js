@@ -66,6 +66,7 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
+    this.out.emit('set:timer', backoff)
     if (backoff >= this.backoff.max) window.location.reload()
     log('reopen in %sms', backoff)
     setTimeout(() => {
