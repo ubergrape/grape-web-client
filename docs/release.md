@@ -21,6 +21,11 @@ To release a new version of the repo make sure to complete the following steps (
 - [ ] Release on npm `npm publish`
 - [ ] Push updates and tags `git push && git push --tags`
 
+## Theme release
+
+To release version with special theme, make sure to include THEME environment variable.
+E.g `THEME=name yarn publish`.
+
 ## Use the new release on "chatgrape"
 
 On the `chatgrape` repo:
