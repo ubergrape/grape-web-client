@@ -169,6 +169,7 @@ export default class RoomInfo extends PureComponent {
           permissions.canAddIntegration) && <Divider />}
         <ChannelMembers
           channel={channel}
+          colors={colors}
           onLoad={onLoadMembers}
           onOpen={openPm}
           onKick={kickMemberFromChannel}
