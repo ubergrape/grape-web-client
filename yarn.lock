@@ -2663,6 +2663,10 @@ deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
+deep-extend@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f"
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
@@ -3991,9 +3995,9 @@ grape-web@1.x:
     reset-jss "^0.1.0"
     styled-jss "^1.2.0"
 
-grape-web@^1.7.9:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.7.9.tgz#2e7ad61b2e9061cad4a2ce4fc949195a1deccd3f"
+grape-web@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.2.tgz#99326cb5349da098a2af85f15ee5425507b32eed"
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -4014,13 +4018,13 @@ grape-web@^1.7.9:
     mdurl "^1.0.1"
     normalize-jss "^3.1.0"
     prop-types "^15.5.10"
-    react "^15.3.0"
-    react-dom "^15.3.0"
+    react "^16.7.0"
+    react-dom "^16.7.0"
     react-jss "^8.3.3"
     react-router-dom "^4.2.2"
     react-router-redux "^5.0.0-alpha.9"
     reset-jss "^0.1.0"
-    styled-jss "^1.2.0"
+    styled-jss "^2.2.3"
 
 "growl@~> 1.10.0":
   version "1.10.5"
@@ -4720,6 +4724,12 @@ is-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
 
+is-observable@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/is-observable/-/is-observable-0.2.0.tgz#b361311d83c6e5d726cabf5e250b0237106f5ae2"
+  dependencies:
+    symbol-observable "^0.2.2"
+
 is-observable@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-observable/-/is-observable-1.1.0.tgz#b3e986c8f44de950867cab5403f5a3465005975e"
@@ -4767,6 +4777,10 @@ is-promise@^2.1.0:
 is-react-prop@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/is-react-prop/-/is-react-prop-0.1.3.tgz#6e0a510893af5ef77f0ddda582017a6a37fd0ac7"
+
+is-react-prop@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-react-prop/-/is-react-prop-1.0.0.tgz#b90040b44bde7c03e990c8d3046f87445577ee3f"
 
 is-regex@^1.0.4:
   version "1.0.4"
@@ -5529,7 +5543,7 @@ jss@^7.1.7:
     is-in-browser "1.0.2"
     warning "3.0.0"
 
-jss@^9.3.3, jss@^9.7.0, jss@^9.8.1, jss@^9.8.7:
+jss@^9.3.3, jss@^9.7.0, jss@^9.8.0, jss@^9.8.1, jss@^9.8.7:
   version "9.8.7"
   resolved "https://registry.yarnpkg.com/jss/-/jss-9.8.7.tgz#ed9763fc0f2f0260fc8260dac657af61e622ce05"
   dependencies:
@@ -7706,6 +7720,15 @@ react-dom@^15.3.0, react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
+react-dom@^16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.7.0.tgz#a17b2a7ca89ee7390bc1ed5eb81783c7461748b8"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.12.0"
+
 react-dropzone@^4.2.7:
   version "4.2.13"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-4.2.13.tgz#31393c079b4e5ddcc176c095cebc3545d1248b9d"
@@ -7980,6 +8003,15 @@ react@^15.3.0, react@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react@^16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.7.0.tgz#b674ec396b0a5715873b350446f7ea0802ab6381"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.12.0"
 
 read-file-stdin@^0.2.0:
   version "0.2.1"
@@ -8510,6 +8542,13 @@ sax@~1.1.1:
 scale-to-bounds@ubergrape/scale-to-bounds:
   version "0.0.1"
   resolved "https://codeload.github.com/ubergrape/scale-to-bounds/tar.gz/f51290c85e5a12c13dd047f39168731c93176e59"
+
+scheduler@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.12.0.tgz#8ab17699939c0aedc5a196a657743c496538647b"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@^0.3.0:
   version "0.3.0"
@@ -9060,6 +9099,17 @@ styled-jss@^1.2.0:
     jss "^7.1.7"
     jss-preset-default "^2.0.0"
 
+styled-jss@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/styled-jss/-/styled-jss-2.2.3.tgz#813fee60ac4c7ca6e702e4fc040c17bd8899ef6a"
+  dependencies:
+    deep-extend "^0.5.0"
+    is-observable "^0.2.0"
+    is-react-prop "^1.0.0"
+    jss "^9.8.0"
+    jss-preset-default "^4.3.0"
+    theming "^1.3.0"
+
 superagent@^3.8.3:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.3.tgz#460ea0dbdb7d5b11bc4f78deba565f86a178e128"
@@ -9123,6 +9173,10 @@ svgo@^0.7.0:
     mkdirp "~0.5.1"
     sax "~1.2.1"
     whet.extend "~0.9.9"
+
+symbol-observable@^0.2.2:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-0.2.4.tgz#95a83db26186d6af7e7a18dbd9760a2f86d08f40"
 
 symbol-observable@^1.0.3, symbol-observable@^1.0.4, symbol-observable@^1.1.0:
   version "1.2.0"

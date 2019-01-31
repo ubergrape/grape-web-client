@@ -243,6 +243,7 @@ export default class RoomInfo extends PureComponent {
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={permissions.canEditChannel}
+            allowDelete={permissions.canDeleteChannel}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
