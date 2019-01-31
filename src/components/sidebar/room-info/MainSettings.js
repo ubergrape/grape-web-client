@@ -74,10 +74,12 @@ export default class MainSettings extends PureComponent {
     renameError: PropTypes.object.isRequired,
     notificationSettings: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool,
+    allowDelete: PropTypes.bool,
   }
 
   static defaultProps = {
     allowEdit: false,
+    allowDelete: false,
   }
 
   onShowNotificationSettings = () => {
