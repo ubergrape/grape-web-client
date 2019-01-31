@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import { small } from 'grape-theme/dist/fonts'
-import { isElectron } from 'grape-web/lib/x-platform/electron'
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
@@ -32,43 +31,23 @@ const styles = ({ palette }) => ({
   },
 })
 
-class VideoConferenceLink extends React.Component {
-  onClick = () => {
-    window
-      .require('electron')
-      .shell.openExternal(`${this.props.channel.videoconferenceUrl}`)
-  }
+function VideoConferenceLink(props) {
+  const { channel, classes } = props
 
-  render() {
-    const { channel, classes } = this.props
-
-    if (isElectron) {
-      return (
-        <button className={classes.root} onClick={this.onClick}>
-          <FormattedMessage
-            id="joinVideoConference"
-            defaultMessage="Join video conference"
-            description="Sidebar: link to join a video conference"
-          />
-        </button>
-      )
-    }
-
-    return (
-      <a
-        href={channel.videoconferenceUrl}
-        className={classes.root}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FormattedMessage
-          id="joinVideoConference"
-          defaultMessage="Join video conference"
-          description="Sidebar: link to join a video conference"
-        />
-      </a>
-    )
-  }
+  return (
+    <a
+      href={channel.videoconferenceUrl}
+      className={classes.root}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FormattedMessage
+        id="joinVideoConference"
+        defaultMessage="Join video conference"
+        description="Sidebar: link to join a video conference"
+      />
+    </a>
+  )
 }
 
 export default injectSheet(styles)(VideoConferenceLink)
