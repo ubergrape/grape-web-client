@@ -195,7 +195,7 @@ export default class UserProfile extends PureComponent {
         {orgFeatures.videoconference && (
           <div>
             <Divider inset />
-            <VideoConferenceLink channel={channel} />
+            <VideoConferenceLink colors={colors} channel={channel} />
           </div>
         )}
         <TabbedContent
