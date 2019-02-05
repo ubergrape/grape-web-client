@@ -26,6 +26,7 @@ export default function create(name, options = {}) {
       font: 'inherit',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
+      backgroundPosition: '50% 50%',
       content: '""',
       display: 'inline-block',
       width: width || size || '1em',
