@@ -10,7 +10,7 @@ export default {
   "notificationsExplanation": "so your team members can reach you on Grape.",
   "enableNotifications": "Enable notifications",
   "connectionTrouble": "We're having trouble connecting to Grape.",
-  "tryToReconnect": "Wir versuchen es in",
+  "tryToReconnect": "We'll try to reconnect in",
   "reconnectSeconds": "s, or you can",
   "reconnectNow": "try it now",
   "tryingToReconnect": "Trying to reconnect ...",
