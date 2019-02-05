@@ -23,9 +23,11 @@ To release a new version of the repo make sure to complete the following steps (
 
 ## Theme release
 
-To release version with special theme, make sure to include THEME environment variable.
-E.g `THEME=name yarn publish`. Names of themes for companies you can find in internal Notion wiki:
+To release a version with a special theme, make sure to include THEME environment variable.
+E.g `THEME=name npm publish`. Names of themes for companies you can find in internal Notion wiki:
 https://www.notion.so/grape/Customer-themes-8fdfc74c9e1f4c09aebbab8f4404954f
+
+The version of release should match with default version, but theme name ending should be added, like `1.14.0-name`.
 
 ## Use the new release on "chatgrape"
 
