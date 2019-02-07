@@ -558,7 +558,7 @@ export const headerSelector = createSelector(
     joinedChannelsSelector,
   ],
   (
-    { features },
+    { features, permissions },
     favorite,
     channel,
     { show: sidebar },
@@ -572,6 +572,7 @@ export const headerSelector = createSelector(
     mentions,
     partner,
     features,
+    permissions,
     isMemberOfAnyRooms,
   }),
 )

@@ -88,6 +88,7 @@ function Items(props) {
     sidebar,
     classes,
     features,
+    permissions,
     intl,
     channel,
   } = props
@@ -141,14 +142,15 @@ function Items(props) {
             mentions={mentions}
           />
         </li>
-        {features.labeledMessagesList && (
-          <li className={classes.action}>
-            <LabeledMessagesButton
-              isSelected={sidebar === 'labeledMessages'}
-              onClick={itemClickHandler('labeledMessages', props)}
-            />
-          </li>
-        )}
+        {features.labeledMessagesList &&
+          permissions.canSeeLabels && (
+            <li className={classes.action}>
+              <LabeledMessagesButton
+                isSelected={sidebar === 'labeledMessages'}
+                onClick={itemClickHandler('labeledMessages', props)}
+              />
+            </li>
+          )}
       </ul>
     </ul>
   )
@@ -167,12 +169,14 @@ Items.propTypes = {
   features: PropTypes.shape({
     labeledMessagesList: PropTypes.bool,
   }),
+  permissions: PropTypes.object,
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
 }
 
 Items.defaultProps = {
   features: {},
+  permissions: {},
   mentions: 0,
   sidebar: undefined,
 }
