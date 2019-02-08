@@ -49,6 +49,7 @@ class Menu extends PureComponent {
       canViewOrganizationSettings,
       canManageMembers,
       canAddIntegration,
+      canEditProfile,
     } = permissions
 
     if (canInviteMembers) {
@@ -74,8 +75,11 @@ class Menu extends PureComponent {
       items.push(<Divider key={++key} />)
     }
 
+    if (canEditProfile) {
+      items.push(<AccountSettingsItem key={++key} />)
+    }
+
     items.push(
-      <AccountSettingsItem key={++key} />,
       <NotificationSettingsItem key={++key} />,
       <TutorialItem onClick={onShowIntro} key={++key} />,
       <SupportItem href={supportLink} key={++key} />,

@@ -142,15 +142,14 @@ function Items(props) {
             mentions={mentions}
           />
         </li>
-        {features.labeledMessagesList &&
-          permissions.canSeeLabels && (
-            <li className={classes.action}>
-              <LabeledMessagesButton
-                isSelected={sidebar === 'labeledMessages'}
-                onClick={itemClickHandler('labeledMessages', props)}
-              />
-            </li>
-          )}
+        {(features.labeledMessagesList || permissions.canSeeLabels) && (
+          <li className={classes.action}>
+            <LabeledMessagesButton
+              isSelected={sidebar === 'labeledMessages'}
+              onClick={itemClickHandler('labeledMessages', props)}
+            />
+          </li>
+        )}
       </ul>
     </ul>
   )
