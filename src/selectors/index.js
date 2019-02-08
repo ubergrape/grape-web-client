@@ -582,7 +582,7 @@ export const headerSelector = createSelector(
     confSelector,
   ],
   (
-    { features },
+    { permissions },
     favorite,
     channel,
     { show: sidebar },
@@ -596,7 +596,7 @@ export const headerSelector = createSelector(
     sidebar,
     mentions,
     partner,
-    features,
+    permissions,
     isMemberOfAnyRooms,
     colors,
   }),

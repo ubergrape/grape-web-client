@@ -87,7 +87,7 @@ function Items(props) {
     mentions,
     sidebar,
     classes,
-    features,
+    permissions,
     intl,
     channel,
     colors,
@@ -145,7 +145,7 @@ function Items(props) {
             colors={colors}
           />
         </li>
-        {features.labeledMessagesList && (
+        {permissions.canSeeLabels && (
           <li className={classes.action}>
             <LabeledMessagesButton
               isSelected={sidebar === 'labeledMessages'}
@@ -170,15 +170,13 @@ Items.propTypes = {
   favorite: PropTypes.object.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
-  features: PropTypes.shape({
-    labeledMessagesList: PropTypes.bool,
-  }),
+  permissions: PropTypes.object,
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
 }
 
 Items.defaultProps = {
-  features: {},
+  permissions: {},
   mentions: 0,
   sidebar: undefined,
   colors: {},
