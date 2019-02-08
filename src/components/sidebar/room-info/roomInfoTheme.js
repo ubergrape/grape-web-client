@@ -55,6 +55,7 @@ export const styles = () => ({
           name: 'bell',
           color: `${colors.button || blue}`,
         })}')`,
+      backgroundPosition: '50% 50%',
     },
   },
   notificationsButtonOff: {
@@ -77,6 +78,7 @@ export const styles = () => ({
           name: 'bellMuted',
           color: `${colors.button || blue}`,
         })}')`,
+      backgroundPosition: '50% 50%',
     },
   },
   notificationsButtonCustom: {
@@ -99,6 +101,7 @@ export const styles = () => ({
           name: 'bellCustom',
           color: `${colors.button || blue}`,
         })}')`,
+      backgroundPosition: '50% 50%',
     },
   },
   settingsButton: {
@@ -121,6 +124,7 @@ export const styles = () => ({
           name: 'cog',
           color: `${colors.button || blue}`,
         })}')`,
+      backgroundPosition: '50% 50%',
     },
   },
   additionalActionsDropdown: {},
