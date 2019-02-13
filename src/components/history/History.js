@@ -16,6 +16,7 @@ import LoadingText from './LoadingText'
 function createState(state, props) {
   const { rows, map } = createRowsState(state.rows, props.messages, props)
   return {
+    ...props,
     rows,
     scrollTo: map[props.scrollTo],
   }
@@ -34,6 +35,7 @@ const styles = {
 class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    conf: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onJump: PropTypes.func.isRequired,
@@ -81,8 +83,14 @@ class History extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state = createState({}, props)
-    this.needsInitialLoad = true
+    this.state = createState(
+      {},
+      {
+        ...props,
+        isInitialLoading: true,
+        needReload: true,
+      },
+    )
   }
 
   componentDidMount() {
@@ -109,7 +117,7 @@ class History extends PureComponent {
       selectedMessageHasBeenClickedOnAgain ||
       isLoading
     ) {
-      this.needsInitialLoad = true
+      this.setState({ needReload: true })
     }
 
     if (!isEqual(messages, this.props.messages)) {
@@ -125,10 +133,21 @@ class History extends PureComponent {
   }
 
   onRowsRendered = () => {
+    const { conf } = this.props
+    const { isInitialLoading } = this.state
     // We need to unset the scrollTo once user has scrolled around, because he
     // might want to use jumper to jump again to the same scrollTo value.
     if (this.props.scrollTo) {
       this.props.onUserScrollAfterScrollTo()
+    }
+
+    if (
+      isInitialLoading &&
+      conf.callbacks &&
+      conf.callbacks.onHistoryRendered
+    ) {
+      this.setState({ isInitialLoading: false })
+      conf.callbacks.onHistoryRendered()
     }
   }
 
@@ -142,8 +161,9 @@ class History extends PureComponent {
 
   load() {
     const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
-    if (this.needsInitialLoad && !isLoading && channel && isMemberOfAnyRooms) {
-      this.needsInitialLoad = false
+    const { needReload } = this.state
+    if (needReload && !isLoading && channel && isMemberOfAnyRooms) {
+      this.setState({ needReload: false })
       onLoad()
     }
   }

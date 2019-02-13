@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import { channelSelector } from '../selectors'
+import { channelSelector, confSelector } from '../selectors'
 import { normalizeMessage } from './utils'
 import { setSidebarIsLoading, error } from './'
 
@@ -29,12 +29,21 @@ export const loadPinnedMessages = () => (dispatch, getState) => {
     })
 }
 
-export const pinMessage = ({ channelId, messageId }) => dispatch => {
+export const pinMessage = ({ channelId, messageId }) => (
+  dispatch,
+  getState,
+) => {
   dispatch({
     type: types.REQUEST_PIN_MESSAGE,
     payload: messageId,
   })
-  api.pinMessage(channelId, messageId).catch(err => dispatch(error(err)))
+  api
+    .pinMessage(channelId, messageId)
+    .then(() => {
+      const conf = confSelector(getState())
+      if (conf.callbacks && conf.callbacks.onPin) conf.callbacks.onPin()
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export const unpinMessage = ({ channelId, messageId }) => dispatch => {

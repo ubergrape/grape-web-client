@@ -589,6 +589,7 @@ export const historyComponentSelector = createSelector(
     joinedChannelsSelector,
     userSelector,
     usersSelector,
+    confSelector,
   ],
   (
     history,
@@ -597,6 +598,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
@@ -605,6 +607,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    conf,
   }),
 )
 
