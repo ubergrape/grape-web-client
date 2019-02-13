@@ -32,9 +32,12 @@
       onReady: function() {
         console.log('Grape Client initialized')
       },
-      onRendered: function() {
+      onHistoryRendered: function() {
         grapeClient.setChannel(9687, 'c2a4a15c2f7e11e9a0b60242c0a83003')
         console.log('App rendered')
+      },
+      onPin: function() {
+        console.log('Some message just pinned!')
       }
     })
   </script>
