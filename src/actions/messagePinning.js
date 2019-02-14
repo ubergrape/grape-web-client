@@ -46,10 +46,19 @@ export const pinMessage = ({ channelId, messageId }) => (
     .catch(err => dispatch(error(err)))
 }
 
-export const unpinMessage = ({ channelId, messageId }) => dispatch => {
+export const unpinMessage = ({ channelId, messageId }) => (
+  dispatch,
+  getState,
+) => {
   dispatch({
     type: types.REQUEST_UNPIN_MESSAGE,
     payload: messageId,
   })
-  api.unpinMessage(channelId, messageId).catch(err => dispatch(error(err)))
+  api
+    .unpinMessage(channelId, messageId)
+    .then(() => {
+      const conf = confSelector(getState())
+      if (conf.callbacks && conf.callbacks.onUnpin) conf.callbacks.onUnpin()
+    })
+    .catch(err => dispatch(error(err)))
 }
