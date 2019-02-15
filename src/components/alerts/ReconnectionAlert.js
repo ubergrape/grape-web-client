@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/noop'
 import cn from 'classnames'
@@ -49,11 +48,10 @@ export default class ReconnectionAlert extends PureComponent {
   render() {
     const { classes, buttonClass, reconnect } = this.props
 
-    const secondsLeftToReconnect = moment
-      .duration(
-        parseInt(reconnect.currentTime + reconnect.backoff - Date.now(), 10),
-      )
-      .seconds()
+    const secondsLeftToReconnect = parseInt(
+      (reconnect.currentTime + reconnect.backoff - Date.now()) / 1000,
+      10,
+    )
 
     return (
       <div className={classes.reconnectionAlert}>
@@ -61,7 +59,7 @@ export default class ReconnectionAlert extends PureComponent {
           id="connectionTrouble"
           defaultMessage="We're having trouble connecting to Grape."
         />&nbsp;
-        {secondsLeftToReconnect ? (
+        {secondsLeftToReconnect > 0 ? (
           <span>
             <FormattedMessage
               id="tryToReconnect"
