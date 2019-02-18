@@ -200,7 +200,6 @@ export const setConf = payload => dispatch => {
 
 export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch(setIntialDataLoading(true))
-  dispatch(setConf(conf))
 
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })

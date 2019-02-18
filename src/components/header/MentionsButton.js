@@ -23,15 +23,21 @@ const styles = ({ palette }) => ({
 
 const tip = <FormattedMessage id="mentions" defaultMessage="Mentions" />
 
-const MentionsButton = ({ classes, onClick, isSelected, mentions }) => (
+const MentionsButton = ({ classes, onClick, isSelected, mentions, colors }) => (
   <Tooltip message={tip}>
-    <FabButton onClick={onClick} isSelected={isSelected} icon="at" />
+    <FabButton
+      onClick={onClick}
+      isSelected={isSelected}
+      colors={colors}
+      icon="at"
+    />
     {mentions > 0 && !isSelected && <i className={classes.badge} />}
   </Tooltip>
 )
 
 MentionsButton.propTypes = {
   classes: PropTypes.object.isRequired,
+  colors: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   mentions: PropTypes.number.isRequired,

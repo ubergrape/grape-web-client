@@ -12,11 +12,7 @@ export default class LinkWithIcon extends PureComponent {
     classes: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    icon: PropTypes.string,
-  }
-
-  static defaultProps = {
-    icon: 'file',
+    icon: PropTypes.string.isRequired,
   }
 
   render() {

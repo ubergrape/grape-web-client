@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import sample from 'lodash/sample'
-import { colors, icons } from 'grape-theme/dist/room-settings'
+import { colors as roomColors, icons } from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
@@ -16,7 +16,7 @@ const getInitialState = () => ({
   isPublic: true,
   saving: false,
   focusedInput: 'users',
-  color: sample(colors),
+  color: sample(roomColors),
   icon: sample(icons),
 })
 
@@ -34,6 +34,7 @@ class NewConversationDialog extends PureComponent {
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     showNewConversation: PropTypes.func.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
@@ -50,6 +51,7 @@ class NewConversationDialog extends PureComponent {
   static defaultProps = {
     organization: null,
     channel: {},
+    colors: {},
     show: false,
   }
 
@@ -150,7 +152,7 @@ class NewConversationDialog extends PureComponent {
   }
 
   renderSettings = () => {
-    const { classes, clearRoomCreateError } = this.props
+    const { classes, clearRoomCreateError, colors } = this.props
     const {
       focusedInput,
       error,
@@ -166,6 +168,7 @@ class NewConversationDialog extends PureComponent {
         <AdvancedSettings
           icon={icon}
           color={color}
+          colors={colors}
           name={name}
           saving={saving}
           isPublic={isPublic}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import {
   FormattedMessage,
@@ -44,9 +45,10 @@ const NotificationSettingsButton = ({ classes, settings, onShow }) => {
       }
     >
       <button
-        className={`${classes.notificationsButton} ${
-          classes[`notificationsButton${state}`]
-        }`}
+        className={cn(
+          classes.notificationsButton,
+          classes[`notificationsButton${state}`],
+        )}
         onClick={onShow}
       />
     </Tooltip>
@@ -66,6 +68,7 @@ NotificationSettingsButton.propTypes = {
 export default class MainSettings extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
@@ -121,6 +124,7 @@ export default class MainSettings extends PureComponent {
   renderRoomName() {
     const {
       classes,
+      colors,
       intl: { formatMessage },
       renameRoom,
       clearRoomRenameError,
@@ -138,6 +142,7 @@ export default class MainSettings extends PureComponent {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
+          colors={colors}
           error={this.getError()}
         />
       </div>

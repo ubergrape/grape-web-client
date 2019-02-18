@@ -15,8 +15,8 @@ export const styles = {
   },
   submit: {
     extend: [linkButton, normal],
-    color: blue,
     flexShrink: 0,
+    color: ({ colors }) => colors.button || blue,
   },
   hidden: {
     display: 'none',

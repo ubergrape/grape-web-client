@@ -263,11 +263,22 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  [state => state.newConversation, joinedChannelsSelector, channelSelector],
-  (newConversation, isMemberOfAnyRooms, channel) => ({
+  [
+    state => state.newConversation,
+    joinedChannelsSelector,
+    channelSelector,
+    confSelector,
+  ],
+  (
+    newConversation,
+    isMemberOfAnyRooms,
+    channel,
+    { organization: { colors } },
+  ) => ({
     ...newConversation,
     isMemberOfAnyRooms,
     channel,
+    colors,
   }),
 )
 
@@ -372,8 +383,13 @@ export const inviteToOrgDialog = createSelector(
 )
 
 export const orgInfoSelector = createSelector(
-  [orgSelector, initialDataLoadingSelector, userSelector],
-  ({ logo, name, inviterRole, supportLink, permissions }, isLoading, user) => ({
+  [orgSelector, initialDataLoadingSelector, userSelector, confSelector],
+  (
+    { logo, name, inviterRole, supportLink, permissions },
+    isLoading,
+    user,
+    { organization: { colors } },
+  ) => ({
     logo,
     name,
     inviterRole,
@@ -381,6 +397,7 @@ export const orgInfoSelector = createSelector(
     permissions,
     isLoading,
     user,
+    colors,
   }),
 )
 
@@ -422,6 +439,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    confSelector,
     orgSelector,
   ],
   (
@@ -432,6 +450,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    { organization: { colors } },
     { permissions },
   ) => {
     const joined = [...joinedRooms, ...pms]
@@ -450,6 +469,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      colors,
       permissions,
     }
   },
@@ -497,6 +517,7 @@ export const sidebarComponentSelector = createSelector(
     userSelector,
     labeledMessagesSelector,
     pinnedMessagesSelector,
+    confSelector,
   ],
   (
     org,
@@ -511,6 +532,7 @@ export const sidebarComponentSelector = createSelector(
     user,
     labeledMessages,
     pinnedMessages,
+    { organization: { colors } },
   ) => {
     const select = { show, showSubview, user }
 
@@ -543,6 +565,7 @@ export const sidebarComponentSelector = createSelector(
       },
       orgFeatures: org.features,
       subview: subviews[showSubview],
+      colors,
     }
   },
 )
@@ -556,6 +579,7 @@ export const headerSelector = createSelector(
     unreadMentionsAmountSelector,
     userProfileSelector,
     joinedChannelsSelector,
+    confSelector,
   ],
   (
     { permissions },
@@ -565,6 +589,7 @@ export const headerSelector = createSelector(
     mentions,
     partner,
     isMemberOfAnyRooms,
+    { organization: { colors } },
   ) => ({
     favorite,
     channel,
@@ -573,6 +598,7 @@ export const headerSelector = createSelector(
     partner,
     permissions,
     isMemberOfAnyRooms,
+    colors,
   }),
 )
 
@@ -607,6 +633,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    colors: conf.organization.colors,
     conf,
   }),
 )
