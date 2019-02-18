@@ -51,7 +51,9 @@ class Renderer {
     })
   }
 
-  renderTag = (tag, props, children) => {
+  // In case there are no children we need to set it to an empty array
+  // to make sure createElement gets a parameter other than undefined or null.
+  renderTag = (tag, props, children = []) => {
     const handler = this.props.renderTag || renderTag
     return handler(
       tag,
