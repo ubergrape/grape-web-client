@@ -12,7 +12,7 @@ describe('history reducer', () => {
   })
 
   it('should use file icon if icon is not available', () => {
-    expect(getSvg('default')).toMatchSnapshot()
+    expect(getSvg()).toMatchSnapshot()
   })
 
   it('should use provided icon if available', () => {
