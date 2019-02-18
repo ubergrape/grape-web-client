@@ -36,7 +36,7 @@
   "_dropFileToUploadMaxFileSize.comment": "Hint on the drop overlay screen.",
   "fileUploadTitle": "Lade {uploading} von {total} Dateien hoch",
   "_fileUploadTitle.comment": "Upload notification title",
-  "fileUploadTitleFinished": "Upload abgeschlossen",
+  "fileUploadTitleFinished": "Upload Status",
   "_fileUploadTitleFinished.comment": "Upload notification title",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit} MB.",
   "editMessagePlaceholder": "Nachricht eingeben …",
