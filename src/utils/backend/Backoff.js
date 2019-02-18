@@ -3,6 +3,7 @@ import Random from 'random-js'
 class Backoff {
   constructor(options) {
     const opts = options || {}
+    this.opts = opts
     this.random = new Random(Random.engines.mt19937().autoSeed())
     this.ms = opts.min || 100
     this.max = opts.max || 10000
@@ -17,7 +18,12 @@ class Backoff {
       ms *= rand
     }
     this.ms = this.ms * this.factor
+    if (this.ms >= this.max) this.ms = this.opts.min || 100
     return Math.min(ms, this.max)
+  }
+
+  reset() {
+    this.ms = this.opts.min || 100
   }
 }
 
