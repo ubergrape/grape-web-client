@@ -22,9 +22,10 @@ export default class InternalLinkWithIcon extends PureComponent {
   render() {
     const { url, children, classes, icon } = this.props
 
-    const style = {
-      backgroundImage: `url(${getSvg(icon, this.constructor.defaultProps)})`,
-    }
+    const svgPath = getSvg(icon, {
+      defaultIcon: this.constructor.defaultProps.icon,
+    })
+    const style = { backgroundImage: `url(${svgPath})` }
 
     return (
       <Link to={url}>
