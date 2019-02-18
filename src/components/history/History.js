@@ -16,8 +16,7 @@ import LoadingText from './LoadingText'
 function createState(state, props) {
   const { rows, map } = createRowsState(state.rows, props.messages, props)
   return {
-    needsReload: props.needsReload,
-    isInitialLoading: props.isInitialLoading,
+    isInitialLoading: state.isInitialLoading,
     rows,
     scrollTo: map[props.scrollTo],
   }
@@ -84,14 +83,8 @@ class History extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.state = createState(
-      {},
-      {
-        needsReload: true,
-        isInitialLoading: true,
-        ...props,
-      },
-    )
+    this.state = createState({ isInitialLoading: true }, props)
+    this.needsLoading = true
   }
 
   componentDidMount() {
@@ -100,7 +93,6 @@ class History extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { channel, selectedMessageId, messages, isLoading } = nextProps
-    const { needsReload, isInitialLoading } = this.state
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
@@ -119,19 +111,11 @@ class History extends PureComponent {
       selectedMessageHasBeenClickedOnAgain ||
       isLoading
     ) {
-      this.setState({
-        needsReload: true,
-      })
+      this.needsLoading = true
     }
 
     if (!isEqual(messages, this.props.messages)) {
-      this.setState(
-        createState(this.state, {
-          ...nextProps,
-          needsReload,
-          isInitialLoading,
-        }),
-      )
+      this.setState(createState(this.state, nextProps))
     }
     if (this.props.scrollTo !== nextProps.scrollTo) {
       this.setState({ scrollTo: nextProps.scrollTo })
@@ -151,11 +135,11 @@ class History extends PureComponent {
       this.props.onUserScrollAfterScrollTo()
     }
 
-    if (isInitialLoading && conf.callbacks && conf.callbacks.onRendered) {
+    if (isInitialLoading && conf.callbacks && conf.callbacks.onRender) {
       this.setState({
         isInitialLoading: false,
       })
-      conf.callbacks.onRendered()
+      conf.callbacks.onRender()
     }
   }
 
@@ -169,11 +153,8 @@ class History extends PureComponent {
 
   load() {
     const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
-    const { needsReload } = this.state
-    if (needsReload && !isLoading && channel && isMemberOfAnyRooms) {
-      this.setState({
-        needsReload: false,
-      })
+    if (this.needsLoading && !isLoading && channel && isMemberOfAnyRooms) {
+      this.needsLoading = false
       onLoad()
     }
   }
