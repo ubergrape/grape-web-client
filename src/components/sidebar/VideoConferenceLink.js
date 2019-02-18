@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import { small } from 'grape-theme/dist/fonts'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
@@ -27,6 +29,21 @@ const styles = ({ palette }) => ({
     '&:hover': {
       isolate: false,
       color: palette.text.primary,
+    },
+    '&:hover:before': {
+      isolate: false,
+      content: '""',
+      width: 18,
+      height: 18,
+      marginRight: 5,
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'camera',
+          color: `${colors.button || palette.secondary.A200}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+      backgroundSize: 'contain',
     },
   },
 })

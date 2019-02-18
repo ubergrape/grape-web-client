@@ -1,6 +1,7 @@
 import { normal, bigger } from 'grape-theme/dist/fonts'
 import { blue, grayDark, grayBlueDark, red } from 'grape-theme/dist/base-colors'
 import { borderLight } from 'grape-theme/dist/web-colors'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import { settingsButtonSize } from './constants'
 import linkButton from '../../button/link'
@@ -34,30 +35,98 @@ export const styles = () => ({
       marginLeft: 10,
     },
   },
-  notificationsButtonInherit: buttonIcon('bell', {
-    color: grayDark,
-    hoverColor: blue,
-    iconOnly: true,
-    size: settingsButtonSize,
-  }),
-  notificationsButtonOff: buttonIcon('bellMuted', {
-    color: grayDark,
-    hoverColor: blue,
-    iconOnly: true,
-    size: settingsButtonSize,
-  }),
-  notificationsButtonCustom: buttonIcon('bellCustom', {
-    color: grayDark,
-    hoverColor: blue,
-    iconOnly: true,
-    size: settingsButtonSize,
-  }),
-  settingsButton: buttonIcon('cog', {
-    color: grayDark,
-    hoverColor: blue,
-    iconOnly: true,
-    size: settingsButtonSize,
-  }),
+  notificationsButtonInherit: {
+    ...buttonIcon('bell', {
+      color: grayDark,
+      iconOnly: true,
+      size: settingsButtonSize,
+    }),
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'bell',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundPosition: '50% 50%',
+    },
+  },
+  notificationsButtonOff: {
+    ...buttonIcon('bellMuted', {
+      color: grayDark,
+      iconOnly: true,
+      size: settingsButtonSize,
+    }),
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'bellMuted',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundPosition: '50% 50%',
+    },
+  },
+  notificationsButtonCustom: {
+    ...buttonIcon('bellCustom', {
+      color: grayDark,
+      iconOnly: true,
+      size: settingsButtonSize,
+    }),
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'bellCustom',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundPosition: '50% 50%',
+    },
+  },
+  settingsButton: {
+    ...buttonIcon('cog', {
+      color: grayDark,
+      iconOnly: true,
+      size: settingsButtonSize,
+    }),
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      backgroundRepeat: 'no-repeat',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'cog',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundPosition: '50% 50%',
+    },
+  },
   additionalActionsDropdown: {},
   additionalActionButton: {
     extend: [linkButton, normal],
@@ -69,7 +138,11 @@ export const styles = () => ({
     borderBottom: [1, 'solid', borderLight],
     '&:hover': {
       isolate: false,
-      color: red,
+      padding: 10,
+      cursor: 'pointer',
+      lineHeight: 1.5,
+      borderBottom: [1, 'solid', borderLight],
+      color: ({ colors }) => colors.button || red,
       textDecoration: 'underline',
     },
   },

@@ -11,6 +11,7 @@ import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'
 import grapeVersion from './version.macro'
+import themes from '../themes'
 
 let resolveAppReady
 
@@ -43,9 +44,21 @@ const checkShowHideComponent = (() => {
 })()
 
 const init = config => {
-  conf.setup(config)
+  conf.setup(
+    merge(config, {
+      organization: {
+        // eslint-disable-next-line no-underscore-dangle
+        colors: __THEME__ ? themes[__THEME__] : {},
+      },
+    }),
+  )
+
   const app = require('../app')
   resolveAppReady(app)
+
+  actionsReady.then(actions => {
+    actions.setConf(conf)
+  })
 
   app.init()
   app.renderSheetsInsertionPoints()

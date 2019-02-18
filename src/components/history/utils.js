@@ -65,6 +65,7 @@ export const createRowsState = (() => {
           ...pick(
             props,
             'user',
+            'colors',
             'channel',
             'customEmojis',
             'onEdit',

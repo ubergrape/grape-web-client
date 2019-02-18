@@ -27,12 +27,16 @@ export const styles = {
     borderColor: 'transparent',
     '&:hover': {
       isolate: false,
-      borderColor: linkColor,
+      marginRight: 10,
+      padding: 4,
+      borderRadius: '50%',
+      border: [buttonBorderWidth, 'solid'],
+      borderColor: ({ colors }) => colors.button || linkColor,
     },
   },
   iconSettingsButtonActive: {
     composes: '$iconSettingsButtonBase',
-    borderColor: linkColor,
+    borderColor: ({ colors }) => colors.button || linkColor,
   },
   iconSettings: {
     padding: 15,
@@ -67,7 +71,7 @@ export const styles = {
     cursor: 'pointer',
     '&:hover': {
       isolate: false,
-      borderColor: linkColor,
+      borderColor: ({ colors }) => colors.button || linkColor,
       '&, & *': {
         isolate: false,
         cursor: 'pointer',
@@ -76,11 +80,11 @@ export const styles = {
   },
   chooserButton: {
     composes: '$chooserButtonBase',
-    borderColor,
+    borderColor: ({ colors }) => colors.button || borderColor,
   },
   chooserButtonActive: {
     composes: '$chooserButtonBase',
-    borderColor: linkColor,
+    borderColor: ({ colors }) => colors.button || linkColor,
   },
   iconSettingsList: {
     marginTop: 10,

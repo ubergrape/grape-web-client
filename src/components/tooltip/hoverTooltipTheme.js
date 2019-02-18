@@ -48,6 +48,7 @@ export const styles = {
     whiteSpace: 'nowrap',
   },
   childrenWrapper: {
+    display: 'flex',
     verticalAlign: 'middle',
   },
 }

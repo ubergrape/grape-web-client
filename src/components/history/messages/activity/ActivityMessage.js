@@ -17,7 +17,7 @@ import Menu from './Menu'
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 class ActivityMessage extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     title: PropTypes.node,
     children: PropTypes.node,
@@ -108,7 +108,7 @@ class ActivityMessage extends PureComponent {
 
   render() {
     const {
-      sheet: { classes },
+      classes,
       user,
       author,
       time,

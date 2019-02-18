@@ -64,6 +64,7 @@ export default class Row extends PureComponent {
     isPm: PropTypes.bool.isRequired,
     duplicates: PropTypes.arrayOf(PropTypes.string),
     style: PropTypes.object,
+    colors: PropTypes.object,
     key: PropTypes.string,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
@@ -81,6 +82,7 @@ export default class Row extends PureComponent {
     prevMessage: null,
     style: null,
     key: null,
+    colors: {},
     selectedMessageId: null,
   }
 
@@ -143,6 +145,7 @@ export default class Row extends PureComponent {
       isPm,
       style,
       key,
+      colors,
       onRemoveLinkAttachment,
       channel,
     } = this.props
@@ -162,6 +165,7 @@ export default class Row extends PureComponent {
     const props = {
       ...message,
       key: `row-${message.id}`,
+      colors,
       user,
       channel,
       onPin,

@@ -28,7 +28,7 @@ import Title from './Title'
     minWidth: 40,
     height: 38,
     marginRight: spacing,
-    color: palette.text.secondary,
+    color: ({ colors }) => colors.button || palette.text.secondary,
     opacity: 1,
   },
   tabInherit: {
@@ -37,7 +37,7 @@ import Title from './Title'
     },
   },
   tabSelected: {
-    color: palette.secondary.A200,
+    color: ({ colors }) => colors.button || palette.secondary.A200,
   },
   indicator: {
     isolate: false,
@@ -65,6 +65,7 @@ import Title from './Title'
 export default class TabbedContent extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func,
     tabs: PropTypes.arrayOf(
@@ -89,7 +90,7 @@ export default class TabbedContent extends PureComponent {
   }
 
   render() {
-    const { index, classes, tabs, title, body, onSelect } = this.props
+    const { index, classes, tabs, title, body, onSelect, colors } = this.props
 
     const tabClasses = {
       rootInheritSelected: classes.tabSelected,
@@ -102,6 +103,7 @@ export default class TabbedContent extends PureComponent {
           value={index}
           onChange={this.onChange}
           className={classes.tabs}
+          indicatorColor={colors.button}
           indicatorClassName={classes.indicator}
         >
           {tabs.map(({ name, icon }) => (

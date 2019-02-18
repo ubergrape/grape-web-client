@@ -43,6 +43,7 @@ const translations = defineMessages({
 export default class LabeledMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     intl: intlShape.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
@@ -72,6 +73,7 @@ export default class LabeledMessages extends PureComponent {
     onSelectFilter: noop,
     messages: [],
     user: {},
+    colors: {},
     channel: {},
     options: [],
     labelConfigs: [],
@@ -214,6 +216,7 @@ export default class LabeledMessages extends PureComponent {
       onSelectFilter,
       intl: { formatMessage },
       classes,
+      colors,
       labelConfigs,
       filter,
     } = this.props
@@ -222,6 +225,7 @@ export default class LabeledMessages extends PureComponent {
       <SidebarPanel
         title={formatMessage(translations.title)}
         onClose={onClose}
+        colors={colors}
         options={this.renderOptions()}
         className={classes.sidebar}
       >

@@ -13,15 +13,21 @@ const tips = {
   pm: <UserProfileText />,
 }
 
-const InfoButton = ({ onClick, channel, isSelected }) => (
+const InfoButton = ({ onClick, channel, isSelected, colors }) => (
   <Tooltip message={tips[channel]}>
-    <FabButton onClick={onClick} isSelected={isSelected} icon="sidebar" />
+    <FabButton
+      onClick={onClick}
+      isSelected={isSelected}
+      colors={colors}
+      icon="sidebar"
+    />
   </Tooltip>
 )
 
 InfoButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  colors: PropTypes.object.isRequired,
   channel: PropTypes.oneOf(Object.keys(tips)),
 }
 
