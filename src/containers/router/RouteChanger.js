@@ -32,7 +32,10 @@ export default class RouteChanger extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location ||
+      this.props.isLoading !== prevProps.isLoading
+    ) {
       this.onChangeRoute()
     }
   }
