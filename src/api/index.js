@@ -93,6 +93,11 @@ const embed = options => {
       },
       channelId: options.channelId,
       embed: true,
+      callbacks: {
+        onRender: options.onRender,
+        onPin: options.onPin,
+        onUnpin: options.onUnpin,
+      },
     }),
   )
 

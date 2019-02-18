@@ -624,7 +624,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
-    { organization: { colors } },
+    conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
@@ -633,7 +633,8 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
-    colors,
+    colors: conf.organization.colors,
+    conf,
   }),
 )
 
