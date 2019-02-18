@@ -11,12 +11,24 @@ import { Bubble } from '../../../message-parts'
 import createInlineIcon from '../../../inline-icon/create'
 import { styles as baseStyles } from '../bubbleTheme'
 
+// Should import server configuration here, because after wrapping e.g MateBubble,
+// bubble with buttons (delete, pin, etc.) will not load.
+import conf from '../../../../conf'
+
 export const OwnBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: blueLight }),
+  styles: baseStyles({
+    color:
+      (conf.organization.colors && conf.organization.colors.ownMessage) ||
+      blueLight,
+  }),
 })
 
 const MateBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: grayBlueLighter }),
+  styles: baseStyles({
+    color:
+      (conf.organization.colors && conf.organization.colors.mateMessage) ||
+      grayBlueLighter,
+  }),
 })
 
 const SelectedBubble = useTheme(Bubble, {

@@ -8,6 +8,7 @@ export default class ChannelMembers extends PureComponent {
   static propTypes = {
     users: PropTypes.array.isRequired,
     channel: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
     permissions: PropTypes.object,
     onLoad: PropTypes.func,
@@ -33,13 +34,22 @@ export default class ChannelMembers extends PureComponent {
   }
 
   render() {
-    const { users, channel, currUser, onOpen, onKick, permissions } = this.props
+    const {
+      users,
+      channel,
+      colors,
+      currUser,
+      onOpen,
+      onKick,
+      permissions,
+    } = this.props
 
     return (
       <div>
         {users.map(user => (
           <User
             key={user.id}
+            colors={colors}
             user={user}
             channel={channel}
             currUser={currUser}

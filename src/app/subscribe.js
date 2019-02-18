@@ -128,4 +128,8 @@ export default function subscribe(channel) {
   })
 
   channel.on('error', boundActions.handleConnectionError)
+
+  channel.on('set:timer', backoff => {
+    boundActions.setTimer(backoff)
+  })
 }

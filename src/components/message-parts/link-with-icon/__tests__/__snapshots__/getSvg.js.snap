@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`history reducer should use file icon as default 1`] = `
+Object {
+  "color": "#0080ff",
+  "name": "file",
+}
+`;
+
+exports[`history reducer should use file icon if icon is not available 1`] = `
+Object {
+  "color": "#0080ff",
+  "name": "file",
+}
+`;
+
+exports[`history reducer should use provided icon if available 1`] = `
+Object {
+  "color": "#0080ff",
+  "name": "bell",
+}
+`;

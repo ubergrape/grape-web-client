@@ -66,7 +66,8 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
-    if (backoff >= this.backoff.max) window.location.reload()
+    this.out.emit('set:timer', backoff)
+    if (backoff >= this.backoff.max) this.onDisconnected()
     log('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
@@ -131,6 +132,7 @@ export default class WampClient {
   }
 
   onConnected = () => {
+    this.backoff.reset()
     if (this.connected) return
     this.connected = true
     log('connected')
@@ -173,6 +175,7 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
+    this.out.emit('error', event)
     log('socket close', event)
     this.close()
     this.reopen()

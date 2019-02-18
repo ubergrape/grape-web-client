@@ -11,7 +11,10 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
-export const confSelector = createSelector(state => state.conf, state => state)
+export const confSelector = createSelector(
+  state => state.conf,
+  state => state,
+)
 
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
@@ -31,18 +34,24 @@ export const usersSelector = createSelector(
   state => state,
 )
 
-export const userSelector = createSelector(state => state.user, state => state)
-
-export const activeUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => user.isActive),
+export const userSelector = createSelector(
+  state => state.user,
+  state => state,
 )
 
-export const invitedUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => user.isOnlyInvited),
+export const activeUsersSelector = createSelector(
+  usersSelector,
+  users => users.filter(user => user.isActive),
 )
 
-export const deletedUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => !user.isActive),
+export const invitedUsersSelector = createSelector(
+  usersSelector,
+  users => users.filter(user => user.isOnlyInvited),
+)
+
+export const deletedUsersSelector = createSelector(
+  usersSelector,
+  users => users.filter(user => !user.isActive),
 )
 
 export const initialChannelsSelector = createSelector(
@@ -104,12 +113,14 @@ export const searchingChannelsSelector = createSelector(
   state => state,
 )
 
-export const roomsSelector = createSelector(channelsSelector, channels =>
-  channels.filter(channel => channel.type === 'room'),
+export const roomsSelector = createSelector(
+  channelsSelector,
+  channels => channels.filter(channel => channel.type === 'room'),
 )
 
-export const joinedRoomsSelector = createSelector(roomsSelector, rooms =>
-  rooms.filter(room => room.joined),
+export const joinedRoomsSelector = createSelector(
+  roomsSelector,
+  rooms => rooms.filter(room => room.joined),
 )
 
 export const roomDeleteSelector = createSelector(
@@ -117,8 +128,9 @@ export const roomDeleteSelector = createSelector(
   state => state,
 )
 
-export const pmsSelector = createSelector(channelsSelector, channels =>
-  channels.filter(channel => channel.type === 'pm'),
+export const pmsSelector = createSelector(
+  channelsSelector,
+  channels => channels.filter(channel => channel.type === 'pm'),
 )
 
 export const joinedChannelsSelector = createSelector(
@@ -126,8 +138,9 @@ export const joinedChannelsSelector = createSelector(
   (joinedRooms, pms) => Boolean(joinedRooms.length || pms.length),
 )
 
-export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.firstMessageTime),
+export const activePmsSelector = createSelector(
+  pmsSelector,
+  pms => pms.filter(pm => pm.firstMessageTime),
 )
 
 export const currentPmsSelector = createSelector(
@@ -145,7 +158,10 @@ export const deletedUsersWithPmSelector = createSelector(
   users => users.filter(user => user.pm),
 )
 
-export const orgSelector = createSelector(state => state.org, state => state)
+export const orgSelector = createSelector(
+  state => state.org,
+  state => state,
+)
 
 export const billingWarningSelector = createSelector(
   state => state.billingWarning,
@@ -179,9 +195,12 @@ export const setTypingSelector = createSelector(
   }),
 )
 
-export const userProfileSelector = createSelector([currentPmsSelector], pm => ({
-  ...pm.partner,
-}))
+export const userProfileSelector = createSelector(
+  [currentPmsSelector],
+  pm => ({
+    ...pm.partner,
+  }),
+)
 
 const notificationSettingsSelector = createSelector(
   state => state.notificationSettings,
@@ -263,11 +282,22 @@ export const inviteChannelMembersSelector = createSelector(
 )
 
 export const newConversationSelector = createSelector(
-  [state => state.newConversation, joinedChannelsSelector, channelSelector],
-  (newConversation, isMemberOfAnyRooms, channel) => ({
+  [
+    state => state.newConversation,
+    joinedChannelsSelector,
+    channelSelector,
+    confSelector,
+  ],
+  (
+    newConversation,
+    isMemberOfAnyRooms,
+    channel,
+    { organization: { colors } },
+  ) => ({
     ...newConversation,
     isMemberOfAnyRooms,
     channel,
+    colors,
   }),
 )
 
@@ -281,9 +311,14 @@ export const createRoomErrorSelector = createSelector(
   state => state,
 )
 
+export const reconnectSelector = createSelector(
+  state => state.reconnect,
+  state => state,
+)
+
 export const alertsAndChannelSelector = createSelector(
-  [alertsSelector, channelSelector],
-  ({ alerts }, channel) => ({ alerts, channel }),
+  [alertsSelector, channelSelector, reconnectSelector],
+  ({ alerts }, channel, reconnect) => ({ alerts, channel, reconnect }),
 )
 
 export const unreadChannelsSelector = createSelector(
@@ -367,8 +402,13 @@ export const inviteToOrgDialog = createSelector(
 )
 
 export const orgInfoSelector = createSelector(
-  [orgSelector, initialDataLoadingSelector, userSelector],
-  ({ logo, name, inviterRole, supportLink, permissions }, isLoading, user) => ({
+  [orgSelector, initialDataLoadingSelector, userSelector, confSelector],
+  (
+    { logo, name, inviterRole, supportLink, permissions },
+    isLoading,
+    user,
+    { organization: { colors } },
+  ) => ({
     logo,
     name,
     inviterRole,
@@ -376,13 +416,16 @@ export const orgInfoSelector = createSelector(
     permissions,
     isLoading,
     user,
+    colors,
   }),
 )
 
-export const navigationPmsSelector = createSelector([pmsSelector], pms =>
-  pms.filter(
-    pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
-  ),
+export const navigationPmsSelector = createSelector(
+  [pmsSelector],
+  pms =>
+    pms.filter(
+      pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
+    ),
 )
 
 function unixToIsoTimestamp(timestamp) {
@@ -417,6 +460,7 @@ export const navigationSelector = createSelector(
     userSelector,
     foundChannelsSelector,
     searchingChannelsSelector,
+    confSelector,
     orgSelector,
   ],
   (
@@ -427,6 +471,7 @@ export const navigationSelector = createSelector(
     user,
     foundChannels,
     searchingChannels,
+    { organization: { colors } },
     { permissions },
   ) => {
     const joined = [...joinedRooms, ...pms]
@@ -445,6 +490,7 @@ export const navigationSelector = createSelector(
       channel,
       foundChannels,
       searchingChannels,
+      colors,
       permissions,
     }
   },
@@ -492,6 +538,7 @@ export const sidebarComponentSelector = createSelector(
     userSelector,
     labeledMessagesSelector,
     pinnedMessagesSelector,
+    confSelector,
   ],
   (
     org,
@@ -506,6 +553,7 @@ export const sidebarComponentSelector = createSelector(
     user,
     labeledMessages,
     pinnedMessages,
+    { organization: { colors } },
   ) => {
     const select = { show, showSubview, user }
 
@@ -538,6 +586,7 @@ export const sidebarComponentSelector = createSelector(
       },
       orgFeatures: org.features,
       subview: subviews[showSubview],
+      colors,
     }
   },
 )
@@ -551,23 +600,26 @@ export const headerSelector = createSelector(
     unreadMentionsAmountSelector,
     userProfileSelector,
     joinedChannelsSelector,
+    confSelector,
   ],
   (
-    { features },
+    { permissions },
     favorite,
     channel,
     { show: sidebar },
     mentions,
     partner,
     isMemberOfAnyRooms,
+    { organization: { colors } },
   ) => ({
     favorite,
     channel,
     sidebar,
     mentions,
     partner,
-    features,
+    permissions,
     isMemberOfAnyRooms,
+    colors,
   }),
 )
 
@@ -584,6 +636,7 @@ export const historyComponentSelector = createSelector(
     joinedChannelsSelector,
     userSelector,
     usersSelector,
+    confSelector,
   ],
   (
     history,
@@ -592,6 +645,7 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis,
@@ -600,6 +654,8 @@ export const historyComponentSelector = createSelector(
     isMemberOfAnyRooms,
     user,
     users,
+    colors: conf.organization.colors,
+    conf,
   }),
 )
 

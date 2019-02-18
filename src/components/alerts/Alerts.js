@@ -23,13 +23,16 @@ export default class Alerts extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     alerts: PropTypes.array,
+    reconnect: PropTypes.object.isRequired,
     enableNotifications: PropTypes.func,
+    onReconnect: PropTypes.func,
     hideAlert: PropTypes.func,
   }
 
   static defaultProps = {
     hideAlert: noop,
     enableNotifications: noop,
+    onReconnect: noop,
     alerts: [],
   }
 

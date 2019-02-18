@@ -7,9 +7,9 @@ export default class Switch extends PureComponent {
     off: PropTypes.string.isRequired,
     on: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
     status: PropTypes.bool.isRequired,
-    theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -17,8 +17,7 @@ export default class Switch extends PureComponent {
   }
 
   render() {
-    const { off, on, status, disabled, onChange, theme } = this.props
-    const { classes } = theme
+    const { off, on, status, disabled, classes, onChange } = this.props
     let switchClass = `${classes.switch} ${
       classes[`switch${status ? 'On' : 'Off'}`]
     }`

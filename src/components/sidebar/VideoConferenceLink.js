@@ -3,7 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
 import { small } from 'grape-theme/dist/fonts'
-import { isElectron } from 'grape-web/lib/x-platform/electron'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
@@ -18,6 +19,8 @@ const styles = ({ palette }) => ({
         size: 18,
       }),
     ],
+    display: 'flex',
+    alignItems: 'center',
     width: '100%',
     textAlign: 'left',
     marginBottom: sizes.spacer.s,
@@ -27,48 +30,41 @@ const styles = ({ palette }) => ({
       isolate: false,
       color: palette.text.primary,
     },
+    '&:hover:before': {
+      isolate: false,
+      content: '""',
+      width: 18,
+      height: 18,
+      marginRight: 5,
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'camera',
+          color: `${colors.button || palette.secondary.A200}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+      backgroundSize: 'contain',
+    },
   },
 })
 
-class VideoConferenceLink extends React.Component {
-  onClick = () => {
-    window
-      .require('electron')
-      .shell.openExternal(
-        `${window.location.origin}${this.props.channel.videoconferenceUrl}`,
-      )
-  }
+function VideoConferenceLink(props) {
+  const { channel, classes } = props
 
-  render() {
-    const { channel, classes } = this.props
-
-    if (isElectron) {
-      return (
-        <button className={classes.root} onClick={this.onClick}>
-          <FormattedMessage
-            id="joinVideoConference"
-            defaultMessage="Join video conference"
-            description="Sidebar: link to join a video conference"
-          />
-        </button>
-      )
-    }
-
-    return (
-      <a
-        href={channel.videoconferenceUrl}
-        className={classes.root}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FormattedMessage
-          id="joinVideoConference"
-          defaultMessage="Join video conference"
-          description="Sidebar: link to join a video conference"
-        />
-      </a>
-    )
-  }
+  return (
+    <a
+      href={channel.videoconferenceUrl}
+      className={classes.root}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FormattedMessage
+        id="joinVideoConference"
+        defaultMessage="Join video conference"
+        description="Sidebar: link to join a video conference"
+      />
+    </a>
+  )
 }
 
 export default injectSheet(styles)(VideoConferenceLink)

@@ -25,7 +25,7 @@ const Wrapper = listenOutsideClick(({ onClick, className, children }) => (
  */
 class EditableText extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     multiline: PropTypes.bool,
     onSave: PropTypes.func.isRequired,
     maxLength: PropTypes.number.isRequired,
@@ -145,12 +145,11 @@ class EditableText extends PureComponent {
       maxLength,
       clearError,
       error,
-      sheet,
+      classes,
       preserveSpaceForButton,
     } = this.props
 
     const { value, saving, isEditing } = this.state
-    const { classes } = sheet
     const editableProps = {
       multiline,
       maxLength,

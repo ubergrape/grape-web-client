@@ -381,11 +381,15 @@ class GrapeInput extends PureComponent {
     }
   }, 5000)
 
-  focus() {
+  focus = () => {
     // TODO: grape-browser needs a better way to support this.
     this.setState({ focused: false }, () => {
       this.setState({ focused: true })
     })
+  }
+
+  removeFocus = () => {
+    this.setState({ focused: false })
   }
 
   render() {
@@ -452,6 +456,7 @@ class GrapeInput extends PureComponent {
             goTo={goTo}
             channel={channel}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
+            onBlur={this.removeFocus}
             {...browserProps}
           />
         </div>

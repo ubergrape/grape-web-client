@@ -6,6 +6,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import isChatUrl from '../../utils/is-chat-url'
+import isCallUrl from '../../utils/is-call-url'
 import styles from './theme'
 
 class Link extends PureComponent {
@@ -21,6 +22,29 @@ class Link extends PureComponent {
 
   render() {
     const { href, children, classes } = this.props
+
+    // In Electron calls should be opened in a second window.
+    // In a Browser it should be opened as a new tab.
+    if (isCallUrl(href)) {
+      if (isElectron) {
+        return (
+          <button className={classes.externalLink} onClick={this.onClick}>
+            {children}
+          </button>
+        )
+      }
+
+      return (
+        <a
+          href={href}
+          className={classes.externalLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      )
+    }
 
     // If a link is external, or link without HTTP/https protocol app should
     // render the default link with target="_blank". More details here:
@@ -49,10 +73,7 @@ class Link extends PureComponent {
       )
     }
 
-    return (
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <RouterLink to={parseUrl(href).pathname}>{children}</RouterLink>
-    )
+    return <RouterLink to={parseUrl(href).pathname}>{children}</RouterLink>
   }
 }
 

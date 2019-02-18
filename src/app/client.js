@@ -21,6 +21,10 @@ export const reopen = () => {
   get().reopen()
 }
 
+export const open = () => {
+  get().open()
+}
+
 export const disconnect = () => {
   clearInterval(authIntervalId)
   get().disconnect()
