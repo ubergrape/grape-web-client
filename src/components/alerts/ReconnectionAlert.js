@@ -59,7 +59,7 @@ export default class ReconnectionAlert extends PureComponent {
           id="connectionTrouble"
           defaultMessage="We're having trouble connecting to Grape."
         />&nbsp;
-        {secondsLeftToReconnect > 0 ? (
+        {secondsLeftToReconnect ? (
           <span>
             <FormattedMessage
               id="tryToReconnect"
