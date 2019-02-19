@@ -16,12 +16,7 @@ export default {
     display: 'block',
     margin: 0,
     wordBreak: 'break-word',
-    color: ({ isOwn, colors }) => {
-      if (!colors) return grayDark
-      return isOwn
-        ? colors.ownMessageText || grayDark
-        : colors.mateMessageText || grayDark
-    },
+    color: grayDark,
   },
   '& strong, & b': {
     fontWeight: 'bold',
