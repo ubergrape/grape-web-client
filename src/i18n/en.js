@@ -36,7 +36,7 @@ export default {
   "dropFileToUpload": "Drop your file to upload it!",
   "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
   "fileUploadTitle": "Uploading {uploading} of {total} files",
-  "fileUploadTitleFinished": "Upload finished",
+  "fileUploadTitleFinished": "Upload status",
   "fileTooBig": "File exceeds size limit of {limit}mb.",
   "editMessagePlaceholder": "Enter a message …",
   "disabledMessagePlaceholder": "This user has been deleted. Messaging is disabled.",
