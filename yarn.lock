@@ -2990,6 +2990,13 @@ debug@^3.1.0, debug@^3.2.6:
   dependencies:
     ms "^2.1.1"
 
+debug@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
+  dependencies:
+    ms "^2.1.1"
+
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
@@ -4799,14 +4806,15 @@ http-errors@1.6.3, http-errors@~1.6.2, http-errors@~1.6.3:
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
 
-http-mitm-proxy@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/http-mitm-proxy/-/http-mitm-proxy-0.6.1.tgz#231be8d13d4b9ca66105e1c430943ee1a7bafb4f"
-  integrity sha512-E5VWs6mecrDsxT3SqBDymeUY0Go0r/n6v5DU6ecqTFv4lCcRP1uxkH+ebOd9nJ/3Tr4jM2GwdIuy/qCStCCu9w==
+http-mitm-proxy@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/http-mitm-proxy/-/http-mitm-proxy-0.7.0.tgz#82933137ae1c06713961afe50f38ca84cf80bb0c"
+  integrity sha512-rRMRfQCVwEO31Q6GFiQHfECdMn3Z0ddWWLNgmeyIUDMf0gr/Ek+lhZ17gWzKL4NXZkMc1h982BYl8blRXv7/og==
   dependencies:
     async "^2.5.0"
+    debug "^4.1.0"
     mkdirp "^0.5.1"
-    node-forge "^0.7.1"
+    node-forge "^0.8.0"
     optimist "^0.6.1"
     semaphore "^1.1.0"
     ws "^3.2.0"
@@ -7101,10 +7109,10 @@ node-forge@0.7.5:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
   integrity sha512-MmbQJ2MTESTjt3Gi/3yG1wGpIMhUfcIypUCGtTizFR9IiccFwxSpfp0vtIZlkFclEqERemxfnSdZEMR9VqqEFQ==
 
-node-forge@^0.7.1:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
-  integrity sha512-sol30LUpz1jQFBjOKwbjxijiE3b6pjd74YwfD0fJOKPjF+fONKb2Yg8rYgS6+bK6VDl+/wfr4IYpC7jDzLUIfw==
+node-forge@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.8.0.tgz#b897a89f25fe85ed7d0e3bd0c744c62931254dca"
+  integrity sha512-DVrvVeXwnSSX0Bgi9jy8p4IXQKLhGRQltG+UTR3Oci3Wb/zIROMoxw9im/K5s6KnNMheSWgG8K4qz8Njccdj3g==
 
 node-int64@^0.4.0:
   version "0.4.0"
