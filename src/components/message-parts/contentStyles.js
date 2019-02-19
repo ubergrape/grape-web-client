@@ -16,7 +16,6 @@ export default {
     display: 'block',
     margin: 0,
     wordBreak: 'break-word',
-    color: grayDark,
   },
   '& strong, & b': {
     fontWeight: 'bold',
