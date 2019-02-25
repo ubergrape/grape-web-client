@@ -1,5 +1,11 @@
 import React from 'react'
 
+/*
+ * This ErrorBoundary is the absolute last resort in case something goes wrong.
+ *
+ * We use inline styles to avoid any errors coming from JSS. In addtion this is
+ * not translatted since at this point the user settings are not know.
+ */
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
