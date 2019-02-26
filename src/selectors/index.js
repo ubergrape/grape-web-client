@@ -750,3 +750,16 @@ export const introSelectorComponent = createSelector(
     permissions,
   }),
 )
+
+export const videoConferenceWarningSelector = createSelector(
+  state => state.videoConferenceWarning,
+  state => state,
+)
+
+export const videoConferenceWarningComponentSelector = createSelector(
+  [videoConferenceWarningSelector, channelSelector],
+  (videoConferenceWarning, { videoconferenceUrl }) => ({
+    ...videoConferenceWarning,
+    videoconferenceUrl,
+  }),
+)

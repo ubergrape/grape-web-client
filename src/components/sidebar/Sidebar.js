@@ -53,6 +53,7 @@ const Content = props => {
     toggleSearchActivities,
     toggleShowRoomMentions,
     toggleShowCurrentRoomMentions,
+    showVideoConferenceWarning,
     hideSidebar,
     showSidebarSubview,
     goToMessage,
@@ -80,6 +81,7 @@ const Content = props => {
           onSelectPinnedMessage={goToMessage}
           onUnpin={unpinMessage}
           orgFeatures={orgFeatures}
+          showVideoConferenceWarning={showVideoConferenceWarning}
         />
       )
     case 'pm':
@@ -95,6 +97,7 @@ const Content = props => {
           onUnpin={unpinMessage}
           getUser={getUser}
           orgFeatures={orgFeatures}
+          showVideoConferenceWarning={showVideoConferenceWarning}
         />
       )
     case 'mentions':
@@ -193,6 +196,7 @@ Content.propTypes = {
   toggleSearchActivities: PropTypes.func.isRequired,
   toggleShowRoomMentions: PropTypes.func.isRequired,
   toggleShowCurrentRoomMentions: PropTypes.func.isRequired,
+  showVideoConferenceWarning: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired,
   selectLabeledMessagesFilter: PropTypes.func.isRequired,
