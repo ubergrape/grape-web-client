@@ -3,7 +3,7 @@ import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { newConversationDialog as selector } from '../../selectors'
+import { newConversationComponentSelector as selector } from '../../selectors'
 import { NewConversationDialog } from '../../components/new-conversation-dialog'
 
 const actionNames = [
