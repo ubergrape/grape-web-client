@@ -36,7 +36,7 @@ export default {
   "dropFileToUpload": "Drop your file to upload it!",
   "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
   "fileUploadTitle": "Uploading {uploading} of {total} files",
-  "fileUploadTitleFinished": "Upload finished",
+  "fileUploadTitleFinished": "Upload status",
   "fileTooBig": "File exceeds size limit of {limit}mb.",
   "editMessagePlaceholder": "Enter a message …",
   "disabledMessagePlaceholder": "This user has been deleted. Messaging is disabled.",
@@ -241,5 +241,13 @@ export default {
   "skype": "Skype",
   "phone": "Phone",
   "aboutUserTitle": "About this user",
-  "joinVideoConference": "Join video conference"
+  "joinVideoConference": "Join video conference",
+  "videoConferencingTitle": "Sorry, video conferencing isn't supported in this browser.",
+  "unsupportedBrowser": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call. Please use our {desktopApp} instead.",
+  "desktopApp": "desktop app",
+  "openInDesktop": "Open in Grape Desktop",
+  "downloadGrape": "{download}, if you haven’t installed it yet.",
+  "downloadGrapeDesktop": "Download Grape Desktop",
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "chromeOrFirefox": "Chrome or Firefox"
 }

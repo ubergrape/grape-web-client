@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
@@ -7,6 +7,10 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
+
+const isSupportedBrowser =
+  navigator.userAgent.includes('Firefox') ||
+  navigator.userAgent.includes('Chrome')
 
 const styles = ({ palette }) => ({
   root: {
@@ -48,23 +52,40 @@ const styles = ({ palette }) => ({
   },
 })
 
-function VideoConferenceLink(props) {
-  const { channel, classes } = props
+class VideoConferenceLink extends Component {
+  onClick = () => {
+    this.props.showVideoConferenceWarning()
+  }
 
-  return (
-    <a
-      href={channel.videoconferenceUrl}
-      className={classes.root}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <FormattedMessage
-        id="joinVideoConference"
-        defaultMessage="Join video conference"
-        description="Sidebar: link to join a video conference"
-      />
-    </a>
-  )
+  render() {
+    const { classes, channel } = this.props
+    return (
+      <div>
+        {isSupportedBrowser ? (
+          <a
+            href={channel.videoconferenceUrl}
+            className={classes.root}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FormattedMessage
+              id="joinVideoConference"
+              defaultMessage="Join video conference"
+              description="Sidebar: link to join a video conference"
+            />
+          </a>
+        ) : (
+          <button onClick={this.onClick} className={classes.root}>
+            <FormattedMessage
+              id="joinVideoConference"
+              defaultMessage="Join video conference"
+              description="Sidebar: link to join a video conference"
+            />
+          </button>
+        )}
+      </div>
+    )
+  }
 }
 
 export default injectSheet(styles)(VideoConferenceLink)

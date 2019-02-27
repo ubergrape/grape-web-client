@@ -41,7 +41,7 @@ import { zIndex } from '../../utils/z-index'
     zIndex: zIndex('below'),
   },
   content: {
-    width: 525,
+    minWidth: 525,
     borderRadius: borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden',
