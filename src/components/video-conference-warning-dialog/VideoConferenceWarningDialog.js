@@ -15,7 +15,8 @@ import styles from './theme'
 const messages = defineMessages({
   title: {
     id: 'videoConferencingTitle',
-    defaultMessage: "Sorry, video conferencing isn't supported in this browser",
+    defaultMessage:
+      "Sorry, video conferencing isn't supported in this browser.",
   },
 })
 
@@ -57,7 +58,10 @@ class VideoConferenceWarningDialog extends PureComponent {
               values={{
                 desktopApp: (
                   <span className={cn(classes.text, classes.bold)}>
-                    desktop app
+                    <FormattedMessage
+                      id="desktopApp"
+                      defaultMessage="desktop app"
+                    />
                   </span>
                 ),
               }}
@@ -95,7 +99,10 @@ class VideoConferenceWarningDialog extends PureComponent {
                         classes.bold,
                       )}
                     >
-                      Download Grape Desktop
+                      <FormattedMessage
+                        id="downloadGrapeDesktop"
+                        defaultMessage="Download Grape Desktop"
+                      />
                     </a>
                   ),
                 }}
@@ -109,7 +116,10 @@ class VideoConferenceWarningDialog extends PureComponent {
               values={{
                 browsers: (
                   <span className={cn(classes.text, classes.bold)}>
-                    Chrome or Firefox
+                    <FormattedMessage
+                      id="chromeOrFirefox"
+                      defaultMessage="Chrome or Firefox"
+                    />
                   </span>
                 ),
               }}

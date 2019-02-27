@@ -28,7 +28,6 @@ export default ({ palette }) => ({
     alignItems: 'center',
   },
   link: {
-    width: 191,
     height: 48,
     padding: [13, 11],
     cursor: 'pointer',
@@ -46,7 +45,7 @@ export default ({ palette }) => ({
       buttonIcon('grape', {
         color: palette.text.primary,
         hoverColor: palette.secondary.A200,
-        size: 26,
+        size: 27,
       }),
     ],
   },
