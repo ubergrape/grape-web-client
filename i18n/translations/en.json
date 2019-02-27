@@ -347,5 +347,13 @@
   "aboutUserTitle": "About this user",
   "_aboutUserTitle.comment": "User profile sidebar, about user title.",
   "joinVideoConference": "Join video conference",
-  "_joinVideoConference.comment": "Sidebar: link to join a video conference"
+  "_joinVideoConference.comment": "Sidebar: link to join a video conference",
+  "videoConferencingTitle": "Sorry, video conferencing isn't supported in this browser.",
+  "unsupportedBrowser": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call. Please use our {desktopApp} instead.",
+  "desktopApp": "desktop app",
+  "openInDesktop": "Open in Grape Desktop",
+  "downloadGrape": "{download}, if you haven’t installed it yet.",
+  "downloadGrapeDesktop": "Download Grape Desktop",
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "chromeOrFirefox": "Chrome or Firefox"
 }
