@@ -2,14 +2,7 @@ import React from 'react'
 
 import Header from '../../../message-parts/Header'
 
-export default ({
-  sheet,
-  sheet: { classes },
-  time,
-  userTime,
-  author,
-  onClickAuthor,
-}) => (
+export default ({ sheet, classes, time, userTime, author, onClickAuthor }) => (
   <div className={classes.row}>
     <div className={classes.avatarColumn} />
     <Header

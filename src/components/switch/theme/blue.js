@@ -32,7 +32,7 @@ export const styles = {
     willChange: 'background',
   },
   switchOn: {
-    background: blue,
+    background: ({ colors }) => colors.button || blue,
     '&:after': {
       ...toggler,
       left: `calc(50% - ${togglerMargin}px)`,

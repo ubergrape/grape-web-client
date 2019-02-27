@@ -1,9 +1,10 @@
 import Emitter from 'component-emitter'
 import Wamp from 'wamp1'
-import Backoff from 'backo'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
+
+import Backoff from './Backoff'
 
 const log = debug('ws')
 const prefix = 'http://domain/'
@@ -53,7 +54,11 @@ export default class WampClient {
 
   close() {
     this.wamp.off()
+    // eslint-disable-next-line no-console, no-underscore-dangle
+    console.log(`Close Socket A: `, this.socket, this.socket._socket)
     this.socket.off()
+    // eslint-disable-next-line no-console, no-underscore-dangle
+    console.log(`Close Socket B: `, this.socket, this.socket._socket)
     this.socket.close(3001)
   }
 
@@ -61,6 +66,7 @@ export default class WampClient {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
+    this.out.emit('set:timer', backoff)
     if (backoff >= this.backoff.max) this.onDisconnected()
     log('reopen in %sms', backoff)
     setTimeout(() => {
@@ -126,6 +132,7 @@ export default class WampClient {
   }
 
   onConnected = () => {
+    this.backoff.reset()
     if (this.connected) return
     this.connected = true
     log('connected')
@@ -133,7 +140,6 @@ export default class WampClient {
   }
 
   onDisconnected = () => {
-    this.backoff.reset()
     if (!this.connected) return
     this.id = null
     this.connected = false
@@ -155,7 +161,6 @@ export default class WampClient {
   }
 
   onError = err => {
-    this.backoff.reset()
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -170,7 +175,7 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
-    this.backoff.reset()
+    this.out.emit('error', event)
     log('socket close', event)
     this.close()
     this.reopen()

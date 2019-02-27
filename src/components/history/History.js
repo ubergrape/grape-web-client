@@ -34,6 +34,7 @@ const styles = {
 class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    conf: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onJump: PropTypes.func.isRequired,
@@ -80,7 +81,11 @@ class History extends PureComponent {
   constructor(props) {
     super(props)
     this.state = createState({}, props)
-    this.needsInitialLoad = true
+
+    // These variables should not be in a state, because after updating them
+    // with setState component will be re-rendered and this can lead to some bugs
+    this.needsLoading = true
+    this.isInitialLoading = true
   }
 
   componentDidMount() {
@@ -107,7 +112,7 @@ class History extends PureComponent {
       selectedMessageHasBeenClickedOnAgain ||
       isLoading
     ) {
-      this.needsInitialLoad = true
+      this.needsLoading = true
     }
 
     if (!isEqual(messages, this.props.messages)) {
@@ -123,10 +128,16 @@ class History extends PureComponent {
   }
 
   onRowsRendered = () => {
+    const { conf } = this.props
     // We need to unset the scrollTo once user has scrolled around, because he
     // might want to use jumper to jump again to the same scrollTo value.
     if (this.props.scrollTo) {
       this.props.onUserScrollAfterScrollTo()
+    }
+
+    if (this.isInitialLoading && conf.callbacks && conf.callbacks.onRender) {
+      this.isInitialLoading = false
+      conf.callbacks.onRender()
     }
   }
 
@@ -140,8 +151,8 @@ class History extends PureComponent {
 
   load() {
     const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
-    if (this.needsInitialLoad && !isLoading && channel && isMemberOfAnyRooms) {
-      this.needsInitialLoad = false
+    if (this.needsLoading && !isLoading && channel && isMemberOfAnyRooms) {
+      this.needsLoading = false
       onLoad()
     }
   }

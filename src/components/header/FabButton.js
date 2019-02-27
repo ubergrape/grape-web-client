@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Button from 'grape-web/lib/components/button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -37,11 +38,16 @@ const styles = ({ palette }) => ({
     width: iconSize,
     height: iconSize,
     cursor: 'inherit',
-    color: ({ isSelected }) =>
-      isSelected ? palette.secondary.A200 : palette.text.primary,
+    color: ({ isSelected, colors }) =>
+      isSelected
+        ? colors.button || palette.secondary.A200
+        : palette.text.primary,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200,
+      width: iconSize,
+      height: iconSize,
+      cursor: 'pointer',
+      color: ({ colors }) => colors.button || palette.secondary.A200,
     },
   },
 })
@@ -53,7 +59,7 @@ const FabButton = ({ classes, onClick, isSelected, icon }) => (
     onClick={onClick}
     className={classes[isSelected ? 'active' : 'root']}
   >
-    <Icon name={icon} className={classes.icon} />
+    <Icon name={icon} className={cn(classes.icon, classes.iconHover)} />
   </Button>
 )
 

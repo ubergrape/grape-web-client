@@ -47,6 +47,7 @@ const tabs = [
 export default class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
     permissions: PropTypes.object,
     user: PropTypes.object.isRequired,
@@ -72,6 +73,7 @@ export default class RoomInfo extends PureComponent {
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeleteDialog: PropTypes.func.isRequired,
+    showVideoConferenceWarning: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ export default class RoomInfo extends PureComponent {
 
   static defaultProps = {
     renameError: null,
+    colors: {},
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
@@ -141,6 +144,7 @@ export default class RoomInfo extends PureComponent {
   renderMembers = () => {
     const {
       channel,
+      colors,
       goToAddIntegrations,
       user,
       openPm,
@@ -154,6 +158,7 @@ export default class RoomInfo extends PureComponent {
       <div>
         <RoomActions
           channel={channel}
+          colors={colors}
           permissions={permissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}
@@ -165,6 +170,7 @@ export default class RoomInfo extends PureComponent {
           permissions.canAddIntegration) && <Divider />}
         <ChannelMembers
           channel={channel}
+          colors={colors}
           onLoad={onLoadMembers}
           onOpen={openPm}
           onKick={kickMemberFromChannel}
@@ -214,9 +220,11 @@ export default class RoomInfo extends PureComponent {
       renameError,
       clearRoomRenameError,
       classes,
+      colors,
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
+      showVideoConferenceWarning,
       showSubview,
       onClose,
       permissions,
@@ -228,14 +236,16 @@ export default class RoomInfo extends PureComponent {
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<GroupInfoText />} onClose={onClose}>
+      <SidebarPanel colors={colors} title={<GroupInfoText />} onClose={onClose}>
         <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}
             channel={channel}
+            colors={colors}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={permissions.canEditChannel}
+            allowDelete={permissions.canDeleteChannel}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
@@ -248,6 +258,7 @@ export default class RoomInfo extends PureComponent {
           <Description
             description={channel.description}
             allowEdit={permissions.canEditChannel}
+            colors={colors}
             onSetRoomDescription={this.onSetRoomDescription}
             className={classes.description}
             isPublic={channel.isPublic}
@@ -255,13 +266,18 @@ export default class RoomInfo extends PureComponent {
           {orgFeatures.videoconference && (
             <div>
               <Divider inset />
-              <VideoConferenceLink channel={channel} />
+              <VideoConferenceLink
+                showVideoConferenceWarning={showVideoConferenceWarning}
+                colors={colors}
+                channel={channel}
+              />
             </div>
           )}
           <TabbedContent
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
             tabs={tabs}
+            colors={colors}
             title={tab.title}
             body={this[tab.render]()}
           />

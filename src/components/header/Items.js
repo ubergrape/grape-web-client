@@ -87,9 +87,10 @@ function Items(props) {
     mentions,
     sidebar,
     classes,
-    features,
+    permissions,
     intl,
     channel,
+    colors,
   } = props
 
   return (
@@ -102,6 +103,7 @@ function Items(props) {
           favorited={favorite.favorited}
           onFavorize={requestAddChannelToFavorites}
           onUnfavorize={requestRemoveChannelFromFavorites}
+          colors={colors}
         />
       </li>
       <li className={classes.title}>
@@ -120,6 +122,7 @@ function Items(props) {
             onClick={itemClickHandler(channel.type, props)}
             isSelected={sidebar === channel.type}
             channel={channel.type}
+            colors={colors}
           />
         </li>
         <li className={classes.search}>
@@ -139,13 +142,15 @@ function Items(props) {
             onClick={itemClickHandler('mentions', props)}
             isSelected={sidebar === 'mentions'}
             mentions={mentions}
+            colors={colors}
           />
         </li>
-        {features.labeledMessagesList && (
+        {permissions.canSeeLabels && (
           <li className={classes.action}>
             <LabeledMessagesButton
               isSelected={sidebar === 'labeledMessages'}
               onClick={itemClickHandler('labeledMessages', props)}
+              colors={colors}
             />
           </li>
         )}
@@ -159,22 +164,22 @@ Items.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
+  colors: PropTypes.object,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   favorite: PropTypes.object.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
-  features: PropTypes.shape({
-    labeledMessagesList: PropTypes.bool,
-  }),
+  permissions: PropTypes.object,
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
 }
 
 Items.defaultProps = {
-  features: {},
+  permissions: {},
   mentions: 0,
   sidebar: undefined,
+  colors: {},
 }
 
 export default injectSheet(styles)(Items)
