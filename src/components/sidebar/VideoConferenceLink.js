@@ -9,8 +9,9 @@ import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
 const isSupportedBrowser =
-  navigator.userAgent.includes('Firefox') ||
-  navigator.userAgent.includes('Chrome')
+  (navigator.userAgent.includes('Firefox') ||
+    navigator.userAgent.includes('Chrome')) &&
+  !navigator.userAgent.includes('Edge')
 
 const styles = ({ palette }) => ({
   root: {
