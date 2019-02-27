@@ -73,6 +73,7 @@ export default class RoomInfo extends PureComponent {
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeleteDialog: PropTypes.func.isRequired,
+    showVideoConferenceWarning: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -223,6 +224,7 @@ export default class RoomInfo extends PureComponent {
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
+      showVideoConferenceWarning,
       showSubview,
       onClose,
       permissions,
@@ -264,7 +266,11 @@ export default class RoomInfo extends PureComponent {
           {orgFeatures.videoconference && (
             <div>
               <Divider inset />
-              <VideoConferenceLink colors={colors} channel={channel} />
+              <VideoConferenceLink
+                showVideoConferenceWarning={showVideoConferenceWarning}
+                colors={colors}
+                channel={channel}
+              />
             </div>
           )}
           <TabbedContent

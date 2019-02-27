@@ -37,6 +37,7 @@ const actionNames = [
   'showRoomDeleteDialog',
   'goToAddIntegrations',
   'showNotificationSettings',
+  'showVideoConferenceWarning',
   'openSharedFile',
   'unpinMessage',
   'getUser',

@@ -240,5 +240,13 @@ export default {
   "skype": "Skype",
   "phone": "Telefon",
   "aboutUserTitle": "Über diesen Nutzer",
-  "joinVideoConference": "Video Konferenz beitreten"
+  "joinVideoConference": "Video Konferenz beitreten",
+  "videoConferencingTitle": "Leider unterstützt dieser Browser keine Videokonferenz.",
+  "unsupportedBrowser": "Der Browser, den Sie im Moment verwenden, unterstützt leider keine Videokonferenz mit Grape Call. Bitte benutzen Sie stattdessen unsere {desktopApp}.",
+  "desktopApp": "Desktop App",
+  "openInDesktop": "In Grape Desktop öffnen",
+  "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
+  "downloadGrapeDesktop": "Grape Desktop herunterladen",
+  "altenativeBrowser": "Alternativ können Sie {browsers} oder Firefox in vollem Umfang verwenden.",
+  "chromeOrFirefox": "Grape mit Chrome"
 }

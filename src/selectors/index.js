@@ -345,7 +345,7 @@ export const isInviterSelector = createSelector(
   ({ inviterRole }, { role }) => role >= inviterRole,
 )
 
-export const newConversationDialog = createSelector(
+export const newConversationComponentSelector = createSelector(
   [
     newConversationSelector,
     orgSelector,
@@ -764,10 +764,23 @@ export const introSelector = createSelector(
   state => state,
 )
 
-export const introSelectorComponent = createSelector(
+export const introComponentSelector = createSelector(
   [introSelector, orgSelector],
   (intro, { permissions }) => ({
     ...intro,
     permissions,
+  }),
+)
+
+export const videoConferenceWarningSelector = createSelector(
+  state => state.videoConferenceWarning,
+  state => state,
+)
+
+export const videoConferenceWarningComponentSelector = createSelector(
+  [videoConferenceWarningSelector, channelSelector],
+  (videoConferenceWarning, { videoconferenceUrl }) => ({
+    ...videoConferenceWarning,
+    videoconferenceUrl,
   }),
 )
