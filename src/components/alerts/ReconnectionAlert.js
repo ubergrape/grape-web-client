@@ -31,9 +31,17 @@ export default class ReconnectionAlert extends PureComponent {
   }
 
   componentDidMount = () => {
+    const {
+      reconnect: { timerSet, backoff },
+      updateTimer,
+    } = this.props
     this.timer = setInterval(() => {
-      this.props.updateTimer()
+      updateTimer(timerSet + backoff - Date.now())
     }, 1000)
+  }
+
+  componentWillUnmount = () => {
+    window.clearInterval(this.timer)
   }
 
   onReconnect = () => {
@@ -41,17 +49,15 @@ export default class ReconnectionAlert extends PureComponent {
     onReconnect()
   }
 
-  componentDidUnmount = () => {
-    window.clearInterval(this.timer)
-  }
-
   render() {
     const { classes, buttonClass, reconnect } = this.props
 
     const secondsLeftToReconnect = parseInt(
-      (reconnect.currentTime + reconnect.backoff - Date.now()) / 1000,
+      (reconnect.timerSet + reconnect.backoff - Date.now()) / 1000,
       10,
     )
+
+    if (!secondsLeftToReconnect) return null
 
     return (
       <div className={classes.reconnectionAlert}>

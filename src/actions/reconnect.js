@@ -8,12 +8,13 @@ export const onReconnect = () => () => {
 export const setTimer = backoff => dispatch => {
   dispatch({
     type: types.SET_TIMER,
-    payload: { backoff, currentTime: Date.now() },
+    payload: { backoff, timerSet: Date.now() },
   })
 }
 
-export const updateTimer = () => dispatch => {
+export const updateTimer = timeToReconnection => dispatch => {
   dispatch({
     type: types.UPDATE_TIMER,
+    payload: timeToReconnection,
   })
 }
