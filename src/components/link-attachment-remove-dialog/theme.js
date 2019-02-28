@@ -6,11 +6,12 @@ export const styles = {
   root: {
     extend: fonts.small,
     padding: [0, spacer.l, spacer.l],
+    display: 'flex',
+    flexDirection: 'column',
   },
   adminField: {
     border: 0,
     padding: 0,
-    paddingLeft: spacer.l,
     margin: 0,
     marginTop: spacer.s,
   },
