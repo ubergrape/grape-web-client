@@ -63,7 +63,6 @@ import { zIndex } from '../../utils/z-index'
   },
   title: {
     extend: [biggest, ellipsis],
-    flex: 2,
     alignSelf: 'center',
     paddingLeft: 20,
   },
