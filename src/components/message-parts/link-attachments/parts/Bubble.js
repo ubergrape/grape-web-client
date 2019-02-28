@@ -19,7 +19,6 @@ export default useTheme(Bubble, {
       boxShadow: [-3, 0, 0, 0, grayMercury],
     },
     content: {
-      display: 'flex',
       backgroundColor: white,
       padding: [5, 10],
     },

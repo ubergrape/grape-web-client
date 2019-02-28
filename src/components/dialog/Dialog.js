@@ -56,6 +56,7 @@ import { zIndex } from '../../utils/z-index'
     isolate: false,
     fontSize: small.fontSize,
     opacity: 0.5,
+    flex: 1,
     '&:hover': {
       isolate: false,
       opacity: 1,
