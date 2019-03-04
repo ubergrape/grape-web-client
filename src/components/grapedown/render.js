@@ -36,6 +36,10 @@ class Renderer {
     this.renderer = mdReact({
       presetName: 'commonmark',
       disableRules: ['list', 'heading'],
+      // linkify has to be additional to the option be enabled as
+      // a rule since commonmark disables it by default
+      // see https://github.com/markdown-it/markdown-it/issues/367
+      enableRules: ['linkify'],
       markdownOptions: {
         linkify: true,
         html: false,
