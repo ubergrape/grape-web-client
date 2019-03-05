@@ -39,6 +39,7 @@ export default {
   "fileUploadTitleFinished": "Upload Status",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit} MB.",
   "editMessagePlaceholder": "Nachricht eingeben …",
+  "disabledMessagePlaceholder": "Dieses Mitglied wurde gelöscht. Nachrichten Senden ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um das Bearbeiten zu beenden.",
   "quoteFooter": "- [{author}]({pmPath}) ([Originalnachricht]({messageUrl}))",
@@ -247,6 +248,6 @@ export default {
   "openInDesktop": "In Grape Desktop öffnen",
   "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
-  "altenativeBrowser": "Alternativ können Sie {browsers} oder Firefox in vollem Umfang verwenden.",
-  "chromeOrFirefox": "Grape mit Chrome"
+  "altenativeBrowser": "Alternativ können Sie {browsers} in vollem Umfang verwenden.",
+  "chromeOrFirefox": "Grape mit Chrome oder Firefox"
 }
