@@ -40,6 +40,7 @@
   "_fileUploadTitleFinished.comment": "Upload notification title",
   "fileTooBig": "File exceeds size limit of {limit}mb.",
   "editMessagePlaceholder": "Enter a message …",
+  "disabledMessagePlaceholder": "This user has been deleted. Messaging is disabled.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Hit {key} to cancel editing.",
   "quoteFooter": "- [Message]({messageUrl}) from [{author}]({pmPath})",
