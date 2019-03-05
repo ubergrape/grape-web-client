@@ -322,8 +322,6 @@
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
-  "_inviteMoreToGroup.comment": "Room Info Panel: link to invite people to the group/room",
-  "_addServiceIntegration.comment": "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",
