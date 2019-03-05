@@ -175,7 +175,6 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
-    this.out.emit('error', event)
     log('socket close', event)
     this.close()
     this.reopen()
