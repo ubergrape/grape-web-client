@@ -16,6 +16,7 @@ const messages = defineMessages({
 
 @injectSheet({
   root: {
+    width: 525,
     display: 'block',
     padding: 20,
     borderTop: {
