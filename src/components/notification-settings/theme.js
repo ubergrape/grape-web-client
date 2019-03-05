@@ -23,6 +23,7 @@ const createIcon = name =>
 export const styles = {
   notificationSettings: {
     borderTop: [3, 'solid', grayBlueLighter],
+    width: 525,
   },
   section: {
     paddingTop: padding,

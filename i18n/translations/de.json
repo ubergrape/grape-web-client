@@ -40,6 +40,7 @@
   "_fileUploadTitleFinished.comment": "Upload notification title",
   "fileTooBig": "Die Datei überschreitet die maximal zulässige Größe von {limit} MB.",
   "editMessagePlaceholder": "Nachricht eingeben …",
+  "disabledMessagePlaceholder": "Dieses Mitglied wurde gelöscht. Nachrichten Senden ist deaktiviert.",
   "keyESC": "ESC",
   "hitKeyToCancelEditing": "Drücken Sie {key} um das Bearbeiten zu beenden.",
   "quoteFooter": "- [{author}]({pmPath}) ([Originalnachricht]({messageUrl}))",
