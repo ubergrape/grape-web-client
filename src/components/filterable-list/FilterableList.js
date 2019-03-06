@@ -168,7 +168,11 @@ class FilterableList extends Component {
 
     return (
       <div>
-        <button className={classes.listWrapper} onClick={onClick}>
+        {/* Using div here, because focus controlled by React state. That's why
+        onClick needed here - simply to change state of focus, to let component know
+        where cursor should be */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div className={classes.listWrapper} onClick={onClick}>
           <TagsInput
             onKeyDown={this.onKeyDown}
             onChange={onChange}
@@ -181,7 +185,7 @@ class FilterableList extends Component {
             renderTag={renderSelected}
             className={classes.filterArea}
           />
-        </button>
+        </div>
         {children}
         <div className={classes.list}>{this.renderList()}</div>
       </div>

@@ -6,6 +6,7 @@ import primaryButton from '../button/primary'
 export const styles = {
   content: {
     padding: 15,
+    width: 525,
   },
   text: {
     extend: fonts.big,

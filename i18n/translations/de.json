@@ -355,6 +355,6 @@
   "openInDesktop": "In Grape Desktop öffnen",
   "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
-  "altenativeBrowser": "Alternativ können Sie {browsers} oder Firefox in vollem Umfang verwenden.",
-  "chromeOrFirefox": "Grape mit Chrome"
+  "altenativeBrowser": "Alternativ können Sie {browsers} in vollem Umfang verwenden.",
+  "chromeOrFirefox": "Grape mit Chrome oder Firefox"
 }

@@ -66,6 +66,7 @@ import { zIndex } from '../../utils/z-index'
     extend: [biggest, ellipsis],
     alignSelf: 'center',
     paddingLeft: 20,
+    width: `100%`,
   },
   body: {
     display: 'block',
