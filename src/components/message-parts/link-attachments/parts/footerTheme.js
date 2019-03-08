@@ -6,11 +6,6 @@ export const styles = {
     display: 'inline-flex',
     alignItems: 'center',
   },
-  link: {
-    cursor: 'pointer',
-    color: grayBombay,
-    textDecoration: 'none',
-  },
   icon: {
     width: normal.fontSize,
     height: normal.fontSize,
