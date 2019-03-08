@@ -89,13 +89,11 @@ export default class LabeledMessages extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { messages, currentChannelOnly, channel, filter, onLoad } = this.props
+    const { currentChannelOnly, channel, filter, onLoad } = this.props
+
     if (
       // We need to refresh when this option changes.
       nextProps.currentChannelOnly !== currentChannelOnly ||
-      // When there was no messages and now `newMessagesAmount` got increased
-      // we can load the list, there is no need to show "refresh" button.
-      (!messages.length && nextProps.newMessagesAmount > 0) ||
       // When channel was changed and we search in the current channel only,
       // we need to reload.
       (currentChannelOnly && channel.id !== nextProps.channel.id) ||
