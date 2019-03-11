@@ -39,7 +39,9 @@ class Renderer {
       // linkify has to be additional to the option be enabled as
       // a rule since commonmark disables it by default
       // see https://github.com/markdown-it/markdown-it/issues/367
-      enableRules: ['linkify'],
+      // and for some reason strikethrough should be enabled too, but
+      // documentation says it enabled by default
+      enableRules: ['linkify', 'strikethrough'],
       markdownOptions: {
         linkify: true,
         html: false,
