@@ -584,7 +584,6 @@ export const sidebarComponentSelector = createSelector(
         ...org.permissions,
         ...channel.permissions,
       },
-      orgFeatures: org.features,
       subview: subviews[showSubview],
       colors,
     }
@@ -603,7 +602,7 @@ export const headerSelector = createSelector(
     confSelector,
   ],
   (
-    { permissions },
+    { permissions, features },
     favorite,
     channel,
     { show: sidebar },
@@ -620,6 +619,7 @@ export const headerSelector = createSelector(
     permissions,
     isMemberOfAnyRooms,
     colors,
+    orgFeatures: features,
   }),
 )
 
