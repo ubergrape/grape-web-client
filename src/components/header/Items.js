@@ -128,6 +128,7 @@ function Items(props) {
         <li className={classes.videoConference}>
           <VideoConferenceButton
             channel={channel}
+            colors={colors}
             showVideoConferenceWarning={showVideoConferenceWarning}
           />
         </li>

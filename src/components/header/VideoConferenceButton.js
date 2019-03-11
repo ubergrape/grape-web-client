@@ -19,7 +19,9 @@ export const styles = ({ palette }) => ({
     display: 'flex',
     width: iconSize + 16,
     height: iconSize + 16,
-    verticalAlign: 'middle',
+    alignItems: 'center',
+    cursor: 'pointer',
+    justifyContent: 'center',
   },
   camera: {
     color: palette.text.primary,
@@ -32,9 +34,7 @@ export const styles = ({ palette }) => ({
       // https://github.com/cssinjs/react-jss/issues/165
       width: iconSize,
       height: iconSize,
-      color: ({ colors }) =>
-        // colors.button ||
-        palette.secondary.A200,
+      color: ({ colors }) => colors.button || palette.secondary.A200,
     },
   },
 })
