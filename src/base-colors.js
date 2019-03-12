@@ -9,6 +9,7 @@ export default {
 
   grayBase: '#737373',
   grayLight: '#aaaaaa',
+  grayLighter: '#f7f7f9',
   grayLightest: '#fafafa',
   gray: '#666666',
   grayDark: '#4d4d4d',
