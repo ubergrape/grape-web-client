@@ -7,8 +7,9 @@ export default {
   yellow: '#fff3b9',
   orange: '#f5a623',
 
+  grayBase: '#737373',
   grayLight: '#aaaaaa',
-  grayLighter: '#f7f7f9',
+  grayLightest: '#fafafa',
   gray: '#666666',
   grayDark: '#4d4d4d',
   grayDarker: '#333333',

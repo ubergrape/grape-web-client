@@ -18,6 +18,7 @@ export default {
   organisationBackground: colors.grayDarker,
   searchHighlightColor: colors.yellow,
   borderLight: 'rgba(0,0,0,0.05)',
+  borderLighter: 'rgb(224,224,224)',
   borderDefault: 'rgba(0,0,0,0.10)',
   borderDark: 'rgba(0,0,0,0.15)'
 }
