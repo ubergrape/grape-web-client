@@ -28,7 +28,7 @@ import Title from './Title'
     minWidth: 40,
     height: 38,
     marginRight: spacing,
-    color: ({ colors }) => colors.button || palette.text.secondary,
+    color: palette.text.secondary,
     opacity: 1,
   },
   tabInherit: {
