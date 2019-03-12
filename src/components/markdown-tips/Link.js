@@ -18,6 +18,7 @@ import Button from 'grape-web/lib/components/button'
       textDecoration: 'underline',
       color: 'inherit',
       opacity: 0.8,
+      cursor: 'pointer',
     },
     '&[href]': {
       textDecoration: 'underline',
