@@ -11,9 +11,9 @@
     "eslint-config-ubergrape": "^2.1.0"
   },
   "scripts": {
-    "all": "npm run clean && npm run build",
+    "all": "yarn run clean && yarn run build",
     "build": "./bin/build",
     "clean": "rm -fr ./dist/*",
-    "prepublishOnly": "npm run all"
+    "prepublishOnly": "yarn run all"
   }
 }
