@@ -18,5 +18,7 @@
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
   "serviesHeadline": "Service auswählen",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "Keine Services gefunden."
+  "noServicesFound": "Keine Services gefunden.",
+  "enterMessagePlaceholder": "Nachricht eingeben …",
+  "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt."
 }

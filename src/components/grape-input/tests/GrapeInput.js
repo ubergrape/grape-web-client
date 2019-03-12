@@ -1,12 +1,21 @@
-import { $, render } from '../../../test'
 import expect from 'expect.js'
+import { IntlProvider } from 'react-intl'
 import React from 'react'
+
+import { $, render } from '../../../test'
 import GrapeInput from '../GrapeInput'
 
 describe('grape-input:', () => {
   describe('GrapeInput()', () => {
     it('should render without props', () => {
-      render(<GrapeInput />)
+      console.error = msg => {
+        throw new Error(msg)
+      }
+      render(
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeInput />
+        </IntlProvider>,
+      )
       expect($('highlighted-editable')).to.be.an(Element)
     })
   })
@@ -26,12 +35,14 @@ describe('grape-input:', () => {
       }
 
       const grapeInput = (
-        <GrapeInput
-          onResize={onResize}
-          onDidMount={onDidMount}
-          content="[room](cg://chatgrape|room|1|/chat/slug)"
-          focused
-        />
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeInput
+            onResize={onResize}
+            onDidMount={onDidMount}
+            content="[room](cg://chatgrape|room|1|/chat/slug)"
+            focused
+          />
+        </IntlProvider>
       )
       render(grapeInput)
     })

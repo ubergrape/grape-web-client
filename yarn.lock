@@ -3334,6 +3334,11 @@ grape-theme@3.x:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
+grape-theme@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.4.1.tgz#04e33e477a87f867e27e1f7732895d39857f559b"
+  integrity sha512-CAaRFEvO0Q5Mpff7Lg+6TFo/0AY15QbQHU6vLanAM6121jqn9cU7Mji3pIGQZT5mxTY23I3sZGb6dsM+bcMWzg==
+
 grape-web@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.0.tgz#8642a77ec05e52d242d9966885041db59db2512e"
