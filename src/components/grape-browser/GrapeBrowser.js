@@ -38,7 +38,6 @@ const browserWithInput = {
 class GrapeBrowser extends Component {
   static propTypes = {
     isLoading: PropTypes.bool,
-    placeholder: PropTypes.string,
     /* eslint-disable react/no-unused-prop-types */
     setTrigger: PropTypes.bool,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
@@ -87,7 +86,6 @@ class GrapeBrowser extends Component {
     servicesStats: {},
     channel: {},
     customEmojis: undefined,
-    placeholder: undefined,
     focused: false,
     disabled: false,
     setTrigger: false,
@@ -479,7 +477,6 @@ class GrapeBrowser extends Component {
             onSubmit={this.onSubmit}
             onEditPrevious={onEditPrevious}
             onDidMount={this.onDidMountEditable}
-            placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.inputFocused}
             content={this.state.content}
