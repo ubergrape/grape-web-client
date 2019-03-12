@@ -20,14 +20,6 @@ import {
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 const messages = defineMessages({
-  placeholder: {
-    id: 'editMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
-  },
-  placeholderDisabled: {
-    id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.',
-  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -409,7 +401,6 @@ class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -438,9 +429,6 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(
-              disabled ? placeholderDisabled : placeholder,
-            )}
             disabled={disabled}
             locale={conf.user.languageCode}
             focused={this.state.focused}

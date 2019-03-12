@@ -4446,16 +4446,16 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
 
-grape-browser@^3.17.16:
-  version "3.17.16"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.16.tgz#a204e468304019cca99b4dc7810aedfee2ea873b"
-  integrity sha512-m9Z2MojX+nnHp1bjX4Kk+KwWzlVZ+g7yRg6h+lIk/GxY3hnx9i155ZGlIZkaEBZeyHIYj/SvtNuRv3Ft+5Cmqw==
+grape-browser@^3.18.0:
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.18.0.tgz#aaf775ed8de6674a4a4efdf60262b0c6f38430b8"
+  integrity sha512-1AOW7G39Yw8K1qVprvIp0EHlKOIp0KWlIzjTSEQDfPvGTsxPtaEzVOrEBdC+1xf41kyCamnZ0gdzMDfjevg8/w==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
     emojione "^1.4.0"
     grape-js-emoji "^3.4.0"
-    grape-theme "3.x"
+    grape-theme "^3.4.1"
     grape-web "^1.8.0"
     images-loader "^0.1.2"
     keyname "^0.1.0"
@@ -4486,10 +4486,15 @@ grape-js-emoji@^3.4.0:
   dependencies:
     emoji-datasource "4.0.0"
 
-grape-theme@3.x, grape-theme@^3.3.1:
+grape-theme@3.x:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
   integrity sha512-DSOnEp98icOKRAkKbx22YUoCdeWGPEQ9gyIhuGfQ1NifanjeKvTxgwzHUsW+gdmBYpWgemZ94RE53QqEPCpIVw==
+
+grape-theme@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.4.1.tgz#04e33e477a87f867e27e1f7732895d39857f559b"
+  integrity sha512-CAaRFEvO0Q5Mpff7Lg+6TFo/0AY15QbQHU6vLanAM6121jqn9cU7Mji3pIGQZT5mxTY23I3sZGb6dsM+bcMWzg==
 
 grape-web@^1.8.0, grape-web@^1.8.3:
   version "1.8.3"
