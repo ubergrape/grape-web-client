@@ -59,7 +59,6 @@ const addNewMessage = message => (dispatch, getState) => {
 export const handleNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const channels = channelSelector(state)
-  const user = userSelector(state)
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
   // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
@@ -68,10 +67,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  if (
-    message.author.id === user.id ||
-    findIndex(channels, { id: message.author.id }) !== -1
-  ) {
+  if (findIndex(channels, { id: message.author.id }) !== -1) {
     dispatch(addNewMessage(message))
     return
   }
