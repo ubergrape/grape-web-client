@@ -118,6 +118,7 @@ export default class UserProfile extends PureComponent {
       {...pick(
         this.props,
         'whatIDo',
+        'hideEmailField',
         'email',
         'skypeUsername',
         'skypeForBusiness',
