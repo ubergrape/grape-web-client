@@ -13,7 +13,6 @@ export default ({ palette }) => ({
     borderTop: [3, 'solid', grayBlueLighter],
     display: 'block',
     padding: 20,
-    maxWidth: 585,
   },
   text: {
     ...small,
