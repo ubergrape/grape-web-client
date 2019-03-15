@@ -7635,6 +7635,15 @@ react-finite-list@^1.0.8:
     prop-types "^15.5.10"
     react-visibility-sensor "^3.1.1"
 
+react-finite-list@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.9.tgz#80ca65df0e48a42f7dcc5b98ace22ce5f200a085"
+  integrity sha512-fMls4TIDO2WSxfeHT40jXp4YTvuoeshQq0ZIPgVymzJTUJlL46L0o2oSpWTqyM6jNrKDJxePwZFkzhh0ytF9nQ==
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.5.10"
+    react-visibility-sensor "^3.1.1"
+
 react-flow-types@^0.2.0-beta.6:
   version "0.2.0-beta.6"
   resolved "https://registry.yarnpkg.com/react-flow-types/-/react-flow-types-0.2.0-beta.6.tgz#bf49c8b7864fcd0951b03286c63a80d66ce9fae4"
