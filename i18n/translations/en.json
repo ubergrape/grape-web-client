@@ -174,9 +174,8 @@
     "Invite multiple users at once, just separate their email addresses with a comma.",
   "InviteToOrgMessage": "You can add personal message to the invitation email.",
   "loadingLink": "Loading link…",
-  "_loadingLink.comment":
-    "used in invite to org link input placeholder, while link is loading",
-  "inviteToOrgError": "Enter valid email addresses separated by a space.",
+  "_loadingLink.comment": "used in invite to org link input placeholder, while link is loading",
+  "inviteToOrgError": "Enter valid email addresses separated by a comma.",
   "sendInvites": "Send invitation emails",
   "personalMessage": "Personal message",
   "linkAttachmentRemoveDialogTitle": "Remove attachment",

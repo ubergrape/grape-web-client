@@ -182,10 +182,8 @@
     "Laden Sie mehrere Mitglieder ein, indem Sie ihre E-Mail Adressen mit Kommas trennen.",
   "InviteToOrgMessage": "Fügen Sie eine persönliche Nachricht an.",
   "loadingLink": "Link wird geladen..",
-  "_loadingLink.comment":
-    "used in invite to org link input placeholder, while link is loading",
-  "inviteToOrgError":
-    "Geben Sie gültige E-Mail Adressen ein, getrennt durch Leerzeichen.",
+  "_loadingLink.comment": "used in invite to org link input placeholder, while link is loading",
+  "inviteToOrgError": "Geben Sie gültige E-Mail Adressen ein, getrennt durch ein Komma.",
   "sendInvites": "Einladungen per E-Mail verschicken",
   "personalMessage": "Persönliche Nachricht",
   "linkAttachmentRemoveDialogTitle": "Anhang entfernen",
