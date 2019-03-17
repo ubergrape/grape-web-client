@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import noop from 'lodash/noop'
 
 import { styles } from './bubbleTheme'
 
@@ -9,9 +10,11 @@ export default class Bubble extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
-    hasArrow: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    theme: PropTypes.object,
+    hasArrow: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
     style: PropTypes.object,
   }
 
@@ -25,6 +28,8 @@ export default class Bubble extends PureComponent {
     },
     hasArrow: true,
     style: null,
+    onMouseEnter: noop,
+    onMouseLeave: noop,
   }
 
   render() {
@@ -35,6 +40,8 @@ export default class Bubble extends PureComponent {
       <div
         className={`${bubbleClass} ${theme.classes.bubble} ${className}`}
         style={style}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
       >
         <div className={`${classes.content} ${theme.classes.content}`}>
           {children}

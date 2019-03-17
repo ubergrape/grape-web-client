@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import sample from 'lodash/collection/sample'
-import { colors, icons } from 'grape-theme/dist/room-settings'
+import sample from 'lodash/sample'
+import { colors as roomColors, icons } from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
@@ -16,7 +16,7 @@ const getInitialState = () => ({
   isPublic: true,
   saving: false,
   focusedInput: 'users',
-  color: sample(colors),
+  color: sample(roomColors),
   icon: sample(icons),
 })
 
@@ -27,14 +27,15 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class NewConversationDialog extends PureComponent {
+class NewConversationDialog extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    channel: PropTypes.object,
     intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
+    colors: PropTypes.object,
+    showNewConversation: PropTypes.func.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
@@ -44,10 +45,13 @@ export default class NewConversationDialog extends PureComponent {
     openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     show: PropTypes.bool,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     organization: null,
+    channel: {},
+    colors: {},
     show: false,
   }
 
@@ -59,9 +63,15 @@ export default class NewConversationDialog extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ show, error }) {
+  componentWillReceiveProps({ show, error, isMemberOfAnyRooms }) {
     if (!show) {
       this.setState(getInitialState())
+      if (
+        this.props.isMemberOfAnyRooms !== isMemberOfAnyRooms &&
+        !isMemberOfAnyRooms
+      ) {
+        this.props.showNewConversation()
+      }
       return
     }
 
@@ -119,7 +129,9 @@ export default class NewConversationDialog extends PureComponent {
         isPublic,
       },
       listed,
-    )
+    ).then(() => {
+      this.setState({ saving: false })
+    })
   }
 
   onHide = () => {
@@ -135,8 +147,12 @@ export default class NewConversationDialog extends PureComponent {
     this.setState({ focusedInput: 'users' })
   }
 
+  onClickFocusReset = () => {
+    this.setState({ focusedInput: '' })
+  }
+
   renderSettings = () => {
-    const { classes, clearRoomCreateError } = this.props
+    const { classes, clearRoomCreateError, colors } = this.props
     const {
       focusedInput,
       error,
@@ -152,6 +168,7 @@ export default class NewConversationDialog extends PureComponent {
         <AdvancedSettings
           icon={icon}
           color={color}
+          colors={colors}
           name={name}
           saving={saving}
           isPublic={isPublic}
@@ -171,14 +188,14 @@ export default class NewConversationDialog extends PureComponent {
 
   renderFooter() {
     const { classes, listed } = this.props
-    const { name } = this.state
+    const { name, saving } = this.state
 
     return (
       <div className={classes.footer}>
         <button
           onClick={this.onCreate}
           className={classes.createButton}
-          disabled={!listed.length && !name}
+          disabled={(!listed.length && !name) || saving}
         >
           <Create />
         </button>
@@ -193,6 +210,7 @@ export default class NewConversationDialog extends PureComponent {
       addToNewConversation,
       removeFromNewConversation,
       organization,
+      channel,
       intl: { formatMessage },
       ...chooseUsersProps
     } = this.props
@@ -207,10 +225,13 @@ export default class NewConversationDialog extends PureComponent {
         theme={{ classes }}
         onHide={this.onHide}
         onClickList={this.onClickList}
-        isFilterFocused={focusedInput !== 'name'}
+        onClickFocusReset={this.onClickFocusReset}
+        isFilterFocused={focusedInput === 'users'}
         onChangeFilter={searchUsers}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}
+        channel={channel}
+        showInviteGuests={false}
       >
         {this.renderSettings()}
         {this.renderFooter()}
@@ -218,3 +239,5 @@ export default class NewConversationDialog extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(NewConversationDialog))

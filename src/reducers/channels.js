@@ -1,6 +1,6 @@
-import findIndex from 'lodash/array/findIndex'
-import includes from 'lodash/collection/includes'
-import find from 'lodash/collection/find'
+import findIndex from 'lodash/findIndex'
+import includes from 'lodash/includes'
+import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
 
@@ -19,11 +19,21 @@ export default function reduce(state = initialState, action) {
       ]
 
     case types.SET_CHANNEL: {
-      const { id, type } = action.payload.channel
+      const {
+        id,
+        type,
+        permissions,
+        videoconferenceUrl,
+      } = action.payload.channel
 
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
-          const newChannel = { ...channel, current: true }
+          const newChannel = {
+            ...channel,
+            permissions,
+            videoconferenceUrl,
+            current: true,
+          }
           // In case of empty PM we're adding it to the navigation
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
@@ -35,7 +45,7 @@ export default function reduce(state = initialState, action) {
           return newState
         }
         if (channel.current) {
-          newState.push({ ...channel, current: false })
+          newState.push({ ...channel, current: false, videoconferenceUrl })
           return newState
         }
         newState.push(channel)
@@ -48,6 +58,7 @@ export default function reduce(state = initialState, action) {
       if (find(state, { id: channel.id })) {
         return state
       }
+      if (!channel.users) channel.users = []
       return [...state, channel]
     }
 
@@ -65,7 +76,6 @@ export default function reduce(state = initialState, action) {
         // As a workaround of API bug,
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
-        favorited: null,
         users: includes(users, userId) ? users : [...users, userId],
         joined: isCurrentUser || channel.joined,
       })
@@ -76,14 +86,14 @@ export default function reduce(state = initialState, action) {
       const { channelId, userId } = action.payload
       const index = findIndex(state, { id: channelId })
       if (index === -1) return state
-      const channels = [...state]
+      const newState = [...state]
       const channel = state[index]
-      channels.splice(index, 1, {
+      newState.splice(index, 1, {
         ...channel,
         users: channel.users.filter(id => id !== userId),
         joined: conf.user.id !== userId,
       })
-      return channels
+      return newState
     }
 
     case types.UPDATE_CHANNEL: {
@@ -146,6 +156,19 @@ export default function reduce(state = initialState, action) {
         ...channel,
         mentioned: 0,
         unread: 0,
+      })
+      return newState
+    }
+
+    case types.UPDATE_CHANNEL_UNREAD_COUNTER: {
+      const { id, unread, time } = action.payload
+      const index = findIndex(state, { id })
+      if (index === -1) return state
+      const newState = [...state]
+      newState.splice(index, 1, {
+        ...state[index],
+        unread,
+        latestMessageTime: new Date(time).getTime(),
       })
       return newState
     }

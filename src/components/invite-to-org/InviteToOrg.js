@@ -12,6 +12,7 @@ import {
 
 import { InviteSuccess } from '../i18n/i18n'
 import Dialog from '../dialog/Dialog'
+import InviteGuests from '../invite-guests/InviteGuests'
 import InviteLink from './InviteLink'
 import EmailsInput from './EmailsInput'
 import PersonalMessageInput from './PersonalMessageInput'
@@ -48,6 +49,8 @@ const messages = defineMessages({
 export default class InviteToOrg extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    channel: PropTypes.object,
+    conf: PropTypes.object,
     intl: intlShape.isRequired,
     show: PropTypes.bool.isRequired,
     showError: PropTypes.bool.isRequired,
@@ -64,6 +67,8 @@ export default class InviteToOrg extends PureComponent {
 
   static defaultProps = {
     orgId: null,
+    channel: {},
+    conf: {},
   }
 
   state = {
@@ -135,6 +140,8 @@ export default class InviteToOrg extends PureComponent {
       inviteLink,
       isInviter,
       onHideError,
+      channel,
+      conf,
     } = this.props
     const { value, isLoading, message } = this.state
 
@@ -175,14 +182,15 @@ export default class InviteToOrg extends PureComponent {
             </div>
             {isLoading && <Spinner overlay />}
           </form>
-          <InviteLink
-            show={showInviteLinkFeature}
-            link={inviteLink}
-            theme={{ classes }}
-            placeholder={formatMessage(messages.loadingLinkPlaceholder)}
-            onClick={this.onClickInviteLink}
-          />
         </div>
+        <InviteLink
+          show={showInviteLinkFeature}
+          link={inviteLink}
+          theme={{ classes }}
+          placeholder={formatMessage(messages.loadingLinkPlaceholder)}
+          onClick={this.onClickInviteLink}
+        />
+        <InviteGuests channel={channel} conf={conf} />
       </Dialog>
     )
   }

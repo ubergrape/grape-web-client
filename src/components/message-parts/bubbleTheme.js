@@ -9,6 +9,7 @@ export const styles = {
     position: 'relative',
     minWidth: 0,
     maxWidth: '100%',
+    verticalAlign: 'top',
   },
   bubbleWithArrow: {
     composes: '$bubble',
@@ -29,7 +30,10 @@ export const styles = {
     position: 'relative',
     background: white,
     borderRadius,
-    padding: [5, 13],
     wordBreak: 'break-word',
+    '& > *': {
+      isolate: false,
+      padding: [5, 13],
+    },
   },
 }

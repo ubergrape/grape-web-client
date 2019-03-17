@@ -12,53 +12,14 @@ import {
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import cn from 'classnames'
 import color from 'color'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import Chip from 'grape-web/lib/components/chip'
 
 import { Grapedown } from '../../grapedown'
 import Header from '../../message-parts/Header'
 import contentStyles from '../../message-parts/contentStyles'
 
-@injectSheet({
-  message: {
-    extend: contentStyles,
-    '&:hover': {
-      isolate: false,
-      background: color(grayBlueLighter)
-        .darken(0.05)
-        .hexString(),
-      '&, & *': {
-        isolate: false,
-        cursor: 'pointer',
-      },
-    },
-  },
-  channel: {
-    extend: [ellipsis, small],
-    marginLeft: 20,
-    color: grayLight,
-  },
-  body: {
-    display: 'block',
-    extend: [normal, ellipsis],
-    color: grayDark,
-    wordWrap: 'break-word',
-  },
-  footer: {
-    display: 'block',
-    marginTop: 10,
-  },
-  chip: {
-    display: 'inline-block',
-    background: white,
-    margin: {
-      right: 5,
-      bottom: 5,
-    },
-    padding: [3, 0],
-  },
-})
-export default class Message extends PureComponent {
+class Message extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     message: PropTypes.shape({
@@ -104,10 +65,7 @@ export default class Message extends PureComponent {
     } = this.props
 
     return (
-      <section
-        className={cn(classes.message, className)}
-        onClick={this.onClick}
-      >
+      <button className={cn(classes.message, className)} onClick={this.onClick}>
         <Header time={time} author={author.name}>
           <FormattedMessage
             id="sidebarLabelInChannel"
@@ -131,7 +89,48 @@ export default class Message extends PureComponent {
             />
           ))}
         </div>
-      </section>
+      </button>
     )
   }
 }
+
+export default injectSheet({
+  message: {
+    width: '100%',
+    extend: contentStyles,
+    '&:hover': {
+      isolate: false,
+      background: color(grayBlueLighter)
+        .darken(0.05)
+        .hexString(),
+      '&, & *': {
+        isolate: false,
+        cursor: 'pointer',
+      },
+    },
+  },
+  channel: {
+    extend: [ellipsis, small],
+    marginLeft: 20,
+    color: grayLight,
+  },
+  body: {
+    display: 'block',
+    extend: [normal, ellipsis],
+    color: grayDark,
+    wordWrap: 'break-word',
+  },
+  footer: {
+    display: 'block',
+    marginTop: 10,
+  },
+  chip: {
+    display: 'inline-block',
+    background: white,
+    margin: {
+      right: 5,
+      bottom: 5,
+    },
+    padding: [3, 0],
+  },
+})(Message)

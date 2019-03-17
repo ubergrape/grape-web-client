@@ -11,6 +11,7 @@ import subscribe from './subscribe'
 import * as client from './client'
 import AppFull from './AppFull'
 import AppEmbedded from './AppEmbedded'
+import ErrorBoundary from './ErrorBoundary'
 
 let sheetsInsertionPoint
 let renderContainer
@@ -22,10 +23,13 @@ export const resume = () => {
   return client.connect()
 }
 
+// NOTE: we made sure suspend doesn't do anything as it causes WebSocket connection issues
+// In addition from a product perspective it only would make sense if it starts to
+// refetch the hisotry (which it odesn't do).
 export const suspend = () => {
-  if (isSuspended) return
-  isSuspended = true
-  client.suspend()
+  // if (isSuspended) return
+  // isSuspended = true
+  // client.suspend()
 }
 
 export function init() {
@@ -53,7 +57,10 @@ export function render() {
   const renderApp = () => {
     const App = conf.embed ? AppEmbedded : AppFull
     renderContainer = document.querySelector(conf.container)
-    ReactDom.render(React.createElement(App), renderContainer)
+    ReactDom.render(
+      <ErrorBoundary>{React.createElement(App)}</ErrorBoundary>,
+      renderContainer,
+    )
   }
 
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {

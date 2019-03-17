@@ -5,6 +5,7 @@ import moment from 'moment'
 import copy from 'copy-to-clipboard'
 import { intlShape, injectIntl, defineMessages } from 'react-intl'
 
+import conf from '../../conf'
 import RegularMessage from './messages/regular/RegularMessage'
 import ActivityMessage from './messages/activity/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
@@ -58,13 +59,14 @@ export default class Row extends PureComponent {
     onQuote: PropTypes.func.isRequired,
     onCopyLink: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    isLast: PropTypes.bool.isRequired,
-    isGroupable: PropTypes.bool.isRequired,
+    isLast: PropTypes.bool,
+    isGroupable: PropTypes.bool,
     isPm: PropTypes.bool.isRequired,
-    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string),
     style: PropTypes.object,
+    colors: PropTypes.object,
     key: PropTypes.string,
-    isExpanded: PropTypes.bool.isRequired,
+    isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
@@ -80,6 +82,7 @@ export default class Row extends PureComponent {
     prevMessage: null,
     style: null,
     key: null,
+    colors: {},
     selectedMessageId: null,
   }
 
@@ -107,7 +110,7 @@ export default class Row extends PureComponent {
     } = this.props
 
     // eslint-disable-next-line no-alert
-    if (confirm(formatMessage(messages.confirm))) {
+    if (window.confirm(formatMessage(messages.confirm))) {
       onRemove([...duplicates, message.id].map(id => ({ id })))
     }
   }
@@ -142,6 +145,7 @@ export default class Row extends PureComponent {
       isPm,
       style,
       key,
+      colors,
       onRemoveLinkAttachment,
       channel,
     } = this.props
@@ -161,6 +165,7 @@ export default class Row extends PureComponent {
     const props = {
       ...message,
       key: `row-${message.id}`,
+      colors,
       user,
       channel,
       onPin,
@@ -191,6 +196,8 @@ export default class Row extends PureComponent {
       props.hasBubbleArrow = false
     }
 
+    const isAdmin = user.role >= conf.constants.roles.ROLE_ADMIN
+
     return (
       <div
         className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${
@@ -200,7 +207,9 @@ export default class Row extends PureComponent {
         key={key}
       >
         {separator}
-        <Message {...props}>{message.text}</Message>
+        <Message {...props} isAdmin={isAdmin}>
+          {message.text}
+        </Message>
       </div>
     )
   }

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import get from 'lodash/object/get'
-import differenceWith from 'lodash.differencewith'
-import isEqual from 'lodash/lang/isEqual'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
+import NoChannels from './NoChannels'
 import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
@@ -21,7 +21,7 @@ function createState(state, props) {
   }
 }
 
-@injectSheet({
+const styles = {
   history: {
     position: 'absolute',
     top: 0,
@@ -29,10 +29,12 @@ function createState(state, props) {
     right: 0,
     bottom: 0,
   },
-})
-export default class History extends PureComponent {
+}
+
+class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    conf: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onJump: PropTypes.func.isRequired,
@@ -41,6 +43,8 @@ export default class History extends PureComponent {
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
+    onNewConversation: PropTypes.func.isRequired,
+    onJoinGroup: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -49,30 +53,41 @@ export default class History extends PureComponent {
     messages: PropTypes.array,
     user: PropTypes.object,
     selectedMessageId: PropTypes.string,
+    selectedMessageIdTimestamp: PropTypes.number,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     scrollToAlignment: PropTypes.string,
     minimumBatchSize: PropTypes.number,
-    isLoadingInitialData: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    loadedNewerMessage: PropTypes.bool.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
+    permissions: PropTypes.object,
+    backendHasNewerMessages: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     messages: [],
     showNoContent: false,
-    isLoadingInitialData: false,
+    isLoading: false,
     user: null,
     channel: null,
     users: [],
     selectedMessageId: null,
+    selectedMessageIdTimestamp: null,
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
+    permissions: {},
   }
 
   constructor(props) {
     super(props)
     this.state = createState({}, props)
-    this.needsInitialLoad = true
+
+    // These variables should not be in a state, because after updating them
+    // with setState component will be re-rendered and this can lead to some bugs
+    this.needsLoading = true
+    this.isInitialLoading = true
   }
 
   componentDidMount() {
@@ -80,21 +95,29 @@ export default class History extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { channel, selectedMessageId, messages } = nextProps
+    const { channel, selectedMessageId, messages, isLoading } = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     // 3. Selected message has changed.
+    // 4. The same selected message has been clicked on again
     const selectedMessageHasChanged =
       this.props.selectedMessageId !== selectedMessageId
+    const selectedMessageHasBeenClickedOnAgain =
+      this.props.selectedMessageId &&
+      this.props.selectedMessageIdTimestamp !==
+        nextProps.selectedMessageIdTimestamp
     const channelHasChanged =
       get(channel, 'id') !== get(this.props, 'channel.id')
-
-    if (selectedMessageHasChanged || channelHasChanged) {
-      this.needsInitialLoad = true
-      return
+    if (
+      channelHasChanged ||
+      selectedMessageHasChanged ||
+      selectedMessageHasBeenClickedOnAgain ||
+      isLoading
+    ) {
+      this.needsLoading = true
     }
 
-    if (differenceWith(messages, this.props.messages, isEqual)) {
+    if (!isEqual(messages, this.props.messages)) {
       this.setState(createState(this.state, nextProps))
     }
     if (this.props.scrollTo !== nextProps.scrollTo) {
@@ -107,10 +130,16 @@ export default class History extends PureComponent {
   }
 
   onRowsRendered = () => {
+    const { conf } = this.props
     // We need to unset the scrollTo once user has scrolled around, because he
     // might want to use jumper to jump again to the same scrollTo value.
     if (this.props.scrollTo) {
       this.props.onUserScrollAfterScrollTo()
+    }
+
+    if (this.isInitialLoading && conf.callbacks && conf.callbacks.onRender) {
+      this.isInitialLoading = false
+      conf.callbacks.onRender()
     }
   }
 
@@ -123,10 +152,9 @@ export default class History extends PureComponent {
   }
 
   load() {
-    const { isLoadingInitialData, channel, onLoad } = this.props
-
-    if (this.needsInitialLoad && !isLoadingInitialData && channel) {
-      this.needsInitialLoad = false
+    const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
+    if (this.needsLoading && !isLoading && channel && isMemberOfAnyRooms) {
+      this.needsLoading = false
       onLoad()
     }
   }
@@ -154,13 +182,28 @@ export default class History extends PureComponent {
       onInvite,
       onAddIntegration,
       onRead,
-      isLoadingInitialData,
+      isLoading,
       selectedMessageId,
       scrollToAlignment,
+      loadedNewerMessage,
+      isMemberOfAnyRooms,
+      onNewConversation,
+      onJoinGroup,
+      permissions,
+      backendHasNewerMessages,
     } = this.props
     const { rows, scrollTo } = this.state
 
-    if (isLoadingInitialData) return <LoadingText />
+    if (isLoading) return <LoadingText />
+
+    if (!isMemberOfAnyRooms) {
+      return (
+        <NoChannels
+          onJoinGroup={onJoinGroup}
+          onNewConversation={onNewConversation}
+        />
+      )
+    }
 
     if (!user || !channel) return null
 
@@ -174,6 +217,7 @@ export default class History extends PureComponent {
             channel={channel}
             users={users}
             onInvite={onInvite}
+            permissions={permissions}
             onAddIntegration={onAddIntegration}
           />
         )
@@ -191,7 +235,10 @@ export default class History extends PureComponent {
           selectedMessageId={selectedMessageId}
         >
           {({ onRowsRendered: onRowsRenderedInReadMessageDispatcher }) => (
-            <Jumper onJump={onJump}>
+            <Jumper
+              onJump={onJump}
+              backendHasNewerMessages={backendHasNewerMessages}
+            >
               {({ onScroll }) => (
                 <InfiniteList
                   onRowsRendered={params => {
@@ -208,6 +255,7 @@ export default class History extends PureComponent {
                   onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
                   renderRow={this.renderRow}
+                  loadedNewerMessage={loadedNewerMessage}
                 />
               )}
             </Jumper>
@@ -217,3 +265,5 @@ export default class History extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(History)

@@ -7,12 +7,13 @@ import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
   const boundActions = getBoundActions()
+  let id
   let showReconnectedAlert = false
   let isSuspended = false
 
   channel.on('connected', () => {
+    boundActions.hideAlertByType(alerts.CONNECTION_LOST)
     if (showReconnectedAlert) {
-      boundActions.hideAlertByType(alerts.CONNECTION_LOST)
       boundActions.showAlert({
         level: 'success',
         type: alerts.RECONNECTED,
@@ -52,6 +53,15 @@ export default function subscribe(channel) {
   // Resync the whole data if we got a new client id, because we might have
   // missed some messages. This is related to the current serverside arch.
   channel.on('set:id', clientId => {
+    boundActions.hideAlertByType(alerts.CONNECTION_LOST)
+    if (id && clientId !== id) {
+      boundActions.showAlert({
+        level: 'success',
+        type: alerts.RECONNECTED,
+        closeAfter: 2000,
+      })
+    }
+    id = clientId
     boundActions.loadInitialData(clientId)
   })
 
@@ -118,4 +128,8 @@ export default function subscribe(channel) {
   })
 
   channel.on('error', boundActions.handleConnectionError)
+
+  channel.on('set:timer', backoff => {
+    boundActions.setTimer(backoff)
+  })
 }

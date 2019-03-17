@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import colors from 'grape-theme/dist/base-colors'
+import baseColors from 'grape-theme/dist/base-colors'
 import { icons, colors as roomColors } from 'grape-theme/dist/room-settings'
 
 import Icon from '../room-icon/RoomIcon'
@@ -38,7 +38,7 @@ RenderColors.propTypes = {
   onSetRoomColor: PropTypes.func.isRequired,
 }
 
-function RenderIcons({ theme, channel, onSetRoomIcon }) {
+function RenderIcons({ theme, colors, channel, onSetRoomIcon }) {
   const { classes } = theme
   return (
     <div>
@@ -50,19 +50,25 @@ function RenderIcons({ theme, channel, onSetRoomIcon }) {
           const { icon } = channel
           const isCurrent = icon ? icon === slug : slug === defaultIconSlug
           const iconTheme = {
-            color: colors[isCurrent ? 'blue' : 'gray'],
-            backgroundColor: colors.white,
+            color: isCurrent
+              ? colors.button || baseColors.blue
+              : baseColors.gray,
+            backgroundColor: baseColors.white,
           }
           return (
             <li className={classes.iconSettingsItem} key={slug}>
-              <button
-                onClick={() => {
-                  onSetRoomIcon(slug)
-                }}
+              <div
                 className={classes[`chooserButton${isCurrent ? 'Active' : ''}`]}
               >
-                <Icon className={classes.icon} name={slug} theme={iconTheme} />
-              </button>
+                <Icon
+                  onClick={() => {
+                    onSetRoomIcon(slug)
+                  }}
+                  className={classes.icon}
+                  name={slug}
+                  theme={iconTheme}
+                />
+              </div>
             </li>
           )
         })}
@@ -73,8 +79,13 @@ function RenderIcons({ theme, channel, onSetRoomIcon }) {
 
 RenderIcons.propTypes = {
   channel: PropTypes.object.isRequired,
+  colors: PropTypes.object,
   theme: PropTypes.object.isRequired,
   onSetRoomIcon: PropTypes.func.isRequired,
+}
+
+RenderIcons.defaultProps = {
+  colors: {},
 }
 
 export default function IconSettings(props) {

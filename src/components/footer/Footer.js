@@ -12,6 +12,7 @@ import TypingNotification from './typing-notification/TypingNotification'
 export default class Footer extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
     channels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
@@ -23,6 +24,7 @@ export default class Footer extends PureComponent {
       'search',
     ]).isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     customEmojis: PropTypes.object,
@@ -54,11 +56,13 @@ export default class Footer extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: undefined,
     quoteMessage: undefined,
     search: '',
@@ -68,6 +72,7 @@ export default class Footer extends PureComponent {
     customEmojis: {},
     autocomplete: {},
     onOpenFileDialog: undefined,
+    permissions: {},
   }
 
   onRef = ref => {
@@ -80,12 +85,14 @@ export default class Footer extends PureComponent {
       channels,
       channel,
       org,
+      conf,
       targetMessage,
       quoteMessage,
       showBrowser,
       customEmojis,
       images,
       disabled,
+      isMemberOfAnyRooms,
       search,
       autocomplete,
       services,
@@ -113,6 +120,7 @@ export default class Footer extends PureComponent {
       onAddIntegration,
       onSearchChannelsToMention,
       goTo,
+      permissions,
     } = this.props
 
     return (
@@ -121,66 +129,75 @@ export default class Footer extends PureComponent {
           targetMessage ? classes.highlighted : ''
         }`}
       >
-        <div className={classes.above}>
-          <div className={classes.typingNotificationContainer}>
-            <TypingNotification
-              channels={channels}
-              channel={channel}
-              cleanupTyping={onCleanupTyping}
-              className={classes.typingNotification}
-            />
+        {isMemberOfAnyRooms && Object.keys(this.props.channel).length !== 0 && (
+          <div>
+            <div className={classes.above}>
+              <div className={classes.typingNotificationContainer}>
+                <TypingNotification
+                  channels={channels}
+                  channel={channel}
+                  cleanupTyping={onCleanupTyping}
+                  className={classes.typingNotification}
+                />
+              </div>
+              {!disabled && (
+                <MarkdownTipsLink
+                  onClick={onShowMarkdownTips}
+                  className={classes.markdownTipsLink}
+                />
+              )}
+            </div>
+            <div className={classes.inputWithControls} ref={this.onRef}>
+              <GrapeInput
+                customEmojis={customEmojis}
+                images={images}
+                channel={channel}
+                org={org}
+                conf={conf}
+                targetMessage={targetMessage}
+                quoteMessage={quoteMessage}
+                disabled={disabled}
+                showBrowser={showBrowser}
+                search={search}
+                autocomplete={autocomplete}
+                services={services}
+                servicesStats={servicesStats}
+                channelsToMention={channelsToMention}
+                onShowEmojiBrowser={onShowEmojiBrowser}
+                onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
+                onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
+                onShowSearchBrowser={onShowSearchBrowser}
+                onHideBrowser={onHideBrowser}
+                onCreateMessage={onCreateMessage}
+                onUpdateMessage={onEditMessageSend}
+                onAbortEdit={onEditMessageAbort}
+                onSetUnsentMessage={onSetUnsentMessage}
+                onEditPreviousMessage={onEditPreviousMessage}
+                onRequestAutocomplete={onRequestAutocomplete}
+                onRequestAutocompleteServices={onRequestAutocompleteServices}
+                onRequestAutocompleteServicesStats={
+                  onRequestAutocompleteServicesStats
+                }
+                onSetTyping={onSetTyping}
+                onAddIntegration={onAddIntegration}
+                onSearchChannelsToMention={onSearchChannelsToMention}
+                goTo={goTo}
+                permissions={permissions}
+              />
+              <Controls
+                disabled={disabled}
+                showBrowser={showBrowser}
+                onUpload={onUploadFiles}
+                onShowEmojiBrowser={onShowEmojiBrowser}
+                onShowSearchBrowser={onShowSearchBrowser}
+                onHideBrowser={onHideBrowser}
+                onRejectFiles={onRejectFiles}
+                onOpenFileDialog={onOpenFileDialog}
+                permissions={permissions}
+              />
+            </div>
           </div>
-          <MarkdownTipsLink
-            onClick={onShowMarkdownTips}
-            className={classes.markdownTipsLink}
-          />
-        </div>
-        <div className={classes.inputWithControls} ref={this.onRef}>
-          <GrapeInput
-            customEmojis={customEmojis}
-            images={images}
-            channel={channel}
-            org={org}
-            targetMessage={targetMessage}
-            quoteMessage={quoteMessage}
-            disabled={disabled}
-            showBrowser={showBrowser}
-            search={search}
-            autocomplete={autocomplete}
-            services={services}
-            servicesStats={servicesStats}
-            channelsToMention={channelsToMention}
-            onShowEmojiBrowser={onShowEmojiBrowser}
-            onShowEmojiSuggestBrowser={onShowEmojiSuggestBrowser}
-            onShowUsersAndRoomsBrowser={onShowUsersAndRoomsBrowser}
-            onShowSearchBrowser={onShowSearchBrowser}
-            onHideBrowser={onHideBrowser}
-            onCreateMessage={onCreateMessage}
-            onUpdateMessage={onEditMessageSend}
-            onAbortEdit={onEditMessageAbort}
-            onSetUnsentMessage={onSetUnsentMessage}
-            onEditPreviousMessage={onEditPreviousMessage}
-            onRequestAutocomplete={onRequestAutocomplete}
-            onRequestAutocompleteServices={onRequestAutocompleteServices}
-            onRequestAutocompleteServicesStats={
-              onRequestAutocompleteServicesStats
-            }
-            onSetTyping={onSetTyping}
-            onAddIntegration={onAddIntegration}
-            onSearchChannelsToMention={onSearchChannelsToMention}
-            goTo={goTo}
-          />
-          <Controls
-            disabled={disabled}
-            showBrowser={showBrowser}
-            onUpload={onUploadFiles}
-            onShowEmojiBrowser={onShowEmojiBrowser}
-            onShowSearchBrowser={onShowSearchBrowser}
-            onHideBrowser={onHideBrowser}
-            onRejectFiles={onRejectFiles}
-            onOpenFileDialog={onOpenFileDialog}
-          />
-        </div>
+        )}
       </footer>
     )
   }

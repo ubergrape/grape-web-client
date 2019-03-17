@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import User from './User'
 
@@ -9,7 +9,9 @@ export default class ChannelMembers extends PureComponent {
     users: PropTypes.array.isRequired,
     totalMembers: PropTypes.number,
     channel: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
+    permissions: PropTypes.object,
     sidebarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     onLoad: PropTypes.func,
     onOpen: PropTypes.func,
@@ -22,6 +24,7 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
+    permissions: {},
   }
 
   constructor(props) {
@@ -77,18 +80,28 @@ export default class ChannelMembers extends PureComponent {
   }
 
   render() {
-    const { users, channel, currUser, onOpen, onKick } = this.props
+    const {
+      users,
+      channel,
+      colors,
+      currUser,
+      onOpen,
+      onKick,
+      permissions,
+    } = this.props
 
     return (
       <div>
         {users.map(user => (
           <User
             key={user.id}
+            colors={colors}
             user={user}
             channel={channel}
             currUser={currUser}
             onOpen={onOpen}
             onKick={onKick}
+            permissions={permissions}
           />
         ))}
       </div>

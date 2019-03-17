@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
@@ -11,6 +11,7 @@ import Editable from './Editable'
 import { styles } from './theme'
 
 const Wrapper = listenOutsideClick(({ onClick, className, children }) => (
+  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   <div className={className} onClick={onClick}>
     {children}
   </div>
@@ -22,21 +23,20 @@ const Wrapper = listenOutsideClick(({ onClick, className, children }) => (
  * but once user clicks on it,
  * it becomes styled as textarea or input field.
  */
-@injectSheet(styles)
-export default class EditableText extends PureComponent {
+class EditableText extends PureComponent {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
-    multiline: PropTypes.bool.isRequired,
+    classes: PropTypes.object.isRequired,
+    multiline: PropTypes.bool,
     onSave: PropTypes.func.isRequired,
     maxLength: PropTypes.number.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     error: PropTypes.shape({
       message: PropTypes.string.isRequired,
       level: PropTypes.string.isRequired,
     }),
-    clearError: PropTypes.func.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    preserveSpaceForButton: PropTypes.bool.isRequired,
+    clearError: PropTypes.func,
+    placeholder: PropTypes.string,
+    preserveSpaceForButton: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -45,7 +45,7 @@ export default class EditableText extends PureComponent {
     placeholder: '',
     error: null,
     clearError: noop,
-    preserveSpaceForButton: false,
+    preserveSpaceForButton: true,
   }
 
   constructor(props) {
@@ -145,12 +145,11 @@ export default class EditableText extends PureComponent {
       maxLength,
       clearError,
       error,
-      sheet,
+      classes,
       preserveSpaceForButton,
     } = this.props
 
     const { value, saving, isEditing } = this.state
-    const { classes } = sheet
     const editableProps = {
       multiline,
       maxLength,
@@ -192,3 +191,5 @@ export default class EditableText extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(EditableText)

@@ -1,19 +1,14 @@
-var path = require('path')
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var CopyFilesPlugin = require('copy-webpack-plugin')
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack') // eslint-disable-line import/no-extraneous-dependencies
+const CopyFilesPlugin = require('copy-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // eslint-disable-line import/no-extraneous-dependencies
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
 
-var NODE_ENV = process.env.NODE_ENV
-var STATIC_PATH = process.env.STATIC_PATH
-var APP = process.env.APP
-var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
-var ANALIZE = process.env.ANALIZE
+const { NODE_ENV, STATIC_PATH, APP, ANALIZE, THEME } = process.env
+const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 
-var plugins = [
+const plugins = [
   new CopyFilesPlugin([
     {
       from: './src/images',
@@ -36,16 +31,17 @@ var plugins = [
     __DEV__: !NODE_ENV || NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
+    __THEME__: JSON.stringify(THEME),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
   }),
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|de/),
+  new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en|de/),
   new DuplicatePackageCheckerPlugin(),
 ]
 
-module.exports = exports = {
+const exportsObject = {
   entry: () => {
-    var app = ['babel-polyfill', './src/index.js']
-    var embedded = ['babel-polyfill', './src/embedded.js']
+    const app = ['idempotent-babel-polyfill', './src/index.js']
+    const embedded = ['idempotent-babel-polyfill', './src/embedded.js']
     if (APP === 'full') return { app }
     if (APP === 'embedded') return { embedded }
     return { app, embedded }
@@ -78,7 +74,7 @@ module.exports = exports = {
       },
     ],
   },
-  plugins: plugins,
+  plugins,
   resolve: {
     alias: {
       emitter: 'component-emitter',
@@ -97,12 +93,14 @@ module.exports = exports = {
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map',
 }
 
+module.exports = exportsObject
+
 if (isDevServer) {
-  exports.output.publicPath = '/static/app/'
+  exportsObject.output.publicPath = '/static/app/'
 }
 
 if (NODE_ENV === 'production') {
-  exports.plugins.push(
+  exportsObject.plugins.push(
     // This plugin turns all loader into minimize mode!!!
     // https://github.com/webpack/webpack/issues/283
     new UglifyJsPlugin({
@@ -111,13 +109,13 @@ if (NODE_ENV === 'production') {
       },
     }),
   )
-  exports.performance = {
+  exportsObject.performance = {
     hints: 'error',
-    maxEntrypointSize: 2650 * 1024,
-    maxAssetSize: 2650 * 1024,
+    maxEntrypointSize: 4200 * 1024,
+    maxAssetSize: 4200 * 1024,
   }
 }
 
 if (ANALIZE) {
-  exports.plugins.push(new BundleAnalyzerPlugin())
+  exportsObject.plugins.push(new BundleAnalyzerPlugin())
 }

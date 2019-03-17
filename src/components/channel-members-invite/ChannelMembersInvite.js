@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import pluck from 'lodash/collection/pluck'
+import map from 'lodash/map'
 import {
   FormattedMessage,
   defineMessages,
@@ -50,26 +50,108 @@ function getFormattedMessage(channelType, mission) {
   return null
 }
 
-const InviteButton = ({ listed, channelType, classes, onClick }) => (
+const InviteButton = ({ listed, channel, classes, onClick }) => (
   <div className={classes.submit}>
     <button
       className={classes.buttonInvite}
       onClick={onClick}
       disabled={!listed.length}
     >
-      {getFormattedMessage(channelType, 'button')}
+      {getFormattedMessage(channel.type, 'button')}
     </button>
   </div>
 )
 
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string.isRequired,
+  channel: PropTypes.object,
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 
-@injectSheet({
+InviteButton.defaultProps = {
+  channel: {},
+}
+
+class ChannelMembersInvite extends PureComponent {
+  static propTypes = {
+    intl: intlShape.isRequired,
+    sheet: PropTypes.object.isRequired,
+    channel: PropTypes.object,
+    addToChannelMembersInvite: PropTypes.func.isRequired,
+    removeFromChannelMembersInvite: PropTypes.func.isRequired,
+    inviteToChannel: PropTypes.func.isRequired,
+    goTo: PropTypes.func.isRequired,
+    hideChannelMembersInvite: PropTypes.func.isRequired,
+    searchUsersToInvite: PropTypes.func.isRequired,
+    showToastNotification: PropTypes.func.isRequired,
+    listed: PropTypes.array.isRequired,
+  }
+
+  static defaultProps = {
+    channel: {},
+  }
+
+  onInvite = () => {
+    const {
+      listed,
+      inviteToChannel,
+      hideChannelMembersInvite,
+      channel,
+      showToastNotification,
+    } = this.props
+
+    if (!listed.length) return
+    if (channel.type === 'room') inviteToChannel(map(listed, 'email'))
+    hideChannelMembersInvite()
+    showToastNotification(
+      <InviteSuccess invited={map(listed, 'displayName')} />,
+    )
+  }
+
+  render() {
+    const {
+      sheet: { classes },
+      intl: { formatMessage },
+      channel,
+      searchUsersToInvite,
+      goTo,
+      addToChannelMembersInvite,
+      removeFromChannelMembersInvite,
+      listed,
+      inviteToChannel,
+      hideChannelMembersInvite,
+      ...rest
+    } = this.props
+
+    if (!channel.type) return null
+
+    return (
+      <ChooseUsersDialog
+        {...rest}
+        title={formatMessage(getFormattedMessage(channel.type, 'title'))}
+        theme={{ classes }}
+        listed={listed}
+        onHide={hideChannelMembersInvite}
+        onChangeFilter={searchUsersToInvite}
+        onSelectUser={addToChannelMembersInvite}
+        onRemoveSelectedUser={removeFromChannelMembersInvite}
+        goTo={goTo}
+        channel={channel}
+        showInviteGuests
+      >
+        <InviteButton
+          classes={classes}
+          listed={listed}
+          channel={channel}
+          onClick={this.onInvite}
+        />
+      </ChooseUsersDialog>
+    )
+  }
+}
+
+export default injectSheet({
   submit: {
     display: 'block',
     marginTop: 20,
@@ -83,73 +165,4 @@ InviteButton.propTypes = {
       pointerEvents: 'none',
     },
   },
-})
-@injectIntl
-export default class ChannelMembersInvite extends PureComponent {
-  static propTypes = {
-    intl: intlShape.isRequired,
-    sheet: PropTypes.object.isRequired,
-    addToChannelMembersInvite: PropTypes.func.isRequired,
-    removeFromChannelMembersInvite: PropTypes.func.isRequired,
-    inviteToChannel: PropTypes.func.isRequired,
-    hideChannelMembersInvite: PropTypes.func.isRequired,
-    searchUsersToInvite: PropTypes.func.isRequired,
-    showToastNotification: PropTypes.func.isRequired,
-    listed: PropTypes.array.isRequired,
-    channelType: PropTypes.string,
-  }
-
-  onInvite = () => {
-    const {
-      listed,
-      inviteToChannel,
-      hideChannelMembersInvite,
-      channelType,
-      showToastNotification,
-    } = this.props
-
-    if (!listed.length) return
-    if (channelType === 'room') inviteToChannel(pluck(listed, 'email'))
-    hideChannelMembersInvite()
-    showToastNotification(
-      <InviteSuccess invited={pluck(listed, 'displayName')} />,
-    )
-  }
-
-  render() {
-    const {
-      sheet: { classes },
-      intl: { formatMessage },
-      channelType,
-      searchUsersToInvite,
-      addToChannelMembersInvite,
-      removeFromChannelMembersInvite,
-      listed,
-      inviteToChannel,
-      hideChannelMembersInvite,
-      ...rest
-    } = this.props
-
-    if (!channelType) return null
-
-    return (
-      <ChooseUsersDialog
-        {...rest}
-        title={formatMessage(getFormattedMessage(channelType, 'title'))}
-        theme={{ classes }}
-        listed={listed}
-        onHide={hideChannelMembersInvite}
-        onChangeFilter={searchUsersToInvite}
-        onSelectUser={addToChannelMembersInvite}
-        onRemoveSelectedUser={removeFromChannelMembersInvite}
-      >
-        <InviteButton
-          classes={classes}
-          listed={listed}
-          channelType={channelType}
-          onClick={this.onInvite}
-        />
-      </ChooseUsersDialog>
-    )
-  }
-}
+})(injectIntl(ChannelMembersInvite))

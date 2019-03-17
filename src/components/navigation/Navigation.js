@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash/debounce'
+import { findDOMNode } from 'react-dom'
 import injectSheet from 'grape-web/lib/jss'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
@@ -42,14 +43,18 @@ export default class Navigation extends PureComponent {
     showNewConversation: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     shortcuts: ['mod+k'],
+    colors: {},
     isLoading: false,
+    permissions: {},
   }
 
   constructor(props) {
@@ -92,7 +97,10 @@ export default class Navigation extends PureComponent {
     this.listsContainer = ref
   }
   onFilterRef = ref => {
-    this.filter = ref
+    // 'findDOMNode' needs here to not break keys binding.
+    // It's not working without it.
+    // eslint-disable-next-line react/no-find-dom-node
+    this.filter = findDOMNode(ref)
   }
   onFilteredListRef = ref => {
     this.filteredList = ref
@@ -165,29 +173,30 @@ export default class Navigation extends PureComponent {
   }
 
   goToChannel = channel => {
-    if (this.props.channel.id === channel.id) return
-
     this.setState({
       filter: '',
       filtered: [],
       focusedChannel: undefined,
     })
 
-    if (channel.type === 'pm' && !channel.joined) {
-      this.props.openPm(channel.partner.id)
+    const { id, partner, type, joined, isPublic } = channel
+    const { openPm, joinChannel, goToChannel } = this.props
+
+    if (type === 'pm' && !joined) {
+      openPm(partner.id)
       return
     }
 
-    if (channel.type === 'user') {
-      this.props.openPm(channel.id)
+    if (type === 'user') {
+      openPm(id)
       return
     }
 
-    if (channel.type === 'room' && !channel.joined) {
-      this.props.joinChannel(channel.id)
+    if (type === 'room' && isPublic && !joined) {
+      joinChannel(id)
     }
 
-    this.props.goToChannel(channel.id)
+    goToChannel(id)
   }
 
   renderFilteredChannel = params => {
@@ -267,6 +276,7 @@ export default class Navigation extends PureComponent {
       classes,
       showNewConversation,
       showManageGroups,
+      permissions,
     } = this.props
     if (isLoading) return null
     return (
@@ -275,6 +285,7 @@ export default class Navigation extends PureComponent {
           <Actions
             onNewConversation={showNewConversation}
             onManageGroups={showManageGroups}
+            permissions={permissions}
           />
         )}
         {this.renderList()}

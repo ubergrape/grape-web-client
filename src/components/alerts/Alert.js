@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 import {
@@ -19,6 +19,7 @@ import * as types from '../../constants/alerts'
 import AutoHide from './AutoHide'
 import TextAlert from './TextAlert'
 import NotificationsAlert from './NotificationsAlert'
+import ReconnectionAlert from './ReconnectionAlert'
 
 @injectSheet({
   alert: {
@@ -89,6 +90,7 @@ import NotificationsAlert from './NotificationsAlert'
 export default class Alert extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    reconnect: PropTypes.object.isRequired,
     alert: PropTypes.shape({
       type: PropTypes.string.isRequired,
       level: PropTypes.oneOf(['info', 'success', 'warning', 'danger'])
@@ -98,11 +100,15 @@ export default class Alert extends PureComponent {
     }).isRequired,
     onHide: PropTypes.func,
     enableNotifications: PropTypes.func,
+    onReconnect: PropTypes.func,
+    updateTimer: PropTypes.func,
   }
 
   static defaultProps = {
     onHide: noop,
     enableNotifications: noop,
+    onReconnect: noop,
+    updateTimer: noop,
   }
 
   onHide = () => {
@@ -111,7 +117,13 @@ export default class Alert extends PureComponent {
   }
 
   renderContent(alert) {
-    const { classes, enableNotifications } = this.props
+    const {
+      classes,
+      enableNotifications,
+      onReconnect,
+      updateTimer,
+      reconnect,
+    } = this.props
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:
         return (
@@ -122,6 +134,16 @@ export default class Alert extends PureComponent {
             buttonClass={classes[`${alert.level}Button`]}
           />
         )
+      case types.CONNECTION_LOST: {
+        return (
+          <ReconnectionAlert
+            onReconnect={onReconnect}
+            updateTimer={updateTimer}
+            reconnect={reconnect}
+            buttonClass={classes[`${alert.level}Button`]}
+          />
+        )
+      }
       default:
         return <TextAlert type={alert.type} />
     }

@@ -1,20 +1,14 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
-import noop from 'lodash/utility/noop'
-import isEqual from 'lodash/lang/isEqual'
+import noop from 'lodash/noop'
+import isEqual from 'lodash/isEqual'
 
 import TagsInput from '../tags-input/TagsInput'
 
-@injectSheet({
-  list: {
-    display: 'block',
-    marginTop: 20,
-  },
-})
-export default class FilterableList extends PureComponent {
+class FilterableList extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isFilterFocused: PropTypes.bool.isRequired,
@@ -25,6 +19,7 @@ export default class FilterableList extends PureComponent {
     placeholder: PropTypes.string,
     onSelect: PropTypes.func,
     onClick: PropTypes.func,
+    onBlur: PropTypes.func,
     onRemoveSelected: PropTypes.func,
     onChange: PropTypes.func,
     renderItem: PropTypes.func,
@@ -38,9 +33,9 @@ export default class FilterableList extends PureComponent {
     listClassName: undefined,
     placeholder: undefined,
     children: null,
-    isFilterFocused: true,
     onSelect: noop,
     onClick: noop,
+    onBlur: noop,
     onRemoveSelected: noop,
     onChange: noop,
     renderItem: noop,
@@ -72,7 +67,8 @@ export default class FilterableList extends PureComponent {
     if (
       nextProps.isFilterFocused !== this.props.isFilterFocused ||
       nextState.focusedItem !== this.state.focusedItem ||
-      nextProps.selected !== this.props.selected
+      nextProps.selected !== this.props.selected ||
+      !nextProps.items.length
     )
       return true
     if (isEqual(nextProps.items, this.props.items)) return false
@@ -120,8 +116,8 @@ export default class FilterableList extends PureComponent {
   }
 
   shouldFocusFilter() {
-    if (!this.props.isFilterFocused) return false
-    return true
+    if (this.props.isFilterFocused) return true
+    return false
   }
 
   renderList() {
@@ -164,27 +160,46 @@ export default class FilterableList extends PureComponent {
       filter,
       placeholder,
       onChange,
+      onBlur,
       onClick,
       renderSelected,
       onRemoveSelected,
     } = this.props
 
     return (
-      <div onClick={onClick}>
-        <TagsInput
-          onKeyDown={this.onKeyDown}
-          onChange={onChange}
-          deleteTag={onRemoveSelected}
-          list={selected}
-          value={filter}
-          placeholder={placeholder}
-          focused={this.shouldFocusFilter()}
-          renderTag={renderSelected}
-          className={classes.filterArea}
-        />
+      <div>
+        {/* Using div here, because focus controlled by React state. That's why
+        onClick needed here - simply to change state of focus, to let component know
+        where cursor should be */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div className={classes.listWrapper} onClick={onClick}>
+          <TagsInput
+            onKeyDown={this.onKeyDown}
+            onChange={onChange}
+            onBlur={onBlur}
+            deleteTag={onRemoveSelected}
+            list={selected}
+            value={filter}
+            placeholder={placeholder}
+            focused={this.shouldFocusFilter()}
+            renderTag={renderSelected}
+            className={classes.filterArea}
+          />
+        </div>
         {children}
         <div className={classes.list}>{this.renderList()}</div>
       </div>
     )
   }
 }
+
+export default injectSheet({
+  listWrapper: {
+    background: 'none',
+    width: '100%',
+  },
+  list: {
+    display: 'block',
+    marginTop: 20,
+  },
+})(FilterableList)

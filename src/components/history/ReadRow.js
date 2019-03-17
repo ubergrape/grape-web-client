@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import GlobalEvent from 'grape-web/lib/components/global-event'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash/debounce'
 import { readRowDelay } from '../../constants/delays'
 
 export default class ReadRow extends PureComponent {
@@ -37,7 +37,10 @@ export default class ReadRow extends PureComponent {
 
     // We are not sending a "read" event for every message, only for the latest one.
     // Backend assumes once user read the latest message, he read all older messages too.
-    if (!this.lastReadRow || this.lastReadRow.message.time < row.message.time) {
+    if (
+      (!this.lastReadRow || this.lastReadRow.message.time < row.message.time) &&
+      row.message.state !== 'pending'
+    ) {
       this.lastReadRow = row
       // We debounce it to reduce the amount of "read" events.
       this.onReadDebounced(row.id)

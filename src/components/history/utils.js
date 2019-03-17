@@ -1,6 +1,6 @@
-import pick from 'lodash/object/pick'
-import last from 'lodash/array/last'
-import indexBy from 'lodash/collection/indexBy'
+import pick from 'lodash/pick'
+import last from 'lodash/last'
+import keyBy from 'lodash/keyBy'
 
 /**
  * Merge message data with props to cover all rows representation cases.
@@ -29,7 +29,7 @@ export const createRowsState = (() => {
   }
 
   return (prevRows, messages, props) => {
-    const prevRowsMap = indexBy(prevRows, 'id')
+    const prevRowsMap = keyBy(prevRows, 'id')
 
     const ret = messages.reduce(
       (result, message, index) => {
@@ -65,6 +65,7 @@ export const createRowsState = (() => {
           ...pick(
             props,
             'user',
+            'colors',
             'channel',
             'customEmojis',
             'onEdit',

@@ -5,9 +5,9 @@ import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
-import debounce from 'lodash/function/debounce'
-import throttle from 'lodash/function/throttle'
-import get from 'lodash/object/get'
+import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
+import get from 'lodash/get'
 import cn from 'classnames'
 
 import {
@@ -20,14 +20,6 @@ import {
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 const messages = defineMessages({
-  placeholder: {
-    id: 'editMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
-  },
-  placeholderDisabled: {
-    id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.',
-  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -72,13 +64,12 @@ const styles = {
   },
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class GrapeInput extends PureComponent {
+class GrapeInput extends PureComponent {
   static propTypes = {
     customEmojis: PropTypes.object,
     images: PropTypes.object.isRequired,
     org: PropTypes.object,
+    conf: PropTypes.object,
     targetMessage: PropTypes.object,
     quoteMessage: PropTypes.object,
     channel: PropTypes.object.isRequired,
@@ -115,11 +106,13 @@ export default class GrapeInput extends PureComponent {
     onSearchChannelsToMention: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
     usersToMention: PropTypes.array,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
     org: {},
+    conf: {},
     targetMessage: null,
     quoteMessage: null,
     search: '',
@@ -129,6 +122,7 @@ export default class GrapeInput extends PureComponent {
     channelsToMention: [],
     customEmojis: {},
     autocomplete: {},
+    permissions: {},
   }
 
   constructor(props) {
@@ -231,9 +225,7 @@ export default class GrapeInput extends PureComponent {
       if (data.objectsOnly && attachments.length === data.objects.length) {
         sendText = false
       }
-      // The currently desired behaviour is to create a text message and a separate message
-      // for all the attachments in that message.
-      // This is a desired feature to make them separately editable and removable.
+      // Separate message to make it separately editable and removable.
       if (sendText)
         onCreateMessage({ channelId: channel.id, text: data.content })
       if (attachments.length) {
@@ -256,16 +248,17 @@ export default class GrapeInput extends PureComponent {
       onShowEmojiBrowser,
       onRequestAutocomplete,
       onSearchChannelsToMention,
+      permissions,
     } = this.props
 
     switch (trigger) {
       case '#':
-        // Avoid browser opening in case of `#s` input.
-        if (!showBrowser && query.length > 1) return
-        if (search || (filters && filters.length)) {
+        if (permissions.canUseGrapesearch) {
+          // Avoid browser opening in case of `#s` input.
+          if (!showBrowser && (query && query.length > 1)) return
           onRequestAutocomplete({ search, filters })
+          onShowSearchBrowser(search)
         }
-        onShowSearchBrowser(search)
         break
       case '@':
         onSearchChannelsToMention(org, search, 12, channel.id)
@@ -380,11 +373,15 @@ export default class GrapeInput extends PureComponent {
     }
   }, 5000)
 
-  focus() {
+  focus = () => {
     // TODO: grape-browser needs a better way to support this.
     this.setState({ focused: false }, () => {
       this.setState({ focused: true })
     })
+  }
+
+  removeFocus = () => {
+    this.setState({ focused: false })
   }
 
   render() {
@@ -399,10 +396,11 @@ export default class GrapeInput extends PureComponent {
       onHideBrowser,
       onRequestAutocompleteServicesStats,
       goTo,
+      channel,
+      conf,
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -431,10 +429,8 @@ export default class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(
-              disabled ? placeholderDisabled : placeholder,
-            )}
             disabled={disabled}
+            locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
             images={images}
@@ -446,7 +442,9 @@ export default class GrapeInput extends PureComponent {
             onDidMount={this.onGrapeBrowserRef}
             onChange={this.onChange}
             goTo={goTo}
+            channel={channel}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
+            onBlur={this.removeFocus}
             {...browserProps}
           />
         </div>
@@ -454,3 +452,5 @@ export default class GrapeInput extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(GrapeInput))

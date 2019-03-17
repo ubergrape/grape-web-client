@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash/debounce'
 
 /**
  * Determines if the specified start/stop range is visible based on the most
@@ -65,14 +64,6 @@ export default class InfiniteLoader extends PureComponent {
      * This value defaults to 15.
      */
     threshold: PropTypes.number.isRequired,
-  }
-
-  static defaultProps = {
-    minimumBatchSize: 10,
-    threshold: 15,
-    onTouchTopEdge: noop,
-    loadMoreRows: noop,
-    isRowLoaded: noop,
   }
 
   constructor(props, context) {

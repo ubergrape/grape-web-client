@@ -3,9 +3,8 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import Divider from 'grape-web/lib/components/divider'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
-import conf from '../../conf'
 import {
   InviteItem,
   OrgSettingsItem,
@@ -19,28 +18,19 @@ import {
   LogoutItem,
 } from './menuItems'
 
-@injectSheet({
-  root: {
-    minWidth: 220,
-  },
-})
-export default class Menu extends PureComponent {
+class Menu extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    onInvite: PropTypes.func.isRequired,
-    onShowIntro: PropTypes.func.isRequired,
-    inviterRole: PropTypes.number.isRequired,
+    onInvite: PropTypes.func,
+    onShowIntro: PropTypes.func,
     supportLink: PropTypes.string.isRequired,
-    user: PropTypes.shape({
-      role: PropTypes.number.isRequired,
-    }).isRequired,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     onInvite: noop,
     onShowIntro: noop,
-    inviterRole: 2,
-    user: { role: 2 },
+    permissions: {},
   }
 
   render() {
@@ -49,42 +39,64 @@ export default class Menu extends PureComponent {
       onInvite,
       onShowIntro,
       supportLink,
-      user,
-      inviterRole,
+      permissions,
     } = this.props
-
-    const canInvite = user.role >= inviterRole
-    const isOrgManager = user.role >= conf.constants.roles.ROLE_ADMIN
-
     const items = []
     let key = 0
 
-    if (canInvite) {
+    const {
+      canInviteMembers,
+      canViewOrganizationSettings,
+      canManageMembers,
+      canAddIntegration,
+      canEditProfile,
+    } = permissions
+
+    if (canInviteMembers) {
       items.push(
         <InviteItem onClick={onInvite} key={key} />,
         <Divider key={++key} />,
       )
     }
 
-    if (isOrgManager) {
-      items.push(
-        <OrgSettingsItem key={++key} />,
-        <ManageMembersItem key={++key} />,
-        <AddServiceItem key={++key} />,
-        <Divider key={++key} />,
-      )
+    if (canViewOrganizationSettings) {
+      items.push(<OrgSettingsItem key={++key} />)
+    }
+
+    if (canManageMembers) {
+      items.push(<ManageMembersItem key={++key} />)
+    }
+
+    if (canAddIntegration) {
+      items.push(<AddServiceItem key={++key} />)
+    }
+
+    if (canViewOrganizationSettings || canManageMembers || canAddIntegration) {
+      items.push(<Divider key={++key} />)
+    }
+
+    if (canEditProfile) {
+      items.push(<AccountSettingsItem key={++key} />)
     }
 
     items.push(
-      <AccountSettingsItem key={++key} />,
       <NotificationSettingsItem key={++key} />,
       <TutorialItem onClick={onShowIntro} key={++key} />,
       <SupportItem href={supportLink} key={++key} />,
-      <SwitchOrganizationsItem key={++key} />,
-      <Divider key={++key} />,
-      <LogoutItem key={++key} />,
     )
+
+    if (permissions.canSwitchOrganization) {
+      items.push(<SwitchOrganizationsItem key={++key} />)
+    }
+
+    items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
 
     return <MenuList className={classes.root}>{items}</MenuList>
   }
 }
+
+export default injectSheet({
+  root: {
+    minWidth: 220,
+  },
+})(Menu)

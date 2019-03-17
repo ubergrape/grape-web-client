@@ -4,9 +4,9 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
-import debounce from 'lodash/function/debounce'
-import findIndex from 'lodash/array/findIndex'
+import noop from 'lodash/noop'
+import debounce from 'lodash/debounce'
+import findIndex from 'lodash/findIndex'
 import { spacer } from 'grape-theme/dist/sizes'
 import { FormattedMessage } from 'react-intl'
 
@@ -62,6 +62,7 @@ export default class InfiniteList extends PureComponent {
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
     scrollToAlignment: PropTypes.string,
+    loadedNewerMessage: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -176,6 +177,7 @@ export default class InfiniteList extends PureComponent {
       minimumBatchSize,
       classes,
       scrollToAlignment,
+      loadedNewerMessage,
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
@@ -203,8 +205,8 @@ export default class InfiniteList extends PureComponent {
                   scrollToIndex={scrollToRow}
                   scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
-                  scrollToRow={this.scrollToRow}
                   scrollToPosition={this.scrollToPosition}
+                  loadedNewerMessage={loadedNewerMessage}
                 >
                   {({
                     onScroll: onScrollInAutoScroll,
@@ -233,7 +235,11 @@ export default class InfiniteList extends PureComponent {
                       rowCount={rows.length}
                       rowHeight={this.cache.rowHeight}
                       rowRenderer={this.renderRow}
-                      overscanRowCount={5}
+                      // A high overscanRowCount like 15 feels a smoother on high end devices
+                      // but creates quite an overhead rendering on low end devices.
+                      // Until hardware has improved or we could speed up the rendering (and calculating
+                      // the height of the message) we keep a low overscanRowCount.
+                      overscanRowCount={3}
                       ref={this.onRefList}
                     />
                   )}

@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
-import colors from 'grape-theme/dist/base-colors'
+import baseColors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import { FormattedMessage } from 'react-intl'
-import pick from 'lodash/object/pick'
-import find from 'lodash/collection/find'
+import pick from 'lodash/pick'
+import find from 'lodash/find'
 
 import { userStatusMap } from '../../../constants/app'
 import { Username } from '../../avatar-name'
@@ -64,6 +64,7 @@ const tabs = [
 export default class UserProfile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     onClose: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     onLoadSharedFiles: PropTypes.func.isRequired,
@@ -84,6 +85,7 @@ export default class UserProfile extends PureComponent {
 
   static defaultProps = {
     avatar: undefined,
+    colors: {},
     displayName: undefined,
     status: undefined,
     subview: undefined,
@@ -116,6 +118,7 @@ export default class UserProfile extends PureComponent {
       {...pick(
         this.props,
         'whatIDo',
+        'hideEmailField',
         'email',
         'skypeUsername',
         'skypeForBusiness',
@@ -159,6 +162,7 @@ export default class UserProfile extends PureComponent {
   render() {
     const {
       status,
+      colors,
       avatar,
       displayName,
       classes,
@@ -169,10 +173,14 @@ export default class UserProfile extends PureComponent {
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<UserProfileText />} onClose={onClose}>
+      <SidebarPanel
+        colors={colors}
+        title={<UserProfileText />}
+        onClose={onClose}
+      >
         <div className={classes.userNameContainer}>
           <Username
-            statusBorderColor={colors.grayBlueLighter}
+            statusBorderColor={baseColors.grayBlueLighter}
             avatar={avatar}
             status={userStatusMap[status]}
             name={displayName}
@@ -183,6 +191,7 @@ export default class UserProfile extends PureComponent {
           index={tabs.indexOf(tab)}
           onChange={this.onChangeTab}
           tabs={tabs}
+          colors={colors}
           title={tab.title}
           body={this[tab.render]()}
           onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}

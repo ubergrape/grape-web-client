@@ -9,6 +9,14 @@ export default class Header extends PureComponent {
   static propTypes = {
     showSidebar: PropTypes.func.isRequired,
     updateMessageSearchQuery: PropTypes.func.isRequired,
+    showVideoConferenceWarning: PropTypes.func.isRequired,
+    isMemberOfAnyRooms: PropTypes.bool.isRequired,
+    channel: PropTypes.object.isRequired,
+    orgFeatures: PropTypes.object,
+  }
+
+  static defaultProps = {
+    orgFeatures: undefined,
   }
 
   onFocusMessageSearch = ({ target }) => {
@@ -22,11 +30,16 @@ export default class Header extends PureComponent {
 
   render() {
     return (
-      <Items
-        {...this.props}
-        onChangeMessageSearch={this.onChangeMessageSearch}
-        onFocusMessageSearch={this.onFocusMessageSearch}
-      />
+      <div>
+        {this.props.isMemberOfAnyRooms && (
+          <Items
+            {...this.props}
+            onChangeMessageSearch={this.onChangeMessageSearch}
+            onFocusMessageSearch={this.onFocusMessageSearch}
+            orgFeatures={this.props.orgFeatures}
+          />
+        )}
+      </div>
     )
   }
 }

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import capitalize from 'lodash/string/capitalize'
+import capitalize from 'lodash/capitalize'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -41,6 +42,7 @@ function RoomIcon(props) {
     className,
     isPrivate,
     showPrivateStatus,
+    onClick,
   } = props
 
   let { name } = props
@@ -61,6 +63,7 @@ function RoomIcon(props) {
   return (
     <Avatar
       className={className}
+      onClick={onClick}
       style={{
         color,
         backgroundColor,
@@ -119,6 +122,7 @@ RoomIcon.propTypes = {
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
   showPrivateStatus: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
 }
 
 RoomIcon.defaultProps = {
@@ -126,4 +130,5 @@ RoomIcon.defaultProps = {
   className: '',
   isPrivate: false,
   showPrivateStatus: false,
+  onClick: noop,
 }

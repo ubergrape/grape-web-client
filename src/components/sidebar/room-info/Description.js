@@ -20,6 +20,7 @@ const messages = defineMessages({
 const Editable = injectIntl(props => {
   const {
     allowEdit,
+    colors,
     description,
     intl: { formatMessage },
     onSetRoomDescription,
@@ -33,6 +34,7 @@ const Editable = injectIntl(props => {
       maxLength={maxChannelDescriptionLength}
       onSave={onSetRoomDescription}
       value={description}
+      colors={colors}
       preserveSpaceForButton
       multiline
     />
@@ -69,6 +71,7 @@ const styles = ({ palette }) => ({
 
 const Description = ({
   classes,
+  colors,
   className,
   allowEdit,
   description,
@@ -82,7 +85,12 @@ const Description = ({
       <h2 className={classes.title}>
         <DescriptionText />
       </h2>
-      <Editable allowEdit={allowEdit} description={description} {...rest} />
+      <Editable
+        colors={colors}
+        allowEdit={allowEdit}
+        description={description}
+        {...rest}
+      />
       {!isPublic && <PrivateHint />}
     </section>
   )

@@ -8,6 +8,7 @@ import {
   grayBlueLighter,
   grayBlueDark,
 } from 'grape-theme/dist/base-colors'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import { userStatusMap } from '../../../constants/app'
 import { Username } from '../../avatar-name'
@@ -46,16 +47,37 @@ const hoverColor = color(blue)
     flexShrink: 0,
     opacity: 0,
     marginLeft: 10,
+    '&:hover:before': {
+      isolate: false,
+      verticalAlign: 'top',
+      content: '""',
+      cursor: 'pointer',
+      font: 'inherit',
+      width: '1em',
+      height: '1em',
+      backgroundSize: 'contain',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'close',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+    },
   },
 })
 export default class User extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     onKick: PropTypes.func.isRequired,
     onOpen: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
+  }
+
+  static defaultProps = {
+    permissions: {},
   }
 
   constructor(props) {
@@ -82,13 +104,14 @@ export default class User extends PureComponent {
   }
 
   renderDeleteButton() {
-    const { channel, user, currUser, classes } = this.props
+    const { channel, user, currUser, classes, permissions } = this.props
     const { isAdmin, isCreator } = getRoles({ channel, user: currUser })
     const isSelf = currUser.id === user.id
     const hasCreated = channel.creator === user.id
     const isKickMaster = (isAdmin || isCreator) && !isSelf
 
-    if (!isKickMaster || isSelf || hasCreated) return null
+    if (!isKickMaster || isSelf || hasCreated || !permissions.canRemoveMembers)
+      return null
 
     return <button className={classes.buttonKick} onClick={this.onKickMember} />
   }
@@ -98,7 +121,7 @@ export default class User extends PureComponent {
 
     return (
       <div className={classes.row}>
-        <div
+        <button
           className={classes.userNameContainer}
           onClick={this.onSelectMember}
         >
@@ -109,7 +132,7 @@ export default class User extends PureComponent {
             name={user.displayName}
             theme={this.userNameTheme}
           />
-        </div>
+        </button>
         {this.renderDeleteButton()}
       </div>
     )

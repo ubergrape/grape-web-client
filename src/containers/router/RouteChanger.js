@@ -14,6 +14,7 @@ export default class RouteChanger extends Component {
       messageId: PropTypes.string,
     }),
     name: PropTypes.oneOf(['root', 'pm', 'channel']),
+    isLoading: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -25,18 +26,24 @@ export default class RouteChanger extends Component {
   }
 
   componentDidMount() {
-    this.onChangeRoute()
+    if (!this.props.isLoading) {
+      this.onChangeRoute()
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location ||
+      // this is needed since initially the app will be loading and
+      // once loaded re-render the whole tree
+      this.props.isLoading !== prevProps.isLoading
+    ) {
       this.onChangeRoute()
     }
   }
 
   onChangeRoute() {
     const { params, name, onChangeRoute } = this.props
-
     onChangeRoute({
       name,
       params: mapParams(name, params),

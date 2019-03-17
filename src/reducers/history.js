@@ -1,23 +1,35 @@
-import reject from 'lodash/collection/reject'
-import findIndex from 'lodash/array/findIndex'
-import uniq from 'lodash/array/uniq'
+import reject from 'lodash/reject'
+import findIndex from 'lodash/findIndex'
+import isNil from 'lodash/isNil'
+import uniqBy from 'lodash/uniqBy'
+import some from 'lodash/some'
 
 import * as types from '../constants/actionTypes'
 import conf from '../conf'
 
 const initialState = {
   messages: [],
-  minimumBatchSize: 30,
+  minimumBatchSize: 40,
+  loadedNewerMessage: false,
+  scrollTo: null,
+  scrollToAlignment: null,
+  channel: null,
+  backendHasNewerMessages: true,
 }
 
 function updateMessage(state, newMessage) {
   const { messages } = state
-  const index = findIndex(messages, { id: newMessage.id })
-  const currMessage = messages[index]
+  const newMessages = [...messages]
+  const index = findIndex(newMessages, { id: newMessage.id })
   if (index === -1) return state
+  const currMessage = newMessages[index]
   const message = { ...currMessage, ...newMessage }
-  messages.splice(index, 1, message)
-  return { ...state, messages: [...messages] }
+  newMessages.splice(index, 1, message)
+  return {
+    ...state,
+    messages: uniqBy([...newMessages], 'id'),
+    loadedNewerMessage: false,
+  }
 }
 
 /**
@@ -37,64 +49,119 @@ function markLastMessageAsRead(messages, senderId) {
 export default function reduce(state = initialState, action) {
   const { payload } = action
   switch (action.type) {
-    case types.SET_USER:
-      return { ...state, user: payload }
     case types.SET_CHANNEL:
       return {
         ...state,
         channel: payload.channel,
         selectedMessageId: payload.messageId,
-        olderMessages: undefined,
-        newerMessages: undefined,
+        selectedMessageIdTimestamp: Date.now(),
+        olderMessagesRequest: undefined,
+        newerMessagesRequest: undefined,
+        loadedNewerMessage: false,
+        backendHasNewerMessages: true,
       }
-    case types.SET_USERS:
-      return { ...state, users: payload }
-    case types.HANDLE_INITIAL_HISTORY:
-      return {
-        ...state,
-        ...payload,
-        showNoContent: payload.messages.length === 0 && !conf.embed,
-      }
-    case types.HANDLE_MORE_HISTORY: {
-      const { messages: newMessages, isScrollBack } = payload
-      if (!newMessages.length) return state
-
-      let messages
-      let { olderMessages, newerMessages } = state
-
-      if (isScrollBack) {
-        messages = [...newMessages, ...state.messages]
-        olderMessages = undefined
-      } else {
-        messages = [...state.messages, ...newMessages]
-        newerMessages = undefined
-      }
-
-      messages = uniq(messages, 'id')
-
+    case types.HANDLE_INITIAL_HISTORY: {
+      const {
+        messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
+      } = payload
       return {
         ...state,
         messages,
+        scrollTo,
+        scrollToAlignment,
+        selectedMessageId,
+        backendHasNewerMessages,
+        showNoContent: messages.length === 0 && !conf.embed,
+        loadedNewerMessage: false,
+      }
+    }
+    case types.HANDLE_MORE_HISTORY: {
+      const {
+        messages: newMessages,
+        isScrollBack,
+        backendHasNewerMessages,
+      } = payload
+      if (!newMessages.length && typeof backendHasNewerMessages !== 'boolean')
+        return state
+
+      let messages
+      let loadedNewerMessage = false
+      let { olderMessagesRequest, newerMessagesRequest } = state
+
+      if (isScrollBack) {
+        messages = [...newMessages, ...state.messages]
+        olderMessagesRequest = undefined
+      } else {
+        messages = [...state.messages, ...newMessages]
+        newerMessagesRequest = undefined
+        loadedNewerMessage = true
+      }
+
+      return {
+        ...state,
+        messages: uniqBy(messages, 'id'),
         scrollTo: null,
-        olderMessages,
-        newerMessages,
+        scrollToAlignment: null,
+        olderMessagesRequest,
+        newerMessagesRequest,
+        loadedNewerMessage,
         showNoContent: false,
+        backendHasNewerMessages:
+          typeof backendHasNewerMessages === 'boolean'
+            ? backendHasNewerMessages
+            : state.backendHasNewerMessages,
       }
     }
     case types.GO_TO_CHANNEL:
       // Clicked on the current channel.
       if (state.channel && payload === state.channel.id) return state
-      return { ...state, messages: [] }
+      return { ...state, messages: [], loadedNewerMessage: false }
+    // when the client is disconnected and re-connects SET_INITIAL_DATA_LOADING is triggered
+    // to avoid unexpected behaviour from existing data this case resets the state
+    case types.SET_INITIAL_DATA_LOADING:
+      if (!payload) return state
+      return { ...initialState }
+    case types.REMOVE_ROOM:
+      if (state.channel && payload === state.channel.id) {
+        return { ...initialState }
+      }
+      return state
     case types.CLEAR_HISTORY:
-      return { ...state, messages: [] }
+      return {
+        ...state,
+        messages: [],
+        loadedNewerMessage: false,
+        backendHasNewerMessages: true,
+      }
     case types.REQUEST_OLDER_HISTORY:
-      return { ...state, olderMessages: payload.promise }
+      return {
+        ...state,
+        olderMessagesRequest: payload.promise,
+        loadedNewerMessage: false,
+      }
     case types.REQUEST_NEWER_HISTORY:
-      return { ...state, newerMessages: payload.promise }
+      return {
+        ...state,
+        newerMessagesRequest: payload.promise,
+        loadedNewerMessage: false,
+      }
     case types.UNSET_HISTORY_SCROLL_TO:
-      return { ...state, scrollTo: null, scrollToAlignment: null }
+      return {
+        ...state,
+        scrollTo: null,
+        scrollToAlignment: null,
+        loadedNewerMessage: false,
+      }
     case types.REMOVE_MESSAGE:
-      return { ...state, messages: reject(state.messages, { id: payload }) }
+      return {
+        ...state,
+        messages: uniqBy(reject(state.messages, { id: payload }), 'id'),
+        loadedNewerMessage: false,
+      }
     case types.EDIT_MESSAGE:
       return updateMessage(state, { ...payload, isSelected: true })
     case types.UPDATE_MESSAGE:
@@ -106,8 +173,6 @@ export default function reduce(state = initialState, action) {
         ...payload,
         state: 'pending',
       })
-    case types.MARK_MESSAGE_AS_SENT:
-      return updateMessage(state, { id: payload.messageId, state: 'sent' })
     case types.MARK_CHANNEL_AS_READ: {
       // Currently backend logic is designed to mark all messages as read once
       // user read something in that channel.
@@ -121,28 +186,74 @@ export default function reduce(state = initialState, action) {
 
       return {
         ...state,
-        messages: markLastMessageAsRead(state.messages, userId),
+        messages: uniqBy(markLastMessageAsRead(state.messages, userId), 'id'),
+        loadedNewerMessage: false,
       }
     }
-    case types.REQUEST_POST_MESSAGE:
+    case types.REQUEST_POST_MESSAGE: {
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
       if (state.channel && payload.channelId !== state.channel.id) {
         return state
       }
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
       return {
         ...state,
-        messages: [...state.messages, { ...payload, state: 'pending' }],
+        // REQUEST_POST_MESSAGE is always triggered by the current user and thats
+        // why we can scroll to the message (bottom of the chat) right away
+        scrollTo: payload.id,
+        scrollToAlignment: null,
+        messages: uniqBy(
+          [...state.messages, { ...payload, state: 'pending' }],
+          'id',
+        ),
         showNoContent: false,
+        loadedNewerMessage: false,
       }
+    }
     case types.ADD_NEW_MESSAGE: {
-      if (payload.channelId !== state.channel.id) return state
-      const scrollTo = payload.author.id === state.user.id ? payload.id : null
+      const newMessage = payload.message
+      if (newMessage.channelId !== state.channel.id) return state
+      // Do not append a message if the history is not up to date
+      if (state.backendHasNewerMessages) return state
+
+      const messages = [...state.messages]
+      // this case occures when the message was added to the history
+      // optimistically without waiting for a server response
+      if (
+        !isNil(newMessage.clientsideId) &&
+        some(messages, msg => msg.clientsideId === newMessage.clientsideId)
+      ) {
+        const index = findIndex(messages, {
+          clientsideId: newMessage.clientsideId,
+        })
+        const currMessage = messages[index]
+        // state is changed to sent since after receiveing the message from
+        // the server we can be sure it has been sent
+        const message = { ...currMessage, ...newMessage, state: 'sent' }
+        messages.splice(index, 1, message)
+        return {
+          ...state,
+          scrollTo: null,
+          scrollToAlignment: null,
+          messages: uniqBy([...messages], 'id'),
+          showNoContent: false,
+          loadedNewerMessage: false,
+        }
+      }
+
+      // If the message was added by the current user we are sure she/he has seen it and
+      // we scroll to the new message (bottom of the chat)
+      const scrollTo =
+        newMessage.author.id === payload.currentUserId ? newMessage.id : null
       return {
         ...state,
         scrollTo,
-        messages: [...state.messages, payload],
+        scrollToAlignment: null,
+        messages: uniqBy([...messages, newMessage], 'id'),
         showNoContent: false,
+        loadedNewerMessage: false,
       }
     }
     default:

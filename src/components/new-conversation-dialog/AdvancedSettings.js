@@ -55,6 +55,7 @@ export default class AdvancedSettings extends PureComponent {
     saving: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     isNameFocused: PropTypes.bool,
     error: PropTypes.string,
     onCreate: PropTypes.func.isRequired,
@@ -84,6 +85,7 @@ export default class AdvancedSettings extends PureComponent {
       name,
       saving,
       error,
+      colors,
       intl: { formatMessage },
       sheet: { classes },
       isPublic,
@@ -99,6 +101,7 @@ export default class AdvancedSettings extends PureComponent {
         <IconSettings
           {...iconSettingsProps}
           classes={classes}
+          colors={colors}
           channel={{ icon, color, isPublic }}
         />
         <div className={classes.name}>
@@ -119,6 +122,7 @@ export default class AdvancedSettings extends PureComponent {
             off={formatMessage(messages.off)}
             on={formatMessage(messages.on)}
             disabled={saving}
+            colors={colors}
             onChange={onPrivacyChange}
             status={isPublic}
           />

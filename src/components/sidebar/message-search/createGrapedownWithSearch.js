@@ -1,5 +1,5 @@
 import React from 'react'
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 import findMatches from 'grape-web/lib/search/findMatches'
 
 import Highlight from '../../highlight/YellowHighlight'
@@ -12,7 +12,9 @@ export default function createGrapedownWithSearch(initialProps) {
   const { query } = initialProps
 
   const renderProps = {
-    renderTag: (tag, props, children) => {
+    // In case there are no children we need to set it to an empty array
+    // to make sure createElement gets a parameter other than undefined or null.
+    renderTag: (tag, props, children = []) => {
       if (typeof children[0] !== 'string' && children.length === 1) {
         return renderTag(tag, props, children)
       }

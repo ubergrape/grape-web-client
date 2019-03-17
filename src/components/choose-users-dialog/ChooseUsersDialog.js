@@ -8,7 +8,7 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import { styles } from './theme'
 import { getFilteredUsers } from './utils'
@@ -16,6 +16,7 @@ import { getFilteredUsers } from './utils'
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 import Username from '../avatar-name/Username'
+import InviteGuests from '../invite-guests/InviteGuests'
 import { userStatusMap } from '../../constants/app'
 
 const SelectedUser = ({ displayName }) => displayName
@@ -24,11 +25,11 @@ function OrgInviteButton({ isInviter, onClick, classes }) {
   if (!isInviter) return null
 
   return (
-    <div className={classes.orgInvite}>
-      <button className={classes.orgInviteButton} onClick={onClick}>
+    <div className={classes.linkWrapper}>
+      <button className={classes.link} onClick={onClick}>
         <FormattedMessage
-          id="inviteToTeam"
-          defaultMessage="Invite a new person to your team…"
+          id="inviteToOrganization"
+          defaultMessage="Invite a new person to your organization"
         />
       </button>
     </div>
@@ -54,6 +55,8 @@ export default class ChooseUsersDialog extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     classes: PropTypes.object.isRequired,
+    channel: PropTypes.object,
+    conf: PropTypes.object,
     children: PropTypes.node.isRequired,
     onHide: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
@@ -62,15 +65,22 @@ export default class ChooseUsersDialog extends PureComponent {
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     onClickList: PropTypes.func,
+    onClickFocusReset: PropTypes.func,
+    goTo: PropTypes.func,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
     isFilterFocused: PropTypes.bool,
     show: PropTypes.bool.isRequired,
+    showInviteGuests: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     onClickList: noop,
+    onClickFocusReset: noop,
+    goTo: noop,
+    channel: {},
+    conf: {},
     title: null,
     isFilterFocused: true,
   }
@@ -130,6 +140,7 @@ export default class ChooseUsersDialog extends PureComponent {
   render() {
     const {
       classes,
+      channel,
       intl: { formatMessage },
       show,
       filter,
@@ -143,6 +154,10 @@ export default class ChooseUsersDialog extends PureComponent {
       onSelectUser,
       onRemoveSelectedUser,
       onClickList,
+      onClickFocusReset,
+      goTo,
+      conf,
+      showInviteGuests,
     } = this.props
 
     return (
@@ -156,6 +171,7 @@ export default class ChooseUsersDialog extends PureComponent {
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
             onClick={onClickList}
+            onBlur={onClickFocusReset}
             onChange={onChangeFilter}
             onSelect={onSelectUser}
             onRemoveSelected={onRemoveSelectedUser}
@@ -163,14 +179,18 @@ export default class ChooseUsersDialog extends PureComponent {
             renderSelected={SelectedUser}
             renderNotFound={this.renderNotFound}
             renderEmptyItems={this.renderEmptyItems}
-          >
-            <OrgInviteButton
-              isInviter={isInviter}
-              onClick={this.onInvite}
-              classes={classes}
-            />
-          </FilterableList>
+          />
           {children}
+        </div>
+        <div>
+          <OrgInviteButton
+            isInviter={isInviter}
+            onClick={this.onInvite}
+            classes={classes}
+          />
+          {showInviteGuests && (
+            <InviteGuests channel={channel} onClick={goTo} conf={conf} />
+          )}
         </div>
       </Dialog>
     )

@@ -10,11 +10,11 @@
 })({
   container: '#grape-client',
   channelId: 632,
-  //channelId: 2253,
+  // channelId: 2253,
   orgId: 1,
   serviceUrl: 'https://uebergrape.staging.chatgrape.com',
   staticBaseUrl: 'https://unpkg.com/grape-web-client/dist/',
-  onReady: function() {
+  onReady() {
     console.log('Grape Client initialized')
   },
 })

@@ -1,5 +1,5 @@
-import omit from 'lodash/object/omit'
-import find from 'lodash/collection/find'
+import omit from 'lodash/omit'
+import find from 'lodash/find'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
@@ -8,10 +8,8 @@ import { reopen } from '../app/client'
 import {
   channelsSelector,
   userSelector,
-  joinedRoomsSelector,
-  pmsSelector,
-  orgSelector,
   appSelector,
+  joinedChannelsSelector,
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -29,6 +27,8 @@ import {
   goToLastUsedChannel,
   addChannel,
   handleRoomCreateError,
+  showNewConversation,
+  hideBrowser,
 } from './'
 
 export function error(err) {
@@ -70,20 +70,22 @@ export const addUser = user => dispatch => {
   })
 }
 
-export const addNewUser = userId => (dispatch, getState) => {
-  const org = orgSelector(getState())
+export const addNewChannel = id => (dispatch, getState) => {
+  const user = userSelector(getState())
 
   return api
-    .openPm(org.id, userId)
-    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
-      dispatch(
-        addChannel({
-          ...pmChannel,
-          users,
-        }),
-      )
+    .getChannel(id)
+    .then(channel => {
+      if (channel.type === 'room') {
+        dispatch(
+          addChannel({
+            ...channel,
+            users: [id, user.id],
+          }),
+        )
+        return
+      }
+      dispatch(addUser(channel))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
@@ -139,18 +141,34 @@ export const handleUserProfile = profile => dispatch => {
   }
 }
 
-export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+export const setChannel = (channelOrChannelId, messageId) => (
+  dispatch,
+  getState,
+) => {
   const channels = channelsSelector(getState())
-  const channel = find(channels, { id: channelId })
+  let channel
+  if (typeof channelOrChannelId === 'number') {
+    channel = find(channels, { id: channelOrChannelId })
+  } else {
+    channel = channelOrChannelId
+  }
 
   if (!channel) return
 
-  dispatch({
-    type: types.SET_CHANNEL,
-    payload: {
-      channel: normalizeChannelData(channel),
-      messageId,
-    },
+  dispatch(hideBrowser())
+
+  api.getChannel(channel.id).then(({ permissions, videoconferenceUrl }) => {
+    dispatch({
+      type: types.SET_CHANNEL,
+      payload: {
+        channel: {
+          ...normalizeChannelData(channel),
+          permissions,
+          videoconferenceUrl,
+        },
+        messageId,
+      },
+    })
   })
 }
 
@@ -166,11 +184,23 @@ export const handleBadChannel = alertType => dispatch => {
   )
 }
 
-export const loadInitialData = clientId => (dispatch, getState) => {
+export const setIntialDataLoading = payload => dispatch => {
   dispatch({
     type: types.SET_INITIAL_DATA_LOADING,
-    payload: true,
+    payload,
   })
+}
+
+export const setConf = payload => dispatch => {
+  dispatch({
+    type: types.SET_CONF,
+    payload,
+  })
+}
+
+export const loadInitialData = clientId => (dispatch, getState) => {
+  dispatch(setIntialDataLoading(true))
+
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
   dispatch({ type: types.REQUEST_USERS })
@@ -190,21 +220,11 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 
-      if (
-        !joinedRoomsSelector(getState()).length &&
-        !pmsSelector(getState()).length
-      ) {
-        dispatch(
-          error(
-            new Error(
-              'This account has neither joined rooms nor pm channels. This state is currently not supported.',
-            ),
-          ),
-        )
-        return
-      }
+      dispatch(setIntialDataLoading(false))
 
       const { route } = appSelector(getState())
+      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
+
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
       if (route && route.params.channelId) {
@@ -212,15 +232,15 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       } else {
         const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
-        // In embedded chat conf.channelId is defined.
-        const channelId = conf.channelId || channelToSet.id
-        dispatch(setChannel(channelId))
+        if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
+          // In embedded chat conf.channelId is defined.
+          dispatch(setChannel(conf.channelId || channelToSet.id))
+        }
       }
 
-      dispatch({
-        type: types.SET_INITIAL_DATA_LOADING,
-        payload: false,
-      })
+      if (!isMemberOfAnyRooms) {
+        dispatch(showNewConversation())
+      }
     })
     .catch(err => {
       dispatch(error(err))

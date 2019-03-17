@@ -13,11 +13,14 @@ export const styles = {
     display: 'flex',
     alignItems: 'flex-start',
   },
+  contentWrapper: {
+    width: '100%',
+    minWidth: 0,
+  },
   avatarColumn: {
     minWidth: 45,
   },
   bubble: {
-    display: 'block',
     maxWidth: '100%',
   },
   content: contentStyles,

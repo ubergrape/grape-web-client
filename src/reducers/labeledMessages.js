@@ -1,12 +1,12 @@
-import find from 'lodash/collection/find'
-import merge from 'lodash/object/merge'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
 
 import * as types from '../constants/actionTypes'
 
 const initialState = {
   messages: [],
   labelConfigs: [],
-  isLoading: true,
+  isLoading: false,
   options: {
     currentChannelOnly: {
       show: true,
@@ -79,8 +79,8 @@ export default function reduce(state = initialState, action) {
         filter: payload,
       }
     case types.UPDATE_MESSAGE: {
-      const messages = state.messages.map(
-        message => (message.id === payload.id ? payload : message),
+      const messages = state.messages.map(message =>
+        message.id === payload.id ? payload : message,
       )
 
       return { ...state, messages }

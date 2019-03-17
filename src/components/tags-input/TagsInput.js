@@ -3,16 +3,16 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import keyname from 'keyname'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash/debounce'
 
 import { styles } from './theme'
 
-@injectSheet(styles)
-export default class TagsInput extends PureComponent {
+class TagsInput extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     renderTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     focused: PropTypes.bool.isRequired,
@@ -33,7 +33,7 @@ export default class TagsInput extends PureComponent {
 
   componentWillUpdate(prevProps) {
     if (prevProps.list.length !== this.props.list.length) {
-      this.setState({ filter: '' })
+      this.clearFilter()
     }
   }
 
@@ -67,7 +67,7 @@ export default class TagsInput extends PureComponent {
   }
 
   onBlur = () => {
-    if (this.props.focused) this.input.focus()
+    if (this.props.focused) this.props.onBlur()
   }
 
   onKeyDown = e => {
@@ -89,6 +89,10 @@ export default class TagsInput extends PureComponent {
 
   onDeleteTag = item => {
     this.props.deleteTag(item)
+  }
+
+  clearFilter() {
+    this.setState({ filter: '' })
   }
 
   deleteLastItem() {
@@ -161,3 +165,5 @@ export default class TagsInput extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(TagsInput)

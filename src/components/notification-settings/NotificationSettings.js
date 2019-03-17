@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import each from 'lodash/collection/each'
-import capitalize from 'lodash/string/capitalize'
+import each from 'lodash/each'
+import random from 'lodash/random'
+import capitalize from 'lodash/capitalize'
 import {
   FormattedMessage,
   defineMessages,
@@ -15,7 +16,7 @@ import Dialog from '../dialog/Dialog'
 import { Done } from '../i18n/i18n'
 import { isAllOff, values } from '../../utils/notification-settings'
 
-const statuses = ['pending', 'complete']
+const statuses = ['pending', 'complete', undefined]
 
 const messages = defineMessages({
   title: {
@@ -76,6 +77,11 @@ Title.propTypes = {
   status: PropTypes.oneOf(statuses),
 }
 
+Title.defaultProps = {
+  status: undefined,
+}
+
+const id = `muteAllNotifications${random(1000000)}`
 const MuteAllSetting = ({
   classes,
   status,
@@ -88,10 +94,14 @@ const MuteAllSetting = ({
     <Title classes={classes} setting="muteAll" status={status}>
       <FormattedMessage id="muteGroupTitle" defaultMessage="Mute this Group" />
     </Title>
-    <label className={classes.label}>
-      <span className={classes.iconColumn}>
-        <input type="checkbox" checked={value} onChange={onChange} />
-      </span>
+    <label htmlFor={id} className={classes.label}>
+      <input
+        id={id}
+        className={classes.checkbox}
+        type="checkbox"
+        checked={value}
+        onChange={onChange}
+      />
       <FormattedMessage
         id="muteAllNotifications"
         defaultMessage="Block all notifications for this group on all your devices"
@@ -111,7 +121,7 @@ const MuteAllSetting = ({
                 <FormattedMessage
                   id="clickHereInlineLink"
                   defaultMessage="click here"
-                  description={'Link used inline in the middle of a sentence.'}
+                  description="Link used inline in the middle of a sentence."
                 />
               </button>
             ),
@@ -129,6 +139,10 @@ MuteAllSetting.propTypes = {
   onChange: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   status: PropTypes.oneOf(statuses),
+}
+
+MuteAllSetting.defaultProps = {
+  status: undefined,
 }
 
 const Select = ({
@@ -176,6 +190,10 @@ DesktopSetting.propTypes = {
   status: PropTypes.oneOf(statuses),
 }
 
+DesktopSetting.defaultProps = {
+  status: undefined,
+}
+
 const PushSetting = ({ classes, status, ...rest }) => (
   <div className={classes.groupedSetting}>
     <Title classes={classes} setting="push" status={status}>
@@ -193,6 +211,10 @@ PushSetting.propTypes = {
   value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired,
   status: PropTypes.oneOf(statuses),
+}
+
+PushSetting.defaultProps = {
+  status: undefined,
 }
 
 const Footer = ({ classes, onClose }) => (
@@ -228,9 +250,7 @@ Footer.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-@injectSheet(styles)
-@injectIntl
-export default class NotificationSettings extends PureComponent {
+class NotificationSettings extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -242,6 +262,13 @@ export default class NotificationSettings extends PureComponent {
     push: PropTypes.oneOf(values),
     channel: PropTypes.object,
     user: PropTypes.object,
+  }
+
+  static defaultProps = {
+    desktop: 'off',
+    push: 'off',
+    channel: {},
+    user: {},
   }
 
   constructor(props) {
@@ -347,3 +374,5 @@ export default class NotificationSettings extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(NotificationSettings))

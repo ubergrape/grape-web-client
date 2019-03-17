@@ -1,4 +1,4 @@
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -15,6 +15,12 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
   getState,
 ) => {
   const state = getState()
+  // to prevent triggering the same request multiple times this action is canceled
+  // when the state is loading and therefor the action already has been triggered
+  if (state.labeledMessages.isLoading) {
+    return
+  }
+
   const orgId = orgSelector(state).id
   const {
     options: { currentChannelOnly },

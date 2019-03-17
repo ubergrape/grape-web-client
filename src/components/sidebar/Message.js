@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { icon as iconSize, spacer } from 'grape-theme/dist/sizes'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import cn from 'classnames'
 
 import Avatar from '../avatar/Avatar'
@@ -55,7 +55,14 @@ const transition = 'box-shadow 150ms ease-out'
       boxShadow: `0px 1px 8px ${shadowColor}`,
     },
   },
-  innerContent: contentStyles,
+  innerContent: {
+    ...contentStyles,
+    width: '100%',
+    '& p, & strong, & span': {
+      isolate: false,
+      display: 'inline',
+    },
+  },
 })
 export default class Message extends Component {
   static propTypes = {
@@ -103,22 +110,23 @@ export default class Message extends Component {
     } = this.props
 
     return (
-      <section
-        className={cn(classes.message, className)}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
+      <section className={cn(classes.message, className)}>
         <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn} />
-          <Bubble className={classes.rightColumn} theme={{ classes }}>
-            <div
+          <Bubble
+            className={classes.rightColumn}
+            theme={{ classes }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <button
               className={classes.innerContent}
               ref={onRefContent}
               onClick={this.onSelectMessage}
             >
               {children}
-            </div>
+            </button>
             {renderMenu()}
           </Bubble>
         </div>

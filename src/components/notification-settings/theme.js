@@ -23,6 +23,7 @@ const createIcon = name =>
 export const styles = {
   notificationSettings: {
     borderTop: [3, 'solid', grayBlueLighter],
+    width: 525,
   },
   section: {
     paddingTop: padding,
@@ -44,6 +45,10 @@ export const styles = {
   iconColumn: {
     display: 'inline-block',
     width: 22,
+  },
+  checkbox: {
+    isolate: false,
+    marginRight: 10,
   },
   titleIconMuteAll: createIcon('bellMuted'),
   titleIconDesktop: createIcon('laptop'),

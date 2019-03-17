@@ -1,5 +1,9 @@
-import { yellow } from 'grape-theme/dist/base-colors'
-import { borderDefault, chatBackground } from 'grape-theme/dist/web-colors'
+import { yellow, grayLightest, white } from 'grape-theme/dist/base-colors'
+import {
+  borderDefault,
+  borderLighter,
+  chatBackground,
+} from 'grape-theme/dist/web-colors'
 import { spacer } from 'grape-theme/dist/sizes'
 import scrollbarSize from 'scrollbar-size'
 
@@ -11,11 +15,12 @@ export const styles = {
   footer: {
     position: 'relative',
     padding: [0, spacer.l],
+    background: ({ disabled }) => (disabled ? grayLightest : white),
     borderTop: {
       width: 1,
       style: 'solid',
-      color: borderDefault,
     },
+    borderColor: ({ disabled }) => (disabled ? borderLighter : borderDefault),
   },
   above: {
     position: 'absolute',

@@ -240,11 +240,13 @@ Content.defaultProps = {
 export default class Sidebar extends PureComponent {
   static propTypes = {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+    permissions: PropTypes.object,
     className: PropTypes.string,
   }
 
   static defaultProps = {
     className: null,
+    permissions: {},
   }
 
   onSidebarRef = ref => {
@@ -252,13 +254,17 @@ export default class Sidebar extends PureComponent {
   }
 
   render() {
-    const { show, className } = this.props
+    const { show, className, permissions } = this.props
 
     if (!show) return null
 
     return (
       <div ref={this.onSidebarRef} className={className}>
-        <Content {...this.props} sidebarRef={this.sidebar} />
+        <Content
+          {...this.props}
+          sidebarRef={this.sidebar}
+          permissions={permissions}
+        />
       </div>
     )
   }

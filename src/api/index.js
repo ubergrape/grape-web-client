@@ -3,7 +3,7 @@
  */
 /* eslint-disable global-require */
 
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
@@ -11,6 +11,7 @@ import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'
 import grapeVersion from './version.macro'
+import themes from '../themes'
 
 let resolveAppReady
 
@@ -43,9 +44,21 @@ const checkShowHideComponent = (() => {
 })()
 
 const init = config => {
-  conf.setup(config)
+  conf.setup(
+    merge(config, {
+      organization: {
+        // eslint-disable-next-line no-underscore-dangle
+        colors: __THEME__ ? themes[__THEME__] : {},
+      },
+    }),
+  )
+
   const app = require('../app')
   resolveAppReady(app)
+
+  actionsReady.then(actions => {
+    actions.setConf(conf)
+  })
 
   app.init()
   app.renderSheetsInsertionPoints()
@@ -80,6 +93,11 @@ const embed = options => {
       },
       channelId: options.channelId,
       embed: true,
+      callbacks: {
+        onRender: options.onRender,
+        onPin: options.onPin,
+        onUnpin: options.onUnpin,
+      },
     }),
   )
 
@@ -118,6 +136,11 @@ const setOpenFileDialogHandler = fn => {
   })
 }
 
+const setChannel = (id, messageId) =>
+  actionsReady.then(actions => {
+    actions.setChannel(id, messageId)
+  })
+
 class Api extends Emitter {
   init = init
   embed = embed
@@ -125,6 +148,7 @@ class Api extends Emitter {
   hide = hide
   searchMessages = searchMessages
   setOpenFileDialogHandler = setOpenFileDialogHandler
+  setChannel = setChannel
   resume = resume
   suspend = suspend
   authStatus = 'unauthorized'

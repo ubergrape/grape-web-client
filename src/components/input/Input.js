@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/utility/noop'
-import capitalize from 'lodash/string/capitalize'
+import capitalize from 'lodash/capitalize'
+import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 import { pickHTMLProps } from 'pick-react-known-prop'
@@ -17,19 +17,13 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  */
 // TODO: move this component to grape-ui library
 // https://github.com/ubergrape/chatgrape/issues/4384
-@injectSheet({
-  input: {
-    isolate: false,
-    position: 'relative',
-  },
-})
-export default class Input extends PureComponent {
+class Input extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    clearError: PropTypes.func.isRequired,
-    focused: PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
+    clearError: PropTypes.func,
+    focused: PropTypes.bool,
     className: PropTypes.string,
     type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
@@ -39,13 +33,12 @@ export default class Input extends PureComponent {
   }
 
   static defaultProps = {
-    placement: 'bottom',
     type: 'input',
-    focused: false,
     className: null,
     error: null,
     onChange: noop,
     clearError: noop,
+    focused: false,
   }
 
   componentDidMount() {
@@ -127,3 +120,10 @@ export default class Input extends PureComponent {
     )
   }
 }
+
+export default injectSheet({
+  input: {
+    isolate: false,
+    position: 'relative',
+  },
+})(Input)

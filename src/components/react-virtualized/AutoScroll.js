@@ -1,10 +1,21 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import findIndex from 'lodash/array/findIndex'
+import findIndex from 'lodash/findIndex'
+import isFunction from 'lodash/isFunction'
+import isEqualWith from 'lodash/isEqualWith'
 import {
   SCROLL_TO_ALIGNMENT_START,
   SCROLL_TO_ALIGNMENT_END,
 } from '../../constants/history'
+
+const isDeepEqualRows = (rowsA, rowsB) =>
+  isEqualWith(rowsA, rowsB, (val1, val2) => {
+    // should not impact rendering and therefor we can ignore them
+    if (isFunction(val1) && isFunction(val2)) {
+      return true
+    }
+    return undefined
+  })
 
 /**
  * Preserves the scroll position at the end when rows got added.
@@ -17,11 +28,9 @@ export default class AutoScroll extends PureComponent {
     minEndThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     height: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     scrollToIndex: PropTypes.number,
-    // eslint-disable-next-line react/no-unused-prop-types
-    scrollToRow: PropTypes.func.isRequired,
     scrollToAlignment: PropTypes.string,
+    loadedNewerMessage: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -35,7 +44,7 @@ export default class AutoScroll extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { rows, height, minEndThreshold } = this.props
-    const rowsHasChanged = nextProps.rows !== rows
+    const rowsHaveChanged = !isDeepEqualRows(rows, nextProps.rows)
 
     // the case where you scroll to a specific message
     if (nextProps.scrollToIndex !== undefined) {
@@ -59,7 +68,7 @@ export default class AutoScroll extends PureComponent {
     // When they are inserted at the beginning, they will change our scroll
     // position, so we need to calculate the height of those rows and scroll
     // to the old position.
-    if (rowsHasChanged && this.direction < 0 && this.scrollTop === 0) {
+    if (rowsHaveChanged && this.direction < 0 && this.scrollTop === 0) {
       const prevFirstRenderedRowId = rows[this.startIndex].id
       const prevFirstRowIndex = findIndex(nextProps.rows, {
         id: prevFirstRenderedRowId,
@@ -71,10 +80,19 @@ export default class AutoScroll extends PureComponent {
       return
     }
 
-    // We way need to auto scroll when:
-    // - Rows has been changed.
-    // - Parent size has changed.
-    if (rowsHasChanged || nextProps.height !== height) {
+    // TODO track if a bulk of messages have been loaded while scrolling down
+
+    // Auto scrolling to the bottom when:
+    // - A new message was added by the current user
+    // - A new message was received (can be from another user or the same user on another client)
+    // - A any of the messages on screen changed e.g. got longer.
+    // - Parent size has changed and the scroll position was close to the bottom.
+    // Prevent auto scrolling to the bottom when:
+    // - The user scrolled to the bottom and a batch of new messages was loaded to prevent GRAPE-15407
+    if (
+      (rowsHaveChanged && !nextProps.loadedNewerMessage) ||
+      nextProps.height !== height
+    ) {
       const endThreshold =
         this.scrollHeight - this.scrollTop - this.clientHeight
 

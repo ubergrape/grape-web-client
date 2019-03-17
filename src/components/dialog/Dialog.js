@@ -29,9 +29,6 @@ import { zIndex } from '../../utils/z-index'
   modal: {
     composes: '$overlay',
     zIndex: zIndex('dialog'),
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     overflowY: 'auto',
   },
   backdrop: {
@@ -41,10 +38,13 @@ import { zIndex } from '../../utils/z-index'
     zIndex: zIndex('below'),
   },
   content: {
-    width: 525,
     borderRadius: borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translateY(-50%)',
     outline: 0,
   },
   header: {
@@ -56,6 +56,7 @@ import { zIndex } from '../../utils/z-index'
     isolate: false,
     fontSize: small.fontSize,
     opacity: 0.5,
+    marginLeft: 'auto',
     '&:hover': {
       isolate: false,
       opacity: 1,
@@ -63,9 +64,9 @@ import { zIndex } from '../../utils/z-index'
   },
   title: {
     extend: [biggest, ellipsis],
-    flex: 2,
     alignSelf: 'center',
     paddingLeft: 20,
+    width: `100%`,
   },
   body: {
     display: 'block',
@@ -77,8 +78,13 @@ export default class Dialog extends PureComponent {
     onHide: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
+    width: PropTypes.number,
     sheet: PropTypes.object.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  }
+
+  static defaultProps = {
+    width: 526,
   }
 
   render() {
@@ -87,6 +93,7 @@ export default class Dialog extends PureComponent {
       show,
       onHide,
       title,
+      width,
       children,
     } = this.props
 
@@ -96,8 +103,12 @@ export default class Dialog extends PureComponent {
         className={classes.modal}
         backdropClassName={classes.backdrop}
         onHide={onHide}
+        autoFocus={false}
       >
-        <Normalize className={classes.content}>
+        <Normalize
+          className={classes.content}
+          style={{ width, marginLeft: -width / 2 }}
+        >
           <header className={classes.header}>
             <h2 className={classes.title}>{title}</h2>
             <IconButton className={classes.close} onClick={onHide}>

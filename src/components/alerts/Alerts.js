@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
+import noop from 'lodash/noop'
 import fonts from 'grape-theme/dist/fonts'
 
 import { zIndex } from '../../utils/z-index'
@@ -23,13 +23,16 @@ export default class Alerts extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     alerts: PropTypes.array,
+    reconnect: PropTypes.object.isRequired,
     enableNotifications: PropTypes.func,
+    onReconnect: PropTypes.func,
     hideAlert: PropTypes.func,
   }
 
   static defaultProps = {
     hideAlert: noop,
     enableNotifications: noop,
+    onReconnect: noop,
     alerts: [],
   }
 

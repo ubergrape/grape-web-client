@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/lang/isEmpty'
-import find from 'lodash/collection/find'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -19,7 +19,6 @@ import TabbedContent from '../TabbedContent'
 import MainSettings from './MainSettings'
 import RoomActions from './RoomActions'
 import Description from './Description'
-import { getRoles } from '../utils'
 import { styles } from './roomInfoTheme.js'
 
 const tabs = [
@@ -47,7 +46,9 @@ const tabs = [
 export default class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
+    permissions: PropTypes.object,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
     showSubview: PropTypes.string,
@@ -81,10 +82,12 @@ export default class RoomInfo extends PureComponent {
 
   static defaultProps = {
     renameError: null,
+    colors: {},
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
     sidebarRef: undefined,
+    permissions: {},
   }
 
   componentDidMount() {
@@ -140,12 +143,14 @@ export default class RoomInfo extends PureComponent {
   renderMembers = () => {
     const {
       channel,
+      colors,
       goToAddIntegrations,
       user,
       openPm,
       kickMemberFromChannel,
       subview: { users, totalMembers },
       onLoadMembers,
+      permissions,
       sidebarRef,
     } = this.props
 
@@ -153,13 +158,19 @@ export default class RoomInfo extends PureComponent {
       <div>
         <RoomActions
           channel={channel}
+          colors={colors}
+          permissions={permissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}
           onAddIntegration={goToAddIntegrations}
         />
-        <Divider />
+        {(permissions.canLeaveChannel ||
+          permissions.canInviteMembers ||
+          permissions.canInviteGuests ||
+          permissions.canAddIntegration) && <Divider />}
         <ChannelMembers
           channel={channel}
+          colors={colors}
           onLoad={onLoadMembers}
           onOpen={openPm}
           onKick={kickMemberFromChannel}
@@ -167,6 +178,7 @@ export default class RoomInfo extends PureComponent {
           users={users}
           totalMembers={totalMembers}
           sidebarRef={sidebarRef}
+          permissions={permissions}
         />
       </div>
     )
@@ -210,28 +222,30 @@ export default class RoomInfo extends PureComponent {
       renameError,
       clearRoomRenameError,
       classes,
+      colors,
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
-      user: currUser,
       showSubview,
       onClose,
+      permissions,
     } = this.props
 
     if (isEmpty(channel)) return null
 
-    const { allowEdit } = getRoles({ channel, user: currUser })
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<GroupInfoText />} onClose={onClose}>
+      <SidebarPanel colors={colors} title={<GroupInfoText />} onClose={onClose}>
         <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}
             channel={channel}
+            colors={colors}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
-            allowEdit={allowEdit}
+            allowEdit={permissions.canEditChannel}
+            allowDelete={permissions.canDeleteChannel}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
@@ -243,7 +257,8 @@ export default class RoomInfo extends PureComponent {
           <Divider inset />
           <Description
             description={channel.description}
-            allowEdit={allowEdit}
+            allowEdit={permissions.canEditChannel}
+            colors={colors}
             onSetRoomDescription={this.onSetRoomDescription}
             className={classes.description}
             isPublic={channel.isPublic}
@@ -252,6 +267,7 @@ export default class RoomInfo extends PureComponent {
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
             tabs={tabs}
+            colors={colors}
             title={tab.title}
             body={this[tab.render]()}
           />

@@ -1,5 +1,5 @@
-import each from 'lodash/collection/each'
-import find from 'lodash/collection/find'
+import each from 'lodash/each'
+import find from 'lodash/find'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -22,7 +22,7 @@ const addEvent = (channel, id, displayName, expires) => {
 }
 
 export function handleTypingNotification(
-  { user, users, org, channel, typingNotification },
+  { user, users, org, typingNotification },
   data,
 ) {
   return dispatch => {
