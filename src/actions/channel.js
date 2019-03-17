@@ -1,7 +1,9 @@
 import find from 'lodash/find'
+
 import * as types from '../constants/actionTypes'
 import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
+import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
   joinedRoomsSelector,
@@ -101,7 +103,7 @@ export const loadChannelMembers = (isInitialLoading, after) => (
 
   api
     .listMembers(channel.id, {
-      limit: 50,
+      limit,
       after,
     })
     .then(({ results, total }) => ({

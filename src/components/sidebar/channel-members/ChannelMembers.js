@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import noop from 'lodash/noop'
 
+import { limit, bottomOffset } from '../../../constants/sidebar'
 import User from './User'
 
 export default class ChannelMembers extends PureComponent {
@@ -30,10 +31,7 @@ export default class ChannelMembers extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      limit: 50,
       shift: 50,
-      // A height of each member item is 42. 10 of them it's 420.
-      bottomOffset: 420,
     }
   }
 
@@ -64,7 +62,8 @@ export default class ChannelMembers extends PureComponent {
   onScroll = e => {
     const { offsetHeight, scrollTop, scrollHeight } = e.target
     const { users, totalMembers } = this.props
-    const { shift, limit, bottomOffset } = this.state
+    const { shift } = this.state
+
     if (
       shift > users.length ||
       totalMembers === users.length // Do not load members, if everybody already loaded
