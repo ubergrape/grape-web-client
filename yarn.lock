@@ -7627,20 +7627,20 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
+react-finite-list@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.10.tgz#3398e47a75962d8a3a6c1493f9d6d714bf247100"
+  integrity sha512-nvXuebHmHbQtPTaQtB/BYkOB8Mbr7CRqt8VgzGdpD08L+WXQFN/FQ9s/yRqxcBzZ9KF18a8aCtt9hSEW0k5toQ==
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.5.10"
+    react-visibility-sensor "^5.0.2"
+
 react-finite-list@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.8.tgz#6b267d8d81e03b632a2c0dda89bb16172974c733"
   dependencies:
     lodash "^3.10.0"
-    prop-types "^15.5.10"
-    react-visibility-sensor "^3.1.1"
-
-react-finite-list@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.9.tgz#80ca65df0e48a42f7dcc5b98ace22ce5f200a085"
-  integrity sha512-fMls4TIDO2WSxfeHT40jXp4YTvuoeshQq0ZIPgVymzJTUJlL46L0o2oSpWTqyM6jNrKDJxePwZFkzhh0ytF9nQ==
-  dependencies:
-    lodash "^4.17.10"
     prop-types "^15.5.10"
     react-visibility-sensor "^3.1.1"
 
@@ -7887,6 +7887,13 @@ react-visibility-sensor@^3.1.1:
   dependencies:
     create-react-class "^15.5.1"
     prop-types "^15.5.4"
+
+react-visibility-sensor@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-5.0.2.tgz#e360fff81572cb3a2a9fd680484447a9da09a55d"
+  integrity sha512-7+1lr7oQOO2vKr5u/uxoDGFWAAy7lsDy2aJU3Zy1/OymI+TRqOBk8m2L8YE1B0UyfCDWxVAWO+aifVGqNOvqeQ==
+  dependencies:
+    prop-types "^15.6.2"
 
 react@^16.7.0:
   version "16.7.0"
