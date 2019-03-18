@@ -50,7 +50,7 @@
     "react-addons-shallow-compare": "^15.6.0",
     "react-dom": "^16.7.0",
     "react-dropzone": "^4.2.7",
-    "react-finite-list": "^1.0.9",
+    "react-finite-list": "^1.0.10",
     "react-intl": "^2.4.0",
     "react-notification": "^6.8.4",
     "react-overlays": "^0.7.0",
