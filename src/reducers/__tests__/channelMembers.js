@@ -7,36 +7,46 @@ describe('channelMembers reducer', () => {
   it('should handle HANDLE_CHANNEL_MEMBERS', () => {
     expect(
       channelMembers(
-        { users: [], totalMembers: 0 },
+        { users: [], isEveryMemberLoaded: false },
         {
           type: types.HANDLE_CHANNEL_MEMBERS,
           payload: {
             users: [m1, m2],
-            total: 4,
           },
         },
       ),
     ).toEqual({
       users: [m1, m2],
-      totalMembers: 4,
+      isEveryMemberLoaded: false,
     })
   })
 
   it('should handle correct changing of channel members on HANDLE_CHANNEL_MEMBERS', () => {
     expect(
       channelMembers(
-        { users: [m1, m2], totalMembers: 4 },
+        { users: [m1, m2], isEveryMemberLoaded: false },
         {
           type: types.HANDLE_CHANNEL_MEMBERS,
           payload: {
             users: [m1, m2, m3, m4],
-            total: 4,
           },
         },
       ),
     ).toEqual({
       users: [m1, m2, m3, m4],
-      totalMembers: 4,
+      isEveryMemberLoaded: false,
+    })
+  })
+
+  it('should handle HANDLE_EVERY_MEMBER_LOADED', () => {
+    expect(
+      channelMembers(
+        { users: [m1, m2, m3, m4], isEveryMemberLoaded: false },
+        { type: types.HANDLE_EVERY_MEMBER_LOADED },
+      ),
+    ).toEqual({
+      users: [m1, m2, m3, m4],
+      isEveryMemberLoaded: true,
     })
   })
 })

@@ -148,7 +148,7 @@ export default class RoomInfo extends PureComponent {
       user,
       openPm,
       kickMemberFromChannel,
-      subview: { users, totalMembers },
+      subview: { users, isEveryMemberLoaded },
       onLoadMembers,
       permissions,
       sidebarRef,
@@ -176,7 +176,7 @@ export default class RoomInfo extends PureComponent {
           onKick={kickMemberFromChannel}
           currUser={user}
           users={users}
-          totalMembers={totalMembers}
+          isEveryMemberLoaded={isEveryMemberLoaded}
           sidebarRef={sidebarRef}
           permissions={permissions}
         />

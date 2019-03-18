@@ -8,7 +8,7 @@ import User from './User'
 export default class ChannelMembers extends PureComponent {
   static propTypes = {
     users: PropTypes.array.isRequired,
-    totalMembers: PropTypes.number,
+    isEveryMemberLoaded: PropTypes.bool,
     channel: PropTypes.object.isRequired,
     colors: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
@@ -20,7 +20,7 @@ export default class ChannelMembers extends PureComponent {
   }
 
   static defaultProps = {
-    totalMembers: 0,
+    isEveryMemberLoaded: false,
     sidebarRef: undefined,
     onLoad: noop,
     onOpen: noop,
@@ -31,7 +31,7 @@ export default class ChannelMembers extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      shift: 50,
+      shift: limit,
     }
   }
 
@@ -44,7 +44,7 @@ export default class ChannelMembers extends PureComponent {
     const { shift } = this.state
     if (shift > nextProps.users.length) {
       this.setState({
-        shift: 50,
+        shift: limit,
       })
     }
   }
@@ -61,12 +61,12 @@ export default class ChannelMembers extends PureComponent {
 
   onScroll = e => {
     const { offsetHeight, scrollTop, scrollHeight } = e.target
-    const { users, totalMembers } = this.props
+    const { users, isEveryMemberLoaded } = this.props
     const { shift } = this.state
 
     if (
       shift > users.length ||
-      totalMembers === users.length // Do not load members, if everybody already loaded
+      isEveryMemberLoaded // Do not load members, if everybody already loaded
     )
       return
 

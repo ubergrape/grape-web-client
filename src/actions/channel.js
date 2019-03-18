@@ -95,6 +95,7 @@ export const loadChannelMembers = (isInitialLoading, after) => (
   getState,
 ) => {
   const channel = channelSelector(getState())
+  const { users: loadedUsers } = channelMembersSelector(getState())
 
   dispatch({
     type: types.REQUEST_CHANNEL_MEMBERS,
@@ -106,17 +107,17 @@ export const loadChannelMembers = (isInitialLoading, after) => (
       limit,
       after,
     })
-    .then(({ results, total }) => ({
+    .then(({ results }) => ({
       users: results.map(normalizeUserData),
-      total,
     }))
-    .then(({ users, total }) => {
-      const { users: loadedUsers } = channelMembersSelector(getState())
+    .then(({ users }) => {
+      if (users.length !== limit || users.length === 0) {
+        dispatch({ type: types.HANDLE_EVERY_MEMBER_LOADED })
+      }
       dispatch({
         type: types.HANDLE_CHANNEL_MEMBERS,
         payload: {
           users: isInitialLoading ? users : [...loadedUsers, ...users],
-          total,
         },
       })
     })
