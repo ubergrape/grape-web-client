@@ -27,7 +27,7 @@ export default class RoomIconSettings extends PureComponent {
   }
 
   static defaultProps = {
-    allowEdit: true,
+    allowEdit: false,
     dropdownPlacement: 'bottom',
   }
 
