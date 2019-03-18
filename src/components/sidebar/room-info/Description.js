@@ -45,6 +45,7 @@ const PrivateHint = injectSheet(({ palette }) => ({
   root: {
     extend: small,
     color: palette.text.secondary,
+    marginTop: 10,
   },
   icon: {
     color: 'inherit',

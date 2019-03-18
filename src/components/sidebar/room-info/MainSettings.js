@@ -150,9 +150,8 @@ export default class MainSettings extends PureComponent {
   }
 
   renderSettings() {
-    const { allowEdit, classes } = this.props
+    const { classes } = this.props
 
-    if (!allowEdit) return null
     return (
       <div className={classes.settingsWrapper}>
         <RoomIconSettings {...this.props} container={this} />
