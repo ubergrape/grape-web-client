@@ -17,21 +17,26 @@ export const styles = {
     padding: 4,
     borderRadius: '50%',
     border: [buttonBorderWidth, 'solid'],
-    '&:hover, &:hover *': {
-      isolate: false,
-      cursor: 'pointer',
-    },
   },
   iconSettingsButton: {
     composes: '$iconSettingsButtonBase',
     borderColor: 'transparent',
+    '&:hover > *': {
+      isolate: false,
+      display: 'flex',
+      borderRadius: '50%',
+      position: 'relative',
+      cursor: ({ allowEdit }) => (allowEdit ? 'pointer' : 'default'),
+    },
     '&:hover': {
       isolate: false,
       marginRight: 10,
       padding: 4,
       borderRadius: '50%',
+      position: 'relative',
       border: [buttonBorderWidth, 'solid'],
-      borderColor: ({ colors }) => colors.button || linkColor,
+      borderColor: ({ colors, allowEdit }) =>
+        allowEdit ? colors.button || linkColor : 'transparent',
     },
   },
   iconSettingsButtonActive: {
