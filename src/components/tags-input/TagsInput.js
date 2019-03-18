@@ -118,7 +118,7 @@ class TagsInput extends PureComponent {
     } = this.props
 
     return (
-      <span>
+      <span className={classes.inputWrapper}>
         {this.renderPlaceholder()}
         <input
           ref={this.onInputRef}
