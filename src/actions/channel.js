@@ -111,7 +111,7 @@ export const loadChannelMembers = (isInitialLoading, after) => (
       users: results.map(normalizeUserData),
     }))
     .then(({ users }) => {
-      if (users.length !== limit || users.length === 0) {
+      if (users.length < limit || users.length === 0) {
         dispatch({ type: types.HANDLE_EVERY_MEMBER_LOADED })
       }
       dispatch({
