@@ -77,6 +77,7 @@ export default class RoomInfo extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired,
+    sidebarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   }
 
   static defaultProps = {
@@ -85,6 +86,7 @@ export default class RoomInfo extends PureComponent {
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
+    sidebarRef: undefined,
     permissions: {},
   }
 
@@ -146,9 +148,10 @@ export default class RoomInfo extends PureComponent {
       user,
       openPm,
       kickMemberFromChannel,
-      subview: { users },
+      subview: { users, isEveryMemberLoaded },
       onLoadMembers,
       permissions,
+      sidebarRef,
     } = this.props
 
     return (
@@ -173,6 +176,8 @@ export default class RoomInfo extends PureComponent {
           onKick={kickMemberFromChannel}
           currUser={user}
           users={users}
+          isEveryMemberLoaded={isEveryMemberLoaded}
+          sidebarRef={sidebarRef}
           permissions={permissions}
         />
       </div>

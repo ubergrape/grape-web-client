@@ -249,14 +249,22 @@ export default class Sidebar extends PureComponent {
     permissions: {},
   }
 
+  onSidebarRef = ref => {
+    this.sidebar = ref
+  }
+
   render() {
     const { show, className, permissions } = this.props
 
     if (!show) return null
 
     return (
-      <div className={className}>
-        <Content {...this.props} permissions={permissions} />
+      <div ref={this.onSidebarRef} className={className}>
+        <Content
+          {...this.props}
+          sidebarRef={this.sidebar}
+          permissions={permissions}
+        />
       </div>
     )
   }

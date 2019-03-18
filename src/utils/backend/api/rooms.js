@@ -10,7 +10,7 @@ export const createRoom = roomId =>
     { camelize: true },
   )
 
-export const listMembers = (roomId, options = { limit: 300 }) =>
+export const listMembers = (roomId, options) =>
   rpc(
     {
       ns: 'rooms',

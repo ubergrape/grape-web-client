@@ -1,7 +1,9 @@
 import find from 'lodash/find'
+
 import * as types from '../constants/actionTypes'
 import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
+import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
   joinedRoomsSelector,
@@ -11,6 +13,7 @@ import {
   orgSelector,
   pmsSelector,
   manageGroupsSelector,
+  channelMembersSelector,
 } from '../selectors'
 import {
   normalizeChannelData,
@@ -87,8 +90,12 @@ export function loadRoomInfo({ channel }) {
   return dispatch => dispatch(loadNotificationSettings({ channel }))
 }
 
-export const loadChannelMembers = () => (dispatch, getState) => {
+export const loadChannelMembers = (isInitialLoading, after) => (
+  dispatch,
+  getState,
+) => {
   const channel = channelSelector(getState())
+  const { users: loadedUsers } = channelMembersSelector(getState())
 
   dispatch({
     type: types.REQUEST_CHANNEL_MEMBERS,
@@ -96,13 +103,22 @@ export const loadChannelMembers = () => (dispatch, getState) => {
   })
 
   api
-    .listMembers(channel.id)
-    .then(res => res.results)
-    .then(users => users.map(normalizeUserData))
-    .then(payload => {
+    .listMembers(channel.id, {
+      limit,
+      after,
+    })
+    .then(({ results }) => ({
+      users: results.map(normalizeUserData),
+    }))
+    .then(({ users }) => {
+      if (users.length < limit || users.length === 0) {
+        dispatch({ type: types.HANDLE_EVERY_MEMBER_LOADED })
+      }
       dispatch({
         type: types.HANDLE_CHANNEL_MEMBERS,
-        payload,
+        payload: {
+          users: isInitialLoading ? users : [...loadedUsers, ...users],
+        },
       })
     })
     .catch(err => dispatch(error(err)))
