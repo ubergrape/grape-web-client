@@ -40,7 +40,7 @@ const tabs = [
         description="User profile sidebar, about user title."
       />
     ),
-    onSelect: 'onUserInfoClick',
+    onClick: 'onUserInfoClick',
   },
   {
     name: 'files',
@@ -106,6 +106,8 @@ export default class UserProfile extends PureComponent {
 
   onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
+    const { onClick } = tabs[index]
+    if (onClick) this[onClick]()
   }
 
   onUserInfoClick = () => {
@@ -194,7 +196,6 @@ export default class UserProfile extends PureComponent {
           colors={colors}
           title={tab.title}
           body={this[tab.render]()}
-          onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}
         />
       </SidebarPanel>
     )
