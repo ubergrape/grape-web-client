@@ -86,7 +86,7 @@ export default class WampClient {
     this.socket.close(3001)
   }
 
-  // public 
+  // public
   reopen() {
     console.log('WampClient reopen')
     if (this.reopening) return
