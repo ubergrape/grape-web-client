@@ -12,6 +12,7 @@ const pingInterval = 10000
 
 export default class WampClient {
   constructor(options = {}) {
+    console.log('WampClient constructor')
     this.out = new Emitter()
     this.backoff = new Backoff(options.backoff)
     this.pingInterval = options.pingInterval || pingInterval
@@ -20,6 +21,7 @@ export default class WampClient {
   }
 
   connect() {
+    console.log('WampClient connect')
     if (this.wamp) return this.out
     log('connected')
     this.open()
@@ -28,6 +30,7 @@ export default class WampClient {
   }
 
   disconnect() {
+    console.log('WampClient disconnect')
     log('disconnected')
     this.close()
     this.onDisconnected()
@@ -35,6 +38,7 @@ export default class WampClient {
   }
 
   reset() {
+    console.log('WampClient reset')
     this.wamp = null
     this.socket = null
     this.id = null
@@ -44,6 +48,7 @@ export default class WampClient {
   }
 
   open() {
+    console.log('WampClient open')
     this.socket = new WebSocket(this.url)
     this.socket.on('error', this.onSocketError)
     this.socket.on('close', this.onSocketClose)
@@ -53,6 +58,7 @@ export default class WampClient {
   }
 
   close() {
+    console.log('WampClient close')
     this.wamp.off()
     // eslint-disable-next-line no-console, no-underscore-dangle
     console.log(`Close Socket A: `, this.socket, this.socket._socket)
@@ -63,6 +69,7 @@ export default class WampClient {
   }
 
   reopen() {
+    console.log('WampClient reopen')
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
@@ -81,6 +88,7 @@ export default class WampClient {
    * session.
    */
   ping = () => {
+    console.log('WampClient ping')
     if (!this.connected || this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
@@ -102,6 +110,7 @@ export default class WampClient {
    * Why do we need this again?
    */
   call(...args) {
+    console.log('WampClient call')
     let callback = args.pop()
 
     if (log.enabled) {
@@ -123,6 +132,7 @@ export default class WampClient {
   }
 
   onOpen = ({ sessionId }) => {
+    console.log('WampClient onOpen')
     this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
@@ -132,6 +142,7 @@ export default class WampClient {
   }
 
   onConnected = () => {
+    console.log('WampClient onConnected')
     this.backoff.reset()
     if (this.connected) return
     this.connected = true
@@ -140,6 +151,7 @@ export default class WampClient {
   }
 
   onDisconnected = () => {
+    console.log('WampClient onDisconnected')
     if (!this.connected) return
     this.id = null
     this.connected = false
@@ -152,6 +164,7 @@ export default class WampClient {
    * we convert it to event name.
    */
   onEvent = (name, data) => {
+    console.log('WampClient onEvent:', name)
     const event = name
       .split('/')
       .pop()
@@ -161,6 +174,7 @@ export default class WampClient {
   }
 
   onError = err => {
+    console.log('WampClient onError:', err)
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -168,6 +182,7 @@ export default class WampClient {
   }
 
   onSocketError = event => {
+    console.log('WampClient onError:', event)
     log('socket error', event)
     const err = new Error('Socket error.')
     err.event = event
@@ -175,6 +190,7 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
+    console.log('WampClient onSocketClose:', event)
     log('socket close', event)
     this.close()
     this.reopen()
