@@ -72,8 +72,10 @@ class Browser extends Component {
     assign(nextState, this.createState(nextProps, nextState))
   }
 
-  componentDidUpdate() {
-    this.cacheItemsPerRow()
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.search === prevState.search) {
+      this.cacheItemsPerRow()
+    }
   }
 
   componentWillUnmount() {
