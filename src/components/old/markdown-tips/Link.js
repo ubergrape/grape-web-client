@@ -60,6 +60,7 @@ export default injectSheet({
       textDecoration: 'underline',
       color: 'inherit',
       opacity: 0.8,
+      cursor: 'pointer',
     },
     '&[href]': {
       textDecoration: 'underline',

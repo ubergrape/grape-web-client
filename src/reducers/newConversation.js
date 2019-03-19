@@ -4,8 +4,9 @@ const initialState = {
   show: false,
   view: 'tabs',
   tab: 0,
-  isLoaded: true,
-  isNotMembersLoaded: false,
+  isUsersLoaded: true,
+  isGroupsLoaded: true,
+  isMembersNotLoaded: false,
   isMemberOfEachChannel: false,
   page: 1,
   filterUsers: '',
@@ -45,7 +46,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filterUsers: payload,
-        isNotMembersLoaded: false,
+        isMembersNotLoaded: false,
         users: [],
         page: 1,
       }
@@ -53,7 +54,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filterGroups: payload,
-        isNotMembersLoaded: false,
+        isMembersNotLoaded: false,
         groups: [],
         page: 1,
       }
@@ -65,13 +66,18 @@ export default function reduce(state = initialState, action) {
     case types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION:
       return {
         ...state,
-        isNotMembersLoaded: true,
+        isMembersNotLoaded: true,
         page: 1,
       }
-    case types.REQUEST_SEARCH_NEW_CONVERSATION:
+    case types.REQUEST_USERS_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        isLoaded: payload,
+        isUsersLoaded: payload,
+      }
+    case types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION:
+      return {
+        ...state,
+        isGroupsLoaded: payload,
       }
     case types.HANDLE_USERS_SEARCH_NEW_CONVERSATION:
       return {

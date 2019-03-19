@@ -6,7 +6,13 @@ import getStore from '../../app/store'
 import { alertsAndChannelSelector as selector } from '../../selectors'
 import Alerts from '../../components/old/alerts/Alerts'
 
-const actionNames = ['enableNotifications', 'hideAlert', 'clearAlertDelay']
+const actionNames = [
+  'enableNotifications',
+  'onReconnect',
+  'hideAlert',
+  'clearAlertDelay',
+  'updateTimer',
+]
 
 const ConnectedAlerts = connect(
   selector,

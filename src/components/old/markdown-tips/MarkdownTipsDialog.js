@@ -42,6 +42,7 @@ class MarkdownTipsDialog extends PureComponent {
 
 export default injectSheet({
   root: {
+    width: 525,
     display: 'block',
     padding: 20,
     borderTop: {

@@ -40,9 +40,16 @@ export const onChangeGroupsFilterNewConversation = filter => dispatch => {
   })
 }
 
-const flipLoadingStatus = payload => dispatch => {
+const flipUsersLoadingStatus = payload => dispatch => {
   dispatch({
-    type: types.REQUEST_SEARCH_NEW_CONVERSATION,
+    type: types.REQUEST_USERS_SEARCH_NEW_CONVERSATION,
+    payload,
+  })
+}
+
+const flipGroupsLoadingStatus = payload => dispatch => {
+  dispatch({
+    type: types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION,
     payload,
   })
 }
@@ -53,7 +60,7 @@ const handleUsersResults = results => dispatch => {
     payload: results,
   })
 
-  dispatch(flipLoadingStatus(true))
+  dispatch(flipUsersLoadingStatus(true))
 }
 
 const handleGroupsResults = results => dispatch => {
@@ -62,7 +69,7 @@ const handleGroupsResults = results => dispatch => {
     payload: results,
   })
 
-  dispatch(flipLoadingStatus(true))
+  dispatch(flipGroupsLoadingStatus(true))
 }
 
 const loadUsersMembers = () => (dispatch, getState) => {
@@ -104,13 +111,13 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
     page,
     users,
     filterUsers,
-    isNotMembersLoaded,
+    isMembersNotLoaded,
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
 
-  if (!users.length) dispatch(flipLoadingStatus(false))
+  if (!users.length) dispatch(flipUsersLoadingStatus(false))
 
-  if (isNotMembersLoaded) return dispatch(loadUsersMembers())
+  if (isMembersNotLoaded) return dispatch(loadUsersMembers())
 
   return api
     .getUsers(id, {
@@ -120,12 +127,11 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
       membership: false,
     })
     .then(({ results }) => {
-      if (!results.length) {
+      if (!results.length || results.length < 50) {
         if (page === 1 && !filterUsers)
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadUsersMembers())
-        return
       }
 
       if (page === 1 && results.length) {
@@ -183,13 +189,13 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
     page,
     groups,
     filterGroups,
-    isNotMembersLoaded,
+    isMembersNotLoaded,
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
 
-  if (!groups.length) dispatch(flipLoadingStatus(false))
+  if (!groups.length) dispatch(flipGroupsLoadingStatus(false))
 
-  if (isNotMembersLoaded) return dispatch(loadGroupsMembers())
+  if (isMembersNotLoaded) return dispatch(loadGroupsMembers())
 
   return api
     .getRooms(id, {

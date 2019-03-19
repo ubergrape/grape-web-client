@@ -22,10 +22,6 @@ class Person extends Component {
     this.onChangeFilterDebounced(value)
   }
 
-  onClickCreate = () => {
-    this.props.actions.onChangeView('create')
-  }
-
   isRowLoaded = index => !!this.props.data.list[index]
 
   rowHeight = (list, index) => {
@@ -35,10 +31,9 @@ class Person extends Component {
 
   render() {
     const { classes, data, actions } = this.props
-    const { list, isLoaded, filterUsers, isMemberOfEachChannel } = data
+    const { list, isUsersLoaded, filterUsers, isMemberOfEachChannel } = data
 
-    if (!list.length && isLoaded && !filterUsers)
-      return <EmptyOrgUsers onClick={this.onClickCreate} />
+    if (!list.length && isUsersLoaded && !filterUsers) return <EmptyOrgUsers />
 
     return (
       <div className={classes.tab}>
@@ -61,7 +56,7 @@ class Person extends Component {
             </p>
           </div>
         )}
-        {isLoaded && (
+        {isUsersLoaded && (
           <div className={classes.list}>
             <InfiniteAutoRowHeightList
               rowHeight={this.rowHeight}

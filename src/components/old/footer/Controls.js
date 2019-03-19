@@ -101,30 +101,31 @@ class Controls extends PureComponent {
     const { classes, disabled, onOpenFileDialog, permissions } = this.props
     return (
       <div className={classes.controls}>
-        <AttachmentButton
-          classes={classes}
-          disabled={disabled}
-          onOpenFileDialog={onOpenFileDialog}
-          onDropAccepted={this.onDropAccepted}
-          onDropRejected={this.onDropRejected}
-        />
-        <IconButton
-          className={classes.button}
-          onClick={this.onToggleEmojiBrowser}
-          disabled={disabled}
-        >
-          <Icon className={classes.contolIcon} name="smileOpen" />
-        </IconButton>
-        {permissions.canUseGrapesearch && (
-          <IconButton
-            className={classes.button}
-            onClick={this.onShowSearchBrowser}
-            disabled={disabled}
-          >
-            <Icon className={classes.contolIcon} name="windowSearch" />
-          </IconButton>
+        {!disabled && (
+          <div>
+            <AttachmentButton
+              classes={classes}
+              onOpenFileDialog={onOpenFileDialog}
+              onDropAccepted={this.onDropAccepted}
+              onDropRejected={this.onDropRejected}
+            />
+            <IconButton
+              className={classes.button}
+              onClick={this.onToggleEmojiBrowser}
+            >
+              <Icon className={classes.contolIcon} name="smileOpen" />
+            </IconButton>
+            {permissions.canUseGrapesearch && (
+              <IconButton
+                className={classes.button}
+                onClick={this.onShowSearchBrowser}
+              >
+                <Icon className={classes.contolIcon} name="windowSearch" />
+              </IconButton>
+            )}
+            <Beacon id="searchBrowser" placement="top" shift={{ left: -15 }} />
+          </div>
         )}
-        <Beacon id="searchBrowser" placement="top" shift={{ left: -15 }} />
       </div>
     )
   }

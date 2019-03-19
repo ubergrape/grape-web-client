@@ -9,7 +9,6 @@ class Footer extends PureComponent {
   static propTypes = {
     icon: PropTypes.string,
     text: PropTypes.string.isRequired,
-    url: PropTypes.string,
     timestamp: PropTypes.number,
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -17,7 +16,6 @@ class Footer extends PureComponent {
 
   static defaultProps = {
     icon: null,
-    url: null,
     timestamp: null,
   }
 
@@ -28,7 +26,7 @@ class Footer extends PureComponent {
     return <img className={classes.icon} src={icon} alt="" />
   }
 
-  renderInfo() {
+  render() {
     const {
       icon,
       text,
@@ -53,32 +51,6 @@ class Footer extends PureComponent {
         <span className={classes.text}>{content}</span>
       </span>
     )
-  }
-
-  renderInfoWithLink() {
-    const {
-      url,
-      sheet: { classes },
-    } = this.props
-
-    return (
-      <a
-        className={classes.link}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {this.renderInfo()}
-      </a>
-    )
-  }
-
-  render() {
-    if (this.props.url) {
-      return this.renderInfoWithLink()
-    }
-
-    return this.renderInfo()
   }
 }
 

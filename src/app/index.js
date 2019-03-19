@@ -11,6 +11,7 @@ import subscribe from './subscribe'
 import * as client from './client'
 import AppFull from './AppFull'
 import AppEmbedded from './AppEmbedded'
+import ErrorBoundary from './ErrorBoundary'
 
 let sheetsInsertionPoint
 let renderContainer
@@ -56,7 +57,10 @@ export function render() {
   const renderApp = () => {
     const App = conf.embed ? AppEmbedded : AppFull
     renderContainer = document.querySelector(conf.container)
-    ReactDom.render(React.createElement(App), renderContainer)
+    ReactDom.render(
+      <ErrorBoundary>{React.createElement(App)}</ErrorBoundary>,
+      renderContainer,
+    )
   }
 
   if (__DEV__ && 'performance' in window && 'now' in window.performance) {

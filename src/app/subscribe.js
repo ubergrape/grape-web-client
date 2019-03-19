@@ -106,16 +106,16 @@ export default function subscribe(channel) {
         boundActions.handleLeftChannel(cData)
         break
       case 'channel.updated':
-        boundActions.handleUpdateChannel(cData)
+        boundActions.handleUpateChannel(cData)
         break
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
       case 'user.status':
-        boundActions.handlePmChannelStatusChange(cData)
+        boundActions.handleUserStatusChange(cData)
         break
       case 'user.updated':
-        boundActions.handlePmChannelUpdate(cData)
+        boundActions.handleUserUpdate(cData)
         break
       case 'membership.updated':
         boundActions.handleMembershipUpdate(cData)
@@ -128,4 +128,8 @@ export default function subscribe(channel) {
   })
 
   channel.on('error', boundActions.handleConnectionError)
+
+  channel.on('set:timer', backoff => {
+    boundActions.setTimer(backoff)
+  })
 }

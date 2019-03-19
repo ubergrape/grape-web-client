@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import sizes from 'grape-theme/dist/sizes'
-import colors from 'grape-theme/dist/base-colors'
+import baseColors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import { FormattedMessage } from 'react-intl'
 import pick from 'lodash/pick'
@@ -20,9 +20,7 @@ import PinnedMessages from '../pinned-messages/PinnedMessages'
 import SidebarPanel from '../SidebarPanel'
 import { spacing } from '../constants'
 import TabbedContent from '../TabbedContent'
-import Divider from '../Divider'
 import About from './About'
-import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -42,7 +40,7 @@ const tabs = [
         description="User profile sidebar, about user title."
       />
     ),
-    onSelect: 'onUserInfoClick',
+    onClick: 'onUserInfoClick',
   },
   {
     name: 'files',
@@ -55,6 +53,7 @@ const tabs = [
 class UserProfile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     onClose: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     onLoadSharedFiles: PropTypes.func.isRequired,
@@ -71,12 +70,11 @@ class UserProfile extends PureComponent {
     displayName: PropTypes.string,
     showSubview: PropTypes.string,
     subview: PropTypes.object,
-    channel: PropTypes.object.isRequired,
-    orgFeatures: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     avatar: undefined,
+    colors: {},
     displayName: undefined,
     status: undefined,
     subview: undefined,
@@ -97,6 +95,8 @@ class UserProfile extends PureComponent {
 
   onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
+    const { onClick } = tabs[index]
+    if (onClick) this[onClick]()
   }
 
   onUserInfoClick = () => {
@@ -109,6 +109,7 @@ class UserProfile extends PureComponent {
       {...pick(
         this.props,
         'whatIDo',
+        'hideEmailField',
         'email',
         'skypeUsername',
         'skypeForBusiness',
@@ -152,41 +153,38 @@ class UserProfile extends PureComponent {
   render() {
     const {
       status,
+      colors,
       avatar,
       displayName,
       classes,
       onClose,
       showSubview,
-      channel,
-      orgFeatures,
     } = this.props
 
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<UserProfileText />} onClose={onClose}>
+      <SidebarPanel
+        colors={colors}
+        title={<UserProfileText />}
+        onClose={onClose}
+      >
         <div className={classes.userNameContainer}>
           <Username
-            statusBorderColor={colors.grayBlueLighter}
+            statusBorderColor={baseColors.grayBlueLighter}
             avatar={avatar}
             status={userStatusMap[status]}
             name={displayName}
             theme={this.userNameTheme}
           />
         </div>
-        {orgFeatures.videoconference && (
-          <div>
-            <Divider inset />
-            <VideoConferenceLink channel={channel} />
-          </div>
-        )}
         <TabbedContent
           index={tabs.indexOf(tab)}
           onChange={this.onChangeTab}
           tabs={tabs}
+          colors={colors}
           title={tab.title}
           body={this[tab.render]()}
-          onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}
         />
       </SidebarPanel>
     )

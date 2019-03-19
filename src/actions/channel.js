@@ -1,21 +1,25 @@
 import find from 'lodash/find'
+
 import * as types from '../constants/actionTypes'
 import { maxChannelDescriptionLength } from '../constants/app'
 import * as alerts from '../constants/alerts'
+import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
-  roomsSelector,
+  joinedRoomsSelector,
   userSelector,
   channelSelector,
   channelsSelector,
   orgSelector,
   pmsSelector,
+  channelMembersSelector,
 } from '../selectors'
 import { normalizeChannelData, normalizeUserData } from './utils'
 import {
   error,
   goToChannel,
   loadNotificationSettings,
+  addUser,
   setChannel,
   handleBadChannel,
 } from './'
@@ -70,8 +74,12 @@ export function loadRoomInfo({ channel }) {
   return dispatch => dispatch(loadNotificationSettings({ channel }))
 }
 
-export const loadChannelMembers = () => (dispatch, getState) => {
+export const loadChannelMembers = (isInitialLoading, after) => (
+  dispatch,
+  getState,
+) => {
   const channel = channelSelector(getState())
+  const { users: loadedUsers } = channelMembersSelector(getState())
 
   dispatch({
     type: types.REQUEST_CHANNEL_MEMBERS,
@@ -79,13 +87,22 @@ export const loadChannelMembers = () => (dispatch, getState) => {
   })
 
   api
-    .listMembers(channel.id)
-    .then(res => res.results)
-    .then(users => users.map(normalizeUserData))
-    .then(payload => {
+    .listMembers(channel.id, {
+      limit,
+      after,
+    })
+    .then(({ results }) => ({
+      users: results.map(normalizeUserData),
+    }))
+    .then(({ users }) => {
+      if (users.length < limit || users.length === 0) {
+        dispatch({ type: types.HANDLE_EVERY_MEMBER_LOADED })
+      }
       dispatch({
         type: types.HANDLE_CHANNEL_MEMBERS,
-        payload,
+        payload: {
+          users: isInitialLoading ? users : [...loadedUsers, ...users],
+        },
       })
     })
     .catch(err => dispatch(error(err)))
@@ -171,6 +188,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     .openPm(org.id, userId)
     .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
     .then(([users, pmChannel]) => {
+      dispatch(addUser(pmChannel))
       dispatch(
         addChannel({
           ...pmChannel,
@@ -209,6 +227,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
         const currUser = userSelector(getState())
         const userIds = [currUser.id, channel.partner.id]
         const pmChannel = { ...channel, users: userIds }
+        dispatch(addUser(pmChannel))
         dispatch(addChannel(pmChannel))
         dispatch(setChannel(pmChannel.id, messageId))
         return
@@ -317,7 +336,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(roomsSelector(getState()), { id })
+    const room = find(joinedRoomsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,

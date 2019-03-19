@@ -13,6 +13,7 @@ const actionNames = [
   'requestAddChannelToFavorites',
   'requestRemoveChannelFromFavorites',
   'updateMessageSearchQuery',
+  'showVideoConferenceWarning',
 ]
 
 const ConnectedHeader = connect(

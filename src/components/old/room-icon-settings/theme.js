@@ -17,22 +17,31 @@ export const styles = {
     padding: 4,
     borderRadius: '50%',
     border: [buttonBorderWidth, 'solid'],
-    '&:hover, &:hover *': {
-      isolate: false,
-      cursor: 'pointer',
-    },
   },
   iconSettingsButton: {
     composes: '$iconSettingsButtonBase',
     borderColor: 'transparent',
+    '&:hover > *': {
+      isolate: false,
+      display: 'flex',
+      borderRadius: '50%',
+      position: 'relative',
+      cursor: ({ allowEdit }) => (allowEdit ? 'pointer' : 'default'),
+    },
     '&:hover': {
       isolate: false,
-      borderColor: linkColor,
+      marginRight: 10,
+      padding: 4,
+      borderRadius: '50%',
+      position: 'relative',
+      border: [buttonBorderWidth, 'solid'],
+      borderColor: ({ colors, allowEdit }) =>
+        allowEdit ? colors.button || linkColor : 'transparent',
     },
   },
   iconSettingsButtonActive: {
     composes: '$iconSettingsButtonBase',
-    borderColor: linkColor,
+    borderColor: ({ colors }) => colors.button || linkColor,
   },
   iconSettings: {
     padding: 15,
@@ -67,7 +76,7 @@ export const styles = {
     cursor: 'pointer',
     '&:hover': {
       isolate: false,
-      borderColor: linkColor,
+      borderColor: ({ colors }) => colors.button || linkColor,
       '&, & *': {
         isolate: false,
         cursor: 'pointer',
@@ -76,11 +85,11 @@ export const styles = {
   },
   chooserButton: {
     composes: '$chooserButtonBase',
-    borderColor,
+    borderColor: ({ colors }) => colors.button || borderColor,
   },
   chooserButtonActive: {
     composes: '$chooserButtonBase',
-    borderColor: linkColor,
+    borderColor: ({ colors }) => colors.button || linkColor,
   },
   iconSettingsList: {
     marginTop: 10,

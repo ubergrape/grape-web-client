@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import fonts from 'grape-theme/dist/fonts'
-import colors from 'grape-theme/dist/base-colors'
+import baseColors from 'grape-theme/dist/base-colors'
 import IconButton from 'grape-web/lib/components/icon-button'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
@@ -40,7 +40,7 @@ class SidebarPanel extends PureComponent {
         >
           <Title className={classes.title}>{title}</Title>
           <IconButton className={classes.close} onClick={onClose}>
-            <Icon name="close" />
+            <Icon className={classes.icon} name="close" />
           </IconButton>
         </header>
         {options}
@@ -60,7 +60,7 @@ export default injectSheet(({ palette }) => ({
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    background: colors.grayBlueLighter,
+    background: baseColors.grayBlueLighter,
     maxHeight: '100%',
   },
   header: {
@@ -79,7 +79,7 @@ export default injectSheet(({ palette }) => ({
   },
   body: {
     position: 'relative',
-    background: colors.grayBlueLighter,
+    background: baseColors.grayBlueLighter,
     flex: 1,
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -89,9 +89,13 @@ export default injectSheet(({ palette }) => ({
     isolate: false,
     fontSize: fonts.small.fontSize,
     color: palette.text.primary,
+  },
+  icon: {
     '&:hover': {
-      isolate: false,
-      color: palette.secondary.A200,
+      cursor: 'pointer',
+      height: '1em',
+      width: '1em',
+      color: ({ colors }) => colors.button || palette.secondary.A200,
     },
   },
 }))(SidebarPanel)

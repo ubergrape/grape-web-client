@@ -7,6 +7,7 @@ import * as types from '../constants/actionTypes'
 import { reopen } from '../app/client'
 import {
   channelsSelector,
+  userSelector,
   appSelector,
   joinedChannelsSelector,
 } from '../selectors'
@@ -15,6 +16,7 @@ import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
   normalizeUserData,
+  removeBrokenPms,
   findLastUsedChannel,
 } from './utils'
 import {
@@ -25,7 +27,7 @@ import {
   goToLastUsedChannel,
   addChannel,
   handleRoomCreateError,
-  onShow,
+  onShowNewConversation,
   hideBrowser,
 } from './'
 
@@ -41,8 +43,12 @@ export function error(err) {
   }
 }
 
-export const setChannels = channels => dispatch => {
-  const payload = channels.map(channel => normalizeChannelData(channel))
+export const setChannels = channels => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  const payload = channels
+    .filter(removeBrokenPms)
+    .map(channel => normalizeChannelData(channel, user.id))
 
   dispatch({
     type: types.SET_CHANNELS,
@@ -50,15 +56,48 @@ export const setChannels = channels => dispatch => {
   })
 }
 
-export const addNewChannel = id => dispatch =>
-  api
+export const setUsers = users => dispatch => {
+  dispatch({
+    type: types.SET_USERS,
+    payload: users.map(normalizeUserData),
+  })
+}
+
+export const addUser = user => dispatch => {
+  dispatch({
+    type: types.ADD_USER_TO_ORG,
+    payload: normalizeUserData(user),
+  })
+}
+
+export const addNewChannel = id => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  return api
     .getChannel(id)
     .then(channel => {
-      dispatch(addChannel(channel))
+      if (channel.type === 'room') {
+        dispatch(
+          addChannel({
+            ...channel,
+            users: [id, user.id],
+          }),
+        )
+        return
+      }
+      dispatch(addUser(channel))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
     })
+}
+
+export const updateUserPartnerInfo = userInfo => dispatch => {
+  dispatch({
+    type: types.UPDATE_USER_PARTNER_INFO,
+    payload: userInfo,
+  })
+}
 
 export function setOrg(org) {
   return {
@@ -161,7 +200,6 @@ export const setConf = payload => dispatch => {
 
 export const loadInitialData = clientId => (dispatch, getState) => {
   dispatch(setInitialDataLoading(true))
-  dispatch(setConf(conf))
 
   dispatch({ type: types.REQUEST_ORG_DATA })
   dispatch({ type: types.REQUEST_USER_PROFILE })
@@ -170,14 +208,15 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getChannelsOverview(conf.organization.id),
+    api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, { channels }, profile]) => {
+    .then(([org, users, profile]) => {
       dispatch(handleUserProfile(profile))
-      dispatch(setChannels(channels))
+      dispatch(setChannels(org.channels))
+      dispatch(setUsers(users))
       dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
       dispatch(ensureBrowserNotificationPermission())
 
@@ -191,6 +230,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       if (route && route.params.channelId) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
+        const channels = channelsSelector(getState())
         const channelToSet = findLastUsedChannel(channels) || channels[0]
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
@@ -199,7 +239,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       }
 
       if (!isMemberOfAnyRooms) {
-        dispatch(onShow())
+        dispatch(onShowNewConversation())
       }
     })
     .catch(err => {

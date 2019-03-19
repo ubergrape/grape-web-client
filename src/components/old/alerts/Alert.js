@@ -19,10 +19,12 @@ import * as types from '../../../constants/alerts'
 import AutoHide from './AutoHide'
 import TextAlert from './TextAlert'
 import NotificationsAlert from './NotificationsAlert'
+import ReconnectionAlert from './ReconnectionAlert'
 
 class Alert extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    reconnect: PropTypes.object.isRequired,
     alert: PropTypes.shape({
       type: PropTypes.string.isRequired,
       level: PropTypes.oneOf(['info', 'success', 'warning', 'danger'])
@@ -32,11 +34,15 @@ class Alert extends PureComponent {
     }).isRequired,
     onHide: PropTypes.func,
     enableNotifications: PropTypes.func,
+    onReconnect: PropTypes.func,
+    updateTimer: PropTypes.func,
   }
 
   static defaultProps = {
     onHide: noop,
     enableNotifications: noop,
+    onReconnect: noop,
+    updateTimer: noop,
   }
 
   onHide = () => {
@@ -45,7 +51,13 @@ class Alert extends PureComponent {
   }
 
   renderContent(alert) {
-    const { classes, enableNotifications } = this.props
+    const {
+      classes,
+      enableNotifications,
+      onReconnect,
+      updateTimer,
+      reconnect,
+    } = this.props
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:
         return (
@@ -56,6 +68,16 @@ class Alert extends PureComponent {
             buttonClass={classes[`${alert.level}Button`]}
           />
         )
+      case types.CONNECTION_LOST: {
+        return (
+          <ReconnectionAlert
+            onReconnect={onReconnect}
+            updateTimer={updateTimer}
+            reconnect={reconnect}
+            buttonClass={classes[`${alert.level}Button`]}
+          />
+        )
+      }
       default:
         return <TextAlert type={alert.type} />
     }

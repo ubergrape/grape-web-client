@@ -3016,12 +3016,14 @@ debug@=3.1.0, debug@~3.1.0:
 debug@^3.1.0, debug@^3.2.5:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
+  integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
   dependencies:
     ms "^2.1.1"
 
 debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+  integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
   dependencies:
     ms "^2.1.1"
 
@@ -4559,15 +4561,16 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-grape-browser@^3.17.16:
-  version "3.17.16"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.17.16.tgz#a204e468304019cca99b4dc7810aedfee2ea873b"
+grape-browser@^3.18.1:
+  version "3.18.1"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.18.1.tgz#db0e5478ce0f2d9f0d507965f76c1386a5e295c8"
+  integrity sha512-oJoId6HBJdrDClwFDFQcKXYXLHGplVW8unAU8mfFpp4+QZxl0coQm9Y6CNJjhUQSNRA89AWaCzlRzrIhDnoQMg==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
     emojione "^1.4.0"
     grape-js-emoji "^3.4.0"
-    grape-theme "3.x"
+    grape-theme "^3.4.1"
     grape-web "^1.8.0"
     images-loader "^0.1.2"
     keyname "^0.1.0"
@@ -4596,13 +4599,19 @@ grape-js-emoji@^3.4.0:
   dependencies:
     emoji-datasource "4.0.0"
 
-grape-theme@3.x, grape-theme@^3.3.1:
+grape-theme@3.x:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
 
-grape-web@^1.8.0, grape-web@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.1.tgz#5d8cef8594cc9bfba400af7fcd03a23c0f9f6bae"
+grape-theme@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.4.1.tgz#04e33e477a87f867e27e1f7732895d39857f559b"
+  integrity sha512-CAaRFEvO0Q5Mpff7Lg+6TFo/0AY15QbQHU6vLanAM6121jqn9cU7Mji3pIGQZT5mxTY23I3sZGb6dsM+bcMWzg==
+
+grape-web@^1.8.0, grape-web@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.3.tgz#d4e66e960fabb9937875f1d128624975bc5d8418"
+  integrity sha512-mcRHH+8hr0Xh5RrdFG3MOpvu9UhhjtERbeBOHULLaUWcVxVTvO9g27Lw6qSkXMCjxw4Laf8UiEO3bjtruxfp6g==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -4982,13 +4991,15 @@ http-errors@1.6.3, http-errors@~1.6.2, http-errors@~1.6.3:
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
 
-http-mitm-proxy@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/http-mitm-proxy/-/http-mitm-proxy-0.6.1.tgz#231be8d13d4b9ca66105e1c430943ee1a7bafb4f"
+http-mitm-proxy@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/http-mitm-proxy/-/http-mitm-proxy-0.7.0.tgz#82933137ae1c06713961afe50f38ca84cf80bb0c"
+  integrity sha512-rRMRfQCVwEO31Q6GFiQHfECdMn3Z0ddWWLNgmeyIUDMf0gr/Ek+lhZ17gWzKL4NXZkMc1h982BYl8blRXv7/og==
   dependencies:
     async "^2.5.0"
+    debug "^4.1.0"
     mkdirp "^0.5.1"
-    node-forge "^0.7.1"
+    node-forge "^0.8.0"
     optimist "^0.6.1"
     semaphore "^1.1.0"
     ws "^3.2.0"
@@ -6415,6 +6426,7 @@ lightercollective@^0.1.0:
 linkify-it@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.1.0.tgz#c4caf38a6cd7ac2212ef3c7d2bde30a91561f9db"
+  integrity sha512-4REs8/062kV2DSHxNfq5183zrqXMl7WP0WzABH9IeJI+NLm429FgE1PDecltYfnOoFDFlZGh2T8PfZn0r+GTRg==
   dependencies:
     uc.micro "^1.0.1"
 
@@ -6582,6 +6594,7 @@ lodash.uniq@^4.5.0:
 lodash@4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+  integrity sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg==
 
 lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.11"
@@ -6749,9 +6762,10 @@ markdown-it-emoji@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/markdown-it-emoji/-/markdown-it-emoji-1.4.0.tgz#9bee0e9a990a963ba96df6980c4fddb05dfb4dcc"
 
-markdown-it@^8.4.1, markdown-it@^8.4.2:
+markdown-it@^8.4.2:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
+  integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
   dependencies:
     argparse "^1.0.7"
     entities "~1.1.1"
@@ -6759,9 +6773,10 @@ markdown-it@^8.4.1, markdown-it@^8.4.2:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-markdown-react-js@^1.0.0:
+markdown-react-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/markdown-react-js/-/markdown-react-js-1.0.2.tgz#af9345e3316c97c375e405face6706a4c3093b0f"
+  integrity sha512-I3zAgIDsg9t4huj0yjyM8jAJtRg3EDoqRSeqE0Wg+WODLfmcxOkToQ0qcxkPCYlHqOX2CIQF78lZ5vcp4r3Qsw==
   dependencies:
     lodash "^4.17.10"
     markdown-it "^8.4.2"
@@ -7093,6 +7108,7 @@ ms@2.0.0:
 ms@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
+  integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
@@ -7204,9 +7220,10 @@ node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
 
-node-forge@^0.7.1:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
+node-forge@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.8.0.tgz#b897a89f25fe85ed7d0e3bd0c744c62931254dca"
+  integrity sha512-DVrvVeXwnSSX0Bgi9jy8p4IXQKLhGRQltG+UTR3Oci3Wb/zIROMoxw9im/K5s6KnNMheSWgG8K4qz8Njccdj3g==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -8646,11 +8663,20 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-finite-list@^1.0.8, react-finite-list@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.9.tgz#80ca65df0e48a42f7dcc5b98ace22ce5f200a085"
+react-finite-list@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.10.tgz#3398e47a75962d8a3a6c1493f9d6d714bf247100"
+  integrity sha512-nvXuebHmHbQtPTaQtB/BYkOB8Mbr7CRqt8VgzGdpD08L+WXQFN/FQ9s/yRqxcBzZ9KF18a8aCtt9hSEW0k5toQ==
   dependencies:
     lodash "^4.17.10"
+    prop-types "^15.5.10"
+    react-visibility-sensor "^5.0.2"
+
+react-finite-list@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-finite-list/-/react-finite-list-1.0.8.tgz#6b267d8d81e03b632a2c0dda89bb16172974c733"
+  dependencies:
+    lodash "^3.10.0"
     prop-types "^15.5.10"
     react-visibility-sensor "^3.1.1"
 
@@ -8705,6 +8731,7 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
 react-notification@^6.8.4:
   version "6.8.4"
   resolved "https://registry.yarnpkg.com/react-notification/-/react-notification-6.8.4.tgz#c189d23f47b0e1b240932f4cfab2f4082cd420bf"
+  integrity sha512-El4aaIYeXNpL2M96t4+qg3ODgvAhvpORRCXhseukYlR0X8Efiak9ixGmxgm/Bm5Z43kRdFzpgHlh0uM242IFxA==
   dependencies:
     prop-types "^15.6.2"
 
@@ -8890,9 +8917,17 @@ react-visibility-sensor@^3.1.1:
     create-react-class "^15.5.1"
     prop-types "^15.5.4"
 
+react-visibility-sensor@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-5.0.2.tgz#e360fff81572cb3a2a9fd680484447a9da09a55d"
+  integrity sha512-7+1lr7oQOO2vKr5u/uxoDGFWAAy7lsDy2aJU3Zy1/OymI+TRqOBk8m2L8YE1B0UyfCDWxVAWO+aifVGqNOvqeQ==
+  dependencies:
+    prop-types "^15.6.2"
+
 react@^15.3.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
+  integrity sha1-26BDSrQ5z+gvEI8PURZjkIF5qnI=
   dependencies:
     create-react-class "^15.6.0"
     fbjs "^0.8.9"

@@ -20,7 +20,6 @@ import MainSettings from './MainSettings'
 import RoomActions from './RoomActions'
 import Description from './Description'
 import { styles } from './roomInfoTheme.js'
-import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -46,6 +45,7 @@ const tabs = [
 class RoomInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
     permissions: PropTypes.object,
     user: PropTypes.object.isRequired,
@@ -76,14 +76,16 @@ class RoomInfo extends PureComponent {
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired,
-    orgFeatures: PropTypes.object.isRequired,
+    sidebarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   }
 
   static defaultProps = {
     renameError: null,
+    colors: {},
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
+    sidebarRef: undefined,
     permissions: {},
   }
 
@@ -140,19 +142,22 @@ class RoomInfo extends PureComponent {
   renderMembers = () => {
     const {
       channel,
+      colors,
       goToAddIntegrations,
       user,
       openPm,
       kickMemberFromChannel,
-      subview: { users },
+      subview: { users, isEveryMemberLoaded },
       onLoadMembers,
       permissions,
+      sidebarRef,
     } = this.props
 
     return (
       <div>
         <RoomActions
           channel={channel}
+          colors={colors}
           permissions={permissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}
@@ -164,11 +169,14 @@ class RoomInfo extends PureComponent {
           permissions.canAddIntegration) && <Divider />}
         <ChannelMembers
           channel={channel}
+          colors={colors}
           onLoad={onLoadMembers}
           onOpen={openPm}
           onKick={kickMemberFromChannel}
           currUser={user}
           users={users}
+          isEveryMemberLoaded={isEveryMemberLoaded}
+          sidebarRef={sidebarRef}
           permissions={permissions}
         />
       </div>
@@ -213,13 +221,13 @@ class RoomInfo extends PureComponent {
       renameError,
       clearRoomRenameError,
       classes,
+      colors,
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
       showSubview,
       onClose,
       permissions,
-      orgFeatures,
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -227,14 +235,16 @@ class RoomInfo extends PureComponent {
     const tab = find(tabs, { name: showSubview })
 
     return (
-      <SidebarPanel title={<GroupInfoText />} onClose={onClose}>
+      <SidebarPanel colors={colors} title={<GroupInfoText />} onClose={onClose}>
         <div className={classes.roomInfo}>
           <MainSettings
             classes={classes}
             channel={channel}
+            colors={colors}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={permissions.canEditChannel}
+            allowDelete={permissions.canDeleteChannel}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
@@ -247,20 +257,16 @@ class RoomInfo extends PureComponent {
           <Description
             description={channel.description}
             allowEdit={permissions.canEditChannel}
+            colors={colors}
             onSetRoomDescription={this.onSetRoomDescription}
             className={classes.description}
             isPublic={channel.isPublic}
           />
-          {orgFeatures.videoconference && (
-            <div>
-              <Divider inset />
-              <VideoConferenceLink channel={channel} />
-            </div>
-          )}
           <TabbedContent
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}
             tabs={tabs}
+            colors={colors}
             title={tab.title}
             body={this[tab.render]()}
           />

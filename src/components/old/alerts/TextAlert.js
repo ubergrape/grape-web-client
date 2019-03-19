@@ -46,13 +46,6 @@ export default class TextAlert extends PureComponent {
             defaultMessage="Loading your chat history…"
           />
         )
-      case types.CONNECTION_LOST:
-        return (
-          <FormattedMessage
-            id="reconnectingAlert"
-            defaultMessage="Lost connection to the server — trying to reconnect."
-          />
-        )
       default:
         return null
     }

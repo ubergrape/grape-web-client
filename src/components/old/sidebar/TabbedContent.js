@@ -12,8 +12,8 @@ import Title from './Title'
 class TabbedContent extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    onSelect: PropTypes.func,
     tabs: PropTypes.arrayOf(
       PropTypes.shape({
         icon: PropTypes.string.isRequired,
@@ -28,7 +28,6 @@ class TabbedContent extends PureComponent {
     index: 0,
     title: undefined,
     body: undefined,
-    onSelect: undefined,
   }
 
   onChange = (e, index) => {
@@ -36,7 +35,7 @@ class TabbedContent extends PureComponent {
   }
 
   render() {
-    const { index, classes, tabs, title, body, onSelect } = this.props
+    const { index, classes, tabs, title, body, colors } = this.props
 
     const tabClasses = {
       rootInheritSelected: classes.tabSelected,
@@ -49,6 +48,7 @@ class TabbedContent extends PureComponent {
           value={index}
           onChange={this.onChange}
           className={classes.tabs}
+          indicatorColor={colors.button}
           indicatorClassName={classes.indicator}
         >
           {tabs.map(({ name, icon }) => (
@@ -57,7 +57,6 @@ class TabbedContent extends PureComponent {
               icon={<Icon name={icon} className={classes.icon} />}
               className={classes.tab}
               classes={tabClasses}
-              onClick={onSelect}
             />
           ))}
         </Tabs>
@@ -100,7 +99,7 @@ export default injectSheet(({ palette }) => ({
     },
   },
   tabSelected: {
-    color: palette.secondary.A200,
+    color: ({ colors }) => colors.button || palette.secondary.A200,
   },
   indicator: {
     isolate: false,

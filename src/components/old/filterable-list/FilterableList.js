@@ -51,12 +51,6 @@ class FilterableList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      focusedItem: nextProps.items[0],
-    })
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     // This check need to be sure, that list will not be updated if
     // (focus, selected items or focused item) will changed to different input.
@@ -84,17 +78,14 @@ class FilterableList extends Component {
     switch (keyname(e.keyCode)) {
       case 'up':
         this.list.focus('prev')
-        e.preventDefault()
         break
       case 'down':
         this.list.focus('next')
-        e.preventDefault()
         break
       case 'enter': {
         const { focusedItem } = this.state
         if (!focusedItem) return
         this.onSelectItem(focusedItem)
-        e.preventDefault()
         break
       }
       default:
@@ -168,7 +159,11 @@ class FilterableList extends Component {
 
     return (
       <div>
-        <button className={classes.listWrapper} onClick={onClick}>
+        {/* Using div here, because focus controlled by React state. That's why
+        onClick needed here - simply to change state of focus, to let component know
+        where cursor should be */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div className={classes.listWrapper} onClick={onClick}>
           <TagsInput
             onKeyDown={this.onKeyDown}
             onChange={onChange}
@@ -181,7 +176,7 @@ class FilterableList extends Component {
             renderTag={renderSelected}
             className={classes.filterArea}
           />
-        </button>
+        </div>
         {children}
         <div className={classes.list}>{this.renderList()}</div>
       </div>

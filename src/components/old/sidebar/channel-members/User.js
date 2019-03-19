@@ -8,6 +8,7 @@ import {
   grayBlueLighter,
   grayBlueDark,
 } from 'grape-theme/dist/base-colors'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import { userStatusMap } from '../../../../constants/app'
 import { Username } from '../../avatar-name'
@@ -120,5 +121,21 @@ export default injectSheet({
     flexShrink: 0,
     opacity: 0,
     marginLeft: 10,
+    '&:hover:before': {
+      isolate: false,
+      verticalAlign: 'top',
+      content: '""',
+      cursor: 'pointer',
+      font: 'inherit',
+      width: '1em',
+      height: '1em',
+      backgroundSize: 'contain',
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'close',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+    },
   },
 })(User)

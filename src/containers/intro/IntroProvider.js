@@ -3,7 +3,7 @@ import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { introSelectorComponent as selector } from '../../selectors'
+import { introComponentSelector as selector } from '../../selectors'
 import { Intro } from '../../components/old/intro'
 
 const actionNames = {

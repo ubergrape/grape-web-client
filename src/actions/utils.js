@@ -14,6 +14,16 @@ import * as api from '../utils/backend/api'
 import conf from '../conf'
 
 /**
+ * Fix data inconsistencies at the backend.
+ * There are some PM's with only one participant.
+ */
+export function removeBrokenPms(channel) {
+  const { type, users } = channel
+  if (type === 'pm' && users.length !== 2) return false
+  return true
+}
+
+/**
  * Checks if the channel where message has been posted exists.
  * This should only happen when db is inconsistent.
  */
@@ -68,14 +78,17 @@ export function reduceChannelUsersToId(channel) {
   }
 }
 
-export function normalizeChannelData(channel) {
+const setJoined = (channel, userId) => ({
+  ...channel,
+  joined: channel.users.indexOf(userId) !== -1,
+})
+
+export function normalizeChannelData(channel, userId) {
   const normalized = removeNullValues(
     pinToFavorite(reduceChannelUsersToId(channel)),
   )
-  return {
-    ...normalized,
-    joined: true,
-  }
+  if (userId) return setJoined(normalized, userId)
+  return normalized
 }
 
 export function normalizeUserData(user, organizations) {
@@ -326,11 +339,6 @@ export function roomNameFromUsers(users) {
 export const findLastUsedChannel = (channels, withMessage) =>
   channels
     .filter(channel =>
-      withMessage ? channel.joined && channel.lastMessage : channel.joined,
+      withMessage ? channel.joined && channel.firstMessageTime : channel.joined,
     )
-    .sort((a, b) => {
-      if (b.lastMessage && a.lastMessage) {
-        return b.lastMessage.time - a.lastMessage.time
-      }
-      return 0
-    })[0]
+    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]

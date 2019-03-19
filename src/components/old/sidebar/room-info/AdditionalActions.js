@@ -21,6 +21,7 @@ export default function AdditionalActions(props) {
   const {
     onChangePrivacy,
     onDeleteClick,
+    allowDelete,
     privacy,
     classes,
     intl: { formatMessage },
@@ -38,16 +39,18 @@ export default function AdditionalActions(props) {
           )}
         </button>
       </li>
-      <li>
-        <button
-          className={`${classes.additionalActionButton} ${
-            classes.deleteRoomButton
-          }`}
-          onClick={onDeleteClick}
-        >
-          {formatMessage(messages.deleteRoom)}
-        </button>
-      </li>
+      {allowDelete && (
+        <li>
+          <button
+            className={`${classes.additionalActionButton} ${
+              classes.deleteRoomButton
+            }`}
+            onClick={onDeleteClick}
+          >
+            {formatMessage(messages.deleteRoom)}
+          </button>
+        </li>
+      )}
     </ul>
   )
 }
@@ -55,6 +58,7 @@ export default function AdditionalActions(props) {
 AdditionalActions.propTypes = {
   onChangePrivacy: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  allowDelete: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   privacy: PropTypes.string.isRequired,
   intl: intlShape.isRequired,

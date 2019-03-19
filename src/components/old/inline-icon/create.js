@@ -24,9 +24,9 @@ export default function create(name, options = {}) {
   const style = {
     '&:before': {
       font: 'inherit',
-      backgroundPosition: '50% 50%',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
+      backgroundPosition: '50% 50%',
       content: '""',
       display: 'inline-block',
       width: width || size || '1em',

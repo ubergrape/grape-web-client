@@ -10,7 +10,9 @@ import Link from '../link/Link'
 import GrapeObject from './GrapeObject'
 import { LineBreak } from '../line-break'
 
-export function renderTag(tag, props, children) {
+// In case there are no children we need to set it to an empty array
+// to make sure createElement gets a parameter other than undefined or null.
+export function renderTag(tag, props, children = []) {
   const { href, key, forcebreak, user } = props
 
   if (tag === 'br' && forcebreak) {

@@ -19,6 +19,7 @@ const shouldReplace = (props, options) =>
 class MessageSearch extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     intl: intlShape.isRequired,
     onSelect: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -42,6 +43,7 @@ class MessageSearch extends PureComponent {
   static defaultProps = {
     total: null,
     user: null,
+    colors: {},
     currentChannelOnly: false,
     searchActivities: false,
     showRoomMentions: false,
@@ -218,13 +220,22 @@ class MessageSearch extends PureComponent {
   }
 
   render() {
-    const { user, images, title, isLoading, classes, options } = this.props
+    const {
+      user,
+      colors,
+      images,
+      title,
+      isLoading,
+      classes,
+      options,
+    } = this.props
 
     if (!user) return null
 
     return (
       <SidebarPanel
         title={title}
+        colors={colors}
         images={images}
         options={
           <Options

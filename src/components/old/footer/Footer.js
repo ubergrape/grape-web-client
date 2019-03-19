@@ -128,7 +128,7 @@ class Footer extends PureComponent {
           targetMessage ? classes.highlighted : ''
         }`}
       >
-        {isMemberOfAnyRooms && (
+        {isMemberOfAnyRooms && Object.keys(this.props.channel).length !== 0 && (
           <div>
             <div className={classes.above}>
               <div className={classes.typingNotificationContainer}>
@@ -139,10 +139,12 @@ class Footer extends PureComponent {
                   className={classes.typingNotification}
                 />
               </div>
-              <MarkdownTipsLink
-                onClick={onShowMarkdownTips}
-                className={classes.markdownTipsLink}
-              />
+              {!disabled && (
+                <MarkdownTipsLink
+                  onClick={onShowMarkdownTips}
+                  className={classes.markdownTipsLink}
+                />
+              )}
             </div>
             <div className={classes.inputWithControls} ref={this.onRef}>
               <GrapeInput

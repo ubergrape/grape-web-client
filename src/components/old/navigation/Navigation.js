@@ -40,6 +40,7 @@ class Navigation extends PureComponent {
     onShowNewConversation: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
@@ -48,6 +49,7 @@ class Navigation extends PureComponent {
 
   static defaultProps = {
     shortcuts: ['mod+k'],
+    colors: {},
     isLoading: false,
     permissions: {},
   }
@@ -174,21 +176,24 @@ class Navigation extends PureComponent {
       focusedChannel: undefined,
     })
 
-    if (channel.type === 'pm' && !channel.joined) {
-      this.props.openPm(channel.partner.id)
+    const { id, partner, type, joined, isPublic } = channel
+    const { openPm, joinChannel, goToChannel } = this.props
+
+    if (type === 'pm' && !joined) {
+      openPm(partner.id)
       return
     }
 
-    if (channel.type === 'user') {
-      this.props.openPm(channel.id)
+    if (type === 'user') {
+      openPm(id)
       return
     }
 
-    if (channel.type === 'room' && !channel.joined) {
-      this.props.joinChannel(channel.id)
+    if (type === 'room' && isPublic && !joined) {
+      joinChannel(id)
     }
 
-    this.props.goToChannel(channel.id)
+    goToChannel(id)
   }
 
   renderFilteredChannel = params => {

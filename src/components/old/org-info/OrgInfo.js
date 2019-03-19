@@ -85,6 +85,7 @@ const Info = ({ classes, name, user }) => (
 class OrgInfo extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object,
     isLoading: PropTypes.bool,
     logo: PropTypes.string,
     name: PropTypes.string,
@@ -95,6 +96,7 @@ class OrgInfo extends PureComponent {
 
   static defaultProps = {
     isLoading: false,
+    colors: {},
     logo: '',
     name: '',
     user: undefined,
@@ -113,8 +115,9 @@ class OrgInfo extends PureComponent {
     return (
       <header className={classes.orgInfo}>
         <Logo classes={classes} isLoading={isLoading} name={name} logo={logo} />
-        {!isLoading &&
-          user && <Info classes={classes} name={name} user={user} />}
+        {!isLoading && user && (
+          <Info classes={classes} name={name} user={user} />
+        )}
         {!isLoading && user && <Settings {...settingsProps} user={user} />}
         <Divider className={classes.divider} />
       </header>

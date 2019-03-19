@@ -25,7 +25,7 @@ export const getOrg = orgId =>
     {
       ns: 'organizations',
       action: 'get_organization',
-      args: [orgId, { return_users: false, return_channels: false }],
+      args: [orgId, { return_users: false }],
     },
     { camelize: true },
   )

@@ -11,6 +11,7 @@ import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
 import PinButton from './PinButton'
 import InfoButton from './InfoButton'
+import VideoConferenceButton from './VideoConferenceButton'
 import Search from './Search'
 import Divider from './Divider'
 import { height } from './constants'
@@ -31,6 +32,12 @@ export const styles = ({ palette }) => ({
     pointerEvents: 'none',
   },
   favorite: {
+    listStyle: 'none',
+    flexShrink: 0,
+    position: 'relative',
+    margin: [0, sizes.spacer.xs, 0, sizes.spacer.s],
+  },
+  videoConference: {
     listStyle: 'none',
     flexShrink: 0,
     position: 'relative',
@@ -87,9 +94,12 @@ function Items(props) {
     mentions,
     sidebar,
     classes,
-    features,
+    permissions,
     intl,
     channel,
+    colors,
+    orgFeatures,
+    showVideoConferenceWarning,
   } = props
 
   return (
@@ -102,6 +112,7 @@ function Items(props) {
           favorited={favorite.favorited}
           onFavorize={requestAddChannelToFavorites}
           onUnfavorize={requestRemoveChannelFromFavorites}
+          colors={colors}
         />
       </li>
       <li className={classes.title}>
@@ -113,6 +124,15 @@ function Items(props) {
           />
         )}
       </li>
+      {orgFeatures && orgFeatures.videoconference && (
+        <li className={classes.videoConference}>
+          <VideoConferenceButton
+            channel={channel}
+            colors={colors}
+            showVideoConferenceWarning={showVideoConferenceWarning}
+          />
+        </li>
+      )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>
@@ -120,6 +140,7 @@ function Items(props) {
             onClick={itemClickHandler(channel.type, props)}
             isSelected={sidebar === channel.type}
             channel={channel.type}
+            colors={colors}
           />
         </li>
         <li className={classes.search}>
@@ -139,13 +160,15 @@ function Items(props) {
             onClick={itemClickHandler('mentions', props)}
             isSelected={sidebar === 'mentions'}
             mentions={mentions}
+            colors={colors}
           />
         </li>
-        {features.labeledMessagesList && (
+        {permissions.canSeeLabels && (
           <li className={classes.action}>
             <LabeledMessagesButton
               isSelected={sidebar === 'labeledMessages'}
               onClick={itemClickHandler('labeledMessages', props)}
+              colors={colors}
             />
           </li>
         )}
@@ -159,22 +182,25 @@ Items.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
+  colors: PropTypes.object,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   favorite: PropTypes.object.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
-  features: PropTypes.shape({
-    labeledMessagesList: PropTypes.bool,
-  }),
+  permissions: PropTypes.object,
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
+  showVideoConferenceWarning: PropTypes.func.isRequired,
+  orgFeatures: PropTypes.object,
 }
 
 Items.defaultProps = {
-  features: {},
+  permissions: {},
   mentions: 0,
   sidebar: undefined,
+  colors: {},
+  orgFeatures: undefined,
 }
 
 export default injectSheet(styles)(Items)

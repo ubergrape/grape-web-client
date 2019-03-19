@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { IconButton } from '../../buttons'
 import styles from './../styles/EmptyOrgStyles'
 
-const EmptyOrgUsers = ({ classes }) => (
+const EmptyOrgUsers = ({ classes, onClick }) => (
   <div>
     <h3 className={classes.title}>You are the first!</h3>
     <p className={classes.text}>
@@ -17,7 +17,7 @@ const EmptyOrgUsers = ({ classes }) => (
       later if you don&#39;t want to chat with yourself.
     </p>
     <div className={classes.buttonWrapper}>
-      <IconButton name="group" onClick={this.props.onClick}>
+      <IconButton name="group" onClick={onClick}>
         Create a new group
       </IconButton>
     </div>

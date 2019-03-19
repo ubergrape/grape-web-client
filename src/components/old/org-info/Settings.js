@@ -110,10 +110,15 @@ export default injectSheet(({ palette }) => ({
   },
   buttonIcon: {
     isolate: false,
+    width: iconSize,
+    height: iconSize,
     color: palette.text.primary,
     '&:hover': {
       isolate: false,
-      color: palette.secondary.A200,
+      width: iconSize,
+      height: iconSize,
+      cursor: 'pointer',
+      color: ({ colors }) => colors.button || palette.secondary.A200,
     },
   },
 }))(Settings)

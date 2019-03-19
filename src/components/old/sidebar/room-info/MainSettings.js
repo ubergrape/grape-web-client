@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import {
   FormattedMessage,
@@ -44,9 +45,10 @@ const NotificationSettingsButton = ({ classes, settings, onShow }) => {
       }
     >
       <button
-        className={`${classes.notificationsButton} ${
-          classes[`notificationsButton${state}`]
-        }`}
+        className={cn(
+          classes.notificationsButton,
+          classes[`notificationsButton${state}`],
+        )}
         onClick={onShow}
       />
     </Tooltip>
@@ -65,6 +67,7 @@ NotificationSettingsButton.propTypes = {
 class MainSettings extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
     showNotificationSettings: PropTypes.func.isRequired,
@@ -73,10 +76,12 @@ class MainSettings extends PureComponent {
     renameError: PropTypes.object.isRequired,
     notificationSettings: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool,
+    allowDelete: PropTypes.bool,
   }
 
   static defaultProps = {
     allowEdit: false,
+    allowDelete: false,
   }
 
   onShowNotificationSettings = () => {
@@ -118,6 +123,7 @@ class MainSettings extends PureComponent {
   renderRoomName() {
     const {
       classes,
+      colors,
       intl: { formatMessage },
       renameRoom,
       clearRoomRenameError,
@@ -135,6 +141,7 @@ class MainSettings extends PureComponent {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
+          colors={colors}
           error={this.getError()}
         />
       </div>
@@ -142,9 +149,8 @@ class MainSettings extends PureComponent {
   }
 
   renderSettings() {
-    const { allowEdit, classes } = this.props
+    const { classes } = this.props
 
-    if (!allowEdit) return null
     return (
       <div className={classes.settingsWrapper}>
         <RoomIconSettings {...this.props} container={this} />

@@ -7,7 +7,7 @@ export default {
     height: '100%',
   },
   buttonWrapper: {
-    flex: '1 0 auto',
+    flexShrink: 0,
     marginTop: 15,
   },
   hint: {
@@ -26,8 +26,8 @@ export default {
     marginTop: 8,
   },
   input: {
-    marginTop: 24,
     flexShrink: 0,
+    marginTop: 24,
   },
   list: {
     height: '100%',

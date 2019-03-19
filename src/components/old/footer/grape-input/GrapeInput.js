@@ -20,14 +20,6 @@ import {
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 const messages = defineMessages({
-  placeholder: {
-    id: 'editMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
-  },
-  placeholderDisabled: {
-    id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.',
-  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -383,11 +375,15 @@ class GrapeInput extends PureComponent {
     }
   }, 5000)
 
-  focus() {
+  focus = () => {
     // TODO: grape-browser needs a better way to support this.
     this.setState({ focused: false }, () => {
       this.setState({ focused: true })
     })
+  }
+
+  removeFocus = () => {
+    this.setState({ focused: false })
   }
 
   render() {
@@ -407,7 +403,6 @@ class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -436,9 +431,6 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(
-              disabled ? placeholderDisabled : placeholder,
-            )}
             disabled={disabled}
             locale={conf.user.languageCode}
             focused={this.state.focused}
@@ -454,6 +446,7 @@ class GrapeInput extends PureComponent {
             goTo={goTo}
             channel={channel}
             onLoadServicesStats={onRequestAutocompleteServicesStats}
+            onBlur={this.removeFocus}
             {...browserProps}
           />
         </div>

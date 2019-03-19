@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { FormattedMessage } from 'react-intl'
+import { blue } from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import sizes from 'grape-theme/dist/sizes'
 import fonts from 'grape-theme/dist/fonts'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
@@ -46,16 +48,67 @@ const styles = ({ palette }) => ({
     composes: '$baseButton',
     extend: icon('invite', palette),
     color: palette.text.secondary,
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      marginRight: 5,
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'invite',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+    },
   },
   buttonIntegration: {
     composes: '$baseButton',
     extend: icon('plug', palette),
     color: palette.text.secondary,
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      marginRight: 5,
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'plug',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+    },
   },
   buttonLeave: {
     composes: '$baseButton',
     extend: icon('leave', palette),
     color: palette.text.secondary,
+    display: 'flex',
+    '&:hover:before': {
+      isolate: false,
+      backgroundSize: 'contain',
+      content: '""',
+      width: settingsButtonSize,
+      height: settingsButtonSize,
+      cursor: 'pointer',
+      marginRight: 5,
+      backgroundImage: ({ colors }) =>
+        `url('${getColoredIcon({
+          name: 'leave',
+          color: `${colors.button || blue}`,
+        })}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '50% 50%',
+    },
   },
 })
 

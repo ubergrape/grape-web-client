@@ -8,6 +8,7 @@ import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRendererGroups from '../NoRowsRenderers/NoRowsRendererGroups'
 import RowRendererGroups from '../RowRenderers/RowRendererGroups'
 import EmptyOrgGroups from '../EmptyOrg/EmptyOrgGroups'
+import InputSearch from '../../input/InputSearch'
 import styles from '../styles/TabStyles'
 
 class Group extends Component {
@@ -35,9 +36,10 @@ class Group extends Component {
 
   render() {
     const { classes, data, actions } = this.props
-    const { list, isLoaded, filterGroups, isMemberOfEachChannel } = data
+    const { list, isGroupsLoaded, filterGroups, isMemberOfEachChannel } = data
 
-    if (!list.length && isLoaded && !filterGroups) return <EmptyOrgGroups />
+    if (!list.length && isGroupsLoaded && !filterGroups)
+      return <EmptyOrgGroups onClick={this.onClickCreate} />
 
     return (
       <div className={classes.tab}>
@@ -50,6 +52,14 @@ class Group extends Component {
             Create a new group
           </IconButton>
         </div>
+        <div className={classes.input}>
+          <InputSearch
+            onChange={this.onChangeFilter}
+            placeholder="Search for a person ..."
+            defaultValue={filterGroups}
+            type="search"
+          />
+        </div>
         {isMemberOfEachChannel && (
           <div>
             <h3 className={classes.title}>You won’t miss any chat going on!</h3>
@@ -60,7 +70,7 @@ class Group extends Component {
             </p>
           </div>
         )}
-        {isLoaded && (
+        {isGroupsLoaded && (
           <div className={classes.list}>
             <InfiniteAutoRowHeightList
               rowHeight={this.rowHeight}
