@@ -72,8 +72,10 @@ class Browser extends Component {
     assign(nextState, this.createState(nextProps, nextState))
   }
 
-  componentDidUpdate() {
-    this.cacheItemsPerRow()
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.search === prevState.search) {
+      this.cacheItemsPerRow()
+    }
   }
 
   componentWillUnmount() {
@@ -158,8 +160,15 @@ class Browser extends Component {
     if (!id) return
 
     const component = this.grid.getItemComponent(id)
+
     // eslint-disable-next-line react/no-find-dom-node
-    const itemWidth = ReactDOM.findDOMNode(component).offsetWidth
+    const node = ReactDOM.findDOMNode(component)
+    if (!node) {
+      this.itemsPerRow = 0
+      return
+    }
+
+    const itemWidth = node.offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
   }
 

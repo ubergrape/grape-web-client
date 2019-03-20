@@ -1,4 +1,5 @@
 import fonts from 'grape-theme/dist/fonts'
+import { grayBase } from 'grape-theme/dist/base-colors'
 
 export default {
   container: {
@@ -36,5 +37,16 @@ export default {
     background: 'transparent',
     textRendering: 'auto',
     wordBreak: 'break-word',
+  },
+  limited: {
+    position: 'relative',
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    background: 'transparent',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: grayBase,
   },
 }

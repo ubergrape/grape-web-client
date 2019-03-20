@@ -13,7 +13,11 @@ import data1 from './mocks/data1.json'
 describe('app:', () => {
   describe('GrapeBrowser()', () => {
     it('should render without props', () => {
-      render(<GrapeBrowser />)
+      render(
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser />
+        </IntlProvider>,
+      )
       expect($('grape-browser')).to.be.an(Element)
     })
   })

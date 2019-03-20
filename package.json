@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.17.16",
+  "version": "3.18.1",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -13,7 +13,7 @@
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-js-emoji": "^3.4.0",
-    "grape-theme": "3.x",
+    "grape-theme": "^3.4.1",
     "grape-web": "^1.8.0",
     "images-loader": "^0.1.2",
     "keyname": "^0.1.0",
@@ -60,7 +60,8 @@
     "font-awesome": "^4.3.0",
     "glob": "^7.0.6",
     "husky": "^0.14.3",
-    "karma": "^0.13.8",
+    "json-loader": "^0.5.1",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
     "karma-mocha": "^0.1.10",
@@ -72,7 +73,7 @@
     "node-libs-browser": "^0.5.2",
     "prettier": "^1.13.5",
     "raw-loader": "^0.5.1",
-    "react-styleguidist": "^5.0.6",
+    "react-styleguidist": "^9.0.4",
     "svgo": "^0.6.1",
     "webpack": "^4.28.4"
   },

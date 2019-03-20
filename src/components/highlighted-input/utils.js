@@ -166,6 +166,7 @@ const isTrident = /Trident/.test(window.navigator.userAgent)
  * Focus element with IE hack.
  */
 function focus(node, callback) {
+  if (!node || !node.focus) return
   // Fix for:
   // https://connect.microsoft.com/IE/feedback/details/808820/ie11-input-element-gets-focus-but-caret-not-showing-when-pinch-zooming
   // https://support.microsoft.com/en-us/kb/2927972

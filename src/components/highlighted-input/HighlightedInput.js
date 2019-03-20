@@ -6,6 +6,7 @@ import escape from 'lodash/escape'
 import pick from 'lodash/pick'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
+import { injectIntl, defineMessages, intlShape } from 'react-intl'
 
 import AccentMode from '../accent-mode/AccentMode'
 import {
@@ -18,6 +19,17 @@ import {
   getCaretAt,
 } from './utils'
 import style from './style'
+
+const messages = defineMessages({
+  enterMessage: {
+    id: 'enterMessagePlaceholder',
+    defaultMessage: 'Enter a message …',
+  },
+  groupPostingLimited: {
+    id: 'groupPostingLimitedPlaceholder',
+    defaultMessage: 'Posting to this group has been limited.',
+  },
+})
 
 class HighlightedInput extends Component {
   static propTypes = {
@@ -34,6 +46,7 @@ class HighlightedInput extends Component {
     value: PropTypes.string,
     tokens: PropTypes.arrayOf(PropTypes.string),
     caretPosition: PropTypes.oneOf(['start', 'end']),
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -252,6 +265,8 @@ class HighlightedInput extends Component {
       Editable,
       theme,
       sheet: { classes },
+      disabled,
+      intl: { formatMessage },
     } = this.props
 
     const editableProps = pick(
@@ -261,9 +276,10 @@ class HighlightedInput extends Component {
       'onFocus',
       'onBlur',
       'onKeyPress',
-      'placeholder',
       'disabled',
     )
+
+    const { enterMessage, groupPostingLimited } = messages
 
     return (
       <div
@@ -277,21 +293,28 @@ class HighlightedInput extends Component {
         >
           {this.renderHighlighterContent()}
         </div>
-        <AccentMode onChange={this.onChangeAccentMode} ref="editable">
-          <Editable
-            {...editableProps}
-            autoFocus
-            data-test="editable"
-            onKeyDown={this.onKeyDown}
-            onChange={this.onChange}
-            onScroll={this.onScroll}
-            value={this.state.value}
-            className={`${classes.editable} ${theme.editable}`}
-          />
-        </AccentMode>
+        {disabled ? (
+          <div className={classes.limited}>
+            <span>{formatMessage(groupPostingLimited)}</span>
+          </div>
+        ) : (
+          <AccentMode onChange={this.onChangeAccentMode} ref="editable">
+            <Editable
+              {...editableProps}
+              autoFocus
+              placeholder={formatMessage(enterMessage)}
+              data-test="editable"
+              onKeyDown={this.onKeyDown}
+              onChange={this.onChange}
+              onScroll={this.onScroll}
+              value={this.state.value}
+              className={`${classes.editable} ${theme.editable}`}
+            />
+          </AccentMode>
+        )}
       </div>
     )
   }
 }
 
-export default injectSheet(style)(HighlightedInput)
+export default injectSheet(style)(injectIntl(HighlightedInput))

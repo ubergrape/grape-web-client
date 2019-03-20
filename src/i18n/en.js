@@ -19,5 +19,7 @@ export default {
   "noResults": "No Results.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "select service",
-  "noServicesFound": "No services found."
+  "noServicesFound": "No services found.",
+  "enterMessagePlaceholder": "Enter a message …",
+  "groupPostingLimitedPlaceholder": "Posting to this group has been limited."
 }
