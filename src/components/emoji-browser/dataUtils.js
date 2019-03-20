@@ -150,7 +150,7 @@ export function getSections(search, facet = 'emoticons') {
       const section = find(ret, ({ id }) => id === facet)
       if (section) ret = [section]
     }
-    setFocusedItem(ret, ret[0].items[0].id)
+    if (ret[0].items.length) setFocusedItem(ret, ret[0].items[0].id)
   }
 
   return ret
