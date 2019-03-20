@@ -89,7 +89,9 @@ class Menu extends PureComponent {
       items.push(<SwitchOrganizationsItem key={++key} />)
     }
 
-    items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
+    if (permissions.canLogout) {
+      items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
+    }
 
     return <MenuList className={classes.root}>{items}</MenuList>
   }
