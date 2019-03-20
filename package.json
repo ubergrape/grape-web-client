@@ -59,7 +59,7 @@
     "glob": "^7.0.6",
     "husky": "^0.14.3",
     "json-loader": "^0.5.1",
-    "karma": "^0.13.8",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
     "karma-mocha": "^0.1.10",
