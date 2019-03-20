@@ -10,8 +10,7 @@ import Tab from './Tab'
 /**
  * Tabs container.
  */
-@injectSheet(style)
-export default class Tabs extends Component {
+class Tabs extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     data: PropTypes.array,
@@ -61,3 +60,5 @@ export default class Tabs extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Tabs)

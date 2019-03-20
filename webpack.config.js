@@ -25,10 +25,6 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        loader: 'json-loader',
-        test: /\.json$/,
-      },
-      {
         test: /.svg$/,
         loaders: ['raw-loader'],
       },

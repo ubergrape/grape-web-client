@@ -23,9 +23,7 @@ const messages = defineMessages({
 /**
  * Document actions.
  */
-@injectSheet(style)
-@injectIntl
-export default class Actions extends PureComponent {
+class Actions extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -103,3 +101,5 @@ export default class Actions extends PureComponent {
     )
   }
 }
+
+export default injectSheet(style)(injectIntl(Actions))

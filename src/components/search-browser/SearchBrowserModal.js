@@ -7,39 +7,7 @@ import Normalize from 'grape-web/lib/components/normalize'
 
 import SearchBrowser from './SearchBrowser'
 
-@injectSheet({
-  modal: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    zIndex: 1000,
-    top: 0,
-  },
-  backdrop: {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 'auto',
-    backgroundColor: '#000',
-    opacity: 0.5,
-  },
-  browserContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
-  browser: {
-    position: 'relative',
-    width: '80%',
-    top: '10%',
-    alignSelf: 'center',
-    maxWidth: 800,
-    minWidth: 200,
-  },
-})
-export default class SearchBrowserModal extends PureComponent {
+class SearchBrowserModal extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onAbort: PropTypes.func,
@@ -80,3 +48,36 @@ export default class SearchBrowserModal extends PureComponent {
     )
   }
 }
+
+export default injectSheet({
+  modal: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    zIndex: 1000,
+    top: 0,
+  },
+  backdrop: {
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 'auto',
+    backgroundColor: '#000',
+    opacity: 0.5,
+  },
+  browserContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
+  browser: {
+    position: 'relative',
+    width: '80%',
+    top: '10%',
+    alignSelf: 'center',
+    maxWidth: 800,
+    minWidth: 200,
+  },
+})(SearchBrowserModal)

@@ -12,8 +12,7 @@ import ServiceIcon from '../service-icon/ServiceIcon'
 /**
  * One result.
  */
-@injectSheet(style.rules)
-export default class Result extends Component {
+class Result extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     data: PropTypes.shape({
@@ -114,3 +113,5 @@ export default class Result extends Component {
     )
   }
 }
+
+export default injectSheet(style.rules)(Result)

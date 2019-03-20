@@ -37,7 +37,7 @@ export default class Input extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({ onChange: ::this.onChangeQuery })
+    this.query = new QueryModel({ onChange: this.onChangeQuery })
     this.query.set(
       {
         trigger: QUERY_TYPES[this.props.type],

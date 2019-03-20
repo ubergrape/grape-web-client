@@ -13,8 +13,7 @@ import style from './gridStyle'
 /**
  * Items renderer/scroller.
  */
-@injectSheet(style)
-export default class Grid extends Component {
+class Grid extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onDidMount: PropTypes.func,
@@ -60,11 +59,11 @@ export default class Grid extends Component {
     this.items = {}
   }
 
-  onFocus(data) {
+  onFocus = data => {
     this.props.onFocus(data)
   }
 
-  onInvisible(item, visibilityRect) {
+  onInvisible = (item, visibilityRect) => {
     if (this.scrolling) return
 
     const viewPortNode = ReactDOM.findDOMNode(this)
@@ -85,7 +84,7 @@ export default class Grid extends Component {
     viewPortNode.scrollTop = scrollTop
   }
 
-  onScroll() {
+  onScroll = () => {
     this.scrolling = true
     this.onScrollStop()
   }
@@ -94,7 +93,7 @@ export default class Grid extends Component {
     this.scrolling = false
   }
 
-  onSectionDidMount(component) {
+  onSectionDidMount = component => {
     this.sections[component.props.id] = component
   }
 
@@ -120,16 +119,16 @@ export default class Grid extends Component {
     return (
       <div
         className={`${classes.grid} ${this.props.className}`}
-        onScroll={::this.onScroll}
+        onScroll={this.onScroll}
       >
         {this.props.data.map(data => (
           <Section
             {...data}
             {...pick(this.props, 'onSelect', 'Item', 'focused')}
             {...this.props.section}
-            onFocus={::this.onFocus}
-            onInvisible={::this.onInvisible}
-            onDidMount={::this.onSectionDidMount}
+            onFocus={this.onFocus}
+            onInvisible={this.onInvisible}
+            onDidMount={this.onSectionDidMount}
             visibilityContainment={this}
             key={data.id}
           />
@@ -138,3 +137,5 @@ export default class Grid extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Grid)

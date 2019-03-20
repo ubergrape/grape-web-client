@@ -11,8 +11,7 @@ import Tabs from './Tabs'
 /**
  * Tabs controls.
  */
-@injectSheet(style)
-export default class TabsWithControls extends Component {
+class TabsWithControls extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     data: PropTypes.array,
@@ -37,19 +36,19 @@ export default class TabsWithControls extends Component {
     this.setEdgesState()
   }
 
-  onScrollNext() {
+  onScrollNext = () => {
     const viewportNode = this.getViewportNode()
     viewportNode.scrollLeft += viewportNode.offsetWidth
     this.setEdgesState()
   }
 
-  onScrollPrev() {
+  onScrollPrev = () => {
     const viewportNode = this.getViewportNode()
     viewportNode.scrollLeft -= viewportNode.offsetWidth
     this.setEdgesState()
   }
 
-  onInvisible(item, visibilityRect) {
+  onInvisible = (item, visibilityRect) => {
     const viewportNode = this.getViewportNode()
     const viewportWidth = viewportNode.offsetWidth
     const itemNode = ReactDOM.findDOMNode(item)
@@ -59,7 +58,7 @@ export default class TabsWithControls extends Component {
     this.setEdgesState()
   }
 
-  onTabsDidMount(tabs) {
+  onTabsDidMount = tabs => {
     this.tabs = tabs
   }
 
@@ -108,18 +107,18 @@ export default class TabsWithControls extends Component {
     return (
       <ul className={classes.controls}>
         {!this.state.leftEdge && (
-          <li onClick={::this.onScrollPrev} className={classes.prevArrow}>
+          <li onClick={this.onScrollPrev} className={classes.prevArrow}>
             <span>&#9664;</span>
           </li>
         )}
         <Tabs
           data={this.props.data}
           onSelect={this.props.onSelect}
-          onInvisible={::this.onInvisible}
-          onDidMount={::this.onTabsDidMount}
+          onInvisible={this.onInvisible}
+          onDidMount={this.onTabsDidMount}
         />
         {!this.state.rightEdge && (
-          <li onClick={::this.onScrollNext} className={classes.nextArrow}>
+          <li onClick={this.onScrollNext} className={classes.nextArrow}>
             <span>&#9654;</span>
           </li>
         )}
@@ -127,3 +126,5 @@ export default class TabsWithControls extends Component {
     )
   }
 }
+
+export default injectSheet(style)(TabsWithControls)

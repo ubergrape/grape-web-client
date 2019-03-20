@@ -19,9 +19,7 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(style)
-@injectIntl
-export default class SearchInput extends Component {
+class SearchInput extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -106,3 +104,5 @@ export default class SearchInput extends Component {
     )
   }
 }
+
+export default injectSheet(style)(injectIntl(SearchInput))

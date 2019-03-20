@@ -16,8 +16,7 @@ import { listTypes } from '../constants'
 /**
  * Detail view for objects.
  */
-@injectSheet(style)
-export default class Detail extends Component {
+class Detail extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     data: PropTypes.object,
@@ -119,3 +118,5 @@ export default class Detail extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Detail)

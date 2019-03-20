@@ -11,8 +11,7 @@ import * as style from './tabStyle'
 /**
  * One tab tab.
  */
-@injectSheet(style.rules)
-export default class Tab extends Component {
+class Tab extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     onSelect: PropTypes.func,
@@ -45,14 +44,14 @@ export default class Tab extends Component {
     }
   }
 
-  onMouseDown(e) {
+  onMouseDown = e => {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
     this.props.onSelect({ id: this.props.id })
   }
 
-  onVisibilityChange(isVisible, visibilityRect) {
+  onVisibilityChange = (isVisible, visibilityRect) => {
     if (!isVisible && this.props.selected) {
       this.props.onInvisible(this, visibilityRect)
     }
@@ -68,12 +67,12 @@ export default class Tab extends Component {
     const className = selected ? classes.containerSelected : classes.container
     return (
       <VisibilitySensor
-        onChange={::this.onVisibilityChange}
+        onChange={this.onVisibilityChange}
         containment={this.visibilityContainmentNode}
         active={false}
         ref="sensor"
       >
-        <li className={className} onMouseDown={::this.onMouseDown}>
+        <li className={className} onMouseDown={this.onMouseDown}>
           {icon}
           <span className={classes.text}>
             {label}
@@ -84,3 +83,5 @@ export default class Tab extends Component {
     )
   }
 }
+
+export default injectSheet(style.rules)(Tab)

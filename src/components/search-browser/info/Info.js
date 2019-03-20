@@ -9,8 +9,7 @@ import style from './style'
 /**
  * Info messages for the user for e.g. to explain integrations.
  */
-@injectSheet(style)
-export default class Info extends Component {
+class Info extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     onAddIntegration: PropTypes.func,
@@ -20,7 +19,7 @@ export default class Info extends Component {
     onAddIntegration: noop,
   }
 
-  onAddIntegration(e) {
+  onAddIntegration = e => {
     e.preventDefault()
     this.props.onAddIntegration()
   }
@@ -35,7 +34,7 @@ export default class Info extends Component {
           defaultMessage="Search Wikipedia, Youtube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key"
           values={{
             tools: (
-              <a href="" onClick={::this.onAddIntegration}>
+              <a href="" onClick={this.onAddIntegration}>
                 <FormattedMessage
                   id="yourBusinessTools"
                   description="*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
@@ -45,8 +44,11 @@ export default class Info extends Component {
             ),
             plusIcon: <i className={classes.plusIcon} />,
           }}
-        />.
+        />
+        .
       </div>
     )
   }
 }
+
+export default injectSheet(style)(Info)

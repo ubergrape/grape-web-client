@@ -9,8 +9,7 @@ import style from './style'
 /**
  * Button component
  */
-@injectSheet(style)
-export default class Button extends Component {
+class Button extends Component {
   static propTypes = {
     text: PropTypes.string,
     className: PropTypes.string,
@@ -38,3 +37,5 @@ export default class Button extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Button)

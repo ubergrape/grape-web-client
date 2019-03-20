@@ -10,8 +10,7 @@ import * as style from './style'
 /**
  * One grid item.
  */
-@injectSheet(style.rules)
-export default class Item extends Component {
+class Item extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onFocus: PropTypes.func,
@@ -63,7 +62,7 @@ export default class Item extends Component {
     this.props.onWillUnmount(this)
   }
 
-  onVisibilityChange(isVisible, visibilityRect) {
+  onVisibilityChange = (isVisible, visibilityRect) => {
     if (!isVisible && this.state.focused) {
       this.props.onInvisible(this, visibilityRect)
     }
@@ -73,11 +72,11 @@ export default class Item extends Component {
     this.props.onFocus({ id: this.state.id })
   }
 
-  onClick() {
+  onClick = () => {
     this.props.onSelect({ id: this.state.id })
   }
 
-  onMouseOver() {
+  onMouseOver = () => {
     this.onFocus()
   }
 
@@ -87,15 +86,15 @@ export default class Item extends Component {
 
     return (
       <VisibilitySensor
-        onChange={::this.onVisibilityChange}
+        onChange={this.onVisibilityChange}
         containment={this.visibilityContainmentNode}
         active={false}
         ref="sensor"
       >
         <div
           className={focused ? classes.itemFocused : classes.item}
-          onClick={::this.onClick}
-          onMouseOver={::this.onMouseOver}
+          onClick={this.onClick}
+          onMouseOver={this.onMouseOver}
           key={id}
         >
           {icon}
@@ -104,3 +103,5 @@ export default class Item extends Component {
     )
   }
 }
+
+export default injectSheet(style.rules)(Item)

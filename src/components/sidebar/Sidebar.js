@@ -8,8 +8,7 @@ import style from './style'
 /**
  * Sidebar container.
  */
-@injectSheet(style)
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     className: PropTypes.string,
@@ -32,3 +31,5 @@ export default class Sidebar extends Component {
     )
   }
 }
+
+export default injectSheet(style)(Sidebar)
