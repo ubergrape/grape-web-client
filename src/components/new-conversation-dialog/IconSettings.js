@@ -12,7 +12,12 @@ export default class IconSettings extends PureComponent {
     const { classes, ...rest } = this.props
     return (
       <div className={classes.icon}>
-        <RoomIconSettings {...rest} container={this} dropdownPlacement="top" />
+        <RoomIconSettings
+          {...rest}
+          allowEdit
+          container={this}
+          dropdownPlacement="top"
+        />
       </div>
     )
   }
