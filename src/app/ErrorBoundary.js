@@ -42,7 +42,7 @@ class ErrorBoundary extends React.Component {
             }}
           >
             Something went wrong. Our team has been notified.
-            {isElectron ? ' Please restart Grape.' : ' Please reload page.'}
+            {isElectron ? ' Please restart Grape.' : ' Please reload the page.'}
           </h1>
         </div>
       )
