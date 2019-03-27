@@ -1,4 +1,6 @@
 import React from 'react'
+import Raven from 'raven-js'
+import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 /*
  * This ErrorBoundary is the absolute last resort in case something goes wrong.
@@ -12,8 +14,11 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true }
+  componentDidCatch(error, errorInfo) {
+    this.setState({ hasError: true })
+    // eslint-disable-next-line no-console
+    console.log(error, errorInfo)
+    Raven.captureException(error, { extra: errorInfo })
   }
 
   render() {
@@ -36,7 +41,8 @@ class ErrorBoundary extends React.Component {
               fontSize: 18,
             }}
           >
-            Something went wrong. Please contact us at support@chatgrape.com
+            Something went wrong. Our team has been notified.
+            {isElectron ? ' Please restart Grape.' : ' Please reload the page.'}
           </h1>
         </div>
       )
