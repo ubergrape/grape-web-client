@@ -37,7 +37,7 @@ export default class Intro extends PureComponent {
     const filteredSteps = steps(permissions)
     const Step = filteredSteps[step]
 
-    if (!show) return null
+    if (!show || !permissions.canSeeTutorial) return null
 
     return (
       <div className={classes.root}>
