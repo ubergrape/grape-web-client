@@ -14,7 +14,7 @@ class Backoff {
   duration() {
     let { ms } = this
     if (this.jitter) {
-      const rand = this.random.real(1, 10)
+      const rand = parseInt(this.random.real(1, 10), 10)
       ms *= rand
     }
     this.ms = this.ms * this.factor

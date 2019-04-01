@@ -54,12 +54,9 @@ export default class WampClient {
 
   close() {
     this.wamp.off()
-    // eslint-disable-next-line no-console, no-underscore-dangle
-    console.log(`Close Socket A: `, this.socket, this.socket._socket)
     this.socket.off()
-    // eslint-disable-next-line no-console, no-underscore-dangle
-    console.log(`Close Socket B: `, this.socket, this.socket._socket)
     this.socket.close(3001)
+    this.reopen()
   }
 
   reopen() {
