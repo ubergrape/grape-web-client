@@ -84,7 +84,7 @@ class Menu extends PureComponent {
 
     items.push(<NotificationSettingsItem key={++key} />)
 
-    if (canSeeTutorial) {
+    if (canSeeTutorial || canSeeTutorial === undefined) {
       items.push(<TutorialItem onClick={onShowIntro} key={++key} />)
     }
 
