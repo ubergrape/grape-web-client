@@ -3174,10 +3174,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4:
   version "4.1.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grape-js-emoji@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/grape-js-emoji/-/grape-js-emoji-0.0.1.tgz#1eaf2abf79659d893f15f637b7fe119fff97ab90"
-
 grape-theme@3.x:
   version "3.3.1"
   resolved "https://registry.npmjs.org/grape-theme/-/grape-theme-3.3.1.tgz#1d8e99ecf68e637e00e93f91b178280e589d24ca"
