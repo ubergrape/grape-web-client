@@ -111,7 +111,6 @@ export default class WampClient {
    * Why do we need this again?
    */
   call(...args) {
-    onConnectionEvent('call', args)
     let callback = args.pop()
 
     if (log.enabled) {
