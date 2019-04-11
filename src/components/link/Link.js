@@ -17,7 +17,7 @@ class Link extends PureComponent {
   }
 
   onClick = () => {
-    window.require('electron').shell.openExternal(this.props.href)
+    window.GrapeAppBridge.openExternal(this.props.href)
   }
 
   render() {

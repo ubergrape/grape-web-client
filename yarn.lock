@@ -3956,7 +3956,7 @@ grape-theme@^3.4.1:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.4.1.tgz#04e33e477a87f867e27e1f7732895d39857f559b"
   integrity sha512-CAaRFEvO0Q5Mpff7Lg+6TFo/0AY15QbQHU6vLanAM6121jqn9cU7Mji3pIGQZT5mxTY23I3sZGb6dsM+bcMWzg==
 
-grape-web@^1.8.0, grape-web@^1.8.3:
+grape-web@^1.8.0:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.3.tgz#d4e66e960fabb9937875f1d128624975bc5d8418"
   integrity sha512-mcRHH+8hr0Xh5RrdFG3MOpvu9UhhjtERbeBOHULLaUWcVxVTvO9g27Lw6qSkXMCjxw4Laf8UiEO3bjtruxfp6g==
@@ -3966,6 +3966,37 @@ grape-web@^1.8.0, grape-web@^1.8.3:
     css-functions "^1.0.5"
     css-vendor "^1.1.0"
     grape-js-emoji "^0.0.1"
+    grape-theme "3.x"
+    jss "^9.8.7"
+    jss-default-unit "^8.0.2"
+    jss-expand "^5.3.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.1.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^8.0.1"
+    lodash "^4.17.10"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^16.7.0"
+    react-dom "^16.7.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^2.2.3"
+
+grape-web@^1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.4.tgz#250cbd5e08c4fa91c7eb8c3a7cf482d9c84ccf56"
+  integrity sha512-C4pW+kQIojGiKW+g8r6Q0VYljWapc/SjBV4wTkQlXEALMpgVWJTLsXVyzAhuDF0ZkIJJGOjXJLfWfk1LQr0R5w==
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^1.1.0"
     grape-theme "3.x"
     jss "^9.8.7"
     jss-default-unit "^8.0.2"
