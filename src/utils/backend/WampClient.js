@@ -14,7 +14,12 @@ const pingInterval = 10000
 let onConnectionEvent = () => {}
 
 if (isElectron) {
-  ;({ onConnectionEvent } = window.GrapeAppBridge)
+  if (window.grapeAppBridge) {
+    ;({ onConnectionEvent } = window.grapeAppBridge)
+  }
+  if (window.GrapeAppBridge) {
+    ;({ onConnectionEvent } = window.GrapeAppBridge)
+  }
 }
 
 export default class WampClient {

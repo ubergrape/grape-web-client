@@ -17,7 +17,18 @@ class Link extends PureComponent {
   }
 
   onClick = () => {
-    window.GrapeAppBridge.openExternal(this.props.href)
+    // Those checks should be removed within some time. Only window.grapeAppBridge usage should be saved
+    if (window.grapeAppBridge) {
+      window.grapeAppBridge.openExternal(this.props.href)
+      return
+    }
+
+    if (window.GrapeAppBridge) {
+      window.GrapeAppBridge.openExternal(this.props.href)
+      return
+    }
+
+    window.require('electron').shell.openExternal(this.props.href)
   }
 
   render() {
