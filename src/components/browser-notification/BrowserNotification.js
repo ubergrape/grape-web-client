@@ -81,14 +81,37 @@ const getNewMessageOptions = props => {
   }
 }
 
+const getIncomingCallOptions = props => {
+  const title =
+    props.notification.channel.type === 'room'
+      ? props.notification.channel.name
+      : props.notification.channel.name
+
+  const content =
+    props.notification.channel.type === 'room'
+      ? `${props.notification.channel.name} started a Grape Call in this group.`
+      : 'Invites you to a Grape call …'
+
+  return {
+    title,
+    content,
+    icon: props.notification.channel.icon,
+  }
+}
+
 const renderNotification = props => {
   const { onGoToChannel, notification, channel } = props
   let options
 
-  if (dispatchers.invites.indexOf(notification.dispatcher) === -1) {
-    options = getNewMessageOptions(props)
-  } else {
+  if (dispatchers.invites.indexOf(notification.dispatcher) !== -1) {
     options = getInviteOptions(props)
+  } else if (dispatchers.messages.indexOf(notification.dispatcher) !== -1) {
+    options = getNewMessageOptions(props)
+  } else if (notification.dispatcher === dispatchers.incomingCall) {
+    options = getIncomingCallOptions(props)
+  } else {
+    // Unexpected notification has been provided
+    return undefined
   }
 
   createNotification(options, () => {
@@ -96,6 +119,7 @@ const renderNotification = props => {
       onGoToChannel(notification.channel.id)
     }
   })
+  return undefined
 }
 
 @injectIntl
