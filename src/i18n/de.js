@@ -247,5 +247,7 @@ export default {
   "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
   "altenativeBrowser": "Alternativ können Sie {browsers} in vollem Umfang verwenden.",
-  "chromeOrFirefox": "Grape mit Chrome oder Firefox"
+  "chromeOrFirefox": "Grape mit Chrome oder Firefox",
+  "grapeCallPmInvitationContent": "Lädt sie zu einem Grape Call ein …",
+  "grapeCallGroupInvitationContent": "{callInitator} hat einen Grape Call in der Gruppe gestartet."
 }

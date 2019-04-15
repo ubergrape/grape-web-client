@@ -82,18 +82,26 @@ const getNewMessageOptions = props => {
 }
 
 const getIncomingCallOptions = props => {
-  const title =
-    props.notification.channel.type === 'room'
-      ? props.notification.channel.name
-      : props.notification.channel.name
-
   const content =
     props.notification.channel.type === 'room'
-      ? `${props.notification.channel.name} started a Grape Call in this group.`
-      : 'Invites you to a Grape call …'
+      ? props.intl.formatMessage(
+          {
+            id: 'grapeCallGroupInvitationContent',
+            defaultMessage:
+              '{callInitator} started a Grape Call in this group.',
+            description: 'Browser notification group grape call.',
+          },
+          // TODO should be changed to the call initator
+          { callInitator: props.notification.channel.name },
+        )
+      : props.intl.formatMessage({
+          id: 'grapeCallPmInvitationContent',
+          defaultMessage: 'Invites you to a Grape call …',
+          description: 'Browser notification pm grape call.',
+        })
 
   return {
-    title,
+    title: props.notification.channel.name,
     content,
     icon: props.notification.channel.icon,
   }

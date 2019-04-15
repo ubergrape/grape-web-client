@@ -62,6 +62,8 @@
   "labeledMessagesTooltip": "Important Messages",
   "mentions": "Mentions",
   "searchMessages": "Search messages",
+  "joinVideoConference": "Join video conference",
+  "_joinVideoConference.comment": "Sidebar: link to join a video conference",
   "recalculateScrollPosition": "Recalculating the scroll position…",
   "_recalculateScrollPosition.comment":
     "Message showing when the user resizes the browser window.",
@@ -74,7 +76,6 @@
   "read": "Read",
   "_read.comment": "message delivery status in tooltip",
   "tasks": "Tasks",
-  "_tasks.comment": "NLP tasks list dialog title.",
   "createTask": "Create Task",
   "_createTask.comment": "NLP create task dialog title.",
   "moreServices": "More Services",
@@ -82,6 +83,7 @@
     "More Services button in message nlp create task dialog.",
   "linkToAConnectedTask": "Link to a connected Task",
   "_linkToAConnectedTask.comment": "Nlp create task dialog link label.",
+  "_tasks.comment": "NLP tasks list dialog title.",
   "messageNotSendCheckConnection":
     "The message couldn't be sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
@@ -91,11 +93,7 @@
     "This group is private. Only invited members can see and join this group.",
   "welcomeToRoom": "Welcome to {channel}",
   "inviteMoreToGroup": "Invite more people to this group",
-  "_inviteMoreToGroup.comment":
-    "Room Info Panel: link to invite people to the group/room",
   "addServiceIntegration": "Add service integration",
-  "_addServiceIntegration.comment":
-    "Room Info Panel: link to add an integration to the current room",
   "welcomeToPm": "Private messages with {partner}",
   "pmIntro":
     "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
@@ -174,7 +172,8 @@
     "Invite multiple users at once, just separate their email addresses with a comma.",
   "InviteToOrgMessage": "You can add personal message to the invitation email.",
   "loadingLink": "Loading link…",
-  "_loadingLink.comment": "used in invite to org link input placeholder, while link is loading",
+  "_loadingLink.comment":
+    "used in invite to org link input placeholder, while link is loading",
   "inviteToOrgError": "Enter valid email addresses separated by a comma.",
   "sendInvites": "Send invitation emails",
   "personalMessage": "Personal message",
@@ -384,6 +383,10 @@
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "_inviteMoreToGroup.comment":
+    "Room Info Panel: link to invite people to the group/room",
+  "_addServiceIntegration.comment":
+    "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",
@@ -412,8 +415,6 @@
   "phone": "Phone",
   "aboutUserTitle": "About this user",
   "_aboutUserTitle.comment": "User profile sidebar, about user title.",
-  "joinVideoConference": "Join video conference",
-  "_joinVideoConference.comment": "Sidebar: link to join a video conference",
   "videoConferencingTitle":
     "Sorry, video conferencing isn't supported in this browser.",
   "unsupportedBrowser":
@@ -424,5 +425,8 @@
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser":
     "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "chromeOrFirefox": "Chrome or Firefox"
+  "chromeOrFirefox": "Chrome or Firefox",
+  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
+  "grapeCallGroupInvitationContent":
+    "{callInitator} started a Grape Call in this group."
 }
