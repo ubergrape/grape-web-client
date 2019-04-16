@@ -16,6 +16,7 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -199,16 +200,33 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
   }
 }
 
-const newNotification = (notification, channel) => (dispatch, getState) => {
-  const users = usersSelector(getState())
+const addNewNotification = (notification, channel, inviter) => dispatch => {
   dispatch({
     type: types.HANDLE_NOTIFICATION,
     payload: {
       ...notification,
       channel,
-      inviter: find(users, { partner: { id: notification.inviterId } }),
+      inviter,
     },
   })
+}
+
+const newNotification = (notification, channel) => (dispatch, getState) => {
+  const users = usersSelector(getState())
+  const inviter = find(users, { partner: { id: notification.inviterId } })
+
+  if (!inviter) {
+    api
+      .getUser(orgSelector(getState()).id, notification.inviterId)
+      .then(user => {
+        dispatch(addNewNotification(notification, channel, user))
+      })
+      .catch(err => {
+        dispatch(error(err))
+      })
+    return
+  }
+  dispatch(addNewNotification(notification, channel, inviter))
 }
 
 export function handleNotification(notification) {
