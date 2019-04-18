@@ -4,30 +4,12 @@ import noop from 'lodash/noop'
 import { createNotification } from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'
-import { defineMessages, intlShape, injectIntl } from 'react-intl'
+import { intlShape, injectIntl } from 'react-intl'
 
 import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
 import mdNotification from '../../utils/markdown-it-plugins/notification'
 import { shouldNotify } from '../../utils/notifications'
 import { dispatchers } from '../../constants/notification'
-
-const messages = defineMessages({
-  pm: {
-    id: 'privateMessageHint',
-    defaultMessage: '(Private message)',
-    description: 'Browser notification private message hint.',
-  },
-  groupInviteTitle: {
-    id: 'groupInviteNotificationTitle',
-    defaultMessage: '{name} invited you to the group {group}',
-    description: 'Browser notification group invite title.',
-  },
-  groupInviteContent: {
-    id: 'groupInviteNotificationContent',
-    defaultMessage: '{name} (Group Invite)',
-    description: 'Browser notification group invite content.',
-  },
-})
 
 const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdForcebreak)
@@ -38,13 +20,27 @@ const getInviteOptions = ({
   notification: { inviter, channel },
   intl: { formatMessage },
 }) => ({
-  title: formatMessage(messages.groupInviteTitle, {
-    name: inviter.displayName,
-    group: channel.name,
-  }),
-  content: formatMessage(messages.groupInviteContent, {
-    name: inviter.displayName,
-  }),
+  title: formatMessage(
+    {
+      id: 'groupInviteNotificationTitle',
+      defaultMessage: '{name} invited you to the group {group}',
+      description: 'Browser notification group invite title.',
+    },
+    {
+      name: inviter.displayName,
+      group: channel.name,
+    },
+  ),
+  content: formatMessage(
+    {
+      id: 'groupInviteNotificationContent',
+      defaultMessage: '{name} (Group Invite)',
+      description: 'Browser notification group invite content.',
+    },
+    {
+      name: inviter.displayName,
+    },
+  ),
   icon: inviter.avatar,
 })
 
@@ -56,7 +52,11 @@ const getMessageTitle = props => {
   if (channel.type === 'room') {
     return `${author.name} (${channel.name})`
   }
-  return `${author.name} ${formatMessage(messages.pm)}`
+  return `${author.name} ${formatMessage({
+    id: 'privateMessageHint',
+    defaultMessage: '(Private message)',
+    description: 'Browser notification private message hint.',
+  })}`
 }
 
 const getNewMessageOptions = props => {
