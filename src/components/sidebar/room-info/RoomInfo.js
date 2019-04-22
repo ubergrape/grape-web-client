@@ -167,7 +167,8 @@ export default class RoomInfo extends PureComponent {
         {(permissions.canLeaveChannel ||
           permissions.canInviteMembers ||
           permissions.canInviteGuests ||
-          permissions.canAddIntegration) && <Divider />}
+          permissions.canAddIntegration) &&
+          permissions.canSeeMembersList && <Divider />}
         {permissions.canSeeMembersList && (
           <ChannelMembers
             channel={channel}
