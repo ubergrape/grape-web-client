@@ -168,18 +168,20 @@ export default class RoomInfo extends PureComponent {
           permissions.canInviteMembers ||
           permissions.canInviteGuests ||
           permissions.canAddIntegration) && <Divider />}
-        <ChannelMembers
-          channel={channel}
-          colors={colors}
-          onLoad={onLoadMembers}
-          onOpen={openPm}
-          onKick={kickMemberFromChannel}
-          currUser={user}
-          users={users}
-          isEveryMemberLoaded={isEveryMemberLoaded}
-          sidebarRef={sidebarRef}
-          permissions={permissions}
-        />
+        {permissions.canSeeMembersList && (
+          <ChannelMembers
+            channel={channel}
+            colors={colors}
+            onLoad={onLoadMembers}
+            onOpen={openPm}
+            onKick={kickMemberFromChannel}
+            currUser={user}
+            users={users}
+            isEveryMemberLoaded={isEveryMemberLoaded}
+            sidebarRef={sidebarRef}
+            permissions={permissions}
+          />
+        )}
       </div>
     )
   }
