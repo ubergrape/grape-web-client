@@ -29,20 +29,15 @@ export default class Intro extends PureComponent {
   static defaultProps = {
     step: 0,
     show: false,
-    permissions: {
-      canSeeTutorial: false,
-    },
+    permissions: {},
   }
 
   render() {
     const { classes, step, show, permissions, ...rest } = this.props
     const filteredSteps = steps(permissions)
     const Step = filteredSteps[step]
-    if (
-      !show ||
-      (!permissions.canSeeTutorial && permissions.canSeeTutorial !== undefined)
-    )
-      return null
+
+    if (!show || !permissions.canSeeTutorial) return null
 
     return (
       <div className={classes.root}>
