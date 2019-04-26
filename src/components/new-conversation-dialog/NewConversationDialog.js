@@ -10,10 +10,13 @@ import { styles } from './newConversationTheme'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import AdvancedSettings from './AdvancedSettings'
 
-const getInitialState = () => ({
+const getInitialState = ({ groupDefaults }) => ({
   name: '',
   error: '',
-  isPublic: true,
+  isPublic:
+    groupDefaults && groupDefaults.visibility === 'private'
+      ? false
+      : true || true,
   saving: false,
   focusedInput: 'users',
   color: sample(roomColors),
@@ -46,26 +49,28 @@ class NewConversationDialog extends PureComponent {
     listed: PropTypes.array.isRequired,
     show: PropTypes.bool,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
+    defaults: PropTypes.object,
   }
 
   static defaultProps = {
     organization: null,
     channel: {},
     colors: {},
+    defaults: {},
     show: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      ...getInitialState(),
+      ...getInitialState(props.defaults),
       error: props.error.message,
     }
   }
 
-  componentWillReceiveProps({ show, error, isMemberOfAnyRooms }) {
+  componentWillReceiveProps({ show, error, isMemberOfAnyRooms, defaults }) {
     if (!show) {
-      this.setState(getInitialState())
+      this.setState(getInitialState(defaults))
       if (
         this.props.isMemberOfAnyRooms !== isMemberOfAnyRooms &&
         !isMemberOfAnyRooms
