@@ -11,10 +11,7 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
-export const confSelector = createSelector(
-  state => state.conf,
-  state => state,
-)
+export const confSelector = createSelector(state => state.conf, state => state)
 
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
@@ -34,24 +31,18 @@ export const usersSelector = createSelector(
   state => state,
 )
 
-export const userSelector = createSelector(
-  state => state.user,
-  state => state,
+export const userSelector = createSelector(state => state.user, state => state)
+
+export const activeUsersSelector = createSelector(usersSelector, users =>
+  users.filter(user => user.isActive),
 )
 
-export const activeUsersSelector = createSelector(
-  usersSelector,
-  users => users.filter(user => user.isActive),
+export const invitedUsersSelector = createSelector(usersSelector, users =>
+  users.filter(user => user.isOnlyInvited),
 )
 
-export const invitedUsersSelector = createSelector(
-  usersSelector,
-  users => users.filter(user => user.isOnlyInvited),
-)
-
-export const deletedUsersSelector = createSelector(
-  usersSelector,
-  users => users.filter(user => !user.isActive),
+export const deletedUsersSelector = createSelector(usersSelector, users =>
+  users.filter(user => !user.isActive),
 )
 
 export const initialChannelsSelector = createSelector(
@@ -113,14 +104,12 @@ export const searchingChannelsSelector = createSelector(
   state => state,
 )
 
-export const roomsSelector = createSelector(
-  channelsSelector,
-  channels => channels.filter(channel => channel.type === 'room'),
+export const roomsSelector = createSelector(channelsSelector, channels =>
+  channels.filter(channel => channel.type === 'room'),
 )
 
-export const joinedRoomsSelector = createSelector(
-  roomsSelector,
-  rooms => rooms.filter(room => room.joined),
+export const joinedRoomsSelector = createSelector(roomsSelector, rooms =>
+  rooms.filter(room => room.joined),
 )
 
 export const roomDeleteSelector = createSelector(
@@ -128,9 +117,8 @@ export const roomDeleteSelector = createSelector(
   state => state,
 )
 
-export const pmsSelector = createSelector(
-  channelsSelector,
-  channels => channels.filter(channel => channel.type === 'pm'),
+export const pmsSelector = createSelector(channelsSelector, channels =>
+  channels.filter(channel => channel.type === 'pm'),
 )
 
 export const joinedChannelsSelector = createSelector(
@@ -138,9 +126,8 @@ export const joinedChannelsSelector = createSelector(
   (joinedRooms, pms) => Boolean(joinedRooms.length || pms.length),
 )
 
-export const activePmsSelector = createSelector(
-  pmsSelector,
-  pms => pms.filter(pm => pm.firstMessageTime),
+export const activePmsSelector = createSelector(pmsSelector, pms =>
+  pms.filter(pm => pm.firstMessageTime),
 )
 
 export const currentPmsSelector = createSelector(
@@ -158,10 +145,7 @@ export const deletedUsersWithPmSelector = createSelector(
   users => users.filter(user => user.pm),
 )
 
-export const orgSelector = createSelector(
-  state => state.org,
-  state => state,
-)
+export const orgSelector = createSelector(state => state.org, state => state)
 
 export const billingWarningSelector = createSelector(
   state => state.billingWarning,
@@ -195,12 +179,9 @@ export const setTypingSelector = createSelector(
   }),
 )
 
-export const userProfileSelector = createSelector(
-  [currentPmsSelector],
-  pm => ({
-    ...pm.partner,
-  }),
-)
+export const userProfileSelector = createSelector([currentPmsSelector], pm => ({
+  ...pm.partner,
+}))
 
 const notificationSettingsSelector = createSelector(
   state => state.notificationSettings,
@@ -287,17 +268,20 @@ export const newConversationSelector = createSelector(
     joinedChannelsSelector,
     channelSelector,
     confSelector,
+    orgSelector,
   ],
   (
     newConversation,
     isMemberOfAnyRooms,
     channel,
     { organization: { colors } },
+    { defaults },
   ) => ({
     ...newConversation,
     isMemberOfAnyRooms,
     channel,
     colors,
+    defaults,
   }),
 )
 
@@ -420,12 +404,10 @@ export const orgInfoSelector = createSelector(
   }),
 )
 
-export const navigationPmsSelector = createSelector(
-  [pmsSelector],
-  pms =>
-    pms.filter(
-      pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
-    ),
+export const navigationPmsSelector = createSelector([pmsSelector], pms =>
+  pms.filter(
+    pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
+  ),
 )
 
 function unixToIsoTimestamp(timestamp) {
