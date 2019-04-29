@@ -18,7 +18,7 @@ export default function reduce(state = initialState, action) {
       alerts.push(payload)
       alerts = alerts.filter(
         alert =>
-          alert.type !== typesAlerts.NOTIFICATIONS_REMINDER && !conf.embed,
+          alert.type === typesAlerts.NOTIFICATIONS_REMINDER && !conf.embed,
       )
       return {
         alerts,
