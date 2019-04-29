@@ -13,10 +13,7 @@ import AdvancedSettings from './AdvancedSettings'
 const getInitialState = ({ groupDefaults }) => ({
   name: '',
   error: '',
-  isPublic:
-    groupDefaults && groupDefaults.visibility === 'private'
-      ? false
-      : true || true,
+  isPublic: !(groupDefaults && groupDefaults.visibility === 'private'),
   saving: false,
   focusedInput: 'users',
   color: sample(roomColors),
