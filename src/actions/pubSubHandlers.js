@@ -213,9 +213,10 @@ const addNewNotification = (notification, channel, inviter) => dispatch => {
 
 const newNotification = (notification, channel) => (dispatch, getState) => {
   const users = usersSelector(getState())
+
   const inviter = find(users, { partner: { id: notification.inviterId } })
 
-  if (!inviter) {
+  if (!inviter && notification.inviterId) {
     api
       .getUser(orgSelector(getState()).id, notification.inviterId)
       .then(user => {
