@@ -21,6 +21,7 @@ export default class Menu extends PureComponent {
     user: PropTypes.shape({
       role: PropTypes.number.isRequired,
     }).isRequired,
+    permissions: PropTypes.object.isRequired,
     getContentNode: PropTypes.func.isRequired,
     /* eslint-disable react/no-unused-prop-types */
     onCopyLink: PropTypes.func.isRequired,
@@ -34,12 +35,13 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const { user, channel, getContentNode } = this.props
+    const { user, channel, permissions, getContentNode } = this.props
     const items = [...baseItems]
 
     if (
       user.role >= conf.constants.roles.ROLE_ADMIN ||
-      channel.creator === user.id
+      channel.creator === user.id ||
+      permissions.deleteAnyMessage
     ) {
       items.push('remove')
     }

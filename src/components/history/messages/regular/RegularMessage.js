@@ -36,6 +36,7 @@ export default class RegularMessage extends PureComponent {
     customEmojis: PropTypes.object,
     children: PropTypes.string,
     hasBubbleArrow: PropTypes.bool,
+    permissions: PropTypes.object.isRequired,
     isOwn: PropTypes.bool,
     isSelected: PropTypes.bool,
     isPinned: PropTypes.bool,
@@ -173,6 +174,7 @@ export default class RegularMessage extends PureComponent {
       children,
       hasBubbleArrow,
       state,
+      permissions,
       isOwn,
       isSelected,
       isPinned,
@@ -249,6 +251,7 @@ export default class RegularMessage extends PureComponent {
                   getContentNode={this.getContentNode}
                   onPin={this.onPin}
                   onUnpin={this.onUnpin}
+                  permissions={permissions}
                   onToggleDropdown={this.onToggleMenuDropdown}
                 />
               )}
