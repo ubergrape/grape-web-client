@@ -180,7 +180,7 @@ export default function reduce(state = initialState, action) {
       // the rest of the logic with this design and use data structure which allows
       // individual messages to have different states.
       const { channelId, isCurrentUser, userId } = payload
-      if (!state.channel || channelId !== state.channel.id || isCurrentUser) {
+      if (channelId !== state.channel.id || isCurrentUser) {
         return state
       }
 
