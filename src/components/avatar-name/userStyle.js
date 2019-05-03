@@ -20,6 +20,9 @@ export default {
   online: {
     background: '#6cb500',
   },
+  reachable: {
+    background: '#fc6e51',
+  },
   offline: {
     background: '#fc6e51',
   },
