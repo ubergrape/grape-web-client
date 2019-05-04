@@ -287,17 +287,20 @@ export const newConversationSelector = createSelector(
     joinedChannelsSelector,
     channelSelector,
     confSelector,
+    orgSelector,
   ],
   (
     newConversation,
     isMemberOfAnyRooms,
     channel,
     { organization: { colors } },
+    { defaults },
   ) => ({
     ...newConversation,
     isMemberOfAnyRooms,
     channel,
     colors,
+    defaults,
   }),
 )
 

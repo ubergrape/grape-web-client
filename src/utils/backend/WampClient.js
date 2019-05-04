@@ -3,12 +3,24 @@ import Wamp from 'wamp1'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
+import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import Backoff from './Backoff'
 
 const log = debug('ws')
 const prefix = 'http://domain/'
 const pingInterval = 10000
+
+let onConnectionEvent = () => {}
+
+if (isElectron) {
+  if (window.grapeAppBridge) {
+    ;({ onConnectionEvent } = window.grapeAppBridge)
+  }
+  if (window.GrapeAppBridge) {
+    ;({ onConnectionEvent } = window.GrapeAppBridge)
+  }
+}
 
 export default class WampClient {
   constructor(options = {}) {
@@ -35,6 +47,7 @@ export default class WampClient {
   }
 
   reset() {
+    onConnectionEvent('reset')
     this.wamp = null
     this.socket = null
     this.id = null
@@ -54,12 +67,9 @@ export default class WampClient {
 
   close() {
     this.wamp.off()
-    // eslint-disable-next-line no-console, no-underscore-dangle
-    console.log(`Close Socket A: `, this.socket, this.socket._socket)
     this.socket.off()
-    // eslint-disable-next-line no-console, no-underscore-dangle
-    console.log(`Close Socket B: `, this.socket, this.socket._socket)
     this.socket.close(3001)
+    this.reopen()
   }
 
   reopen() {
@@ -69,8 +79,10 @@ export default class WampClient {
     this.out.emit('set:timer', backoff)
     if (backoff >= this.backoff.max) this.onDisconnected()
     log('reopen in %sms', backoff)
+    onConnectionEvent('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
+      onConnectionEvent('reopening')
       log('reopening')
       this.open()
     }, backoff)
@@ -84,9 +96,11 @@ export default class WampClient {
     if (!this.connected || this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
+      onConnectionEvent("didn't receive a pong")
       this.onError(new Error("Didn't receive a pong."))
       return
     }
+    onConnectionEvent('ping')
     log('ping')
     this.waitingForPong = true
     this.call('ping', (err, res) => {
@@ -127,6 +141,7 @@ export default class WampClient {
     if (sessionId !== this.id) {
       this.id = sessionId
       log('new session id %s', this.id)
+      onConnectionEvent('new session id', this.id)
       this.out.emit('set:id', this.id)
     }
   }
@@ -135,6 +150,7 @@ export default class WampClient {
     this.backoff.reset()
     if (this.connected) return
     this.connected = true
+    onConnectionEvent('connected')
     log('connected')
     this.out.emit('connected')
   }
@@ -143,6 +159,7 @@ export default class WampClient {
     if (!this.connected) return
     this.id = null
     this.connected = false
+    onConnectionEvent('disconnected')
     log('disconnected')
     this.out.emit('disconnected')
   }
@@ -161,6 +178,7 @@ export default class WampClient {
   }
 
   onError = err => {
+    onConnectionEvent('error', err)
     log(err)
     this.out.emit('error', err)
     this.close()
@@ -168,6 +186,7 @@ export default class WampClient {
   }
 
   onSocketError = event => {
+    onConnectionEvent('socket error', event)
     log('socket error', event)
     const err = new Error('Socket error.')
     err.event = event
@@ -175,6 +194,7 @@ export default class WampClient {
   }
 
   onSocketClose = event => {
+    onConnectionEvent('socket close', event)
     log('socket close', event)
     this.close()
     this.reopen()

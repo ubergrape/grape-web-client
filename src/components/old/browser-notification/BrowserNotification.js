@@ -27,6 +27,16 @@ const messages = defineMessages({
     defaultMessage: '{name} (Group Invite)',
     description: 'Browser notification group invite content.',
   },
+  grapeCallGroupInvitationContent: {
+    id: 'grapeCallGroupInvitationContent',
+    defaultMessage: '{callInitator} started a Grape Call in this group.',
+    description: 'Browser notification group grape call.',
+  },
+  grapeCallPmInvitationContent: {
+    id: 'grapeCallPmInvitationContent',
+    defaultMessage: 'Invites you to a Grape call …',
+    description: 'Browser notification pm grape call.',
+  },
 })
 
 const md = new MarkdownIt({ breaks: true, typographer: true })
@@ -69,8 +79,8 @@ const getNewMessageOptions = props => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(
-      ({ name }) => (name ? `${author.name}: ${name}\n` : ''),
+    content += attachments.map(({ name }) =>
+      name ? `${author.name}: ${name}\n` : '',
     )
   }
 
@@ -81,14 +91,36 @@ const getNewMessageOptions = props => {
   }
 }
 
+const getIncomingCallOptions = props => {
+  const content =
+    props.notification.channel.type === 'room'
+      ? props.intl.formatMessage(
+          messages.grapeCallGroupInvitationContent,
+          // TODO should be changed to the call initator once available
+          { callInitator: props.notification.channel.name },
+        )
+      : props.intl.formatMessage(messages.grapeCallPmInvitationContent)
+
+  return {
+    title: props.notification.channel.name,
+    content,
+    icon: props.notification.channel.icon,
+  }
+}
+
 const renderNotification = props => {
   const { onGoToChannel, notification, channel } = props
   let options
 
-  if (dispatchers.invites.indexOf(notification.dispatcher) === -1) {
-    options = getNewMessageOptions(props)
-  } else {
+  if (dispatchers.invites.indexOf(notification.dispatcher) !== -1) {
     options = getInviteOptions(props)
+  } else if (dispatchers.messages.indexOf(notification.dispatcher) !== -1) {
+    options = getNewMessageOptions(props)
+  } else if (notification.dispatcher === dispatchers.incomingCall) {
+    options = getIncomingCallOptions(props)
+  } else {
+    // Unexpected notification has been provided
+    return undefined
   }
 
   createNotification(options, () => {
@@ -96,6 +128,7 @@ const renderNotification = props => {
       onGoToChannel(notification.channel.id)
     }
   })
+  return undefined
 }
 
 class BrowserNotification extends PureComponent {

@@ -10,3 +10,4 @@ lib
 ca/mozilla-root-certs.pem
 .http-mitm-proxy
 design-system
+yarn-error.log

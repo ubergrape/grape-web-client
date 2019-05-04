@@ -12,7 +12,7 @@ export const styles = {
     display: 'block',
     overflow: 'auto',
     maxHeight: 85,
-    padding: '8px 10px',
+    padding: '8px',
     borderRadius: 5,
     border: `1px solid ${color(grayBlueLighter)
       .darken(0.05)
@@ -39,6 +39,7 @@ export const styles = {
   },
   inputWrapper: {
     position: 'relative',
+    height: 14,
   },
   input: {
     extend: small,

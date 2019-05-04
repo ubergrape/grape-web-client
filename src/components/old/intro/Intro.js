@@ -15,7 +15,7 @@ class Intro extends PureComponent {
 
   static defaultProps = {
     step: 0,
-    show: true,
+    show: false,
     permissions: {},
   }
 
@@ -24,7 +24,7 @@ class Intro extends PureComponent {
     const filteredSteps = steps(permissions)
     const Step = filteredSteps[step]
 
-    if (!show) return null
+    if (!show || !permissions.canSeeTutorial) return null
 
     return (
       <div className={classes.root}>

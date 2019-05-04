@@ -50,6 +50,7 @@ export default {
   "labeledMessagesTooltip": "Important Messages",
   "mentions": "Mentions",
   "searchMessages": "Search messages",
+  "joinVideoConference": "Join video conference",
   "recalculateScrollPosition": "Recalculating the scroll position…",
   "pending": "Pending",
   "unsent": "Unsent",
@@ -228,7 +229,6 @@ export default {
   "skype": "Skype",
   "phone": "Phone",
   "aboutUserTitle": "About this user",
-  "joinVideoConference": "Join video conference",
   "videoConferencingTitle": "Sorry, video conferencing isn't supported in this browser.",
   "unsupportedBrowser": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call. Please use our {desktopApp} instead.",
   "desktopApp": "desktop app",
@@ -236,5 +236,7 @@ export default {
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "chromeOrFirefox": "Chrome or Firefox"
+  "chromeOrFirefox": "Chrome or Firefox",
+  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
+  "grapeCallGroupInvitationContent": "{callInitator} started a Grape Call in this group."
 }

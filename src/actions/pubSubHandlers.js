@@ -16,6 +16,7 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -59,6 +60,7 @@ const addNewMessage = message => (dispatch, getState) => {
 export const handleNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const channels = channelSelector(state)
+  const user = userSelector(state)
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
   // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
@@ -67,7 +69,10 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
-  if (findIndex(channels, { id: message.author.id }) !== -1) {
+  if (
+    message.author.id === user.id ||
+    findIndex(channels, { id: message.author.id }) !== -1
+  ) {
     dispatch(addNewMessage(message))
     return
   }
@@ -195,16 +200,34 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
   }
 }
 
-const newNotification = (notification, channel) => (dispatch, getState) => {
-  const users = usersSelector(getState())
+const addNewNotification = (notification, channel, inviter) => dispatch => {
   dispatch({
     type: types.HANDLE_NOTIFICATION,
     payload: {
       ...notification,
       channel,
-      inviter: find(users, { partner: { id: notification.inviterId } }),
+      inviter,
     },
   })
+}
+
+const newNotification = (notification, channel) => (dispatch, getState) => {
+  const users = usersSelector(getState())
+
+  const inviter = find(users, { partner: { id: notification.inviterId } })
+
+  if (!inviter && notification.inviterId) {
+    api
+      .getUser(orgSelector(getState()).id, notification.inviterId)
+      .then(user => {
+        dispatch(addNewNotification(notification, channel, user))
+      })
+      .catch(err => {
+        dispatch(error(err))
+      })
+    return
+  }
+  dispatch(addNewNotification(notification, channel, inviter))
 }
 
 export function handleNotification(notification) {

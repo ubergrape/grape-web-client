@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import sinon from 'sinon' // eslint-disable-line import/no-extraneous-dependencies
 import api from '..'
 import * as app from '../../app'
