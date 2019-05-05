@@ -19,14 +19,15 @@ class CreateNewGroup extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isPublic: PropTypes.bool,
+    isFocused: PropTypes.bool,
+    isLoaded: PropTypes.bool.isRequired,
     name: PropTypes.string,
     color: PropTypes.number,
     description: PropTypes.string,
     filter: PropTypes.string,
     error: PropTypes.string,
+    visibility: PropTypes.string,
     users: PropTypes.array,
-    isFocused: PropTypes.bool,
-    isLoaded: PropTypes.bool.isRequired,
     onChangeColor: PropTypes.func.isRequired,
     onClickCheckedStatus: PropTypes.func.isRequired,
     onChangeName: PropTypes.func.isRequired,
@@ -43,12 +44,17 @@ class CreateNewGroup extends Component {
   static defaultProps = {
     error: undefined,
     isPublic: true,
+    isFocused: false,
     name: '',
     color: 0,
     description: '',
     filter: '',
-    isFocused: false,
+    visibility: 'public',
     users: [],
+  }
+
+  componentDidMount() {
+    if (this.props.visibility === 'private') this.props.onChangeType(false)
   }
 
   onChangeName = ({ target }) => {

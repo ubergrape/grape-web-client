@@ -310,9 +310,18 @@ export const createRoomSelector = createSelector(
       state => state.createRoom,
       state => state,
     ),
+    orgSelector,
   ],
-  createRoom => ({
+  (
+    createRoom,
+    {
+      defaults: {
+        groupDefaults: { visibility },
+      },
+    },
+  ) => ({
     ...createRoom,
+    visibility,
   }),
 )
 
