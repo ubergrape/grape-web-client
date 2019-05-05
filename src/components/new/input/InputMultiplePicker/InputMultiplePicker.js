@@ -1,14 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
-import theme from '../../../constants/theme'
-import Input from './Input'
-import styles from './styles/InputMultiplePickerStyles'
+import theme from '../../../../constants/theme'
+import Input from '../Input'
+import InputMultiplePickerItem from './InputMultiplePickerItem'
+import styles from '../styles/InputMultiplePickerStyles'
 
 const InputMultiplePicker = ({
   classes,
   list,
-  Item,
   actions,
   onBlur,
   onClick,
@@ -16,7 +17,7 @@ const InputMultiplePicker = ({
 }) => (
   <div className={classes.multipleInput}>
     {list.map(item => (
-      <Item key={item.id} actions={actions} item={item} />
+      <InputMultiplePickerItem key={item.id} actions={actions} item={item} />
     ))}
     <Input
       placeholder="Search people ..."
@@ -39,5 +40,14 @@ const InputMultiplePicker = ({
     />
   </div>
 )
+
+InputMultiplePicker.propTypes = {
+  classes: PropTypes.object.isRequired,
+  list: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
 
 export default injectSheet(styles)(InputMultiplePicker)

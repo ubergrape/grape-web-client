@@ -1,3 +1,3 @@
 export Input from './Input'
 export InputSearch from './InputSearch'
-export InputMultiplePicker from './InputMultiplePicker'
+export InputMultiplePicker from './InputMultiplePicker/InputMultiplePicker'

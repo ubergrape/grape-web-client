@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { debouncingTime } from 'grape-web/lib/constants/time'
@@ -12,10 +13,44 @@ import { Checkbox } from '../checkbox'
 import { Textarea } from '../textarea'
 import RowRenderer from './RowRenderer/RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer/NoRowsRenderer'
-import InputMultiplePickerItem from './InputMultiplePickerItem/InputMultiplePickerItem'
 import styles from './styles/CreateRoomStyles'
 
 class CreateNewGroup extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    isPublic: PropTypes.bool,
+    name: PropTypes.string,
+    color: PropTypes.number,
+    description: PropTypes.string,
+    filter: PropTypes.string,
+    error: PropTypes.string,
+    users: PropTypes.array,
+    isFocused: PropTypes.bool,
+    isLoaded: PropTypes.bool.isRequired,
+    onChangeColor: PropTypes.func.isRequired,
+    onClickCheckedStatus: PropTypes.func.isRequired,
+    onChangeName: PropTypes.func.isRequired,
+    onChangeType: PropTypes.func.isRequired,
+    onChangeDescription: PropTypes.func.isRequired,
+    onClickMultipleInput: PropTypes.func.isRequired,
+    onSearchUsers: PropTypes.func.isRequired,
+    onChangeFilter: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    onChangeView: PropTypes.func.isRequired,
+    onCreateRoom: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    error: undefined,
+    isPublic: true,
+    name: '',
+    color: 0,
+    description: '',
+    filter: '',
+    isFocused: false,
+    users: [],
+  }
+
   onChangeName = ({ target }) => {
     const { value } = target
     this.props.onChangeName(value)
@@ -73,6 +108,7 @@ class CreateNewGroup extends Component {
       color,
       description,
       isPublic,
+      isLoaded,
       isFocused,
       filter,
       users,
@@ -197,7 +233,6 @@ class CreateNewGroup extends Component {
                 onFocus={this.onClickMultipleInput}
                 onBlur={this.onBlurMultipleInput}
                 onChange={this.onChangeFilter}
-                Item={InputMultiplePickerItem}
                 actions={{
                   onClickCheckbox: onClickCheckedStatus,
                 }}
@@ -223,31 +258,33 @@ class CreateNewGroup extends Component {
                     </span>
                   )}
                 </div>
-                <div className={classes.list}>
-                  <InfiniteAutoRowHeightList
-                    rowHeight={() => 32}
-                    loadMoreRows={() => {
-                      this.props.onSearchUsers()
-                    }}
-                    isRowLoaded={this.isRowLoaded}
-                    list={users}
-                    rowCount={Infinity}
-                    minimumBatchSize={50}
-                    width={680}
-                    threshold={30}
-                    rowRenderer={(index, key, style) => (
-                      <RowRenderer
-                        list={users}
-                        index={index}
-                        checked={users[index].checked}
-                        key={key}
-                        style={style}
-                        onClickCheckedStatus={onClickCheckedStatus}
-                      />
-                    )}
-                    noRowsRenderer={() => <NoRowsRenderer filter={filter} />}
-                  />
-                </div>
+                {isLoaded && (
+                  <div className={classes.list}>
+                    <InfiniteAutoRowHeightList
+                      rowHeight={() => 32}
+                      loadMoreRows={() => {
+                        this.props.onSearchUsers()
+                      }}
+                      isRowLoaded={this.isRowLoaded}
+                      list={users}
+                      rowCount={Infinity}
+                      minimumBatchSize={50}
+                      width={680}
+                      threshold={30}
+                      rowRenderer={(index, key, style) => (
+                        <RowRenderer
+                          list={users}
+                          index={index}
+                          checked={users[index].checked}
+                          key={key}
+                          style={style}
+                          onClickCheckedStatus={onClickCheckedStatus}
+                        />
+                      )}
+                      noRowsRenderer={() => <NoRowsRenderer filter={filter} />}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>

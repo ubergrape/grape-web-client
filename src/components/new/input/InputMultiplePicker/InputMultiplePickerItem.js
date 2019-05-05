@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../../icon'
@@ -22,6 +23,12 @@ class InputMultiplePickerItem extends Component {
       </button>
     )
   }
+}
+
+InputMultiplePickerItem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
 export default injectSheet(styles)(InputMultiplePickerItem)

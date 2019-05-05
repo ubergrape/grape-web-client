@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../icon'
@@ -29,5 +30,12 @@ const IconButton = ({ classes, name, onClick, children }) => (
     <span className={classes.text}>{children}</span>
   </div>
 )
+
+IconButton.propTypes = {
+  classes: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+}
 
 export default injectSheet(styles)(IconButton)

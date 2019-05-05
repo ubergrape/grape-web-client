@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import Tab from './Tab'
 import styles from './styles/TabsStyles'
 
 class Tabs extends Component {
+  static propTypes = {
+    tabs: PropTypes.array.isRequired,
+    current: PropTypes.number.isRequired,
+    classes: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -18,10 +25,7 @@ class Tabs extends Component {
   }
 
   render() {
-    const {
-      tabs,
-      sheet: { classes },
-    } = this.props
+    const { tabs, classes } = this.props
 
     const { current } = this.state
     const { component: TabComponent, actions, data } = tabs[current]

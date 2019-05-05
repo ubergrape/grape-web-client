@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import styles from './styles/CheckboxStyles'
@@ -15,5 +16,12 @@ const Checkbox = ({ classes, checked, onChange, name }) => (
     <span className={classes.toggle} />
   </label>
 )
+
+Checkbox.propTypes = {
+  classes: PropTypes.object.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+}
 
 export default injectSheet(styles)(Checkbox)

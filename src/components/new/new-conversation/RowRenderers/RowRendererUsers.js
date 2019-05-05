@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -6,6 +7,14 @@ import { Status } from '../../status'
 import styles from './../styles/RowRendererStyles'
 
 class RowRendererUsers extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    list: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+  }
+
   onClickRow = () => {
     const { actions, list, index } = this.props
     const { isActive, pm, id } = list[index]
@@ -21,11 +30,11 @@ class RowRendererUsers extends Component {
   }
 
   render() {
-    const { list, key, style, index, classes } = this.props
+    const { list, style, index, classes } = this.props
 
     if (list[index].text)
       return (
-        <div className={classes.wrapper} key={key} style={style}>
+        <div className={classes.wrapper} style={style}>
           <span className={classes.header}>{list[index].text}</span>
         </div>
       )
@@ -35,7 +44,6 @@ class RowRendererUsers extends Component {
       <button
         className={classes.button}
         onClick={this.onClickRow}
-        key={key}
         style={style}
       >
         <div className={classes.avatar}>

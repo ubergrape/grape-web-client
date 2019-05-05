@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Dialog from 'react-a11y-dialog'
 
 class A11yDialog extends Component {

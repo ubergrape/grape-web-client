@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../icon'
@@ -9,5 +10,10 @@ const RoomIcon = ({ classes, name }) => (
     <Icon name={name} styles={{ fill: 'currentColor', color: 'white' }} />
   </div>
 )
+
+RoomIcon.propTypes = {
+  name: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+}
 
 export default injectSheet(styles)(RoomIcon)

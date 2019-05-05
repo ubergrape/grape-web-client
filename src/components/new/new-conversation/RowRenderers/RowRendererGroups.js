@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../../icon'
 import { RoomIcon } from '../../room-icon'
-import { Status } from '../../status'
 import styles from './../styles/RowRendererStyles'
 
 class RowRendererGroups extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    list: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+  }
+
   onClickRow = () => {
     const { actions, list, index } = this.props
     const { membership, id } = list[index]
@@ -21,11 +29,11 @@ class RowRendererGroups extends Component {
   }
 
   render() {
-    const { list, key, style, index, classes } = this.props
+    const { list, style, index, classes } = this.props
 
     if (list[index].text)
       return (
-        <div className={classes.wrapper} key={key} style={style}>
+        <div className={classes.wrapper} style={style}>
           <span className={classes.header}>{list[index].text}</span>
         </div>
       )
@@ -35,12 +43,20 @@ class RowRendererGroups extends Component {
       <button
         className={classes.button}
         onClick={this.onClickRow}
-        key={key}
         style={style}
       >
         <div className={classes.avatar}>
           <RoomIcon name={group.icon || 'bulb'} color={group.color} />
-          <Status status={group.isPublic ? 'public' : 'private'} />
+          {!group.isPublic && (
+            <div className={classes.private}>
+              <Icon
+                name="lock"
+                styles={{
+                  position: 'absolute',
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className={classes.text}>
           <span className={classes.name}>{group.name}</span>

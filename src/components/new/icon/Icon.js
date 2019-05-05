@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -11,5 +12,15 @@ const Icon = ({ classes, isHoverable, name }) => (
     className={cn(classes.icon, isHoverable ? classes.iconHover : '')}
   />
 )
+
+Icon.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isHoverable: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+}
+
+Icon.defaultProps = {
+  isHoverable: false,
+}
 
 export default injectSheet(styles)(Icon)

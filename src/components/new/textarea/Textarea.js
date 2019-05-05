@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -25,6 +26,17 @@ class Input extends Component {
       />
     )
   }
+}
+
+Input.propTypes = {
+  placeholder: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
+
+Input.defaultProps = {
+  defaultValue: '',
 }
 
 export default injectSheet(styles)(Input)

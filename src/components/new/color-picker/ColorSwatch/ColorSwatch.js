@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../../icon'
@@ -30,6 +31,14 @@ class ColorSwatch extends Component {
       </label>
     )
   }
+}
+
+ColorSwatch.propTypes = {
+  classes: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+  checked: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default injectSheet(styles)(ColorSwatch)

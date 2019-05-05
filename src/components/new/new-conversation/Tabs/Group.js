@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { debouncingTime } from 'grape-web/lib/constants/time'
@@ -12,6 +13,12 @@ import InputSearch from '../../input/InputSearch'
 import styles from '../styles/TabStyles'
 
 class Group extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+  }
+
   onChangeFilterDebounced = debounce(value => {
     const { onChangeGroupsFilter, onSearchGroups } = this.props.actions
     onChangeGroupsFilter(value)

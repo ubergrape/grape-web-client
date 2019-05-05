@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import styles from '../styles/NoRowsRendererStyles'
@@ -9,5 +10,9 @@ const NoRowsRendererGroups = props => (
     this.
   </span>
 )
+
+NoRowsRendererGroups.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
 
 export default injectSheet(styles)(NoRowsRendererGroups)

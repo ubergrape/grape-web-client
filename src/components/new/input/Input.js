@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -6,6 +7,31 @@ import { Icon } from '../icon'
 import styles from './styles/InputStyles'
 
 class Input extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    type: PropTypes.string,
+    error: PropTypes.string,
+    placeholder: PropTypes.string.isRequired,
+    defaultValue: PropTypes.string,
+    onBlur: PropTypes.func,
+    onClick: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+  }
+
+  static defaultProps = {
+    defaultValue: '',
+    type: 'text',
+    onBlur: () => {},
+    onClick: () => {},
+    onChange: () => {},
+    onFocus: () => {},
+  }
+
+  static defaultProps = {
+    error: undefined,
+  }
+
   componentDidMount() {
     this.input.value = this.props.defaultValue || ''
   }

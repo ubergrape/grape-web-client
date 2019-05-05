@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { debouncingTime } from 'grape-web/lib/constants/time'
@@ -11,6 +12,12 @@ import EmptyOrgUsers from '../EmptyOrg/EmptyOrgUsers'
 import styles from '../styles/TabStyles'
 
 class Person extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+  }
+
   onChangeFilterDebounced = debounce(value => {
     const { onChangeUsersFilter, onSearchUsers } = this.props.actions
     onChangeUsersFilter(value)
@@ -33,7 +40,8 @@ class Person extends Component {
     const { classes, data, actions } = this.props
     const { list, isUsersLoaded, filterUsers, isMemberOfEachChannel } = data
 
-    if (!list.length && isUsersLoaded && !filterUsers) return <EmptyOrgUsers />
+    if (!list.length && isUsersLoaded && !filterUsers)
+      return <EmptyOrgUsers onClick={() => {}} />
 
     return (
       <div className={classes.tab}>

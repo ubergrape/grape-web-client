@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import { IconButton } from '../../buttons'
 import styles from './../styles/EmptyOrgStyles'
 
-const EmptyOrgUsers = ({ classes, onClick }) => (
+const EmptyOrgGroups = ({ classes, onClick }) => (
   <div>
     <h3 className={classes.title}>You are the first!</h3>
     <p className={classes.text}>
@@ -24,4 +25,9 @@ const EmptyOrgUsers = ({ classes, onClick }) => (
   </div>
 )
 
-export default injectSheet(styles)(EmptyOrgUsers)
+EmptyOrgGroups.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+}
+
+export default injectSheet(styles)(EmptyOrgGroups)

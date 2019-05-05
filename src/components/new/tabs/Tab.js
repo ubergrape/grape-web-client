@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 
 import styles from './styles/TabStyles'
 
 class Tab extends Component {
+  static propTypes = {
+    tab: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    isCurrentTab: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
+    handleClick: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }
+
   componentDidMount() {
     const { tab, isCurrentTab } = this.props
     if (isCurrentTab) tab.onLoad()
