@@ -113,7 +113,10 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
     filterUsers,
     isMembersNotLoaded,
     isMemberOfEachChannel,
+    isUsersLoaded,
   } = newConversationSelector(getState())
+
+  if (!isUsersLoaded) return null
 
   if (!users.length) dispatch(flipUsersLoadingStatus(false))
 
@@ -132,6 +135,7 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadUsersMembers())
+        return
       }
 
       if (page === 1 && results.length) {
@@ -191,7 +195,10 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
     filterGroups,
     isMembersNotLoaded,
     isMemberOfEachChannel,
+    isGroupsLoaded,
   } = newConversationSelector(getState())
+
+  if (!isGroupsLoaded) return null
 
   if (!groups.length) dispatch(flipGroupsLoadingStatus(false))
 
