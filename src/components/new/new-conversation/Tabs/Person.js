@@ -60,7 +60,7 @@ class Person extends Component {
             </h3>
             <p className={classes.text}>
               All your coworkers are already chatting with you. Keep in touch
-              with them.
+              them.
             </p>
           </div>
         )}

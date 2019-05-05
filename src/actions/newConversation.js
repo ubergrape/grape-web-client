@@ -113,10 +113,7 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
     filterUsers,
     isMembersNotLoaded,
     isMemberOfEachChannel,
-    isUsersLoaded,
   } = newConversationSelector(getState())
-
-  if (!isUsersLoaded) return null
 
   if (!users.length) dispatch(flipUsersLoadingStatus(false))
 
@@ -195,10 +192,7 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
     filterGroups,
     isMembersNotLoaded,
     isMemberOfEachChannel,
-    isGroupsLoaded,
   } = newConversationSelector(getState())
-
-  if (!isGroupsLoaded) return null
 
   if (!groups.length) dispatch(flipGroupsLoadingStatus(false))
 
