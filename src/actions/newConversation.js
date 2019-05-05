@@ -127,12 +127,14 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
       membership: false,
     })
     .then(({ results }) => {
-      if (!results.length || results.length < 50) {
+      const { filterUsers: filter } = newConversationSelector(getState())
+      if (filter !== filterUsers) return
+
+      if (results.length < 50) {
         if (page === 1 && !filterUsers)
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadUsersMembers())
-        return
       }
 
       if (page === 1 && results.length) {
@@ -206,12 +208,14 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
       membership: false,
     })
     .then(({ results }) => {
-      if (!results.length) {
+      const { filterGroups: filter } = newConversationSelector(getState())
+      if (filter !== filterGroups) return
+
+      if (results.length < 50) {
         if (page === 1 && !filterGroups)
           dispatch({ type: types.HANDLE_MEMBER_OF_EACH_NEW_CONVERSATION })
         dispatch({ type: types.FLIP_TO_MEMBERSHIP_NEW_CONVERSATION })
         dispatch(loadGroupsMembers())
-        return
       }
 
       if (page === 1 && results.length) {

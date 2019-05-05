@@ -1,3 +1,4 @@
+import uniqBy from 'lodash/uniqBy'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
@@ -84,13 +85,17 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_USERS_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        users: [...state.users, ...payload],
+        users: uniqBy([...state.users, ...payload], user =>
+          [user.id, user.text].join(),
+        ),
         page: state.page + 1,
       }
     case types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        groups: [...state.groups, ...payload],
+        groups: uniqBy([...state.users, ...payload], group =>
+          [group.id, group.text].join(),
+        ),
         page: state.page + 1,
       }
     default:
