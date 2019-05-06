@@ -18,7 +18,6 @@ const styles = {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    overflow: 'hidden',
     // avoid width recalculations in the sidebar that lead to a broken layout with overlaps
     minWidth: navigationWidth + sidebarWidth,
   },
