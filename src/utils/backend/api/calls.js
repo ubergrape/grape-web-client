@@ -1,11 +1,11 @@
 import rpc from '../rpc'
 
-export const rejectCall = (channelId, callerId) =>
+export const call = channelId =>
   rpc(
     {
       ns: 'calls',
       action: 'call',
-      args: [{ channelId, callerId }],
+      args: [{ channelId }],
     },
     { camelize: true },
   )

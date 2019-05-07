@@ -100,6 +100,7 @@ function Items(props) {
     colors,
     orgFeatures,
     showVideoConferenceWarning,
+    initiateCall,
   } = props
 
   return (
@@ -124,15 +125,17 @@ function Items(props) {
           />
         )}
       </li>
-      {orgFeatures && orgFeatures.videoconference && (
-        <li className={classes.videoConference}>
-          <VideoConferenceButton
-            channel={channel}
-            colors={colors}
-            showVideoConferenceWarning={showVideoConferenceWarning}
-          />
-        </li>
-      )}
+      {orgFeatures &&
+        orgFeatures.videoconference && (
+          <li className={classes.videoConference}>
+            <VideoConferenceButton
+              channel={channel}
+              colors={colors}
+              initiateCall={initiateCall}
+              showVideoConferenceWarning={showVideoConferenceWarning}
+            />
+          </li>
+        )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>
@@ -192,6 +195,7 @@ Items.propTypes = {
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
+  initiateCall: PropTypes.func.isRequired,
   orgFeatures: PropTypes.object,
 }
 

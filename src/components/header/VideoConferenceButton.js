@@ -44,9 +44,13 @@ const isSupportedBrowser =
     navigator.userAgent.includes('Chrome')) &&
   !navigator.userAgent.includes('Edge')
 
-function VideoConferenceButton(props) {
-  const onClick = () => {
+const VideoConferenceButton = props => {
+  const showVideoConferenceWarning = () => {
     props.showVideoConferenceWarning()
+  }
+
+  const initiateCall = () => {
+    props.initiateCall(props.channel.id)
   }
 
   return isSupportedBrowser ? (
@@ -54,6 +58,7 @@ function VideoConferenceButton(props) {
       <a
         href={props.channel.videoconferenceUrl}
         target="_blank"
+        onClick={initiateCall}
         rel="noopener noreferrer"
         className={props.classes.button}
       >
@@ -62,7 +67,10 @@ function VideoConferenceButton(props) {
     </Tooltip>
   ) : (
     <Tooltip message={tooltipText}>
-      <button onClick={onClick} className={props.classes.button}>
+      <button
+        onClick={showVideoConferenceWarning}
+        className={props.classes.button}
+      >
         <Icon name="camera" className={props.classes.camera} />
       </button>
     </Tooltip>
@@ -70,9 +78,10 @@ function VideoConferenceButton(props) {
 }
 
 VideoConferenceButton.propTypes = {
+  classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  initiateCall: PropTypes.func.isRequired,
 }
 
 export default injectSheet(styles)(VideoConferenceButton)
