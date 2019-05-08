@@ -41,7 +41,7 @@ export default class Menu extends PureComponent {
     if (
       user.role >= conf.constants.roles.ROLE_ADMIN ||
       channel.creator === user.id ||
-      permissions.deleteAnyMessage
+      permissions.canDeleteAnyMessage
     ) {
       items.push('remove')
     }

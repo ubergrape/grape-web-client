@@ -64,7 +64,7 @@ export default class Menu extends PureComponent {
     const items = []
 
     if (isOwn && !isLinkAttachments) items.push('edit')
-    if (isOwn || permissions.deleteAnyMessage) items.push('remove')
+    if (isOwn || permissions.canDeleteAnyMessage) items.push('remove')
     items.push('copyLink')
     if (!isLinkAttachments) items.push('quote', 'pin')
 
