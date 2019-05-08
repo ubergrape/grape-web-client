@@ -9,7 +9,7 @@ export default function reduce(state = initialState, action) {
   const { payload } = action
   switch (action.type) {
     case types.HANDLE_CHANNEL_MEMBERS:
-      return { ...state, users: payload.users }
+      return { ...state, users: payload.users, isEveryMemberLoaded: false }
     case types.HANDLE_EVERY_MEMBER_LOADED:
       return { ...state, isEveryMemberLoaded: true }
     case types.ADD_USER_TO_CHANNEL: {

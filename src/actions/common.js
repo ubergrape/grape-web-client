@@ -157,19 +157,22 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   dispatch(hideBrowser())
 
-  api.getChannel(channel.id).then(({ permissions, videoconferenceUrl }) => {
-    dispatch({
-      type: types.SET_CHANNEL,
-      payload: {
-        channel: {
-          ...normalizeChannelData(channel),
-          permissions,
-          videoconferenceUrl,
+  api
+    .getChannel(channel.id)
+    .then(({ permissions, videoconferenceUrl, grapecallUrl }) => {
+      dispatch({
+        type: types.SET_CHANNEL,
+        payload: {
+          channel: {
+            ...normalizeChannelData(channel),
+            permissions,
+            // videoconferenceUrl is the old one and will be depcrecated longterm
+            videoconferenceUrl: grapecallUrl || videoconferenceUrl,
+          },
+          messageId,
         },
-        messageId,
-      },
+      })
     })
-  })
 }
 
 export const handleBadChannel = alertType => dispatch => {

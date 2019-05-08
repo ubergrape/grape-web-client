@@ -20,6 +20,10 @@ export default {
   online: {
     background: '#6cb500',
   },
+  reachable: {
+    // currently the same color as offline and will be fixed in the new design
+    background: '#fc6e51',
+  },
   offline: {
     background: '#fc6e51',
   },

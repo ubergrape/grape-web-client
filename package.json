@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "1.26.0-unicorn",
+  "version": "1.27.0-unicorn",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -46,9 +46,9 @@
     "prop-types": "^15.5.10",
     "random-js": "^1.0.8",
     "raven-js": "^3.22.1",
-    "react": "^16.7.0",
+    "react": "^16.8.6",
     "react-addons-shallow-compare": "^15.6.0",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.8.6",
     "react-dropzone": "^4.2.7",
     "react-finite-list": "^1.0.10",
     "react-intl": "^2.4.0",
