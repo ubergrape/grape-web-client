@@ -25,6 +25,8 @@ export default {
   "privateMessageHint": "(Private message)",
   "groupInviteNotificationTitle": "{name} invited you to the group {group}",
   "groupInviteNotificationContent": "{name} (Group Invite)",
+  "grapeCallGroupInvitationContent": "{callInitator} started a Grape Call in this group.",
+  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
@@ -92,6 +94,7 @@ export default {
   "noChannelsToChatIn": "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
   "joinGroup": "Join a group",
   "startNewConversation": "Start a new conversation",
+  "incomingCall": "Incoming Call",
   "introHlWelcome": "Welcome",
   "introTextWelcome": "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.",
   "introHlSearchBrowser": "Find your team data",
@@ -247,7 +250,5 @@ export default {
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "chromeOrFirefox": "Chrome or Firefox",
-  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
-  "grapeCallGroupInvitationContent": "{callInitator} started a Grape Call in this group."
+  "chromeOrFirefox": "Chrome or Firefox"
 }

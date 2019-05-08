@@ -442,5 +442,6 @@
   "chromeOrFirefox": "Chrome oder Firefox",
   "grapeCallPmInvitationContent": "Lädt sie zu einem Grape Call ein …",
   "grapeCallGroupInvitationContent":
-    "{callInitator} hat einen Grape Call in der Gruppe gestartet."
+    "{callInitator} hat einen Grape Call in der Gruppe gestartet.",
+  "incomingCall": "Eingehender Anruf"
 }

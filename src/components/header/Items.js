@@ -100,7 +100,6 @@ function Items(props) {
     colors,
     orgFeatures,
     showVideoConferenceWarning,
-    initiateCall,
   } = props
 
   return (
@@ -131,7 +130,6 @@ function Items(props) {
             <VideoConferenceButton
               channel={channel}
               colors={colors}
-              initiateCall={initiateCall}
               showVideoConferenceWarning={showVideoConferenceWarning}
             />
           </li>
@@ -195,7 +193,6 @@ Items.propTypes = {
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
-  initiateCall: PropTypes.func.isRequired,
   orgFeatures: PropTypes.object,
 }
 

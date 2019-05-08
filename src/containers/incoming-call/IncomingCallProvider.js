@@ -3,24 +3,23 @@ import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { alertsAndChannelSelector as selector } from '../../selectors'
-import Alerts from '../../components/alerts/Alerts'
+import { incomingCallSelector as selector } from '../../selectors'
+import { IncomingCall } from '../../components/incoming-call'
 
 const actionNames = [
-  'enableNotifications',
-  'onReconnect',
-  'hideAlert',
-  'clearAlertDelay',
-  'updateReconnectTimer',
+  'updateCallTimer',
+  'closeIncomingCall',
+  'rejectIncomingCall',
+  'joinIncomingCall',
 ]
 
-const ConnectedAlerts = connect(
+const ConnectedIncomingCall = connect(
   selector,
   mapActionsToProps(actionNames),
-)(Alerts)
+)(IncomingCall)
 
 export default () => (
   <Provider store={getStore()}>
-    <ConnectedAlerts />
+    <ConnectedIncomingCall />
   </Provider>
 )

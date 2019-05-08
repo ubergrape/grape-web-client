@@ -249,5 +249,6 @@ export default {
   "altenativeBrowser": "Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden.",
   "chromeOrFirefox": "Chrome oder Firefox",
   "grapeCallPmInvitationContent": "Lädt sie zu einem Grape Call ein …",
-  "grapeCallGroupInvitationContent": "{callInitator} hat einen Grape Call in der Gruppe gestartet."
+  "grapeCallGroupInvitationContent": "{callInitator} hat einen Grape Call in der Gruppe gestartet.",
+  "incomingCall": "Eingehender Anruf"
 }

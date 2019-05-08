@@ -49,16 +49,11 @@ const VideoConferenceButton = props => {
     props.showVideoConferenceWarning()
   }
 
-  const initiateCall = () => {
-    props.initiateCall(props.channel.id)
-  }
-
   return isSupportedBrowser ? (
     <Tooltip message={tooltipText}>
       <a
         href={props.channel.videoconferenceUrl}
         target="_blank"
-        onClick={initiateCall}
         rel="noopener noreferrer"
         className={props.classes.button}
       >
@@ -81,7 +76,6 @@ VideoConferenceButton.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
-  initiateCall: PropTypes.func.isRequired,
 }
 
 export default injectSheet(styles)(VideoConferenceButton)

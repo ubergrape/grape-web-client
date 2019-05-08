@@ -12,7 +12,7 @@ export const setTimer = backoff => dispatch => {
   })
 }
 
-export const updateTimer = () => dispatch => {
+export const updateReconnectTimer = () => dispatch => {
   dispatch({
     type: types.UPDATE_TIMER,
   })

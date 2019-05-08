@@ -14,7 +14,6 @@ const actionNames = [
   'requestRemoveChannelFromFavorites',
   'updateMessageSearchQuery',
   'showVideoConferenceWarning',
-  'initiateCall',
 ]
 
 const ConnectedHeader = connect(

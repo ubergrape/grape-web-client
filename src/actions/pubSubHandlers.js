@@ -309,3 +309,8 @@ export function handleFavoriteChange({ changed }) {
     payload: changed.map(pinToFavorite),
   }
 }
+
+export const handleIncomingCall = payload => ({
+  type: types.HANDLE_INCOMING_CALL,
+  payload,
+})

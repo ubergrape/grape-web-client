@@ -123,6 +123,9 @@ export default function subscribe(channel) {
       case 'pins.changed':
         boundActions.handleFavoriteChange(cData)
         break
+      case 'call.incoming':
+        boundActions.handleIncomingCall(cData)
+        break
       default:
     }
   })
