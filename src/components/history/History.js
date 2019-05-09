@@ -164,6 +164,7 @@ class History extends PureComponent {
       {...this.state.rows[index]}
       key={key}
       style={style}
+      permissions={this.props.permissions}
       onToggleExpander={this.onToggleExpander}
     />
   )

@@ -71,6 +71,7 @@ export default class Row extends PureComponent {
     selectedMessageId: PropTypes.string,
     onRemoveLinkAttachment: PropTypes.func.isRequired,
     onPin: PropTypes.func.isRequired,
+    permissions: PropTypes.object.isRequired,
     onUnpin: PropTypes.func.isRequired,
   }
 
@@ -146,6 +147,7 @@ export default class Row extends PureComponent {
       style,
       key,
       colors,
+      permissions,
       onRemoveLinkAttachment,
       channel,
     } = this.props
@@ -173,6 +175,7 @@ export default class Row extends PureComponent {
       onOpenPm,
       onToggleExpander,
       customEmojis,
+      permissions,
       duplicates: duplicates.length,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
