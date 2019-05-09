@@ -250,5 +250,9 @@ export default {
   "chromeOrFirefox": "Chrome oder Firefox",
   "grapeCallPmInvitationContent": "Lädt sie zu einem Grape Call ein …",
   "grapeCallGroupInvitationContent": "{callInitator} hat einen Grape Call in der Gruppe gestartet.",
-  "incomingCall": "Eingehender Anruf"
+  "unsuportedBrowserIncomingCall": "Leider unterstützt dieser Browser keine Videokonferenz",
+  "replyWithMessage": "Mit einer Nachricht antworten",
+  "unsupportedBrowserShort": "Der Browser, den Sie im Moment verwenden, unterstützt leider keine Videokonferenz mit Grape Call.",
+  "pleaseUseDesktopApp": "Bitte benutzen Sie stattdessen unsere {desktopApp} ({download}, falls Sie sie noch nicht installiert haben). Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden.",
+  "download": "Download"
 }

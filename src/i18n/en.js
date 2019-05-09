@@ -250,5 +250,10 @@ export default {
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "chromeOrFirefox": "Chrome or Firefox"
+  "chromeOrFirefox": "Chrome or Firefox",
+  "unsuportedBrowserIncomingCall": "Sorry, video conferencing isn’t supported in this browser",
+  "replyWithMessage": "Reply with a message",
+  "unsupportedBrowserShort": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call.",
+  "pleaseUseDesktopApp": "Please use our {desktopApp} instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "download": "download"
 }

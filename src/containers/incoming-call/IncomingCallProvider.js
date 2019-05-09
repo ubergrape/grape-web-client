@@ -11,6 +11,7 @@ const actionNames = [
   'closeIncomingCall',
   'rejectIncomingCall',
   'joinIncomingCall',
+  'replyWithMessage',
 ]
 
 const ConnectedIncomingCall = connect(

@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import { error } from './'
+import { goToChannel, error } from './'
 
 export const updateCallTimer = () => ({
   type: types.UPDATE_INCOMING_CALL_TIMER,
@@ -39,6 +39,18 @@ export const joinIncomingCall = ({
       window.open(url, 'grape')
       dispatch({
         type: types.JOIN_INCOMING_CALL,
+      })
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+export const replyWithMessage = channelId => dispatch => {
+  api
+    .cancelCall(channelId)
+    .then(() => {
+      dispatch(goToChannel(channelId))
+      dispatch({
+        type: types.CLOSE_INCOMING_CALL,
       })
     })
     .catch(err => dispatch(error(err)))

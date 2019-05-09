@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
+import isChromeOrFirefox from '../../utils/is-chrome-or-firefox'
 
 const tooltipText = (
   <FormattedMessage
@@ -39,17 +41,12 @@ export const styles = ({ palette }) => ({
   },
 })
 
-const isSupportedBrowser =
-  (navigator.userAgent.includes('Firefox') ||
-    navigator.userAgent.includes('Chrome')) &&
-  !navigator.userAgent.includes('Edge')
-
 const VideoConferenceButton = props => {
   const showVideoConferenceWarning = () => {
     props.showVideoConferenceWarning()
   }
 
-  return isSupportedBrowser ? (
+  return isChromeOrFirefox ? (
     <Tooltip message={tooltipText}>
       <a
         href={props.channel.videoconferenceUrl}
