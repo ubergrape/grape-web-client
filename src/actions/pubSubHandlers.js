@@ -314,3 +314,8 @@ export const handleIncomingCall = payload => ({
   type: types.HANDLE_INCOMING_CALL,
   payload,
 })
+
+export const handleMissedCall = payload => ({
+  type: types.HANDLE_MISSED_CALL,
+  payload,
+})

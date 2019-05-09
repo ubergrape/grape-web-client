@@ -21,6 +21,7 @@ export default (state = initialState, action) => {
     case types.CLOSE_INCOMING_CALL:
     case types.JOIN_INCOMING_CALL:
     case types.REJECT_INCOMING_CALL:
+    case types.HANDLE_MISSED_CALL:
       return {
         ...state,
         openTime: 0,
