@@ -70,6 +70,7 @@ export default class WampClient {
     this.socket.off()
     this.socket.close(3001)
     this.reopen()
+    this.out.emit('set:reconnecting:state')
   }
 
   reopen() {
