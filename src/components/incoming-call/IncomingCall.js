@@ -84,7 +84,7 @@ class IncomingCall extends PureComponent {
           </div>
           <div className={classes.name}>{authorDisplayName}</div>
           <div className={classes.incoming}>{message}</div>
-          {isChromeOrFirefox ? (
+          {!isChromeOrFirefox ? (
             <div>
               <span className={classes.unsupported}>
                 <FormattedMessage
