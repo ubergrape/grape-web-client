@@ -315,7 +315,10 @@ export const handleIncomingCall = payload => ({
   payload,
 })
 
-export const handleMissedCall = payload => ({
-  type: types.HANDLE_MISSED_CALL,
-  payload,
+export const handleMissedCall = () => ({
+  type: types.CLOSE_INCOMING_CALL,
+})
+
+export const handleHungUpCall = () => ({
+  type: types.CLOSE_INCOMING_CALL,
 })

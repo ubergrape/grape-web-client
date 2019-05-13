@@ -8,8 +8,6 @@ import { incomingCallSelector as selector } from '../../selectors'
 import { IncomingCall } from '../../components/incoming-call'
 
 const actionNames = [
-  'updateCallTimer',
-  'closeIncomingCall',
   'rejectIncomingCall',
   'joinIncomingCall',
   'replyWithMessage',
@@ -17,6 +15,7 @@ const actionNames = [
 
 const styles = {
   wrapper: {
+    display: 'block',
     fontFamily: "nota-sans, 'Helvetica Neue', Arial, Helvetica, sans-serif",
   },
 }

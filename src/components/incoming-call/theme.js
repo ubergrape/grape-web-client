@@ -40,7 +40,7 @@ export default () => ({
     position: 'absolute',
   },
   avatar: {
-    margin: '40px auto',
+    margin: '50px auto 30px',
     display: 'block',
     position: 'relative',
   },
@@ -86,8 +86,8 @@ export default () => ({
     lineHeight: '31px',
     color: '#FFF',
   },
-  incoming: {
-    marginTop: 10,
+  description: {
+    marginTop: 5,
     display: 'block',
     textAlign: 'center',
     fontSize: 15,
@@ -96,7 +96,7 @@ export default () => ({
     color: '#FFF',
   },
   buttons: {
-    marginTop: 60,
+    marginTop: 65,
     marginBottom: 40,
     position: 'relative',
     display: 'flex',

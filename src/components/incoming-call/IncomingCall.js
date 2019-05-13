@@ -8,36 +8,14 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import isChromeOrFirefox from '../../utils/is-chrome-or-firefox'
 import styles from './theme'
 
-const incomingCallTimeout = 30
-
 class IncomingCall extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     incoming: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    timer: PropTypes.number.isRequired,
-    openTime: PropTypes.number.isRequired,
-    updateCallTimer: PropTypes.func.isRequired,
-    closeIncomingCall: PropTypes.func.isRequired,
     joinIncomingCall: PropTypes.func.isRequired,
     rejectIncomingCall: PropTypes.func.isRequired,
     replyWithMessage: PropTypes.func.isRequired,
-  }
-
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      this.props.updateCallTimer()
-    }, 1000)
-  }
-
-  componentDidUpdate() {
-    const { timer, openTime, closeIncomingCall, show, incoming } = this.props
-    if (show && timer >= openTime + incomingCallTimeout)
-      closeIncomingCall(incoming.channelId)
-  }
-
-  componentWillUnmount() {
-    window.clearInterval(this.timer)
   }
 
   onJoin = () => {
@@ -83,7 +61,7 @@ class IncomingCall extends PureComponent {
             />
           </div>
           <div className={classes.name}>{authorDisplayName}</div>
-          <div className={classes.incoming}>{message}</div>
+          <div className={classes.description}>{message}</div>
           {!isChromeOrFirefox ? (
             <div>
               <span className={classes.unsupported}>

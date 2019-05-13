@@ -126,6 +126,9 @@ export default function subscribe(channel) {
       case 'call.incoming':
         boundActions.handleIncomingCall(cData)
         break
+      case 'call.hungup':
+        boundActions.handleHungUpCall(cData)
+        break
       case 'call.missed':
         boundActions.handleMissedCall(cData)
         break
