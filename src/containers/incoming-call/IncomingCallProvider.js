@@ -1,5 +1,6 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
+import injectSheet from 'grape-web/lib/jss'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
@@ -14,13 +15,23 @@ const actionNames = [
   'replyWithMessage',
 ]
 
+const styles = {
+  wrapper: {
+    fontFamily: "nota-sans, 'Helvetica Neue', Arial, Helvetica, sans-serif",
+  },
+}
+
 const ConnectedIncomingCall = connect(
   selector,
   mapActionsToProps(actionNames),
 )(IncomingCall)
 
-export default () => (
-  <Provider store={getStore()}>
-    <ConnectedIncomingCall />
-  </Provider>
+const Wrapper = ({ classes }) => (
+  <div className={classes.wrapper}>
+    <Provider store={getStore()}>
+      <ConnectedIncomingCall />
+    </Provider>
+  </div>
 )
+
+export default injectSheet(styles)(Wrapper)
