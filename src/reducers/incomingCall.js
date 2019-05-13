@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
     case types.CLOSE_INCOMING_CALL:
       return {
         ...state,
-        openTime: 0,
         incoming: {},
         show: false,
       }
