@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -11,7 +11,7 @@ const actionNames = [
   'onReconnect',
   'hideAlert',
   'clearAlertDelay',
-  'updateTimer',
+  'updateReconnectTimer',
 ]
 
 const ConnectedAlerts = connect(
@@ -19,12 +19,8 @@ const ConnectedAlerts = connect(
   mapActionsToProps(actionNames),
 )(Alerts)
 
-export default class AlertsProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedAlerts />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedAlerts />
+  </Provider>
+)

@@ -768,3 +768,8 @@ export const videoConferenceWarningComponentSelector = createSelector(
     videoconferenceUrl,
   }),
 )
+
+export const incomingCallSelector = createSelector(
+  state => state.incomingCall,
+  state => state,
+)

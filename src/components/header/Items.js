@@ -124,15 +124,16 @@ function Items(props) {
           />
         )}
       </li>
-      {orgFeatures && orgFeatures.videoconference && (
-        <li className={classes.videoConference}>
-          <VideoConferenceButton
-            channel={channel}
-            colors={colors}
-            showVideoConferenceWarning={showVideoConferenceWarning}
-          />
-        </li>
-      )}
+      {orgFeatures &&
+        orgFeatures.videoconference && (
+          <li className={classes.videoConference}>
+            <VideoConferenceButton
+              channel={channel}
+              colors={colors}
+              showVideoConferenceWarning={showVideoConferenceWarning}
+            />
+          </li>
+        )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>

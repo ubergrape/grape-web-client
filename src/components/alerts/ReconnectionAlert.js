@@ -20,19 +20,19 @@ export default class ReconnectionAlert extends PureComponent {
     classes: PropTypes.object.isRequired,
     reconnect: PropTypes.object.isRequired,
     onReconnect: PropTypes.func,
-    updateTimer: PropTypes.func,
+    updateReconnectTimer: PropTypes.func,
     buttonClass: PropTypes.string,
   }
 
   static defaultProps = {
     onReconnect: noop,
-    updateTimer: noop,
+    updateReconnectTimer: noop,
     buttonClass: undefined,
   }
 
   componentDidMount = () => {
     this.timer = setInterval(() => {
-      this.props.updateTimer()
+      this.props.updateReconnectTimer()
     }, 1000)
   }
 

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -21,12 +21,8 @@ const ConnectedHeader = connect(
   mapActionsToProps(actionNames),
 )(Header)
 
-export default class HeaderProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedHeader />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedHeader />
+  </Provider>
+)

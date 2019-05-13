@@ -25,6 +25,13 @@
   "groupInviteNotificationContent": "{name} (Group Invite)",
   "_groupInviteNotificationContent.comment":
     "Browser notification group invite content.",
+  "grapeCallGroupInvitationContent":
+    "{callInitator} started a Grape Call in this group.",
+  "_grapeCallGroupInvitationContent.comment":
+    "Browser notification group grape call.",
+  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
+  "_grapeCallPmInvitationContent.comment":
+    "Browser notification pm grape call.",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
@@ -122,6 +129,7 @@
     "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
   "joinGroup": "Join a group",
   "startNewConversation": "Start a new conversation",
+  "incomingCall": "Incoming Call",
   "introHlWelcome": "Welcome",
   "_introHlWelcome.comment": "Intro welcome hl.",
   "introTextWelcome":
@@ -426,7 +434,12 @@
   "altenativeBrowser":
     "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
   "chromeOrFirefox": "Chrome or Firefox",
-  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
-  "grapeCallGroupInvitationContent":
-    "{callInitator} started a Grape Call in this group."
+  "unsuportedBrowserIncomingCall":
+    "Sorry, video conferencing isn’t supported in this browser",
+  "replyWithMessage": "Reply with a message",
+  "unsupportedBrowserShort":
+    "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call.",
+  "pleaseUseDesktopApp":
+    "Please use our {desktopApp} instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "download": "download"
 }

@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
+
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
+import isChromeOrFirefox from '../../utils/is-chrome-or-firefox'
 
 const tooltipText = (
   <FormattedMessage
@@ -39,17 +41,12 @@ export const styles = ({ palette }) => ({
   },
 })
 
-const isSupportedBrowser =
-  (navigator.userAgent.includes('Firefox') ||
-    navigator.userAgent.includes('Chrome')) &&
-  !navigator.userAgent.includes('Edge')
-
-function VideoConferenceButton(props) {
-  const onClick = () => {
+const VideoConferenceButton = props => {
+  const showVideoConferenceWarning = () => {
     props.showVideoConferenceWarning()
   }
 
-  return isSupportedBrowser ? (
+  return isChromeOrFirefox ? (
     <Tooltip message={tooltipText}>
       <a
         href={props.channel.videoconferenceUrl}
@@ -62,7 +59,10 @@ function VideoConferenceButton(props) {
     </Tooltip>
   ) : (
     <Tooltip message={tooltipText}>
-      <button onClick={onClick} className={props.classes.button}>
+      <button
+        onClick={showVideoConferenceWarning}
+        className={props.classes.button}
+      >
         <Icon name="camera" className={props.classes.camera} />
       </button>
     </Tooltip>
@@ -70,9 +70,9 @@ function VideoConferenceButton(props) {
 }
 
 VideoConferenceButton.propTypes = {
+  classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
 }
 
 export default injectSheet(styles)(VideoConferenceButton)

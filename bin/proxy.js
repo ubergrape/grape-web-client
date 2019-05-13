@@ -107,18 +107,24 @@ function onRequest(ctx, callback) {
   ctx.use(Proxy.gunzip)
 
   // Find requests we want to rewrite.
+  // eslint-disable-next-line prefer-destructuring
   const host = ctx.clientToProxyRequest.headers.host
+  // eslint-disable-next-line prefer-destructuring
   const url = ctx.clientToProxyRequest.url
   let file
 
-  if (/((staging|dev[0-9]+)\.chatgrape\.com|ug-cdn\.com)$/.test(host)) {
+  if (
+    /((staging|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com)$/.test(host)
+  ) {
     const match = url.match(/\/static\/app\/(.*)/)
+    // eslint-disable-next-line prefer-destructuring
     if (match) file = match[1]
   }
 
   // We use unpkg cdn for the embedded chat demo for e.g.
   if (host === 'unpkg.com' && /grape-web-client/.test(url)) {
     const match = url.match(/\/dist\/app\/(.*)/)
+    // eslint-disable-next-line prefer-destructuring
     if (match) file = match[1]
   }
 
