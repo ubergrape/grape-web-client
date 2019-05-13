@@ -138,4 +138,10 @@ export default function subscribe(channel) {
   channel.on('set:timer', backoff => {
     boundActions.setTimer(parseInt(backoff / 1000, 10))
   })
+
+  channel.on('set:reconnecting:state', () => {
+    setTimeout(() => {
+      boundActions.handleReconnecting(false)
+    }, 1000)
+  })
 }

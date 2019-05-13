@@ -47,6 +47,7 @@ export default class ReconnectionAlert extends PureComponent {
 
   render() {
     const { classes, buttonClass, reconnect } = this.props
+    const { backoff, reconnecting } = reconnect
 
     return (
       <div className={classes.reconnectionAlert}>
@@ -55,14 +56,14 @@ export default class ReconnectionAlert extends PureComponent {
           defaultMessage="We're having trouble connecting to Grape."
         />
         &nbsp;
-        {reconnect.backoff > 0 ? (
+        {backoff > 0 && !reconnecting ? (
           <span>
             <FormattedMessage
               id="tryToReconnect"
               defaultMessage="We'll try to reconnect in"
             />
             &nbsp;
-            {reconnect.backoff}{' '}
+            {backoff}{' '}
             <FormattedMessage
               id="reconnectSeconds"
               defaultMessage="s, or you can"
