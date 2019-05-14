@@ -310,10 +310,17 @@ export function handleFavoriteChange({ changed }) {
   }
 }
 
-export const handleIncomingCall = payload => ({
-  type: types.HANDLE_INCOMING_CALL,
-  payload,
-})
+export const handleIncomingCall = payload => (dispatch, getState) => {
+  const { authorId } = payload
+  const currUser = userSelector(getState())
+
+  if (currUser.id !== authorId) {
+    dispatch({
+      type: types.HANDLE_INCOMING_CALL,
+      payload,
+    })
+  }
+}
 
 export const handleMissedCall = () => ({
   type: types.CLOSE_INCOMING_CALL,
