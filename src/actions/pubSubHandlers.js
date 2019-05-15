@@ -323,13 +323,19 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
   }
 }
 
-export const handleMissedCall = () => ({
-  type: types.CLOSE_INCOMING_CALL,
-})
+export const handleMissedCall = () => dispatch => {
+  dispatch(endSound())
+  dispatch({
+    type: types.CLOSE_INCOMING_CALL,
+  })
+}
 
-export const handleHungUpCall = () => ({
-  type: types.CLOSE_INCOMING_CALL,
-})
+export const handleHungUpCall = () => dispatch => {
+  dispatch(endSound())
+  dispatch({
+    type: types.CLOSE_INCOMING_CALL,
+  })
+}
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
   const { authorId } = payload
