@@ -17,12 +17,10 @@ export const rejectIncomingCall = (channelId, callerId) => dispatch => {
 export const joinIncomingCall = ({
   channelId,
   authorId: callerId,
-  url,
 }) => dispatch => {
   api
     .joinCall(channelId, callerId)
     .then(() => {
-      window.open(url, 'grape')
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })

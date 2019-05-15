@@ -21,9 +21,9 @@ class IncomingCall extends PureComponent {
   onJoin = () => {
     const {
       joinIncomingCall,
-      incoming: { channelId, authorId, url },
+      incoming: { channelId, authorId },
     } = this.props
-    joinIncomingCall({ channelId, authorId, url })
+    joinIncomingCall({ channelId, authorId })
   }
 
   onReject = () => {
@@ -44,7 +44,7 @@ class IncomingCall extends PureComponent {
 
   render() {
     const { show, classes, incoming } = this.props
-    const { message, authorAvatarUrl, authorDisplayName } = incoming
+    const { message, authorAvatarUrl, authorDisplayName, url } = incoming
 
     if (!show) return null
 
@@ -139,12 +139,15 @@ class IncomingCall extends PureComponent {
               >
                 <Icon className={classes.missedIcon} name="callMissed" />
               </button>
-              <button
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={this.onJoin}
                 className={cn(classes.button, classes.accept)}
               >
                 <Icon className={classes.ongoingIcon} name="callOngoing" />
-              </button>
+              </a>
             </div>
           )}
         </div>
