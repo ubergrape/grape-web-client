@@ -20,7 +20,7 @@ export default class Sounds extends PureComponent {
       messageIn: `${baseUrl}/message-in.mp3`,
       messageOut: `${baseUrl}/message-out.mp3`,
       mention: `${baseUrl}/mention.mp3`,
-      incomingCall: `http://localhost:8081/src/sounds/incoming-call.mp3`,
+      incomingCall: `${baseUrl}/incoming-call.mp3`,
     },
   }
 
