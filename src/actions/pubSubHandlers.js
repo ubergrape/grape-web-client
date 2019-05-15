@@ -23,9 +23,9 @@ import {
   addMention,
   removeMention,
   addNewChannel,
+  endSound,
   goToLastUsedChannel,
   showSidebar,
-  endSound,
   setIntialDataLoading,
 } from './'
 
@@ -335,4 +335,16 @@ export const handleHungUpCall = () => dispatch => {
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+}
+
+export const handleJoinedCall = payload => (dispatch, getState) => {
+  const { authorId } = payload
+  const currUser = userSelector(getState())
+
+  if (currUser.id !== authorId) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+  }
 }
