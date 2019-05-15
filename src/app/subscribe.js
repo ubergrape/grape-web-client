@@ -132,6 +132,9 @@ export default function subscribe(channel) {
       case 'call.missed':
         boundActions.handleMissedCall(cData)
         break
+      case 'call.joined':
+        boundActions.handleJoinedCall(cData)
+        break
       default:
     }
   })
