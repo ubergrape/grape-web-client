@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import { goToChannel, error } from './'
+import { goToChannel, endSound, error } from './'
 
 export const rejectIncomingCall = (channelId, callerId) => dispatch => {
   api
@@ -9,6 +9,7 @@ export const rejectIncomingCall = (channelId, callerId) => dispatch => {
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })
+      dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
 }
@@ -25,6 +26,7 @@ export const joinIncomingCall = ({
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })
+      dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
 }
@@ -37,6 +39,7 @@ export const replyWithMessage = channelId => dispatch => {
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })
+      dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
 }
