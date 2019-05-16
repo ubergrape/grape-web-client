@@ -21,17 +21,17 @@ class IncomingCall extends PureComponent {
   onJoin = () => {
     const {
       joinIncomingCall,
-      incoming: { channelId, authorId },
+      incoming: { channelId },
     } = this.props
-    joinIncomingCall({ channelId, authorId })
+    joinIncomingCall(channelId)
   }
 
   onReject = () => {
     const {
       rejectIncomingCall,
-      incoming: { channelId, authorId },
+      incoming: { channelId },
     } = this.props
-    rejectIncomingCall(channelId, authorId)
+    rejectIncomingCall(channelId)
   }
 
   replyWithMessage = () => {
