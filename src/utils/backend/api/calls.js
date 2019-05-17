@@ -10,22 +10,32 @@ export const cancelCall = channelId =>
     { camelize: true },
   )
 
-export const joinCall = (channelId, callerId) =>
+export const joinCall = channelId =>
   rpc(
     {
       ns: 'calls',
       action: 'join',
-      args: [{ channelId, callerId }],
+      args: [{ channelId }],
     },
     { camelize: true },
   )
 
-export const rejectCall = (channelId, callerId) =>
+export const hangUp = channelId =>
+  rpc(
+    {
+      ns: 'calls',
+      action: 'hangup',
+      args: [{ channelId }],
+    },
+    { camelize: true },
+  )
+
+export const rejectCall = channelId =>
   rpc(
     {
       ns: 'calls',
       action: 'reject',
-      args: [{ channelId, callerId }],
+      args: [{ channelId }],
     },
     { camelize: true },
   )

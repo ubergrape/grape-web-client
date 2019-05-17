@@ -1,8 +1,8 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
-import * as api from '../utils/backend/api'
 
+import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import {
   orgSelector,
@@ -335,11 +335,18 @@ export const handleHungUpCall = () => dispatch => {
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+  dispatch({
+    type: types.CLOSE_CALL_STATUS,
+  })
 }
 
-export const handleJoinedCall = () => dispatch => {
+export const handleJoinedCall = payload => dispatch => {
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
+  })
+  dispatch({
+    type: types.HANDLE_JOINED_CALL,
+    payload,
   })
 }
