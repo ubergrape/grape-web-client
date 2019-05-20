@@ -343,3 +343,10 @@ export const handleJoinedCall = () => dispatch => {
     type: types.CLOSE_INCOMING_CALL,
   })
 }
+
+export const handleRejectedCall = () => dispatch => {
+  dispatch(endSound())
+  dispatch({
+    type: types.CLOSE_INCOMING_CALL,
+  })
+}
