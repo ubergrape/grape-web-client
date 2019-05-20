@@ -350,3 +350,10 @@ export const handleJoinedCall = payload => dispatch => {
     payload,
   })
 }
+
+export const handleRejectedCall = () => dispatch => {
+  dispatch(endSound())
+  dispatch({
+    type: types.CLOSE_INCOMING_CALL,
+  })
+}

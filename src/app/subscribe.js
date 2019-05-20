@@ -135,6 +135,9 @@ export default function subscribe(channel) {
       case 'call.joined':
         boundActions.handleJoinedCall(cData)
         break
+      case 'call.rejected':
+        boundActions.handleRejectedCall(cData)
+        break
       default:
     }
   })
