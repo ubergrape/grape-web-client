@@ -340,15 +340,40 @@ export const handleHungUpCall = () => dispatch => {
   })
 }
 
-export const handleJoinedCall = payload => dispatch => {
+export const handleJoinedCall = payload => (dispatch, getState) => {
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
-  dispatch({
-    type: types.HANDLE_JOINED_CALL,
-    payload,
-  })
+
+  const user = userSelector(getState())
+  const { authorId, channelId } = payload
+
+  if (user.id !== authorId) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload,
+    })
+    return
+  }
+
+  const channels = channelsSelector(getState())
+  const channel = find(channels, { id: channelId })
+  const users = usersSelector(getState())
+
+  const callerId = channel.users.filter(id => id !== user.id)
+  const caller = find(users, { partner: { id: callerId[0] } })
+
+  if (caller) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload: {
+        ...payload,
+        authorDisplayName: caller.partner.displayName,
+        authorAvatarUrl: caller.partner.avatar,
+      },
+    })
+  }
 }
 
 export const handleRejectedCall = () => dispatch => {

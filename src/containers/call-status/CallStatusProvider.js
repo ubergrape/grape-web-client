@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { callStatusSelector as selector } from '../../selectors'
+import { callStatusComponentSelector as selector } from '../../selectors'
 import { CallStatus } from '../../components/call-status'
 
 const actionNames = ['updateCallStatusTimer', 'closeCallStatus']

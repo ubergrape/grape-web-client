@@ -16,9 +16,7 @@ const secondsToHms = s => ({
 class CallStatus extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    call: PropTypes.object.isRequired,
-    timer: PropTypes.number.isRequired,
-    show: PropTypes.bool.isRequired,
+    callStatus: PropTypes.object.isRequired,
     updateCallStatusTimer: PropTypes.func.isRequired,
     closeCallStatus: PropTypes.func.isRequired,
   }
@@ -36,18 +34,22 @@ class CallStatus extends PureComponent {
   onCancel = () => {
     const {
       closeCallStatus,
-      call: { channelId },
+      callStatus: { call },
     } = this.props
+    const { channelId } = call
 
     closeCallStatus(channelId)
   }
 
   render() {
-    const { show, classes, call, timer } = this.props
-    const { authorAvatarUrl, authorDisplayName } = call
+    const {
+      classes,
+      callStatus: { call, timer, show },
+    } = this.props
 
     if (!show) return null
 
+    const { authorAvatarUrl, authorDisplayName } = call
     const { minutes, seconds } = secondsToHms(timer)
 
     return (
