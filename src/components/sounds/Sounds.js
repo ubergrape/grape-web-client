@@ -26,9 +26,21 @@ export default class Sounds extends PureComponent {
 
   render() {
     const { sounds, active, loop, onEnded } = this.props
+
     if (!active) return null
 
-    // eslint-disable-next-line jsx-a11y/media-has-caption
-    return <audio src={sounds[active]} loop={loop} autoPlay onEnded={onEnded} />
+    return (
+      <iframe
+        src={sounds[active]}
+        allow="autoplay"
+        title="audio"
+        style={{ display: 'none' }}
+      >
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <audio autoPlay loop={loop} onEnded={onEnded}>
+          <source src={sounds[active]} type="audio/mp3" />
+        </audio>
+      </iframe>
+    )
   }
 }
