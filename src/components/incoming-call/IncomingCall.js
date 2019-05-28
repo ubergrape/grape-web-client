@@ -44,7 +44,12 @@ class IncomingCall extends PureComponent {
 
   render() {
     const { show, classes, incoming } = this.props
-    const { message, authorAvatarUrl, authorDisplayName, url } = incoming
+    const {
+      message,
+      authorAvatarUrl,
+      authorDisplayName,
+      grapecallUrl,
+    } = incoming
 
     if (!show) return null
 
@@ -140,7 +145,7 @@ class IncomingCall extends PureComponent {
                 <Icon className={classes.missedIcon} name="callMissed" />
               </button>
               <a
-                href={url}
+                href={grapecallUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={this.onJoin}
