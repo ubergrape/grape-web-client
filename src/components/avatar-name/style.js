@@ -1,9 +1,17 @@
 import { small } from 'grape-theme/dist/fonts'
+import sizes from 'grape-theme/dist/sizes'
 
 export default {
   avatarName: {
     display: 'flex',
     alignItems: 'center',
+  },
+  camera: {
+    margin: '0 5px',
+    flexShrink: 0,
+    width: sizes.icon.m,
+    height: sizes.icon.m,
+    color: '#548EE5',
   },
   avatar: {
     display: 'block',
