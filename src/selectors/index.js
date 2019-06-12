@@ -582,6 +582,7 @@ export const headerSelector = createSelector(
     userProfileSelector,
     joinedChannelsSelector,
     confSelector,
+    userSelector,
   ],
   (
     { permissions, features },
@@ -592,6 +593,7 @@ export const headerSelector = createSelector(
     partner,
     isMemberOfAnyRooms,
     { organization: { colors } },
+    user,
   ) => ({
     favorite,
     channel,
@@ -602,6 +604,7 @@ export const headerSelector = createSelector(
     isMemberOfAnyRooms,
     colors,
     orgFeatures: features,
+    user,
   }),
 )
 
