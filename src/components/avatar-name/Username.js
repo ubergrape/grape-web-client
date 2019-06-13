@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { white } from 'grape-theme/dist/base-colors'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
 
 import { defaultAvatar } from '../../constants/images'
@@ -30,7 +31,7 @@ export default class Username extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
+    theme: PropTypes.object,
     avatar: PropTypes.string,
     status: PropTypes.string,
     statusBorderColor: PropTypes.string,
@@ -73,6 +74,9 @@ export default class Username extends PureComponent {
           )}
         </Avatar>
         <span className={cn(classes.name, theme.classes.name)}>{name}</span>
+        {status === 'inCall' && (
+          <Icon name="camera" className={classes.camera} />
+        )}
       </span>
     )
   }

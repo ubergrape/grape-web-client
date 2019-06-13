@@ -7,6 +7,7 @@ export const maxChannelDescriptionLength = 100
 export const userStatusMap = {
   0: 'offline',
   4: 'reachable',
+  8: 'inCall',
   16: 'online',
 }
 
