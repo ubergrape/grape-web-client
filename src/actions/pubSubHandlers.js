@@ -82,6 +82,13 @@ export const handleNewMessage = message => (dispatch, getState) => {
   })
 }
 
+export const handleNewSystemMessage = message => dispatch => {
+  const { channelId, messageId } = message
+  api.getMessage(channelId, messageId).then(res => {
+    dispatch(handleNewMessage(res))
+  })
+}
+
 export function handleRemovedMessage({ id, channel }) {
   return dispatch => {
     dispatch(removeSharedFiles(id))

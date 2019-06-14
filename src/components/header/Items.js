@@ -97,9 +97,11 @@ function Items(props) {
     permissions,
     intl,
     channel,
+    user,
     colors,
     orgFeatures,
     showVideoConferenceWarning,
+    showToastNotification,
   } = props
 
   return (
@@ -129,7 +131,10 @@ function Items(props) {
           <li className={classes.videoConference}>
             <VideoConferenceButton
               channel={channel}
+              user={user}
               colors={colors}
+              intl={intl}
+              showToastNotification={showToastNotification}
               showVideoConferenceWarning={showVideoConferenceWarning}
             />
           </li>
@@ -182,6 +187,7 @@ Items.propTypes = {
   intl: intlShape.isRequired,
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
   colors: PropTypes.object,
   mentions: PropTypes.number,
@@ -193,6 +199,7 @@ Items.propTypes = {
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
+  showToastNotification: PropTypes.func.isRequired,
   orgFeatures: PropTypes.object,
 }
 
