@@ -776,3 +776,16 @@ export const incomingCallSelector = createSelector(
   state => state.incomingCall,
   state => state,
 )
+
+export const callStatusSelector = createSelector(
+  state => state.callStatus,
+  state => state,
+)
+
+export const callStatusComponentSelector = createSelector(
+  [callStatusSelector, userSelector],
+  (callStatus, user) => ({
+    callStatus,
+    user,
+  }),
+)
