@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import noop from 'lodash/noop'
 import cn from 'classnames'
 
@@ -17,7 +18,6 @@ import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
 import Author from './Author'
-import Action from './Action'
 import Menu from './Menu'
 import Footer from './Footer'
 
@@ -199,6 +199,7 @@ export default class RegularMessage extends PureComponent {
 
     const Bubble = getBubble({ isSelected, isPinned, isOwn })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
+    const statusIcon = iconTagMap[tag]
 
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
@@ -232,20 +233,37 @@ export default class RegularMessage extends PureComponent {
                     classes.disabled,
                 )}
               >
-                {children && (
-                  <Grapedown
-                    text={children}
-                    user={user}
-                    customEmojis={customEmojis}
-                  />
-                )}
-                {tag && (
-                  <Action
-                    classes={classes}
-                    action={action}
-                    icon={iconTagMap[tag]}
-                    tag={tag}
-                  />
+                {tag && <div className={classes.actionText}>{action}</div>}
+                {/* Oleh: I'm doing this because data which comes as text should be rendered beside with status icon.
+                  In case if in future it will be possible to swap `text` and `actions` fields from backend side,
+                  please change code below to more clean solution,
+                  like here: https://github.com/ubergrape/grape-web-client/pull/956/commits/491c0d2a02c92646cda9d896fcfb6f54ee8d8ae9.
+                  I can't do this because lack of time from another clients developers. And they're already
+                  imlemented solution with those field names.
+                */}
+                {tag ? (
+                  <div className={classes.action}>
+                    <div className={classes.iconWrapper}>
+                      <Icon className={classes[statusIcon]} name={statusIcon} />
+                    </div>
+                    {children && (
+                      <Grapedown
+                        text={children}
+                        user={user}
+                        customEmojis={customEmojis}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {children && (
+                      <Grapedown
+                        text={children}
+                        user={user}
+                        customEmojis={customEmojis}
+                      />
+                    )}
+                  </div>
                 )}
                 {!text && (
                   <LinkAttachments

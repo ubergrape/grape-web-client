@@ -28,20 +28,23 @@ export const styles = {
       color: red,
     },
   },
+  actionText: {
+    display: 'block',
+  },
   action: {
-    margin: '2px auto',
     display: 'flex',
     alignItems: 'center',
   },
-  iconBorder: {
+  iconWrapper: {
     width: 24,
     height: 24,
     borderRadius: 12,
     border: '1px solid #E0E0E0',
     background: '#FFF',
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 5,
   },
   callMissed: {
     width: 16,
@@ -51,8 +54,5 @@ export const styles = {
     width: 12,
     height: 12,
     color: '#6FA300',
-  },
-  actionText: {
-    marginLeft: 5,
   },
 }

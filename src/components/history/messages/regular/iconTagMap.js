@@ -1,7 +1,10 @@
+const ongoing = 'callOngoing'
+const missed = 'callMissed'
+
 export default {
-  calling: 'callOngoing',
-  missedCall: 'callMissed',
-  hungUp: 'callMissed',
-  inCall: 'callOngoing',
-  rejectedCall: 'callMissed',
+  calling: ongoing,
+  missedCall: missed,
+  hungUp: missed,
+  inCall: ongoing,
+  rejectedCall: missed,
 }
