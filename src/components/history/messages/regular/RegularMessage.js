@@ -11,11 +11,13 @@ import { defaultAvatar } from '../../../../constants/images'
 import { messageDeliveryStates } from '../../../../constants/app'
 
 import getBubble from './getBubble'
+import iconTagMap from './iconTagMap'
 import DuplicatesBadge from '../DuplicatesBadge'
 import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
 import DeliveryState from './DeliveryState'
 import Author from './Author'
+import Action from './Action'
 import Menu from './Menu'
 import Footer from './Footer'
 
@@ -69,6 +71,8 @@ export default class RegularMessage extends PureComponent {
     id: PropTypes.string,
     channelId: PropTypes.number,
     text: PropTypes.string,
+    tag: PropTypes.string,
+    action: PropTypes.string,
     isAdmin: PropTypes.bool,
   }
 
@@ -99,6 +103,8 @@ export default class RegularMessage extends PureComponent {
     state: undefined,
     nlp: undefined,
     text: '',
+    tag: '',
+    action: '',
     isAdmin: false,
   }
 
@@ -184,6 +190,8 @@ export default class RegularMessage extends PureComponent {
       linkAttachments,
       nlp,
       text,
+      tag,
+      action,
       isAdmin,
     } = this.props
 
@@ -229,6 +237,14 @@ export default class RegularMessage extends PureComponent {
                     text={children}
                     user={user}
                     customEmojis={customEmojis}
+                  />
+                )}
+                {tag && (
+                  <Action
+                    classes={classes}
+                    action={action}
+                    icon={iconTagMap[tag]}
+                    tag={tag}
                   />
                 )}
                 {!text && (

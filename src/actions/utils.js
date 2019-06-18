@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import omit from 'lodash/omit'
 
+import camelCase from 'lodash/camelCase'
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
 import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
@@ -194,6 +195,8 @@ export const normalizeMessage = (() => {
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
     const avatar = msg.author.avatar || defaultAvatar
+    const tag = camelCase(msg.tag)
+    const action = 'Action text'
     const author = {
       id: msg.author.id,
       name: msg.author.displayName || 'Deleted User',
@@ -227,6 +230,8 @@ export const normalizeMessage = (() => {
       linkAttachments,
       labels,
       isPinned,
+      tag,
+      action,
     }
   }
 
