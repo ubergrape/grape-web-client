@@ -190,13 +190,19 @@ export const normalizeMessage = (() => {
 
   function normalizeRegularMessage(msg, state, configs) {
     const channels = channelsSelector(state)
-    const { id, clientsideId, text, channel: channelId, pinned: isPinned } = msg
+    const {
+      id,
+      clientsideId,
+      text,
+      channel: channelId,
+      pinned: isPinned,
+      action,
+    } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
     const avatar = msg.author.avatar || defaultAvatar
     const tag = camelCase(msg.tag)
-    const action = 'Action text'
     const author = {
       id: msg.author.id,
       name: msg.author.displayName || 'Deleted User',
