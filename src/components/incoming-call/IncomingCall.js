@@ -21,25 +21,25 @@ class IncomingCall extends PureComponent {
   onJoin = () => {
     const {
       joinIncomingCall,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    joinIncomingCall(channelId)
+    joinIncomingCall({ channelId, callId })
   }
 
   onReject = () => {
     const {
       rejectIncomingCall,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    rejectIncomingCall(channelId)
+    rejectIncomingCall({ channelId, callId })
   }
 
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    replyWithMessage(channelId)
+    replyWithMessage({ channelId, callId })
   }
 
   render() {

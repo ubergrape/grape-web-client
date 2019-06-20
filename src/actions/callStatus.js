@@ -6,9 +6,9 @@ export const updateCallStatusTimer = () => ({
   type: types.UPDATE_CALL_STATUS_TIMER,
 })
 
-export const closeCallStatus = channelId => dispatch => {
+export const closeCallStatus = args => dispatch => {
   api
-    .hangUp(channelId)
+    .hangUp(args)
     .then(() => {
       dispatch({
         type: types.CLOSE_CALL_STATUS,

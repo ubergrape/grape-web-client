@@ -36,9 +36,9 @@ class CallStatus extends PureComponent {
       closeCallStatus,
       callStatus: { call },
     } = this.props
-    const { channelId } = call
+    const { channelId, callId } = call
 
-    closeCallStatus(channelId)
+    closeCallStatus({ channelId, callId })
   }
 
   render() {
