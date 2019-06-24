@@ -319,8 +319,10 @@ export function handleFavoriteChange({ changed }) {
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { authorId } = payload
+  const { authorId, callId } = payload
   const currUser = userSelector(getState())
+
+  document.cookie = `grapecallid=${callId}`
 
   if (currUser.id !== authorId) {
     dispatch({
