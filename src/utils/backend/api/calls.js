@@ -1,41 +1,41 @@
 import rpc from '../rpc'
 
-export const cancelCall = channelId =>
+export const cancelCall = args =>
   rpc(
     {
       ns: 'calls',
       action: 'cancel',
-      args: [{ channelId }],
+      args: [args],
     },
     { camelize: true },
   )
 
-export const joinCall = channelId =>
+export const joinCall = args =>
   rpc(
     {
       ns: 'calls',
       action: 'join',
-      args: [{ channelId }],
+      args: [args],
     },
     { camelize: true },
   )
 
-export const hangUp = channelId =>
+export const hangUp = args =>
   rpc(
     {
       ns: 'calls',
       action: 'hangup',
-      args: [{ channelId }],
+      args: [args],
     },
     { camelize: true },
   )
 
-export const rejectCall = channelId =>
+export const rejectCall = args =>
   rpc(
     {
       ns: 'calls',
       action: 'reject',
-      args: [{ channelId }],
+      args: [args],
     },
     { camelize: true },
   )
