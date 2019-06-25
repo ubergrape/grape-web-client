@@ -173,6 +173,7 @@ class GrapeBrowser extends Component {
   }
 
   onSubmit = data => {
+    this.saveDraftMessageToLocalStorage('')
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
     this.props.onSubmit(data)
@@ -274,6 +275,8 @@ class GrapeBrowser extends Component {
     const isBrowserOpened = Boolean(this.state.browser)
     const hasTrigger = Boolean(query && query.trigger)
 
+    this.saveDraftMessageToLocalStorage(content)
+
     clearTimeout(this.searchBrowserInputTimeoutId)
     if (hasTrigger && contentHasChanged) {
       this.query.set(query, { silent: true })
@@ -309,6 +312,17 @@ class GrapeBrowser extends Component {
     this.setState({ content, caretPosition }, () => {
       if (!silent) this.onChangeInput()
     })
+  }
+
+  saveDraftMessageToLocalStorage(content) {
+    let { draftMessages = '{}' } = localStorage
+    const {
+      channel: { id },
+    } = this.props
+
+    draftMessages = JSON.parse(draftMessages)
+    draftMessages[id] = content
+    localStorage.setItem('draftMessages', JSON.stringify(draftMessages))
   }
 
   createState(nextProps) {
