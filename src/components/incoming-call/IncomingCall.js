@@ -49,6 +49,7 @@ class IncomingCall extends PureComponent {
       authorAvatarUrl,
       authorDisplayName,
       grapecallUrl,
+      callId,
     } = incoming
 
     if (!show) return null
@@ -145,7 +146,7 @@ class IncomingCall extends PureComponent {
                 <Icon className={classes.missedIcon} name="callMissed" />
               </button>
               <a
-                href={grapecallUrl}
+                href={`${grapecallUrl}?call_id=${callId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={this.onJoin}
