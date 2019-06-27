@@ -1,8 +1,8 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
-import * as api from '../utils/backend/api'
 
+import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import {
   orgSelector,
@@ -79,6 +79,13 @@ export const handleNewMessage = message => (dispatch, getState) => {
   }
   dispatch(addNewChannel(message.channel)).then(() => {
     dispatch(addNewMessage(message))
+  })
+}
+
+export const handleNewSystemMessage = message => dispatch => {
+  const { channelId, messageId } = message
+  api.getMessage(channelId, messageId).then(res => {
+    dispatch(handleNewMessage(res))
   })
 }
 
@@ -335,13 +342,45 @@ export const handleHungUpCall = () => dispatch => {
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+  dispatch({
+    type: types.CLOSE_CALL_STATUS,
+  })
 }
 
-export const handleJoinedCall = () => dispatch => {
+export const handleJoinedCall = payload => (dispatch, getState) => {
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+
+  const user = userSelector(getState())
+  const { authorId, channelId } = payload
+
+  if (user.id !== authorId) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload,
+    })
+    return
+  }
+
+  const channels = channelsSelector(getState())
+  const channel = find(channels, { id: channelId })
+  const users = usersSelector(getState())
+
+  const callerId = channel.users.filter(id => id !== user.id)
+  const caller = find(users, { partner: { id: callerId[0] } })
+
+  if (caller) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload: {
+        ...payload,
+        authorDisplayName: caller.partner.displayName,
+        authorAvatarUrl: caller.partner.avatar,
+      },
+    })
+  }
 }
 
 export const handleRejectedCall = () => dispatch => {

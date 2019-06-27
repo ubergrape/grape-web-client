@@ -135,9 +135,21 @@ class GrapeInput extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    let { draftMessages = '{}' } = localStorage
+    const {
+      channel: { id },
+    } = this.props
+
+    draftMessages = JSON.parse(draftMessages)
+    if (draftMessages[id]) {
+      this.input.setTextContent(draftMessages[id], { silent: true })
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
-      channel: curChannel,
+      channel: currChannel,
       targetMessage: currTargetMessage,
       quoteMessage: currQuoteMessage,
       intl,
@@ -149,8 +161,8 @@ class GrapeInput extends PureComponent {
       quoteMessage: nextQuoteMessage,
     } = nextProps
 
-    if (curChannel.id !== nextChannel.id) {
-      this.onSelectChannel(curChannel, nextChannel)
+    if (currChannel.id !== nextChannel.id) {
+      this.onSelectChannel(currChannel, nextChannel)
     }
 
     if (
@@ -192,7 +204,13 @@ class GrapeInput extends PureComponent {
     if (prev.id && !targetMessage) {
       onSetUnsentMessage(prev.id, this.input.getTextContent())
     }
-    this.input.setTextContent(next.unsent || '', { silent: true })
+
+    let { draftMessages = '{}' } = localStorage
+    draftMessages = JSON.parse(draftMessages)
+
+    this.input.setTextContent(next.unsent || draftMessages[next.id] || '', {
+      silent: true,
+    })
     this.focus()
   }
 

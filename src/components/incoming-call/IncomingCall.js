@@ -21,25 +21,25 @@ class IncomingCall extends PureComponent {
   onJoin = () => {
     const {
       joinIncomingCall,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    joinIncomingCall(channelId)
+    joinIncomingCall({ channelId, callId })
   }
 
   onReject = () => {
     const {
       rejectIncomingCall,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    rejectIncomingCall(channelId)
+    rejectIncomingCall({ channelId, callId })
   }
 
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      incoming: { channelId },
+      incoming: { channelId, callId },
     } = this.props
-    replyWithMessage(channelId)
+    replyWithMessage({ channelId, callId })
   }
 
   render() {
@@ -49,6 +49,7 @@ class IncomingCall extends PureComponent {
       authorAvatarUrl,
       authorDisplayName,
       grapecallUrl,
+      callId,
     } = incoming
 
     if (!show) return null
@@ -145,7 +146,7 @@ class IncomingCall extends PureComponent {
                 <Icon className={classes.missedIcon} name="callMissed" />
               </button>
               <a
-                href={grapecallUrl}
+                href={`${grapecallUrl}?call_id=${callId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={this.onJoin}

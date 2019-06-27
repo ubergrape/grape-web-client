@@ -56,7 +56,7 @@ export default {
   "inAnotherCall": "You are in another call",
   "inCall": "In a call",
   "oneCallSameTime": "You can only be in one call at the same time.",
-  "userInAnotherCall": "{name} ist gerade in einem anderen Gespräch.",
+  "userInAnotherCall": "{name} is in another call right now.",
   "recalculateScrollPosition": "Recalculating the scroll position…",
   "pending": "Pending",
   "unsent": "Unsent",
