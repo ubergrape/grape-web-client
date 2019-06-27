@@ -3,7 +3,6 @@ import { shouldNotify } from '../utils/notifications'
 
 const initialState = {
   active: null,
-  loop: false,
 }
 
 export default function reduce(state = initialState, action) {
@@ -35,11 +34,10 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         active: 'incomingCall',
-        loop: true,
       }
     }
     case types.END_SOUND:
-      return { ...state, loop: false, active: null }
+      return { ...state, active: null }
     case types.REQUEST_POST_MESSAGE:
       // Currently sounds for outgoing messages are disabled, because
       // we still have no setting for on/off for this.
