@@ -194,19 +194,21 @@ export const normalizeMessage = (() => {
       id,
       clientsideId,
       text,
-      channel: channelId,
       pinned: isPinned,
       action,
+      state: msgState,
     } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
-    const avatar = msg.author.avatar || defaultAvatar
+    const avatar = msg.author.avatar || msg.avatar || defaultAvatar
     const tag = camelCase(msg.tag)
     const author = {
       id: msg.author.id,
-      name: msg.author.displayName || 'Deleted User',
+      name: msg.author.displayName || msg.author.name || 'Deleted User',
     }
+
+    const channelId = msg.channelId || msg.channel
 
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
@@ -238,6 +240,7 @@ export const normalizeMessage = (() => {
       isPinned,
       tag,
       action,
+      state: msgState,
     }
   }
 
