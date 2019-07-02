@@ -53,7 +53,19 @@ function loadLatest(options = { clear: true }) {
     api
       .loadLatestHistory(channel.id, limit)
       .then(res => {
-        const messages = normalizeMessages(res.messages.reverse(), getState())
+        let { unsentMessages = '{}' } = localStorage
+        unsentMessages = JSON.parse(unsentMessages)
+
+        let channelUnsentMessages = []
+
+        if (unsentMessages[channel.id]) {
+          channelUnsentMessages = unsentMessages[channel.id]
+        }
+
+        const messages = normalizeMessages(
+          [...channelUnsentMessages, ...res.messages].reverse(),
+          getState(),
+        )
         const lastMessage = last(messages)
 
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -321,6 +333,22 @@ export function editPreviousMessage() {
 
 export function markAsUnsent(message) {
   return dispatch => {
+    let { unsentMessages = '{}' } = localStorage
+    const { channelId, id } = message
+
+    unsentMessages = JSON.parse(unsentMessages)
+    const currChannel = unsentMessages[channelId] || []
+
+    if (!currChannel.some(msg => msg.id === id)) {
+      currChannel.push({
+        ...message,
+        state: 'unsent',
+      })
+      unsentMessages[channelId] = currChannel
+    }
+
+    localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+
     setTimeout(() => {
       dispatch({
         type: types.MARK_MESSAGE_AS_UNSENT,
@@ -330,8 +358,19 @@ export function markAsUnsent(message) {
   }
 }
 
-export function readMessage({ channelId, messageId }) {
+export function readMessage({ channelId, messageId, unsentMessageId }) {
   return dispatch => {
+    if (unsentMessageId) {
+      let { unsentMessages = '{}' } = localStorage
+
+      unsentMessages = JSON.parse(unsentMessages)
+      let currChannel = unsentMessages[channelId] || []
+      currChannel = currChannel.filter(msg => msg.id !== unsentMessageId)
+      unsentMessages[channelId] = currChannel
+
+      localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+    }
+
     dispatch({
       type: types.REQUEST_READ_MESSAGE,
       payload: messageId,
@@ -388,7 +427,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
         api
           .postMessage(channelId, text, options)
           .then(messageId => {
-            dispatch(readMessage({ channelId, messageId }))
+            dispatch(readMessage({ channelId, messageId, unsentMessageId: id }))
           })
           .catch(err => dispatch(error(err)))
       }, 800)
@@ -408,7 +447,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
       api
         .postMessage(channelId, text, options)
         .then(messageId => {
-          dispatch(readMessage({ channelId, messageId }))
+          dispatch(readMessage({ channelId, messageId, unsentMessageId: id }))
         })
         .catch(err => dispatch(error(err)))
     }
@@ -447,7 +486,20 @@ export function resendMessage(message) {
       type: types.RESEND_MESSAGE,
       payload: message,
     })
-    dispatch(markAsUnsent(message))
+
+    const { text, id, channelId, attachments } = message
+
+    const options = {
+      clientsideId: id,
+      attachments,
+    }
+
+    api
+      .postMessage(channelId, text, options)
+      .then(messageId => {
+        dispatch(readMessage({ channelId, messageId, unsentMessageId: id }))
+      })
+      .catch(err => dispatch(error(err)))
   }
 }
 
