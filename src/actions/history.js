@@ -60,6 +60,17 @@ function loadLatest(options = { clear: true }) {
 
         if (unsentMessages[channel.id]) {
           channelUnsentMessages = unsentMessages[channel.id]
+            .filter(
+              ({ clientsideId }) =>
+                !res.messages.find(
+                  ({ clientsideId: id }) => id === clientsideId,
+                ),
+            )
+            .reverse()
+
+          unsentMessages[channel.id] = channelUnsentMessages
+
+          localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
         }
 
         const messages = normalizeMessages(
@@ -423,7 +434,6 @@ export function createMessage({ channelId, text, attachments = [] }) {
         }
 
         dispatch(markAsUnsent(message))
-
         api
           .postMessage(channelId, text, options)
           .then(messageId => {
@@ -443,7 +453,6 @@ export function createMessage({ channelId, text, attachments = [] }) {
       }
 
       dispatch(markAsUnsent(message))
-
       api
         .postMessage(channelId, text, options)
         .then(messageId => {
