@@ -84,6 +84,9 @@ export default function subscribe(channel) {
       case 'message.removed':
         boundActions.handleRemovedMessage(cData)
         break
+      case 'system_message.updated':
+        boundActions.handleSystemMessageUpdate(cData)
+        break
       case 'message.updated':
         boundActions.handleMessageUpdate(cData)
         break

@@ -415,6 +415,18 @@ export function createMessage({ channelId, text, attachments = [] }) {
   }
 }
 
+export const handleSystemMessageUpdate = message => (dispatch, getState) => {
+  const state = getState()
+  const { channelId, messageId } = message
+
+  api.getMessage(channelId, messageId).then(msg => {
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: normalizeMessage(msg, state),
+    })
+  })
+}
+
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
     const state = getState()
