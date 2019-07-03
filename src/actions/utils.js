@@ -197,6 +197,7 @@ export const normalizeMessage = (() => {
       pinned: isPinned,
       action,
       state: msgState,
+      docType,
     } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
@@ -241,6 +242,7 @@ export const normalizeMessage = (() => {
       tag,
       action,
       state: msgState,
+      docType,
     }
   }
 
