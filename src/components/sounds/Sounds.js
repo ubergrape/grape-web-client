@@ -28,12 +28,7 @@ export default class Sounds extends PureComponent {
     if (!active) return null
 
     return (
-      <iframe
-        src={sounds[active]}
-        allow="autoplay"
-        title="audio"
-        style={{ display: 'none' }}
-      >
+      <iframe allow="autoplay" title="audio" style={{ display: 'none' }}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <audio autoPlay onEnded={onEnded}>
           <source src={sounds[active]} type="audio/mp3" />
