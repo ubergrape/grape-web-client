@@ -50,7 +50,7 @@ class CallStatus extends PureComponent {
     if (!show) return null
 
     const { authorAvatarUrl, authorDisplayName } = call
-    const { minutes, seconds } = secondsToHms(timer)
+    const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
       <div className={classes.window}>
@@ -67,9 +67,9 @@ class CallStatus extends PureComponent {
         <div className={classes.details}>
           <span className={classes.name}>{authorDisplayName}</span>
           <span className={classes.time}>
-            {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10
-              ? `0${seconds}`
-              : seconds}
+            {hours < 10 ? `0${hours}` : hours}:
+            {minutes < 10 ? `0${minutes}` : minutes}:
+            {seconds < 10 ? `0${seconds}` : seconds}
           </span>
         </div>
         <button
