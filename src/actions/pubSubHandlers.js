@@ -327,14 +327,36 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
       type: types.HANDLE_INCOMING_CALL,
       payload,
     })
+
+    const { time, organizationId, event, channelId } = payload
+    const notification = {
+      channelId,
+      dispatcher: 'incoming',
+      event,
+      organizationId,
+      time,
+    }
+
+    dispatch(handleNotification(notification))
   }
 }
 
-export const handleMissedCall = () => dispatch => {
+export const handleMissedCall = payload => dispatch => {
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+
+  const { time, organizationId, event, channelId } = payload
+  const notification = {
+    channelId,
+    dispatcher: 'missed',
+    event,
+    organizationId,
+    time,
+  }
+
+  dispatch(handleNotification(notification))
 }
 
 export const handleHungUpCall = () => dispatch => {

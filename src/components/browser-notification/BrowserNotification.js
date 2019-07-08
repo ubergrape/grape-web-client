@@ -27,15 +27,15 @@ const messages = defineMessages({
     defaultMessage: '{name} (Group Invite)',
     description: 'Browser notification group invite content.',
   },
-  grapeCallGroupInvitationContent: {
-    id: 'grapeCallGroupInvitationContent',
-    defaultMessage: '{callInitator} started a Grape Call in this group.',
-    description: 'Browser notification group grape call.',
-  },
   grapeCallPmInvitationContent: {
     id: 'grapeCallPmInvitationContent',
     defaultMessage: 'Invites you to a Grape call …',
     description: 'Browser notification pm grape call.',
+  },
+  grapeCallPmMissedContent: {
+    id: 'grapeCallPmMissedContent',
+    defaultMessage: 'Had called you …',
+    description: 'Browser notification for missed pm grape call.',
   },
 })
 
@@ -79,8 +79,8 @@ const getNewMessageOptions = props => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(
-      ({ name }) => (name ? `${author.name}: ${name}\n` : ''),
+    content += attachments.map(({ name }) =>
+      name ? `${author.name}: ${name}\n` : '',
     )
   }
 
@@ -91,20 +91,29 @@ const getNewMessageOptions = props => {
   }
 }
 
-const getIncomingCallOptions = props => {
-  const content =
-    props.notification.channel.type === 'room'
-      ? props.intl.formatMessage(
-          messages.grapeCallGroupInvitationContent,
-          // TODO should be changed to the call initator once available
-          { callInitator: props.notification.channel.name },
-        )
-      : props.intl.formatMessage(messages.grapeCallPmInvitationContent)
+const getCallOptions = props => {
+  const { notification, intl } = props
+  const { dispatcher, channel } = notification
+
+  if (dispatcher === 'incoming') {
+    return {
+      title: channel.name,
+      content: intl.formatMessage(messages.grapeCallPmInvitationContent),
+      requireInteraction: true,
+      icon: channel.icon,
+      onclick: e => {
+        e.preventDefault()
+      },
+      onclose: e => {
+        e.preventDefault()
+      },
+    }
+  }
 
   return {
-    title: props.notification.channel.name,
-    content,
-    icon: props.notification.channel.icon,
+    title: channel.name,
+    content: intl.formatMessage(messages.grapeCallPmMissedContent),
+    icon: channel.icon,
   }
 }
 
@@ -116,14 +125,14 @@ const renderNotification = props => {
     options = getInviteOptions(props)
   } else if (dispatchers.messages.indexOf(notification.dispatcher) !== -1) {
     options = getNewMessageOptions(props)
-  } else if (notification.dispatcher === dispatchers.incomingCall) {
-    options = getIncomingCallOptions(props)
+  } else if (dispatchers.calls.indexOf(notification.dispatcher) !== -1) {
+    options = getCallOptions(props)
   } else {
     // Unexpected notification has been provided
     return undefined
   }
 
-  createNotification(options, () => {
+  createNotification(options, notification.dispatcher, () => {
     if (channel.id !== notification.channel.id) {
       onGoToChannel(notification.channel.id)
     }
@@ -150,6 +159,7 @@ export default class BrowserNotification extends PureComponent {
         avatar: PropTypes.string,
         displayName: PropTypes.string,
       }),
+      time: PropTypes.string,
       content: PropTypes.string,
     }),
   }

@@ -6,12 +6,13 @@ export const dispatchers = {
     'group_mention',
     'room_invite',
     'activity',
-    'incoming_call',
+    'incoming',
+    'missed',
   ],
   mentions: ['mention', 'group_mention'],
   messages: ['message', 'pm', 'mention', 'group_mention', 'activity'],
-  incomingCall: 'incoming_call',
   invites: ['room_invite'],
+  calls: ['incoming', 'missed'],
 }
 
 // All available transports.
