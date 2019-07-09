@@ -4,6 +4,7 @@ import { createNotification } from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
+import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
 import mdNotification from '../../utils/markdown-it-plugins/notification'
@@ -115,7 +116,7 @@ const getCallOptions = props => {
         })
       },
       onClose: () => {
-        if (isClicked) return
+        if (!isClicked || isElectron) return
 
         rejectCall({
           channelId,
@@ -209,13 +210,18 @@ export default class BrowserNotification extends PureComponent {
   }
 
   componentWillUpdate(nextProps) {
-    const { channel, browserNotification, setNotification } = nextProps
+    const {
+      channel,
+      browserNotification,
+      notification,
+      setNotification,
+    } = nextProps
 
     if (!channel || !browserNotification) return
 
     const isNew = browserNotification !== this.props.browserNotification
 
-    if (!isNew) {
+    if (!isNew && notification) {
       updateNotification(this.props, nextProps)
       return
     }
