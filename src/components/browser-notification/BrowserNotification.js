@@ -221,7 +221,7 @@ export default class BrowserNotification extends PureComponent {
 
     const isNew = browserNotification !== this.props.browserNotification
 
-    if (!isNew && notification) {
+    if (!isNew && notification && !isElectron) {
       updateNotification(this.props, nextProps)
       return
     }
@@ -232,7 +232,7 @@ export default class BrowserNotification extends PureComponent {
       currentChannelId: channel.id,
     })
 
-    if (!notify) return
+    if (!isNew || !notify) return
 
     setNotification(renderNotification(nextProps))
   }
