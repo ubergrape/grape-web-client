@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import noop from 'lodash/noop'
 import { createNotification } from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'
@@ -45,7 +44,7 @@ const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdNotification)
 
 const getInviteOptions = ({
-  notification: { inviter, channel },
+  browserNotification: { inviter, channel },
   intl: { formatMessage },
 }) => ({
   title: formatMessage(messages.groupInviteTitle, {
@@ -60,7 +59,7 @@ const getInviteOptions = ({
 
 const getMessageTitle = props => {
   const {
-    notification: { channel, author },
+    browserNotification: { channel, author },
     intl: { formatMessage },
   } = props
   if (channel.type === 'room') {
@@ -70,7 +69,7 @@ const getMessageTitle = props => {
 }
 
 const getNewMessageOptions = props => {
-  const { author, attachments, content: mdContent } = props.notification
+  const { author, attachments, content: mdContent } = props.browserNotification
   const title = getMessageTitle(props)
   let content = md.render(mdContent)
   // "artificial intelligence". https://github.com/markdown-it/markdown-it/issues/460
@@ -79,8 +78,8 @@ const getNewMessageOptions = props => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(({ name }) =>
-      name ? `${author.name}: ${name}\n` : '',
+    content += attachments.map(
+      ({ name }) => (name ? `${author.name}: ${name}\n` : ''),
     )
   }
 
@@ -92,20 +91,36 @@ const getNewMessageOptions = props => {
 }
 
 const getCallOptions = props => {
-  const { notification, intl } = props
-  const { dispatcher, channel } = notification
+  const { browserNotification, intl, call, joinCall, rejectCall } = props
+  const { dispatcher, channel } = browserNotification
+  const {
+    incoming: { channelId, grapecallUrl, callId },
+  } = call
 
   if (dispatcher === 'incoming') {
+    let isClicked = false
     return {
       title: channel.name,
       content: intl.formatMessage(messages.grapeCallPmInvitationContent),
       requireInteraction: true,
       icon: channel.icon,
-      onclick: e => {
-        e.preventDefault()
+      onClick: (e, notification) => {
+        isClicked = true
+        notification.close()
+
+        window.open(`${grapecallUrl}?call_id=${callId}`)
+        joinCall({
+          channelId,
+          callId,
+        })
       },
-      onclose: e => {
-        e.preventDefault()
+      onClose: () => {
+        if (isClicked) return
+
+        rejectCall({
+          channelId,
+          callId,
+        })
       },
     }
   }
@@ -117,27 +132,47 @@ const getCallOptions = props => {
   }
 }
 
-const renderNotification = props => {
-  const { onGoToChannel, notification, channel } = props
-  let options
+const updateNotification = (props, nextProps) => {
+  const {
+    call,
+    notification,
+    browserNotification: { dispatcher },
+  } = nextProps
 
-  if (dispatchers.invites.indexOf(notification.dispatcher) !== -1) {
+  if (dispatchers.calls.indexOf(dispatcher) !== -1) {
+    const { show } = call
+    if (!show && show !== props.call.show) notification.close()
+  }
+}
+
+const renderNotification = props => {
+  const { onGoToChannel, browserNotification, channel, conf } = props
+  const { dispatcher } = browserNotification
+  let options
+  let params
+
+  if (dispatchers.invites.indexOf(dispatcher) !== -1) {
     options = getInviteOptions(props)
-  } else if (dispatchers.messages.indexOf(notification.dispatcher) !== -1) {
+  } else if (dispatchers.messages.indexOf(dispatcher) !== -1) {
     options = getNewMessageOptions(props)
-  } else if (dispatchers.calls.indexOf(notification.dispatcher) !== -1) {
+  } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
     options = getCallOptions(props)
+    params = { timeout: conf.grapecall.incomingCallTimeout * 1000 }
   } else {
     // Unexpected notification has been provided
     return undefined
   }
 
-  createNotification(options, notification.dispatcher, () => {
-    if (channel.id !== notification.channel.id) {
-      onGoToChannel(notification.channel.id)
-    }
-  })
-  return undefined
+  const notification = createNotification(
+    options,
+    () => {
+      if (channel.id !== browserNotification.channel.id) {
+        onGoToChannel(browserNotification.channel.id)
+      }
+    },
+    params,
+  )
+  return notification
 }
 
 @injectIntl
@@ -145,12 +180,16 @@ export default class BrowserNotification extends PureComponent {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     intl: intlShape.isRequired,
-    onGoToChannel: PropTypes.func,
+    call: PropTypes.object.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
+    joinCall: PropTypes.func.isRequired,
+    rejectCall: PropTypes.func.isRequired,
+    setNotification: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired,
     }),
-    notification: PropTypes.shape({
+    browserNotification: PropTypes.shape({
       dispatcher: PropTypes.oneOf(dispatchers.all).isRequired,
       channel: PropTypes.shape({
         id: PropTypes.number,
@@ -166,25 +205,30 @@ export default class BrowserNotification extends PureComponent {
 
   static defaultProps = {
     channel: undefined,
-    notification: undefined,
-    onGoToChannel: noop,
+    browserNotification: undefined,
   }
 
   componentWillUpdate(nextProps) {
-    const { channel, notification } = nextProps
+    const { channel, browserNotification, setNotification } = nextProps
 
-    if (!channel || !notification) return
+    if (!channel || !browserNotification) return
 
-    const isNew = notification !== this.props.notification
+    const isNew = browserNotification !== this.props.browserNotification
+
+    if (!isNew) {
+      updateNotification(this.props, nextProps)
+      return
+    }
+
     const notify = shouldNotify({
-      time: notification.time,
-      sourceChannelId: notification.channel.id,
+      time: browserNotification.time,
+      sourceChannelId: browserNotification.channel.id,
       currentChannelId: channel.id,
     })
 
-    if (!isNew || !notify) return
+    if (!notify) return
 
-    renderNotification(nextProps)
+    setNotification(renderNotification(nextProps))
   }
 
   render() {

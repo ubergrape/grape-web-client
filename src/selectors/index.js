@@ -746,6 +746,20 @@ export const browserNotificationSelector = createSelector(
   state => state,
 )
 
+export const incomingCallSelector = createSelector(
+  state => state.incomingCall,
+  state => state,
+)
+
+export const browserNotificationComponentSelector = createSelector(
+  [browserNotificationSelector, confSelector, incomingCallSelector],
+  (browserNotification, conf, incoming) => ({
+    ...browserNotification,
+    conf,
+    call: incoming,
+  }),
+)
+
 export const introSelector = createSelector(
   state => state.intro,
   state => state,
@@ -770,11 +784,6 @@ export const videoConferenceWarningComponentSelector = createSelector(
     ...videoConferenceWarning,
     videoconferenceUrl,
   }),
-)
-
-export const incomingCallSelector = createSelector(
-  state => state.incomingCall,
-  state => state,
 )
 
 export const callStatusSelector = createSelector(

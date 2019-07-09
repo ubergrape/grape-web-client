@@ -1,4 +1,4 @@
-import { toCamel } from '../utils/backend/convertCase'
+import { toCamel } from '../utils/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
