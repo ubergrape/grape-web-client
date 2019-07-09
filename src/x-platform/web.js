@@ -3,7 +3,7 @@ import noop from 'lodash/noop'
 /**
  * Create native html notification.
  */
-export function createNotification(options, callback = noop, params) {
+export function createNotification(options, callback = noop, params = {}) {
   if (!window.Notification) return null
   const notification = new Notification(options.title, {
     body: options.content,
