@@ -33,6 +33,7 @@ export default function subscribe(channel) {
     if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
+        delay: 3000,
         type: alerts.CONNECTION_LOST,
       })
     }
