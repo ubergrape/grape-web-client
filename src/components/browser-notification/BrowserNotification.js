@@ -133,14 +133,43 @@ const getCallOptions = props => {
   }
 }
 
+const normalizeNotificationData = ({ dispatcher, props, conf }) => {
+  if (dispatchers.invites.indexOf(dispatcher) !== -1) {
+    return {
+      type: 'invites',
+      options: getInviteOptions(props),
+    }
+  } else if (dispatchers.messages.indexOf(dispatcher) !== -1) {
+    return {
+      type: 'messages',
+      options: getNewMessageOptions(props),
+    }
+  } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
+    return {
+      type: 'calls',
+      options: getCallOptions(props),
+      params: { timeout: conf.grapecall.incomingCallTimeout * 1000 },
+    }
+  }
+  // Unexpected notification has been provided
+  return undefined
+}
+
 const updateNotification = (props, nextProps) => {
   const {
+    conf,
     call,
     notification,
     browserNotification: { dispatcher },
   } = nextProps
 
-  if (dispatchers.calls.indexOf(dispatcher) !== -1) {
+  const { type } = normalizeNotificationData({
+    dispatcher,
+    props,
+    conf,
+  })
+
+  if (type === 'calls') {
     const { show } = call
     if (!show && show !== props.call.show) notification.close()
   }
@@ -149,20 +178,12 @@ const updateNotification = (props, nextProps) => {
 const renderNotification = props => {
   const { onGoToChannel, browserNotification, channel, conf } = props
   const { dispatcher } = browserNotification
-  let options
-  let params
 
-  if (dispatchers.invites.indexOf(dispatcher) !== -1) {
-    options = getInviteOptions(props)
-  } else if (dispatchers.messages.indexOf(dispatcher) !== -1) {
-    options = getNewMessageOptions(props)
-  } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
-    options = getCallOptions(props)
-    params = { timeout: conf.grapecall.incomingCallTimeout * 1000 }
-  } else {
-    // Unexpected notification has been provided
-    return undefined
-  }
+  const { options, params } = normalizeNotificationData({
+    dispatcher,
+    props,
+    conf,
+  })
 
   const notification = createNotification(
     options,
