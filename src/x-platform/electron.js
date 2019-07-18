@@ -16,10 +16,10 @@ if (window.require && (window && window.process && window.process.type)) {
 
 const notificationClickTimeout = 20000
 
-export function createNotification(options, callback = noop) {
+export function createNotification(options, callbacks = noop, params = {}) {
   // Those checks should be removed within some time. Only window.grapeAppBridge usage should be saved
   if (window.GrapeAppBridge) {
-    window.GrapeAppBridge.showNotification(options, callback, {
+    window.GrapeAppBridge.showNotification(options, callbacks, params, {
       random,
       createWebNotification,
     })
@@ -27,32 +27,41 @@ export function createNotification(options, callback = noop) {
   }
 
   if (window.grapeAppBridge) {
-    window.grapeAppBridge.showNotification(options, callback, {
+    window.grapeAppBridge.showNotification(options, callbacks, params, {
       random,
       createWebNotification,
     })
     return
   }
 
-  if (electron.remote.getGlobal('isNotificationSupported')) {
-    createWebNotification(options, callback)
+  const { remote, ipcRenderer } = electron
+
+  if (remote.getGlobal('isNotificationSupported')) {
+    createWebNotification(options, callbacks, params)
     return
   }
 
-  const event = random(10000)
   const { title, content } = options
 
-  electron.ipcRenderer.once(event, callback)
+  const onClick = random(100000)
+  const onClose = random(100000)
+  ipcRenderer.once(onClick, callbacks.onClick)
+  ipcRenderer.once(onClose, callbacks.onClose)
 
-  electron.ipcRenderer.send('showNotification', {
-    event,
+  setTimeout(() => {
+    ipcRenderer.removeAllListeners(onClick)
+    ipcRenderer.removeAllListeners(onClose)
+  }, notificationClickTimeout)
+
+  // This will show Windows Tray Balllon in Windows < 10.
+  ipcRenderer.send('showNotification', {
+    events: {
+      onClick,
+      onClose,
+    },
     title,
     message: content,
   })
-
-  setTimeout(() => {
-    electron.ipcRenderer.removeAllListeners(event)
-  }, notificationClickTimeout)
 }
 
 /**

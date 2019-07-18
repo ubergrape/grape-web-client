@@ -1,9 +1,7 @@
-import noop from 'lodash/noop'
-
 /**
  * Create native html notification.
  */
-export function createNotification(options, callback = noop, params = {}) {
+export function createNotification(options, callbacks = {}, params = {}) {
   if (!window.Notification) return null
   const notification = new Notification(options.title, {
     body: options.content,
@@ -18,21 +16,15 @@ export function createNotification(options, callback = noop, params = {}) {
   }
 
   notification.addEventListener('click', e => {
-    if (options.onClick) {
-      options.onClick(e, notification)
-      return
-    }
-
+    callbacks.onClick(e, notification)
     notification.close()
-    callback()
     window.focus()
   })
 
   notification.addEventListener('close', e => {
-    if (options.onClose) {
-      options.onClose(e)
-    }
+    if (callbacks.onClose) callbacks.onClose(e)
   })
+
   return notification
 }
 
