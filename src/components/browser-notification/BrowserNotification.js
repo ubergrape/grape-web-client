@@ -29,12 +29,12 @@ const messages = defineMessages({
   },
   grapeCallPmInvitationContent: {
     id: 'grapeCallPmInvitationContent',
-    defaultMessage: 'Invites you to a Grape call …',
-    description: 'Browser notification pm grape call.',
+    defaultMessage: 'invites you to a Grape call …',
+    description: 'Browser notification for pm grape call.',
   },
   grapeCallPmMissedContent: {
     id: 'grapeCallPmMissedContent',
-    defaultMessage: 'Had called you …',
+    defaultMessage: 'had called you',
     description: 'Browser notification for missed pm grape call.',
   },
 })
@@ -91,6 +91,54 @@ const getNewMessageOptions = props => {
   }
 }
 
+const getCallCallbacks = (dispatcher, props) => {
+  const {
+    joinCall,
+    rejectCall,
+    onGoToChannel,
+    channel,
+    browserNotification,
+    call,
+  } = props
+  const {
+    incoming: { channelId, grapecallUrl, callId },
+  } = call
+
+  if (dispatcher === 'incoming') {
+    let isClicked = false
+    return {
+      onClick: () => {
+        isClicked = true
+
+        window.open(`${grapecallUrl}?call_id=${callId}`)
+        joinCall({
+          channelId,
+          callId,
+        })
+      },
+      onClose: () => {
+        // Do not perform this callback for Electron, because it don't support requireInteraction flag.
+        // Notification for desktop only showing for ~3 seconds, and after that onClose will be triggered.
+        // But default incoming call duration is 30 seconds.
+        if (isClicked || isElectron) return
+
+        rejectCall({
+          channelId,
+          callId,
+        })
+      },
+    }
+  }
+
+  return {
+    onClick: () => {
+      if (channel.id !== browserNotification.channel.id) {
+        onGoToChannel(browserNotification.channel.id)
+      }
+    },
+  }
+}
+
 const getCallOptions = props => {
   const { browserNotification, intl } = props
   const { dispatcher, channel } = browserNotification
@@ -112,17 +160,7 @@ const getCallOptions = props => {
 }
 
 const normalizeNotificationData = ({ dispatcher, props, conf }) => {
-  const {
-    onGoToChannel,
-    browserNotification,
-    channel,
-    call,
-    joinCall,
-    rejectCall,
-  } = props
-  const {
-    incoming: { channelId, grapecallUrl, callId },
-  } = call
+  const { onGoToChannel, browserNotification, channel } = props
 
   if (dispatchers.invites.indexOf(dispatcher) !== -1) {
     return {
@@ -149,29 +187,10 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
       options: getNewMessageOptions(props),
     }
   } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
-    let isClicked = false
     return {
       type: 'calls',
       options: getCallOptions(props),
-      callbacks: {
-        onClick: () => {
-          isClicked = true
-
-          window.open(`${grapecallUrl}?call_id=${callId}`)
-          joinCall({
-            channelId,
-            callId,
-          })
-        },
-        onClose: () => {
-          if (!isClicked || isElectron) return
-
-          rejectCall({
-            channelId,
-            callId,
-          })
-        },
-      },
+      callbacks: getCallCallbacks(dispatcher, props),
       params: { timeout: conf.grapecall.incomingCallTimeout * 1000 },
     }
   }
@@ -213,8 +232,7 @@ const renderNotification = props => {
   return notification
 }
 
-@injectIntl
-export default class BrowserNotification extends PureComponent {
+class BrowserNotification extends PureComponent {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     intl: intlShape.isRequired,
@@ -259,6 +277,7 @@ export default class BrowserNotification extends PureComponent {
     const isNew = browserNotification !== this.props.browserNotification
 
     if (!isNew && notification && !isElectron) {
+      // Some notifications should be update
       updateNotification(this.props, nextProps)
       return
     }
@@ -278,3 +297,5 @@ export default class BrowserNotification extends PureComponent {
     return null
   }
 }
+
+export default injectIntl(BrowserNotification)
