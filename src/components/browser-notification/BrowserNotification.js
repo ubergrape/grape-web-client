@@ -92,37 +92,15 @@ const getNewMessageOptions = props => {
 }
 
 const getCallOptions = props => {
-  const { browserNotification, intl, call, joinCall, rejectCall } = props
+  const { browserNotification, intl } = props
   const { dispatcher, channel } = browserNotification
-  const {
-    incoming: { channelId, grapecallUrl, callId },
-  } = call
 
   if (dispatcher === 'incoming') {
-    let isClicked = false
     return {
       title: channel.name,
       content: intl.formatMessage(messages.grapeCallPmInvitationContent),
       requireInteraction: true,
       icon: channel.icon,
-      onClick: (e, notification) => {
-        isClicked = true
-        notification.close()
-
-        window.open(`${grapecallUrl}?call_id=${callId}`)
-        joinCall({
-          channelId,
-          callId,
-        })
-      },
-      onClose: () => {
-        if (!isClicked || isElectron) return
-
-        rejectCall({
-          channelId,
-          callId,
-        })
-      },
     }
   }
 
@@ -134,20 +112,66 @@ const getCallOptions = props => {
 }
 
 const normalizeNotificationData = ({ dispatcher, props, conf }) => {
+  const {
+    onGoToChannel,
+    browserNotification,
+    channel,
+    call,
+    joinCall,
+    rejectCall,
+  } = props
+  const {
+    incoming: { channelId, grapecallUrl, callId },
+  } = call
+
   if (dispatchers.invites.indexOf(dispatcher) !== -1) {
     return {
       type: 'invites',
+      callbacks: {
+        onClick: () => {
+          if (channel.id !== browserNotification.channel.id) {
+            onGoToChannel(browserNotification.channel.id)
+          }
+        },
+      },
       options: getInviteOptions(props),
     }
   } else if (dispatchers.messages.indexOf(dispatcher) !== -1) {
     return {
       type: 'messages',
+      callbacks: {
+        onClick: () => {
+          if (channel.id !== browserNotification.channel.id) {
+            onGoToChannel(browserNotification.channel.id)
+          }
+        },
+      },
       options: getNewMessageOptions(props),
     }
   } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
+    let isClicked = false
     return {
       type: 'calls',
       options: getCallOptions(props),
+      callbacks: {
+        onClick: () => {
+          isClicked = true
+
+          window.open(`${grapecallUrl}?call_id=${callId}`)
+          joinCall({
+            channelId,
+            callId,
+          })
+        },
+        onClose: () => {
+          if (!isClicked || isElectron) return
+
+          rejectCall({
+            channelId,
+            callId,
+          })
+        },
+      },
       params: { timeout: conf.grapecall.incomingCallTimeout * 1000 },
     }
   }
@@ -176,24 +200,16 @@ const updateNotification = (props, nextProps) => {
 }
 
 const renderNotification = props => {
-  const { onGoToChannel, browserNotification, channel, conf } = props
+  const { browserNotification, conf } = props
   const { dispatcher } = browserNotification
 
-  const { options, params } = normalizeNotificationData({
+  const { options, callbacks, params } = normalizeNotificationData({
     dispatcher,
     props,
     conf,
   })
 
-  const notification = createNotification(
-    options,
-    () => {
-      if (channel.id !== browserNotification.channel.id) {
-        onGoToChannel(browserNotification.channel.id)
-      }
-    },
-    params,
-  )
+  const notification = createNotification(options, callbacks, params)
   return notification
 }
 
