@@ -25,7 +25,7 @@ export default {
     background: '#6cb500',
   },
   reachable: {
-    background: '#fc6e51',
+    background: '#098dec',
   },
   offline: {
     background: '#fc6e51',
