@@ -327,14 +327,41 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
       type: types.HANDLE_INCOMING_CALL,
       payload,
     })
+
+    const { time, organizationId, event, channelId } = payload
+    const notification = {
+      channelId,
+      dispatcher: 'incoming',
+      event,
+      organizationId,
+      time,
+    }
+
+    dispatch(handleNotification(notification))
   }
 }
 
-export const handleMissedCall = () => dispatch => {
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
+export const handleMissedCall = payload => (dispatch, getState) => {
+  const { authorId } = payload
+  const currUser = userSelector(getState())
+
+  if (currUser.id !== authorId) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+
+    const { time, organizationId, event, channelId } = payload
+    const notification = {
+      channelId,
+      dispatcher: 'missed',
+      event,
+      organizationId,
+      time,
+    }
+
+    dispatch(handleNotification(notification))
+  }
 }
 
 export const handleHungUpCall = () => dispatch => {

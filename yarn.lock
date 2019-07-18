@@ -4070,10 +4070,10 @@ grape-web@^1.8.0:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
-grape-web@^1.8.6:
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.6.tgz#2e985afe67d1985597284945625797e98d895d2f"
-  integrity sha512-BPX5kniJTgJh+gxh2PUdtThVnpa6ATi0LmNlDdj1l46Am5hbkUHYGt3QL10Amhf5fGqdPpV8UDGLTSZx0aco0g==
+grape-web@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.9.0.tgz#377f3518b4dcb9bedff8191288739f66c74ff5b1"
+  integrity sha512-qBkoAgQNT8oy7kP5r3EmQtgu1g8RmOzT+Ugk0QPXVIqf6DQ8EUhexDi/kssiKgHbiIpV8OkXvP3nG/C8D1/QUw==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
