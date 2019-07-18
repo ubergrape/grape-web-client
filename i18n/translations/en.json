@@ -25,13 +25,12 @@
   "groupInviteNotificationContent": "{name} (Group Invite)",
   "_groupInviteNotificationContent.comment":
     "Browser notification group invite content.",
-  "grapeCallGroupInvitationContent":
-    "{callInitator} started a Grape Call in this group.",
-  "_grapeCallGroupInvitationContent.comment":
-    "Browser notification group grape call.",
-  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
+  "grapeCallPmInvitationContent": "invites you to a Grape call …",
   "_grapeCallPmInvitationContent.comment":
-    "Browser notification pm grape call.",
+    "Browser notification for pm grape call.",
+  "grapeCallPmMissedContent": "had called you",
+  "_grapeCallPmMissedContent.comment":
+    "Browser notification for missed pm grape call.",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
