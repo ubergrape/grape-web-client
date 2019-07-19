@@ -31,10 +31,10 @@
     "Browser notification group invite content.",
   "grapeCallPmInvitationContent": "lädt Sie zu einem Grape Call ein…",
   "_grapeCallPmInvitationContent.comment":
-    "Browser notification for pm grape call.",
+    "Browser notification for incoming pm Grape Call.",
   "grapeCallPmMissedContent": "hat Sie angerufen",
   "_grapeCallPmMissedContent.comment":
-    "Browser notification for missed pm grape call.",
+    "Browser notification for missed pm Grape Call.",
   "createNewPrivateGroup": "Neue private Gruppe erstellen",
   "inviteToGroup": "Zur Gruppe einladen",
   "createGroup": "Gruppe erstellen",

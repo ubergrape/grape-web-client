@@ -30,12 +30,12 @@ const messages = defineMessages({
   grapeCallPmInvitationContent: {
     id: 'grapeCallPmInvitationContent',
     defaultMessage: 'invites you to a Grape call …',
-    description: 'Browser notification for pm grape call.',
+    description: 'Browser notification for incoming pm Grape Call.',
   },
   grapeCallPmMissedContent: {
     id: 'grapeCallPmMissedContent',
-    defaultMessage: 'had called you',
-    description: 'Browser notification for missed pm grape call.',
+    defaultMessage: 'called you',
+    description: 'Browser notification for missed pm Grape Call.',
   },
 })
 
