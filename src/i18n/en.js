@@ -26,7 +26,7 @@ export default {
   "groupInviteNotificationTitle": "{name} invited you to the group {group}",
   "groupInviteNotificationContent": "{name} (Group Invite)",
   "grapeCallPmInvitationContent": "invites you to a Grape call …",
-  "grapeCallPmMissedContent": "had called you",
+  "grapeCallPmMissedContent": "called you",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
