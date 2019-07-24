@@ -20,7 +20,6 @@ import MainSettings from './MainSettings'
 import RoomActions from './RoomActions'
 import Description from './Description'
 import { styles } from './roomInfoTheme.js'
-import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -73,13 +72,12 @@ export default class RoomInfo extends PureComponent {
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeleteDialog: PropTypes.func.isRequired,
-    showVideoConferenceWarning: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
     notificationSettings: PropTypes.object.isRequired,
-    orgFeatures: PropTypes.object.isRequired,
+    sidebarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   }
 
   static defaultProps = {
@@ -88,6 +86,7 @@ export default class RoomInfo extends PureComponent {
     showSubview: 'pinnedMessages',
     subview: undefined,
     onOpenSharedFile: undefined,
+    sidebarRef: undefined,
     permissions: {},
   }
 
@@ -149,9 +148,10 @@ export default class RoomInfo extends PureComponent {
       user,
       openPm,
       kickMemberFromChannel,
-      subview: { users },
+      subview: { users, isEveryMemberLoaded },
       onLoadMembers,
       permissions,
+      sidebarRef,
     } = this.props
 
     return (
@@ -167,17 +167,22 @@ export default class RoomInfo extends PureComponent {
         {(permissions.canLeaveChannel ||
           permissions.canInviteMembers ||
           permissions.canInviteGuests ||
-          permissions.canAddIntegration) && <Divider />}
-        <ChannelMembers
-          channel={channel}
-          colors={colors}
-          onLoad={onLoadMembers}
-          onOpen={openPm}
-          onKick={kickMemberFromChannel}
-          currUser={user}
-          users={users}
-          permissions={permissions}
-        />
+          permissions.canAddIntegration) &&
+          permissions.canSeeMembersList && <Divider />}
+        {permissions.canSeeMembersList && (
+          <ChannelMembers
+            channel={channel}
+            colors={colors}
+            onLoad={onLoadMembers}
+            onOpen={openPm}
+            onKick={kickMemberFromChannel}
+            currUser={user}
+            users={users}
+            isEveryMemberLoaded={isEveryMemberLoaded}
+            sidebarRef={sidebarRef}
+            permissions={permissions}
+          />
+        )}
       </div>
     )
   }
@@ -224,11 +229,9 @@ export default class RoomInfo extends PureComponent {
       showNotificationSettings,
       notificationSettings,
       showRoomDeleteDialog,
-      showVideoConferenceWarning,
       showSubview,
       onClose,
       permissions,
-      orgFeatures,
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -263,16 +266,6 @@ export default class RoomInfo extends PureComponent {
             className={classes.description}
             isPublic={channel.isPublic}
           />
-          {orgFeatures.videoconference && (
-            <div>
-              <Divider inset />
-              <VideoConferenceLink
-                showVideoConferenceWarning={showVideoConferenceWarning}
-                colors={colors}
-                channel={channel}
-              />
-            </div>
-          )}
           <TabbedContent
             index={tabs.indexOf(tab)}
             onChange={this.onChangeTab}

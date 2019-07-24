@@ -25,6 +25,8 @@ import { RoomDeleteDialogProvider } from '../containers/room-delete'
 import { FileUploadProvider } from '../containers/file-upload'
 import { IntroProvider } from '../containers/intro'
 import { VideoConferenceWarningDialogProvider } from '../containers/video-conference-warning-dialog'
+import { IncomingCallProvider } from '../containers/incoming-call'
+import { CallStatusProvider } from '../containers/call-status'
 import { AppProvider } from '../containers/app'
 import { AppLayout } from '../components/app-layout'
 
@@ -51,6 +53,8 @@ const Globals = () => (
     <RoomDeleteDialogProvider />
     <BrowserNotificationProvider />
     <VideoConferenceWarningDialogProvider />
+    <IncomingCallProvider />
+    <CallStatusProvider />
     <IntroProvider />
   </section>
 )

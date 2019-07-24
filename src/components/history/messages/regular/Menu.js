@@ -25,6 +25,7 @@ export default class Menu extends PureComponent {
     onToggleDropdown: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     getContentNode: PropTypes.func.isRequired,
+    permissions: PropTypes.object.isRequired,
     isOwn: PropTypes.bool,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
@@ -49,6 +50,7 @@ export default class Menu extends PureComponent {
 
   render() {
     const {
+      permissions,
       isOwn,
       isPinned,
       state,
@@ -62,7 +64,7 @@ export default class Menu extends PureComponent {
     const items = []
 
     if (isOwn && !isLinkAttachments) items.push('edit')
-    if (isOwn) items.push('remove')
+    if (isOwn || permissions.canDeleteAnyMessage) items.push('remove')
     items.push('copyLink')
     if (!isLinkAttachments) items.push('quote', 'pin')
 

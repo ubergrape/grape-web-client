@@ -1,11 +1,28 @@
 import * as types from '../constants/actionTypes'
 
-export const initial = {}
+const initialState = {
+  reconnecting: false,
+}
 
-export const states = {
-  [types.SET_TIMER]: (state, payload) => ({ ...payload }),
-  [types.UPDATE_TIMER]: (state, payload) => ({
-    timerSet: payload <= 0 ? Date.now() : state.timerSet,
-    backoff: state.backoff - 1,
-  }),
+export default function reduce(state = initialState, action) {
+  const { type, payload } = action
+  switch (type) {
+    case types.SET_TIMER:
+      return {
+        ...state,
+        ...payload,
+      }
+    case types.HANDLE_RECONNECTING_CHANGE:
+      return {
+        ...state,
+        reconnecting: payload,
+      }
+    case types.UPDATE_TIMER:
+      return {
+        ...state,
+        backoff: state.backoff - 1,
+      }
+    default:
+      return state
+  }
 }

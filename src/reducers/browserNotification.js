@@ -5,12 +5,17 @@ const initialState = {}
 
 export default function reduce(state = initialState, action) {
   const { payload } = action
+  if (conf.embed) return state
 
   switch (action.type) {
     case types.SET_CHANNEL:
       return { ...state, channel: payload.channel }
     case types.HANDLE_NOTIFICATION:
-      if (conf.embed) return state
+      return {
+        ...state,
+        browserNotification: payload,
+      }
+    case types.SET_NOTIFICATION:
       return { ...state, notification: payload }
     default:
       return state

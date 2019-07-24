@@ -12,7 +12,7 @@ export const styles = {
     display: 'block',
     overflow: 'auto',
     maxHeight: 85,
-    padding: '0 10px',
+    padding: '8px',
     borderRadius: 5,
     border: `1px solid ${color(grayBlueLighter)
       .darken(0.05)
@@ -23,6 +23,7 @@ export const styles = {
     lineHeight: 1,
     padding: '3px 17px 3px 5px',
     marginRight: 5,
+    marginTop: 2,
     marginBottom: 2,
     background: `${grayBlueLighter} calc(100% - 5px) 50% no-repeat`,
     backgroundImage: `url(${getColoredIcon({ name: 'close', color: gray })})`,
@@ -36,11 +37,16 @@ export const styles = {
       backgroundColor: grayBlueLight,
     },
   },
+  inputWrapper: {
+    position: 'relative',
+    height: 14,
+  },
   input: {
     extend: small,
     display: 'inline-block',
+    position: 'absolute',
+    left: 0,
     minWidth: 15,
-    padding: '10px 0 7px 0',
     border: 'none',
     outline: 'none',
     backgroundColor: 'transparent',
@@ -53,9 +59,7 @@ export const styles = {
   },
   placeholder: {
     extend: small,
-    position: 'absolute',
     opacity: 0.5,
-    transform: 'translateY(50%)',
     pointerEvents: 'none',
   },
 }

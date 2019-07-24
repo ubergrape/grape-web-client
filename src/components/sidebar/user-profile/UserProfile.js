@@ -20,9 +20,7 @@ import PinnedMessages from '../pinned-messages/PinnedMessages'
 import SidebarPanel from '../SidebarPanel'
 import { spacing } from '../constants'
 import TabbedContent from '../TabbedContent'
-import Divider from '../Divider'
 import About from './About'
-import VideoConferenceLink from '../VideoConferenceLink'
 
 const tabs = [
   {
@@ -42,7 +40,7 @@ const tabs = [
         description="User profile sidebar, about user title."
       />
     ),
-    onSelect: 'onUserInfoClick',
+    onClick: 'onUserInfoClick',
   },
   {
     name: 'files',
@@ -75,7 +73,6 @@ export default class UserProfile extends PureComponent {
     getUser: PropTypes.func.isRequired,
     onLoadPinnedMessages: PropTypes.func.isRequired,
     onSelectPinnedMessage: PropTypes.func.isRequired,
-    showVideoConferenceWarning: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired,
     email: PropTypes.string,
@@ -84,8 +81,6 @@ export default class UserProfile extends PureComponent {
     displayName: PropTypes.string,
     showSubview: PropTypes.string,
     subview: PropTypes.object,
-    channel: PropTypes.object.isRequired,
-    orgFeatures: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -111,6 +106,8 @@ export default class UserProfile extends PureComponent {
 
   onChangeTab = index => {
     this.props.onShowSubview(tabs[index].name)
+    const { onClick } = tabs[index]
+    if (onClick) this[onClick]()
   }
 
   onUserInfoClick = () => {
@@ -123,6 +120,7 @@ export default class UserProfile extends PureComponent {
       {...pick(
         this.props,
         'whatIDo',
+        'hideEmailField',
         'email',
         'skypeUsername',
         'skypeForBusiness',
@@ -172,9 +170,6 @@ export default class UserProfile extends PureComponent {
       classes,
       onClose,
       showSubview,
-      channel,
-      orgFeatures,
-      showVideoConferenceWarning,
     } = this.props
 
     const tab = find(tabs, { name: showSubview })
@@ -194,16 +189,6 @@ export default class UserProfile extends PureComponent {
             theme={this.userNameTheme}
           />
         </div>
-        {orgFeatures.videoconference && (
-          <div>
-            <Divider inset />
-            <VideoConferenceLink
-              showVideoConferenceWarning={showVideoConferenceWarning}
-              colors={colors}
-              channel={channel}
-            />
-          </div>
-        )}
         <TabbedContent
           index={tabs.indexOf(tab)}
           onChange={this.onChangeTab}
@@ -211,7 +196,6 @@ export default class UserProfile extends PureComponent {
           colors={colors}
           title={tab.title}
           body={this[tab.render]()}
-          onSelect={tab.onSelect ? this[tab.onSelect]() : undefined}
         />
       </SidebarPanel>
     )

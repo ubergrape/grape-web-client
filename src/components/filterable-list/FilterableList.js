@@ -51,12 +51,6 @@ class FilterableList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      focusedItem: nextProps.items[0],
-    })
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     // This check need to be sure, that list will not be updated if
     // (focus, selected items or focused item) will changed to different input.
@@ -84,17 +78,14 @@ class FilterableList extends Component {
     switch (keyname(e.keyCode)) {
       case 'up':
         this.list.focus('prev')
-        e.preventDefault()
         break
       case 'down':
         this.list.focus('next')
-        e.preventDefault()
         break
       case 'enter': {
         const { focusedItem } = this.state
         if (!focusedItem) return
         this.onSelectItem(focusedItem)
-        e.preventDefault()
         break
       }
       default:

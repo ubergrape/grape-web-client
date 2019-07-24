@@ -1,4 +1,4 @@
-import { toCamel } from '../utils/backend/convertCase'
+import { toCamel } from '../utils/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
@@ -33,6 +33,7 @@ export default function subscribe(channel) {
     if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
+        delay: 3000,
         type: alerts.CONNECTION_LOST,
       })
     }
@@ -78,8 +79,14 @@ export default function subscribe(channel) {
       case 'message.new':
         boundActions.handleNewMessage(cData)
         break
+      case 'system_message.new':
+        boundActions.handleNewSystemMessage(cData)
+        break
       case 'message.removed':
         boundActions.handleRemovedMessage(cData)
+        break
+      case 'system_message.updated':
+        boundActions.handleSystemMessageUpdate(cData)
         break
       case 'message.updated':
         boundActions.handleMessageUpdate(cData)
@@ -123,6 +130,21 @@ export default function subscribe(channel) {
       case 'pins.changed':
         boundActions.handleFavoriteChange(cData)
         break
+      case 'call.incoming':
+        boundActions.handleIncomingCall(cData)
+        break
+      case 'call.hungup':
+        boundActions.handleHungUpCall(cData)
+        break
+      case 'call.missed':
+        boundActions.handleMissedCall(cData)
+        break
+      case 'call.joined':
+        boundActions.handleJoinedCall(cData)
+        break
+      case 'call.rejected':
+        boundActions.handleRejectedCall(cData)
+        break
       default:
     }
   })
@@ -130,6 +152,12 @@ export default function subscribe(channel) {
   channel.on('error', boundActions.handleConnectionError)
 
   channel.on('set:timer', backoff => {
-    boundActions.setTimer(backoff)
+    boundActions.setTimer(parseInt(backoff / 1000, 10))
+  })
+
+  channel.on('set:reconnecting:state', () => {
+    setTimeout(() => {
+      boundActions.handleReconnecting(false)
+    }, 1000)
   })
 }

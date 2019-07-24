@@ -30,6 +30,12 @@ export default function reduce(state = initialState, action) {
           : 'messageIn',
       }
     }
+    case types.HANDLE_INCOMING_CALL: {
+      return {
+        ...state,
+        active: 'incomingCall',
+      }
+    }
     case types.END_SOUND:
       return { ...state, active: null }
     case types.REQUEST_POST_MESSAGE:

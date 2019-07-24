@@ -50,6 +50,9 @@ class Menu extends PureComponent {
       canManageMembers,
       canAddIntegration,
       canEditProfile,
+      canSeeTutorial,
+      canSwitchOrganization,
+      canLogout,
     } = permissions
 
     if (canInviteMembers) {
@@ -79,17 +82,21 @@ class Menu extends PureComponent {
       items.push(<AccountSettingsItem key={++key} />)
     }
 
-    items.push(
-      <NotificationSettingsItem key={++key} />,
-      <TutorialItem onClick={onShowIntro} key={++key} />,
-      <SupportItem href={supportLink} key={++key} />,
-    )
+    items.push(<NotificationSettingsItem key={++key} />)
 
-    if (permissions.canSwitchOrganization) {
+    if (canSeeTutorial) {
+      items.push(<TutorialItem onClick={onShowIntro} key={++key} />)
+    }
+
+    items.push(<SupportItem href={supportLink} key={++key} />)
+
+    if (canSwitchOrganization) {
       items.push(<SwitchOrganizationsItem key={++key} />)
     }
 
-    items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
+    if (canLogout) {
+      items.push(<Divider key={++key} />, <LogoutItem key={++key} />)
+    }
 
     return <MenuList className={classes.root}>{items}</MenuList>
   }

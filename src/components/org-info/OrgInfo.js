@@ -116,8 +116,9 @@ export default class OrgInfo extends PureComponent {
     return (
       <header className={classes.orgInfo}>
         <Logo classes={classes} isLoading={isLoading} name={name} logo={logo} />
-        {!isLoading &&
-          user && <Info classes={classes} name={name} user={user} />}
+        {!isLoading && user && (
+          <Info classes={classes} name={name} user={user} />
+        )}
         {!isLoading && user && <Settings {...settingsProps} user={user} />}
         <Divider className={classes.divider} />
       </header>

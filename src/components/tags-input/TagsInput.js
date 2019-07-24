@@ -38,7 +38,7 @@ class TagsInput extends PureComponent {
   }
 
   componentDidUpdate() {
-    const { input, filterArea, inputRuler, filterRuler } = this
+    const { input, inputRuler } = this
     if (!input) return
     if (this.props.focused) input.focus()
 
@@ -49,8 +49,6 @@ class TagsInput extends PureComponent {
     // http://codepen.io/tyv/pen/pgKJLK
     input.style.width = `${inputRuler.offsetWidth + 2}px`
     input.scrollIntoView()
-
-    filterArea.style.height = filterRuler.offsetHeight
   }
 
   onInputRef = ref => {
@@ -58,12 +56,6 @@ class TagsInput extends PureComponent {
   }
   onInputRulerRef = ref => {
     this.inputRuler = ref
-  }
-  onFilterAreaRef = ref => {
-    this.filterArea = ref
-  }
-  onFilterRulerRef = ref => {
-    this.filterRuler = ref
   }
 
   onBlur = () => {
@@ -118,7 +110,7 @@ class TagsInput extends PureComponent {
     } = this.props
 
     return (
-      <span>
+      <span className={classes.inputWrapper}>
         {this.renderPlaceholder()}
         <input
           ref={this.onInputRef}
@@ -156,11 +148,9 @@ class TagsInput extends PureComponent {
   render() {
     const { classes } = this.props.sheet
     return (
-      <div ref={this.onFilterAreaRef} className={classes.filterArea}>
-        <div ref={this.onFilterRulerRef} className={classes.filterRuler}>
-          {this.renderTags()}
-          {this.renderInput()}
-        </div>
+      <div className={classes.filterArea}>
+        {this.renderTags()}
+        {this.renderInput()}
       </div>
     )
   }

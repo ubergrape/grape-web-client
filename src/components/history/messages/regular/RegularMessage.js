@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import Icon from 'grape-web/lib/svg-icons/Icon'
 import noop from 'lodash/noop'
 import cn from 'classnames'
 
@@ -11,6 +12,7 @@ import { defaultAvatar } from '../../../../constants/images'
 import { messageDeliveryStates } from '../../../../constants/app'
 
 import getBubble from './getBubble'
+import iconTagMap from './iconTagMap'
 import DuplicatesBadge from '../DuplicatesBadge'
 import { styles } from './regularMessageTheme'
 import UnsentWarning from './UnsentWarning'
@@ -36,6 +38,7 @@ export default class RegularMessage extends PureComponent {
     customEmojis: PropTypes.object,
     children: PropTypes.string,
     hasBubbleArrow: PropTypes.bool,
+    permissions: PropTypes.object.isRequired,
     isOwn: PropTypes.bool,
     isSelected: PropTypes.bool,
     isPinned: PropTypes.bool,
@@ -68,6 +71,8 @@ export default class RegularMessage extends PureComponent {
     id: PropTypes.string,
     channelId: PropTypes.number,
     text: PropTypes.string,
+    tag: PropTypes.string,
+    action: PropTypes.string,
     isAdmin: PropTypes.bool,
   }
 
@@ -98,6 +103,8 @@ export default class RegularMessage extends PureComponent {
     state: undefined,
     nlp: undefined,
     text: '',
+    tag: '',
+    action: '',
     isAdmin: false,
   }
 
@@ -173,6 +180,7 @@ export default class RegularMessage extends PureComponent {
       children,
       hasBubbleArrow,
       state,
+      permissions,
       isOwn,
       isSelected,
       isPinned,
@@ -182,6 +190,8 @@ export default class RegularMessage extends PureComponent {
       linkAttachments,
       nlp,
       text,
+      tag,
+      action,
       isAdmin,
     } = this.props
 
@@ -189,6 +199,7 @@ export default class RegularMessage extends PureComponent {
 
     const Bubble = getBubble({ isSelected, isPinned, isOwn })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
+    const statusIcon = iconTagMap[tag]
 
     let onRemoveLinkAttachment
     if (isOwn || isAdmin) {
@@ -222,12 +233,37 @@ export default class RegularMessage extends PureComponent {
                     classes.disabled,
                 )}
               >
-                {children && (
-                  <Grapedown
-                    text={children}
-                    user={user}
-                    customEmojis={customEmojis}
-                  />
+                {tag && <div className={classes.actionText}>{action}</div>}
+                {/* Oleh: I'm doing this because data which comes as text should be rendered beside with status icon.
+                  In case if in future it will be possible to swap `text` and `actions` fields from backend side,
+                  please change code below to more clean solution,
+                  like here: https://github.com/ubergrape/grape-web-client/pull/956/commits/491c0d2a02c92646cda9d896fcfb6f54ee8d8ae9.
+                  I can't do this because lack of time from another clients developers. And they're already
+                  imlemented solution with those field names.
+                */}
+                {tag ? (
+                  <div className={classes.action}>
+                    <div className={classes.iconWrapper}>
+                      <Icon className={classes[statusIcon]} name={statusIcon} />
+                    </div>
+                    {children && (
+                      <Grapedown
+                        text={children}
+                        user={user}
+                        customEmojis={customEmojis}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {children && (
+                      <Grapedown
+                        text={children}
+                        user={user}
+                        customEmojis={customEmojis}
+                      />
+                    )}
+                  </div>
                 )}
                 {!text && (
                   <LinkAttachments
@@ -249,6 +285,7 @@ export default class RegularMessage extends PureComponent {
                   getContentNode={this.getContentNode}
                   onPin={this.onPin}
                   onUnpin={this.onUnpin}
+                  permissions={permissions}
                   onToggleDropdown={this.onToggleMenuDropdown}
                 />
               )}

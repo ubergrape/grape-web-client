@@ -20,6 +20,13 @@ export default {
   online: {
     background: '#6cb500',
   },
+  // currently "inCall" and "reachable" statuses using same color as offline/online and will be fixed in the new design
+  inCall: {
+    background: '#6cb500',
+  },
+  reachable: {
+    background: '#098dec',
+  },
   offline: {
     background: '#fc6e51',
   },

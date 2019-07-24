@@ -46,23 +46,26 @@ const styles = ({ palette }) => ({
 
 const Contacts = ({
   classes,
+  hideEmailField,
   email,
   skypeUsername,
   skypeForBusiness,
   phoneNumber,
 }) => (
   <ul>
-    <li className={classes.row}>
-      <Icon name="envelope" className={classes.icon} />
-      <span className={classes.name}>
-        <FormattedMessage id="email" defaultMessage="Email" />
-      </span>
-      <span className={classes.value}>
-        <a href={`mailto:${email}`} className={classes.link}>
-          {email}
-        </a>
-      </span>
-    </li>
+    {!hideEmailField && (
+      <li className={classes.row}>
+        <Icon name="envelope" className={classes.icon} />
+        <span className={classes.name}>
+          <FormattedMessage id="email" defaultMessage="Email" />
+        </span>
+        <span className={classes.value}>
+          <a href={`mailto:${email}`} className={classes.link}>
+            {email}
+          </a>
+        </span>
+      </li>
+    )}
     {skypeUsername && (
       <li className={classes.row}>
         <Icon name="skype" className={classes.icon} />
@@ -107,6 +110,7 @@ const Contacts = ({
 
 Contacts.propTypes = {
   classes: PropTypes.object.isRequired,
+  hideEmailField: PropTypes.bool,
   email: PropTypes.string,
   skypeUsername: PropTypes.string,
   skypeForBusiness: PropTypes.string,
@@ -114,6 +118,7 @@ Contacts.propTypes = {
 }
 
 Contacts.defaultProps = {
+  hideEmailField: false,
   email: undefined,
   skypeUsername: undefined,
   skypeForBusiness: undefined,

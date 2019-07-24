@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import { Link } from 'grape-web/lib/router'
+import Link from '../../link/Link'
 
 import getSvg from './getSvg'
 import theme from './theme'
@@ -21,7 +21,7 @@ export default class InternalLinkWithIcon extends PureComponent {
     const style = { backgroundImage: `url(${getSvg(icon)})` }
 
     return (
-      <Link to={url}>
+      <Link href={url}>
         <span className={classes.icon} style={style} /> {children}
       </Link>
     )

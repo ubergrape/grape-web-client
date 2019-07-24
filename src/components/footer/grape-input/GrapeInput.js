@@ -20,14 +20,6 @@ import {
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 const messages = defineMessages({
-  placeholder: {
-    id: 'editMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
-  },
-  placeholderDisabled: {
-    id: 'disabledMessagePlaceholder',
-    defaultMessage: 'This user has been deleted. Messaging is disabled.',
-  },
   keyESC: {
     id: 'keyESC',
     defaultMessage: 'ESC',
@@ -143,9 +135,21 @@ class GrapeInput extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    let { draftMessages = '{}' } = localStorage
+    const {
+      channel: { id },
+    } = this.props
+
+    draftMessages = JSON.parse(draftMessages)
+    if (draftMessages[id]) {
+      this.input.setTextContent(draftMessages[id], { silent: true })
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
-      channel: curChannel,
+      channel: currChannel,
       targetMessage: currTargetMessage,
       quoteMessage: currQuoteMessage,
       intl,
@@ -157,8 +161,8 @@ class GrapeInput extends PureComponent {
       quoteMessage: nextQuoteMessage,
     } = nextProps
 
-    if (curChannel.id !== nextChannel.id) {
-      this.onSelectChannel(curChannel, nextChannel)
+    if (currChannel.id !== nextChannel.id) {
+      this.onSelectChannel(currChannel, nextChannel)
     }
 
     if (
@@ -200,7 +204,13 @@ class GrapeInput extends PureComponent {
     if (prev.id && !targetMessage) {
       onSetUnsentMessage(prev.id, this.input.getTextContent())
     }
-    this.input.setTextContent(next.unsent || '', { silent: true })
+
+    let { draftMessages = '{}' } = localStorage
+    draftMessages = JSON.parse(draftMessages)
+
+    this.input.setTextContent(next.unsent || draftMessages[next.id] || '', {
+      silent: true,
+    })
     this.focus()
   }
 
@@ -409,7 +419,6 @@ class GrapeInput extends PureComponent {
       intl: { formatMessage },
     } = this.props
     let browserProps = {}
-    const { placeholderDisabled, placeholder } = messages
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
@@ -438,9 +447,6 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            placeholder={formatMessage(
-              disabled ? placeholderDisabled : placeholder,
-            )}
             disabled={disabled}
             locale={conf.user.languageCode}
             focused={this.state.focused}

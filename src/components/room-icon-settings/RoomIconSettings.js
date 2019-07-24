@@ -21,18 +21,20 @@ export default class RoomIconSettings extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
+    allowEdit: PropTypes.bool,
     dropdownPlacement: PropTypes.string,
     container: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
+    allowEdit: false,
     dropdownPlacement: 'bottom',
   }
 
   state = { show: false }
 
   onShowDropdown = e => {
-    if (!this.state.show) {
+    if (!this.state.show && this.props.allowEdit) {
       // We need to stop further event propagation because
       // in same time it is outside click for dropdown
       // we're going to show.

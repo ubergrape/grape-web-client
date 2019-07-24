@@ -20,23 +20,19 @@ export default class ReconnectionAlert extends PureComponent {
     classes: PropTypes.object.isRequired,
     reconnect: PropTypes.object.isRequired,
     onReconnect: PropTypes.func,
-    updateTimer: PropTypes.func,
+    updateReconnectTimer: PropTypes.func,
     buttonClass: PropTypes.string,
   }
 
   static defaultProps = {
     onReconnect: noop,
-    updateTimer: noop,
+    updateReconnectTimer: noop,
     buttonClass: undefined,
   }
 
   componentDidMount = () => {
-    const {
-      reconnect: { timerSet, backoff },
-      updateTimer,
-    } = this.props
     this.timer = setInterval(() => {
-      updateTimer(timerSet + backoff - Date.now())
+      this.props.updateReconnectTimer()
     }, 1000)
   }
 
@@ -51,31 +47,28 @@ export default class ReconnectionAlert extends PureComponent {
 
   render() {
     const { classes, buttonClass, reconnect } = this.props
-
-    const secondsLeftToReconnect = parseInt(
-      (reconnect.timerSet + reconnect.backoff - Date.now()) / 1000,
-      10,
-    )
-
-    if (!secondsLeftToReconnect) return null
+    const { backoff, reconnecting } = reconnect
 
     return (
       <div className={classes.reconnectionAlert}>
         <FormattedMessage
           id="connectionTrouble"
           defaultMessage="We're having trouble connecting to Grape."
-        />&nbsp;
-        {secondsLeftToReconnect ? (
+        />
+        &nbsp;
+        {backoff > 0 && !reconnecting ? (
           <span>
             <FormattedMessage
               id="tryToReconnect"
               defaultMessage="We'll try to reconnect in"
-            />&nbsp;
-            {secondsLeftToReconnect}{' '}
+            />
+            &nbsp;
+            {backoff}{' '}
             <FormattedMessage
               id="reconnectSeconds"
               defaultMessage="s, or you can"
-            />&nbsp;
+            />
+            &nbsp;
             <Button
               className={cn(buttonClass, classes.reconnectButton)}
               onClick={this.onReconnect}

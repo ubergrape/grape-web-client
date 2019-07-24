@@ -44,8 +44,11 @@ class VideoConferenceWarningDialog extends PureComponent {
       videoconferenceUrl,
     } = this.props
 
+    if (!videoconferenceUrl) return null
+
     return (
       <Dialog
+        width={600}
         title={formatMessage(messages.title)}
         show={this.props.show}
         onHide={this.onHide}

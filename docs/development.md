@@ -73,10 +73,12 @@ In case of testing full web-client you may need to install certificates. Please 
 For embedded client in demo/embedded.html use `staticBaseUrl: 'http://10.0.2.2:8081/static/'`.
 
 Enable proxy in IE:
-![A configuration dialog for proxy settings](./proxy-ie.png)
+
+<img src="./proxy-ie.png" alt="A configuration dialog for proxy settings" width="60%">
 
 Allow all of cookies in IE:
-![A configuration dialog for cookies settings](./cookies-ie.png)
+
+<img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="60%">
 
 ## Trusting certificate on Firefox
 

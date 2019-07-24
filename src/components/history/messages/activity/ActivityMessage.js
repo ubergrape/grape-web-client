@@ -36,6 +36,7 @@ class ActivityMessage extends PureComponent {
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
+    permissions: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool,
     isSelected: PropTypes.bool,
     linkAttachments: PropTypes.array,
@@ -89,6 +90,7 @@ class ActivityMessage extends PureComponent {
       onRemove,
       text,
       linkAttachments,
+      permissions,
     } = this.props
 
     return (
@@ -102,6 +104,7 @@ class ActivityMessage extends PureComponent {
         onCopyLink={onCopyLink}
         onQuote={onQuote}
         onRemove={onRemove}
+        permissions={permissions}
       />
     )
   }

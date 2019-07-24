@@ -268,17 +268,20 @@ export const newConversationSelector = createSelector(
     joinedChannelsSelector,
     channelSelector,
     confSelector,
+    orgSelector,
   ],
   (
     newConversation,
     isMemberOfAnyRooms,
     channel,
     { organization: { colors } },
+    { defaults },
   ) => ({
     ...newConversation,
     isMemberOfAnyRooms,
     channel,
     colors,
+    defaults,
   }),
 )
 
@@ -563,7 +566,6 @@ export const sidebarComponentSelector = createSelector(
         ...org.permissions,
         ...channel.permissions,
       },
-      orgFeatures: org.features,
       subview: subviews[showSubview],
       colors,
     }
@@ -580,9 +582,10 @@ export const headerSelector = createSelector(
     userProfileSelector,
     joinedChannelsSelector,
     confSelector,
+    userSelector,
   ],
   (
-    { permissions },
+    { permissions, features },
     favorite,
     channel,
     { show: sidebar },
@@ -590,6 +593,7 @@ export const headerSelector = createSelector(
     partner,
     isMemberOfAnyRooms,
     { organization: { colors } },
+    user,
   ) => ({
     favorite,
     channel,
@@ -599,6 +603,8 @@ export const headerSelector = createSelector(
     permissions,
     isMemberOfAnyRooms,
     colors,
+    orgFeatures: features,
+    user,
   }),
 )
 
@@ -610,6 +616,7 @@ export const historySelector = createSelector(
 export const historyComponentSelector = createSelector(
   [
     historySelector,
+    channelSelector,
     orgSelector,
     initialDataLoadingSelector,
     joinedChannelsSelector,
@@ -619,7 +626,8 @@ export const historyComponentSelector = createSelector(
   ],
   (
     history,
-    { customEmojis, permissions },
+    channel,
+    org,
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -627,8 +635,11 @@ export const historyComponentSelector = createSelector(
     conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
-    customEmojis,
-    permissions,
+    customEmojis: org.customEmojis,
+    permissions: {
+      ...org.permissions,
+      ...channel.permissions,
+    },
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -647,10 +658,7 @@ export const isChannelDisabledSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
     if (channel && Object.keys(channel).length)
-      return (
-        (channel.type === 'pm' && !channel.isActive) ||
-        !channel.permissions.canPostMessages
-      )
+      return !channel.permissions.canPostMessages
     return channels.length === 0 || !channel
   },
 )
@@ -738,6 +746,20 @@ export const browserNotificationSelector = createSelector(
   state => state,
 )
 
+export const incomingCallSelector = createSelector(
+  state => state.incomingCall,
+  state => state,
+)
+
+export const browserNotificationComponentSelector = createSelector(
+  [browserNotificationSelector, confSelector, incomingCallSelector],
+  (browserNotification, conf, incoming) => ({
+    ...browserNotification,
+    conf,
+    call: incoming,
+  }),
+)
+
 export const introSelector = createSelector(
   state => state.intro,
   state => state,
@@ -761,5 +783,18 @@ export const videoConferenceWarningComponentSelector = createSelector(
   (videoConferenceWarning, { videoconferenceUrl }) => ({
     ...videoConferenceWarning,
     videoconferenceUrl,
+  }),
+)
+
+export const callStatusSelector = createSelector(
+  state => state.callStatus,
+  state => state,
+)
+
+export const callStatusComponentSelector = createSelector(
+  [callStatusSelector, userSelector],
+  (callStatus, user) => ({
+    callStatus,
+    user,
   }),
 )

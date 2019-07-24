@@ -36,6 +36,12 @@ class Renderer {
     this.renderer = mdReact({
       presetName: 'commonmark',
       disableRules: ['list', 'heading'],
+      // linkify has to be additional to the option be enabled as
+      // a rule since commonmark disables it by default
+      // see https://github.com/markdown-it/markdown-it/issues/367
+      // and for some reason strikethrough should be enabled too, but
+      // documentation says it enabled by default
+      enableRules: ['linkify', 'strikethrough'],
       markdownOptions: {
         linkify: true,
         html: false,
@@ -51,7 +57,9 @@ class Renderer {
     })
   }
 
-  renderTag = (tag, props, children) => {
+  // In case there are no children we need to set it to an empty array
+  // to make sure createElement gets a parameter other than undefined or null.
+  renderTag = (tag, props, children = []) => {
     const handler = this.props.renderTag || renderTag
     return handler(
       tag,

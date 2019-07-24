@@ -7,27 +7,33 @@ const baseUrl = staticUrl('app/sounds')
 
 export default class Sounds extends PureComponent {
   static propTypes = {
-    sounds: PropTypes.object.isRequired,
+    sounds: PropTypes.object,
     onEnded: PropTypes.func.isRequired,
     active: PropTypes.string,
   }
 
   static defaultProps = {
     active: null,
-  }
-
-  static defaultProps = {
     sounds: {
       messageIn: `${baseUrl}/message-in.mp3`,
       messageOut: `${baseUrl}/message-out.mp3`,
       mention: `${baseUrl}/mention.mp3`,
+      incomingCall: `${baseUrl}/incoming-call.mp3`,
     },
   }
 
   render() {
     const { sounds, active, onEnded } = this.props
+
     if (!active) return null
 
-    return <audio src={sounds[active]} autoPlay onEnded={onEnded} />
+    return (
+      <iframe allow="autoplay" title="audio" style={{ display: 'none' }}>
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <audio autoPlay onEnded={onEnded}>
+          <source src={sounds[active]} type="audio/mp3" />
+        </audio>
+      </iframe>
+    )
   }
 }

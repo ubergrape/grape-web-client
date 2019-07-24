@@ -1,4 +1,4 @@
-import { toCamel, toSnake } from '../convertCase'
+import { toCamel, toSnake } from '../../convertCase'
 
 describe('convertCase', () => {
   describe('toSnake', () => {

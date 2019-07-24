@@ -11,6 +11,7 @@ import MentionsButton from './MentionsButton'
 import LabeledMessagesButton from './LabeledMessagesButton'
 import PinButton from './PinButton'
 import InfoButton from './InfoButton'
+import VideoConferenceButton from './VideoConferenceButton'
 import Search from './Search'
 import Divider from './Divider'
 import { height } from './constants'
@@ -31,6 +32,12 @@ export const styles = ({ palette }) => ({
     pointerEvents: 'none',
   },
   favorite: {
+    listStyle: 'none',
+    flexShrink: 0,
+    position: 'relative',
+    margin: [0, sizes.spacer.xs, 0, sizes.spacer.s],
+  },
+  videoConference: {
     listStyle: 'none',
     flexShrink: 0,
     position: 'relative',
@@ -90,7 +97,11 @@ function Items(props) {
     permissions,
     intl,
     channel,
+    user,
     colors,
+    orgFeatures,
+    showVideoConferenceWarning,
+    showToastNotification,
   } = props
 
   return (
@@ -115,6 +126,19 @@ function Items(props) {
           />
         )}
       </li>
+      {orgFeatures &&
+        orgFeatures.videoconference && (
+          <li className={classes.videoConference}>
+            <VideoConferenceButton
+              channel={channel}
+              user={user}
+              colors={colors}
+              intl={intl}
+              showToastNotification={showToastNotification}
+              showVideoConferenceWarning={showVideoConferenceWarning}
+            />
+          </li>
+        )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>
@@ -163,6 +187,7 @@ Items.propTypes = {
   intl: intlShape.isRequired,
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
   colors: PropTypes.object,
   mentions: PropTypes.number,
@@ -173,6 +198,9 @@ Items.propTypes = {
   permissions: PropTypes.object,
   requestAddChannelToFavorites: PropTypes.func.isRequired,
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
+  showVideoConferenceWarning: PropTypes.func.isRequired,
+  showToastNotification: PropTypes.func.isRequired,
+  orgFeatures: PropTypes.object,
 }
 
 Items.defaultProps = {
@@ -180,6 +208,7 @@ Items.defaultProps = {
   mentions: 0,
   sidebar: undefined,
   colors: {},
+  orgFeatures: undefined,
 }
 
 export default injectSheet(styles)(Items)
