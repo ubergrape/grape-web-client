@@ -91,10 +91,11 @@ const getNewMessageOptions = props => {
   }
 }
 
-const getCallCallbacks = (dispatcher, props) => {
+const getCallCallbacks = ({ dispatcher, timeout }, props) => {
   const {
     joinCall,
     rejectCall,
+    cancelCall,
     onGoToChannel,
     channel,
     browserNotification,
@@ -106,6 +107,11 @@ const getCallCallbacks = (dispatcher, props) => {
 
   if (dispatcher === 'incoming') {
     let isClicked = false
+    let isTimeOver = false
+    setTimeout(() => {
+      isTimeOver = true
+    }, timeout)
+
     return {
       onClick: () => {
         isClicked = true
@@ -122,6 +128,13 @@ const getCallCallbacks = (dispatcher, props) => {
         // But default incoming call duration is 30 seconds.
         if (isClicked || isElectron) return
 
+        if (isTimeOver) {
+          cancelCall({
+            channelId,
+            callId,
+          })
+          return
+        }
         rejectCall({
           channelId,
           callId,
@@ -187,11 +200,12 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
       options: getNewMessageOptions(props),
     }
   } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
+    const timeout = conf.grapecall.incomingCallTimeout * 1000
     return {
       type: 'calls',
       options: getCallOptions(props),
-      callbacks: getCallCallbacks(dispatcher, props),
-      params: { timeout: conf.grapecall.incomingCallTimeout * 1000 },
+      callbacks: getCallCallbacks({ dispatcher, timeout }, props),
+      params: { timeout },
     }
   }
   // Unexpected notification has been provided
@@ -240,6 +254,7 @@ class BrowserNotification extends PureComponent {
     onGoToChannel: PropTypes.func.isRequired,
     joinCall: PropTypes.func.isRequired,
     rejectCall: PropTypes.func.isRequired,
+    cancelCall: PropTypes.func.isRequired,
     setNotification: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     channel: PropTypes.shape({

@@ -26,6 +26,18 @@ export const joinIncomingCall = args => dispatch => {
     .catch(err => dispatch(error(err)))
 }
 
+export const cancelIncomingCall = args => dispatch => {
+  api
+    .cancelCall(args)
+    .then(() => {
+      dispatch({
+        type: types.CLOSE_INCOMING_CALL,
+      })
+      dispatch(endSound())
+    })
+    .catch(err => dispatch(error(err)))
+}
+
 export const replyWithMessage = args => dispatch => {
   api
     .cancelCall(args)
