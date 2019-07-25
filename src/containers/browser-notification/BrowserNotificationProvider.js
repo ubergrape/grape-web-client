@@ -10,6 +10,7 @@ const actionNames = {
   goToChannel: 'onGoToChannel',
   joinIncomingCall: 'joinCall',
   rejectIncomingCall: 'rejectCall',
+  cancelIncomingCall: 'cancelCall',
   setNotification: 'setNotification',
 }
 
