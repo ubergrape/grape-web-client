@@ -110,7 +110,9 @@ const getCallCallbacks = ({ dispatcher, timeout }, props) => {
     let isTimeOver = false
     setTimeout(() => {
       isTimeOver = true
-    }, timeout)
+    }, timeout - 1000)
+    // Should decrease timeout for 1000 ms here, for some reason onClose event calls quicker
+    // then notification was closed in createNotification function from 'grape-web/lib/x-platform'
 
     return {
       onClick: () => {
