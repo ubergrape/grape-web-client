@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         show: true,
-        timer: Math.floor((Date.now() - Date.parse(payload.startedAt)) / 60),
+        timer: Math.floor((Date.now() - Date.parse(payload.startedAt)) / 1000),
         call: payload,
       }
     case types.CLOSE_CALL_STATUS:
