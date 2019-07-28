@@ -131,18 +131,23 @@ export default function subscribe(channel) {
         boundActions.handleFavoriteChange(cData)
         break
       case 'call.incoming':
+        if (conf.embed) break
         boundActions.handleIncomingCall(cData)
         break
       case 'call.hungup':
+        if (conf.embed) break
         boundActions.handleHungUpCall(cData)
         break
       case 'call.missed':
+        if (conf.embed) break
         boundActions.handleMissedCall(cData)
         break
       case 'call.joined':
+        if (conf.embed) break
         boundActions.handleJoinedCall(cData)
         break
       case 'call.rejected':
+        if (conf.embed) break
         boundActions.handleRejectedCall(cData)
         break
       default:
