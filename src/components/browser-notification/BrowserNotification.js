@@ -91,53 +91,17 @@ const getNewMessageOptions = props => {
   }
 }
 
-const getCallCallbacks = ({ dispatcher, timeout }, props) => {
-  const {
-    joinCall,
-    rejectCall,
-    cancelCall,
-    onGoToChannel,
-    channel,
-    browserNotification,
-    call,
-  } = props
+const getCallCallbacks = ({ dispatcher }, props) => {
+  const { joinCall, onGoToChannel, channel, browserNotification, call } = props
   const {
     incoming: { channelId, grapecallUrl, callId },
   } = call
 
   if (dispatcher === 'incoming') {
-    let isClicked = false
-    let isTimeOver = false
-    setTimeout(() => {
-      isTimeOver = true
-    }, timeout - 1000)
-    // Should decrease timeout for 1000 ms here, for some reason onClose event calls quicker
-    // then notification was closed in createNotification function from 'grape-web/lib/x-platform'
-
     return {
       onClick: () => {
-        isClicked = true
-
         window.open(`${grapecallUrl}?call_id=${callId}`)
         joinCall({
-          channelId,
-          callId,
-        })
-      },
-      onClose: () => {
-        // Do not perform this callback for Electron, because it don't support requireInteraction flag.
-        // Notification for desktop only showing for ~3 seconds, and after that onClose will be triggered.
-        // But default incoming call duration is 30 seconds.
-        if (isClicked || isElectron) return
-
-        if (isTimeOver) {
-          cancelCall({
-            channelId,
-            callId,
-          })
-          return
-        }
-        rejectCall({
           channelId,
           callId,
         })
@@ -206,7 +170,7 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
     return {
       type: 'calls',
       options: getCallOptions(props),
-      callbacks: getCallCallbacks({ dispatcher, timeout }, props),
+      callbacks: getCallCallbacks({ dispatcher }, props),
       params: { timeout },
     }
   }
@@ -255,8 +219,6 @@ class BrowserNotification extends PureComponent {
     call: PropTypes.object.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     joinCall: PropTypes.func.isRequired,
-    rejectCall: PropTypes.func.isRequired,
-    cancelCall: PropTypes.func.isRequired,
     setNotification: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     channel: PropTypes.shape({
