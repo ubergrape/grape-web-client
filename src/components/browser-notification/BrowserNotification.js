@@ -194,7 +194,9 @@ const updateNotification = (props, nextProps) => {
 
   if (type === 'calls') {
     const { show } = call
-    if (!show && show !== props.call.show) notification.close()
+    if (!show && show !== props.call.show && notification.close) {
+      notification.close()
+    }
   }
 }
 
