@@ -77,6 +77,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
     dispatch(addNewMessage(message))
     return
   }
+
   dispatch(addNewChannel(message.channel)).then(() => {
     dispatch(addNewMessage(message))
   })
@@ -246,7 +247,8 @@ export function handleNotification(notification) {
       dispatch(newNotification(notification, channel))
       return
     }
-    dispatch(addNewChannel(notification.id)).then(() => {
+
+    dispatch(addNewChannel(notification.channelId)).then(() => {
       const updatedChannels = channelsSelector(getState())
       const addedChannel = find(updatedChannels, { id: notification.channelId })
       dispatch(newNotification(notification, addedChannel))
