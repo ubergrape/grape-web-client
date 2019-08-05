@@ -1,13 +1,20 @@
 import { zIndex } from '../../utils/z-index'
 
 export default () => ({
+  windowWrapper: {
+    position: 'absolute',
+    padding: 10,
+    width: '100%',
+    height: '100%',
+  },
   window: {
     width: 360,
     height: 80,
+    cursor: 'move',
     background: '#333',
     borderRadius: 16,
     position: 'absolute',
-    zIndex: zIndex('dialog'),
+    zIndex: zIndex('alerts', 1),
     top: 76,
     right: 20,
     boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.8)',
@@ -16,15 +23,18 @@ export default () => ({
   },
   avatar: {
     marginLeft: 8,
+    cursor: 'move',
     display: 'block',
     position: 'relative',
   },
   image: {
+    cursor: 'move',
     height: 64,
     width: 64,
     borderRadius: '50%',
   },
   iconWrapper: {
+    cursor: 'move',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,17 +47,20 @@ export default () => ({
     borderRadius: '50%',
   },
   cameraIcon: {
+    cursor: 'move',
     color: '#FFF',
     width: 14,
     height: 11,
   },
   details: {
+    cursor: 'move',
     margin: '0 16px',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },
   name: {
+    cursor: 'move',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -57,6 +70,7 @@ export default () => ({
     color: '#FFF',
   },
   time: {
+    cursor: 'move',
     fontSize: 14,
     lineHeight: '25px',
     color: '#FFF',

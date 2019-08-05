@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import Draggable from 'react-draggable'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -53,31 +54,35 @@ class CallStatus extends PureComponent {
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
-      <div className={classes.window}>
-        <div className={classes.avatar}>
-          <img
-            className={classes.image}
-            alt="Interlocutor avatar"
-            src={authorAvatarUrl}
-          />
-          <div className={classes.iconWrapper}>
-            <Icon name="camera" className={classes.cameraIcon} />
+      <div className={classes.windowWrapper}>
+        <Draggable bounds="parent">
+          <div className={classes.window}>
+            <div className={classes.avatar}>
+              <img
+                className={classes.image}
+                alt="Interlocutor avatar"
+                src={authorAvatarUrl}
+              />
+              <div className={classes.iconWrapper}>
+                <Icon name="camera" className={classes.cameraIcon} />
+              </div>
+            </div>
+            <div className={classes.details}>
+              <span className={classes.name}>{authorDisplayName}</span>
+              <span className={classes.time}>
+                {hours < 10 ? `0${hours}` : hours}:
+                {minutes < 10 ? `0${minutes}` : minutes}:
+                {seconds < 10 ? `0${seconds}` : seconds}
+              </span>
+            </div>
+            <button
+              onClick={this.onCancel}
+              className={cn(classes.button, classes.cancel)}
+            >
+              <Icon className={classes.missedIcon} name="callMissed" />
+            </button>
           </div>
-        </div>
-        <div className={classes.details}>
-          <span className={classes.name}>{authorDisplayName}</span>
-          <span className={classes.time}>
-            {hours < 10 ? `0${hours}` : hours}:
-            {minutes < 10 ? `0${minutes}` : minutes}:
-            {seconds < 10 ? `0${seconds}` : seconds}
-          </span>
-        </div>
-        <button
-          onClick={this.onCancel}
-          className={cn(classes.button, classes.cancel)}
-        >
-          <Icon className={classes.missedIcon} name="callMissed" />
-        </button>
+        </Draggable>
       </div>
     )
   }
