@@ -12,6 +12,7 @@ import {
   joinedRoomsSelector,
   channelsSelector,
   joinedChannelsSelector,
+  incomingCallSelector,
 } from '../selectors'
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
@@ -324,6 +325,13 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
   const { authorId } = payload
   const currUser = userSelector(getState())
 
+  dispatch({
+    type: types.CLOSE_INCOMING_CALL,
+  })
+  dispatch({
+    type: types.CLOSE_CALL_STATUS,
+  })
+
   if (currUser.id !== authorId) {
     dispatch({
       type: types.HANDLE_INCOMING_CALL,
@@ -344,7 +352,11 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
-  const { authorId } = payload
+  const { authorId, callId } = payload
+  const { incoming } = incomingCallSelector(getState())
+
+  if (incoming.callId !== callId) return
+
   const currUser = userSelector(getState())
 
   if (currUser.id !== authorId) {
@@ -366,7 +378,12 @@ export const handleMissedCall = payload => (dispatch, getState) => {
   }
 }
 
-export const handleHungUpCall = () => dispatch => {
+export const handleHungUpCall = payload => (dispatch, getState) => {
+  const { incoming } = incomingCallSelector(getState())
+  const { callId } = payload
+
+  if (incoming.callId !== callId) return
+
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
@@ -377,13 +394,17 @@ export const handleHungUpCall = () => dispatch => {
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
+  const { incoming } = incomingCallSelector(getState())
+  const { authorId, channelId, callId } = payload
+
+  if (incoming.callId !== callId) return
+
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
 
   const user = userSelector(getState())
-  const { authorId, channelId } = payload
 
   if (user.id !== authorId) {
     dispatch({
@@ -412,7 +433,12 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 }
 
-export const handleRejectedCall = () => dispatch => {
+export const handleRejectedCall = payload => (dispatch, getState) => {
+  const { incoming } = incomingCallSelector(getState())
+  const { callId } = payload
+
+  if (incoming.callId !== callId) return
+
   dispatch(endSound())
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
