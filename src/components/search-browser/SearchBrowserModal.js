@@ -54,7 +54,7 @@ export default injectSheet({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    zIndex: 1000,
+    zIndex: 3001,
     top: 0,
   },
   backdrop: {
