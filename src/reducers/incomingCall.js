@@ -14,11 +14,20 @@ export default (state = initialState, action) => {
         show: true,
         incoming: payload,
       }
+    case types.SHOW_INCOMING_CALL:
+      return {
+        ...state,
+        show: true,
+      }
     case types.CLOSE_INCOMING_CALL:
       return {
         ...state,
-        incoming: {},
         show: false,
+      }
+    case types.CLEAR_INCOMING_CALL_DATA:
+      return {
+        ...state,
+        incoming: {},
       }
     default:
       return state
