@@ -30,7 +30,7 @@ export default function reduce(state = initialState, action) {
           : 'messageIn',
       }
     }
-    case types.HANDLE_INCOMING_CALL: {
+    case types.SHOW_INCOMING_CALL: {
       return {
         ...state,
         active: 'incomingCall',

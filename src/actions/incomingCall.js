@@ -9,6 +9,9 @@ export const rejectIncomingCall = args => dispatch => {
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })
+      dispatch({
+        type: types.CLEAR_INCOMING_CALL_DATA,
+      })
       dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
@@ -33,6 +36,9 @@ export const cancelIncomingCall = args => dispatch => {
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
       })
+      dispatch({
+        type: types.CLEAR_INCOMING_CALL_DATA,
+      })
       dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
@@ -45,6 +51,9 @@ export const replyWithMessage = args => dispatch => {
       dispatch(goToChannel(args.channelId))
       dispatch({
         type: types.CLOSE_INCOMING_CALL,
+      })
+      dispatch({
+        type: types.CLEAR_INCOMING_CALL_DATA,
       })
       dispatch(endSound())
     })
