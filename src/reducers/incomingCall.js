@@ -11,7 +11,6 @@ export default (state = initialState, action) => {
     case types.HANDLE_INCOMING_CALL:
       return {
         ...state,
-        show: true,
         incoming: payload,
       }
     case types.SHOW_INCOMING_CALL:
