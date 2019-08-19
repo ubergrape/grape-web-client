@@ -1,6 +1,6 @@
 # Grape WebClient
 
-[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key>)](https://www.browserstack.com/automate/public-build/N2JPR3h0OTEvT1MxNkUrWHVvREtYemJaVGtQYXltczRKcXFPVStpenlmUT0tLTdTVUN6UEZIcm8zZHo5TVNYVjM3UXc9PQ==--3be9d694d345ede98015449b7af0ae0eee0a42bd)
+[![Coverage Status](https://coveralls.io/repos/github/ubergrape/grape-web-client/badge.svg?branch=master)](https://coveralls.io/github/ubergrape/grape-web-client?branch=master)
 
 Documentation can be found in the docs folder
 
