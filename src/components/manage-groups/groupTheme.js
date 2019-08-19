@@ -22,10 +22,6 @@ export const styles = {
         isolate: false,
         color: white,
       },
-      '&, & *': {
-        isolate: false,
-        cursor: 'pointer',
-      },
     },
   },
   name: {},
