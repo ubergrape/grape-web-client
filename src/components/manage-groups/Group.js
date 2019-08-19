@@ -19,9 +19,7 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class Group extends PureComponent {
+class Group extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     group: PropTypes.object.isRequired,
@@ -47,7 +45,7 @@ export default class Group extends PureComponent {
       type,
     } = this.props
     return (
-      <div className={classes.item} onClick={this.onClick} tabIndex="0">
+      <div className={classes.item}>
         <div className={classes.group}>
           <Roomname
             {...group}
@@ -63,3 +61,5 @@ export default class Group extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(Group))
