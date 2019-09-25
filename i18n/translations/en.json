@@ -1,5 +1,7 @@
 {
   "noEmojiFound": "No emoji found.",
+  "enterMessagePlaceholder": "Enter a message …",
+  "groupPostingLimitedPlaceholder": "Posting to this group has been limited.",
   "willNotifyRoom": "— notify everyone in this group",
   "_willNotifyRoom.comment": "*Describe willNotifyRoom*: this string is decribing action",
   "wontNotifyRoom": "— does not notify group members",
@@ -18,7 +20,5 @@
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "select service",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "No services found.",
-  "enterMessagePlaceholder": "Enter a message …",
-  "groupPostingLimitedPlaceholder": "Posting to this group has been limited."
+  "noServicesFound": "No services found."
 }
