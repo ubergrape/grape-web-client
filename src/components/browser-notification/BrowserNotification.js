@@ -44,7 +44,7 @@ const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdEmoji)
   .use(mdNotification)
 
-const getInviteOptions = ({
+const getInviteProperties = ({
   browserNotification: { inviter, channel },
   intl: { formatMessage },
 }) => ({
@@ -69,7 +69,7 @@ const getMessageTitle = props => {
   return `${author.name} ${formatMessage(messages.pm)}`
 }
 
-const getNewMessageOptions = props => {
+const getNewMessageProperties = props => {
   const { author, attachments, content: mdContent } = props.browserNotification
   const title = getMessageTitle(props)
   let content = md.render(mdContent)
@@ -118,7 +118,7 @@ const getCallCallbacks = ({ dispatcher }, props) => {
   }
 }
 
-const getCallOptions = props => {
+const getCallProperties = props => {
   const { browserNotification, intl } = props
   const { dispatcher, channel } = browserNotification
 
@@ -144,6 +144,7 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
   if (dispatchers.invites.indexOf(dispatcher) !== -1) {
     return {
       type: 'invites',
+      properties: getInviteProperties(props),
       callbacks: {
         onClick: () => {
           if (channel.id !== browserNotification.channel.id) {
@@ -151,11 +152,11 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
           }
         },
       },
-      options: getInviteOptions(props),
     }
   } else if (dispatchers.messages.indexOf(dispatcher) !== -1) {
     return {
       type: 'messages',
+      properties: getNewMessageProperties(props),
       callbacks: {
         onClick: () => {
           if (channel.id !== browserNotification.channel.id) {
@@ -163,15 +164,14 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
           }
         },
       },
-      options: getNewMessageOptions(props),
     }
   } else if (dispatchers.calls.indexOf(dispatcher) !== -1) {
     const timeout = conf.grapecall.incomingCallTimeout * 1000
     return {
       type: 'calls',
-      options: getCallOptions(props),
-      callbacks: getCallCallbacks({ dispatcher }, props),
+      properties: getCallProperties(props),
       params: { timeout },
+      callbacks: getCallCallbacks({ dispatcher }, props),
     }
   }
   // Unexpected notification has been provided
@@ -204,13 +204,17 @@ const renderNotification = props => {
   const { browserNotification, conf } = props
   const { dispatcher } = browserNotification
 
-  const { options, callbacks, params } = normalizeNotificationData({
+  const { properties, callbacks, params } = normalizeNotificationData({
     dispatcher,
     props,
     conf,
   })
 
-  const notification = createNotification(options, callbacks, params)
+  const notification = createNotification({
+    properties,
+    params,
+    callbacks,
+  })
   return notification
 }
 
