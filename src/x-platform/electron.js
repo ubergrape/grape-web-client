@@ -1,26 +1,16 @@
-import noop from 'lodash/noop'
-import get from 'lodash/get'
 import random from 'lodash/random'
 
 import { openUrl, createNotification as createWebNotification } from './web'
 
-// Electron implements require on window.
-let electron
+export const createNotification = options => {
+  const { properties, params, callbacks } = options
 
-// This is a hack to avoid webpack trying to find this dependency.
-// We could add `externals` to webpack config, but this will be needed to be done
-// in every package that uses this one.
-if (window.require && (window && window.process && window.process.type)) {
-  electron = window.require('electron')
-}
-
-const notificationClickTimeout = 30000
-
-export function createNotification(options, callbacks = noop, params = {}) {
-  // Those checks should be removed within some time. Only window.grapeAppBridge usage should be saved
-  if (window.grapeAppBridge) {
+  // Changing API for showNotification function, but old desktop clients should also be supported.
+  // Please remove within some time. window.grapeAppVersion only exist for desktop client >= 3.0.0
+  if (!window.grapeAppVersion) {
+    // Handling notifications for old desktop client (< 3.0.0)
     window.grapeAppBridge.showNotification(
-      options,
+      properties,
       callbacks,
       {
         random,
@@ -31,72 +21,18 @@ export function createNotification(options, callbacks = noop, params = {}) {
     return
   }
 
-  if (window.GrapeAppBridge) {
-    window.grapeAppBridge.showNotification(
-      options,
-      callbacks,
-      {
-        random,
-        createWebNotification,
-      },
-      params,
-    )
-    return
-  }
-
-  // Code inside of this check should be removed withiin sometime
-  if (typeof callbacks !== 'object') {
-    const callback = callbacks
-
-    if (electron.remote.getGlobal('isNotificationSupported')) {
-      createWebNotification(options, callback)
-      return
-    }
-
-    const event = random(10000)
-    const { title, content } = options
-
-    electron.ipcRenderer.once(event, callback)
-
-    // This will show Windows Tray Balllon in Windows < 10.
-    electron.ipcRenderer.send('showNotification', {
-      event,
-      title,
-      message: content,
-    })
-
-    setTimeout(() => {
-      electron.ipcRenderer.removeAllListeners(event)
-    }, notificationClickTimeout)
-    return
-  }
-
-  if (electron.remote.getGlobal('isNotificationSupported')) {
-    createWebNotification(options, callbacks, params)
-    return
-  }
-
-  const { title, content } = options
-
-  const onClick = random(100000)
-  const onClose = random(100000)
-  if (callbacks.onClick) electron.ipcRenderer.once(onClick, callbacks.onClick)
-  if (callbacks.onClose) electron.ipcRenderer.once(onClose, callbacks.onClose)
-
-  setTimeout(() => {
-    electron.ipcRenderer.removeAllListeners(onClick)
-    electron.ipcRenderer.removeAllListeners(onClose)
-  }, notificationClickTimeout)
-
-  // This will show Windows Tray Balllon in Windows < 10.
-  electron.ipcRenderer.send('showNotification', {
-    events: {
-      onClick,
-      onClose,
+  // Handling notifications for new desktop client (>= 3.0.0)
+  window.grapeAppBridge.showNotification({
+    properties,
+    params,
+    callbacks,
+    dependencies: {
+      random,
+      createWebNotification,
     },
-    title,
-    message: content,
   })
+
+  window.grapeAppBridge.bounceIcon()
 }
 
 /**
@@ -111,18 +47,7 @@ export { openUrl }
  * - highlight Windows Taskbar Icon
  */
 export function addBadge(text) {
-  // Those checks should be removed within some time. Only window.grapeAppBridge usage should be saved
-  if (window.grapeAppBridge) {
-    window.grapeAppBridge.addBadge(text)
-    return
-  }
-
-  if (window.GrapeAppBridge) {
-    window.GrapeAppBridge.addBadge(text)
-    return
-  }
-
-  electron.ipcRenderer.send('addBadge', text)
+  window.grapeAppBridge.addBadge(text)
 }
 
 /**
@@ -132,22 +57,8 @@ export function addBadge(text) {
  * - remove Windows Taskbar Icon highlighting
  */
 export function removeBadge() {
-  // Those checks should be removed within some time. Only window.grapeAppBridge usage should be saved
-  if (window.grapeAppBridge) {
-    window.grapeAppBridge.removeBadge()
-    return
-  }
-
-  if (window.GrapeAppBridge) {
-    window.GrapeAppBridge.removeBadge()
-    return
-  }
-
-  electron.ipcRenderer.send('removeBadge')
+  window.grapeAppBridge.removeBadge()
 }
 
 // window.GrapeAppBridge comes from preload script in desktop app
-export const isElectron =
-  window.grapeAppBridge ||
-  window.GrapeAppBridge ||
-  get(window, 'process.versions.electron')
+export const isElectron = window.grapeAppBridge
