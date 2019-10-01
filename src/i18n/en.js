@@ -258,5 +258,6 @@ export default {
   "openInDesktop": "Open in Grape Desktop",
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
-  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience."
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "membersList": "Edit Members List"
 }

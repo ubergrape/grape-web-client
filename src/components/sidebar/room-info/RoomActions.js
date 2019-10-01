@@ -84,7 +84,7 @@ const RoomActions = ({
         <a href={channel.memberListUrl} className={classes.membersListLink}>
           <FormattedMessage
             id="membersList"
-            defaultMessage="Members list"
+            defaultMessage="Edit Members List"
             description="Room Info Panel: link to members list of the current room"
           />
         </a>
