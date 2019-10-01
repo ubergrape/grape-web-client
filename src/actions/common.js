@@ -159,21 +159,23 @@ export const setChannel = (channelOrChannelId, messageId) => (
 
   api
     .getChannel(channel.id)
-    .then(({ permissions, videoconferenceUrl, grapecallUrl }) => {
-      channel.memberListUrl = '/accounts/organization/settings/members/active/'
-      dispatch({
-        type: types.SET_CHANNEL,
-        payload: {
-          channel: {
-            ...normalizeChannelData(channel),
-            permissions,
-            // videoconferenceUrl is the old one and will be depcrecated longterm
-            videoconferenceUrl: grapecallUrl || videoconferenceUrl,
+    .then(
+      ({ permissions, manageMemberUrl, videoconferenceUrl, grapecallUrl }) => {
+        dispatch({
+          type: types.SET_CHANNEL,
+          payload: {
+            channel: {
+              ...normalizeChannelData(channel),
+              permissions,
+              // videoconferenceUrl is the old one and will be depcrecated longterm
+              videoconferenceUrl: grapecallUrl || videoconferenceUrl,
+              manageMemberUrl,
+            },
+            messageId,
           },
-          messageId,
-        },
-      })
-    })
+        })
+      },
+    )
 }
 
 export const handleBadChannel = alertType => dispatch => {

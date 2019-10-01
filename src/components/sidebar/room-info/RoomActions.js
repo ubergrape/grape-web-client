@@ -81,7 +81,7 @@ const RoomActions = ({
   <ul>
     {permissions.canSeeMembersList && (
       <li className={classes.action}>
-        <a href={channel.memberListUrl} className={classes.membersListLink}>
+        <a href={channel.manageMemberUrl} className={classes.membersListLink}>
           <FormattedMessage
             id="membersList"
             defaultMessage="Edit Members List"
