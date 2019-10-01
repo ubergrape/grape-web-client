@@ -86,7 +86,6 @@
   "read": "Read",
   "_read.comment": "message delivery status in tooltip",
   "tasks": "Tasks",
-  "_tasks.comment": "NLP tasks list dialog title.",
   "createTask": "Create Task",
   "_createTask.comment": "NLP create task dialog title.",
   "moreServices": "More Services",
@@ -94,6 +93,7 @@
     "More Services button in message nlp create task dialog.",
   "linkToAConnectedTask": "Link to a connected Task",
   "_linkToAConnectedTask.comment": "Nlp create task dialog link label.",
+  "_tasks.comment": "NLP tasks list dialog title.",
   "messageNotSendCheckConnection":
     "The message couldn't be sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
@@ -103,11 +103,7 @@
     "This group is private. Only invited members can see and join this group.",
   "welcomeToRoom": "Welcome to {channel}",
   "inviteMoreToGroup": "Invite more people to this group",
-  "_inviteMoreToGroup.comment":
-    "Room Info Panel: link to invite people to the group/room",
   "addServiceIntegration": "Add service integration",
-  "_addServiceIntegration.comment":
-    "Room Info Panel: link to add an integration to the current room",
   "welcomeToPm": "Private messages with {partner}",
   "pmIntro":
     "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
@@ -407,6 +403,13 @@
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "membersList": "Edit Members List",
+  "_membersList.comment":
+    "Room Info Panel: link to members list of the current room",
+  "_inviteMoreToGroup.comment":
+    "Room Info Panel: invite people to the group/room",
+  "_addServiceIntegration.comment":
+    "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",
@@ -443,6 +446,5 @@
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser":
-    "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "membersList": "Edit Members List"
+    "Alternatively you can use Grape with {browsers} to enjoy the full experience."
 }

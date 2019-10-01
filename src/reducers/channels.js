@@ -19,12 +19,21 @@ export default function reduce(state = initialState, action) {
       ]
 
     case types.SET_CHANNEL: {
-      const { id, type } = action.payload.channel
+      const {
+        id,
+        type,
+        permissions,
+        membersListUrl,
+        videoconferenceUrl,
+      } = action.payload.channel
+
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
           const newChannel = {
             ...channel,
-            ...action.payload.channel,
+            permissions,
+            membersListUrl,
+            videoconferenceUrl,
             current: true,
           }
           // In case of empty PM we're adding it to the navigation
@@ -40,8 +49,9 @@ export default function reduce(state = initialState, action) {
         if (channel.current) {
           newState.push({
             ...channel,
-            ...action.payload.channel,
             current: false,
+            membersListUrl,
+            videoconferenceUrl,
           })
           return newState
         }
