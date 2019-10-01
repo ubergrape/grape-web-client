@@ -164,7 +164,7 @@ class HighlightedInput extends Component {
     if (!word) return
 
     const valueBefore = value.slice(0, word.position[0])
-    let valueAfter = value.slice(word.position[1], value.length)
+    let valueAfter = value.slice(word.position[1] + 1, value.length)
     valueAfter = ensureSpace('before', valueAfter)
 
     value = valueBefore + str + valueAfter
