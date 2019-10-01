@@ -7,4 +7,5 @@ export default {
   // ownMessageText: '#656565',
   tab: '#fda625',
   button: '#fda625',
+  link: '#fda625',
 }
