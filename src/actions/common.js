@@ -160,6 +160,7 @@ export const setChannel = (channelOrChannelId, messageId) => (
   api
     .getChannel(channel.id)
     .then(({ permissions, videoconferenceUrl, grapecallUrl }) => {
+      channel.memberListUrl = '/accounts/organization/settings/members/active/'
       dispatch({
         type: types.SET_CHANNEL,
         payload: {
