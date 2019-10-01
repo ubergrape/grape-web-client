@@ -160,7 +160,7 @@ export const setChannel = (channelOrChannelId, messageId) => (
   api
     .getChannel(channel.id)
     .then(
-      ({ permissions, manageMemberUrl, videoconferenceUrl, grapecallUrl }) => {
+      ({ permissions, manageMembersUrl, videoconferenceUrl, grapecallUrl }) => {
         dispatch({
           type: types.SET_CHANNEL,
           payload: {
@@ -169,7 +169,7 @@ export const setChannel = (channelOrChannelId, messageId) => (
               permissions,
               // videoconferenceUrl is the old one and will be depcrecated longterm
               videoconferenceUrl: grapecallUrl || videoconferenceUrl,
-              manageMemberUrl,
+              manageMembersUrl,
             },
             messageId,
           },
