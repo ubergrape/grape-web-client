@@ -14,7 +14,7 @@ function handleAuthError(err) {
       type: types.AUTH_ERROR,
       payload: err,
     })
-    dispatch(goTo('/accounts/login'))
+    dispatch(goTo(`/accounts/login/?next=${window.location.href}`))
   }
 }
 
