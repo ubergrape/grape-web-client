@@ -1,8 +1,16 @@
 import { open } from '../app/client'
 import * as types from '../constants/actionTypes'
 
-export const onReconnect = () => () => {
+export const handleReconnecting = payload => dispatch => {
+  dispatch({
+    type: types.HANDLE_RECONNECTING_CHANGE,
+    payload,
+  })
+}
+
+export const onReconnect = () => dispatch => {
   open()
+  dispatch(handleReconnecting(true))
 }
 
 export const setTimer = backoff => dispatch => {
@@ -12,7 +20,7 @@ export const setTimer = backoff => dispatch => {
   })
 }
 
-export const updateTimer = () => dispatch => {
+export const updateReconnectTimer = () => dispatch => {
   dispatch({
     type: types.UPDATE_TIMER,
   })

@@ -2,16 +2,18 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
-import { browserNotificationSelector } from '../../selectors'
+import { browserNotificationComponentSelector } from '../../selectors'
 import getStore from '../../app/store'
 import { BrowserNotification } from '../../components/old/browser-notification'
 
 const actionNames = {
   goToChannel: 'onGoToChannel',
+  joinIncomingCall: 'joinCall',
+  setNotification: 'setNotification',
 }
 
 const ConnectedBrowserNotification = connect(
-  browserNotificationSelector,
+  browserNotificationComponentSelector,
   mapActionsToProps(actionNames),
 )(BrowserNotification)
 

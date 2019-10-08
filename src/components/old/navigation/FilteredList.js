@@ -61,6 +61,7 @@ export default class FilteredList extends PureComponent {
         items={foundChannels}
         focused={focusedChannel}
         ref={this.onRefList}
+        style={{}}
       />
     )
   }

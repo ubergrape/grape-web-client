@@ -25,7 +25,10 @@ export const createRowsState = (() => {
 
   function isSame(message, prevMessage) {
     if (!message || !prevMessage) return false
-    return message.text === prevMessage.text
+    const { text, docType } = message
+    const { text: prevText, docType: prevDocType } = prevMessage
+    if (docType === 'system' || prevDocType === 'system') return false
+    return text === prevText
   }
 
   return (prevRows, messages, props) => {

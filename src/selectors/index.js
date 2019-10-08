@@ -624,6 +624,7 @@ export const headerSelector = createSelector(
     userProfileSelector,
     joinedChannelsSelector,
     confSelector,
+    userSelector,
   ],
   (
     { permissions, features },
@@ -634,6 +635,7 @@ export const headerSelector = createSelector(
     partner,
     isMemberOfAnyRooms,
     { organization: { colors } },
+    user,
   ) => ({
     favorite,
     channel,
@@ -644,6 +646,7 @@ export const headerSelector = createSelector(
     isMemberOfAnyRooms,
     colors,
     orgFeatures: features,
+    user,
   }),
 )
 
@@ -655,6 +658,7 @@ export const historySelector = createSelector(
 export const historyComponentSelector = createSelector(
   [
     historySelector,
+    channelSelector,
     orgSelector,
     initialDataLoadingSelector,
     joinedChannelsSelector,
@@ -664,7 +668,8 @@ export const historyComponentSelector = createSelector(
   ],
   (
     history,
-    { customEmojis, permissions },
+    channel,
+    org,
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -672,8 +677,11 @@ export const historyComponentSelector = createSelector(
     conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
-    customEmojis,
-    permissions,
+    customEmojis: org.customEmojis,
+    permissions: {
+      ...org.permissions,
+      ...channel.permissions,
+    },
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -780,6 +788,20 @@ export const browserNotificationSelector = createSelector(
   state => state,
 )
 
+export const incomingCallSelector = createSelector(
+  state => state.incomingCall,
+  state => state,
+)
+
+export const browserNotificationComponentSelector = createSelector(
+  [browserNotificationSelector, confSelector, incomingCallSelector],
+  (browserNotification, conf, incoming) => ({
+    ...browserNotification,
+    conf,
+    call: incoming,
+  }),
+)
+
 export const introSelector = createSelector(
   state => state.intro,
   state => state,
@@ -803,5 +825,18 @@ export const videoConferenceWarningComponentSelector = createSelector(
   (videoConferenceWarning, { videoconferenceUrl }) => ({
     ...videoConferenceWarning,
     videoconferenceUrl,
+  }),
+)
+
+export const callStatusSelector = createSelector(
+  state => state.callStatus,
+  state => state,
+)
+
+export const callStatusComponentSelector = createSelector(
+  [callStatusSelector, userSelector],
+  (callStatus, user) => ({
+    callStatus,
+    user,
   }),
 )

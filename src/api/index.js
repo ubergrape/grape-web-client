@@ -7,6 +7,7 @@ import merge from 'lodash/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
+import { toCamel } from '../utils/convertCase'
 import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'
@@ -45,7 +46,7 @@ const checkShowHideComponent = (() => {
 
 const init = config => {
   conf.setup(
-    merge(config, {
+    merge(toCamel(config), {
       organization: {
         // eslint-disable-next-line no-underscore-dangle
         colors: __THEME__ ? themes[__THEME__] : {},

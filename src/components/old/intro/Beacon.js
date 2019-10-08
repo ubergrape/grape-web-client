@@ -42,11 +42,6 @@ class Beacon extends PureComponent {
     })
   }
 
-  componentWillUnmount() {
-    const { id } = this.props
-    delete beacons[id]
-  }
-
   render() {
     const { classes, className } = this.props
     return <span className={cn(classes.beacon, className)} />

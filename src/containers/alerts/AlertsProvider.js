@@ -11,7 +11,7 @@ const actionNames = [
   'onReconnect',
   'hideAlert',
   'clearAlertDelay',
-  'updateTimer',
+  'updateReconnectTimer',
 ]
 
 const ConnectedAlerts = connect(

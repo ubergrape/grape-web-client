@@ -13,7 +13,6 @@ export default {
   overflow: 'hidden',
   display: 'block',
   '& p': {
-    display: 'block',
     margin: 0,
     wordBreak: 'break-word',
   },
@@ -25,7 +24,6 @@ export default {
     fontStyle: 'italic',
   },
   '& blockquote': {
-    display: 'block',
     borderLeft: [3, 'solid', gainsboroLight],
     margin: [4, 0],
     padding: ['0.5em', 10],

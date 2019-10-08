@@ -11,7 +11,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import linkButton from '../../button/link'
 import buttonIcon from '../../button/icon'
-import { settingsButtonSize } from './constants'
+import { settingsButtonSize, settingsLinkSize } from './constants'
 
 const icon = (name, palette) =>
   buttonIcon(name, {
@@ -19,6 +19,36 @@ const icon = (name, palette) =>
     hoverColor: palette.secondary.A200,
     size: settingsButtonSize,
   })
+
+const baseItemStyle = (palette, type, name) => ({
+  extend: [linkButton, fonts.small, ellipsis, icon(name, palette)],
+  width: '100%',
+  textAlign: 'left',
+  marginBottom: sizes.spacer.xs,
+  color: palette.text.secondary,
+  display: 'flex',
+  alignItems: 'center',
+  '&:hover': {
+    isolate: false,
+    color: palette.text.primary,
+  },
+  '&:hover:before': {
+    isolate: false,
+    backgroundSize: 'contain',
+    content: '""',
+    width: settingsLinkSize,
+    height: settingsLinkSize,
+    cursor: 'pointer',
+    marginRight: 5,
+    backgroundImage: ({ colors }) =>
+      `url('${getColoredIcon({
+        name,
+        color: `${colors[type] || blue}`,
+      })}')`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '50% 50%',
+  },
+})
 
 const styles = ({ palette }) => ({
   action: {
@@ -34,82 +64,10 @@ const styles = ({ palette }) => ({
       marginBottom: 0,
     },
   },
-  baseButton: {
-    extend: [linkButton, fonts.small, ellipsis],
-    width: '100%',
-    textAlign: 'left',
-    marginBottom: sizes.spacer.xs,
-    '&:hover': {
-      isolate: false,
-      color: palette.text.primary,
-    },
-  },
-  buttonInvite: {
-    composes: '$baseButton',
-    extend: icon('invite', palette),
-    color: palette.text.secondary,
-    display: 'flex',
-    '&:hover:before': {
-      isolate: false,
-      backgroundSize: 'contain',
-      content: '""',
-      width: settingsButtonSize,
-      height: settingsButtonSize,
-      cursor: 'pointer',
-      marginRight: 5,
-      backgroundImage: ({ colors }) =>
-        `url('${getColoredIcon({
-          name: 'invite',
-          color: `${colors.button || blue}`,
-        })}')`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: '50% 50%',
-    },
-  },
-  buttonIntegration: {
-    composes: '$baseButton',
-    extend: icon('plug', palette),
-    color: palette.text.secondary,
-    display: 'flex',
-    '&:hover:before': {
-      isolate: false,
-      backgroundSize: 'contain',
-      content: '""',
-      width: settingsButtonSize,
-      height: settingsButtonSize,
-      cursor: 'pointer',
-      marginRight: 5,
-      backgroundImage: ({ colors }) =>
-        `url('${getColoredIcon({
-          name: 'plug',
-          color: `${colors.button || blue}`,
-        })}')`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: '50% 50%',
-    },
-  },
-  buttonLeave: {
-    composes: '$baseButton',
-    extend: icon('leave', palette),
-    color: palette.text.secondary,
-    display: 'flex',
-    '&:hover:before': {
-      isolate: false,
-      backgroundSize: 'contain',
-      content: '""',
-      width: settingsButtonSize,
-      height: settingsButtonSize,
-      cursor: 'pointer',
-      marginRight: 5,
-      backgroundImage: ({ colors }) =>
-        `url('${getColoredIcon({
-          name: 'leave',
-          color: `${colors.button || blue}`,
-        })}')`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: '50% 50%',
-    },
-  },
+  membersListLink: baseItemStyle(palette, 'link', 'users'),
+  buttonInvite: baseItemStyle(palette, 'button', 'invite'),
+  buttonIntegration: baseItemStyle(palette, 'button', 'plug'),
+  buttonLeave: baseItemStyle(palette, 'button', 'leave'),
 })
 
 const RoomActions = ({
@@ -121,13 +79,24 @@ const RoomActions = ({
   permissions,
 }) => (
   <ul>
+    {permissions.canSeeMembersList && (
+      <li className={classes.action}>
+        <a href={channel.manageMembersUrl} className={classes.membersListLink}>
+          <FormattedMessage
+            id="membersList"
+            defaultMessage="Edit Members List"
+            description="Room Info Panel: link to members list of the current room"
+          />
+        </a>
+      </li>
+    )}
     {permissions.canInviteMembers && (
       <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
             defaultMessage="Invite more people to this group"
-            description="Room Info Panel: link to invite people to the group/room"
+            description="Room Info Panel: invite people to the group/room"
           />
         </button>
       </li>
@@ -168,6 +137,7 @@ RoomActions.propTypes = {
   onAddIntegration: PropTypes.func,
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    manageMembersUrl: PropTypes.string,
   }),
   permissions: PropTypes.object,
 }

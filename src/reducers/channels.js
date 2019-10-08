@@ -23,6 +23,7 @@ export default function reduce(state = initialState, action) {
         id,
         type,
         permissions,
+        manageMembersUrl,
         videoconferenceUrl,
       } = action.payload.channel
 
@@ -31,6 +32,7 @@ export default function reduce(state = initialState, action) {
           const newChannel = {
             ...channel,
             permissions,
+            manageMembersUrl,
             videoconferenceUrl,
             current: true,
           }
@@ -45,7 +47,12 @@ export default function reduce(state = initialState, action) {
           return newState
         }
         if (channel.current) {
-          newState.push({ ...channel, current: false, videoconferenceUrl })
+          newState.push({
+            ...channel,
+            current: false,
+            manageMembersUrl,
+            videoconferenceUrl,
+          })
           return newState
         }
         newState.push(channel)

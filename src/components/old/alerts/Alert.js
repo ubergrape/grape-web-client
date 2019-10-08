@@ -35,14 +35,14 @@ class Alert extends PureComponent {
     onHide: PropTypes.func,
     enableNotifications: PropTypes.func,
     onReconnect: PropTypes.func,
-    updateTimer: PropTypes.func,
+    updateReconnectTimer: PropTypes.func,
   }
 
   static defaultProps = {
     onHide: noop,
     enableNotifications: noop,
     onReconnect: noop,
-    updateTimer: noop,
+    updateReconnectTimer: noop,
   }
 
   onHide = () => {
@@ -55,7 +55,7 @@ class Alert extends PureComponent {
       classes,
       enableNotifications,
       onReconnect,
-      updateTimer,
+      updateReconnectTimer,
       reconnect,
     } = this.props
     switch (alert.type) {
@@ -72,7 +72,7 @@ class Alert extends PureComponent {
         return (
           <ReconnectionAlert
             onReconnect={onReconnect}
-            updateTimer={updateTimer}
+            updateReconnectTimer={updateReconnectTimer}
             reconnect={reconnect}
             buttonClass={classes[`${alert.level}Button`]}
           />

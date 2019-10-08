@@ -28,6 +28,7 @@ class AppContainer extends PureComponent {
 
 export default injectSheet({
   '@font-face': [
+    getFontFace({ family: 'nota-sans' }),
     getFontFace({ family: 'proxima-nova' }),
     getFontFace({
       family: 'proxima-nova',

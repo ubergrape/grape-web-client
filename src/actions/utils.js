@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import omit from 'lodash/omit'
 
+import camelCase from 'lodash/camelCase'
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
 import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
@@ -189,15 +190,26 @@ export const normalizeMessage = (() => {
 
   function normalizeRegularMessage(msg, state, configs) {
     const channels = channelsSelector(state)
-    const { id, clientsideId, text, channel: channelId, pinned: isPinned } = msg
+    const {
+      id,
+      clientsideId,
+      text,
+      pinned: isPinned,
+      action,
+      state: msgState,
+      docType,
+    } = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
-    const avatar = msg.author.avatar || defaultAvatar
+    const avatar = msg.author.avatar || msg.avatar || defaultAvatar
+    const tag = camelCase(msg.tag)
     const author = {
       id: msg.author.id,
-      name: msg.author.displayName || 'Deleted User',
+      name: msg.author.displayName || msg.author.name || 'Deleted User',
     }
+
+    const channelId = msg.channelId || msg.channel
 
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
@@ -227,6 +239,10 @@ export const normalizeMessage = (() => {
       linkAttachments,
       labels,
       isPinned,
+      tag,
+      action,
+      state: msgState,
+      docType,
     }
   }
 

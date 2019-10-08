@@ -93,6 +93,16 @@ export const removeChannelFromFavorites = channelId =>
     args: [channelId],
   })
 
+export const getMessage = (channelId, messageId) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_message',
+      args: [channelId, messageId],
+    },
+    { camelize: true },
+  )
+
 export const loadLatestHistory = (channelId, limit) =>
   rpc(
     {
