@@ -236,6 +236,7 @@ export default {
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "membersList": "Members List",
   "leaveChannel": "Leave {channel}",
   "members": "Members",
   "sharedInRoom": "Shared in {channelName}",
@@ -258,6 +259,5 @@ export default {
   "openInDesktop": "Open in Grape Desktop",
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
-  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "membersList": "Edit Members List"
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience."
 }
