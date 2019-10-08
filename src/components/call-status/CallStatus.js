@@ -22,10 +22,21 @@ class CallStatus extends PureComponent {
     closeCallStatus: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      this.props.updateCallStatusTimer()
-    }, 1000)
+  componentDidUpdate(prevProps) {
+    const {
+      updateCallStatusTimer,
+      callStatus: { show },
+    } = this.props
+
+    if (show && prevProps.callStatus.show !== show) {
+      this.timer = setInterval(() => {
+        updateCallStatusTimer()
+      }, 1000)
+    }
+
+    if (!show && prevProps.callStatus.show !== show) {
+      window.clearInterval(this.timer)
+    }
   }
 
   componentWillUnmount() {
