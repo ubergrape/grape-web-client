@@ -236,6 +236,7 @@ export default {
   "addGroupDescription": "Dieser Gruppe eine Beschreibung geben...",
   "enterGroupNameHere": "Dieser Gruppe einen Namen geben...",
   "notificationSettingsTooltip": "Benachrichtigungseinstellungen ändern",
+  "membersList": "Mitgliederliste",
   "leaveChannel": "{channel} verlassen",
   "members": "Mitglieder",
   "sharedInRoom": "Geteilt in {channelName}",
@@ -258,6 +259,5 @@ export default {
   "openInDesktop": "In Grape Desktop öffnen",
   "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
-  "altenativeBrowser": "Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden.",
-  "membersList": "Mitgliederliste Editieren"
+  "altenativeBrowser": "Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden."
 }
