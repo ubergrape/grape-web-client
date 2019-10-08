@@ -14,11 +14,7 @@ import {
   SCROLL_TO_ALIGNMENT_START,
   SCROLL_TO_ALIGNMENT_END,
 } from '../constants/history'
-import {
-  normalizeMessage,
-  filterEmptyMessage,
-  loadLabelsConfigCached,
-} from './utils'
+import { normalizeMessage, filterEmptyMessage } from './utils'
 import { error, showAlert, hideAlertByType } from './'
 
 function normalizeMessages(messages, state) {
@@ -478,13 +474,11 @@ export const handleSystemMessageUpdate = message => (dispatch, getState) => {
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
     const state = getState()
-    const orgId = orgSelector(state).id
+    const { labelsConfig } = orgSelector(state)
 
-    loadLabelsConfigCached(orgId).then(labelsConfig => {
-      dispatch({
-        type: types.UPDATE_MESSAGE,
-        payload: normalizeMessage(message, state, labelsConfig),
-      })
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: normalizeMessage(message, state, labelsConfig),
     })
   }
 }
