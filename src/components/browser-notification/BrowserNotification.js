@@ -3,7 +3,7 @@ import { PureComponent } from 'react'
 import { createNotification } from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'
-import { defineMessages, intlShape, injectIntl } from 'react-intl'
+import { defineMessages, injectIntl } from 'react-intl'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import mdForcebreak from '../../utils/markdown-it-plugins/forcebreak'
@@ -45,17 +45,17 @@ const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdNotification)
 
 const getInviteProperties = ({
-  browserNotification: { inviter, channel },
+  browserNotification: { author, channel },
   intl: { formatMessage },
 }) => ({
   title: formatMessage(messages.groupInviteTitle, {
-    name: inviter.displayName,
+    name: author.displayName,
     group: channel.name,
   }),
   content: formatMessage(messages.groupInviteContent, {
-    name: inviter.displayName,
+    name: author.displayName,
   }),
-  icon: inviter.avatar,
+  icon: author.avatar,
 })
 
 const getMessageTitle = props => {
@@ -63,10 +63,8 @@ const getMessageTitle = props => {
     browserNotification: { channel, author },
     intl: { formatMessage },
   } = props
-  if (channel.type === 'room') {
-    return `${author.name} (${channel.name})`
-  }
-  return `${author.name} ${formatMessage(messages.pm)}`
+  if (channel.type) return `${author.displayName} (${channel.name})`
+  return `${author.displayName} ${formatMessage(messages.pm)}`
 }
 
 const getNewMessageProperties = props => {
@@ -80,14 +78,14 @@ const getNewMessageProperties = props => {
   if (attachments.length) {
     if (content) content += '\n\n'
     content += attachments.map(
-      ({ name }) => (name ? `${author.name}: ${name}\n` : ''),
+      ({ name }) => (name ? `${author.displayName}: ${name}\n` : ''),
     )
   }
 
   return {
     title,
     content,
-    icon: author.iconUrl,
+    icon: author.avatar,
   }
 }
 
@@ -127,14 +125,12 @@ const getCallProperties = props => {
       title: channel.name,
       content: intl.formatMessage(messages.grapeCallPmInvitationContent),
       requireInteraction: true,
-      icon: channel.icon,
     }
   }
 
   return {
     title: channel.name,
     content: intl.formatMessage(messages.grapeCallPmMissedContent),
-    icon: channel.icon,
   }
 }
 
@@ -220,32 +216,26 @@ const renderNotification = props => {
 
 class BrowserNotification extends PureComponent {
   static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
-    intl: intlShape.isRequired,
-    call: PropTypes.object.isRequired,
-    onGoToChannel: PropTypes.func.isRequired,
-    joinCall: PropTypes.func.isRequired,
     setNotification: PropTypes.func.isRequired,
-    /* eslint-enable react/no-unused-prop-types */
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-    }),
     browserNotification: PropTypes.shape({
+      attachments: PropTypes.array.isRequired,
       dispatcher: PropTypes.oneOf(dispatchers.all).isRequired,
       channel: PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
       }).isRequired,
-      inviter: PropTypes.shape({
+      author: PropTypes.shape({
         avatar: PropTypes.string,
         displayName: PropTypes.string,
       }),
-      time: PropTypes.string,
-      content: PropTypes.string,
+      time: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      event: PropTypes.string.isRequired,
     }),
   }
 
   static defaultProps = {
-    channel: undefined,
     browserNotification: undefined,
   }
 
@@ -257,7 +247,7 @@ class BrowserNotification extends PureComponent {
       setNotification,
     } = nextProps
 
-    if (!channel || !browserNotification) return
+    if (!browserNotification) return
 
     const isNew = browserNotification !== this.props.browserNotification
 
@@ -267,9 +257,14 @@ class BrowserNotification extends PureComponent {
       return
     }
 
+    const {
+      time,
+      channel: { id },
+    } = browserNotification
+
     const notify = shouldNotify({
-      time: browserNotification.time,
-      sourceChannelId: browserNotification.channel.id,
+      time,
+      sourceChannelId: id,
       currentChannelId: channel.id,
     })
 
