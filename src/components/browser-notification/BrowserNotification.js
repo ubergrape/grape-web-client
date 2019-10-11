@@ -223,7 +223,7 @@ class BrowserNotification extends PureComponent {
       channel: PropTypes.shape({
         id: PropTypes.number.isRequired,
         type: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
       }).isRequired,
       author: PropTypes.shape({
         avatar: PropTypes.string,
