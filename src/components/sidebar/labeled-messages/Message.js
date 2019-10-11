@@ -35,7 +35,7 @@ class Message extends PureComponent {
         PropTypes.shape({
           id: PropTypes.string.isRequired,
           color: PropTypes.string.isRequired,
-          nameLocalized: PropTypes.string.isRequired,
+          localized: PropTypes.string.isRequired,
         }),
       ).isRequired,
     }).isRequired,
@@ -85,7 +85,7 @@ class Message extends PureComponent {
               style={{ color: label.color }}
               className={classes.chip}
               key={label.id}
-              label={label.nameLocalized}
+              label={label.localized}
             />
           ))}
         </div>

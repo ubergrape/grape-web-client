@@ -62,7 +62,7 @@ export default class LabeledMessages extends PureComponent {
     channel: PropTypes.shape({
       id: PropTypes.number,
     }),
-    labelConfigs: PropTypes.array,
+    labelsConfig: PropTypes.array,
     filter: PropTypes.string,
   }
 
@@ -76,7 +76,7 @@ export default class LabeledMessages extends PureComponent {
     colors: {},
     channel: {},
     options: [],
-    labelConfigs: [],
+    labelsConfig: [],
     isLoading: false,
     currentChannelOnly: false,
     newMessagesAmount: 0,
@@ -217,7 +217,7 @@ export default class LabeledMessages extends PureComponent {
       intl: { formatMessage },
       classes,
       colors,
-      labelConfigs,
+      labelsConfig,
       filter,
     } = this.props
 
@@ -231,7 +231,7 @@ export default class LabeledMessages extends PureComponent {
       >
         <div className={classes.body}>
           <Filter
-            items={labelConfigs}
+            items={labelsConfig}
             onSelect={onSelectFilter}
             selected={filter}
           />
