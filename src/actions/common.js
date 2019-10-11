@@ -216,14 +216,20 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.getOrg(conf.organization.id),
     api.getPmsOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
+    api.loadLabelsConfig(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, users, profile]) => {
+    .then(([org, users, profile, labelsConfig]) => {
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(org.channels))
       dispatch(setUsers(users))
-      dispatch(setOrg(omit(org, 'users', 'channels', 'rooms', 'pms')))
+      dispatch(
+        setOrg({
+          ...omit(org, 'users', 'channels', 'rooms', 'pms'),
+          labelsConfig,
+        }),
+      )
       dispatch(ensureBrowserNotificationPermission())
 
       dispatch(setIntialDataLoading(false))
