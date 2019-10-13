@@ -63,7 +63,7 @@ const getMessageTitle = props => {
     browserNotification: { channel, author },
     intl: { formatMessage },
   } = props
-  if (channel.type) return `${author.displayName} (${channel.name})`
+  if (channel.type === 'room') return `${author.displayName} (${channel.name})`
   return `${author.displayName} ${formatMessage(messages.pm)}`
 }
 
@@ -218,7 +218,7 @@ class BrowserNotification extends PureComponent {
   static propTypes = {
     setNotification: PropTypes.func.isRequired,
     browserNotification: PropTypes.shape({
-      attachments: PropTypes.array.isRequired,
+      attachments: PropTypes.array,
       dispatcher: PropTypes.oneOf(dispatchers.all).isRequired,
       channel: PropTypes.shape({
         id: PropTypes.number.isRequired,
