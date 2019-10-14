@@ -523,7 +523,7 @@ export const sidebarComponentSelector = createSelector(
     confSelector,
   ],
   (
-    org,
+    { permissions, customEmojis },
     channel,
     { show, showSubview },
     room,
@@ -563,9 +563,10 @@ export const sidebarComponentSelector = createSelector(
       ...views[show],
       channel,
       permissions: {
-        ...org.permissions,
+        ...permissions,
         ...channel.permissions,
       },
+      customEmojis,
       subview: subviews[showSubview],
       colors,
     }
