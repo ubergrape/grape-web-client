@@ -118,18 +118,18 @@ const getCallCallbacks = ({ dispatcher }, props) => {
 
 const getCallProperties = props => {
   const { browserNotification, intl } = props
-  const { dispatcher, channel } = browserNotification
+  const { dispatcher, author } = browserNotification
 
   if (dispatcher === 'incoming') {
     return {
-      title: channel.name,
+      title: author.displayName,
       content: intl.formatMessage(messages.grapeCallPmInvitationContent),
       requireInteraction: true,
     }
   }
 
   return {
-    title: channel.name,
+    title: author.displayName,
     content: intl.formatMessage(messages.grapeCallPmMissedContent),
   }
 }
