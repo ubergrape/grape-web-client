@@ -44,6 +44,7 @@ export default class LabeledMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     colors: PropTypes.object,
+    customEmojis: PropTypes.object,
     intl: intlShape.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
@@ -74,6 +75,7 @@ export default class LabeledMessages extends PureComponent {
     messages: [],
     user: {},
     colors: {},
+    customEmojis: {},
     channel: {},
     options: [],
     labelsConfig: [],
@@ -145,6 +147,7 @@ export default class LabeledMessages extends PureComponent {
       intl,
       messages,
       user,
+      customEmojis,
       onSelect,
       onLoad,
       newMessagesAmount,
@@ -162,6 +165,7 @@ export default class LabeledMessages extends PureComponent {
       >
         <Row
           intl={intl}
+          customEmojis={customEmojis}
           message={message}
           prevMessage={messages[index - 1]}
           newMessagesAmount={index === 0 ? newMessagesAmount : 0}
