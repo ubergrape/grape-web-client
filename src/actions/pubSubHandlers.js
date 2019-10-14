@@ -301,12 +301,12 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
       type: types.SHOW_INCOMING_CALL,
     })
 
-    const { time, organizationId, event, channelId } = payload
+    const { time, channel, author, event } = payload
     const notification = {
-      channelId,
       dispatcher: 'incoming',
+      channel,
+      author,
       event,
-      organizationId,
       time,
     }
 
@@ -331,12 +331,12 @@ export const handleMissedCall = payload => (dispatch, getState) => {
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
 
-    const { time, organizationId, event, channelId } = payload
+    const { time, channel, author, event } = payload
     const notification = {
-      channelId,
       dispatcher: 'missed',
+      channel,
+      author,
       event,
-      organizationId,
       time,
     }
 
