@@ -230,7 +230,7 @@ class BrowserNotification extends PureComponent {
         displayName: PropTypes.string,
       }),
       time: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
+      content: PropTypes.string,
       event: PropTypes.string.isRequired,
     }),
   }
