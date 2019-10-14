@@ -18,4 +18,4 @@ export const loadLabelsConfig = orgId =>
       args: [orgId],
     },
     { camelize: true },
-  ).then(res => res.labels)
+  ).then(res => res)
