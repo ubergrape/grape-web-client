@@ -49,6 +49,7 @@ export default class RoomInfo extends PureComponent {
     colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
     permissions: PropTypes.object,
+    customEmojis: PropTypes.object,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
     showSubview: PropTypes.string,
@@ -88,6 +89,7 @@ export default class RoomInfo extends PureComponent {
     onOpenSharedFile: undefined,
     sidebarRef: undefined,
     permissions: {},
+    customEmojis: {},
   }
 
   componentDidMount() {
@@ -206,12 +208,14 @@ export default class RoomInfo extends PureComponent {
       onUnpin,
       subview,
       user,
+      customEmojis,
     } = this.props
 
     return (
       <PinnedMessages
         {...subview}
         user={user}
+        customEmojis={customEmojis}
         onLoad={onLoadPinnedMessages}
         onSelect={onSelectPinnedMessage}
         onUnpin={onUnpin}
