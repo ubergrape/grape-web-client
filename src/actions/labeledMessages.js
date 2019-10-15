@@ -7,7 +7,7 @@ import {
   channelSelector,
   labeledMessagesSelector,
 } from '../selectors'
-import { normalizeMessage, loadLabelsConfigCached } from './utils'
+import { normalizeMessage } from './utils'
 import { error } from './'
 
 export const loadLabeledMessages = (options = {}, callback = noop) => (
@@ -21,7 +21,7 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
     return
   }
 
-  const orgId = orgSelector(state).id
+  const { id, labelsConfig } = orgSelector(state)
   const {
     options: { currentChannelOnly },
     filter,
@@ -37,11 +37,9 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
     payload: reqOptions,
   })
 
-  Promise.all([
-    api.loadLabeledMessages(orgId, reqOptions),
-    loadLabelsConfigCached(orgId),
-  ])
-    .then(([{ results: messages }, labelConfigs]) => {
+  api
+    .loadLabeledMessages(id, reqOptions)
+    .then(({ results: messages }) => {
       let type = types.HANDLE_LOADED_LABELED_MESSAGES
       if (options.offset) type = types.HANDLE_MORE_LOADED_LABELED_MESSAGES
 
@@ -49,9 +47,9 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
         type,
         payload: {
           messages: messages.map(message =>
-            normalizeMessage(message, state, labelConfigs),
+            normalizeMessage(message, state, labelsConfig),
           ),
-          labelConfigs,
+          labelsConfig,
         },
       })
 

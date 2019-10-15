@@ -29,6 +29,7 @@ class LabeledMessages extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     colors: PropTypes.object,
+    customEmojis: PropTypes.object,
     intl: intlShape.isRequired,
     onLoad: PropTypes.func,
     onSelect: PropTypes.func,
@@ -47,7 +48,7 @@ class LabeledMessages extends PureComponent {
     channel: PropTypes.shape({
       id: PropTypes.number,
     }),
-    labelConfigs: PropTypes.array,
+    labelsConfig: PropTypes.array,
     filter: PropTypes.string,
   }
 
@@ -59,9 +60,10 @@ class LabeledMessages extends PureComponent {
     messages: [],
     user: {},
     colors: {},
+    customEmojis: {},
     channel: {},
     options: [],
-    labelConfigs: [],
+    labelsConfig: [],
     isLoading: false,
     currentChannelOnly: false,
     newMessagesAmount: 0,
@@ -130,6 +132,7 @@ class LabeledMessages extends PureComponent {
       intl,
       messages,
       user,
+      customEmojis,
       onSelect,
       onLoad,
       newMessagesAmount,
@@ -147,6 +150,7 @@ class LabeledMessages extends PureComponent {
       >
         <Row
           intl={intl}
+          customEmojis={customEmojis}
           message={message}
           prevMessage={messages[index - 1]}
           newMessagesAmount={index === 0 ? newMessagesAmount : 0}
@@ -202,7 +206,7 @@ class LabeledMessages extends PureComponent {
       intl: { formatMessage },
       classes,
       colors,
-      labelConfigs,
+      labelsConfig,
       filter,
     } = this.props
 
@@ -216,7 +220,7 @@ class LabeledMessages extends PureComponent {
       >
         <div className={classes.body}>
           <Filter
-            items={labelConfigs}
+            items={labelsConfig}
             onSelect={onSelectFilter}
             selected={filter}
           />

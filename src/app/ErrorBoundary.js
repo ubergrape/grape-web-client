@@ -17,7 +17,6 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({ hasError: true })
     // eslint-disable-next-line no-console
-    console.log(error, errorInfo)
     Raven.captureException(error, { extra: errorInfo })
   }
 

@@ -17,7 +17,6 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
-  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -210,54 +209,14 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
   }
 }
 
-const addNewNotification = (notification, channel, inviter) => dispatch => {
+export const handleNotification = notification => dispatch => {
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload: {
-      ...notification,
-      channel,
-      inviter,
-    },
+    payload: { ...notification },
   })
 }
 
-const newNotification = (notification, channel) => (dispatch, getState) => {
-  const users = usersSelector(getState())
-
-  const inviter = find(users, { partner: { id: notification.inviterId } })
-
-  if (!inviter && notification.inviterId) {
-    api
-      .getUser(orgSelector(getState()).id, notification.inviterId)
-      .then(user => {
-        dispatch(addNewNotification(notification, channel, user))
-      })
-      .catch(err => {
-        dispatch(error(err))
-      })
-    return
-  }
-  dispatch(addNewNotification(notification, channel, inviter))
-}
-
-export function handleNotification(notification) {
-  return (dispatch, getState) => {
-    const channels = channelsSelector(getState())
-    const channel = find(channels, { id: notification.channelId })
-    if (channel) {
-      dispatch(newNotification(notification, channel))
-      return
-    }
-
-    dispatch(addNewChannel(notification.channelId)).then(() => {
-      const updatedChannels = channelsSelector(getState())
-      const addedChannel = find(updatedChannels, { id: notification.channelId })
-      dispatch(newNotification(notification, addedChannel))
-    })
-  }
-}
-
-export function handleUpdateChannel({ channel }) {
+export function handleUpateChannel({ channel }) {
   const updatable = [
     'id',
     'type',
@@ -342,12 +301,12 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
       type: types.SHOW_INCOMING_CALL,
     })
 
-    const { time, organizationId, event, channelId } = payload
+    const { time, channel, author, event } = payload
     const notification = {
-      channelId,
       dispatcher: 'incoming',
+      channel,
+      author,
       event,
-      organizationId,
       time,
     }
 
@@ -372,12 +331,12 @@ export const handleMissedCall = payload => (dispatch, getState) => {
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
 
-    const { time, organizationId, event, channelId } = payload
+    const { time, channel, author, event } = payload
     const notification = {
-      channelId,
       dispatcher: 'missed',
+      channel,
+      author,
       event,
-      organizationId,
       time,
     }
 

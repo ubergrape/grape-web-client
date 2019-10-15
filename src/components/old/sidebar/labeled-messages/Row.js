@@ -35,6 +35,7 @@ const RefreshButton = ({ className, amount, onClick }) => (
 class Row extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     message: messagePropType.isRequired,
     prevMessage: messagePropType,
@@ -67,6 +68,7 @@ class Row extends PureComponent {
   render() {
     const {
       classes,
+      customEmojis,
       message,
       prevMessage,
       intl,
@@ -100,6 +102,7 @@ class Row extends PureComponent {
         )}
         <Message
           message={message}
+          customEmojis={customEmojis}
           key={`${message.id}-message`}
           intl={intl}
           className={classes.message}

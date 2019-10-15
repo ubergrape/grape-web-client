@@ -34,6 +34,7 @@ class PinnedMessages extends PureComponent {
     classes: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onLoad: PropTypes.func.isRequired,
@@ -64,7 +65,15 @@ class PinnedMessages extends PureComponent {
   }
 
   render() {
-    const { classes, items, onSelect, onUnpin, user, isLoading } = this.props
+    const {
+      classes,
+      items,
+      onSelect,
+      onUnpin,
+      user,
+      isLoading,
+      customEmojis,
+    } = this.props
 
     if (isLoading) {
       return (
@@ -83,7 +92,11 @@ class PinnedMessages extends PureComponent {
             onSelect={onSelect}
             onUnpin={onUnpin}
           >
-            <Grapedown text={message.text} user={user} />
+            <Grapedown
+              customEmojis={customEmojis}
+              text={message.text}
+              user={user}
+            />
           </PinnedMessage>
         ))}
         {!items.length && <Empty className={classes.empty} />}

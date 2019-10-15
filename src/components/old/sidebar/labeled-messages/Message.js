@@ -35,11 +35,12 @@ class Message extends PureComponent {
         PropTypes.shape({
           id: PropTypes.string.isRequired,
           color: PropTypes.string.isRequired,
-          nameLocalized: PropTypes.string.isRequired,
+          localized: PropTypes.string.isRequired,
         }),
       ).isRequired,
     }).isRequired,
     user: PropTypes.object,
+    customEmojis: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
     className: PropTypes.string,
   }
@@ -59,6 +60,7 @@ class Message extends PureComponent {
   render() {
     const {
       message: { text, author, time, channel, labels },
+      customEmojis,
       classes,
       className,
       user,
@@ -77,7 +79,7 @@ class Message extends PureComponent {
           </FormattedMessage>
         </Header>
         <div className={classes.body}>
-          <Grapedown text={text} user={user} />
+          <Grapedown text={text} user={user} customEmojis={customEmojis} />
         </div>
         <div>
           {labels.map(label => (
@@ -85,7 +87,7 @@ class Message extends PureComponent {
               style={{ color: label.color }}
               className={classes.chip}
               key={label.id}
-              label={label.nameLocalized}
+              label={label.localized}
             />
           ))}
         </div>

@@ -11,7 +11,6 @@ import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
 import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
 import { channelsSelector } from '../selectors'
-import * as api from '../utils/backend/api'
 import conf from '../conf'
 
 /**
@@ -106,32 +105,9 @@ export function normalizeUserData(user, organizations) {
   return normalized
 }
 
-// Load a config and caches a promise based on org id.
-export const loadLabelsConfigCached = (() => {
-  let promise
-  let prevOrgId
-
-  const normalize = configs =>
-    configs.map(config => ({
-      name: config.name,
-      nameLocalized: config.localized,
-      color: config.color,
-    }))
-
-  return orgId => {
-    if (prevOrgId !== orgId) {
-      prevOrgId = orgId
-      promise = api
-        .loadLabelsConfig(orgId)
-        .then(configs => (configs ? normalize(configs) : null))
-    }
-    return promise
-  }
-})()
-
 export const normalizeMessage = (() => {
-  function normalizeLabels(labels, labelConfigs) {
-    const configsMap = keyBy(labelConfigs, 'name')
+  function normalizeLabels(labels, labelsConfig) {
+    const configsMap = keyBy(labelsConfig, 'name')
     return (
       labels
         // Just a precaution in case the config doesn't have all labels.
@@ -308,12 +284,12 @@ export const normalizeMessage = (() => {
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
-  return (msg, state, labelConfigs) => {
+  return (msg, state, labelsConfig) => {
     if (msg.author.type === 'service') {
       return normalizeActivityMessage(msg, state)
     }
 
-    return normalizeRegularMessage(msg, state, labelConfigs)
+    return normalizeRegularMessage(msg, state, labelsConfig)
   }
 })()
 
