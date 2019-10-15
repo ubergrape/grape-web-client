@@ -5,6 +5,8 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import { error } from './'
 
+import { setTypingSelector } from '../selectors'
+
 const typingLifetime = 5000
 
 const addEvent = (channel, id, displayName, expires) => {
@@ -21,68 +23,64 @@ const addEvent = (channel, id, displayName, expires) => {
   return channel
 }
 
-export function handleTypingNotification(
-  { user, users, org, typingNotification },
-  data,
-) {
-  return dispatch => {
-    // Its a notification from myself.
-    // We call that action directly from subscription sometimes.
-    if (data.user === user.id) return
+export const handleTypingNotification = data => (dispatch, getState) => {
+  const { user, users, org, typingNotification } = setTypingSelector(getState())
+  // Its a notification from myself.
+  // We call that action directly from subscription sometimes.
+  if (data.user === user.id) return
 
-    const channels = { ...typingNotification.channels }
-    if (!channels[data.channel]) channels[data.channel] = []
-    if (data.typing) {
-      const expires = Date.now() + typingLifetime
-      let typingUser = find(
-        channels[data.channel],
-        _user => _user.id === data.user,
-      )
-      // Just bump exiration date.
-      if (typingUser) typingUser.expires = expires
-      else {
-        typingUser = find(users, _user => _user.partner.id === data.user)
-        if (typingUser) {
-          const {
-            id,
-            partner: { displayName },
-          } = typingUser
-          channels[data.channel] = addEvent(
-            channels[data.channel],
-            id,
-            displayName,
-            expires,
-          )
-        } else {
-          // Need to fetch a user if it's not in get_overview list from initial loading
-          api
-            .getUser(org.id, data.user)
-            .then(({ pm: id, displayName }) => {
-              channels[data.channel] = addEvent(
-                channels[data.channel],
-                id,
-                displayName,
-                expires,
-              )
-            })
-            .catch(err => {
-              dispatch(error(err))
-            })
-        }
+  const channels = { ...typingNotification.channels }
+  if (!channels[data.channel]) channels[data.channel] = []
+  if (data.typing) {
+    const expires = Date.now() + typingLifetime
+    let typingUser = find(
+      channels[data.channel],
+      _user => _user.id === data.user,
+    )
+    // Just bump exiration date.
+    if (typingUser) typingUser.expires = expires
+    else {
+      typingUser = find(users, _user => _user.partner.id === data.user)
+      if (typingUser) {
+        const {
+          id,
+          partner: { displayName },
+        } = typingUser
+        channels[data.channel] = addEvent(
+          channels[data.channel],
+          id,
+          displayName,
+          expires,
+        )
+      } else {
+        // Need to fetch a user if it's not in get_overview list from initial loading
+        api
+          .getUser(org.id, data.user)
+          .then(({ pm: id, displayName }) => {
+            channels[data.channel] = addEvent(
+              channels[data.channel],
+              id,
+              displayName,
+              expires,
+            )
+          })
+          .catch(err => {
+            dispatch(error(err))
+          })
       }
-      // We received an explicite "stop typing".
-      // Remove this user from typing list.
-    } else {
-      channels[data.channel] = channels[data.channel].filter(
-        _user => _user.id !== data.user,
-      )
     }
-
-    dispatch({
-      type: types.SET_TYPING_USERS,
-      payload: channels,
-    })
+    // We received an explicite "stop typing".
+    // Remove this user from typing list.
+  } else {
+    channels[data.channel] = channels[data.channel].filter(
+      _user => _user.id !== data.user,
+    )
   }
+
+  dispatch({
+    type: types.SET_TYPING_USERS,
+    payload: channels,
+  })
 }
 
 /**

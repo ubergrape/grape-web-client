@@ -17,12 +17,12 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  addUser,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewChannel,
   endSound,
   goToLastUsedChannel,
   showSidebar,
@@ -62,25 +62,32 @@ export const handleNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const channels = channelSelector(state)
   const user = userSelector(state)
+  const { author, channel: channelId, channelData, type } = message
+
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
+  // "Development activities" channel and therefor it's not necessary to invoke getChannel
   // which would result in the undesired API call open_pm.
-  if (message.type) {
-    dispatch(addNewMessage(message))
-    return
-  }
-  if (
-    message.author.id === user.id ||
-    findIndex(channels, { id: message.author.id }) !== -1
-  ) {
+  if (type) {
     dispatch(addNewMessage(message))
     return
   }
 
-  dispatch(addNewChannel(message.channel)).then(() => {
+  if (author.id === user.id || findIndex(channels, { id: author.id }) !== -1) {
     dispatch(addNewMessage(message))
-  })
+    return
+  }
+
+  if (channelData.type === 'room') {
+    addChannel({
+      ...channelData,
+      users: [channelId, user.id],
+    })
+  } else {
+    dispatch(addUser(channelData))
+  }
+
+  dispatch(addNewMessage(message))
 }
 
 export const handleNewSystemMessage = message => dispatch => {
@@ -90,33 +97,27 @@ export const handleNewSystemMessage = message => dispatch => {
   })
 }
 
-export function handleRemovedMessage({ id, channel }) {
-  return dispatch => {
-    dispatch(removeSharedFiles(id))
-    dispatch(removeMention(id))
-    dispatch({
-      type: types.REMOVE_MESSAGE,
-      payload: id,
-    })
-    // setTimeout should be there because of backend updating issues.
-    // It can be removed if GRAPE-15530 issue resolved.
-    setTimeout(() => {
-      api.getChannel(channel).then(res => {
-        const {
-          unread,
-          lastMessage: { time },
-        } = res
-        dispatch({
-          type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-          payload: {
-            id: channel,
-            unread,
-            time,
-          },
-        })
-      })
-    }, 1000)
-  }
+export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
+  const {
+    id: channelId,
+    unread,
+    lastMessage: { time },
+  } = channelData
+
+  dispatch(removeSharedFiles(id))
+  dispatch(removeMention(id))
+  dispatch({
+    type: types.REMOVE_MESSAGE,
+    payload: id,
+  })
+  dispatch({
+    type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+    payload: {
+      id: channelId,
+      unread,
+      time,
+    },
+  })
 }
 
 export function handleReadChannel({ user: userId, channel: channelId }) {
@@ -161,30 +162,30 @@ export function handleNewChannel({ channel }) {
   return addChannel(channel)
 }
 
-const addUserToChannel = payload => dispatch => {
+export const handleJoinedChannel = ({
+  channelData: channel,
+  userData: user,
+}) => (dispatch, getState) => {
+  const { id } = userSelector(getState())
+  const channels = joinedChannelsSelector(getState())
+
+  if (!find(channels, { id: channel.id })) {
+    dispatch(
+      addChannel({
+        ...channel,
+        users: [user.id, user.id],
+      }),
+    )
+  }
+
   dispatch({
     type: types.ADD_USER_TO_CHANNEL,
-    payload,
+    payload: {
+      channel,
+      user,
+      isCurrentUser: id === user.id,
+    },
   })
-}
-
-export function handleJoinedChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
-    const currentUser = userSelector(getState())
-    const channels = joinedChannelsSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-    const channel = find(channels, { id: channelId })
-
-    if (!channel) {
-      dispatch(addNewChannel(channelId))
-    }
-
-    api.getUser(orgSelector(getState()).id, userId).then(foundUser => {
-      dispatch(
-        addUserToChannel({ channelId, user: foundUser, userId, isCurrentUser }),
-      )
-    })
-  }
 }
 
 const handleCurrentUserLeftChannel = () => (dispatch, getState) => {

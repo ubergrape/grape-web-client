@@ -70,22 +70,31 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.ADD_USER_TO_CHANNEL: {
-      const { user, channelId: id, userId, isCurrentUser } = action.payload
+      const {
+        user,
+        channel: { id },
+        isCurrentUser,
+      } = action.payload
+
       if (!user) return state
 
       const newState = [...state]
       const index = findIndex(newState, { id })
+
       if (index === -1) return state
+
       const channel = newState[index]
       const { users } = channel
+
       newState.splice(index, 1, {
         ...channel,
         // As a workaround of API bug,
         // we have to ensure that user isn't joined already.
         // https://github.com/ubergrape/chatgrape/issues/3804
-        users: includes(users, userId) ? users : [...users, userId],
+        users: includes(users, user.id) ? users : [...users, user.id],
         joined: isCurrentUser || channel.joined,
       })
+
       return newState
     }
 

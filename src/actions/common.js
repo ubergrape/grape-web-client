@@ -25,8 +25,6 @@ import {
   showIntro,
   showAlert,
   goToLastUsedChannel,
-  addChannel,
-  handleRoomCreateError,
   showNewConversation,
   hideBrowser,
 } from './'
@@ -68,28 +66,6 @@ export const addUser = user => dispatch => {
     type: types.ADD_USER_TO_ORG,
     payload: normalizeUserData(user),
   })
-}
-
-export const addNewChannel = id => (dispatch, getState) => {
-  const user = userSelector(getState())
-
-  return api
-    .getChannel(id)
-    .then(channel => {
-      if (channel.type === 'room') {
-        dispatch(
-          addChannel({
-            ...channel,
-            users: [id, user.id],
-          }),
-        )
-        return
-      }
-      dispatch(addUser(channel))
-    })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
-    })
 }
 
 export const updateUserPartnerInfo = userInfo => dispatch => {

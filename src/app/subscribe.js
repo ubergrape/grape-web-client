@@ -1,8 +1,6 @@
 import { toCamel } from '../utils/convertCase'
-import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
-import getStore from './store'
 import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
@@ -95,10 +93,7 @@ export default function subscribe(channel) {
         boundActions.handleMessageLabeled(cData)
         break
       case 'channel.typing':
-        boundActions.handleTypingNotification(
-          selectors.setTypingSelector(getStore().getState()),
-          cData,
-        )
+        boundActions.handleTypingNotification(cData)
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
