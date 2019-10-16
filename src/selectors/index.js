@@ -157,28 +157,6 @@ export const typingChannelsSelector = createSelector(
   state => state,
 )
 
-export const typingNotificationSelector = createSelector(
-  [typingChannelsSelector, channelSelector],
-  (channels, channel) => ({ channels, channel }),
-)
-
-export const setTypingSelector = createSelector(
-  [
-    userSelector,
-    usersSelector,
-    orgSelector,
-    channelSelector,
-    typingNotificationSelector,
-  ],
-  (user, users, org, channel, typingNotification) => ({
-    user,
-    users,
-    org,
-    channel,
-    typingNotification,
-  }),
-)
-
 export const userProfileSelector = createSelector([currentPmsSelector], pm => ({
   ...pm.partner,
 }))
@@ -671,8 +649,9 @@ export const footerSelector = createSelector(
 
 export const footerComponentSelector = createSelector(
   [
-    typingNotificationSelector,
     footerSelector,
+    typingChannelsSelector,
+    channelSelector,
     orgSelector,
     historySelector,
     isChannelDisabledSelector,
@@ -682,8 +661,9 @@ export const footerComponentSelector = createSelector(
     orgSelector,
   ],
   (
-    typingNotification,
     footer,
+    typingChannels,
+    channel,
     org,
     history,
     isChannelDisabled,
@@ -692,8 +672,9 @@ export const footerComponentSelector = createSelector(
     conf,
     { permissions },
   ) => ({
-    ...typingNotification,
     ...footer,
+    typingChannels,
+    channel,
     org,
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,

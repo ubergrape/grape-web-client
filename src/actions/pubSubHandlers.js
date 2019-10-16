@@ -4,6 +4,7 @@ import findIndex from 'lodash/findIndex'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import { typingThrottlingDelay } from '../constants/delays'
 import {
   orgSelector,
   usersSelector,
@@ -279,6 +280,31 @@ export function handleFavoriteChange({ changed }) {
     type: types.CHANGE_FAVORITED,
     payload: changed.map(pinToFavorite),
   }
+}
+
+export const handleTypingNotification = ({
+  user: userId,
+  userData: { displayName, id },
+  channel: channelId,
+  typing,
+}) => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  // Its a notification from current user.
+  // We call that action directly from subscription sometimes.
+  if (userId === user.id || !typing) return
+
+  dispatch({
+    type: types.HANDLE_USER_TYPING,
+    payload: {
+      channelId,
+      user: {
+        id,
+        displayName,
+        expires: Date.now() + typingThrottlingDelay,
+      },
+    },
+  })
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {

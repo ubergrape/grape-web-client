@@ -5,7 +5,6 @@ import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
-import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import get from 'lodash/get'
 import cn from 'classnames'
@@ -16,6 +15,7 @@ import {
   getImageAttachments,
   formatQuote,
 } from './utils'
+import { typingThrottlingDelay } from '../../../constants/delays'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
@@ -316,7 +316,6 @@ class GrapeInput extends PureComponent {
 
   onChange = () => {
     this.startTypingThrottled()
-    this.stopTypingDebounced()
   }
 
   getBrowserProps(browser) {
@@ -377,19 +376,12 @@ class GrapeInput extends PureComponent {
     () => {
       const { channel, onSetTyping } = this.props
       if (channel) {
-        onSetTyping({ channel, typing: true })
+        onSetTyping(channel)
       }
     },
-    5000,
+    typingThrottlingDelay,
     { trailing: false },
   )
-
-  stopTypingDebounced = debounce(() => {
-    const { channel, onSetTyping } = this.props
-    if (channel) {
-      onSetTyping({ channel, typing: false })
-    }
-  }, 5000)
 
   focus = () => {
     // TODO: grape-browser needs a better way to support this.
