@@ -40,7 +40,9 @@ const addNewMessage = message => (dispatch, getState) => {
 
   if (nMessage.attachments.length && currentChannel.id === nMessage.id)
     dispatch(addSharedFiles(nMessage))
+
   if (mentionsCount) dispatch(addMention(nMessage))
+
   dispatch({
     type: types.UPDATE_CHANNEL_STATS,
     payload: {
@@ -99,11 +101,7 @@ export const handleNewSystemMessage = message => dispatch => {
 }
 
 export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
-  const {
-    id: channelId,
-    unread,
-    lastMessage: { time },
-  } = channelData
+  const { id: channelId, lastMessageTimestamp } = channelData
 
   dispatch(removeSharedFiles(id))
   dispatch(removeMention(id))
@@ -111,13 +109,16 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     type: types.REMOVE_MESSAGE,
     payload: id,
   })
-  dispatch({
-    type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-    payload: {
-      id: channelId,
-      unread,
-      time,
-    },
+
+  api.getChannel(channelId).then(({ unread }) => {
+    dispatch({
+      type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+      payload: {
+        id: channelId,
+        unread,
+        time: lastMessageTimestamp,
+      },
+    })
   })
 }
 
