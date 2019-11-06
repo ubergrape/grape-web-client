@@ -87,7 +87,8 @@ export const handleNewMessage = message => (dispatch, getState) => {
       users: [channelId, user.id],
     })
   } else {
-    dispatch(addUser(channelData))
+    // TODO remove [0]
+    dispatch(addUser(channelData[0]))
   }
 
   dispatch(addNewMessage(message))
@@ -160,22 +161,30 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export function handleNewChannel({ channel }) {
-  return addChannel(channel)
+export const handleNewChannel = ({ channel }) => (dispatch, getState) => {
+  const { id } = userSelector(getState())
+  dispatch(
+    addChannel({
+      ...channel,
+      users: [id, channel.partner.id],
+    }),
+  )
 }
 
 export const handleJoinedChannel = ({
+  channel: channelId,
   channelData: channel,
   userData: user,
 }) => (dispatch, getState) => {
   const { id } = userSelector(getState())
-  const channels = joinedChannelsSelector(getState())
+  const channels = channelsSelector(getState())
 
-  if (!find(channels, { id: channel.id })) {
+  // TODO remove channel keys length check
+  if (!find(channels, { id: channelId }) && Object.keys(channel).length) {
     dispatch(
       addChannel({
         ...channel,
-        users: [user.id, user.id],
+        users: [id, user.id],
       }),
     )
   }
