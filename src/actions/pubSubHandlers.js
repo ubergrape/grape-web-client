@@ -87,8 +87,7 @@ export const handleNewMessage = message => (dispatch, getState) => {
       users: [channelId, user.id],
     })
   } else {
-    // TODO remove [0]
-    dispatch(addUser(channelData[0]))
+    dispatch(addUser(channelData))
   }
 
   dispatch(addNewMessage(message))
@@ -161,12 +160,15 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export const handleNewChannel = ({ channel }) => (dispatch, getState) => {
+export const handleNewChannel = ({ channel, user: userId }) => (
+  dispatch,
+  getState,
+) => {
   const { id } = userSelector(getState())
   dispatch(
     addChannel({
       ...channel,
-      users: [id, channel.partner.id],
+      users: [id, userId],
     }),
   )
 }
@@ -179,8 +181,9 @@ export const handleJoinedChannel = ({
   const { id } = userSelector(getState())
   const channels = channelsSelector(getState())
 
-  // TODO remove channel keys length check
-  if (!find(channels, { id: channelId }) && Object.keys(channel).length) {
+  if (!channel) return
+
+  if (!find(channels, { id: channelId })) {
     dispatch(
       addChannel({
         ...channel,
