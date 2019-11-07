@@ -160,22 +160,34 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export function handleNewChannel({ channel }) {
-  return addChannel(channel)
+export const handleNewChannel = ({ channel, user: userId }) => (
+  dispatch,
+  getState,
+) => {
+  const { id } = userSelector(getState())
+  dispatch(
+    addChannel({
+      ...channel,
+      users: [id, userId],
+    }),
+  )
 }
 
 export const handleJoinedChannel = ({
+  channel: channelId,
   channelData: channel,
   userData: user,
 }) => (dispatch, getState) => {
   const { id } = userSelector(getState())
-  const channels = joinedChannelsSelector(getState())
+  const channels = channelsSelector(getState())
 
-  if (!find(channels, { id: channel.id })) {
+  if (!channel) return
+
+  if (!find(channels, { id: channelId })) {
     dispatch(
       addChannel({
         ...channel,
-        users: [user.id, user.id],
+        users: [id, user.id],
       }),
     )
   }
