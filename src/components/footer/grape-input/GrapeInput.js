@@ -6,6 +6,7 @@ import GlobalEvent from 'grape-web/lib/components/global-event'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
 import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import cn from 'classnames'
 
@@ -316,6 +317,7 @@ class GrapeInput extends PureComponent {
 
   onChange = () => {
     this.startTypingThrottled()
+    this.stopTypingDebounced()
   }
 
   getBrowserProps(browser) {
@@ -382,6 +384,13 @@ class GrapeInput extends PureComponent {
     typingThrottlingDelay,
     { trailing: false },
   )
+
+  stopTypingDebounced = debounce(() => {
+    const { channel, onSetTyping } = this.props
+    if (channel) {
+      onSetTyping({ channel, typing: false })
+    }
+  }, 5000)
 
   focus = () => {
     // TODO: grape-browser needs a better way to support this.
