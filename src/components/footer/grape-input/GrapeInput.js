@@ -378,7 +378,7 @@ class GrapeInput extends PureComponent {
     () => {
       const { channel, onSetTyping } = this.props
       if (channel) {
-        onSetTyping(channel)
+        onSetTyping({ channel, typing: true })
       }
     },
     typingThrottlingDelay,

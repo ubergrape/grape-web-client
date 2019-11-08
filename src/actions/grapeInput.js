@@ -172,11 +172,11 @@ export const searchChannelsToMention = (
     .catch(err => dispatch(error(err)))
 }
 
-export const setTyping = channel => dispatch => {
+export const setTyping = ({ channel, typing }) => dispatch => {
   dispatch({
     type: types.SET_TYPING,
-    payload: { channel },
+    payload: { channel, typing },
   })
 
-  api.setTyping(channel.id, true).catch(err => dispatch(error(err)))
+  api.setTyping(channel.id, typing).catch(err => dispatch(error(err)))
 }
