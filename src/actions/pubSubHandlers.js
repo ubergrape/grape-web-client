@@ -61,11 +61,17 @@ const addNewMessage = message => (dispatch, getState) => {
   })
 }
 
-export const handleNewMessage = message => (dispatch, getState) => {
+export const handleNewMessage = data => (dispatch, getState) => {
   const state = getState()
-  const channels = channelSelector(state)
+  const channels = channelsSelector(state)
   const user = userSelector(state)
-  const { author, channel: channelId, channelData, type } = message
+  const { author, channel: channelId, channelData, type, ...rest } = data
+
+  const message = {
+    ...rest,
+    author,
+    channel: channelId,
+  }
 
   // This is a special case for activity messages. These are special messages and the only
   // one having the property type attached to it. It is showed in the
@@ -76,7 +82,13 @@ export const handleNewMessage = message => (dispatch, getState) => {
     return
   }
 
-  if (author.id === user.id || findIndex(channels, { id: author.id }) !== -1) {
+  if (
+    author.id === user.id ||
+    findIndex(channels, ({ id, partner }) => {
+      if (partner) return partner.id === author.id
+      return id === author.id
+    }) !== -1
+  ) {
     dispatch(addNewMessage(message))
     return
   }
@@ -94,9 +106,14 @@ export const handleNewMessage = message => (dispatch, getState) => {
 }
 
 export const handleNewSystemMessage = message => dispatch => {
-  const { channelId, messageId } = message
+  const { channelId, messageId, channelData } = message
   api.getMessage(channelId, messageId).then(res => {
-    dispatch(handleNewMessage(res))
+    dispatch(
+      handleNewMessage({
+        ...res,
+        channelData,
+      }),
+    )
   })
 }
 
