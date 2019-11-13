@@ -13,17 +13,8 @@ class IncomingCall extends PureComponent {
     classes: PropTypes.object.isRequired,
     incoming: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    joinIncomingCall: PropTypes.func.isRequired,
     rejectIncomingCall: PropTypes.func.isRequired,
     replyWithMessage: PropTypes.func.isRequired,
-  }
-
-  onJoin = () => {
-    const {
-      joinIncomingCall,
-      incoming: { channelId, callId },
-    } = this.props
-    joinIncomingCall({ channelId, callId })
   }
 
   onReject = () => {
@@ -149,7 +140,6 @@ class IncomingCall extends PureComponent {
                 href={`${grapecallUrl}?call_id=${callId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={this.onJoin}
                 className={cn(classes.button, classes.accept)}
               >
                 <Icon className={classes.ongoingIcon} name="callOngoing" />
