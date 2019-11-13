@@ -70,7 +70,8 @@ export const handleNewMessage = data => (dispatch, getState) => {
   const message = {
     ...rest,
     author,
-    channel: channelId,
+    channelId,
+    channel: channelData,
   }
 
   // This is a special case for activity messages. These are special messages and the only
@@ -106,11 +107,13 @@ export const handleNewMessage = data => (dispatch, getState) => {
 }
 
 export const handleNewSystemMessage = message => dispatch => {
-  const { channelId, messageId, channelData } = message
+  const { channelId, messageId, channelData, author, channel } = message
   api.getMessage(channelId, messageId).then(res => {
     dispatch(
       handleNewMessage({
         ...res,
+        author,
+        channel,
         channelData,
       }),
     )
