@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
+import conf from '../../../../conf'
 import { Menu as BaseMenu } from '../../../message-parts'
 
 const handlerMap = {
@@ -9,9 +10,17 @@ const handlerMap = {
   remove: 'onRemove',
 }
 
+const baseItems = ['copyLink', 'quote']
+
 export default class Menu extends PureComponent {
   static propTypes = {
-    orgPermissions: PropTypes.object.isRequired,
+    channel: PropTypes.shape({
+      // Is null in some cases.
+      creator: PropTypes.number,
+    }).isRequired,
+    user: PropTypes.shape({
+      role: PropTypes.number.isRequired,
+    }).isRequired,
     permissions: PropTypes.object.isRequired,
     getContentNode: PropTypes.func.isRequired,
     /* eslint-disable react/no-unused-prop-types */
@@ -26,11 +35,14 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const { permissions, orgPermissions, getContentNode } = this.props
+    const { user, channel, permissions, getContentNode } = this.props
+    const items = [...baseItems]
 
-    const items = ['copyLink']
-    if (permissions.canQuoteMessage) items.push('quote')
-    if (orgPermissions.canDeleteAnyMessage || permissions.canDeleteMessage) {
+    if (
+      user.role >= conf.constants.roles.ROLE_ADMIN ||
+      channel.creator === user.id ||
+      permissions.canDeleteAnyMessage
+    ) {
       items.push('remove')
     }
 
