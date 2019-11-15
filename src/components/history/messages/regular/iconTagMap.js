@@ -6,6 +6,7 @@ export default {
   calling: ongoing,
   missedCall: missed,
   hungUp: ended,
+  finished: ended,
   inCall: ongoing,
   rejectedCall: missed,
 }
