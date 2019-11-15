@@ -226,7 +226,7 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const { id, channelId } = msg
+    const { id } = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
@@ -265,6 +265,8 @@ export const normalizeMessage = (() => {
       0,
       maxLinkAttachments,
     )
+    const channelId = msg.channelId || msg.channel
+
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
 
