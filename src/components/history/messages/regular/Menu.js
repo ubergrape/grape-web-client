@@ -25,8 +25,8 @@ export default class Menu extends PureComponent {
     onToggleDropdown: PropTypes.func.isRequired,
     /* eslint-enable react/no-unused-prop-types */
     getContentNode: PropTypes.func.isRequired,
+    orgPermissions: PropTypes.object.isRequired,
     permissions: PropTypes.object.isRequired,
-    isOwn: PropTypes.bool,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
     isLinkAttachments: PropTypes.bool,
@@ -34,7 +34,6 @@ export default class Menu extends PureComponent {
   }
 
   static defaultProps = {
-    isOwn: false,
     isPinned: false,
     isDropdownOpened: false,
     isLinkAttachments: false,
@@ -50,8 +49,8 @@ export default class Menu extends PureComponent {
 
   render() {
     const {
+      orgPermissions,
       permissions,
-      isOwn,
       isPinned,
       state,
       getContentNode,
@@ -62,11 +61,15 @@ export default class Menu extends PureComponent {
     if (state === 'pending' || state === 'unsent') return null
 
     const items = []
-
-    if (isOwn && !isLinkAttachments) items.push('edit')
-    if (isOwn || permissions.canDeleteAnyMessage) items.push('remove')
+    if (!isLinkAttachments && permissions.canUpdateMessage) {
+      items.push('edit')
+    }
+    if (orgPermissions.canDeleteAnyMessage || permissions.canDeleteMessage) {
+      items.push('remove')
+    }
     items.push('copyLink')
-    if (!isLinkAttachments) items.push('quote', 'pin')
+    if (!isLinkAttachments && permissions.canQuoteMessage) items.push('quote')
+    if (!isLinkAttachments && permissions.canPinMessage) items.push('pin')
 
     return (
       <BaseMenu

@@ -61,7 +61,8 @@ class History extends PureComponent {
     isLoading: PropTypes.bool,
     loadedNewerMessage: PropTypes.bool.isRequired,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
-    permissions: PropTypes.object,
+    orgPermissions: PropTypes.object,
+    channelPermissions: PropTypes.object,
     backendHasNewerMessages: PropTypes.bool.isRequired,
   }
 
@@ -77,7 +78,8 @@ class History extends PureComponent {
     scrollTo: null,
     scrollToAlignment: null,
     minimumBatchSize: null,
-    permissions: {},
+    orgPermissions: {},
+    channelPermissions: {},
   }
 
   constructor(props) {
@@ -164,7 +166,8 @@ class History extends PureComponent {
       {...this.state.rows[index]}
       key={key}
       style={style}
-      permissions={this.props.permissions}
+      orgPermissions={this.props.orgPermissions}
+      channelPermissions={this.props.channelPermissions}
       onToggleExpander={this.onToggleExpander}
     />
   )
@@ -190,7 +193,7 @@ class History extends PureComponent {
       isMemberOfAnyRooms,
       onNewConversation,
       onJoinGroup,
-      permissions,
+      orgPermissions,
       backendHasNewerMessages,
     } = this.props
     const { rows, scrollTo } = this.state
@@ -218,7 +221,7 @@ class History extends PureComponent {
             channel={channel}
             users={users}
             onInvite={onInvite}
-            permissions={permissions}
+            orgPermissions={orgPermissions}
             onAddIntegration={onAddIntegration}
           />
         )
