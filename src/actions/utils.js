@@ -169,6 +169,7 @@ export const normalizeMessage = (() => {
     const {
       id,
       clientsideId,
+      permissions,
       text,
       pinned: isPinned,
       action,
@@ -202,6 +203,7 @@ export const normalizeMessage = (() => {
       type,
       id,
       clientsideId,
+      permissions,
       text,
       time,
       userTime,
@@ -226,7 +228,7 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const { id, channel: channelId } = msg
+    const { id, channel: channelId, permissions } = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
@@ -272,6 +274,7 @@ export const normalizeMessage = (() => {
       type,
       id,
       channelId,
+      permissions,
       channel,
       link,
       text,

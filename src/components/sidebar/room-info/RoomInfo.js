@@ -48,7 +48,8 @@ export default class RoomInfo extends PureComponent {
     classes: PropTypes.object.isRequired,
     colors: PropTypes.object,
     channel: PropTypes.object.isRequired,
-    permissions: PropTypes.object,
+    orgPermissions: PropTypes.object.isRequired,
+    channelPermissions: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
@@ -88,7 +89,6 @@ export default class RoomInfo extends PureComponent {
     subview: undefined,
     onOpenSharedFile: undefined,
     sidebarRef: undefined,
-    permissions: {},
     customEmojis: {},
   }
 
@@ -152,7 +152,8 @@ export default class RoomInfo extends PureComponent {
       kickMemberFromChannel,
       subview: { users, isEveryMemberLoaded },
       onLoadMembers,
-      permissions,
+      orgPermissions,
+      channelPermissions,
       sidebarRef,
     } = this.props
 
@@ -161,17 +162,18 @@ export default class RoomInfo extends PureComponent {
         <RoomActions
           channel={channel}
           colors={colors}
-          permissions={permissions}
+          orgPermissions={orgPermissions}
+          channelPermissions={channelPermissions}
           onLeave={this.onLeave}
           onInvite={this.onInvite}
           onAddIntegration={goToAddIntegrations}
         />
-        {(permissions.canLeaveChannel ||
-          permissions.canInviteMembers ||
-          permissions.canInviteGuests ||
-          permissions.canAddIntegration) &&
-          permissions.canSeeMembersList && <Divider />}
-        {permissions.canSeeMembersList && (
+        {(channelPermissions.canLeaveChannel ||
+          channelPermissions.canInviteMembers ||
+          channelPermissions.canInviteGuests ||
+          orgPermissions.canAddIntegration) &&
+          channelPermissions.canSeeMembersList && <Divider />}
+        {channelPermissions.canSeeMembersList && (
           <ChannelMembers
             channel={channel}
             colors={colors}
@@ -182,7 +184,7 @@ export default class RoomInfo extends PureComponent {
             users={users}
             isEveryMemberLoaded={isEveryMemberLoaded}
             sidebarRef={sidebarRef}
-            permissions={permissions}
+            channelPermissions={channelPermissions}
           />
         )}
       </div>
@@ -235,7 +237,7 @@ export default class RoomInfo extends PureComponent {
       showRoomDeleteDialog,
       showSubview,
       onClose,
-      permissions,
+      channelPermissions,
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -251,8 +253,8 @@ export default class RoomInfo extends PureComponent {
             colors={colors}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
-            allowEdit={permissions.canEditChannel}
-            allowDelete={permissions.canDeleteChannel}
+            allowEdit={channelPermissions.canEditChannel}
+            allowDelete={channelPermissions.canDeleteChannel}
             onSetRoomColor={this.onSetRoomColor}
             onSetRoomIcon={this.onSetRoomIcon}
             onChangePrivacy={this.onChangePrivacy}
@@ -264,7 +266,7 @@ export default class RoomInfo extends PureComponent {
           <Divider inset />
           <Description
             description={channel.description}
-            allowEdit={permissions.canEditChannel}
+            allowEdit={channelPermissions.canEditChannel}
             colors={colors}
             onSetRoomDescription={this.onSetRoomDescription}
             className={classes.description}
