@@ -71,9 +71,13 @@ export default class User extends PureComponent {
     channel: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    channelPermissions: PropTypes.object.isRequired,
     onKick: PropTypes.func.isRequired,
     onOpen: PropTypes.func.isRequired,
+    permissions: PropTypes.object,
+  }
+
+  static defaultProps = {
+    permissions: {},
   }
 
   constructor(props) {
@@ -100,18 +104,13 @@ export default class User extends PureComponent {
   }
 
   renderDeleteButton() {
-    const { channel, user, currUser, classes, channelPermissions } = this.props
+    const { channel, user, currUser, classes, permissions } = this.props
     const { isAdmin, isCreator } = getRoles({ channel, user: currUser })
     const isSelf = currUser.id === user.id
     const hasCreated = channel.creator === user.id
     const isKickMaster = (isAdmin || isCreator) && !isSelf
 
-    if (
-      !isKickMaster ||
-      isSelf ||
-      hasCreated ||
-      !channelPermissions.canRemoveMembers
-    )
+    if (!isKickMaster || isSelf || hasCreated || !permissions.canRemoveMembers)
       return null
 
     return <button className={classes.buttonKick} onClick={this.onKickMember} />

@@ -41,7 +41,7 @@ function RoomContent(props) {
     theme: { classes },
     onAddIntegration,
     onInvite,
-    orgPermissions,
+    permissions,
   } = props
 
   return (
@@ -59,7 +59,7 @@ function RoomContent(props) {
           />
         </h2>
         <p className={classes.text}>{text[isPublic ? 'public' : 'private']}</p>
-        {orgPermissions.canInviteMembers && (
+        {permissions.canInviteMembers && (
           <button onClick={onInvite} className={classes.buttonInvite}>
             <FormattedMessage
               id="inviteMoreToGroup"
@@ -67,7 +67,7 @@ function RoomContent(props) {
             />
           </button>
         )}
-        {orgPermissions.canAddIntegration && (
+        {permissions.canAddIntegration && (
           <button
             onClick={onAddIntegration}
             className={classes.buttonIntegration}
@@ -89,11 +89,11 @@ RoomContent.propTypes = {
   theme: PropTypes.object.isRequired,
   onAddIntegration: PropTypes.func.isRequired,
   onInvite: PropTypes.func.isRequired,
-  orgPermissions: PropTypes.object,
+  permissions: PropTypes.object,
 }
 
 RoomContent.defaultProps = {
-  orgPermissions: {},
+  permissions: {},
 }
 
 function PmContent(props) {
@@ -144,13 +144,13 @@ export default class NoContent extends PureComponent {
       isPublic: PropTypes.bool,
       partner: PropTypes.shape({}),
     }).isRequired,
-    orgPermissions: PropTypes.object,
+    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     onInvite: noop,
     onAddIntegration: noop,
-    orgPermissions: {},
+    permissions: {},
   }
 
   onInvite = () => {
@@ -158,7 +158,7 @@ export default class NoContent extends PureComponent {
   }
 
   render() {
-    const { channel, classes, onAddIntegration, orgPermissions } = this.props
+    const { channel, classes, onAddIntegration, permissions } = this.props
 
     if (channel.type === 'room') {
       return (
@@ -168,7 +168,7 @@ export default class NoContent extends PureComponent {
           theme={{ classes }}
           onAddIntegration={onAddIntegration}
           onInvite={this.onInvite}
-          orgPermissions={orgPermissions}
+          permissions={permissions}
         />
       )
     }

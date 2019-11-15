@@ -12,7 +12,7 @@ export default class ChannelMembers extends PureComponent {
     channel: PropTypes.object.isRequired,
     colors: PropTypes.object.isRequired,
     currUser: PropTypes.object.isRequired,
-    channelPermissions: PropTypes.object.isRequired,
+    permissions: PropTypes.object,
     sidebarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     onLoad: PropTypes.func,
     onOpen: PropTypes.func,
@@ -25,6 +25,7 @@ export default class ChannelMembers extends PureComponent {
     onLoad: noop,
     onOpen: noop,
     onKick: noop,
+    permissions: {},
   }
 
   constructor(props) {
@@ -85,7 +86,7 @@ export default class ChannelMembers extends PureComponent {
       currUser,
       onOpen,
       onKick,
-      channelPermissions,
+      permissions,
     } = this.props
 
     return (
@@ -99,7 +100,7 @@ export default class ChannelMembers extends PureComponent {
             currUser={currUser}
             onOpen={onOpen}
             onKick={onKick}
-            channelPermissions={channelPermissions}
+            permissions={permissions}
           />
         ))}
       </div>

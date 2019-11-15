@@ -76,11 +76,10 @@ const RoomActions = ({
   onInvite,
   onAddIntegration,
   channel,
-  orgPermissions,
-  channelPermissions,
+  permissions,
 }) => (
   <ul>
-    {channelPermissions.canSeeMembersList && (
+    {permissions.canSeeMembersList && (
       <li className={classes.action}>
         <a href={channel.manageMembersUrl} className={classes.membersListLink}>
           <FormattedMessage
@@ -91,7 +90,7 @@ const RoomActions = ({
         </a>
       </li>
     )}
-    {channelPermissions.canInviteMembers && (
+    {permissions.canInviteMembers && (
       <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
@@ -102,7 +101,7 @@ const RoomActions = ({
         </button>
       </li>
     )}
-    {orgPermissions.canAddIntegration && (
+    {permissions.canAddIntegration && (
       <li className={classes.action}>
         <button
           onClick={onAddIntegration}
@@ -116,7 +115,7 @@ const RoomActions = ({
         </button>
       </li>
     )}
-    {channelPermissions.canLeaveChannel && (
+    {permissions.canLeaveChannel && (
       <li className={classes.action}>
         <button onClick={onLeave} className={classes.buttonLeave}>
           <FormattedMessage
@@ -139,8 +138,7 @@ RoomActions.propTypes = {
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
-  orgPermissions: PropTypes.object.isRequired,
-  channelPermissions: PropTypes.object.isRequired,
+  permissions: PropTypes.object,
 }
 
 RoomActions.defaultProps = {
@@ -150,6 +148,7 @@ RoomActions.defaultProps = {
   channel: {
     name: 'Undefined',
   },
+  permissions: {},
 }
 
 export default injectSheet(styles)(RoomActions)

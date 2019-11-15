@@ -540,8 +540,10 @@ export const sidebarComponentSelector = createSelector(
       ...select,
       ...views[show],
       channel,
-      orgPermissions: permissions,
-      channelPermissions: channel.permissions,
+      permissions: {
+        ...permissions,
+        ...channel.permissions,
+      },
       customEmojis,
       subview: subviews[showSubview],
       colors,
@@ -613,8 +615,10 @@ export const historyComponentSelector = createSelector(
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
     customEmojis: org.customEmojis,
-    orgPermissions: org.permissions,
-    channelPermissions: channel.permissions,
+    permissions: {
+      ...org.permissions,
+      ...channel.permissions,
+    },
     isLoading,
     isMemberOfAnyRooms,
     user,
