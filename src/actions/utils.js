@@ -226,7 +226,7 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const { id, channel: channelId } = msg
+    const { id, channelId } = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
