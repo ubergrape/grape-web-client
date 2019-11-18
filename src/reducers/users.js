@@ -9,7 +9,11 @@ export default function reduce(state = initialState, action) {
 
   switch (action.type) {
     case types.SET_USERS:
-      return [...state, ...payload]
+      // please read comment for SET_CHANNELS, same goes here
+      return [
+        ...state.filter(o => !action.payload.find(o2 => o.id === o2.id)),
+        ...action.payload,
+      ]
 
     case types.ADD_USER_TO_ORG: {
       if (findIndex(state, { id: payload.id }) === -1) {
