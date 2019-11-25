@@ -6,7 +6,7 @@ import * as alerts from '../constants/alerts'
 import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector,
+  roomsSelector,
   userSelector,
   channelSelector,
   channelsSelector,
@@ -233,32 +233,7 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
       dispatch(joinChannel(id))
     }
     dispatch(setChannel(id, messageId))
-    return
   }
-
-  dispatch({
-    type: types.REQUEST_CHANNEL_AND_USERS,
-    payload: { channelId, messageId },
-  })
-
-  api
-    .getChannel(channelId)
-    .then(channel => {
-      if (channel.type === 'pm') {
-        const currUser = userSelector(getState())
-        const userIds = [currUser.id, channel.partner.id]
-        const pmChannel = { ...channel, users: userIds }
-        dispatch(addUser(pmChannel))
-        dispatch(addChannel(pmChannel))
-        dispatch(setChannel(pmChannel.id, messageId))
-        return
-      }
-
-      dispatch(addChannel(channel))
-      dispatch(setChannel(channel, messageId))
-      dispatch(joinChannel(channelId))
-    })
-    .catch(() => dispatch(handleBadChannel()))
 }
 
 export function createRoomWithUsers(room, users) {
@@ -390,7 +365,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(joinedRoomsSelector(getState()), { id })
+    const room = find(roomsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,

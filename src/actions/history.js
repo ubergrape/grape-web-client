@@ -403,7 +403,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
         clientsideId: id,
         text,
         author,
-        time: new Date(),
+        time: new Date().toISOString(),
         attachments,
         channel: channelId,
       },

@@ -35,7 +35,7 @@ const messagePropType = PropTypes.shape({
   author: PropTypes.shape({
     id: idPropType.isRequired,
   }).isRequired,
-  time: PropTypes.instanceOf(Date).isRequired,
+  time: PropTypes.string.isRequired,
   text: PropTypes.string,
 })
 

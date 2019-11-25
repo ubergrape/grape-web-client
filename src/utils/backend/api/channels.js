@@ -232,3 +232,16 @@ export const setTyping = (channelId, isTyping) =>
     action: 'set_typing',
     args: [channelId, isTyping],
   })
+
+export const getOverview = (
+  orgId,
+  { limit = 200, excludePinned = false } = {},
+) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_overview',
+      args: [orgId, { limit, excludePinned }],
+    },
+    { camelize: true },
+  )

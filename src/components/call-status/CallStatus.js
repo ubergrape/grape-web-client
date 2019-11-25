@@ -61,7 +61,7 @@ class CallStatus extends PureComponent {
 
     if (!show) return null
 
-    const { authorAvatarUrl, authorDisplayName } = call
+    const { authorIconUrl, authorName } = call
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
@@ -72,14 +72,14 @@ class CallStatus extends PureComponent {
               <img
                 className={classes.image}
                 alt="Interlocutor avatar"
-                src={authorAvatarUrl}
+                src={authorIconUrl}
               />
               <div className={classes.iconWrapper}>
                 <Icon name="camera" className={classes.cameraIcon} />
               </div>
             </div>
             <div className={classes.details}>
-              <span className={classes.name}>{authorDisplayName}</span>
+              <span className={classes.name}>{authorName}</span>
               <span className={classes.time}>
                 {hours < 10 ? `0${hours}` : hours}:
                 {minutes < 10 ? `0${minutes}` : minutes}:

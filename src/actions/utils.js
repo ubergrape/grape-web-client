@@ -14,16 +14,6 @@ import { channelsSelector } from '../selectors'
 import conf from '../conf'
 
 /**
- * Fix data inconsistencies at the backend.
- * There are some PM's with only one participant.
- */
-export function removeBrokenPms(channel) {
-  const { type, users } = channel
-  if (type === 'pm' && users.length !== 2) return false
-  return true
-}
-
-/**
  * Checks if the channel where message has been posted exists.
  * This should only happen when db is inconsistent.
  */
@@ -78,16 +68,10 @@ export function reduceChannelUsersToId(channel) {
   }
 }
 
-const setJoined = (channel, userId) => ({
-  ...channel,
-  joined: channel.users.indexOf(userId) !== -1,
-})
-
-export function normalizeChannelData(channel, userId) {
+export function normalizeChannelData(channel) {
   const normalized = removeNullValues(
     pinToFavorite(reduceChannelUsersToId(channel)),
   )
-  if (userId) return setJoined(normalized, userId)
   return normalized
 }
 
@@ -175,8 +159,8 @@ export const normalizeMessage = (() => {
       state: msgState,
       docType,
     } = msg
-    const time = msg.time ? new Date(msg.time) : new Date()
-    const userTime = msg.userTime || time.toISOString()
+    const time = msg.time || new Date().toISOString()
+    const userTime = msg.userTime || time
     const type = 'regular'
     const avatar = msg.author.avatar || msg.avatar || defaultAvatar
     const tag = camelCase(msg.tag)
@@ -228,7 +212,7 @@ export const normalizeMessage = (() => {
     const channels = channelsSelector(state)
     const { id } = msg
     const type = 'activity'
-    const time = new Date(msg.time)
+    const time = msg.time || new Date().toISOString()
     const author = {
       id: msg.author.id,
       name: msg.author.username,
@@ -330,12 +314,7 @@ export function roomNameFromUsers(users) {
     .slice(0, maxChannelNameLength - 1)
 }
 
-export const findLastUsedChannel = (channels, withMessage) =>
+export const findLastUsedChannel = channels =>
   channels
-    .filter(
-      channel =>
-        withMessage
-          ? channel.joined && channel.firstMessageTime
-          : channel.joined,
-    )
-    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
+    .filter(channel => channel.lastMessage)
+    .sort((a, b) => b.lastMessage.time - a.lastMessage.time)[0]

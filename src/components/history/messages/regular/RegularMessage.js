@@ -33,7 +33,7 @@ const toggleMenuDropdown = state => ({
 export default class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date),
+    time: PropTypes.string.isRequired,
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
     children: PropTypes.string,
@@ -97,7 +97,6 @@ export default class RegularMessage extends PureComponent {
     onCopyLink: noop,
     onQuote: noop,
     onRemoveLinkAttachment: noop,
-    time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
     state: undefined,

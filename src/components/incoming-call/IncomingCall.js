@@ -37,8 +37,8 @@ class IncomingCall extends PureComponent {
     const { show, classes, incoming } = this.props
     const {
       message,
-      authorAvatarUrl,
-      authorDisplayName,
+      authorIconUrl,
+      authorName,
       grapecallUrl,
       callId,
     } = incoming
@@ -54,10 +54,10 @@ class IncomingCall extends PureComponent {
             <img
               className={classes.image}
               alt="Caller avatar"
-              src={authorAvatarUrl}
+              src={authorIconUrl}
             />
           </div>
-          <div className={classes.name}>{authorDisplayName}</div>
+          <div className={classes.name}>{authorName}</div>
           <div className={classes.description}>{message}</div>
           {!isChromeOrFirefox ? (
             <div>

@@ -27,11 +27,11 @@ function sortUserByPm(a, b) {
 
   if (a.pm) {
     if (!b.pm) return -1
-    return b.pm.latestMessageTime - a.pm.latestMessageTime
+    return b.latestMessageTime - a.latestMessageTime
   }
   if (b.pm) {
     if (!a.pm) return 1
-    return a.pm.latestMessageTime - b.pm.latestMessageTime
+    return a.latestMessageTime - b.latestMessageTime
   }
   return 0
 }

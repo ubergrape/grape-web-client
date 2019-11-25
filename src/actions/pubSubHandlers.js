@@ -7,10 +7,10 @@ import * as types from '../constants/actionTypes'
 import { typingThrottlingDelay } from '../constants/delays'
 import {
   orgSelector,
-  usersSelector,
+  pmsSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector,
+  roomsSelector,
   channelsSelector,
   joinedChannelsSelector,
   incomingCallSelector,
@@ -33,7 +33,7 @@ import {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = joinedRoomsSelector(state)
+  const rooms = roomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
@@ -120,7 +120,7 @@ export const handleNewSystemMessage = message => dispatch => {
 }
 
 export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
-  const { id: channelId, lastMessageTimestamp } = channelData
+  const { id: channelId } = channelData
 
   dispatch(removeSharedFiles(id))
   dispatch(removeMention(id))
@@ -129,13 +129,11 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     payload: id,
   })
 
-  api.getChannel(channelId).then(({ unread }) => {
+  api.getChannel(channelId).then(channel => {
     dispatch({
       type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
       payload: {
-        id: channelId,
-        unread,
-        time: lastMessageTimestamp,
+        ...channel,
       },
     })
   })
@@ -206,7 +204,6 @@ export const handleJoinedChannel = ({
     dispatch(
       addChannel({
         ...channel,
-        users: [id, user.id],
       }),
     )
   }
@@ -235,10 +232,15 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const channel = channelSelector(getState())
+
+    if (channel.id !== channelId) return
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: { channelId, userId },
     })
+
     if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
   }
 }
@@ -290,7 +292,7 @@ export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
-  const users = usersSelector(getState())
+  const users = pmsSelector(getState())
   const user = find(users, { partner: { id } })
   if (user) {
     dispatch(changeUserStatus({ status, id }))
@@ -444,18 +446,15 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   const channels = channelsSelector(getState())
   const channel = find(channels, { id: channelId })
-  const users = usersSelector(getState())
+  const { partner } = channel
 
-  const callerId = channel.users.filter(id => id !== user.id)
-  const caller = find(users, { partner: { id: callerId[0] } })
-
-  if (caller) {
+  if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload: {
         ...payload,
-        authorDisplayName: caller.partner.displayName,
-        authorAvatarUrl: caller.partner.avatar,
+        authorName: partner.name,
+        authorIconUrl: partner.icon,
       },
     })
   }

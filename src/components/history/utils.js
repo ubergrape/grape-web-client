@@ -20,7 +20,9 @@ export const createRowsState = (() => {
     if (prevMessage.attachments.length) return false
 
     // Group if within defined time threshold.
-    return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
+    return (
+      Date.parse(prevMessage.time) + timeThreshold > Date.parse(message.time)
+    )
   }
 
   function isSame(message, prevMessage) {
