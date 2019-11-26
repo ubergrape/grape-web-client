@@ -153,7 +153,10 @@ export default class Row extends PureComponent {
     } = this.props
 
     let separator = null
-    if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
+    if (
+      !prevMessage ||
+      (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day'))
+    ) {
       separator = (
         <DateSeparator
           theme={{ date: classes.separator }}
