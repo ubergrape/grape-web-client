@@ -1,15 +1,10 @@
 import omit from 'lodash/omit'
-import find from 'lodash/find'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import { reopen } from '../app/client'
-import {
-  channelsSelector,
-  appSelector,
-  joinedChannelsSelector,
-} from '../selectors'
+import { appSelector, joinedChannelsSelector } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
 import {
@@ -97,30 +92,15 @@ export const handleUserProfile = profile => dispatch => {
   }
 }
 
-export const setChannel = (channelOrChannelId, messageId) => (
-  dispatch,
-  getState,
-) => {
-  const channels = channelsSelector(getState())
-  let channel
-  if (typeof channelOrChannelId === 'number') {
-    channel = find(channels, { id: channelOrChannelId })
-  } else {
-    channel = channelOrChannelId
-  }
-
-  if (!channel) return
-
+export const setChannel = (channelId, messageId) => dispatch => {
   dispatch(hideBrowser())
 
-  api.getChannel(channel.id).then(({ permissions, manageMembersUrl }) => {
+  api.getChannel(channelId).then(channel => {
     dispatch({
       type: types.SET_CHANNEL,
       payload: {
         channel: {
           ...normalizeChannelData(channel),
-          permissions,
-          manageMembersUrl,
         },
         messageId,
       },
@@ -165,43 +145,52 @@ export const loadInitialData = clientId => (dispatch, getState) => {
   Promise.all([
     api.getOrg(conf.organization.id),
     api.getOverview(conf.organization.id),
+    api.getPinnedOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.loadLabelsConfig(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, { channels }, profile, labelsConfig]) => {
-      dispatch(handleUserProfile(profile))
-      dispatch(setChannels(channels))
-      dispatch(
-        setOrg({
-          ...omit(org, 'users', 'channels', 'rooms', 'pms'),
-          labelsConfig,
-        }),
-      )
-      dispatch(ensureBrowserNotificationPermission())
+    .then(
+      ([
+        org,
+        { channels },
+        { channels: pinnedChannels },
+        profile,
+        labelsConfig,
+      ]) => {
+        dispatch(handleUserProfile(profile))
+        dispatch(setChannels([...channels, ...pinnedChannels]))
+        dispatch(
+          setOrg({
+            ...omit(org, 'users', 'channels', 'rooms', 'pms'),
+            labelsConfig,
+          }),
+        )
+        dispatch(ensureBrowserNotificationPermission())
 
-      dispatch(setIntialDataLoading(false))
+        dispatch(setIntialDataLoading(false))
 
-      const { route } = appSelector(getState())
-      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
+        const { route } = appSelector(getState())
+        const isMemberOfAnyRooms = joinedChannelsSelector(getState())
 
-      // A route for the embedded client can be 'undefined', and for the full
-      // client the channelId can also be 'undefined' in case no channel is defined
-      if (route && route.params.channelId) {
-        dispatch(setChannel(route.params.channelId, route.params.messageId))
-      } else {
-        const channelToSet = findLastUsedChannel(channels) || channels[0]
-        if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
-          // In embedded chat conf.channelId is defined.
-          dispatch(setChannel(conf.channelId || channelToSet.id))
+        // A route for the embedded client can be 'undefined', and for the full
+        // client the channelId can also be 'undefined' in case no channel is defined
+        if (route && route.params.channelId) {
+          dispatch(setChannel(route.params.channelId, route.params.messageId))
+        } else {
+          const channelToSet = findLastUsedChannel(channels) || channels[0]
+          if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
+            // In embedded chat conf.channelId is defined.
+            dispatch(setChannel(conf.channelId || channelToSet.id))
+          }
         }
-      }
 
-      if (!isMemberOfAnyRooms) {
-        dispatch(showNewConversation())
-      }
-    })
+        if (!isMemberOfAnyRooms) {
+          dispatch(showNewConversation())
+        }
+      },
+    )
     .catch(err => {
       dispatch(error(err))
       reopen()

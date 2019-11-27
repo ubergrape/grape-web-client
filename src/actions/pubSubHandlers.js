@@ -177,17 +177,8 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export const handleNewChannel = ({ channel, user: userId }) => (
-  dispatch,
-  getState,
-) => {
-  const { id } = userSelector(getState())
-  dispatch(
-    addChannel({
-      ...channel,
-      users: [id, userId],
-    }),
-  )
+export const handleNewChannel = ({ channel }) => dispatch => {
+  dispatch(addChannel(channel))
 }
 
 export const handleJoinedChannel = ({
@@ -204,6 +195,7 @@ export const handleJoinedChannel = ({
     dispatch(
       addChannel({
         ...channel,
+        temporaryInNavigation: Date.now(),
       }),
     )
   }

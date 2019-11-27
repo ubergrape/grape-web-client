@@ -1,8 +1,5 @@
 import findIndex from 'lodash/findIndex'
 import includes from 'lodash/includes'
-import merge from 'lodash/merge'
-import keys from 'lodash/keys'
-import pick from 'lodash/pick'
 import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 
@@ -21,28 +18,20 @@ export default function reduce(state = initialState, action) {
       ]
 
     case types.SET_CHANNEL: {
-      const {
-        id,
-        type,
-        permissions,
-        manageMembersUrl,
-        grapecallUrl,
-      } = action.payload.channel
+      const { id, type } = action.payload.channel
 
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
           const newChannel = {
+            ...action.payload.channel,
             ...channel,
-            permissions,
-            manageMembersUrl,
-            grapecallUrl,
             current: true,
           }
           // In case of empty PM we're adding it to the navigation
           // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
           // for the current session lifetime.
-          if (type === 'pm' && !channel.lastMessage) {
+          if (type === 'pm' && !channel.lastMessageTime) {
             newChannel.temporaryInNavigation = Date.now()
           }
           newState.push(newChannel)
@@ -50,10 +39,9 @@ export default function reduce(state = initialState, action) {
         }
         if (channel.current) {
           newState.push({
+            ...action.payload.channel,
             ...channel,
             current: false,
-            manageMembersUrl,
-            grapecallUrl,
           })
           return newState
         }
@@ -67,7 +55,7 @@ export default function reduce(state = initialState, action) {
       if (find(state, { id: channel.id })) {
         return state
       }
-      if (!channel.users) channel.users = []
+
       return [...state, channel]
     }
 
@@ -142,14 +130,7 @@ export default function reduce(state = initialState, action) {
       const mentions = channel.mentions || 0
       newState.splice(index, 1, {
         ...channel,
-        lastMessage: {
-          ...merge(
-            channel.lastMessage,
-            pick(message, keys(channel.lastMessage)),
-          ),
-          channel: channel.id,
-          plainText: message.text,
-        },
+        lastMessageTime: message.time,
         mentions: mentions + mentionsCount || channel.mentions,
         unread: isCurrentUser ? 0 : channel.unread + 1,
       })
@@ -173,13 +154,15 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL_UNREAD_COUNTER: {
-      const { id } = action.payload
+      const { id, unread, lastMessage } = action.payload
       const index = findIndex(state, { id })
       if (index === -1) return state
       const newState = [...state]
-      const channel = state[index]
+
       newState.splice(index, 1, {
-        ...merge(channel, pick(action.payload, keys(channel))),
+        ...state[index],
+        unread,
+        lastMessageTime: lastMessage ? lastMessage.time : null,
       })
       return newState
     }

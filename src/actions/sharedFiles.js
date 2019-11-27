@@ -23,7 +23,7 @@ function formatFile(file, channel, users) {
     channelName: channel.name || channel.users[0].displayName,
     channelType: channel.type,
     id: file.id || file.messageId,
-    time: new Date(file.time),
+    time: file.time,
   }
 }
 

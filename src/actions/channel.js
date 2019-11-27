@@ -207,17 +207,12 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
   api
     .openPm(org.id, userId)
-    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
-      dispatch(
-        addChannel({
-          ...pmChannel,
-          users,
-        }),
-      )
+    .then(({ id }) => api.getChannel(id))
+    .then(channel => {
+      dispatch(addUser(channel))
+      dispatch(addChannel(channel))
       // Using id because after adding, channel was normalized.
-      dispatch(goToChannel(pmChannel.id, options))
+      dispatch(goToChannel(channel.id, options))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))

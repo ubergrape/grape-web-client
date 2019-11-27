@@ -42,7 +42,7 @@ export const joinedChannelsSelector = createSelector(
 )
 
 export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.lastMessage),
+  pms.filter(pm => pm.lastMessageTime),
 )
 
 export const channelSelector = createSelector(
@@ -313,10 +313,13 @@ export const orgInfoSelector = createSelector(
 )
 
 export const navigationPmsSelector = createSelector([pmsSelector], pms =>
-  pms.filter(pm => pm.lastMessage || pm.temporaryInNavigation || pm.favorited),
+  pms.filter(
+    pm => pm.lastMessageTime || pm.temporaryInNavigation || pm.favorited,
+  ),
 )
 
-const unixToIsoTimestamp = timestamp => new Date(timestamp).getTime()
+const unixToIsoTime = timestamp =>
+  timestamp ? new Date(timestamp).getTime() : null
 
 const sortRecentChannels = (a, b) => {
   let bCompareValue
@@ -324,18 +327,18 @@ const sortRecentChannels = (a, b) => {
 
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
-  } else if (a.lastMessage) {
-    aCompareValue = unixToIsoTimestamp(a.lastMessage.time)
+  } else if (a.lastMessageTime) {
+    aCompareValue = unixToIsoTime(a.lastMessageTime)
   } else {
-    aCompareValue = unixToIsoTimestamp(a.created)
+    aCompareValue = unixToIsoTime(a.created)
   }
 
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
-  } else if (b.lastMessage) {
-    bCompareValue = unixToIsoTimestamp(b.lastMessage.time)
+  } else if (b.lastMessageTime) {
+    bCompareValue = unixToIsoTime(b.lastMessageTime)
   } else {
-    bCompareValue = unixToIsoTimestamp(b.created)
+    bCompareValue = unixToIsoTime(b.created)
   }
 
   return bCompareValue - aCompareValue
