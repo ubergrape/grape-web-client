@@ -1,6 +1,5 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
-import findIndex from 'lodash/findIndex'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
@@ -18,7 +17,6 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
-  addUser,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -62,45 +60,17 @@ const addNewMessage = message => (dispatch, getState) => {
 }
 
 export const handleNewMessage = data => (dispatch, getState) => {
-  const state = getState()
-  const channels = channelsSelector(state)
-  const user = userSelector(state)
-  const { author, channel: channelId, channelData, type, ...rest } = data
+  const channels = channelsSelector(getState())
+  const { channel: channelId, channelData: channel, ...rest } = data
 
   const message = {
-    author,
     channelId,
-    channel: channelData,
+    channel,
     ...rest,
   }
 
-  // This is a special case for activity messages. These are special messages and the only
-  // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke getChannel
-  // which would result in the undesired API call open_pm.
-  if (type) {
-    dispatch(addNewMessage(message))
-    return
-  }
-
-  if (
-    author.id === user.id ||
-    findIndex(channels, ({ id, partner }) => {
-      if (partner) return partner.id === author.id
-      return id === author.id
-    }) !== -1
-  ) {
-    dispatch(addNewMessage(message))
-    return
-  }
-
-  if (channelData.type === 'room') {
-    addChannel({
-      ...channelData,
-      users: [channelId, user.id],
-    })
-  } else {
-    dispatch(addUser(channelData))
+  if (!find(channels, { id: channelId })) {
+    dispatch(addChannel(channel))
   }
 
   dispatch(addNewMessage(message))
@@ -224,23 +194,21 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
-    const channel = channelSelector(getState())
-
-    if (channel.id !== channelId) return
+    const isCurrentUser = user.id === userId
 
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId },
+      payload: { channelId, userId, isCurrentUser },
     })
 
-    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
+    if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
-export const handleNotification = notification => dispatch => {
+export const handleNotification = payload => dispatch => {
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload: { ...notification },
+    payload,
   })
 }
 
@@ -443,11 +411,7 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload: {
-        ...payload,
-        authorName: partner.name,
-        authorIconUrl: partner.icon,
-      },
+      payload,
     })
   }
 }

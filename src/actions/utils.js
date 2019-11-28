@@ -40,6 +40,7 @@ const lastMessageToLastMessageTime = channel => {
     lastMessageTime: lastMessage ? lastMessage.time : null,
   }
 
+  delete newChannel.lastMessage
   return newChannel
 }
 

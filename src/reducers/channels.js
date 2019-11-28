@@ -1,5 +1,4 @@
 import findIndex from 'lodash/findIndex'
-import includes from 'lodash/includes'
 import find from 'lodash/find'
 import * as types from '../constants/actionTypes'
 
@@ -73,21 +72,13 @@ export default function reduce(state = initialState, action) {
       if (index === -1) return state
 
       const channel = newState[index]
-      const { users } = channel
-      if (!users) return state
 
-      newState.splice(index, 1, {
-        ...channel,
-        // As a workaround of API bug,
-        // we have to ensure that user isn't joined already.
-        // https://github.com/ubergrape/chatgrape/issues/3804
-        users: includes(users, user.id) ? users : [...users, user.id],
-      })
-
+      newState.splice(index, 1, channel)
       return newState
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
+      if (!action.payload.isCurrentUser) return state
       return state.filter(({ id }) => !(id === action.payload.channelId))
     }
 

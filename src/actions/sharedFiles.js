@@ -20,7 +20,7 @@ function formatFile(file, channel, users) {
     author: author ? author.displayName : undefined,
     // If we are in pm channel, there is no channel name, we use the other user
     // name as a channel name.
-    channelName: channel.name || channel.users[0].displayName,
+    channelName: channel.name,
     channelType: channel.type,
     id: file.id || file.messageId,
     time: file.time,

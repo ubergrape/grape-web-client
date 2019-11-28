@@ -24,7 +24,6 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
-  addUser,
   setChannel,
   handleBadChannel,
 } from './'
@@ -139,7 +138,8 @@ export const joinChannel = id => dispatch => {
     type: types.REQUEST_JOIN_CHANNEL,
     payload: id,
   })
-  api
+
+  return api
     .joinChannel(id)
     .then(() => {
       dispatch(removeManageGroupChannel(id))
@@ -196,7 +196,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
   const foundChannel = find(channels, ({ partner }) => partner.id === userId)
   if (foundChannel) {
-    dispatch(goToChannel(foundChannel, options))
+    dispatch(goToChannel(foundChannel.id, options))
     return
   }
 
@@ -209,9 +209,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     .openPm(org.id, userId)
     .then(({ id }) => api.getChannel(id))
     .then(channel => {
-      dispatch(addUser(channel))
       dispatch(addChannel(channel))
-      // Using id because after adding, channel was normalized.
       dispatch(goToChannel(channel.id, options))
     })
     .catch(err => {
@@ -221,14 +219,36 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
 export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
+  const channel = channelSelector(getState())
   const foundChannel = find(channels, { id: channelId })
+
+  if (channel.id === channelId) return
+
   if (foundChannel) {
-    const { id, type, isPublic, joined } = foundChannel
-    if (type === 'room' && isPublic && !joined) {
-      dispatch(joinChannel(id))
-    }
-    dispatch(setChannel(id, messageId))
+    dispatch(setChannel(foundChannel.id, messageId))
+    return
   }
+
+  dispatch(joinChannel(channelId)).then(() => {
+    dispatch(setChannel(channelId, messageId))
+  })
+}
+
+export const openChannelFromNavigation = channelId => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const channel = channelSelector(getState())
+  const foundChannel = find(channels, { id: channelId })
+
+  if (channel.id === channelId) return
+
+  if (foundChannel) {
+    dispatch(goToChannel(foundChannel.id))
+    return
+  }
+
+  dispatch(joinChannel(channelId)).then(() => {
+    dispatch(goToChannel(channelId))
+  })
 }
 
 export function createRoomWithUsers(room, users) {

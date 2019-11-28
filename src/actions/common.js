@@ -43,13 +43,6 @@ export const setChannels = channels => dispatch => {
   })
 }
 
-export const addUser = user => dispatch => {
-  dispatch({
-    type: types.ADD_USER_TO_ORG,
-    payload: normalizeUserData(user),
-  })
-}
-
 export function setOrg(org) {
   return {
     type: types.SET_ORG,

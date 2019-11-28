@@ -1,6 +1,6 @@
 export const psb1 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: '33e7d18169d442868a72856871396e48',
   channelId: 8991,
@@ -13,8 +13,8 @@ export const psb1 = {
 }
 
 export const psb2 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: '33e7d18169d442868a72856871396e47',
   channelId: 8991,
@@ -27,8 +27,8 @@ export const psb2 = {
 }
 
 export const psb3 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: '05990999027840459020f0a05ef5040b',
   channelId: 8991,
@@ -41,8 +41,8 @@ export const psb3 = {
 }
 
 export const psb4 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: '05990999027840459020f0a05ef5040a',
   channelId: 8991,
@@ -55,8 +55,8 @@ export const psb4 = {
 }
 
 export const psb5 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: 'a4693a20a2ce4f1fb60d26b0ad0306db',
   channelId: 8991,
@@ -69,8 +69,8 @@ export const psb5 = {
 }
 
 export const psb6 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: 'a4693a20a2ce4f1fb60d26b0ad0306da',
   channelId: 8991,
@@ -83,8 +83,8 @@ export const psb6 = {
 }
 
 export const psb7 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: 'a4693a20a2ce4f1fb60d26b0ad0306da',
   channelId: 8991,
@@ -97,8 +97,8 @@ export const psb7 = {
 }
 
 export const psb8 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 2918,
   callId: '70a9bdeef8904880920ba7b71d3376ca',
   channelId: 8991,
@@ -111,8 +111,8 @@ export const psb8 = {
 }
 
 export const psb9 = {
-  authorIconUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
-  authorName: 'asdf',
+  authorAvatarUrl: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+  authorDisplayName: 'asdf',
   authorId: 2918,
   callId: '70a9bdeef8904880920ba7b71d3376cb',
   channelId: 8991,

@@ -1,7 +1,7 @@
 export const cs1 = {
-  authorIconUrl:
+  authorAvatarUrl:
     'https://staging.chatgrape.com/imgsrc/s/avatar_invited/200x200/',
-  authorName: 'asdf',
+  authorDisplayName: 'asdf',
   authorId: 13761,
   callId: '7916ed93f60942d389f3aef15ae86fab',
   channelId: 8991,
