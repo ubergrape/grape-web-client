@@ -144,46 +144,38 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(
-      ([
-        org,
-        { channels },
-        { channels: pinnedChannels },
-        profile,
-        labelsConfig,
-      ]) => {
-        dispatch(handleUserProfile(profile))
-        dispatch(setChannels([...channels, ...pinnedChannels]))
-        dispatch(
-          setOrg({
-            ...omit(org, 'users', 'channels', 'rooms', 'pms'),
-            labelsConfig,
-          }),
-        )
-        dispatch(ensureBrowserNotificationPermission())
+    .then(([org, channels, pinnedChannels, profile, labelsConfig]) => {
+      dispatch(handleUserProfile(profile))
+      dispatch(setChannels([...channels.channels, ...pinnedChannels.channels]))
+      dispatch(
+        setOrg({
+          ...omit(org, 'users', 'channels', 'rooms', 'pms'),
+          labelsConfig,
+        }),
+      )
+      dispatch(ensureBrowserNotificationPermission())
 
-        dispatch(setIntialDataLoading(false))
+      dispatch(setIntialDataLoading(false))
 
-        const { route } = appSelector(getState())
-        const isMemberOfAnyRooms = joinedChannelsSelector(getState())
+      const { route } = appSelector(getState())
+      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
 
-        // A route for the embedded client can be 'undefined', and for the full
-        // client the channelId can also be 'undefined' in case no channel is defined
-        if (route && route.params.channelId) {
-          dispatch(setChannel(route.params.channelId, route.params.messageId))
-        } else {
-          const channelToSet = findLastUsedChannel(channels) || channels[0]
-          if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
-            // In embedded chat conf.channelId is defined.
-            dispatch(setChannel(conf.channelId || channelToSet.id))
-          }
+      // A route for the embedded client can be 'undefined', and for the full
+      // client the channelId can also be 'undefined' in case no channel is defined
+      if (route && route.params.channelId) {
+        dispatch(setChannel(route.params.channelId, route.params.messageId))
+      } else {
+        const channelToSet = findLastUsedChannel(channels) || channels[0]
+        if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
+          // In embedded chat conf.channelId is defined.
+          dispatch(setChannel(conf.channelId || channelToSet.id))
         }
+      }
 
-        if (!isMemberOfAnyRooms) {
-          dispatch(showNewConversation())
-        }
-      },
-    )
+      if (!isMemberOfAnyRooms) {
+        dispatch(showNewConversation())
+      }
+    })
     .catch(err => {
       dispatch(error(err))
       reopen()

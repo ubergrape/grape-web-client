@@ -220,12 +220,11 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 export const openChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const channel = channelSelector(getState())
-  const foundChannel = find(channels, { id: channelId })
 
   if (channel.id === channelId) return
 
-  if (foundChannel) {
-    dispatch(setChannel(foundChannel.id, messageId))
+  if (find(channels, { id: channelId })) {
+    dispatch(setChannel(channelId, messageId))
     return
   }
 
