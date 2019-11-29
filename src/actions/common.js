@@ -1,10 +1,15 @@
 import omit from 'lodash/omit'
+import find from 'lodash/find'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
 import { reopen } from '../app/client'
-import { appSelector, joinedChannelsSelector } from '../selectors'
+import {
+  appSelector,
+  joinedChannelsSelector,
+  channelsSelector,
+} from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
 import {
@@ -17,6 +22,7 @@ import {
   showToastNotification,
   showIntro,
   showAlert,
+  addChannel,
   goToLastUsedChannel,
   showNewConversation,
   hideBrowser,
@@ -85,10 +91,13 @@ export const handleUserProfile = profile => dispatch => {
   }
 }
 
-export const setChannel = (channelId, messageId) => dispatch => {
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+
   dispatch(hideBrowser())
 
   api.getChannel(channelId).then(channel => {
+    if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
     dispatch({
       type: types.SET_CHANNEL,
       payload: {

@@ -64,14 +64,13 @@ export function goToChannel(channelId, options) {
     if (!channel) {
       api.getChannel(channelId).then(_channel => {
         dispatch(addChannel(_channel))
-        const slug =
-          channel.slug == null ? channel.partner.username : channel.slug
-        dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
+        const slug = _channel.slug || _channel.partner.username
+        dispatch(goTo(`/chat/channel/${_channel.id}/${slug}`, options))
       })
       return
     }
 
-    const slug = channel.slug == null ? channel.partner.username : channel.slug
+    const slug = channel.slug || channel.partner.username
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
   }
 }

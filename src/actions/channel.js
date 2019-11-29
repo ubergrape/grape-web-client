@@ -228,6 +228,9 @@ export const openChannel = (channelId, messageId) => (dispatch, getState) => {
     return
   }
 
+  // Try to join to channel, migh be user don't member of this channel yet,
+  // then channej.join event will handle adding channel to channels array.
+  // If not, later inside setChannel channel will be added from get_channel RPC.
   dispatch(joinChannel(channelId)).then(() => {
     dispatch(setChannel(channelId, messageId))
   })
@@ -245,6 +248,7 @@ export const openChannelFromNavigation = channelId => (dispatch, getState) => {
     return
   }
 
+  // Same as in openChannel function
   dispatch(joinChannel(channelId)).then(() => {
     dispatch(goToChannel(channelId))
   })

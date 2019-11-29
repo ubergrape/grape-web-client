@@ -178,7 +178,7 @@ export default class Navigation extends PureComponent {
       focusedChannel: undefined,
     })
 
-    const { id, type, partner, isPublic } = channel
+    const { id, type, partner } = channel
     const { openPm, openChannel } = this.props
 
     if (type === 'user') {
@@ -191,7 +191,7 @@ export default class Navigation extends PureComponent {
       return
     }
 
-    if (type === 'room' && isPublic) {
+    if (type === 'room') {
       openChannel(id)
     }
   }
