@@ -23,6 +23,7 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
+  hideNewConversation,
   setChannel,
   handleBadChannel,
 } from './'
@@ -252,6 +253,7 @@ export function createRoomWithUsers(room, users) {
       .then(() => {
         if (newRoom) {
           dispatch(goToChannel(newRoom.id))
+          dispatch(hideNewConversation())
           dispatch(invitedToChannel(emailAddresses, newRoom.id))
         }
       })

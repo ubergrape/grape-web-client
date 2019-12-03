@@ -93,21 +93,28 @@ export const handleUserProfile = profile => dispatch => {
 
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
+  const channel = find(channels, { id: channelId })
 
   dispatch(hideBrowser())
 
-  api.getChannel(channelId).then(channel => {
-    if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
-    dispatch({
-      type: types.SET_CHANNEL,
-      payload: {
-        channel: {
-          ...normalizeChannelData(channel),
+  if (channel) dispatch(addChannel(channel))
+
+  api
+    .getChannel(channelId)
+    .then(_channel => {
+      dispatch({
+        type: types.SET_CHANNEL,
+        payload: {
+          channel: {
+            ...normalizeChannelData(_channel),
+          },
+          messageId,
         },
-        messageId,
-      },
+      })
     })
-  })
+    .catch(err => {
+      dispatch(error(err))
+    })
 }
 
 export const handleBadChannel = alertType => dispatch => {
@@ -134,6 +141,26 @@ export const setConf = payload => dispatch => {
     type: types.SET_CONF,
     payload,
   })
+}
+
+const setChannelForEmbedded = (allChannels, isMemberOfAnyRooms) => (
+  dispatch,
+  getState,
+) => {
+  const { route } = appSelector(getState())
+  // A route for the embedded client can be 'undefined', and for the full
+  // client the channelId can also be 'undefined' in case no channel is defined
+  if (conf.embed && route && route.params.channelId) {
+    dispatch(setChannel(route.params.channelId, route.params.messageId))
+    return
+  }
+
+  const channelToSet = findLastUsedChannel(allChannels) || allChannels[0]
+
+  if (conf.embed && (conf.channelId || channelToSet) && isMemberOfAnyRooms) {
+    // In embedded chat conf.channelId is defined.
+    dispatch(setChannel(conf.channelId || channelToSet.id))
+  }
 }
 
 export const loadInitialData = clientId => (dispatch, getState) => {
@@ -167,23 +194,14 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
       dispatch(setIntialDataLoading(false))
 
-      const { route } = appSelector(getState())
       const isMemberOfAnyRooms = joinedChannelsSelector(getState())
-
-      // A route for the embedded client can be 'undefined', and for the full
-      // client the channelId can also be 'undefined' in case no channel is defined
-      if (route && route.params.channelId) {
-        dispatch(setChannel(route.params.channelId, route.params.messageId))
-      } else {
-        const channelToSet = findLastUsedChannel(allChannels) || allChannels[0]
-        if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
-          // In embedded chat conf.channelId is defined.
-          dispatch(setChannel(conf.channelId || channelToSet.id))
-        }
-      }
 
       if (!isMemberOfAnyRooms) {
         dispatch(showNewConversation())
+      }
+
+      if (conf.embed) {
+        dispatch(setChannelForEmbedded(allChannels, isMemberOfAnyRooms))
       }
     })
     .catch(err => {

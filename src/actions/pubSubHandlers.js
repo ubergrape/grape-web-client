@@ -17,6 +17,7 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -31,6 +32,7 @@ import {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
+  const channel = channelSelector(state)
   const rooms = roomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
@@ -55,6 +57,7 @@ const addNewMessage = message => (dispatch, getState) => {
     payload: {
       message: nMessage,
       currentUserId: user.id,
+      currentChannelId: channel.id,
     },
   })
 }
@@ -99,19 +102,25 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     payload: id,
   })
 
-  api.getChannel(channelId).then(channel => {
-    dispatch({
-      type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-      payload: {
-        ...channel,
-      },
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      dispatch({
+        type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: {
+          ...channel,
+        },
+      })
     })
-  })
+    .catch(err => {
+      dispatch(error(err))
+    })
 }
 
 export function handleReadChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const channel = channelSelector(getState())
 
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
@@ -119,6 +128,7 @@ export function handleReadChannel({ user: userId, channel: channelId }) {
         isCurrentUser: userId === user.id,
         userId,
         channelId,
+        currentChannelId: channel.id,
       },
     })
   }
@@ -233,10 +243,15 @@ export function handleUpateChannel({ channel }) {
 export function handleRemoveRoom({ channel: id }) {
   return (dispatch, getState) => {
     const { id: currentId } = channelSelector(getState())
+
     dispatch({
       type: types.REMOVE_ROOM,
-      payload: id,
+      payload: {
+        channelId: id,
+        currentChannelId: currentId,
+      },
     })
+
     if (id === currentId) dispatch(goTo('/chat'))
   }
 }

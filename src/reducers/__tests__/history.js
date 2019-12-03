@@ -23,10 +23,13 @@ describe('history reducer', () => {
     it('should not update the state on a different channel', () => {
       expect(
         history(
-          { channel: { id: 'aaa' } },
+          {},
           {
             type: ADD_NEW_MESSAGE,
-            payload: { message: { channelId: 'bbb', id: 'bbb' } },
+            payload: {
+              message: { channelId: 'bbb', id: 'bbb' },
+              currentChannelId: 'aaa',
+            },
           },
         ),
       ).toMatchSnapshot()
@@ -36,7 +39,6 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            channel: { id: 'channelId1' },
             messages: [],
           },
           {
@@ -48,6 +50,7 @@ describe('history reducer', () => {
                 channelId: 'channelId1',
               },
               currentUserId: 'userId1',
+              currentChannelId: 'channelId1',
             },
           },
         ),
@@ -58,7 +61,6 @@ describe('history reducer', () => {
       expect(
         history(
           {
-            channel: { id: 'channelId1' },
             messages: [],
           },
           {
@@ -70,6 +72,7 @@ describe('history reducer', () => {
                 channelId: 'channelId1',
               },
               currentUserId: 'userId1',
+              currentChannelId: 'channelId1',
             },
           },
         ),
@@ -85,7 +88,6 @@ describe('history reducer', () => {
               { clientsideId: 'abc' },
               { clientsideId: 'def' },
             ],
-            channel: { id: 'channelId1' },
           },
           {
             type: ADD_NEW_MESSAGE,
@@ -97,6 +99,7 @@ describe('history reducer', () => {
                 channelId: 'channelId1',
               },
               currentUserId: 'userId1',
+              currentChannelId: 'channelId1',
             },
           },
         ),
@@ -112,7 +115,6 @@ describe('history reducer', () => {
               { id: '345', clientsideId: 'abc' },
               { id: '456', clientsideId: 'def' },
             ],
-            channel: { id: 'channelId1' },
           },
           {
             type: ADD_NEW_MESSAGE,
@@ -124,6 +126,7 @@ describe('history reducer', () => {
                 channelId: 'channelId1',
               },
               currentUserId: 'userId1',
+              currentChannelId: 'channelId1',
             },
           },
         ),
@@ -135,7 +138,6 @@ describe('history reducer', () => {
         history(
           {
             messages: [{ clientsideId: 'abc' }],
-            channel: { id: 'channelId1' },
           },
           {
             type: ADD_NEW_MESSAGE,
@@ -146,6 +148,7 @@ describe('history reducer', () => {
                 author: { id: 'userId2' },
               },
               currentUserId: 'userId1',
+              currentChannelId: 'channelId1',
             },
           },
         ),

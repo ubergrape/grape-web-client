@@ -8,7 +8,7 @@ import { findLastUsedChannel } from './utils'
 import * as history from '../app/history'
 import * as api from '../utils/backend/api'
 
-import { openPm, openChannel, addChannel } from './'
+import { openPm, openChannel, addChannel, error } from './'
 
 export function goTo(pathOrUrl, options = {}) {
   return (dispatch, getState) => {
@@ -54,7 +54,10 @@ export function goToChannel(channelId, options) {
     if (!conf.embed) {
       dispatch({
         type: types.GO_TO_CHANNEL,
-        payload: channelId,
+        payload: {
+          channelId,
+          currentChannelId: currentId,
+        },
       })
     }
 
@@ -62,11 +65,16 @@ export function goToChannel(channelId, options) {
     const channel = find(channels, ({ id }) => id === channelId)
 
     if (!channel) {
-      api.getChannel(channelId).then(_channel => {
-        dispatch(addChannel(_channel))
-        const slug = _channel.slug || _channel.partner.username
-        dispatch(goTo(`/chat/channel/${_channel.id}/${slug}`, options))
-      })
+      api
+        .getChannel(channelId)
+        .then(_channel => {
+          dispatch(addChannel(_channel))
+          const slug = _channel.slug || _channel.partner.username
+          dispatch(goTo(`/chat/channel/${_channel.id}/${slug}`, options))
+        })
+        .catch(err => {
+          dispatch(error(err))
+        })
       return
     }
 

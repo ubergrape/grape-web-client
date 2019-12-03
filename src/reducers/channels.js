@@ -109,7 +109,7 @@ export default function reduce(state = initialState, action) {
 
     case types.REMOVE_ROOM: {
       return state.filter(
-        ({ type, id }) => !(type === 'room' && id === action.payload),
+        ({ type, id }) => !(type === 'room' && id === action.payload.channelId),
       )
     }
 

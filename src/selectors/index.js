@@ -578,6 +578,7 @@ export const historyComponentSelector = createSelector(
     conf,
   ) => ({
     ...omit(history, 'olderMessagesRequest', 'newerMessagesRequest'),
+    channel,
     customEmojis: org.customEmojis,
     permissions: {
       ...org.permissions,
