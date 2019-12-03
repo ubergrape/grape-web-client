@@ -27,7 +27,6 @@ import {
 } from './data/pubSubHandlers'
 import { ic1, ic2, ic3, ic4, ic5 } from './data/incomingCall'
 import { c1, c2, с3 } from './data/channels'
-import { u1 } from './data/users'
 
 beforeEach(registerAssertions)
 
@@ -149,7 +148,6 @@ describe('pubSubHandlers actions', () => {
     expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
       {
         channels: [c1],
-        users: [u1],
         user: {
           id: 13761,
         },

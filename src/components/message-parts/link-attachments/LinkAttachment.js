@@ -70,7 +70,7 @@ export default class LinkAttachment extends PureComponent {
     footerIcon: PropTypes.string,
     footer: PropTypes.string,
     footerUrl: PropTypes.string,
-    authorName: PropTypes.string,
+    authorDisplayName: PropTypes.string,
     authorLink: PropTypes.string,
     authorIcon: PropTypes.string,
     title: PropTypes.string,
@@ -96,7 +96,7 @@ export default class LinkAttachment extends PureComponent {
     footerIcon: null,
     footer: null,
     footerUrl: null,
-    authorName: null,
+    authorDisplayName: null,
     authorLink: null,
     authorIcon: null,
     title: null,
@@ -133,11 +133,15 @@ export default class LinkAttachment extends PureComponent {
   }
 
   renderAuthor() {
-    const { authorName, authorLink, authorIcon } = this.props
+    const { authorDisplayName, authorLink, authorIcon } = this.props
 
     return (
       <Row>
-        <Author name={authorName} link={authorLink} iconUrl={authorIcon} />
+        <Author
+          name={authorDisplayName}
+          link={authorLink}
+          iconUrl={authorIcon}
+        />
       </Row>
     )
   }
@@ -283,7 +287,7 @@ export default class LinkAttachment extends PureComponent {
 
   renderAttachments = () => {
     const {
-      authorName,
+      authorDisplayName,
       title,
       text,
       imageUrl,
@@ -295,7 +299,7 @@ export default class LinkAttachment extends PureComponent {
 
     return (
       <div className={classes.main}>
-        {authorName && this.renderAuthor()}
+        {authorDisplayName && this.renderAuthor()}
         {title && this.renderTitle()}
         {text && this.renderText()}
         {fields.length > 0 && this.renderFields()}

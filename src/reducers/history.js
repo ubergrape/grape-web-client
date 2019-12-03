@@ -214,7 +214,9 @@ export default function reduce(state = initialState, action) {
     }
     case types.ADD_NEW_MESSAGE: {
       const newMessage = payload.message
-      if (newMessage.channelId !== state.channel.id) return state
+
+      if (state.channel && newMessage.channelId !== state.channel.id)
+        return state
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
 

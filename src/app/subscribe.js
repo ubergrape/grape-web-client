@@ -1,4 +1,4 @@
-import { toCamel } from '../utils/convertCase'
+import { toCamel } from '../utils/convert-case'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
 import getBoundActions from './boundActions'

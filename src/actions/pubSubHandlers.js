@@ -1,16 +1,15 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
-import findIndex from 'lodash/findIndex'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import { typingThrottlingDelay } from '../constants/delays'
 import {
   orgSelector,
-  usersSelector,
+  pmsSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector,
+  roomsSelector,
   channelsSelector,
   joinedChannelsSelector,
   incomingCallSelector,
@@ -18,7 +17,6 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
-  addUser,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -33,7 +31,7 @@ import {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = joinedRoomsSelector(state)
+  const rooms = roomsSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
@@ -62,45 +60,17 @@ const addNewMessage = message => (dispatch, getState) => {
 }
 
 export const handleNewMessage = data => (dispatch, getState) => {
-  const state = getState()
-  const channels = channelsSelector(state)
-  const user = userSelector(state)
-  const { author, channel: channelId, channelData, type, ...rest } = data
+  const channels = channelsSelector(getState())
+  const { channel: channelId, channelData: channel, ...rest } = data
 
   const message = {
-    author,
     channelId,
-    channel: channelData,
+    channel,
     ...rest,
   }
 
-  // This is a special case for activity messages. These are special messages and the only
-  // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke getChannel
-  // which would result in the undesired API call open_pm.
-  if (type) {
-    dispatch(addNewMessage(message))
-    return
-  }
-
-  if (
-    author.id === user.id ||
-    findIndex(channels, ({ id, partner }) => {
-      if (partner) return partner.id === author.id
-      return id === author.id
-    }) !== -1
-  ) {
-    dispatch(addNewMessage(message))
-    return
-  }
-
-  if (channelData.type === 'room') {
-    addChannel({
-      ...channelData,
-      users: [channelId, user.id],
-    })
-  } else {
-    dispatch(addUser(channelData))
+  if (!find(channels, { id: channelId })) {
+    dispatch(addChannel(channel))
   }
 
   dispatch(addNewMessage(message))
@@ -120,7 +90,7 @@ export const handleNewSystemMessage = message => dispatch => {
 }
 
 export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
-  const { id: channelId, lastMessageTimestamp } = channelData
+  const { id: channelId } = channelData
 
   dispatch(removeSharedFiles(id))
   dispatch(removeMention(id))
@@ -129,13 +99,11 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     payload: id,
   })
 
-  api.getChannel(channelId).then(({ unread }) => {
+  api.getChannel(channelId).then(channel => {
     dispatch({
       type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
       payload: {
-        id: channelId,
-        unread,
-        time: lastMessageTimestamp,
+        ...channel,
       },
     })
   })
@@ -179,17 +147,8 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export const handleNewChannel = ({ channel, user: userId }) => (
-  dispatch,
-  getState,
-) => {
-  const { id } = userSelector(getState())
-  dispatch(
-    addChannel({
-      ...channel,
-      users: [id, userId],
-    }),
-  )
+export const handleNewChannel = ({ channel }) => dispatch => {
+  dispatch(addChannel(channel))
 }
 
 export const handleJoinedChannel = ({
@@ -206,7 +165,7 @@ export const handleJoinedChannel = ({
     dispatch(
       addChannel({
         ...channel,
-        users: [id, user.id],
+        temporaryInNavigation: Date.now(),
       }),
     )
   }
@@ -235,18 +194,21 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const isCurrentUser = user.id === userId
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId },
+      payload: { channelId, userId, isCurrentUser },
     })
-    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
+
+    if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
-export const handleNotification = notification => dispatch => {
+export const handleNotification = payload => dispatch => {
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload: { ...notification },
+    payload,
   })
 }
 
@@ -290,7 +252,7 @@ export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
-  const users = usersSelector(getState())
+  const users = pmsSelector(getState())
   const user = find(users, { partner: { id } })
   if (user) {
     dispatch(changeUserStatus({ status, id }))
@@ -444,19 +406,12 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   const channels = channelsSelector(getState())
   const channel = find(channels, { id: channelId })
-  const users = usersSelector(getState())
+  const { partner } = channel
 
-  const callerId = channel.users.filter(id => id !== user.id)
-  const caller = find(users, { partner: { id: callerId[0] } })
-
-  if (caller) {
+  if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload: {
-        ...payload,
-        authorDisplayName: caller.partner.displayName,
-        authorAvatarUrl: caller.partner.avatar,
-      },
+      payload,
     })
   }
 }
