@@ -154,8 +154,9 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, channels, pinnedChannels, profile, labelsConfig]) => {
+      const allChannels = [...channels.channels, ...pinnedChannels.channels]
       dispatch(handleUserProfile(profile))
-      dispatch(setChannels([...channels.channels, ...pinnedChannels.channels]))
+      dispatch(setChannels(allChannels))
       dispatch(
         setOrg({
           ...omit(org, 'users', 'channels', 'rooms', 'pms'),
@@ -174,8 +175,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       if (route && route.params.channelId) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
-        const channelToSet =
-          findLastUsedChannel(channels.channels) || channels.channels[0]
+        const channelToSet = findLastUsedChannel(allChannels) || allChannels[0]
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
           dispatch(setChannel(conf.channelId || channelToSet.id))

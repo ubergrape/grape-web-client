@@ -9,7 +9,6 @@ import {
   roomsSelector,
   userSelector,
   channelSelector,
-  channelsSelector,
   orgSelector,
   pmsSelector,
   manageGroupsSelector,
@@ -217,38 +216,16 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     })
 }
 
-export const openChannel = (channelId, messageId) => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
-
-  if (find(channels, { id: channelId })) {
-    dispatch(setChannel(channelId, messageId))
-    return
-  }
-
-  // Try to join to channel, migh be user don't member of this channel yet,
-  // then channej.join event will handle adding channel to channels array.
-  // If not, later inside setChannel channel will be added from get_channel RPC.
-  dispatch(joinChannel(channelId)).then(() => {
-    dispatch(setChannel(channelId, messageId))
-  })
+export const openChannel = (channelId, messageId) => dispatch => {
+  dispatch(setChannel(channelId, messageId))
 }
 
 export const openChannelFromNavigation = channelId => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
   const channel = channelSelector(getState())
-  const foundChannel = find(channels, { id: channelId })
 
   if (channel.id === channelId) return
 
-  if (foundChannel) {
-    dispatch(goToChannel(foundChannel.id))
-    return
-  }
-
-  // Same as in openChannel function
-  dispatch(joinChannel(channelId)).then(() => {
-    dispatch(goToChannel(channelId))
-  })
+  dispatch(goToChannel(channelId))
 }
 
 export function createRoomWithUsers(room, users) {
