@@ -113,7 +113,6 @@
     "minimist": "^1.2.0",
     "prettier": "^1.13.5",
     "raw-loader": "^0.5.1",
-    "react-styleguidist": "^7.0.20",
     "react-testing-library": "^4.1.2",
     "rimraf": "^2.6.1",
     "sinon": "^6.1.0",
@@ -146,9 +145,7 @@
     "i18n:export": "yarn clear:i18n && yarn build && babel-node i18n/scripts/export.js",
     "i18n:import": "yarn clear:i18n && yarn build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
-    "prepublishOnly": "yarn test && cross-env NODE_ENV=production yarn build",
-    "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
-    "sg:build": "styleguidist build"
+    "prepublishOnly": "yarn test && cross-env NODE_ENV=production yarn build"
   },
   "lint-staged": {
     "*.js": [
