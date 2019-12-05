@@ -2,7 +2,7 @@ import joinStrings from 'join-strings-in-array'
 
 import { emojiRegex, style } from '../emoji/emoji'
 
-export const nonStandardProps = ['user', 'customEmojis', 'forcebreak']
+export const nonStandardProps = ['user', 'type', 'customEmojis', 'forcebreak']
 
 const replaceEmoji = (emoji, customEmojis) => {
   const name = emoji.trim().replace(/:/g, '')

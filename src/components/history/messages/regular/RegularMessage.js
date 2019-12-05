@@ -36,6 +36,7 @@ export default class RegularMessage extends PureComponent {
     time: PropTypes.string.isRequired,
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
+    docType: PropTypes.string,
     children: PropTypes.string,
     hasBubbleArrow: PropTypes.bool,
     permissions: PropTypes.object.isRequired,
@@ -90,6 +91,7 @@ export default class RegularMessage extends PureComponent {
     linkAttachments: [],
     customEmojis: {},
     children: '',
+    docType: 'message',
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
@@ -177,6 +179,7 @@ export default class RegularMessage extends PureComponent {
       time,
       avatar,
       children,
+      docType,
       hasBubbleArrow,
       state,
       permissions,
@@ -247,6 +250,7 @@ export default class RegularMessage extends PureComponent {
                     </div>
                     {children && (
                       <Grapedown
+                        type={docType}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}
@@ -257,6 +261,7 @@ export default class RegularMessage extends PureComponent {
                   <div>
                     {children && (
                       <Grapedown
+                        type={docType}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}
