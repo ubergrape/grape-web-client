@@ -241,21 +241,25 @@ export function handleRemoveRoom({ channel: id }) {
   }
 }
 
-const changeUserStatus = payload => dispatch => {
-  dispatch({
-    type: types.CHANGE_USER_STATUS,
-    payload,
-  })
-}
-
 export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
   const users = pmsSelector(getState())
-  const user = find(users, { partner: { id } })
-  if (user) {
-    dispatch(changeUserStatus({ status, id }))
+  const user = userSelector(getState())
+
+  if (find(users, { partner: { id } })) {
+    dispatch({
+      type: types.CHANGE_USER_STATUS,
+      payload: { status, id },
+    })
+  }
+
+  if (user.id === id) {
+    dispatch({
+      type: types.CHANGE_CURRENT_USER_STATUS,
+      payload: status,
+    })
   }
 }
 
