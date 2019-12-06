@@ -16,6 +16,8 @@ export const GO_TO_CHANNEL = 'GO_TO_CHANNEL'
 export const HANDLE_ERROR = 'HANDLE_ERROR'
 export const SET_USER = 'SET_USER'
 export const SET_CHANNEL = 'SET_CHANNEL'
+export const ADD_CALL = 'ADD_CALL'
+export const REMOVE_CALL = 'REMOVE_CALL'
 export const HANDLE_CHANGE_ROUTE = 'HANDLE_CHANGE_ROUTE'
 
 export const SET_CONF = 'SET_CONF'

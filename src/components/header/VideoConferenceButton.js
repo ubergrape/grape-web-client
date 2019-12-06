@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import some from 'lodash/some'
+import has from 'lodash/has'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
@@ -105,8 +105,7 @@ const VideoConferenceButton = props => {
   }
 
   if (
-    some(channel) &&
-    some(channel.partner) &&
+    has(channel, 'partner') &&
     userStatusMap[channel.partner.status] === 'inCall'
   ) {
     return (
@@ -114,6 +113,21 @@ const VideoConferenceButton = props => {
         <button onClick={showOnCallToast} className={props.classes.button}>
           <Icon name="camera" className={props.classes.disabledCamera} />
         </button>
+      </Tooltip>
+    )
+  }
+
+  if (has(channel, 'calls') && channel.calls.length > 0) {
+    return (
+      <Tooltip message={tooltips.joinConference}>
+        <a
+          href={props.channel.grapecallUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={props.classes.button}
+        >
+          <Icon name="cameraActive" className={props.classes.camera} />
+        </a>
       </Tooltip>
     )
   }
