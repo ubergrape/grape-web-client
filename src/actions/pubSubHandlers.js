@@ -17,6 +17,7 @@ import {
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
@@ -99,14 +100,17 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     payload: id,
   })
 
-  api.getChannel(channelId).then(channel => {
-    dispatch({
-      type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-      payload: {
-        ...channel,
-      },
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      dispatch({
+        type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: {
+          ...channel,
+        },
+      })
     })
-  })
+    .catch(err => dispatch(error(err)))
 }
 
 export function handleReadChannel({ user: userId, channel: channelId }) {

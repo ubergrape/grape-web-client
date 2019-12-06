@@ -72,6 +72,7 @@ export default function subscribe(channel) {
     const cData = toCamel(data)
     switch (cData.event) {
       case 'notification.new':
+        if (conf.embed) break
         boundActions.handleNotification(cData)
         break
       case 'message.new':

@@ -96,16 +96,19 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
 
   dispatch(hideBrowser())
 
-  api.getChannel(channelId).then(channel => {
-    if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
-    dispatch({
-      type: types.SET_CHANNEL,
-      payload: {
-        channel,
-        messageId,
-      },
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
+      dispatch({
+        type: types.SET_CHANNEL,
+        payload: {
+          channel,
+          messageId,
+        },
+      })
     })
-  })
+    .catch(err => dispatch(error(err)))
 }
 
 export const handleBadChannel = alertType => dispatch => {
