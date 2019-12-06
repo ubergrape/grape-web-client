@@ -93,28 +93,19 @@ export const handleUserProfile = profile => dispatch => {
 
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const channel = find(channels, { id: channelId })
 
   dispatch(hideBrowser())
 
-  if (channel) dispatch(addChannel(channel))
-
-  api
-    .getChannel(channelId)
-    .then(_channel => {
-      dispatch({
-        type: types.SET_CHANNEL,
-        payload: {
-          channel: {
-            ...normalizeChannelData(_channel),
-          },
-          messageId,
-        },
-      })
+  api.getChannel(channelId).then(channel => {
+    if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
+    dispatch({
+      type: types.SET_CHANNEL,
+      payload: {
+        channel,
+        messageId,
+      },
     })
-    .catch(err => {
-      dispatch(error(err))
-    })
+  })
 }
 
 export const handleBadChannel = alertType => dispatch => {

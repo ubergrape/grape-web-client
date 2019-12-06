@@ -1,8 +1,5 @@
 import findIndex from 'lodash/findIndex'
 import find from 'lodash/find'
-import pick from 'lodash/pick'
-import keys from 'lodash/keys'
-import merge from 'lodash/merge'
 import * as types from '../constants/actionTypes'
 
 const initialState = []
@@ -24,10 +21,7 @@ export default function reduce(state = initialState, action) {
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
           const newChannel = {
-            ...merge(
-              action.payload.channel,
-              pick(channel, keys(action.payload.channel)),
-            ),
+            ...Object.assign({}, channel, action.payload.channel),
             current: true,
           }
           // In case of empty PM we're adding it to the navigation
@@ -50,6 +44,46 @@ export default function reduce(state = initialState, action) {
         newState.push(channel)
         return newState
       }, [])
+    }
+
+    case types.ADD_CALL: {
+      const id = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        calls: [
+          {
+            channel: id,
+          },
+        ],
+      })
+
+      return newState
+    }
+
+    case types.REMOVE_CALL: {
+      const id = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        calls: [],
+      })
+
+      return newState
     }
 
     case types.ADD_CHANNEL: {

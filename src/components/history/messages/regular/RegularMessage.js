@@ -247,6 +247,7 @@ export default class RegularMessage extends PureComponent {
                     </div>
                     {children && (
                       <Grapedown
+                        tag={tag}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}
@@ -257,6 +258,7 @@ export default class RegularMessage extends PureComponent {
                   <div>
                     {children && (
                       <Grapedown
+                        tag={tag}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}
