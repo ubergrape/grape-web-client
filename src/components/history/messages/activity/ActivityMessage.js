@@ -21,6 +21,7 @@ class ActivityMessage extends PureComponent {
     time: PropTypes.string.isRequired,
     title: PropTypes.node,
     children: PropTypes.node,
+    docType: PropTypes.string,
     duplicates: PropTypes.number.isRequired,
     onToggleExpander: PropTypes.func,
     onRemoveLinkAttachment: PropTypes.func,
@@ -47,6 +48,7 @@ class ActivityMessage extends PureComponent {
   static defaultProps = {
     children: '',
     title: '',
+    docType: 'message',
     hasBubbleArrow: true,
     onToggleExpander: noop,
     onRemoveLinkAttachment: noop,
@@ -117,6 +119,7 @@ class ActivityMessage extends PureComponent {
       time,
       avatar,
       title,
+      docType,
       children,
       duplicates,
       isExpanded,
@@ -160,11 +163,13 @@ class ActivityMessage extends PureComponent {
               >
                 <div className={classes.content} ref={this.onRefContent}>
                   <Grapedown
+                    type={docType}
                     customEmojis={customEmojis}
                     text={title}
                     user={user}
                   />
                   <Grapedown
+                    type={docType}
                     customEmojis={customEmojis}
                     text={children}
                     user={user}
