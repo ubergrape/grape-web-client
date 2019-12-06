@@ -101,9 +101,7 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     dispatch({
       type: types.SET_CHANNEL,
       payload: {
-        channel: {
-          ...normalizeChannelData(channel),
-        },
+        channel,
         messageId,
       },
     })
