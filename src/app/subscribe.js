@@ -145,6 +145,14 @@ export default function subscribe(channel) {
         if (conf.embed) break
         boundActions.handleRejectedCall(cData)
         break
+      case 'call.started':
+        if (conf.embed) break
+        boundActions.handleStartedCall(cData)
+        break
+      case 'call.finished':
+        if (conf.embed) break
+        boundActions.handleFinishedCall(cData)
+        break
       default:
     }
   })
