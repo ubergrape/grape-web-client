@@ -6,6 +6,7 @@ export default () => ({
     padding: 10,
     width: '100%',
     height: '100%',
+    pointerEvents: 'none',
   },
   window: {
     width: 360,
