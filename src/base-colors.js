@@ -1,5 +1,6 @@
 export default {
-  blueLight: '#d2e6fb',
+  blueLight: '#3399ff',
+  blueLighter: '#d2e6fb',
   blue: '#0080ff',
   green: '#6fc936',
   purple: '#642081',
