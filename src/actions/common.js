@@ -155,7 +155,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
     .then(([org, channels, pinnedChannels, profile, labelsConfig]) => {
-      const allChannels = [...channels.channels, ...pinnedChannels.channels]
+      const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(allChannels))
       dispatch(

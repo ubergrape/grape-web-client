@@ -11,6 +11,7 @@ const actionNames = {
   showManageGroups: 'showManageGroups',
   openPm: 'openPm',
   openChannelFromNavigation: 'openChannel',
+  loadOlderChannels: 'loadOlderChannels',
   searchChannelsForNavigation: 'searchChannelsForNavigation',
 }
 

@@ -235,16 +235,16 @@ export const setTyping = (channelId, isTyping) =>
 
 export const getOverview = (
   orgId,
-  { limit = 200, excludePinned = true } = {},
+  { limit = 200, excludePinned = true, olderThen = [] } = {},
 ) =>
   rpc(
     {
       ns: 'channels',
       action: 'get_overview',
-      args: [orgId, { limit, excludePinned }],
+      args: [orgId, { limit, excludePinned, olderThen }],
     },
     { camelize: true },
-  )
+  ).then(response => response.channels)
 
 export const getPinnedOverview = orgId =>
   rpc(
@@ -254,4 +254,4 @@ export const getPinnedOverview = orgId =>
       args: [orgId],
     },
     { camelize: true },
-  )
+  ).then(response => response.channels)
