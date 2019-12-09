@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { blue, blueLight } from 'grape-theme/dist/base-colors'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -52,6 +53,20 @@ export const styles = ({ palette }) => ({
     width: iconSize,
     height: iconSize,
     cursor: 'pointer',
+  },
+  cameraActive: {
+    color: ({ colors }) => colors.button || blue,
+    width: iconSize,
+    height: iconSize,
+    '&:hover': {
+      isolate: false,
+      cursor: 'pointer',
+      // TODO Size here should not be needed.
+      // https://github.com/cssinjs/react-jss/issues/165
+      width: iconSize,
+      height: iconSize,
+      color: ({ colors }) => colors.button || blueLight,
+    },
   },
   camera: {
     width: iconSize,
@@ -126,7 +141,7 @@ const VideoConferenceButton = props => {
           rel="noopener noreferrer"
           className={props.classes.button}
         >
-          <Icon name="cameraActive" className={props.classes.camera} />
+          <Icon name="cameraActive" className={props.classes.cameraActive} />
         </a>
       </Tooltip>
     )
