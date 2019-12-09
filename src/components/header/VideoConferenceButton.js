@@ -91,14 +91,14 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (userStatusMap[user.status] === 'inCall') {
+  if (channel.type === 'room' && userStatusMap[user.status] === 'inCall') {
     return (
       <Tooltip message={tooltips.anotherCall}>
         <button
           onClick={showOnAnotherCallToast}
           className={props.classes.button}
         >
-          <Icon name="camera" className={props.classes.disabledCamera} />
+          <Icon name="cameraActive" className={props.classes.disabledCamera} />
         </button>
       </Tooltip>
     )
