@@ -140,7 +140,7 @@ const VideoConferenceButton = props => {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a
-          href={props.channel.grapecallUrl}
+          href={props.channel.videoconferenceUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={props.classes.button}
