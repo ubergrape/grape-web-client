@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 import {
-  blueLight,
+  blueLighter,
   grayBlueLighter,
   yellow,
 } from 'grape-theme/dist/base-colors'
@@ -19,7 +19,7 @@ export const OwnBubble = useTheme(Bubble, {
   styles: baseStyles({
     color:
       (conf.organization.colors && conf.organization.colors.ownMessage) ||
-      blueLight,
+      blueLighter,
   }),
 })
 

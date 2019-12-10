@@ -416,3 +416,17 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
     type: types.CLEAR_INCOMING_CALL_DATA,
   })
 }
+
+export const handleStartedCall = data => dispatch => {
+  dispatch({
+    type: types.ADD_CALL,
+    payload: data.channel.id,
+  })
+}
+
+export const handleFinishedCall = data => dispatch => {
+  dispatch({
+    type: types.REMOVE_CALL,
+    payload: data.channel.id,
+  })
+}

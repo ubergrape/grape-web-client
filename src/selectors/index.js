@@ -604,7 +604,7 @@ export const headerSelector = createSelector(
     permissions,
     isMemberOfAnyRooms,
     colors,
-    orgFeatures: features,
+    features,
     user,
   }),
 )

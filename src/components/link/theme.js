@@ -1,13 +1,15 @@
+import { blue, blueLight } from 'grape-theme/dist/base-colors'
+
 export default {
   externalLink: {
-    color: '#0080ff',
+    color: blue,
     cursor: 'pointer',
     display: 'inline',
     wordBreak: 'breakWord',
     textDecoration: 'none',
     '&:hover': {
       isolate: false,
-      color: '#3399FF',
+      color: blueLight,
       textDecoration: 'underline',
     },
   },
