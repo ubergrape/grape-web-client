@@ -112,7 +112,7 @@ const VideoConferenceButton = props => {
     userStatusMap[user.status] === 'inCall'
   ) {
     return (
-      <Tooltip message={tooltips.anotherCall}>
+      <Tooltip message={tooltips.inCall}>
         <button
           onClick={showOnAnotherCallToast}
           className={props.classes.button}
