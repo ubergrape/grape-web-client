@@ -8,6 +8,7 @@ import { BrowserNotification } from '../../components/browser-notification'
 
 const actionNames = {
   goToChannel: 'onGoToChannel',
+  joinIncomingCall: 'joinCall',
   setNotification: 'setNotification',
 }
 
