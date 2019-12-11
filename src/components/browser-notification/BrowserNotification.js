@@ -90,10 +90,16 @@ const getNewMessageProperties = props => {
 }
 
 const getCallCallbacks = ({ dispatcher }, props) => {
-  const { joinCall, onGoToChannel, channel, browserNotification, call } = props
   const {
-    incoming: { channelId, grapecallUrl, callId },
-  } = call
+    joinCall,
+    onGoToChannel,
+    channel,
+    browserNotification,
+    incomingCall,
+  } = props
+  const {
+    data: { channelId, grapecallUrl, callId },
+  } = incomingCall
 
   if (dispatcher === 'incoming') {
     return {
@@ -177,7 +183,7 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
 const updateNotification = (props, nextProps) => {
   const {
     conf,
-    call,
+    incomingCall,
     notification,
     browserNotification: { dispatcher },
   } = nextProps
@@ -189,8 +195,8 @@ const updateNotification = (props, nextProps) => {
   })
 
   if (type === 'calls') {
-    const { show } = call
-    if (!show && show !== props.call.show && notification.close) {
+    const { show } = incomingCall
+    if (!show && show !== props.incomingCall.show && notification.close) {
       notification.close()
     }
   }
