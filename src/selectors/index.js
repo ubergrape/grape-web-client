@@ -754,10 +754,10 @@ export const incomingCallSelector = createSelector(
 
 export const browserNotificationComponentSelector = createSelector(
   [browserNotificationSelector, confSelector, incomingCallSelector],
-  (browserNotification, conf, incoming) => ({
+  (browserNotification, conf, incomingCall) => ({
     ...browserNotification,
     conf,
-    call: incoming,
+    incomingCall,
   }),
 )
 
