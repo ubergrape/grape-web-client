@@ -320,9 +320,9 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 
 export const handleMissedCall = payload => (dispatch, getState) => {
   const { authorId, callId } = payload
-  const { incoming } = incomingCallSelector(getState())
+  const { data } = incomingCallSelector(getState())
 
-  if (incoming.callId !== callId) return
+  if (data.callId !== callId) return
 
   const currUser = userSelector(getState())
 
@@ -349,10 +349,10 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
+  const { data } = incomingCallSelector(getState())
   const { callId } = payload
 
-  if (incoming.callId !== callId) return
+  if (data.callId !== callId) return
 
   dispatch(endSound())
   dispatch({
@@ -367,10 +367,10 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
+  const { data } = incomingCallSelector(getState())
   const { authorId, channelId, callId } = payload
 
-  if (incoming.callId !== callId) return
+  if (data.callId !== callId) return
 
   dispatch(endSound())
   dispatch({
@@ -407,10 +407,10 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
+  const { data } = incomingCallSelector(getState())
   const { callId } = payload
 
-  if (incoming.callId !== callId) return
+  if (data.callId !== callId) return
 
   dispatch(endSound())
   dispatch({

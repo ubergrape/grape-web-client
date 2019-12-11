@@ -37,6 +37,7 @@ export default () => ({
     borderRadius: 16,
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     position: 'absolute',
   },
   avatar: {
@@ -79,6 +80,7 @@ export default () => ({
     },
   },
   name: {
+    maxWidth: 360,
     display: 'block',
     textAlign: 'center',
     fontSize: 23,
@@ -94,6 +96,9 @@ export default () => ({
     fontWeight: 600,
     lineHeight: '25px',
     color: '#FFF',
+  },
+  descriptionSmall: {
+    maxWidth: 360,
   },
   buttons: {
     marginTop: 65,
