@@ -43,7 +43,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic1,
+          data: ic1,
         },
       },
       [],
@@ -58,7 +58,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic1,
+          data: ic1,
         },
       },
       [
@@ -77,7 +77,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic2,
+          data: ic2,
         },
       },
       [],
@@ -92,7 +92,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic2,
+          data: ic2,
         },
       },
       [
@@ -112,7 +112,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
         },
       },
       [],
@@ -130,7 +130,7 @@ describe('pubSubHandlers actions', () => {
         },
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
         },
       },
       [
@@ -153,7 +153,7 @@ describe('pubSubHandlers actions', () => {
         },
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
         },
       },
       [
@@ -172,7 +172,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic4,
+          data: ic4,
         },
       },
       [],
@@ -191,7 +191,7 @@ describe('pubSubHandlers actions', () => {
         },
         incomingCall: {
           show: false,
-          incoming: ic4,
+          data: ic4,
         },
       },
       [
