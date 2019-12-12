@@ -90,25 +90,15 @@ const getNewMessageProperties = props => {
 }
 
 const getCallCallbacks = ({ dispatcher }, props) => {
+  const { onGoToChannel, channel, browserNotification, incomingCall } = props
   const {
-    joinCall,
-    onGoToChannel,
-    channel,
-    browserNotification,
-    incomingCall,
-  } = props
-  const {
-    data: { channelId, grapecallUrl, callId },
+    data: { grapecallUrl, callId },
   } = incomingCall
 
   if (dispatcher === 'incoming') {
     return {
       onClick: () => {
         window.open(`${grapecallUrl}?call_id=${callId}`)
-        joinCall({
-          channelId,
-          callId,
-        })
       },
     }
   }
