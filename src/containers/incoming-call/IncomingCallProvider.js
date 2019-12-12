@@ -7,11 +7,7 @@ import getStore from '../../app/store'
 import { incomingCallSelector as selector } from '../../selectors'
 import { IncomingCall } from '../../components/incoming-call'
 
-const actionNames = [
-  'rejectIncomingCall',
-  'joinIncomingCall',
-  'replyWithMessage',
-]
+const actionNames = ['rejectIncomingCall', 'replyWithMessage']
 
 const styles = {
   wrapper: {
