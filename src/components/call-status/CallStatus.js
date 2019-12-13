@@ -46,9 +46,9 @@ class CallStatus extends PureComponent {
   onCancel = () => {
     const {
       closeCallStatus,
-      callStatus: { call },
+      callStatus: { data },
     } = this.props
-    const { channelId, callId } = call
+    const { channelId, callId } = data
 
     closeCallStatus({ channelId, callId })
   }
@@ -56,12 +56,12 @@ class CallStatus extends PureComponent {
   render() {
     const {
       classes,
-      callStatus: { call, timer, show },
+      callStatus: { data, timer, show },
     } = this.props
 
     if (!show) return null
 
-    const { authorAvatarUrl, authorDisplayName } = call
+    const { authorAvatarUrl, authorDisplayName } = data
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
