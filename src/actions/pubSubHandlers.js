@@ -368,7 +368,7 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
-  const { authorId, channelId, callId } = payload
+  const { authorId, channelId, callId, channel } = payload
 
   if (data.callId !== callId) return
 
@@ -376,6 +376,8 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   dispatch({
     type: types.CLOSE_INCOMING_CALL,
   })
+
+  if (channel.type === 'room') return
 
   const user = userSelector(getState())
 
@@ -388,10 +390,11 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 
   const channels = channelsSelector(getState())
-  const channel = find(channels, { id: channelId })
   const users = usersSelector(getState())
 
-  const callerId = channel.users.filter(id => id !== user.id)
+  const callerId = find(channels, { id: channelId }).users.filter(
+    id => id !== user.id,
+  )
   const caller = find(users, { partner: { id: callerId[0] } })
 
   if (caller) {
