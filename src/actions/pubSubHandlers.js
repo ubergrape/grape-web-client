@@ -310,7 +310,7 @@ export const handleTypingNotification = ({
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { authorId } = payload
+  const { time, channel, author, event } = payload
   const currUser = userSelector(getState())
 
   dispatch({
@@ -325,12 +325,11 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
     payload,
   })
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch({
       type: types.SHOW_INCOMING_CALL,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'incoming',
       channel,
@@ -344,14 +343,14 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
-  const { authorId, callId } = payload
+  const { author, callId, time, channel, event } = payload
   const { data } = incomingCallSelector(getState())
 
   if (data.callId !== callId) return
 
   const currUser = userSelector(getState())
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch(endSound())
     dispatch({
       type: types.CLOSE_INCOMING_CALL,
@@ -360,7 +359,6 @@ export const handleMissedCall = payload => (dispatch, getState) => {
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'missed',
       channel,
@@ -375,38 +373,53 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
-  const { callId } = payload
+  const { author, channel, callId } = payload
 
-  if (data.callId !== callId) return
+  const user = userSelector(getState())
 
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-  dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
-  })
-  dispatch({
-    type: types.CLOSE_CALL_STATUS,
-  })
+  if (
+    (channel.type === 'pm' && data.callId === callId) ||
+    (channel.type === 'room' && user.id === author.id)
+  ) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+    dispatch({
+      type: types.CLOSE_CALL_STATUS,
+    })
+  }
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
-  const { authorId, channelId, callId, channel } = payload
+  const { author, callId, channel } = payload
 
-  if (data.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-
-  if (channel.type === 'room') return
+  if (channel.type === 'pm' && data.callId !== callId) return
 
   const user = userSelector(getState())
 
-  if (user.id !== authorId) {
+  if (user.id === author.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+  }
+
+  if (channel.type === 'room') {
+    if (user.id === author.id) {
+      dispatch({
+        type: types.HANDLE_JOINED_CALL,
+        payload,
+      })
+    }
+    return
+  }
+
+  if (user.id !== author.id) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload,
@@ -415,7 +428,7 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 
   const channels = channelsSelector(getState())
-  const { partner } = find(channels, { id: channelId })
+  const { partner } = find(channels, { id: channel.id })
 
   if (partner) {
     dispatch({
@@ -429,15 +442,15 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
   const { callId } = payload
 
-  if (data.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-  dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
-  })
+  if (data.callId === callId) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+  }
 }
 
 export const handleStartedCall = data => dispatch => {

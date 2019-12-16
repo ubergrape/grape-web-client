@@ -54,14 +54,7 @@ class IncomingCall extends PureComponent {
       data,
       intl: { formatMessage },
     } = this.props
-    const {
-      channel,
-      message,
-      authorAvatarUrl,
-      authorDisplayName,
-      grapecallUrl,
-      callId,
-    } = data
+    const { channel, message, author, grapecallUrl, callId } = data
 
     if (!show) return null
 
@@ -74,11 +67,11 @@ class IncomingCall extends PureComponent {
             <img
               className={classes.image}
               alt="Caller avatar"
-              src={authorAvatarUrl}
+              src={author.authorAvatarUrl}
             />
           </div>
           <div className={classes.name}>
-            {channel.type === 'room' ? channel.name : authorDisplayName}
+            {channel.type === 'room' ? channel.name : author.authorDisplayName}
           </div>
           {isChromeOrFirefox ? (
             <div>
@@ -87,7 +80,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: authorDisplayName,
+                      name: author.authorDisplayName,
                     })
                   : message}
               </div>
@@ -115,7 +108,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: authorDisplayName,
+                      name: author.authorDisplayName,
                     })
                   : message}
               </div>

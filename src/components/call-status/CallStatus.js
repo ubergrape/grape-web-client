@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import capitalize from 'lodash/capitalize'
 import Draggable from 'react-draggable'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
@@ -48,9 +49,9 @@ class CallStatus extends PureComponent {
       closeCallStatus,
       callStatus: { data },
     } = this.props
-    const { channelId, callId } = data
+    const { channel, callId } = data
 
-    closeCallStatus({ channelId, callId })
+    closeCallStatus({ channelId: channel.id, callId })
   }
 
   render() {
@@ -61,7 +62,7 @@ class CallStatus extends PureComponent {
 
     if (!show) return null
 
-    const { authorAvatarUrl, authorDisplayName } = data
+    const { channel, author } = data
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
@@ -69,17 +70,30 @@ class CallStatus extends PureComponent {
         <Draggable bounds="parent">
           <div className={classes.window}>
             <div className={classes.avatar}>
-              <img
-                className={classes.image}
-                alt="Interlocutor avatar"
-                src={authorAvatarUrl}
-              />
-              <div className={classes.iconWrapper}>
+              {channel.type === 'pm' ? (
+                <img
+                  className={classes.image}
+                  alt="Interlocutor avatar"
+                  src={author.authorAvatarUrl}
+                />
+              ) : (
+                <div className={classes.channelIconWrapper}>
+                  <Icon
+                    name={`room${capitalize(channel.icon)}`}
+                    className={classes.channelIcon}
+                  />
+                </div>
+              )}
+              <div className={classes.cameraIconWrapper}>
                 <Icon name="camera" className={classes.cameraIcon} />
               </div>
             </div>
             <div className={classes.details}>
-              <span className={classes.name}>{authorDisplayName}</span>
+              <span className={classes.name}>
+                {channel.type === 'pm'
+                  ? author.authorDisplayName
+                  : channel.name}
+              </span>
               <span className={classes.time}>
                 {hours < 10 ? `0${hours}` : hours}:
                 {minutes < 10 ? `0${minutes}` : minutes}:
