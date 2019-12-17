@@ -36,7 +36,7 @@ class IncomingCall extends PureComponent {
       rejectIncomingCall,
       data: {
         channel: { id: channelId },
-        call: { callId },
+        call: { id: callId },
       },
     } = this.props
     rejectIncomingCall({ channelId, callId })
@@ -47,7 +47,7 @@ class IncomingCall extends PureComponent {
       replyWithMessage,
       data: {
         channel: { id: channelId },
-        call: { callId },
+        call: { id: callId },
       },
     } = this.props
     replyWithMessage({ channelId, callId })
@@ -73,11 +73,11 @@ class IncomingCall extends PureComponent {
             <img
               className={classes.image}
               alt="Caller avatar"
-              src={author.authorAvatarUrl}
+              src={author.avatar}
             />
           </div>
           <div className={classes.name}>
-            {channel.type === 'room' ? channel.name : author.authorDisplayName}
+            {channel.type === 'room' ? channel.name : author.displayName}
           </div>
           {isChromeOrFirefox ? (
             <div>
@@ -86,7 +86,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: author.authorDisplayName,
+                      name: author.displayName,
                     })
                   : message}
               </div>
@@ -98,7 +98,7 @@ class IncomingCall extends PureComponent {
                   <Icon className={classes.missedIcon} name="callMissed" />
                 </button>
                 <a
-                  href={`${grapecallUrl}?call_id=${call.callId}`}
+                  href={`${grapecallUrl}?call_id=${call.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(classes.button, classes.accept)}
@@ -114,7 +114,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: author.authorDisplayName,
+                      name: author.displayName,
                     })
                   : message}
               </div>

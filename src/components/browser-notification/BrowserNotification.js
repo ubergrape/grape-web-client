@@ -98,7 +98,7 @@ const getCallCallbacks = ({ dispatcher }, props) => {
   if (dispatcher === 'incoming') {
     return {
       onClick: () => {
-        window.open(`${grapecallUrl}?call_id=${call.callId}`)
+        window.open(`${grapecallUrl}?call_id=${call.id}`)
       },
     }
   }
