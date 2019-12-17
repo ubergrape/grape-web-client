@@ -34,7 +34,10 @@ class IncomingCall extends PureComponent {
   onReject = () => {
     const {
       rejectIncomingCall,
-      data: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { callId },
+      },
     } = this.props
     rejectIncomingCall({ channelId, callId })
   }
@@ -42,7 +45,10 @@ class IncomingCall extends PureComponent {
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      data: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { callId },
+      },
     } = this.props
     replyWithMessage({ channelId, callId })
   }
@@ -54,14 +60,7 @@ class IncomingCall extends PureComponent {
       data,
       intl: { formatMessage },
     } = this.props
-    const {
-      channel,
-      message,
-      authorAvatarUrl,
-      authorDisplayName,
-      grapecallUrl,
-      callId,
-    } = data
+    const { channel, message, author, grapecallUrl, call } = data
 
     if (!show) return null
 
@@ -74,11 +73,11 @@ class IncomingCall extends PureComponent {
             <img
               className={classes.image}
               alt="Caller avatar"
-              src={authorAvatarUrl}
+              src={author.authorAvatarUrl}
             />
           </div>
           <div className={classes.name}>
-            {channel.type === 'room' ? channel.name : authorDisplayName}
+            {channel.type === 'room' ? channel.name : author.authorDisplayName}
           </div>
           {isChromeOrFirefox ? (
             <div>
@@ -87,7 +86,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: authorDisplayName,
+                      name: author.authorDisplayName,
                     })
                   : message}
               </div>
@@ -99,7 +98,7 @@ class IncomingCall extends PureComponent {
                   <Icon className={classes.missedIcon} name="callMissed" />
                 </button>
                 <a
-                  href={`${grapecallUrl}?call_id=${callId}`}
+                  href={`${grapecallUrl}?call_id=${call.callId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(classes.button, classes.accept)}
@@ -115,7 +114,7 @@ class IncomingCall extends PureComponent {
               >
                 {channel.type === 'room'
                   ? formatMessage(messages.groupDescription, {
-                      name: authorDisplayName,
+                      name: author.authorDisplayName,
                     })
                   : message}
               </div>

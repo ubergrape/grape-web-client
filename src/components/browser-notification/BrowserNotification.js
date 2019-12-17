@@ -77,8 +77,8 @@ const getNewMessageProperties = props => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(
-      ({ name }) => (name ? `${author.displayName}: ${name}\n` : ''),
+    content += attachments.map(({ name }) =>
+      name ? `${author.displayName}: ${name}\n` : '',
     )
   }
 
@@ -92,13 +92,13 @@ const getNewMessageProperties = props => {
 const getCallCallbacks = ({ dispatcher }, props) => {
   const { onGoToChannel, channel, browserNotification, incomingCall } = props
   const {
-    data: { grapecallUrl, callId },
+    data: { grapecallUrl, call },
   } = incomingCall
 
   if (dispatcher === 'incoming') {
     return {
       onClick: () => {
-        window.open(`${grapecallUrl}?call_id=${callId}`)
+        window.open(`${grapecallUrl}?call_id=${call.callId}`)
       },
     }
   }
