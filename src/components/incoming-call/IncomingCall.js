@@ -34,7 +34,10 @@ class IncomingCall extends PureComponent {
   onReject = () => {
     const {
       rejectIncomingCall,
-      data: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { callId },
+      },
     } = this.props
     rejectIncomingCall({ channelId, callId })
   }
@@ -42,7 +45,10 @@ class IncomingCall extends PureComponent {
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      data: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { callId },
+      },
     } = this.props
     replyWithMessage({ channelId, callId })
   }
@@ -54,7 +60,7 @@ class IncomingCall extends PureComponent {
       data,
       intl: { formatMessage },
     } = this.props
-    const { channel, message, author, grapecallUrl, callId } = data
+    const { channel, message, author, grapecallUrl, call } = data
 
     if (!show) return null
 
@@ -92,7 +98,7 @@ class IncomingCall extends PureComponent {
                   <Icon className={classes.missedIcon} name="callMissed" />
                 </button>
                 <a
-                  href={`${grapecallUrl}?call_id=${callId}`}
+                  href={`${grapecallUrl}?call_id=${call.callId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(classes.button, classes.accept)}
