@@ -433,7 +433,14 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload,
+      payload: {
+        ...payload,
+        author: {
+          avatar: partner.avatar,
+          displayName: partner.displayName,
+          id: partner.id,
+        },
+      },
     })
   }
 }
