@@ -13,6 +13,8 @@ import {
   handleHungUpCall,
   handleJoinedCall,
   handleIncomingCall,
+  handleStartedCall,
+  handleFinishedCall,
 } from '..'
 import {
   psb1,
@@ -27,6 +29,10 @@ import {
   psb10,
   psb11,
   psb12,
+  psb13,
+  psb14,
+  psb15,
+  psb16,
 } from './data/pubSubHandlers'
 import { ic1, ic2, ic3, ic4, ic5 } from './data/incomingCall'
 import { c1, c2, с3 } from './data/channels'
@@ -309,6 +315,62 @@ describe('pubSubHandlers actions', () => {
         { type: types.SHOW_INCOMING_CALL },
         { type: types.HANDLE_NOTIFICATION },
       ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleStartedCall should disaptch ADD_CALL action', done => {
+    expect(handleStartedCall(psb13)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13762,
+        },
+      },
+      [{ type: types.ADD_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleStartedCall should disaptch HANDLE_JOINED_CALL and ADD_CALL actions', done => {
+    expect(handleStartedCall(psb14)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13761,
+        },
+      },
+      [{ type: types.HANDLE_JOINED_CALL }, { type: types.ADD_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleFinishedCall should disaptch REMOVE_CALL action', done => {
+    expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13762,
+        },
+      },
+      [{ type: types.REMOVE_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleFinishedCall should disaptch CLOSE_CALL_STATUS and REMOVE_CALL actions', done => {
+    expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13761,
+        },
+      },
+      [{ type: types.CLOSE_CALL_STATUS }, { type: types.REMOVE_CALL }],
       err => {
         onError(done, err)
       },

@@ -39,7 +39,7 @@ export default () => ({
   channelIconWrapper: {
     backgroundColor: ({ callStatus }) =>
       has(callStatus, 'data.channel.color')
-        ? `#${callStatus.data.channel.color}`
+        ? callStatus.data.channel.color
         : null,
     cursor: 'move',
     color: white,
