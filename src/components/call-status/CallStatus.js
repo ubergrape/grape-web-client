@@ -51,7 +51,7 @@ class CallStatus extends PureComponent {
     } = this.props
     const {
       channel: { id: channelId },
-      call: { callId },
+      call: { id: callId },
     } = data
 
     closeCallStatus({ channelId, callId })
@@ -77,7 +77,7 @@ class CallStatus extends PureComponent {
                 <img
                   className={classes.image}
                   alt="Interlocutor avatar"
-                  src={author.authorAvatarUrl}
+                  src={author.avatar}
                 />
               ) : (
                 <div className={classes.channelIconWrapper}>
@@ -93,9 +93,7 @@ class CallStatus extends PureComponent {
             </div>
             <div className={classes.details}>
               <span className={classes.name}>
-                {channel.type === 'pm'
-                  ? author.authorDisplayName
-                  : channel.name}
+                {channel.type === 'pm' ? author.displayName : channel.name}
               </span>
               <span className={classes.time}>
                 {hours < 10 ? `0${hours}` : hours}:

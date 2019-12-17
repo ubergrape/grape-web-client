@@ -5,7 +5,7 @@ export const ic1 = {
     id: 2918,
   },
   call: {
-    callId: '33e7d18169d442868a72856871396e47',
+    id: '33e7d18169d442868a72856871396e47',
     started: null,
   },
   channel: {
@@ -29,7 +29,7 @@ export const ic2 = {
     id: 2918,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040a',
+    id: '05990999027840459020f0a05ef5040a',
     started: null,
   },
   channel: {
@@ -53,7 +53,7 @@ export const ic3 = {
     id: 2918,
   },
   call: {
-    callId: 'a4693a20a2ce4f1fb60d26b0ad0306da',
+    id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
     started: null,
   },
   channel: {
@@ -77,7 +77,7 @@ export const ic4 = {
     id: 2918,
   },
   call: {
-    callId: '70a9bdeef8904880920ba7b71d3376cb',
+    id: '70a9bdeef8904880920ba7b71d3376cb',
     started: null,
   },
   channel: {
@@ -101,7 +101,7 @@ export const ic5 = {
     id: 2918,
   },
   call: {
-    callId: '9ea13a1e99414a6fa427160de90bbbb0',
+    id: '9ea13a1e99414a6fa427160de90bbbb0',
     started: null,
   },
   channel: {

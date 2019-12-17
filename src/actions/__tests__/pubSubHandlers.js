@@ -145,7 +145,7 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleJoinedCall should not disaptch any actions for 1-1 call with different callId', done => {
+  it('handleJoinedCall should not disaptch any actions for 1-1 call with different call id', done => {
     expect(handleJoinedCall(psb5)).toDispatchActionsWithState(
       {
         incomingCall: {

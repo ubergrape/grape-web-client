@@ -5,7 +5,7 @@ export const psb1 = {
     id: 13761,
   },
   call: {
-    callId: '33e7d18169d442868a72856871396e48',
+    id: '33e7d18169d442868a72856871396e48',
     started: null,
   },
   channel: {
@@ -27,7 +27,7 @@ export const psb2 = {
     id: 13761,
   },
   call: {
-    callId: '33e7d18169d442868a72856871396e47',
+    id: '33e7d18169d442868a72856871396e47',
     started: null,
   },
   channel: {
@@ -49,7 +49,7 @@ export const psb3 = {
     id: 13761,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040b',
+    id: '05990999027840459020f0a05ef5040b',
     started: '2019-08-19T20:50:43.980385+00:00',
   },
   channel: {
@@ -71,7 +71,7 @@ export const psb4 = {
     id: 13761,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040a',
+    id: '05990999027840459020f0a05ef5040a',
     started: '2019-08-19T20:52:43.980385+00:00',
   },
   channel: {
@@ -93,7 +93,7 @@ export const psb5 = {
     id: 13761,
   },
   call: {
-    callId: 'a4693a20a2ce4f1fb60d26b0ad0306db',
+    id: 'a4693a20a2ce4f1fb60d26b0ad0306db',
     started: '2019-08-19T21:08:38.125276+00:00',
   },
   channel: {
@@ -115,7 +115,7 @@ export const psb6 = {
     id: 13761,
   },
   call: {
-    callId: 'a4693a20a2ce4f1fb60d26b0ad0306da',
+    id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
     started: '2019-08-19T21:09:38.125276+00:00',
   },
   channel: {
@@ -137,7 +137,7 @@ export const psb7 = {
     id: 13761,
   },
   call: {
-    callId: 'a4693a20a2ce4f1fb60d26b0ad0306da',
+    id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
     started: '2019-08-19T21:09:38.125276+00:00',
   },
   channel: {
@@ -159,7 +159,7 @@ export const psb8 = {
     id: 2918,
   },
   call: {
-    callId: '70a9bdeef8904880920ba7b71d3376ca',
+    id: '70a9bdeef8904880920ba7b71d3376ca',
     started: null,
   },
   channel: {
@@ -181,7 +181,7 @@ export const psb9 = {
     id: 2918,
   },
   call: {
-    callId: '70a9bdeef8904880920ba7b71d3376cb',
+    id: '70a9bdeef8904880920ba7b71d3376cb',
     started: null,
   },
   channel: {
@@ -203,7 +203,7 @@ export const psb10 = {
     id: 13761,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040a',
+    id: '05990999027840459020f0a05ef5040a',
     started: '2019-08-19T20:52:43.980385+00:00',
   },
   channel: {
@@ -227,7 +227,7 @@ export const psb11 = {
     id: 13761,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040a',
+    id: '05990999027840459020f0a05ef5040a',
     started: '2019-08-19T20:52:43.980385+00:00',
   },
   channel: {
@@ -251,7 +251,7 @@ export const psb12 = {
     id: 13762,
   },
   call: {
-    callId: '05990999027840459020f0a05ef5040a',
+    id: '05990999027840459020f0a05ef5040a',
     started: '2019-08-19T20:52:43.980385+00:00',
   },
   channel: {
