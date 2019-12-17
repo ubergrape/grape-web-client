@@ -5,7 +5,7 @@ export const cs1 = {
     id: 13761,
   },
   call: {
-    callId: '7916ed93f60942d389f3aef15ae86fab',
+    id: '7916ed93f60942d389f3aef15ae86fab',
     started: '2019-08-19T06:15:18.464772+00:00',
   },
   channel: {

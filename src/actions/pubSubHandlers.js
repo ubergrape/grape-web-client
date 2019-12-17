@@ -321,7 +321,7 @@ export const handleMissedCall = payload => (dispatch, getState) => {
   const { author, call, time, channel, event } = payload
   const { data } = incomingCallSelector(getState())
 
-  if (data.call.callId !== call.callId) return
+  if (data.call.id !== call.id) return
 
   const currUser = userSelector(getState())
 
@@ -353,7 +353,7 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
   const user = userSelector(getState())
 
   if (
-    (channel.type === 'pm' && data.call.callId === call.callId) ||
+    (channel.type === 'pm' && data.call.id === call.id) ||
     (channel.type === 'room' && user.id === author.id)
   ) {
     dispatch(endSound())
@@ -373,7 +373,7 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
   const { author, call, channel } = payload
 
-  if (channel.type === 'pm' && data.call.callId !== call.callId) return
+  if (channel.type === 'pm' && data.call.id !== call.id) return
 
   const user = userSelector(getState())
 
@@ -426,7 +426,7 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
   const { data } = incomingCallSelector(getState())
   const { call } = payload
 
-  if (data.call.callId === call.callId) {
+  if (data.call.id === call.id) {
     dispatch(endSound())
     dispatch({
       type: types.CLOSE_INCOMING_CALL,
