@@ -6,6 +6,7 @@ import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import { injectIntl } from 'react-intl'
+import { defaultIconSlug } from '../../constants/channel'
 
 import styles from './theme'
 
@@ -82,7 +83,7 @@ class CallStatus extends PureComponent {
               ) : (
                 <div className={classes.channelIconWrapper}>
                   <Icon
-                    name={`room${capitalize(channel.icon)}`}
+                    name={`room${capitalize(channel.icon || defaultIconSlug)}`}
                     className={classes.channelIcon}
                   />
                 </div>
