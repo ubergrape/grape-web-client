@@ -415,8 +415,11 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
       type: types.HANDLE_JOINED_CALL,
       payload: {
         ...payload,
-        authorDisplayName: caller.partner.displayName,
-        authorAvatarUrl: caller.partner.avatar,
+        author: {
+          id: caller.partner.id,
+          avatar: caller.partner.avatar,
+          displayName: caller.partner.displayName,
+        },
       },
     })
   }
