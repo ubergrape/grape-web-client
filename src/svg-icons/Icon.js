@@ -17,6 +17,7 @@ const getData = (() => {
   const attrNames = ['width', 'height', 'viewBox', 'xmlns']
 
   return name => {
+    if (!name) return ''
     if (cache[name]) return cache[name]
     const data = {}
     cache[name] = data
