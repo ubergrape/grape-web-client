@@ -352,9 +352,14 @@ describe('pubSubHandlers actions', () => {
   it('handleFinishedCall should disaptch REMOVE_CALL action', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
-        user: {
-          id: 13762,
-        },
+        channels: [
+          {
+            current: true,
+            call: {
+              id: 'f4fcee65-b818-457e-857a-fc59d23362b6',
+            },
+          },
+        ],
       },
       [{ type: types.REMOVE_CALL }],
       err => {
@@ -363,14 +368,19 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleFinishedCall should disaptch CLOSE_CALL_STATUS and REMOVE_CALL actions', done => {
+  it('handleFinishedCall should disaptch REMOVE_CALL and CLOSE_CALL_STATUS actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
-        user: {
-          id: 13761,
-        },
+        channels: [
+          {
+            current: true,
+            call: {
+              id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+            },
+          },
+        ],
       },
-      [{ type: types.CLOSE_CALL_STATUS }, { type: types.REMOVE_CALL }],
+      [{ type: types.REMOVE_CALL }, { type: types.CLOSE_CALL_STATUS }],
       err => {
         onError(done, err)
       },
