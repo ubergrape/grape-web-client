@@ -1,7 +1,7 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
-import { orgSelector } from '../selectors'
-import { error } from './'
+import { orgSelector, confSelector, channelsSelector } from '../selectors'
+import { error, setChannels } from './'
 
 export const searchChannelsForNavigation = search => (dispatch, getState) => {
   dispatch({
@@ -23,6 +23,26 @@ export const searchChannelsForNavigation = search => (dispatch, getState) => {
           results,
         },
       })
+    })
+    .catch(err => dispatch(error(err)))
+}
+
+export const loadOlderChannels = () => (dispatch, getState) => {
+  const conf = confSelector(getState())
+  const channels = channelsSelector(getState())
+
+  const lastChannel = channels.sort((a, b) => {
+    if (a.lastMessageTime < b.lastMessageTime) return -1
+    if (a.lastMessageTime > b.lastMessageTime) return 1
+    return 0
+  })[0]
+
+  api
+    .getOverview(conf.organization.id, {
+      olderThen: [lastChannel.lastMessageTime, lastChannel.id],
+    })
+    .then(_channels => {
+      dispatch(setChannels(_channels))
     })
     .catch(err => dispatch(error(err)))
 }

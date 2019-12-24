@@ -40,6 +40,7 @@ export default class Navigation extends PureComponent {
     openChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
+    loadOlderChannels: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     colors: PropTypes.object,
@@ -61,6 +62,7 @@ export default class Navigation extends PureComponent {
     this.state = {
       bottomOffset: 5,
       step: 10,
+      loaded: 200,
       shift: 20,
       filter: '',
     }
@@ -111,8 +113,16 @@ export default class Navigation extends PureComponent {
   }
 
   onScroll = e => {
-    const { shift, bottomOffset, step } = this.state
-    if (shift >= this.props.recent.length) return
+    const { shift, loaded, bottomOffset, step } = this.state
+
+    if (shift >= loaded) {
+      this.setState({
+        loaded: loaded + loaded,
+      })
+
+      this.props.loadOlderChannels()
+      return
+    }
 
     const { offsetHeight, scrollTop, scrollHeight } = e.target
     if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
