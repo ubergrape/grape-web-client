@@ -13,6 +13,8 @@ import {
   handleHungUpCall,
   handleJoinedCall,
   handleIncomingCall,
+  handleStartedCall,
+  handleFinishedCall,
 } from '..'
 import {
   psb1,
@@ -24,6 +26,13 @@ import {
   psb7,
   psb8,
   psb9,
+  psb10,
+  psb11,
+  psb12,
+  psb13,
+  psb14,
+  psb15,
+  psb16,
 } from './data/pubSubHandlers'
 import { ic1, ic2, ic3, ic4, ic5 } from './data/incomingCall'
 import { c1, c2, с3 } from './data/channels'
@@ -43,7 +52,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic1,
+          data: ic1,
         },
       },
       [],
@@ -58,7 +67,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic1,
+          data: ic1,
         },
       },
       [
@@ -75,9 +84,12 @@ describe('pubSubHandlers actions', () => {
   it('handleHungUpCall should not disaptch any actions', done => {
     expect(handleHungUpCall(psb3)).toDispatchActionsWithState(
       {
+        user: {
+          id: 13761,
+        },
         incomingCall: {
           show: false,
-          incoming: ic2,
+          data: ic2,
         },
       },
       [],
@@ -87,12 +99,15 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions', done => {
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for PM calls', done => {
     expect(handleHungUpCall(psb4)).toDispatchActionsWithState(
       {
+        user: {
+          id: 13761,
+        },
         incomingCall: {
           show: false,
-          incoming: ic2,
+          data: ic2,
         },
       },
       [
@@ -107,12 +122,35 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleJoinedCall should not disaptch any actions', done => {
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for group calls', done => {
+    expect(handleHungUpCall(psb10)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13761,
+        },
+        incomingCall: {
+          show: false,
+          data: {},
+        },
+      },
+      [
+        { type: types.END_SOUND },
+        { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
+        { type: types.CLOSE_CALL_STATUS },
+      ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleJoinedCall should not disaptch any actions for 1-1 call with different call id', done => {
     expect(handleJoinedCall(psb5)).toDispatchActionsWithState(
       {
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
         },
       },
       [],
@@ -122,7 +160,7 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions', done => {
+  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL actions for user who is creating 1-1 call', done => {
     expect(handleJoinedCall(psb6)).toDispatchActionsWithState(
       {
         user: {
@@ -130,7 +168,26 @@ describe('pubSubHandlers actions', () => {
         },
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
+        },
+      },
+      [{ type: types.HANDLE_JOINED_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
+    expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
+      {
+        channels: [c1],
+        user: {
+          id: 13761,
+        },
+        incomingCall: {
+          show: false,
+          data: ic3,
         },
       },
       [
@@ -144,16 +201,15 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions', done => {
-    expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
+  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions for user who joining group call', done => {
+    expect(handleJoinedCall(psb11)).toDispatchActionsWithState(
       {
-        channels: [c1],
         user: {
           id: 13761,
         },
         incomingCall: {
           show: false,
-          incoming: ic3,
+          data: ic3,
         },
       },
       [
@@ -161,6 +217,24 @@ describe('pubSubHandlers actions', () => {
         { type: types.CLOSE_INCOMING_CALL },
         { type: types.HANDLE_JOINED_CALL },
       ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleJoinedCall should not disaptch any actions for group call to user who started call', done => {
+    expect(handleJoinedCall(psb12)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13761,
+        },
+        incomingCall: {
+          show: false,
+          data: ic3,
+        },
+      },
+      [],
       err => {
         onError(done, err)
       },
@@ -172,7 +246,7 @@ describe('pubSubHandlers actions', () => {
       {
         incomingCall: {
           show: false,
-          incoming: ic4,
+          data: ic4,
         },
       },
       [],
@@ -191,7 +265,7 @@ describe('pubSubHandlers actions', () => {
         },
         incomingCall: {
           show: false,
-          incoming: ic4,
+          data: ic4,
         },
       },
       [
@@ -239,6 +313,72 @@ describe('pubSubHandlers actions', () => {
         { type: types.SHOW_INCOMING_CALL },
         { type: types.HANDLE_NOTIFICATION },
       ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleStartedCall should disaptch ADD_CALL action', done => {
+    expect(handleStartedCall(psb13)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13762,
+        },
+      },
+      [{ type: types.ADD_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleStartedCall should disaptch HANDLE_JOINED_CALL and ADD_CALL actions', done => {
+    expect(handleStartedCall(psb14)).toDispatchActionsWithState(
+      {
+        user: {
+          id: 13761,
+        },
+      },
+      [{ type: types.HANDLE_JOINED_CALL }, { type: types.ADD_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleFinishedCall should disaptch REMOVE_CALL action', done => {
+    expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
+      {
+        channels: [
+          {
+            current: true,
+            call: {
+              id: 'f4fcee65-b818-457e-857a-fc59d23362b6',
+            },
+          },
+        ],
+      },
+      [{ type: types.REMOVE_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleFinishedCall should disaptch REMOVE_CALL and CLOSE_CALL_STATUS actions', done => {
+    expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
+      {
+        channels: [
+          {
+            current: true,
+            call: {
+              id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+            },
+          },
+        ],
+      },
+      [{ type: types.REMOVE_CALL }, { type: types.CLOSE_CALL_STATUS }],
       err => {
         onError(done, err)
       },

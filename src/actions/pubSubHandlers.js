@@ -1,5 +1,6 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
+import has from 'lodash/has'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
@@ -310,7 +311,7 @@ export const handleTypingNotification = ({
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { authorId } = payload
+  const { time, channel, author, event } = payload
   const currUser = userSelector(getState())
 
   dispatch({
@@ -325,12 +326,11 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
     payload,
   })
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch({
       type: types.SHOW_INCOMING_CALL,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'incoming',
       channel,
@@ -344,14 +344,14 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
-  const { authorId, callId } = payload
-  const { incoming } = incomingCallSelector(getState())
+  const { author, call, time, channel, event } = payload
+  const { data } = incomingCallSelector(getState())
 
-  if (incoming.callId !== callId) return
+  if (data.call.id !== call.id) return
 
   const currUser = userSelector(getState())
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch(endSound())
     dispatch({
       type: types.CLOSE_INCOMING_CALL,
@@ -360,7 +360,6 @@ export const handleMissedCall = payload => (dispatch, getState) => {
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'missed',
       channel,
@@ -374,37 +373,54 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { callId } = payload
-
-  if (incoming.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-  dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
-  })
-  dispatch({
-    type: types.CLOSE_CALL_STATUS,
-  })
-}
-
-export const handleJoinedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { authorId, channelId, callId } = payload
-
-  if (incoming.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
+  const { data } = incomingCallSelector(getState())
+  const { author, channel, call } = payload
 
   const user = userSelector(getState())
 
-  if (user.id !== authorId) {
+  if (
+    (channel.type === 'pm' && data.call.id === call.id) ||
+    (channel.type === 'room' && user.id === author.id)
+  ) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+    dispatch({
+      type: types.CLOSE_CALL_STATUS,
+    })
+  }
+}
+
+export const handleJoinedCall = payload => (dispatch, getState) => {
+  const { data } = incomingCallSelector(getState())
+  const { author, call, channel } = payload
+
+  if (channel.type === 'pm' && data.call.id !== call.id) return
+
+  const user = userSelector(getState())
+
+  if (user.id === author.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+  }
+
+  if (channel.type === 'room') {
+    if (user.id === author.id) {
+      dispatch({
+        type: types.HANDLE_JOINED_CALL,
+        payload,
+      })
+    }
+    return
+  }
+
+  if (user.id !== author.id) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload,
@@ -413,42 +429,73 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 
   const channels = channelsSelector(getState())
-  const channel = find(channels, { id: channelId })
-  const { partner } = channel
+  const { partner } = find(channels, { id: channel.id })
 
   if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload,
+      payload: {
+        ...payload,
+        author: {
+          avatar: partner.avatar,
+          displayName: partner.displayName,
+          id: partner.id,
+        },
+      },
     })
   }
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { callId } = payload
+  const { data } = incomingCallSelector(getState())
+  const { call } = payload
 
-  if (incoming.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-  dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
-  })
+  if (data.call.id === call.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+  }
 }
 
-export const handleStartedCall = data => dispatch => {
+export const handleStartedCall = data => (dispatch, getState) => {
+  const user = userSelector(getState())
+  const { author, channel, call } = data
+
+  if (user.id === author.id) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload: data,
+    })
+  }
+
   dispatch({
     type: types.ADD_CALL,
-    payload: data.channel.id,
+    payload: {
+      channelId: channel.id,
+      id: call.id,
+    },
   })
 }
 
-export const handleFinishedCall = data => dispatch => {
+export const handleFinishedCall = data => (dispatch, getState) => {
+  const channel = channelSelector(getState())
+  const {
+    call,
+    channel: { id },
+  } = data
+
   dispatch({
     type: types.REMOVE_CALL,
-    payload: data.channel.id,
+    payload: id,
   })
+
+  if (has(channel, 'call') && channel.call.id === call.id) {
+    dispatch({
+      type: types.CLOSE_CALL_STATUS,
+    })
+  }
 }

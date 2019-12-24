@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import capitalize from 'lodash/capitalize'
 import Draggable from 'react-draggable'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import { injectIntl } from 'react-intl'
+import { defaultIconSlug } from '../../constants/channel'
 
 import styles from './theme'
 
@@ -46,9 +48,12 @@ class CallStatus extends PureComponent {
   onCancel = () => {
     const {
       closeCallStatus,
-      callStatus: { call },
+      callStatus: { data },
     } = this.props
-    const { channelId, callId } = call
+    const {
+      channel: { id: channelId },
+      call: { id: callId },
+    } = data
 
     closeCallStatus({ channelId, callId })
   }
@@ -56,12 +61,12 @@ class CallStatus extends PureComponent {
   render() {
     const {
       classes,
-      callStatus: { call, timer, show },
+      callStatus: { data, timer, show },
     } = this.props
 
     if (!show) return null
 
-    const { authorAvatarUrl, authorDisplayName } = call
+    const { channel, author } = data
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
@@ -69,17 +74,28 @@ class CallStatus extends PureComponent {
         <Draggable bounds="parent">
           <div className={classes.window}>
             <div className={classes.avatar}>
-              <img
-                className={classes.image}
-                alt="Interlocutor avatar"
-                src={authorAvatarUrl}
-              />
-              <div className={classes.iconWrapper}>
+              {channel.type === 'pm' ? (
+                <img
+                  className={classes.image}
+                  alt="Interlocutor avatar"
+                  src={author.avatar}
+                />
+              ) : (
+                <div className={classes.channelIconWrapper}>
+                  <Icon
+                    name={`room${capitalize(channel.icon || defaultIconSlug)}`}
+                    className={classes.channelIcon}
+                  />
+                </div>
+              )}
+              <div className={classes.cameraIconWrapper}>
                 <Icon name="camera" className={classes.cameraIcon} />
               </div>
             </div>
             <div className={classes.details}>
-              <span className={classes.name}>{authorDisplayName}</span>
+              <span className={classes.name}>
+                {channel.type === 'pm' ? author.displayName : channel.name}
+              </span>
               <span className={classes.time}>
                 {hours < 10 ? `0${hours}` : hours}:
                 {minutes < 10 ? `0${minutes}` : minutes}:

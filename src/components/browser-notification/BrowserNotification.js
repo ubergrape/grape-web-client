@@ -77,8 +77,8 @@ const getNewMessageProperties = props => {
 
   if (attachments.length) {
     if (content) content += '\n\n'
-    content += attachments.map(
-      ({ name }) => (name ? `${author.displayName}: ${name}\n` : ''),
+    content += attachments.map(({ name }) =>
+      name ? `${author.displayName}: ${name}\n` : '',
     )
   }
 
@@ -90,15 +90,15 @@ const getNewMessageProperties = props => {
 }
 
 const getCallCallbacks = ({ dispatcher }, props) => {
-  const { onGoToChannel, channel, browserNotification, call } = props
+  const { onGoToChannel, channel, browserNotification, incomingCall } = props
   const {
-    incoming: { grapecallUrl, callId },
-  } = call
+    data: { grapecallUrl, call },
+  } = incomingCall
 
   if (dispatcher === 'incoming') {
     return {
       onClick: () => {
-        window.open(`${grapecallUrl}?call_id=${callId}`)
+        window.open(`${grapecallUrl}?call_id=${call.id}`)
       },
     }
   }
@@ -173,7 +173,7 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
 const updateNotification = (props, nextProps) => {
   const {
     conf,
-    call,
+    incomingCall,
     notification,
     browserNotification: { dispatcher },
   } = nextProps
@@ -185,8 +185,8 @@ const updateNotification = (props, nextProps) => {
   })
 
   if (type === 'calls') {
-    const { show } = call
-    if (!show && show !== props.call.show && notification.close) {
+    const { show } = incomingCall
+    if (!show && show !== props.incomingCall.show && notification.close) {
       notification.close()
     }
   }
