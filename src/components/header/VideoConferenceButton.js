@@ -108,7 +108,7 @@ const VideoConferenceButton = props => {
 
   if (
     channel.type === 'room' &&
-    (has(channel, 'calls') && channel.calls.length > 0) &&
+    has(channel, 'call') &&
     userStatusMap[user.status] === 'inCall'
   ) {
     return (
@@ -143,7 +143,7 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (has(channel, 'calls') && channel.calls.length > 0) {
+  if (has(channel, 'call')) {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a

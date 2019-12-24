@@ -1,5 +1,6 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
+import has from 'lodash/has'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
@@ -462,7 +463,7 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 
 export const handleStartedCall = data => (dispatch, getState) => {
   const user = userSelector(getState())
-  const { author, channel } = data
+  const { author, channel, call } = data
 
   if (user.id === author.id) {
     dispatch({
@@ -473,22 +474,28 @@ export const handleStartedCall = data => (dispatch, getState) => {
 
   dispatch({
     type: types.ADD_CALL,
-    payload: channel.id,
+    payload: {
+      channelId: channel.id,
+      id: call.id,
+    },
   })
 }
 
 export const handleFinishedCall = data => (dispatch, getState) => {
-  const user = userSelector(getState())
-  const { author, channel } = data
+  const channel = channelSelector(getState())
+  const {
+    call,
+    channel: { id },
+  } = data
 
-  if (user.id === author.id) {
+  dispatch({
+    type: types.REMOVE_CALL,
+    payload: id,
+  })
+
+  if (has(channel, 'call') && channel.call.id === call.id) {
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
   }
-
-  dispatch({
-    type: types.REMOVE_CALL,
-    payload: channel.id,
-  })
 }
