@@ -4,7 +4,7 @@ import { blue, blueLight } from 'grape-theme/dist/base-colors'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import has from 'lodash/has'
+import isEmpty from 'lodash/isEmpty'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
@@ -106,9 +106,11 @@ const VideoConferenceButton = props => {
     )
   }
 
+  if (isEmpty(channel)) return null
+
   if (
     channel.type === 'room' &&
-    has(channel, 'call') &&
+    channel.calls.length &&
     userStatusMap[user.status] === 'inCall'
   ) {
     return (
@@ -143,7 +145,7 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (has(channel, 'call')) {
+  if (channel.calls.length) {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a
