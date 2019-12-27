@@ -47,10 +47,13 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.ADD_CALL: {
-      const { channelId, id } = action.payload
+      const {
+        channel: { id },
+        call,
+      } = action.payload
 
       const newState = [...state]
-      const index = findIndex(newState, { id: channelId })
+      const index = findIndex(newState, { id })
 
       if (index === -1) return state
 
@@ -58,9 +61,11 @@ export default function reduce(state = initialState, action) {
 
       newState.splice(index, 1, {
         ...channel,
-        call: {
-          id,
-        },
+        calls: [
+          {
+            ...call,
+          },
+        ],
       })
 
       return newState
@@ -76,10 +81,9 @@ export default function reduce(state = initialState, action) {
 
       const channel = newState[index]
 
-      delete channel.call
-
       newState.splice(index, 1, {
         ...channel,
+        calls: [],
       })
 
       return newState
