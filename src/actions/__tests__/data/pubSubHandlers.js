@@ -407,3 +407,38 @@ export const psb16 = {
   },
   time: '2019-12-17T09:28:26.740Z',
 }
+
+export const psb17 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13761,
+  },
+  call: {
+    id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+    started: '2019-12-17T09:28:26.731263+00:00',
+  },
+  calls: [
+    {
+      channel: 6009,
+      finished: null,
+      id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+      initiator: 13761,
+      invited_members: [],
+      last_update: '2019-12-17T09:28:26.731345Z',
+      max_users_in_call: 100,
+      members: [13761],
+      message_id: null,
+      started: '2019-12-17T09:28:26.731263Z',
+      state: 'ongoing',
+    },
+  ],
+  channel: {
+    id: 6009,
+    name: 'Room',
+    type: 'room',
+    icon: 'phone',
+    color: '#97A6BD',
+  },
+  time: '2019-12-17T09:28:26.740Z',
+}

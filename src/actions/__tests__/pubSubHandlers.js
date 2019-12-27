@@ -33,6 +33,7 @@ import {
   psb14,
   psb15,
   psb16,
+  psb17,
 } from './data/pubSubHandlers'
 import { ic1, ic2, ic3, ic4, ic5 } from './data/incomingCall'
 import { c1, c2, с3 } from './data/channels'
@@ -354,9 +355,13 @@ describe('pubSubHandlers actions', () => {
       {
         channels: [
           {
+            id: 1,
+          },
+          {
+            id: 6009,
             current: true,
             call: {
-              id: 'f4fcee65-b818-457e-857a-fc59d23362b6',
+              id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
             },
           },
         ],
@@ -373,6 +378,10 @@ describe('pubSubHandlers actions', () => {
       {
         channels: [
           {
+            id: 1,
+          },
+          {
+            id: 6009,
             current: true,
             call: {
               id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
@@ -380,7 +389,23 @@ describe('pubSubHandlers actions', () => {
           },
         ],
       },
-      [{ type: types.REMOVE_CALL }, { type: types.CLOSE_CALL_STATUS }],
+      [{ type: types.CLOSE_CALL_STATUS }, { type: types.REMOVE_CALL }],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleFinishedCall should not dispatch any actions', done => {
+    expect(handleFinishedCall(psb17)).toDispatchActionsWithState(
+      {
+        channels: [
+          {
+            id: 1,
+          },
+        ],
+      },
+      [],
       err => {
         onError(done, err)
       },

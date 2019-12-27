@@ -471,20 +471,24 @@ export const handleStartedCall = data => (dispatch, getState) => {
 }
 
 export const handleFinishedCall = data => (dispatch, getState) => {
-  const channel = channelSelector(getState())
+  const channels = channelsSelector(getState())
   const {
     call,
     channel: { id },
   } = data
 
-  dispatch({
-    type: types.REMOVE_CALL,
-    payload: id,
-  })
+  const channel = find(channels, { id })
+
+  if (!channel) return
 
   if (has(channel, 'call') && channel.call.id === call.id) {
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
   }
+
+  dispatch({
+    type: types.REMOVE_CALL,
+    payload: id,
+  })
 }
