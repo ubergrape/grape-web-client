@@ -12,6 +12,7 @@ import {
   channelSelector,
   roomsSelector,
   channelsSelector,
+  sidebarSelector,
   joinedChannelsSelector,
   incomingCallSelector,
 } from '../selectors'
@@ -252,6 +253,7 @@ export const handleUserStatusChange = ({ status, user: id }) => (
 ) => {
   const users = pmsSelector(getState())
   const user = userSelector(getState())
+  const { show, showSubview } = sidebarSelector(getState())
 
   if (find(users, { partner: { id } })) {
     dispatch({
@@ -264,6 +266,13 @@ export const handleUserStatusChange = ({ status, user: id }) => (
     dispatch({
       type: types.CHANGE_CURRENT_USER_STATUS,
       payload: status,
+    })
+  }
+
+  if (show && showSubview === 'members') {
+    dispatch({
+      type: types.CHANGE_SIDEBAR_USER_STATUS,
+      payload: { status, id },
     })
   }
 }
