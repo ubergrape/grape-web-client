@@ -360,9 +360,11 @@ describe('pubSubHandlers actions', () => {
           {
             id: 6009,
             current: true,
-            call: {
-              id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
-            },
+            calls: [
+              {
+                id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+              },
+            ],
           },
         ],
       },
@@ -383,9 +385,11 @@ describe('pubSubHandlers actions', () => {
           {
             id: 6009,
             current: true,
-            call: {
-              id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
-            },
+            calls: [
+              {
+                id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+              },
+            ],
           },
         ],
       },

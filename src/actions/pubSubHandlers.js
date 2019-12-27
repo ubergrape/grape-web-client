@@ -1,7 +1,6 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
-import has from 'lodash/has'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
@@ -464,8 +463,8 @@ export const handleStartedCall = data => (dispatch, getState) => {
   dispatch({
     type: types.ADD_CALL,
     payload: {
-      channelId: channel.id,
-      id: call.id,
+      channel,
+      call,
     },
   })
 }
@@ -481,7 +480,7 @@ export const handleFinishedCall = data => (dispatch, getState) => {
 
   if (!channel) return
 
-  if (has(channel, 'call') && channel.call.id === call.id) {
+  if (channel.calls[0].id === call.id) {
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
