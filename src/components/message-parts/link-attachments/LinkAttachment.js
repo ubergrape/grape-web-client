@@ -66,7 +66,7 @@ const getThumbUrl = ({ imageUrl, width, height }) =>
 })
 export default class LinkAttachment extends PureComponent {
   static propTypes = {
-    sourceUrl: PropTypes.string.isRequired,
+    sourceUrl: PropTypes.string,
     footerIcon: PropTypes.string,
     footer: PropTypes.string,
     footerUrl: PropTypes.string,
@@ -74,6 +74,7 @@ export default class LinkAttachment extends PureComponent {
     authorLink: PropTypes.string,
     authorIcon: PropTypes.string,
     title: PropTypes.string,
+    color: PropTypes.string,
     titleLink: PropTypes.string,
     text: PropTypes.string,
     imageUrl: PropTypes.string,
@@ -90,6 +91,7 @@ export default class LinkAttachment extends PureComponent {
   }
 
   static defaultProps = {
+    sourceUrl: '',
     width: 360,
     height: 360,
     fields: [],
@@ -100,6 +102,7 @@ export default class LinkAttachment extends PureComponent {
     authorLink: null,
     authorIcon: null,
     title: null,
+    color: null,
     titleLink: null,
     text: null,
     imageUrl: null,
@@ -311,9 +314,14 @@ export default class LinkAttachment extends PureComponent {
   }
 
   render() {
-    const { imageUrl, embedHtml, thumbUrl } = this.props
-
-    const { className, messageText } = this.props
+    const {
+      imageUrl,
+      embedHtml,
+      color,
+      thumbUrl,
+      className,
+      messageText,
+    } = this.props
 
     return (
       <div ref={this.onRefContent} className={className}>
@@ -322,6 +330,7 @@ export default class LinkAttachment extends PureComponent {
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
             hasArrow={false}
+            color={color}
           >
             {this.renderRemoveButton()}
             {this.renderAttachments()}
