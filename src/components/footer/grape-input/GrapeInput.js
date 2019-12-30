@@ -234,8 +234,8 @@ class GrapeInput extends PureComponent {
     if (targetMessage) {
       onUpdateMessage({
         channelId: channel.id,
-        messageId: targetMessage.id,
         text: data.content,
+        message: targetMessage,
       })
     } else {
       const attachments = getImageAttachments(data.objects)
@@ -274,7 +274,7 @@ class GrapeInput extends PureComponent {
       case '#':
         if (permissions.canUseGrapesearch) {
           // Avoid browser opening in case of `#s` input.
-          if (!showBrowser && (query && query.length > 1)) return
+          if (!showBrowser && query && query.length > 1) return
           onRequestAutocomplete({ search, filters })
           onShowSearchBrowser(search)
         }

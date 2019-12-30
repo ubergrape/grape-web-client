@@ -196,7 +196,7 @@ export default class RegularMessage extends PureComponent {
 
     const { isMenuOpened, isMenuDropdownOpened } = this.state
 
-    const Bubble = getBubble({ isSelected, isPinned, isOwn })
+    const Bubble = getBubble({ isSelected, isPinned, isOwn, state })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
     const statusIcon = iconTagMap[tag]
 
@@ -228,8 +228,7 @@ export default class RegularMessage extends PureComponent {
                 ref={this.onRefContent}
                 className={cn(
                   classes.content,
-                  (state === 'pending' || state === 'unsent') &&
-                    classes.disabled,
+                  state === 'pending' && classes.disabled,
                 )}
               >
                 {tag && <div className={classes.actionText}>{action}</div>}

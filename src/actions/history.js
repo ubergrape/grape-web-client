@@ -1,5 +1,6 @@
 import findLast from 'lodash/findLast'
 import last from 'lodash/last'
+import moment from 'moment'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -297,7 +298,26 @@ export function removeMessages(messages) {
     const { id: channelId } = channelSelector(getState())
 
     Promise.all(
-      messages.map(message => api.removeMessage(channelId, message.id)),
+      messages.map(({ id, state }) => {
+        if (state === 'unsent') {
+          let { unsentMessages = '{}' } = localStorage
+
+          unsentMessages = JSON.parse(unsentMessages)
+          let currChannel = unsentMessages[channelId] || []
+          currChannel = currChannel.filter(msg => msg.id !== id)
+          unsentMessages[channelId] = currChannel
+
+          localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+
+          dispatch({
+            type: types.REMOVE_MESSAGE,
+            payload: id,
+          })
+
+          return Promise.resolve()
+        }
+        return api.removeMessage(channelId, id)
+      }),
     ).catch(err => dispatch(error(err)))
   }
 }
@@ -311,15 +331,48 @@ export function editMessage(message) {
   }
 }
 
-export function editMessageSend({ channelId, messageId, text }) {
+export function editMessageSend({ channelId, message, text }) {
   return dispatch => {
-    api
-      .updateMessage(channelId, messageId, text)
-      .catch(err => dispatch(error(err)))
+    const { id, state } = message
+
+    if (state === 'unsent') {
+      dispatch(
+        editMessage({
+          ...message,
+          text,
+          time: moment().toISOString(true),
+          userTime: moment().toISOString(true),
+        }),
+      )
+      dispatch({
+        type: types.EDIT_MESSAGE_SEND,
+      })
+
+      let { unsentMessages = '{}' } = localStorage
+
+      unsentMessages = JSON.parse(unsentMessages)
+      let currChannel = unsentMessages[channelId] || []
+      currChannel = currChannel.map(msg => {
+        if (msg.id === id) {
+          return {
+            ...msg,
+            text,
+            time: moment().toISOString(true),
+            userTime: moment().toISOString(true),
+          }
+        }
+        return msg
+      })
+      unsentMessages[channelId] = currChannel
+
+      localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+      return
+    }
+
+    api.updateMessage(channelId, id, text).catch(err => dispatch(error(err)))
 
     dispatch({
       type: types.EDIT_MESSAGE_SEND,
-      payload: { channelId, messageId, text },
     })
   }
 }
@@ -403,7 +456,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
         clientsideId: id,
         text,
         author,
-        time: new Date().toISOString(),
+        time: moment().toISOString(true),
         attachments,
         channel: channelId,
       },
