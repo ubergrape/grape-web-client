@@ -9,6 +9,7 @@ import {
   appSelector,
   joinedChannelsSelector,
   channelsSelector,
+  channelSelector,
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
@@ -100,10 +101,14 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then(channel => {
       if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
+
+      const currentChannel = channelSelector(getState())
+
       dispatch({
         type: types.SET_CHANNEL,
         payload: {
           channel,
+          currentChannel,
           messageId,
         },
       })

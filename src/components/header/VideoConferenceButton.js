@@ -5,6 +5,7 @@ import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import isEmpty from 'lodash/isEmpty'
+import has from 'lodash/has'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
@@ -110,6 +111,7 @@ const VideoConferenceButton = props => {
 
   if (
     channel.type === 'room' &&
+    has(channel, 'calls') &&
     channel.calls.length &&
     userStatusMap[user.status] === 'inCall'
   ) {
@@ -145,7 +147,7 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (channel.calls.length) {
+  if (has(channel, 'calls') && channel.calls.length) {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a

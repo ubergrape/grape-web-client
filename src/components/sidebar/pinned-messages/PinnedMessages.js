@@ -56,7 +56,8 @@ class PinnedMessages extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const reset =
       !nextProps.items.length &&
-      (nextProps.total == null && this.props.total != null)
+      nextProps.total == null &&
+      this.props.total != null
     if (reset) this.load(nextProps)
   }
 

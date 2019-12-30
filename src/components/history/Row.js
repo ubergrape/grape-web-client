@@ -48,7 +48,6 @@ export default class Row extends PureComponent {
     user: PropTypes.shape({
       id: idPropType.isRequired,
     }).isRequired,
-    channel: PropTypes.object.isRequired,
     message: messagePropType.isRequired,
     prevMessage: messagePropType,
     onEdit: PropTypes.func.isRequired,
@@ -149,7 +148,6 @@ export default class Row extends PureComponent {
       colors,
       permissions,
       onRemoveLinkAttachment,
-      channel,
     } = this.props
 
     let separator = null
@@ -172,7 +170,6 @@ export default class Row extends PureComponent {
       key: `row-${message.id}`,
       colors,
       user,
-      channel,
       onPin,
       onUnpin,
       onOpenPm,

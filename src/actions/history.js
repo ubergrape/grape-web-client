@@ -27,7 +27,10 @@ function normalizeMessages(messages, state) {
 // on a navigation in order to react immediately.
 function loadLatest(options = { clear: true }) {
   return (dispatch, getState) => {
-    const { minimumBatchSize: limit, channel } = historySelector(getState())
+    const channel = channelSelector(getState())
+    const { minimumBatchSize: limit } = historySelector(getState())
+
+    if (!channel) return
 
     if (options.clear) {
       dispatch({ type: types.CLEAR_HISTORY })
@@ -100,9 +103,8 @@ function loadLatest(options = { clear: true }) {
 function loadOlder(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, olderMessagesRequest, channel } = historySelector(
-      getState(),
-    )
+    const channel = channelSelector(getState())
+    const { messages, olderMessagesRequest } = historySelector(getState())
 
     // There is a race-condition where loadOlder is invoked before we actually
     // have messages in the store. Canceling this one function is not an issue
@@ -150,9 +152,8 @@ function loadOlder(params) {
 function loadNewer(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, newerMessagesRequest, channel } = historySelector(
-      getState(),
-    )
+    const channel = channelSelector(getState())
+    const { messages, newerMessagesRequest } = historySelector(getState())
 
     // Ensures we don't have useless requests to the backend.
     if (newerMessagesRequest) return
@@ -198,11 +199,10 @@ function loadNewer(params) {
 
 function loadFragment() {
   return (dispatch, getState) => {
-    const {
-      minimumBatchSize: limit,
-      channel,
-      selectedMessageId,
-    } = historySelector(getState())
+    const channel = channelSelector(getState())
+    const { minimumBatchSize: limit, selectedMessageId } = historySelector(
+      getState(),
+    )
 
     dispatch({
       type: types.REQUEST_HISTORY_FRAGMENT,
@@ -393,6 +393,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
       .toString(36)
       .substr(7)
     const author = userSelector(state)
+    const { id: currentChannelId } = userSelector(state)
 
     const message = normalizeMessage(
       {
@@ -421,7 +422,10 @@ export function createMessage({ channelId, text, attachments = [] }) {
       setTimeout(() => {
         dispatch({
           type: types.REQUEST_POST_MESSAGE,
-          payload: message,
+          payload: {
+            message,
+            currentChannelId,
+          },
         })
 
         const options = {
@@ -440,7 +444,10 @@ export function createMessage({ channelId, text, attachments = [] }) {
     } else {
       dispatch({
         type: types.REQUEST_POST_MESSAGE,
-        payload: message,
+        payload: {
+          message,
+          currentChannelId,
+        },
       })
 
       const options = {

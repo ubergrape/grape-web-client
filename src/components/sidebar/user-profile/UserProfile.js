@@ -65,6 +65,7 @@ export default class UserProfile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     colors: PropTypes.object,
+    customEmojis: PropTypes.object,
     onClose: PropTypes.func.isRequired,
     onShowSubview: PropTypes.func.isRequired,
     onLoadSharedFiles: PropTypes.func.isRequired,
@@ -86,6 +87,7 @@ export default class UserProfile extends PureComponent {
   static defaultProps = {
     avatar: undefined,
     colors: {},
+    customEmojis: {},
     displayName: undefined,
     status: undefined,
     subview: undefined,
@@ -148,6 +150,7 @@ export default class UserProfile extends PureComponent {
       onUnpin,
       subview,
       user,
+      customEmojis,
     } = this.props
 
     return (
@@ -156,6 +159,7 @@ export default class UserProfile extends PureComponent {
         user={user}
         onLoad={onLoadPinnedMessages}
         onSelect={onSelectPinnedMessage}
+        customEmojis={customEmojis}
         onUnpin={onUnpin}
       />
     )
