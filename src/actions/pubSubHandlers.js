@@ -215,13 +215,13 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
 }
 
 export const handleNotification = data => (dispatch, getState) => {
-  const currentChannel = channelSelector(getState())
+  const { id } = channelSelector(getState())
 
   dispatch({
     type: types.HANDLE_NOTIFICATION,
     payload: {
       ...data,
-      currentChannel,
+      currentChannelId: id,
     },
   })
 }

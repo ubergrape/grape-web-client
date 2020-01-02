@@ -55,7 +55,7 @@ export function searchMessages(params) {
     const searchParams = {
       query,
       limit,
-      offsetDate: offsetDate ? offsetDate.toISOString() : undefined,
+      offsetDate: offsetDate || undefined,
       types: ['messages', searchActivities && 'activities'],
     }
 

@@ -30,8 +30,6 @@ function loadLatest(options = { clear: true }) {
     const channel = channelSelector(getState())
     const { minimumBatchSize: limit } = historySelector(getState())
 
-    if (!channel) return
-
     if (options.clear) {
       dispatch({ type: types.CLEAR_HISTORY })
     }

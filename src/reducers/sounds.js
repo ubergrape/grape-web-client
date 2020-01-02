@@ -13,7 +13,7 @@ export default function reduce(state = initialState, action) {
       const notify = shouldNotify({
         time: Date.now(),
         sourceChannelId: payload.channelId,
-        currentChannelId: payload.currentChannel.id,
+        currentChannelId: payload.currentChannelId,
       })
 
       if (!notify || !payload.sound) return state
