@@ -24,6 +24,9 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
+const getUnsentMesssages = () =>
+  localStorage.unsentMessages ? JSON.parse(localStorage.unsentMessages) : {}
+
 // Clearing is used to enhance perceptional performance when clicked
 // on a navigation in order to react immediately.
 function loadLatest(options = { clear: true }) {
@@ -50,8 +53,7 @@ function loadLatest(options = { clear: true }) {
     api
       .loadLatestHistory(channel.id, limit)
       .then(res => {
-        let { unsentMessages = '{}' } = localStorage
-        unsentMessages = JSON.parse(unsentMessages)
+        const unsentMessages = getUnsentMesssages()
 
         let channelUnsentMessages = []
 
@@ -300,9 +302,8 @@ export function removeMessages(messages) {
     Promise.all(
       messages.map(({ id, state }) => {
         if (state === 'unsent') {
-          let { unsentMessages = '{}' } = localStorage
+          const unsentMessages = getUnsentMesssages()
 
-          unsentMessages = JSON.parse(unsentMessages)
           let currChannel = unsentMessages[channelId] || []
           currChannel = currChannel.filter(msg => msg.id !== id)
           unsentMessages[channelId] = currChannel
@@ -348,9 +349,8 @@ export function editMessageSend({ channelId, message, text }) {
         type: types.EDIT_MESSAGE_SEND,
       })
 
-      let { unsentMessages = '{}' } = localStorage
+      const unsentMessages = getUnsentMesssages()
 
-      unsentMessages = JSON.parse(unsentMessages)
       let currChannel = unsentMessages[channelId] || []
       currChannel = currChannel.map(msg => {
         if (msg.id === id) {
@@ -393,12 +393,10 @@ export function editPreviousMessage() {
 
 export function markAsUnsent(message) {
   return dispatch => {
-    let { unsentMessages = '{}' } = localStorage
     const { channelId, id } = message
+    const unsentMessages = getUnsentMesssages()
 
-    unsentMessages = JSON.parse(unsentMessages)
     const currChannel = unsentMessages[channelId] || []
-
     if (!currChannel.some(msg => msg.id === id)) {
       currChannel.push({
         ...message,
@@ -421,9 +419,8 @@ export function markAsUnsent(message) {
 export function readMessage({ channelId, messageId, unsentMessageId }) {
   return dispatch => {
     if (unsentMessageId) {
-      let { unsentMessages = '{}' } = localStorage
+      const unsentMessages = getUnsentMesssages()
 
-      unsentMessages = JSON.parse(unsentMessages)
       let currChannel = unsentMessages[channelId] || []
       currChannel = currChannel.filter(msg => msg.id !== unsentMessageId)
       unsentMessages[channelId] = currChannel

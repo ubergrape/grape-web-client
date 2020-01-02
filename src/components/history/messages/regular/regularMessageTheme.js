@@ -23,9 +23,7 @@ export const styles = {
     opacity: 0.5,
   },
   unsentWarning: {
-    display: 'flex',
-    alignItems: 'center',
-    extend: [createInlineIcon('warning', { color: red }), fonts.small],
+    extend: [createInlineIcon('warning', { color: red, top: 2 }), fonts.small],
     fill: red,
     color: red,
     marginTop: 5,
