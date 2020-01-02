@@ -111,7 +111,7 @@ export default class Row extends PureComponent {
 
     // eslint-disable-next-line no-alert
     if (window.confirm(formatMessage(messages.confirm))) {
-      onRemove([...duplicates, message.id].map(id => ({ id })))
+      onRemove([...duplicates, message].map(({ state, id }) => ({ state, id })))
     }
   }
 

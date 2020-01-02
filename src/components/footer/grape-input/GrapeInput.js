@@ -137,12 +137,11 @@ class GrapeInput extends PureComponent {
   }
 
   componentDidMount() {
-    let { draftMessages = '{}' } = localStorage
     const {
       channel: { id },
     } = this.props
+    const draftMessages = this.getDraftMessages()
 
-    draftMessages = JSON.parse(draftMessages)
     if (draftMessages[id]) {
       this.input.setTextContent(draftMessages[id], { silent: true })
     }
@@ -206,8 +205,7 @@ class GrapeInput extends PureComponent {
       onSetUnsentMessage(prev.id, this.input.getTextContent())
     }
 
-    let { draftMessages = '{}' } = localStorage
-    draftMessages = JSON.parse(draftMessages)
+    const draftMessages = this.getDraftMessages()
 
     this.input.setTextContent(next.unsent || draftMessages[next.id] || '', {
       silent: true,
@@ -234,8 +232,8 @@ class GrapeInput extends PureComponent {
     if (targetMessage) {
       onUpdateMessage({
         channelId: channel.id,
-        messageId: targetMessage.id,
         text: data.content,
+        message: targetMessage,
       })
     } else {
       const attachments = getImageAttachments(data.objects)
@@ -274,7 +272,7 @@ class GrapeInput extends PureComponent {
       case '#':
         if (permissions.canUseGrapesearch) {
           // Avoid browser opening in case of `#s` input.
-          if (!showBrowser && (query && query.length > 1)) return
+          if (!showBrowser && query && query.length > 1) return
           onRequestAutocomplete({ search, filters })
           onShowSearchBrowser(search)
         }
@@ -319,6 +317,9 @@ class GrapeInput extends PureComponent {
     this.startTypingThrottled()
     this.stopTypingDebounced()
   }
+
+  getDraftMessages = () =>
+    localStorage.draftMessages ? JSON.parse(localStorage.draftMessages) : {}
 
   getBrowserProps(browser) {
     const {

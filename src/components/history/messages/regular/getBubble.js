@@ -2,6 +2,7 @@ import merge from 'lodash/merge'
 import {
   blueLighter,
   grayBlueLighter,
+  white,
   yellow,
 } from 'grape-theme/dist/base-colors'
 import sizes from 'grape-theme/dist/sizes'
@@ -15,28 +16,8 @@ import { styles as baseStyles } from '../bubbleTheme'
 // bubble with buttons (delete, pin, etc.) will not load.
 import conf from '../../../../conf'
 
-export const OwnBubble = useTheme(Bubble, {
-  styles: baseStyles({
-    color:
-      (conf.organization.colors && conf.organization.colors.ownMessage) ||
-      blueLighter,
-  }),
-})
-
-const MateBubble = useTheme(Bubble, {
-  styles: baseStyles({
-    color:
-      (conf.organization.colors && conf.organization.colors.mateMessage) ||
-      grayBlueLighter,
-  }),
-})
-
-const SelectedBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: yellow }),
-})
-
 const pinnedStyles = ({ backgroundColor, pinColor }) =>
-  merge(baseStyles({ color: backgroundColor }), {
+  merge(baseStyles({ backgroundColor }), {
     bubble: {
       '&::after': {
         extend: createInlineIcon('pinFilled', {
@@ -50,12 +31,8 @@ const pinnedStyles = ({ backgroundColor, pinColor }) =>
     },
   })
 
-const PinnedBubble = useTheme(Bubble, {
-  styles: ({ palette }) =>
-    pinnedStyles({
-      backgroundColor: palette.orange[50],
-      pinColor: palette.orange[800],
-    }),
+const UnsentBubble = useTheme(Bubble, {
+  styles: baseStyles({ backgroundColor: white, borderColor: grayBlueLighter }),
 })
 
 const PinnedSelectedBubble = useTheme(Bubble, {
@@ -66,7 +43,36 @@ const PinnedSelectedBubble = useTheme(Bubble, {
     }),
 })
 
-export default ({ isSelected, isPinned, isOwn }) => {
+const PinnedBubble = useTheme(Bubble, {
+  styles: ({ palette }) =>
+    pinnedStyles({
+      backgroundColor: palette.orange[50],
+      pinColor: palette.orange[800],
+    }),
+})
+
+const SelectedBubble = useTheme(Bubble, {
+  styles: baseStyles({ backgroundColor: yellow }),
+})
+
+export const OwnBubble = useTheme(Bubble, {
+  styles: baseStyles({
+    backgroundColor:
+      (conf.organization.colors && conf.organization.colors.ownMessage) ||
+      blueLighter,
+  }),
+})
+
+const MateBubble = useTheme(Bubble, {
+  styles: baseStyles({
+    backgroundColor:
+      (conf.organization.colors && conf.organization.colors.mateMessage) ||
+      grayBlueLighter,
+  }),
+})
+
+export default ({ isSelected, isPinned, isOwn, state }) => {
+  if (state === 'unsent') return UnsentBubble
   if (isPinned && isSelected) return PinnedSelectedBubble
   if (isPinned) return PinnedBubble
   if (isSelected) return SelectedBubble

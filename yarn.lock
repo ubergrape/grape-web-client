@@ -3689,16 +3689,15 @@ grape-theme@^3.5.0:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
 
-grape-web@^1.8.0:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.3.tgz#d4e66e960fabb9937875f1d128624975bc5d8418"
-  integrity sha512-mcRHH+8hr0Xh5RrdFG3MOpvu9UhhjtERbeBOHULLaUWcVxVTvO9g27Lw6qSkXMCjxw4Laf8UiEO3bjtruxfp6g==
+grape-web@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.10.0.tgz#bb7a7f3edd05466f44e7b1db3c131faaf064e4bf"
+  integrity sha512-jDAR2lBGMlegGMs+SeD/kGupgHHXL5QvldwHV1bkecK3xdJD39lDNuQMPCzh/1R9fe3GeKpfFSNRfKnJBDjgHQ==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
     css-functions "^1.0.5"
     css-vendor "^1.1.0"
-    grape-js-emoji "^0.0.1"
     grape-theme "3.x"
     jss "^9.8.7"
     jss-default-unit "^8.0.2"
@@ -3721,15 +3720,16 @@ grape-web@^1.8.0:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
-grape-web@^1.9.8:
-  version "1.9.8"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.9.8.tgz#2497ba937f15a1a44af54a5403f26bda117ea0b4"
-  integrity sha512-TnN4cZCVWMlvZacqPr88i876hYTIlNGfwFNdvh2ZhMB6vkp5mX4J12CrF1qCnrqySCnRIH2eA3tSVrmYXaTTZQ==
+grape-web@^1.8.0:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.8.3.tgz#d4e66e960fabb9937875f1d128624975bc5d8418"
+  integrity sha512-mcRHH+8hr0Xh5RrdFG3MOpvu9UhhjtERbeBOHULLaUWcVxVTvO9g27Lw6qSkXMCjxw4Laf8UiEO3bjtruxfp6g==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
     css-functions "^1.0.5"
     css-vendor "^1.1.0"
+    grape-js-emoji "^0.0.1"
     grape-theme "3.x"
     jss "^9.8.7"
     jss-default-unit "^8.0.2"
