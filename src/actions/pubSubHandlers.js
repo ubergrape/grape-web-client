@@ -34,6 +34,7 @@ const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
   const rooms = roomsSelector(state)
+  const channel = channelSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
@@ -57,6 +58,7 @@ const addNewMessage = message => (dispatch, getState) => {
     payload: {
       message: nMessage,
       currentUserId: user.id,
+      currentChannelId: channel.id,
     },
   })
 }
@@ -117,6 +119,7 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
 export function handleReadChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
 
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
@@ -124,6 +127,7 @@ export function handleReadChannel({ user: userId, channel: channelId }) {
         isCurrentUser: userId === user.id,
         userId,
         channelId,
+        currentChannelId,
       },
     })
   }
@@ -210,10 +214,15 @@ export function handleLeftChannel({ user: userId, channel: channelId }) {
   }
 }
 
-export const handleNotification = payload => dispatch => {
+export const handleNotification = data => (dispatch, getState) => {
+  const { id } = channelSelector(getState())
+
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload,
+    payload: {
+      ...data,
+      currentChannelId: id,
+    },
   })
 }
 
@@ -235,14 +244,17 @@ export function handleUpateChannel({ channel }) {
   }
 }
 
-export function handleRemoveRoom({ channel: id }) {
+export function handleRemoveRoom({ channel: channelId }) {
   return (dispatch, getState) => {
-    const { id: currentId } = channelSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
-      payload: id,
+      payload: {
+        channelId,
+        currentChannelId,
+      },
     })
-    if (id === currentId) dispatch(goTo('/chat'))
+    if (channelId === currentChannelId) dispatch(goTo('/chat'))
   }
 }
 

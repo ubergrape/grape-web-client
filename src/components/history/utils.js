@@ -71,7 +71,6 @@ export const createRowsState = (() => {
             props,
             'user',
             'colors',
-            'channel',
             'customEmojis',
             'onEdit',
             'onRemove',

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash/differenceBy'
@@ -11,9 +12,15 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
-export const confSelector = createSelector(state => state.conf, state => state)
+export const confSelector = createSelector(
+  state => state.conf,
+  state => state,
+)
 
-export const userSelector = createSelector(state => state.user, state => state)
+export const userSelector = createSelector(
+  state => state.user,
+  state => state,
+)
 
 export const channelsSelector = createSelector(
   state => state.channels,
@@ -40,7 +47,10 @@ export const roomDeleteSelector = createSelector(
   state => state,
 )
 
-export const orgSelector = createSelector(state => state.org, state => state)
+export const orgSelector = createSelector(
+  state => state.org,
+  state => state,
+)
 
 export const billingWarningSelector = createSelector(
   state => state.billingWarning,
@@ -583,6 +593,14 @@ export const historyComponentSelector = createSelector(
       ...org.permissions,
       ...channel.permissions,
     },
+    channel: pick(channel, [
+      'id',
+      'isPublic',
+      'creator',
+      'name',
+      'type',
+      'partner',
+    ]),
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -606,7 +624,10 @@ export const isChannelDisabledSelector = createSelector(
   },
 )
 
-const footerSelector = createSelector(state => state.footer, state => state)
+const footerSelector = createSelector(
+  state => state.footer,
+  state => state,
+)
 
 export const footerComponentSelector = createSelector(
   [
@@ -665,15 +686,24 @@ export const fileUploadComponentSelector = createSelector(
 )
 
 export const browserNotificationComponentSelector = createSelector(
-  [browserNotificationSelector, confSelector, incomingCallSelector],
-  (browserNotification, conf, incomingCall) => ({
+  [
+    browserNotificationSelector,
+    channelSelector,
+    confSelector,
+    incomingCallSelector,
+  ],
+  (browserNotification, channel, conf, incomingCall) => ({
     ...browserNotification,
     conf,
+    channel,
     incomingCall,
   }),
 )
 
-const introSelector = createSelector(state => state.intro, state => state)
+const introSelector = createSelector(
+  state => state.intro,
+  state => state,
+)
 
 export const introComponentSelector = createSelector(
   [introSelector, orgSelector],

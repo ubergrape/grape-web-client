@@ -47,14 +47,13 @@ export function goToMessage(message) {
 
 export function goToChannel(channelId, options) {
   return (dispatch, getState) => {
-    const { id: currentId } = channelSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
 
-    if (channelId === currentId) return
+    if (channelId === currentChannelId) return
 
     if (!conf.embed) {
       dispatch({
         type: types.GO_TO_CHANNEL,
-        payload: channelId,
       })
     }
 
