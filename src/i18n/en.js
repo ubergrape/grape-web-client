@@ -25,8 +25,8 @@ export default {
   "privateMessageHint": "(Private message)",
   "groupInviteNotificationTitle": "{name} invited you to the group {group}",
   "groupInviteNotificationContent": "{name} (Group Invite)",
-  "grapeCallGroupInvitationContent": "{callInitator} started a Grape Call in this group.",
-  "grapeCallPmInvitationContent": "Invites you to a Grape call …",
+  "grapeCallPmInvitationContent": "invites you to a Grape call …",
+  "grapeCallPmMissedContent": "called you",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
@@ -236,6 +236,7 @@ export default {
   "addGroupDescription": "Add a group description here…",
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
+  "membersList": "Members List",
   "leaveChannel": "Leave {channel}",
   "members": "Members",
   "sharedInRoom": "Shared in {channelName}",
@@ -258,5 +259,6 @@ export default {
   "openInDesktop": "Open in Grape Desktop",
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
-  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience."
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "groupIncomingDescription": "{name} invited you to the group call"
 }

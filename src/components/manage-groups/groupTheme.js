@@ -1,5 +1,4 @@
-import { grayDark, white } from 'grape-theme/dist/base-colors'
-import { link } from 'grape-theme/dist/web-colors'
+import { grayDark } from 'grape-theme/dist/base-colors'
 
 import buttonPrimary from '../button/primary'
 import buttonDanger from '../button/danger'
@@ -15,18 +14,6 @@ export const styles = {
     color: grayDark,
     display: 'flex',
     padding: [10, horizontalSpacing],
-    '&:hover, &:focus': {
-      isolate: false,
-      backgroundColor: link,
-      '& $name': {
-        isolate: false,
-        color: white,
-      },
-      '&, & *': {
-        isolate: false,
-        cursor: 'pointer',
-      },
-    },
   },
   name: {},
   group: {

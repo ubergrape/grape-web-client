@@ -41,7 +41,7 @@ export default class LinkAttachments extends PureComponent {
         {attachments.map(meta => (
           <LinkAttachment
             {...meta}
-            key={meta.sourceUrl}
+            key={`${meta.sourceUrl}${meta.footerIcon}`}
             messageText={messageText}
             onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
             className={classes.linkAttachment}

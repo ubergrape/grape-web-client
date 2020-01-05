@@ -6,7 +6,7 @@ import {
   sharedFilesSelector,
   orgSelector,
   channelSelector,
-  usersSelector,
+  pmsSelector,
 } from '../selectors'
 import { setSidebarIsLoading, error, goTo } from './'
 
@@ -20,10 +20,10 @@ function formatFile(file, channel, users) {
     author: author ? author.displayName : undefined,
     // If we are in pm channel, there is no channel name, we use the other user
     // name as a channel name.
-    channelName: channel.name || channel.users[0].displayName,
+    channelName: channel.name,
     channelType: channel.type,
     id: file.id || file.messageId,
-    time: new Date(file.time),
+    time: file.time,
   }
 }
 
@@ -44,9 +44,9 @@ export function loadSharedFiles(params) {
       .then(files => {
         dispatch(setSidebarIsLoading(false))
         const prevItems = sharedFilesSelector(state).items
-        const users = usersSelector(state)
+        const pmChannels = pmsSelector(state)
         const nextItems = files.results.map(file =>
-          formatFile(file, channel, users),
+          formatFile(file, channel, pmChannels),
         )
         dispatch({
           type: types.LOADED_SHARED_FILES,
@@ -67,7 +67,7 @@ export function addSharedFiles(message) {
   return (dispatch, getState) => {
     const state = getState()
     const channel = channelSelector(state)
-    const users = usersSelector(state)
+    const pmChannels = pmsSelector(state)
     const sharedFiles = sharedFilesSelector(state)
     const prevItems = sharedFiles.items
     const nextItems = message.attachments.map(attachment => {
@@ -76,7 +76,7 @@ export function addSharedFiles(message) {
         author: message.author,
         messageId: message.id,
       }
-      return formatFile(file, channel, users)
+      return formatFile(file, channel, pmChannels)
     })
     dispatch({
       type: types.ADD_SHARED_FILE,

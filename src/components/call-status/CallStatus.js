@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import capitalize from 'lodash/capitalize'
+import Draggable from 'react-draggable'
 import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import { injectIntl } from 'react-intl'
+import { defaultIconSlug } from '../../constants/channel'
 
 import styles from './theme'
 
@@ -21,10 +24,21 @@ class CallStatus extends PureComponent {
     closeCallStatus: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      this.props.updateCallStatusTimer()
-    }, 1000)
+  componentDidUpdate(prevProps) {
+    const {
+      updateCallStatusTimer,
+      callStatus: { show },
+    } = this.props
+
+    if (show && prevProps.callStatus.show !== show) {
+      this.timer = setInterval(() => {
+        updateCallStatusTimer()
+      }, 1000)
+    }
+
+    if (!show && prevProps.callStatus.show !== show) {
+      window.clearInterval(this.timer)
+    }
   }
 
   componentWillUnmount() {
@@ -34,9 +48,12 @@ class CallStatus extends PureComponent {
   onCancel = () => {
     const {
       closeCallStatus,
-      callStatus: { call },
+      callStatus: { data },
     } = this.props
-    const { channelId, callId } = call
+    const {
+      channel: { id: channelId },
+      call: { id: callId },
+    } = data
 
     closeCallStatus({ channelId, callId })
   }
@@ -44,40 +61,55 @@ class CallStatus extends PureComponent {
   render() {
     const {
       classes,
-      callStatus: { call, timer, show },
+      callStatus: { data, timer, show },
     } = this.props
 
     if (!show) return null
 
-    const { authorAvatarUrl, authorDisplayName } = call
+    const { channel, author } = data
     const { hours, minutes, seconds } = secondsToHms(timer)
 
     return (
-      <div className={classes.window}>
-        <div className={classes.avatar}>
-          <img
-            className={classes.image}
-            alt="Interlocutor avatar"
-            src={authorAvatarUrl}
-          />
-          <div className={classes.iconWrapper}>
-            <Icon name="camera" className={classes.cameraIcon} />
+      <div className={classes.windowWrapper}>
+        <Draggable bounds="parent">
+          <div className={classes.window}>
+            <div className={classes.avatar}>
+              {channel.type === 'pm' ? (
+                <img
+                  className={classes.image}
+                  alt="Interlocutor avatar"
+                  src={author.avatar}
+                />
+              ) : (
+                <div className={classes.channelIconWrapper}>
+                  <Icon
+                    name={`room${capitalize(channel.icon || defaultIconSlug)}`}
+                    className={classes.channelIcon}
+                  />
+                </div>
+              )}
+              <div className={classes.cameraIconWrapper}>
+                <Icon name="camera" className={classes.cameraIcon} />
+              </div>
+            </div>
+            <div className={classes.details}>
+              <span className={classes.name}>
+                {channel.type === 'pm' ? author.displayName : channel.name}
+              </span>
+              <span className={classes.time}>
+                {hours < 10 ? `0${hours}` : hours}:
+                {minutes < 10 ? `0${minutes}` : minutes}:
+                {seconds < 10 ? `0${seconds}` : seconds}
+              </span>
+            </div>
+            <button
+              onClick={this.onCancel}
+              className={cn(classes.button, classes.cancel)}
+            >
+              <Icon className={classes.missedIcon} name="callMissed" />
+            </button>
           </div>
-        </div>
-        <div className={classes.details}>
-          <span className={classes.name}>{authorDisplayName}</span>
-          <span className={classes.time}>
-            {hours < 10 ? `0${hours}` : hours}:
-            {minutes < 10 ? `0${minutes}` : minutes}:
-            {seconds < 10 ? `0${seconds}` : seconds}
-          </span>
-        </div>
-        <button
-          onClick={this.onCancel}
-          className={cn(classes.button, classes.cancel)}
-        >
-          <Icon className={classes.missedIcon} name="callMissed" />
-        </button>
+        </Draggable>
       </div>
     )
   }

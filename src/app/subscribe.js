@@ -1,8 +1,6 @@
-import { toCamel } from '../utils/backend/convertCase'
-import * as selectors from '../selectors'
+import { toCamel } from '../utils/convert-case'
 import * as alerts from '../constants/alerts'
 import conf from '../conf'
-import getStore from './store'
 import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
@@ -33,6 +31,7 @@ export default function subscribe(channel) {
     if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
+        delay: 3000,
         type: alerts.CONNECTION_LOST,
       })
     }
@@ -73,6 +72,7 @@ export default function subscribe(channel) {
     const cData = toCamel(data)
     switch (cData.event) {
       case 'notification.new':
+        if (conf.embed) break
         boundActions.handleNotification(cData)
         break
       case 'message.new':
@@ -94,10 +94,7 @@ export default function subscribe(channel) {
         boundActions.handleMessageLabeled(cData)
         break
       case 'channel.typing':
-        boundActions.handleTypingNotification(
-          selectors.setTypingSelector(getStore().getState()),
-          cData,
-        )
+        boundActions.handleTypingNotification(cData)
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
@@ -130,19 +127,32 @@ export default function subscribe(channel) {
         boundActions.handleFavoriteChange(cData)
         break
       case 'call.incoming':
+        if (conf.embed) break
         boundActions.handleIncomingCall(cData)
         break
       case 'call.hungup':
+        if (conf.embed) break
         boundActions.handleHungUpCall(cData)
         break
       case 'call.missed':
+        if (conf.embed) break
         boundActions.handleMissedCall(cData)
         break
       case 'call.joined':
+        if (conf.embed) break
         boundActions.handleJoinedCall(cData)
         break
       case 'call.rejected':
+        if (conf.embed) break
         boundActions.handleRejectedCall(cData)
+        break
+      case 'call.started':
+        if (conf.embed) break
+        boundActions.handleStartedCall(cData)
+        break
+      case 'call.finished':
+        if (conf.embed) break
+        boundActions.handleFinishedCall(cData)
         break
       default:
     }

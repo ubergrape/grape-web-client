@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { blue, blueLight } from 'grape-theme/dist/base-colors'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import some from 'lodash/some'
+import isEmpty from 'lodash/isEmpty'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
@@ -53,6 +54,20 @@ export const styles = ({ palette }) => ({
     height: iconSize,
     cursor: 'pointer',
   },
+  cameraActive: {
+    color: ({ colors }) => colors.button || blue,
+    width: iconSize,
+    height: iconSize,
+    '&:hover': {
+      isolate: false,
+      cursor: 'pointer',
+      // TODO Size here should not be needed.
+      // https://github.com/cssinjs/react-jss/issues/165
+      width: iconSize,
+      height: iconSize,
+      color: ({ colors }) => colors.button || blueLight,
+    },
+  },
   camera: {
     width: iconSize,
     height: iconSize,
@@ -91,24 +106,36 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (userStatusMap[user.status] === 'inCall') {
+  if (isEmpty(channel)) return null
+
+  if (
+    channel.type === 'room' &&
+    channel.calls.length &&
+    userStatusMap[user.status] === 'inCall'
+  ) {
     return (
-      <Tooltip message={tooltips.anotherCall}>
+      <Tooltip message={tooltips.inCall}>
         <button
           onClick={showOnAnotherCallToast}
           className={props.classes.button}
         >
+          <Icon name="cameraActive" className={props.classes.disabledCamera} />
+        </button>
+      </Tooltip>
+    )
+  }
+
+  if (channel.type === 'room' && userStatusMap[user.status] === 'inCall') {
+    return (
+      <Tooltip message={tooltips.anotherCall}>
+        <button onClick={showOnCallToast} className={props.classes.button}>
           <Icon name="camera" className={props.classes.disabledCamera} />
         </button>
       </Tooltip>
     )
   }
 
-  if (
-    some(channel) &&
-    some(channel.partner) &&
-    userStatusMap[channel.partner.status] === 'inCall'
-  ) {
+  if (userStatusMap[user.status] === 'inCall') {
     return (
       <Tooltip message={tooltips.inCall}>
         <button onClick={showOnCallToast} className={props.classes.button}>
@@ -118,11 +145,26 @@ const VideoConferenceButton = props => {
     )
   }
 
+  if (channel.calls.length) {
+    return (
+      <Tooltip message={tooltips.joinConference}>
+        <a
+          href={props.channel.grapecallUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={props.classes.button}
+        >
+          <Icon name="cameraActive" className={props.classes.cameraActive} />
+        </a>
+      </Tooltip>
+    )
+  }
+
   if (isChromeOrFirefox) {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a
-          href={props.channel.videoconferenceUrl}
+          href={props.channel.grapecallUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={props.classes.button}

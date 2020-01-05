@@ -79,6 +79,7 @@ export default () => ({
     },
   },
   name: {
+    padding: [0, 10, 0, 10],
     display: 'block',
     textAlign: 'center',
     fontSize: 23,
@@ -87,6 +88,7 @@ export default () => ({
     color: '#FFF',
   },
   description: {
+    padding: [0, 10, 0, 10],
     marginTop: 5,
     display: 'block',
     textAlign: 'center',
@@ -94,6 +96,9 @@ export default () => ({
     fontWeight: 600,
     lineHeight: '25px',
     color: '#FFF',
+  },
+  descriptionSmall: {
+    maxWidth: 360,
   },
   buttons: {
     marginTop: 65,

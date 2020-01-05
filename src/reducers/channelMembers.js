@@ -1,3 +1,4 @@
+import findIndex from 'lodash/findIndex'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
@@ -18,6 +19,26 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         users: [...state.users, payload.user],
+      }
+    }
+    case types.CHANGE_SIDEBAR_USER_STATUS: {
+      const newState = { ...state }
+      const { users } = newState
+
+      const index = findIndex(users, { id: payload.id })
+
+      if (index === -1) return state
+
+      const user = users[index]
+
+      users.splice(index, 1, {
+        ...user,
+        status: payload.status,
+      })
+
+      return {
+        ...newState,
+        users,
       }
     }
     case types.REMOVE_USER_FROM_CHANNEL: {

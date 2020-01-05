@@ -1,5 +1,6 @@
 import findLast from 'lodash/findLast'
 import last from 'lodash/last'
+import moment from 'moment'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
@@ -14,11 +15,7 @@ import {
   SCROLL_TO_ALIGNMENT_START,
   SCROLL_TO_ALIGNMENT_END,
 } from '../constants/history'
-import {
-  normalizeMessage,
-  filterEmptyMessage,
-  loadLabelsConfigCached,
-} from './utils'
+import { normalizeMessage, filterEmptyMessage } from './utils'
 import { error, showAlert, hideAlertByType } from './'
 
 function normalizeMessages(messages, state) {
@@ -27,11 +24,15 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
+const getUnsentMesssages = () =>
+  localStorage.unsentMessages ? JSON.parse(localStorage.unsentMessages) : {}
+
 // Clearing is used to enhance perceptional performance when clicked
 // on a navigation in order to react immediately.
 function loadLatest(options = { clear: true }) {
   return (dispatch, getState) => {
-    const { minimumBatchSize: limit, channel } = historySelector(getState())
+    const channel = channelSelector(getState())
+    const { minimumBatchSize: limit } = historySelector(getState())
 
     if (options.clear) {
       dispatch({ type: types.CLEAR_HISTORY })
@@ -53,8 +54,7 @@ function loadLatest(options = { clear: true }) {
     api
       .loadLatestHistory(channel.id, limit)
       .then(res => {
-        let { unsentMessages = '{}' } = localStorage
-        unsentMessages = JSON.parse(unsentMessages)
+        const unsentMessages = getUnsentMesssages()
 
         let channelUnsentMessages = []
 
@@ -104,9 +104,8 @@ function loadLatest(options = { clear: true }) {
 function loadOlder(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, olderMessagesRequest, channel } = historySelector(
-      getState(),
-    )
+    const channel = channelSelector(getState())
+    const { messages, olderMessagesRequest } = historySelector(getState())
 
     // There is a race-condition where loadOlder is invoked before we actually
     // have messages in the store. Canceling this one function is not an issue
@@ -154,9 +153,8 @@ function loadOlder(params) {
 function loadNewer(params) {
   return (dispatch, getState) => {
     const { startIndex, stopIndex } = params
-    const { messages, newerMessagesRequest, channel } = historySelector(
-      getState(),
-    )
+    const channel = channelSelector(getState())
+    const { messages, newerMessagesRequest } = historySelector(getState())
 
     // Ensures we don't have useless requests to the backend.
     if (newerMessagesRequest) return
@@ -202,11 +200,10 @@ function loadNewer(params) {
 
 function loadFragment() {
   return (dispatch, getState) => {
-    const {
-      minimumBatchSize: limit,
-      channel,
-      selectedMessageId,
-    } = historySelector(getState())
+    const channel = channelSelector(getState())
+    const { minimumBatchSize: limit, selectedMessageId } = historySelector(
+      getState(),
+    )
 
     dispatch({
       type: types.REQUEST_HISTORY_FRAGMENT,
@@ -301,7 +298,25 @@ export function removeMessages(messages) {
     const { id: channelId } = channelSelector(getState())
 
     Promise.all(
-      messages.map(message => api.removeMessage(channelId, message.id)),
+      messages.map(({ id, state }) => {
+        if (state === 'unsent') {
+          const unsentMessages = getUnsentMesssages()
+
+          let currChannel = unsentMessages[channelId] || []
+          currChannel = currChannel.filter(msg => msg.id !== id)
+          unsentMessages[channelId] = currChannel
+
+          localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+
+          dispatch({
+            type: types.REMOVE_MESSAGE,
+            payload: id,
+          })
+
+          return Promise.resolve()
+        }
+        return api.removeMessage(channelId, id)
+      }),
     ).catch(err => dispatch(error(err)))
   }
 }
@@ -315,15 +330,47 @@ export function editMessage(message) {
   }
 }
 
-export function editMessageSend({ channelId, messageId, text }) {
+export function editMessageSend({ channelId, message, text }) {
   return dispatch => {
-    api
-      .updateMessage(channelId, messageId, text)
-      .catch(err => dispatch(error(err)))
+    const { id, state } = message
+
+    if (state === 'unsent') {
+      dispatch(
+        editMessage({
+          ...message,
+          text,
+          time: moment().toISOString(true),
+          userTime: moment().toISOString(true),
+        }),
+      )
+      dispatch({
+        type: types.EDIT_MESSAGE_SEND,
+      })
+
+      const unsentMessages = getUnsentMesssages()
+
+      let currChannel = unsentMessages[channelId] || []
+      currChannel = currChannel.map(msg => {
+        if (msg.id === id) {
+          return {
+            ...msg,
+            text,
+            time: moment().toISOString(true),
+            userTime: moment().toISOString(true),
+          }
+        }
+        return msg
+      })
+      unsentMessages[channelId] = currChannel
+
+      localStorage.setItem('unsentMessages', JSON.stringify(unsentMessages))
+      return
+    }
+
+    api.updateMessage(channelId, id, text).catch(err => dispatch(error(err)))
 
     dispatch({
       type: types.EDIT_MESSAGE_SEND,
-      payload: { channelId, messageId, text },
     })
   }
 }
@@ -344,12 +391,10 @@ export function editPreviousMessage() {
 
 export function markAsUnsent(message) {
   return dispatch => {
-    let { unsentMessages = '{}' } = localStorage
     const { channelId, id } = message
+    const unsentMessages = getUnsentMesssages()
 
-    unsentMessages = JSON.parse(unsentMessages)
     const currChannel = unsentMessages[channelId] || []
-
     if (!currChannel.some(msg => msg.id === id)) {
       currChannel.push({
         ...message,
@@ -372,9 +417,8 @@ export function markAsUnsent(message) {
 export function readMessage({ channelId, messageId, unsentMessageId }) {
   return dispatch => {
     if (unsentMessageId) {
-      let { unsentMessages = '{}' } = localStorage
+      const unsentMessages = getUnsentMesssages()
 
-      unsentMessages = JSON.parse(unsentMessages)
       let currChannel = unsentMessages[channelId] || []
       currChannel = currChannel.filter(msg => msg.id !== unsentMessageId)
       unsentMessages[channelId] = currChannel
@@ -397,6 +441,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
       .toString(36)
       .substr(7)
     const author = userSelector(state)
+    const { id: currentChannelId } = userSelector(state)
 
     const message = normalizeMessage(
       {
@@ -407,7 +452,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
         clientsideId: id,
         text,
         author,
-        time: new Date(),
+        time: moment().toISOString(true),
         attachments,
         channel: channelId,
       },
@@ -425,7 +470,10 @@ export function createMessage({ channelId, text, attachments = [] }) {
       setTimeout(() => {
         dispatch({
           type: types.REQUEST_POST_MESSAGE,
-          payload: message,
+          payload: {
+            message,
+            currentChannelId,
+          },
         })
 
         const options = {
@@ -444,7 +492,10 @@ export function createMessage({ channelId, text, attachments = [] }) {
     } else {
       dispatch({
         type: types.REQUEST_POST_MESSAGE,
-        payload: message,
+        payload: {
+          message,
+          currentChannelId,
+        },
       })
 
       const options = {
@@ -478,13 +529,11 @@ export const handleSystemMessageUpdate = message => (dispatch, getState) => {
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
     const state = getState()
-    const orgId = orgSelector(state).id
+    const { labelsConfig } = orgSelector(state)
 
-    loadLabelsConfigCached(orgId).then(labelsConfig => {
-      dispatch({
-        type: types.UPDATE_MESSAGE,
-        payload: normalizeMessage(message, state, labelsConfig),
-      })
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: normalizeMessage(message, state, labelsConfig),
     })
   }
 }

@@ -28,7 +28,7 @@ export default class FilterButton extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    nameLocalized: PropTypes.string.isRequired,
+    localized: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     /* eslint-disable react/no-unused-prop-types */
     color: PropTypes.string.isRequired,
@@ -47,14 +47,10 @@ export default class FilterButton extends PureComponent {
   }
 
   render() {
-    const { classes, nameLocalized } = this.props
+    const { classes, localized } = this.props
 
     return (
-      <Chip
-        className={classes.chip}
-        onClick={this.onClick}
-        label={nameLocalized}
-      />
+      <Chip className={classes.chip} onClick={this.onClick} label={localized} />
     )
   }
 }

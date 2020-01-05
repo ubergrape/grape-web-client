@@ -3,33 +3,41 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl,
+  FormattedMessage,
+} from 'react-intl'
 
 import isChromeOrFirefox from '../../utils/is-chrome-or-firefox'
 import styles from './theme'
 
+const messages = defineMessages({
+  groupDescription: {
+    id: 'groupIncomingDescription',
+    defaultMessage: '{name} invited you to the group call',
+    description: 'Group call incoming screen description',
+  },
+})
+
 class IncomingCall extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    incoming: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    data: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    joinIncomingCall: PropTypes.func.isRequired,
     rejectIncomingCall: PropTypes.func.isRequired,
     replyWithMessage: PropTypes.func.isRequired,
-  }
-
-  onJoin = () => {
-    const {
-      joinIncomingCall,
-      incoming: { channelId, callId },
-    } = this.props
-    joinIncomingCall({ channelId, callId })
   }
 
   onReject = () => {
     const {
       rejectIncomingCall,
-      incoming: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { id: callId },
+      },
     } = this.props
     rejectIncomingCall({ channelId, callId })
   }
@@ -37,20 +45,22 @@ class IncomingCall extends PureComponent {
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      incoming: { channelId, callId },
+      data: {
+        channel: { id: channelId },
+        call: { id: callId },
+      },
     } = this.props
     replyWithMessage({ channelId, callId })
   }
 
   render() {
-    const { show, classes, incoming } = this.props
     const {
-      message,
-      authorAvatarUrl,
-      authorDisplayName,
-      grapecallUrl,
-      callId,
-    } = incoming
+      show,
+      classes,
+      data,
+      intl: { formatMessage },
+    } = this.props
+    const { channel, message, author, grapecallUrl, call } = data
 
     if (!show) return null
 
@@ -63,13 +73,51 @@ class IncomingCall extends PureComponent {
             <img
               className={classes.image}
               alt="Caller avatar"
-              src={authorAvatarUrl}
+              src={author.avatar}
             />
           </div>
-          <div className={classes.name}>{authorDisplayName}</div>
-          <div className={classes.description}>{message}</div>
-          {!isChromeOrFirefox ? (
+          <div className={classes.name}>
+            {channel.type === 'room' ? channel.name : author.displayName}
+          </div>
+          {isChromeOrFirefox ? (
             <div>
+              <div
+                className={cn(classes.description, classes.descriptionSmall)}
+              >
+                {channel.type === 'room'
+                  ? formatMessage(messages.groupDescription, {
+                      name: author.displayName,
+                    })
+                  : message}
+              </div>
+              <div className={classes.buttons}>
+                <button
+                  onClick={this.onReject}
+                  className={cn(classes.button, classes.reject)}
+                >
+                  <Icon className={classes.missedIcon} name="callMissed" />
+                </button>
+                <a
+                  href={`${grapecallUrl}?call_id=${call.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(classes.button, classes.accept)}
+                >
+                  <Icon className={classes.ongoingIcon} name="callOngoing" />
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div
+                className={cn(classes.description, classes.descriptionLarge)}
+              >
+                {channel.type === 'room'
+                  ? formatMessage(messages.groupDescription, {
+                      name: author.displayName,
+                    })
+                  : message}
+              </div>
               <span className={classes.unsupported}>
                 <FormattedMessage
                   id="unsuportedBrowserIncomingCall"
@@ -136,24 +184,6 @@ class IncomingCall extends PureComponent {
                   />
                 </p>
               </div>
-            </div>
-          ) : (
-            <div className={classes.buttons}>
-              <button
-                onClick={this.onReject}
-                className={cn(classes.button, classes.reject)}
-              >
-                <Icon className={classes.missedIcon} name="callMissed" />
-              </button>
-              <a
-                href={`${grapecallUrl}?call_id=${callId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={this.onJoin}
-                className={cn(classes.button, classes.accept)}
-              >
-                <Icon className={classes.ongoingIcon} name="callOngoing" />
-              </a>
             </div>
           )}
         </div>

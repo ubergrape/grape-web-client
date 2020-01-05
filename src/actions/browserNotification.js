@@ -37,6 +37,10 @@ export function enableNotifications() {
   }
 }
 
+export const setNotification = payload => dispatch => {
+  dispatch({ type: types.SET_NOTIFICATION, payload })
+}
+
 export function ensureBrowserNotificationPermission() {
   return dispatch => {
     if (shouldRequestPermission()) {

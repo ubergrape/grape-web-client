@@ -11,7 +11,7 @@ export default class ReadRow extends PureComponent {
       PropTypes.shape({
         id: PropTypes.string,
         message: PropTypes.shape({
-          time: PropTypes.instanceOf(Date).isRequired,
+          time: PropTypes.string.isRequired,
         }),
       }),
     ).isRequired,
