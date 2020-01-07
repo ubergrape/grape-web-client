@@ -72,6 +72,7 @@ export default class RegularMessage extends PureComponent {
     channelId: PropTypes.number,
     text: PropTypes.string,
     tag: PropTypes.string,
+    docType: PropTypes.string,
     action: PropTypes.string,
     isAdmin: PropTypes.bool,
   }
@@ -104,6 +105,7 @@ export default class RegularMessage extends PureComponent {
     nlp: undefined,
     text: '',
     tag: '',
+    docType: '',
     action: '',
     isAdmin: false,
   }
@@ -191,6 +193,7 @@ export default class RegularMessage extends PureComponent {
       nlp,
       text,
       tag,
+      docType,
       action,
       isAdmin,
     } = this.props
@@ -241,7 +244,7 @@ export default class RegularMessage extends PureComponent {
                   I can't do this because lack of time from another clients developers. And they're already
                   imlemented solution with those field names.
                 */}
-                {tag ? (
+                {docType === 'system' && tag ? (
                   <div className={classes.action}>
                     <div className={classes.iconWrapper}>
                       <Icon className={classes[statusIcon]} name={statusIcon} />
