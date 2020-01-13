@@ -122,14 +122,13 @@ class Time extends PureComponent {
         >
           {formatTime(time)}
         </span>
-        {!isSameTimezone &&
-          userTime && (
-            <UserTime
-              isOpened={isWritersTimeOpened}
-              time={userTime}
-              theme={{ classes }}
-            />
-          )}
+        {!isSameTimezone && userTime && (
+          <UserTime
+            isOpened={isWritersTimeOpened}
+            time={userTime}
+            theme={{ classes }}
+          />
+        )}
       </div>
     )
   }

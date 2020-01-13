@@ -213,9 +213,7 @@ const renderNotification = props => {
 class BrowserNotification extends PureComponent {
   static propTypes = {
     setNotification: PropTypes.func.isRequired,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-    }).isRequired,
+    channel: PropTypes.object.isRequired,
     notification: PropTypes.object,
     browserNotification: PropTypes.shape({
       attachments: PropTypes.array,

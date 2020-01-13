@@ -10,6 +10,8 @@ const actionNames = [
   'onShowNewConversation',
   'goToChannel',
   'openPm',
+  'openChannel',
+  'loadOlderChannels',
   'joinChannel',
   'searchChannelsForNavigation',
 ]

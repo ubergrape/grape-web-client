@@ -710,8 +710,8 @@ export const browserNotificationComponentSelector = createSelector(
   ],
   (browserNotification, channel, conf, incomingCall) => ({
     ...browserNotification,
-    conf,
     channel,
+    conf,
     incomingCall,
   }),
 )
