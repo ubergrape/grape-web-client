@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
@@ -31,7 +32,7 @@ const styles = {
   },
 }
 
-class History extends PureComponent {
+class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     conf: PropTypes.object.isRequired,
@@ -45,9 +46,7 @@ class History extends PureComponent {
     onAddIntegration: PropTypes.func.isRequired,
     onNewConversation: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-    }),
+    channel: PropTypes.object.isRequired,
     users: PropTypes.array,
     messages: PropTypes.array,
     user: PropTypes.object,
@@ -69,7 +68,6 @@ class History extends PureComponent {
     showNoContent: false,
     isLoading: false,
     user: null,
-    channel: null,
     users: [],
     selectedMessageId: null,
     selectedMessageIdTimestamp: null,
@@ -115,7 +113,6 @@ class History extends PureComponent {
     ) {
       this.needsLoading = true
     }
-
     if (!isEqual(messages, this.props.messages)) {
       this.setState(createState(this.state, nextProps))
     }
@@ -152,7 +149,12 @@ class History extends PureComponent {
 
   load() {
     const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
-    if (this.needsLoading && !isLoading && channel && isMemberOfAnyRooms) {
+    if (
+      this.needsLoading &&
+      !isLoading &&
+      !isEmpty(channel) &&
+      isMemberOfAnyRooms
+    ) {
       this.needsLoading = false
       onLoad()
     }
@@ -199,7 +201,7 @@ class History extends PureComponent {
       return <NoChannels onNewConversation={onNewConversation} />
     }
 
-    if (!user || !channel) return null
+    if (!user || isEmpty(channel)) return null
 
     // When we switch between channels, we rerender history with empty rows
     // in order to respond immediately to users action with empty screen and

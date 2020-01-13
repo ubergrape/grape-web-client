@@ -72,7 +72,7 @@ function isReadersTimezone(time) {
 class Time extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
+    time: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     userTime: PropTypes.string,
   }

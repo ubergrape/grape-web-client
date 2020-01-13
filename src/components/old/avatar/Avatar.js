@@ -10,6 +10,7 @@ class Avatar extends PureComponent {
     classes: PropTypes.object.isRequired,
     onClick: PropTypes.func,
     src: PropTypes.string,
+    type: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
     children: PropTypes.node,
@@ -17,6 +18,7 @@ class Avatar extends PureComponent {
 
   static defaultProps = {
     src: undefined,
+    type: 'active',
     className: '',
     onClick: noop,
     style: {},
@@ -24,9 +26,17 @@ class Avatar extends PureComponent {
   }
 
   render() {
-    const { className, src, onClick, classes, children } = this.props
+    const { className, src, type, onClick, classes, children } = this.props
     let { style } = this.props
     if (src) style = { ...style, backgroundImage: `url(${src})` }
+
+    if (type === 'image') {
+      return (
+        <div className={`${classes.avatar} ${className}`} style={style}>
+          {children}
+        </div>
+      )
+    }
 
     return (
       <button
@@ -39,7 +49,6 @@ class Avatar extends PureComponent {
     )
   }
 }
-
 export default injectSheet({
   avatar: {
     display: 'block',

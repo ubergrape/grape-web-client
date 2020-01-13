@@ -1,6 +1,6 @@
 import request from 'superagent'
 
-import { toCamel } from '../../convertCase'
+import { toCamel } from '../../convert-case'
 import conf from '../../../conf'
 
 export const loadConfig = ({ serviceUrl, authToken }) =>

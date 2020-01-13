@@ -35,7 +35,7 @@ const messagePropType = PropTypes.shape({
   author: PropTypes.shape({
     id: idPropType.isRequired,
   }).isRequired,
-  time: PropTypes.instanceOf(Date).isRequired,
+  time: PropTypes.string.isRequired,
   text: PropTypes.string,
 })
 
@@ -47,7 +47,6 @@ class Row extends PureComponent {
       role: PropTypes.number.isRequired,
       id: idPropType.isRequired,
     }).isRequired,
-    channel: PropTypes.object.isRequired,
     message: messagePropType.isRequired,
     prevMessage: messagePropType,
     onEdit: PropTypes.func.isRequired,
@@ -111,7 +110,7 @@ class Row extends PureComponent {
 
     // eslint-disable-next-line no-alert
     if (window.confirm(formatMessage(messages.confirm))) {
-      onRemove([...duplicates, message.id].map(id => ({ id })))
+      onRemove([...duplicates, message].map(({ state, id }) => ({ state, id })))
     }
   }
 
@@ -148,11 +147,13 @@ class Row extends PureComponent {
       colors,
       permissions,
       onRemoveLinkAttachment,
-      channel,
     } = this.props
 
     let separator = null
-    if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
+    if (
+      !prevMessage ||
+      (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day'))
+    ) {
       separator = (
         <DateSeparator
           theme={{ date: classes.separator }}
@@ -168,7 +169,6 @@ class Row extends PureComponent {
       key: `row-${message.id}`,
       colors,
       user,
-      channel,
       onPin,
       onUnpin,
       onOpenPm,

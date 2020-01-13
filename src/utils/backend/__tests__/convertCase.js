@@ -1,6 +1,6 @@
-import { toCamel, toSnake } from '../../convertCase'
+import { toCamel, toSnake } from '../../convert-case'
 
-describe('convertCase', () => {
+describe('convert-case', () => {
   describe('toSnake', () => {
     it('should convert flat object', () => {
       expect(toSnake({ aA: 1 })).toEqual({ a_a: 1 })

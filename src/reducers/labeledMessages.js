@@ -57,13 +57,12 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.SET_CHANNEL: {
-      if (state.channel && payload.channel.id === state.channel.id) {
+      if (payload.currentChannel.id === payload.channel.id) {
         return state
       }
 
       const newState = {
         ...state,
-        channel: payload.channel,
       }
 
       if (state.options.currentChannelOnly.status) {

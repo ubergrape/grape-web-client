@@ -5,17 +5,18 @@ export default ({ classes, onResend }) => (
   <div className={classes.row}>
     <div className={classes.avatarColumn} />
     <div className={classes.unsentWarning}>
-      {' '}
-      <FormattedMessage
-        id="messageNotSendCheckConnection"
-        defaultMessage="This message didn't send. Check your internet connection and"
-      />{' '}
-      <button onClick={onResend}>
+      <span className={classes.unsentText}>
+        <FormattedMessage
+          id="messageNotSendCheckConnection"
+          defaultMessage="This message didn't send. Check your internet connection and"
+        />
+      </span>
+      <button className={classes.unsentButton} onClick={onResend}>
         <FormattedMessage
           id="clickToTryAgain"
           defaultMessage="click to try again"
         />
-      </button>.
+      </button>
     </div>
   </div>
 )

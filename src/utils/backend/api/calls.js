@@ -10,16 +10,6 @@ export const cancelCall = args =>
     { camelize: true },
   )
 
-export const joinCall = args =>
-  rpc(
-    {
-      ns: 'calls',
-      action: 'join',
-      args: [args],
-    },
-    { camelize: true },
-  )
-
 export const hangUp = args =>
   rpc(
     {

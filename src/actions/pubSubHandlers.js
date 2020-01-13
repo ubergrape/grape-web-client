@@ -1,28 +1,29 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
-import findIndex from 'lodash/findIndex'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import { typingThrottlingDelay } from '../constants/delays'
 import {
   orgSelector,
-  usersSelector,
+  pmsSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector,
+  roomsSelector,
   channelsSelector,
+  sidebarSelector,
   joinedChannelsSelector,
   incomingCallSelector,
 } from '../selectors'
 import { normalizeMessage, countMentions, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewChannel,
   endSound,
   goToLastUsedChannel,
   showSidebar,
@@ -32,14 +33,17 @@ import {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = joinedRoomsSelector(state)
+  const rooms = roomsSelector(state)
+  const channel = channelSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
 
   if (nMessage.attachments.length && currentChannel.id === nMessage.id)
     dispatch(addSharedFiles(nMessage))
+
   if (mentionsCount) dispatch(addMention(nMessage))
+
   dispatch({
     type: types.UPDATE_CHANNEL_STATS,
     payload: {
@@ -54,74 +58,68 @@ const addNewMessage = message => (dispatch, getState) => {
     payload: {
       message: nMessage,
       currentUserId: user.id,
+      currentChannelId: channel.id,
     },
   })
 }
 
-export const handleNewMessage = message => (dispatch, getState) => {
-  const state = getState()
-  const channels = channelSelector(state)
-  const user = userSelector(state)
-  // This is a special case for activity messages. These are special messages and the only
-  // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
-  // which would result in the undesired API call open_pm.
-  if (message.type) {
-    dispatch(addNewMessage(message))
-    return
-  }
-  if (
-    message.author.id === user.id ||
-    findIndex(channels, { id: message.author.id }) !== -1
-  ) {
-    dispatch(addNewMessage(message))
-    return
+export const handleNewMessage = data => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const { channel: channelId, channelData: channel, ...rest } = data
+
+  const message = {
+    channelId,
+    channel,
+    ...rest,
   }
 
-  dispatch(addNewChannel(message.channel)).then(() => {
-    dispatch(addNewMessage(message))
-  })
+  if (!find(channels, { id: channelId })) {
+    dispatch(addChannel(channel))
+  }
+
+  dispatch(addNewMessage(message))
 }
 
 export const handleNewSystemMessage = message => dispatch => {
-  const { channelId, messageId } = message
+  const { channelId, messageId, channelData, channel } = message
   api.getMessage(channelId, messageId).then(res => {
-    dispatch(handleNewMessage(res))
+    dispatch(
+      handleNewMessage({
+        channel,
+        channelData,
+        ...res,
+      }),
+    )
   })
 }
 
-export function handleRemovedMessage({ id, channel }) {
-  return dispatch => {
-    dispatch(removeSharedFiles(id))
-    dispatch(removeMention(id))
-    dispatch({
-      type: types.REMOVE_MESSAGE,
-      payload: id,
-    })
-    // setTimeout should be there because of backend updating issues.
-    // It can be removed if GRAPE-15530 issue resolved.
-    setTimeout(() => {
-      api.getChannel(channel).then(res => {
-        const {
-          unread,
-          lastMessage: { time },
-        } = res
-        dispatch({
-          type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-          payload: {
-            id: channel,
-            unread,
-            time,
-          },
-        })
+export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
+  const { id: channelId } = channelData
+
+  dispatch(removeSharedFiles(id))
+  dispatch(removeMention(id))
+  dispatch({
+    type: types.REMOVE_MESSAGE,
+    payload: id,
+  })
+
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      dispatch({
+        type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: {
+          ...channel,
+        },
       })
-    }, 1000)
-  }
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function handleReadChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
 
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
@@ -129,6 +127,7 @@ export function handleReadChannel({ user: userId, channel: channelId }) {
         isCurrentUser: userId === user.id,
         userId,
         channelId,
+        currentChannelId,
       },
     })
   }
@@ -157,34 +156,37 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export function handleNewChannel({ channel }) {
-  return addChannel(channel)
+export const handleNewChannel = ({ channel }) => dispatch => {
+  dispatch(addChannel(channel))
 }
 
-const addUserToChannel = payload => dispatch => {
+export const handleJoinedChannel = ({
+  channel: channelId,
+  channelData: channel,
+  userData: user,
+}) => (dispatch, getState) => {
+  const { id } = userSelector(getState())
+  const channels = channelsSelector(getState())
+
+  if (!channel) return
+
+  if (!find(channels, { id: channelId })) {
+    dispatch(
+      addChannel({
+        ...channel,
+        temporaryInNavigation: Date.now(),
+      }),
+    )
+  }
+
   dispatch({
     type: types.ADD_USER_TO_CHANNEL,
-    payload,
+    payload: {
+      channel,
+      user,
+      isCurrentUser: id === user.id,
+    },
   })
-}
-
-export function handleJoinedChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
-    const currentUser = userSelector(getState())
-    const channels = joinedChannelsSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-    const channel = find(channels, { id: channelId })
-
-    if (!channel) {
-      dispatch(addNewChannel(channelId))
-    }
-
-    api.getUser(orgSelector(getState()).id, userId).then(foundUser => {
-      dispatch(
-        addUserToChannel({ channelId, user: foundUser, userId, isCurrentUser }),
-      )
-    })
-  }
 }
 
 const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
@@ -201,18 +203,26 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const isCurrentUser = user.id === userId
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId },
+      payload: { channelId, userId, isCurrentUser },
     })
-    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
+
+    if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
-export const handleNotification = notification => dispatch => {
+export const handleNotification = data => (dispatch, getState) => {
+  const { id } = channelSelector(getState())
+
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload: { ...notification },
+    payload: {
+      ...data,
+      currentChannelId: id,
+    },
   })
 }
 
@@ -234,32 +244,47 @@ export function handleUpateChannel({ channel }) {
   }
 }
 
-export function handleRemoveRoom({ channel: id }) {
+export function handleRemoveRoom({ channel: channelId }) {
   return (dispatch, getState) => {
-    const { id: currentId } = channelSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
-      payload: id,
+      payload: {
+        channelId,
+        currentChannelId,
+      },
     })
-    if (id === currentId) dispatch(goTo('/chat'))
+    if (channelId === currentChannelId) dispatch(goTo('/chat'))
   }
-}
-
-const changeUserStatus = payload => dispatch => {
-  dispatch({
-    type: types.CHANGE_USER_STATUS,
-    payload,
-  })
 }
 
 export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
-  const users = usersSelector(getState())
-  const user = find(users, { partner: { id } })
-  if (user) {
-    dispatch(changeUserStatus({ status, id }))
+  const users = pmsSelector(getState())
+  const user = userSelector(getState())
+  const { show, showSubview } = sidebarSelector(getState())
+
+  if (find(users, { partner: { id } })) {
+    dispatch({
+      type: types.CHANGE_USER_STATUS,
+      payload: { status, id },
+    })
+  }
+
+  if (user.id === id) {
+    dispatch({
+      type: types.CHANGE_CURRENT_USER_STATUS,
+      payload: status,
+    })
+  }
+
+  if (show && showSubview === 'members') {
+    dispatch({
+      type: types.CHANGE_SIDEBAR_USER_STATUS,
+      payload: { status, id },
+    })
   }
 }
 
@@ -280,8 +305,33 @@ export function handleFavoriteChange({ changed }) {
   }
 }
 
+export const handleTypingNotification = ({
+  user: userId,
+  userData: { displayName, id },
+  channel: channelId,
+  typing,
+}) => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  // Its a notification from current user.
+  // We call that action directly from subscription sometimes.
+  if (userId === user.id || !typing) return
+
+  dispatch({
+    type: types.HANDLE_USER_TYPING,
+    payload: {
+      channelId,
+      user: {
+        id,
+        displayName,
+        expires: Date.now() + typingThrottlingDelay,
+      },
+    },
+  })
+}
+
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { authorId } = payload
+  const { time, channel, author, event } = payload
   const currUser = userSelector(getState())
 
   dispatch({
@@ -296,12 +346,11 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
     payload,
   })
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch({
       type: types.SHOW_INCOMING_CALL,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'incoming',
       channel,
@@ -315,14 +364,14 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
-  const { authorId, callId } = payload
-  const { incoming } = incomingCallSelector(getState())
+  const { author, call, time, channel, event } = payload
+  const { data } = incomingCallSelector(getState())
 
-  if (incoming.callId !== callId) return
+  if (data.call.id !== call.id) return
 
   const currUser = userSelector(getState())
 
-  if (currUser.id !== authorId) {
+  if (currUser.id !== author.id) {
     dispatch(endSound())
     dispatch({
       type: types.CLOSE_INCOMING_CALL,
@@ -331,7 +380,6 @@ export const handleMissedCall = payload => (dispatch, getState) => {
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
 
-    const { time, channel, author, event } = payload
     const notification = {
       dispatcher: 'missed',
       channel,
@@ -345,37 +393,54 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { callId } = payload
-
-  if (incoming.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
-  dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
-  })
-  dispatch({
-    type: types.CLOSE_CALL_STATUS,
-  })
-}
-
-export const handleJoinedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { authorId, channelId, callId } = payload
-
-  if (incoming.callId !== callId) return
-
-  dispatch(endSound())
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
+  const { data } = incomingCallSelector(getState())
+  const { author, channel, call } = payload
 
   const user = userSelector(getState())
 
-  if (user.id !== authorId) {
+  if (
+    (channel.type === 'pm' && data.call.id === call.id) ||
+    (channel.type === 'room' && user.id === author.id)
+  ) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+    dispatch({
+      type: types.CLOSE_CALL_STATUS,
+    })
+  }
+}
+
+export const handleJoinedCall = payload => (dispatch, getState) => {
+  const { data } = incomingCallSelector(getState())
+  const { author, call, channel } = payload
+
+  if (channel.type === 'pm' && data.call.id !== call.id) return
+
+  const user = userSelector(getState())
+
+  if (user.id === author.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+  }
+
+  if (channel.type === 'room') {
+    if (user.id === author.id) {
+      dispatch({
+        type: types.HANDLE_JOINED_CALL,
+        payload,
+      })
+    }
+    return
+  }
+
+  if (user.id !== author.id) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload,
@@ -384,35 +449,77 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 
   const channels = channelsSelector(getState())
-  const channel = find(channels, { id: channelId })
-  const users = usersSelector(getState())
+  const { partner } = find(channels, { id: channel.id })
 
-  const callerId = channel.users.filter(id => id !== user.id)
-  const caller = find(users, { partner: { id: callerId[0] } })
-
-  if (caller) {
+  if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload: {
         ...payload,
-        authorDisplayName: caller.partner.displayName,
-        authorAvatarUrl: caller.partner.avatar,
+        author: {
+          avatar: partner.avatar,
+          displayName: partner.displayName,
+          id: partner.id,
+        },
       },
     })
   }
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
-  const { incoming } = incomingCallSelector(getState())
-  const { callId } = payload
+  const { data } = incomingCallSelector(getState())
+  const { call } = payload
 
-  if (incoming.callId !== callId) return
+  if (data.call.id === call.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+    dispatch({
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+  }
+}
 
-  dispatch(endSound())
+export const handleStartedCall = data => (dispatch, getState) => {
+  const user = userSelector(getState())
+  const { author, channel, call } = data
+
+  if (user.id === author.id) {
+    dispatch({
+      type: types.HANDLE_JOINED_CALL,
+      payload: data,
+    })
+  }
+
   dispatch({
-    type: types.CLOSE_INCOMING_CALL,
+    type: types.ADD_CALL,
+    payload: {
+      channel,
+      call,
+    },
   })
+}
+
+export const handleFinishedCall = data => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const {
+    call,
+    channel: { id },
+  } = data
+
+  const channel = find(channels, { id })
+
+  if (!channel) return
+
+  if (channel.calls[0].id === call.id) {
+    dispatch({
+      type: types.CLOSE_CALL_STATUS,
+    })
+  }
+
   dispatch({
-    type: types.CLEAR_INCOMING_CALL_DATA,
+    type: types.REMOVE_CALL,
+    payload: id,
   })
 }

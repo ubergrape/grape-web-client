@@ -32,7 +32,7 @@ const toggleMenuDropdown = state => ({
 class RegularMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date),
+    time: PropTypes.string.isRequired,
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
     children: PropTypes.string,
@@ -71,6 +71,7 @@ class RegularMessage extends PureComponent {
     channelId: PropTypes.number,
     text: PropTypes.string,
     tag: PropTypes.string,
+    docType: PropTypes.string,
     action: PropTypes.string,
     isAdmin: PropTypes.bool,
   }
@@ -96,13 +97,13 @@ class RegularMessage extends PureComponent {
     onCopyLink: noop,
     onQuote: noop,
     onRemoveLinkAttachment: noop,
-    time: new Date(),
     userTime: new Date().toISOString(),
     user: {},
     state: undefined,
     nlp: undefined,
     text: '',
     tag: '',
+    docType: '',
     action: '',
     isAdmin: false,
   }
@@ -190,13 +191,14 @@ class RegularMessage extends PureComponent {
       nlp,
       text,
       tag,
+      docType,
       action,
       isAdmin,
     } = this.props
 
     const { isMenuOpened, isMenuDropdownOpened } = this.state
 
-    const Bubble = getBubble({ isSelected, isPinned, isOwn })
+    const Bubble = getBubble({ isSelected, isPinned, isOwn, state })
     const onOpenPm = canPm(this.props) ? this.onOpenPm : undefined
     const statusIcon = iconTagMap[tag]
 
@@ -228,8 +230,7 @@ class RegularMessage extends PureComponent {
                 ref={this.onRefContent}
                 className={cn(
                   classes.content,
-                  (state === 'pending' || state === 'unsent') &&
-                    classes.disabled,
+                  state === 'pending' && classes.disabled,
                 )}
               >
                 {tag && <div className={classes.actionText}>{action}</div>}
@@ -240,13 +241,14 @@ class RegularMessage extends PureComponent {
                   I can't do this because lack of time from another clients developers. And they're already
                   imlemented solution with those field names.
                 */}
-                {tag ? (
+                {docType === 'system' && tag ? (
                   <div className={classes.action}>
                     <div className={classes.iconWrapper}>
                       <Icon className={classes[statusIcon]} name={statusIcon} />
                     </div>
                     {children && (
                       <Grapedown
+                        tag={tag}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}
@@ -257,6 +259,7 @@ class RegularMessage extends PureComponent {
                   <div>
                     {children && (
                       <Grapedown
+                        tag={tag}
                         text={children}
                         user={user}
                         customEmojis={customEmojis}

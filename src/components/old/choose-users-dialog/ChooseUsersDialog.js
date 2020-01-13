@@ -11,7 +11,6 @@ import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/noop'
 
 import { styles } from './theme'
-import { getFilteredUsers } from './utils'
 
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
@@ -62,6 +61,7 @@ class ChooseUsersDialog extends PureComponent {
     onRemoveSelectedUser: PropTypes.func.isRequired,
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
     onClickList: PropTypes.func,
     onClickFocusReset: PropTypes.func,
     goTo: PropTypes.func,
@@ -165,7 +165,7 @@ class ChooseUsersDialog extends PureComponent {
             listClassName={classes.list}
             isFilterFocused={isFilterFocused}
             filter={filter}
-            items={getFilteredUsers(this.props)}
+            items={this.props.users}
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
             onClick={onClickList}

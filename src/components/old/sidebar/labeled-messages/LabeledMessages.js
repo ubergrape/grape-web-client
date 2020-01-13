@@ -37,7 +37,7 @@ class LabeledMessages extends PureComponent {
     onSelectFilter: PropTypes.func,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
-        time: PropTypes.instanceOf(Date).isRequired,
+        time: PropTypes.string.isRequired,
       }),
     ),
     user: PropTypes.object,

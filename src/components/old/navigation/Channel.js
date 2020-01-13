@@ -10,11 +10,11 @@ import Roomname from '../avatar-name/Roomname'
 const maxUnread = 99
 
 function Unread(props) {
-  const { type, unread, mentioned } = props.channel
+  const { type, unread, mentions } = props.channel
   if (!unread) return null
 
   const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
-  const mention = type === 'room' && mentioned ? '@' : ''
+  const mention = type === 'room' && mentions ? '@' : ''
   const { classes } = props.theme
 
   let className = `${classes.sign} `

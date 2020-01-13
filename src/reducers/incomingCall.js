@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 
 export const initialState = {
   show: false,
-  incoming: {},
+  data: {},
 }
 
 export default (state = initialState, action) => {
@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     case types.HANDLE_INCOMING_CALL:
       return {
         ...state,
-        incoming: payload,
+        data: payload,
       }
     case types.SHOW_INCOMING_CALL:
       return {
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
     case types.CLEAR_INCOMING_CALL_DATA:
       return {
         ...state,
-        incoming: {},
+        data: {},
       }
     default:
       return state

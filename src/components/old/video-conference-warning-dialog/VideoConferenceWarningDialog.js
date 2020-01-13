@@ -23,14 +23,14 @@ const messages = defineMessages({
 class VideoConferenceWarningDialog extends PureComponent {
   static propTypes = {
     onHide: PropTypes.func.isRequired,
-    videoconferenceUrl: PropTypes.string,
+    grapecallUrl: PropTypes.string,
     intl: intlShape.isRequired,
     show: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    videoconferenceUrl: '',
+    grapecallUrl: '',
   }
 
   onHide = () => {
@@ -41,10 +41,10 @@ class VideoConferenceWarningDialog extends PureComponent {
     const {
       intl: { formatMessage },
       sheet: { classes },
-      videoconferenceUrl,
+      grapecallUrl,
     } = this.props
 
-    if (!videoconferenceUrl) return null
+    if (!grapecallUrl) return null
 
     return (
       <Dialog
@@ -72,10 +72,7 @@ class VideoConferenceWarningDialog extends PureComponent {
           </span>
           <div className={classes.wrapper}>
             <a
-              href={`chatgrape://${videoconferenceUrl.replace(
-                /(^\w+:|^)\/\//,
-                '',
-              )}`}
+              href={`chatgrape://${grapecallUrl.replace(/(^\w+:|^)\/\//, '')}`}
               className={classes.link}
             >
               <span className={classes.icon} />

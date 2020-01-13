@@ -9,8 +9,8 @@ import Time from './Time'
 class Header extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    time: PropTypes.string.isRequired,
     theme: PropTypes.object,
-    time: PropTypes.instanceOf(Date),
     onClickAuthor: PropTypes.func,
     userTime: PropTypes.string,
     author: PropTypes.string,
@@ -27,7 +27,6 @@ class Header extends PureComponent {
     },
     children: null,
     onClickAuthor: null,
-    time: null,
     userTime: null,
     author: null,
   }
@@ -46,7 +45,9 @@ class Header extends PureComponent {
 
     const { classes } = sheet
     return (
-      <header className={cn(classes.header, theme.classes.header, className)}>
+      <header
+        className={cn(classes.header, theme && theme.classes.header, className)}
+      >
         <Author
           onClick={onClickAuthor}
           author={author}

@@ -10,9 +10,7 @@ import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 const dotAnimation = `dot-${random(1000000)}`
 
 const getText = (users, max) => {
-  if (!users.length) return null
-
-  const names = users.map(user => user.name)
+  const names = users.map(user => user.displayName)
 
   if (names.length === 1) {
     return (

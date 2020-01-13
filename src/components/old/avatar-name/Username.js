@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import { white } from 'grape-theme/dist/base-colors'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -62,6 +62,7 @@ class Username extends PureComponent {
       >
         <Avatar
           src={avatar}
+          type="image"
           className={cn(classes.avatar, theme.classes.avatar)}
         >
           {status && (

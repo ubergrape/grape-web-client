@@ -12,7 +12,7 @@ import Message from './Message'
 
 const messagePropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  time: PropTypes.instanceOf(Date).isRequired,
+  time: PropTypes.string.isRequired,
 })
 
 const RefreshButton = ({ className, amount, onClick }) => (

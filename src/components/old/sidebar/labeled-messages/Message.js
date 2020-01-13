@@ -27,7 +27,7 @@ class Message extends PureComponent {
       author: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }),
-      time: PropTypes.instanceOf(Date).isRequired,
+      time: PropTypes.string.isRequired,
       channel: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }).isRequired,

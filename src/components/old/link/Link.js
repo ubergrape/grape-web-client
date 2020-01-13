@@ -12,8 +12,13 @@ import styles from './theme'
 class Link extends PureComponent {
   static propTypes = {
     href: PropTypes.string.isRequired,
+    tag: PropTypes.string,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    tag: '',
   }
 
   onClick = () => {
@@ -32,12 +37,12 @@ class Link extends PureComponent {
   }
 
   render() {
-    const { href, children, classes } = this.props
+    const { href, children, tag, classes } = this.props
 
     // In Electron calls should be opened in a second window.
     // In a Browser it should be opened as a new tab.
     if (isCallUrl(href)) {
-      if (isElectron) {
+      if (isElectron && tag !== 'calling') {
         return (
           <button className={classes.externalLink} onClick={this.onClick}>
             {children}

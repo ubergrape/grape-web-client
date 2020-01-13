@@ -99,7 +99,7 @@ function Items(props) {
     channel,
     user,
     colors,
-    orgFeatures,
+    features,
     showVideoConferenceWarning,
     showToastNotification,
   } = props
@@ -126,7 +126,7 @@ function Items(props) {
           />
         )}
       </li>
-      {orgFeatures && orgFeatures.videoconference && (
+      {features && features.videoconference && (
         <li className={classes.videoConference}>
           <VideoConferenceButton
             channel={channel}
@@ -199,7 +199,7 @@ Items.propTypes = {
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
   showToastNotification: PropTypes.func.isRequired,
-  orgFeatures: PropTypes.object,
+  features: PropTypes.object,
 }
 
 Items.defaultProps = {
@@ -207,7 +207,7 @@ Items.defaultProps = {
   mentions: 0,
   sidebar: undefined,
   colors: {},
-  orgFeatures: undefined,
+  features: undefined,
 }
 
 export default injectSheet(styles)(Items)

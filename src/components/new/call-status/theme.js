@@ -1,3 +1,5 @@
+import has from 'lodash/has'
+import { white } from 'grape-theme/dist/base-colors'
 import { zIndex } from '../../../utils/z-index'
 
 export default () => ({
@@ -6,6 +8,7 @@ export default () => ({
     padding: 10,
     width: '100%',
     height: '100%',
+    pointerEvents: 'none',
   },
   window: {
     width: 360,
@@ -33,7 +36,23 @@ export default () => ({
     width: 64,
     borderRadius: '50%',
   },
-  iconWrapper: {
+  channelIconWrapper: {
+    backgroundColor: ({ callStatus }) =>
+      has(callStatus, 'data.channel.color')
+        ? callStatus.data.channel.color
+        : null,
+    cursor: 'move',
+    color: white,
+    height: 64,
+    width: 64,
+    borderRadius: '50%',
+  },
+  channelIcon: {
+    isolate: false,
+    width: '100%',
+    height: '100%',
+  },
+  cameraIconWrapper: {
     cursor: 'move',
     display: 'flex',
     alignItems: 'center',

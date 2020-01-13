@@ -4,7 +4,6 @@ import each from 'lodash/each'
 import intersection from 'lodash/intersection'
 import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
-import omit from 'lodash/omit'
 
 import camelCase from 'lodash/camelCase'
 import staticUrl from '../utils/static-url'
@@ -12,16 +11,6 @@ import { defaultAvatar, invitedAvatar } from '../constants/images'
 import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
 import { channelsSelector } from '../selectors'
 import conf from '../conf'
-
-/**
- * Fix data inconsistencies at the backend.
- * There are some PM's with only one participant.
- */
-export function removeBrokenPms(channel) {
-  const { type, users } = channel
-  if (type === 'pm' && users.length !== 2) return false
-  return true
-}
 
 /**
  * Checks if the channel where message has been posted exists.
@@ -33,8 +22,6 @@ export function doesMessageChannelExist(msg, state) {
   return Boolean(channel)
 }
 
-const removeNullValues = channel => omit(channel, value => value === null)
-
 export function pinToFavorite(channel) {
   const { pin } = channel
   const newChannel = {
@@ -45,58 +32,29 @@ export function pinToFavorite(channel) {
   return newChannel
 }
 
-/**
- * Convert `users` objects array at the `channel` object
- * to the array of users ids only.
- * If array item hasn't the `id` property
- * we're assuming it is id itself.
- *
- * TODO: remove this function when we
- * will get data only from backend and
- * not from old frontend architecture
- */
-export function reduceChannelUsersToId(channel) {
-  let { creator } = channel
-  if (creator && typeof creator === 'object') {
-    creator = creator.id
-  }
-  let { history } = channel
-  if (history && typeof history === 'object') {
-    history = channel.history.map(h => (h.id ? h.id : h))
-  }
+const lastMessageToLastMessageTime = channel => {
+  const { lastMessage } = channel
 
-  let { users } = channel
-  if (users && typeof users === 'object') {
-    users = users.filter(u => Boolean(u)).map(u => (u.id ? u.id : u))
-  }
-
-  return {
+  const newChannel = {
     ...channel,
-    creator,
-    history,
-    users,
+    lastMessageTime: lastMessage ? lastMessage.time : null,
   }
+
+  delete newChannel.lastMessage
+  return newChannel
 }
 
-const setJoined = (channel, userId) => ({
-  ...channel,
-  joined: channel.users.indexOf(userId) !== -1,
-})
-
-export function normalizeChannelData(channel, userId) {
-  const normalized = removeNullValues(
-    pinToFavorite(reduceChannelUsersToId(channel)),
-  )
-  if (userId) return setJoined(normalized, userId)
+export function normalizeChannelData(channel) {
+  const normalized = lastMessageToLastMessageTime(pinToFavorite(channel))
   return normalized
 }
 
 export function normalizeUserData(user, organizations) {
-  const normalized = removeNullValues({
+  const normalized = {
     isActive: true,
     ...user,
     avatar: user.isOnlyInvited ? invitedAvatar : user.avatar || defaultAvatar,
-  })
+  }
 
   if (Array.isArray(organizations)) {
     normalized.role = find(organizations, { id: conf.organization.id }).role
@@ -130,10 +88,9 @@ export const normalizeMessage = (() => {
   }
 
   function normalizeAttachment(attachment) {
-    const { id, mimeType, name, thumbnailUrl, url, category } = attachment
+    const { id, mimeType, name, thumbnailUrl, url, category, time } = attachment
     const thumbnailHeight = Number(attachment.thumbnailHeight)
     const thumbnailWidth = Number(attachment.thumbnailWidth)
-    const time = new Date(attachment.time)
     const sourceName = attachment.source
     const type = sourceName ? 'remoteFile' : 'uploadedFile'
 
@@ -175,8 +132,8 @@ export const normalizeMessage = (() => {
       state: msgState,
       docType,
     } = msg
-    const time = msg.time ? new Date(msg.time) : new Date()
-    const userTime = msg.userTime || time.toISOString()
+    const time = msg.time || new Date().toISOString()
+    const userTime = msg.userTime || time
     const type = 'regular'
     const avatar = msg.author.avatar || msg.avatar || defaultAvatar
     const tag = camelCase(msg.tag)
@@ -226,9 +183,9 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const { id, channel: channelId } = msg
+    const { id } = msg
     const type = 'activity'
-    const time = new Date(msg.time)
+    const time = msg.time || new Date().toISOString()
     const author = {
       id: msg.author.id,
       name: msg.author.username,
@@ -265,6 +222,8 @@ export const normalizeMessage = (() => {
       0,
       maxLinkAttachments,
     )
+    const channelId = msg.channelId || msg.channel
+
     const channel = find(channels, { id: channelId })
     const link = createLinkToMessage(channel, id)
 
@@ -328,9 +287,7 @@ export function roomNameFromUsers(users) {
     .slice(0, maxChannelNameLength - 1)
 }
 
-export const findLastUsedChannel = (channels, withMessage) =>
+export const findLastUsedChannel = channels =>
   channels
-    .filter(channel =>
-      withMessage ? channel.joined && channel.firstMessageTime : channel.joined,
-    )
-    .sort((a, b) => b.latestMessageTime - a.latestMessageTime)[0]
+    .filter(channel => channel.lastMessageTime)
+    .sort((a, b) => b.lastMessageTime - a.lastMessageTime)[0]

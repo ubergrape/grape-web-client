@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 export const initialState = {
   show: false,
   timer: 0,
-  call: {},
+  data: {},
 }
 
 export default (state = initialState, action) => {
@@ -13,15 +13,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         show: true,
-        timer: Math.floor((Date.now() - Date.parse(payload.startedAt)) / 1000),
-        call: payload,
+        timer: Math.floor(
+          (Date.now() - Date.parse(payload.call.started)) / 1000,
+        ),
+        data: payload,
       }
     case types.CLOSE_CALL_STATUS:
       return {
         ...state,
         show: false,
         timer: 0,
-        call: {},
+        data: {},
       }
     case types.UPDATE_CALL_STATUS_TIMER:
       return {
