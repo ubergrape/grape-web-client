@@ -20,7 +20,6 @@ class CreateNewGroup extends Component {
     classes: PropTypes.object.isRequired,
     isPublic: PropTypes.bool,
     isFocused: PropTypes.bool,
-    isLoaded: PropTypes.bool.isRequired,
     name: PropTypes.string,
     color: PropTypes.number,
     description: PropTypes.string,
@@ -114,7 +113,6 @@ class CreateNewGroup extends Component {
       color,
       description,
       isPublic,
-      isLoaded,
       isFocused,
       filter,
       users,
@@ -264,54 +262,52 @@ class CreateNewGroup extends Component {
                     </span>
                   )}
                 </div>
-                {isLoaded && (
-                  <div className={classes.list}>
-                    <InfiniteAutoRowHeightList
-                      rowHeight={() => 32}
-                      loadMoreRows={() => {
-                        this.props.onSearchUsers()
-                      }}
-                      isRowLoaded={this.isRowLoaded}
-                      list={users}
-                      rowCount={Infinity}
-                      minimumBatchSize={50}
-                      width={680}
-                      threshold={30}
-                      rowRenderer={(index, key, style) => (
-                        <RowRenderer
-                          list={users}
-                          index={index}
-                          checked={users[index].checked}
-                          key={key}
-                          style={style}
-                          onClickCheckedStatus={onClickCheckedStatus}
-                        />
-                      )}
-                      noRowsRenderer={() => <NoRowsRenderer filter={filter} />}
-                    />
-                  </div>
-                )}
+                <div className={classes.list}>
+                  <InfiniteAutoRowHeightList
+                    rowHeight={() => 32}
+                    loadMoreRows={() => {
+                      this.props.onSearchUsers()
+                    }}
+                    isRowLoaded={this.isRowLoaded}
+                    list={users}
+                    rowCount={Infinity}
+                    minimumBatchSize={50}
+                    width={680}
+                    threshold={30}
+                    rowRenderer={(index, key, style) => (
+                      <RowRenderer
+                        list={users}
+                        index={index}
+                        checked={users[index].checked}
+                        key={key}
+                        style={style}
+                        onClickCheckedStatus={onClickCheckedStatus}
+                      />
+                    )}
+                    noRowsRenderer={() => <NoRowsRenderer filter={filter} />}
+                  />
+                </div>
               </div>
             )}
           </div>
-          <div className={classes.buttons}>
-            <Button
-              type="primary"
-              styleType="standart"
-              styles={{ margin: '0 4px' }}
-              onClick={this.onCreateRoom}
-            >
-              Create Group
-            </Button>
-            <Button
-              type="basic"
-              styleType="minimal"
-              styles={{ margin: '0 4px' }}
-              onClick={this.onCancel}
-            >
-              Cancel
-            </Button>
-          </div>
+        </div>
+        <div className={classes.buttons}>
+          <Button
+            type="basic"
+            styleType="minimal"
+            styles={{ margin: '0 4px' }}
+            onClick={this.onCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="primary"
+            styleType="standart"
+            styles={{ margin: '0 4px' }}
+            onClick={this.onCreateRoom}
+          >
+            Create Group
+          </Button>
         </div>
       </div>
     )

@@ -6,15 +6,15 @@ import getStore from '../../app/store'
 import { navigationSelector as selector } from '../../selectors'
 import Navigation from '../../components/old/navigation/Navigation'
 
-const actionNames = [
-  'onShowNewConversation',
-  'goToChannel',
-  'openPm',
-  'openChannel',
-  'loadOlderChannels',
-  'joinChannel',
-  'searchChannelsForNavigation',
-]
+const actionNames = {
+  onShowNewConversation: 'onShowNewConversation',
+  goToChannel: 'goToChannel',
+  openPm: 'openPm',
+  openChannelFromNavigation: 'openChannel',
+  loadOlderChannels: 'loadOlderChannels',
+  joinChannel: 'joinChannel',
+  searchChannelsForNavigation: 'searchChannelsForNavigation',
+}
 
 const ConnectedNavigation = connect(
   selector,

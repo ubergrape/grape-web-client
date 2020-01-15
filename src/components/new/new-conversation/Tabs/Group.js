@@ -89,7 +89,7 @@ class Group extends Component {
               rowCount={Infinity}
               minimumBatchSize={50}
               width={680}
-              threshold={50}
+              threshold={30}
               rowRenderer={(index, key, style) => (
                 <RowRendererGroups
                   actions={actions}

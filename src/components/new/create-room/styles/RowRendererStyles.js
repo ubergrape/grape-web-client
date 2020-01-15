@@ -10,6 +10,7 @@ export default {
   },
   checkbox: {
     width: 24,
+    minWidth: 24,
     height: 24,
     borderRadius: 12,
     marginRight: 10,

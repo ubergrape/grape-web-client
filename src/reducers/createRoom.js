@@ -7,7 +7,6 @@ const initialState = {
   description: '',
   color: 0,
   isPublic: true,
-  isLoaded: true,
   isFocused: false,
   page: 1,
   users: [],
@@ -47,11 +46,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         isFocused: payload,
-      }
-    case types.REQUEST_SEARCH_CREATE_ROOM:
-      return {
-        ...state,
-        isLoaded: payload,
       }
     case types.HANDLE_USERS_SEARCH_CREATE_ROOM:
       return {

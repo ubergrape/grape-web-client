@@ -198,11 +198,7 @@ export const openChannel = (channelId, messageId) => dispatch => {
   dispatch(setChannel(channelId, messageId))
 }
 
-export const openChannelFromNavigation = channelId => (dispatch, getState) => {
-  const channel = channelSelector(getState())
-
-  if (channel.id === channelId) return
-
+export const openChannelFromNavigation = channelId => dispatch => {
   dispatch(goToChannel(channelId))
 }
 

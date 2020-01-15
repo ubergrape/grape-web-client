@@ -11,7 +11,11 @@ export default {
   },
   online: {
     extend: 'circle',
-    backgroundColor: theme.colorIconSuccess,
+    backgroundColor: theme.colorOnline,
+  },
+  reachable: {
+    extend: 'circle',
+    backgroundColor: theme.colorReachable,
   },
   private: {
     extend: 'circle',

@@ -56,11 +56,6 @@ export const onClickCheckedStatusCreateRoom = user => dispatch => {
 const normilizeUsers = users => users.map(user => ({ ...user, checked: false }))
 
 export const onSearchUsersCreateRoom = () => (dispatch, getState) => {
-  dispatch({
-    type: types.REQUEST_SEARCH_CREATE_ROOM,
-    payload: false,
-  })
-
   const { id } = orgSelector(getState())
   const { page, filter } = createRoomSelector(getState())
 
@@ -74,11 +69,6 @@ export const onSearchUsersCreateRoom = () => (dispatch, getState) => {
       dispatch({
         type: types.HANDLE_USERS_SEARCH_CREATE_ROOM,
         payload: normilizeUsers(results),
-      })
-
-      dispatch({
-        type: types.REQUEST_SEARCH_CREATE_ROOM,
-        payload: true,
       })
     })
     .catch(err => dispatch(error(err)))

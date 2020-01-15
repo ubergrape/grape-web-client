@@ -29,6 +29,14 @@ class RowRendererUsers extends Component {
     actions.openPm(id)
   }
 
+  renderLastMessageTime = timestamp => {
+    const minutes = moment(Date.now()).diff(timestamp, 'minutes')
+    if (minutes === 0) return 'less than a minute ago'
+    if (minutes < 60) return `${minutes}m`
+    if (minutes < 1440) return `${moment(Date.now()).diff(timestamp, 'hours')}h`
+    return `${moment(Date.now()).diff(timestamp, 'days')}d`
+  }
+
   render() {
     const { list, style, index, classes } = this.props
 
@@ -60,7 +68,7 @@ class RowRendererUsers extends Component {
         </div>
         {user.lastMessageTimestamp && (
           <div className={classes.time}>
-            {moment(Date.now()).diff(user.lastMessageTimestamp, 'minutes')}m
+            {this.renderLastMessageTime(user.lastMessageTimestamp)}
           </div>
         )}
       </button>

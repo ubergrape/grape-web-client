@@ -8,6 +8,10 @@ const Status = ({ status, classes }) => {
   switch (status) {
     case 16:
       return <div className={classes.online} />
+    case 8:
+      return <div className={classes.online} />
+    case 4:
+      return <div className={classes.reachable} />
     default:
       return null
   }

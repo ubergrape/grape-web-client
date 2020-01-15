@@ -79,5 +79,7 @@
   "colorIconSuccess": "#4d7a02",
   "colorIconPersonalHover": "#ed0959",
   "colorIconError": "#b20f00",
-  "colorIconInvers": "#ffffff"
+  "colorIconInvers": "#ffffff",
+  "colorOnline": "#6fa300",
+  "colorReachable": "#098dec"
 }

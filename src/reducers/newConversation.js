@@ -93,7 +93,7 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION:
       return {
         ...state,
-        groups: uniqBy([...state.users, ...payload], group =>
+        groups: uniqBy([...state.groups, ...payload], group =>
           [group.id, group.text].join(),
         ),
         page: state.page + 1,

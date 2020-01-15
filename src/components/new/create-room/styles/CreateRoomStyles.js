@@ -31,6 +31,7 @@ export default {
   },
   main: {
     overflowY: 'auto',
+    width: '100%',
     marginTop: 25,
   },
   field: {
@@ -56,7 +57,9 @@ export default {
   },
   buttons: {
     display: 'flex',
-    flexDirection: 'row-reverse',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     marginTop: 30,
   },
   hint: {
