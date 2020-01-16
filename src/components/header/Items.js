@@ -126,19 +126,18 @@ function Items(props) {
           />
         )}
       </li>
-      {features &&
-        features.videoconference && (
-          <li className={classes.videoConference}>
-            <VideoConferenceButton
-              channel={channel}
-              user={user}
-              colors={colors}
-              intl={intl}
-              showToastNotification={showToastNotification}
-              showVideoConferenceWarning={showVideoConferenceWarning}
-            />
-          </li>
-        )}
+      {features.videoconference && permissions.canStartVideoconference && (
+        <li className={classes.videoConference}>
+          <VideoConferenceButton
+            channel={channel}
+            user={user}
+            colors={colors}
+            intl={intl}
+            showToastNotification={showToastNotification}
+            showVideoConferenceWarning={showVideoConferenceWarning}
+          />
+        </li>
+      )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>
@@ -208,7 +207,7 @@ Items.defaultProps = {
   mentions: 0,
   sidebar: undefined,
   colors: {},
-  features: undefined,
+  features: {},
 }
 
 export default injectSheet(styles)(Items)
