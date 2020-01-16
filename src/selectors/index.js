@@ -574,7 +574,10 @@ export const headerSelector = createSelector(
     sidebar,
     mentions,
     partner,
-    permissions,
+    permissions: {
+      ...permissions,
+      ...channel.permissions,
+    },
     isMemberOfAnyRooms,
     colors,
     features,
@@ -631,7 +634,7 @@ export const markdownTipsSelector = createSelector(
   state => state,
 )
 
-export const isChannelDisabledSelector = createSelector(
+export const isChannelInactiveSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
     if (channel && Object.keys(channel).length)
@@ -652,7 +655,7 @@ export const footerComponentSelector = createSelector(
     channelSelector,
     orgSelector,
     historySelector,
-    isChannelDisabledSelector,
+    isChannelInactiveSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
     confSelector,
@@ -664,7 +667,7 @@ export const footerComponentSelector = createSelector(
     channel,
     org,
     history,
-    isChannelDisabled,
+    inactive,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -677,7 +680,7 @@ export const footerComponentSelector = createSelector(
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
-    disabled: isChannelDisabled,
+    disabled: inactive,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -694,10 +697,10 @@ export const toastNotificationSelector = createSelector(
 )
 
 export const fileUploadComponentSelector = createSelector(
-  [fileUploadSelector, isChannelDisabledSelector],
-  (fileUpload, disabled) => ({
+  [fileUploadSelector, isChannelInactiveSelector],
+  (fileUpload, inactive) => ({
     ...fileUpload,
-    disabled,
+    disabled: inactive,
   }),
 )
 

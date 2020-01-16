@@ -126,7 +126,7 @@ function Items(props) {
           />
         )}
       </li>
-      {features && features.videoconference && (
+      {features.videoconference && permissions.canStartVideoconference && (
         <li className={classes.videoConference}>
           <VideoConferenceButton
             channel={channel}
@@ -207,7 +207,7 @@ Items.defaultProps = {
   mentions: 0,
   sidebar: undefined,
   colors: {},
-  features: undefined,
+  features: {},
 }
 
 export default injectSheet(styles)(Items)
