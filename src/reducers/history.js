@@ -194,6 +194,7 @@ export default function reduce(state = initialState, action) {
       }
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
+
       return {
         ...state,
         // REQUEST_POST_MESSAGE is always triggered by the current user and thats

@@ -39,6 +39,7 @@ export const loadOlderChannels = () => (dispatch, getState) => {
 
   api
     .getOverview(conf.organization.id, {
+      limit: 50,
       olderThen: [lastChannel.lastMessageTime, lastChannel.id],
     })
     .then(_channels => {
