@@ -86,6 +86,7 @@ export const styles = ({ palette }) => ({
 const VideoConferenceButton = props => {
   const {
     channel,
+    inactive,
     user,
     intl: { formatMessage },
   } = props
@@ -106,11 +107,11 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (isEmpty(channel)) return null
+  if (isEmpty(channel) || inactive) return null
 
   if (
     channel.type === 'room' &&
-    channel.calls.length &&
+    !isEmpty(channel.calls) &&
     userStatusMap[user.status] === 'inCall'
   ) {
     return (
@@ -145,7 +146,7 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (channel.calls.length) {
+  if (!isEmpty(channel.calls)) {
     return (
       <Tooltip message={tooltips.joinConference}>
         <a
@@ -190,6 +191,7 @@ const VideoConferenceButton = props => {
 VideoConferenceButton.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
+  inactive: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,

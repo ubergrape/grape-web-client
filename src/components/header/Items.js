@@ -99,6 +99,7 @@ function Items(props) {
     channel,
     user,
     colors,
+    inactive,
     features,
     showVideoConferenceWarning,
     showToastNotification,
@@ -126,19 +127,19 @@ function Items(props) {
           />
         )}
       </li>
-      {features &&
-        features.videoconference && (
-          <li className={classes.videoConference}>
-            <VideoConferenceButton
-              channel={channel}
-              user={user}
-              colors={colors}
-              intl={intl}
-              showToastNotification={showToastNotification}
-              showVideoConferenceWarning={showVideoConferenceWarning}
-            />
-          </li>
-        )}
+      {features && features.videoconference && (
+        <li className={classes.videoConference}>
+          <VideoConferenceButton
+            channel={channel}
+            inactive={inactive}
+            user={user}
+            colors={colors}
+            intl={intl}
+            showToastNotification={showToastNotification}
+            showVideoConferenceWarning={showVideoConferenceWarning}
+          />
+        </li>
+      )}
       <ul className={classes.sidebarActions}>
         <Divider />
         <li className={classes.action}>
@@ -192,7 +193,9 @@ Items.propTypes = {
   colors: PropTypes.object,
   mentions: PropTypes.number,
   sidebar: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  features: PropTypes.object,
   favorite: PropTypes.object.isRequired,
+  inactive: PropTypes.bool.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired,
   permissions: PropTypes.object,
@@ -200,7 +203,6 @@ Items.propTypes = {
   requestRemoveChannelFromFavorites: PropTypes.func.isRequired,
   showVideoConferenceWarning: PropTypes.func.isRequired,
   showToastNotification: PropTypes.func.isRequired,
-  features: PropTypes.object,
 }
 
 Items.defaultProps = {
