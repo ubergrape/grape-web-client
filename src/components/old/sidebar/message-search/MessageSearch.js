@@ -164,10 +164,13 @@ class MessageSearch extends PureComponent {
       }
 
       // Render channel name.
-      if (!prevMessage || prevMessage.channel !== message.channel) {
+      const { channel } = message
+      if (!prevMessage || prevMessage.channel !== channel) {
         elements.push(
           <div className={classes.channel} key={`${message.id}-channel`}>
-            {message.channel.name}
+            {channel.type === 'room'
+              ? channel.name
+              : channel.partner.displayName}
           </div>,
         )
       }

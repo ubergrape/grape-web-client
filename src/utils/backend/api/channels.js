@@ -235,7 +235,7 @@ export const setTyping = (channelId, isTyping) =>
 
 export const getOverview = (
   orgId,
-  { limit = 200, excludePinned = true, olderThen = [] } = {},
+  { limit, excludePinned = true, olderThen = [] } = {},
 ) =>
   rpc(
     {

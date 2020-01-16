@@ -152,7 +152,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getOverview(conf.organization.id),
+    api.getOverview(conf.organization.id, { limit: 50 }),
     api.getPinnedOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.loadLabelsConfig(conf.organization.id),

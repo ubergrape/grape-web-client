@@ -59,7 +59,7 @@ class Navigation extends PureComponent {
     this.state = {
       bottomOffset: 5,
       step: 10,
-      loaded: 200,
+      loaded: 50,
       shift: 20,
       filter: '',
     }
