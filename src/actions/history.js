@@ -441,7 +441,7 @@ export function createMessage({ channelId, text, attachments = [] }) {
       .toString(36)
       .substr(7)
     const author = userSelector(state)
-    const { id: currentChannelId } = userSelector(state)
+    const { id: currentChannelId } = channelSelector(state)
 
     const message = normalizeMessage(
       {
@@ -471,7 +471,8 @@ export function createMessage({ channelId, text, attachments = [] }) {
         dispatch({
           type: types.REQUEST_POST_MESSAGE,
           payload: {
-            message,
+            ...message,
+            channelId,
             currentChannelId,
           },
         })
@@ -493,7 +494,8 @@ export function createMessage({ channelId, text, attachments = [] }) {
       dispatch({
         type: types.REQUEST_POST_MESSAGE,
         payload: {
-          message,
+          ...message,
+          channelId,
           currentChannelId,
         },
       })
