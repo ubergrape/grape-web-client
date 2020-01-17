@@ -25,7 +25,7 @@ const styles = {
 
 const Message = ({ classes }) => (
   <div className={classes.root}>
-    <Icon name="warning" className={classes.icon} />
+    <Icon name="warningTriangle" className={classes.icon} />
     <div className={classes.message}>
       <p className={classes.text}>
         <FormattedMessage
