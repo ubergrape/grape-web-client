@@ -3689,10 +3689,10 @@ grape-theme@^3.5.0:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
 
-grape-web@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.10.0.tgz#bb7a7f3edd05466f44e7b1db3c131faaf064e4bf"
-  integrity sha512-jDAR2lBGMlegGMs+SeD/kGupgHHXL5QvldwHV1bkecK3xdJD39lDNuQMPCzh/1R9fe3GeKpfFSNRfKnJBDjgHQ==
+grape-web@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.10.1.tgz#88f401bd989198f259fe048958a25a175349c0fe"
+  integrity sha512-hrLZ3Nvn3/K0wUEVf1w/+/dUixiHOD3UHzIc4BA8ZUjgQWDrRkH8BIWyVlD8S3K/UcahS8C2x02NcMj2JQE7ng==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -3707,7 +3707,7 @@ grape-web@^1.10.0:
     jss-isolate "^5.1.0"
     jss-props-sort "^6.0.0"
     jss-vendor-prefixer "^8.0.1"
-    lodash "^4.17.10"
+    lodash "^4.17.13"
     material-ui "1.0.0-beta.22"
     mdurl "^1.0.1"
     normalize-jss "^3.1.0"
@@ -5409,6 +5409,11 @@ lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4
   version "4.17.14"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
+
+lodash@^4.17.13:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 log-driver@^1.2.7:
   version "1.2.7"
