@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import { itemsToLoad } from '../constants/navigation'
 import { reopen } from '../app/client'
 import {
   appSelector,
@@ -152,7 +153,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getOverview(conf.organization.id, { limit: 50 }),
+    api.getOverview(conf.organization.id, { limit: itemsToLoad }),
     api.getPinnedOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.loadLabelsConfig(conf.organization.id),

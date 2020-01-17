@@ -15,6 +15,7 @@ import FilteredList from './FilteredList'
 import Channel from './Channel'
 import Actions from './Actions'
 import { styles } from './theme'
+import { itemsToLoad } from '../../constants/navigation'
 
 const messages = defineMessages({
   favorites: {
@@ -62,7 +63,7 @@ export default class Navigation extends PureComponent {
     this.state = {
       bottomOffset: 5,
       step: 10,
-      loaded: 50,
+      loaded: itemsToLoad,
       shift: 20,
       filter: '',
     }
@@ -117,7 +118,7 @@ export default class Navigation extends PureComponent {
 
     if (shift >= loaded) {
       this.setState({
-        loaded: loaded + loaded,
+        loaded: loaded + itemsToLoad,
       })
 
       this.props.loadOlderChannels()
