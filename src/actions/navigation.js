@@ -1,5 +1,6 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import { itemsToLoad } from '../constants/navigation'
 import { orgSelector, confSelector, channelsSelector } from '../selectors'
 import { error, setChannels } from './'
 
@@ -39,7 +40,7 @@ export const loadOlderChannels = () => (dispatch, getState) => {
 
   api
     .getOverview(conf.organization.id, {
-      limit: 50,
+      limit: itemsToLoad,
       olderThen: [lastChannel.lastMessageTime, lastChannel.id],
     })
     .then(_channels => {
