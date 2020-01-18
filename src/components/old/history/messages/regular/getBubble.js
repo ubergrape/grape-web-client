@@ -1,4 +1,5 @@
 import merge from 'lodash/merge'
+import isEmpty from 'lodash/isEmpty'
 import {
   blueLighter,
   grayBlueLighter,
@@ -57,17 +58,17 @@ const SelectedBubble = useTheme(Bubble, {
 
 export const OwnBubble = useTheme(Bubble, {
   styles: baseStyles({
-    backgroundColor:
-      (conf.organization.colors && conf.organization.colors.ownMessage) ||
-      blueLighter,
+    backgroundColor: !isEmpty(conf.organization.colors)
+      ? conf.organization.colors.ownMessage
+      : blueLighter,
   }),
 })
 
 const MateBubble = useTheme(Bubble, {
   styles: baseStyles({
-    backgroundColor:
-      (conf.organization.colors && conf.organization.colors.mateMessage) ||
-      grayBlueLighter,
+    backgroundColor: !isEmpty(conf.organization.colors)
+      ? conf.organization.colors.mateMessage
+      : grayBlueLighter,
   }),
 })
 

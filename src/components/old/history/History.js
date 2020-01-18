@@ -4,6 +4,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import injectSheet from 'grape-web/lib/jss'
+import has from 'lodash/has'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
@@ -133,7 +134,7 @@ class History extends Component {
       this.props.onUserScrollAfterScrollTo()
     }
 
-    if (this.isInitialLoading && conf.callbacks && conf.callbacks.onRender) {
+    if (this.isInitialLoading && has(conf, 'callbacks.onRender')) {
       this.isInitialLoading = false
       conf.callbacks.onRender()
     }

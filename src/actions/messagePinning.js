@@ -1,3 +1,5 @@
+import has from 'lodash/has'
+
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import { channelSelector, confSelector } from '../selectors'
@@ -41,7 +43,7 @@ export const pinMessage = ({ channelId, messageId }) => (
     .pinMessage(channelId, messageId)
     .then(() => {
       const conf = confSelector(getState())
-      if (conf.callbacks && conf.callbacks.onPin) conf.callbacks.onPin()
+      if (has(conf, 'callbacks.onPin')) conf.callbacks.onPin()
     })
     .catch(err => dispatch(error(err)))
 }
@@ -58,7 +60,7 @@ export const unpinMessage = ({ channelId, messageId }) => (
     .unpinMessage(channelId, messageId)
     .then(() => {
       const conf = confSelector(getState())
-      if (conf.callbacks && conf.callbacks.onUnpin) conf.callbacks.onUnpin()
+      if (has(conf, 'callbacks.onUnpin')) conf.callbacks.onUnpin()
     })
     .catch(err => dispatch(error(err)))
 }
