@@ -260,5 +260,10 @@ export default {
   "downloadGrape": "{download}, falls Sie die App noch nicht installiert haben.",
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
   "altenativeBrowser": "Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden.",
-  "groupIncomingDescription": "{name} hat sie zum Gruppenanruf eingeladen"
+  "groupIncomingDescription": "{name} hat sie zum Gruppenanruf eingeladen",
+  "leaveGroupDialogTitle": "Private Gruppe verlassen",
+  "leaveGroupDialogMessage": "Sind Sie sicher, dass Sie die private Gruppe {channel} verlassen möchten? Sie können der Gruppe {wontAbleToRejoin}, solange Sie nicht neu eingeladen werden.",
+  "wontAbleToRejoin": "nicht wieder beitreten",
+  "leaveGroupDialogCancel": "Abbrechen",
+  "leaveGroupDialogButton": "Private Gruppe verlassen"
 }

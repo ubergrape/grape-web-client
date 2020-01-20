@@ -1,6 +1,6 @@
 import has from 'lodash/has'
 import { white } from 'grape-theme/dist/base-colors'
-import { zIndex } from '../../utils/z-index'
+import { zIndex } from '../../utils/z-index/index'
 
 export default () => ({
   windowWrapper: {

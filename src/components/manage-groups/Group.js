@@ -30,11 +30,11 @@ class Group extends PureComponent {
 
   onClick = () => {
     const {
-      group: { id },
+      group: { id, isPublic },
       onSelect,
     } = this.props
 
-    onSelect(id)
+    onSelect(id, !isPublic)
   }
 
   render() {
