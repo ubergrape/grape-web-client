@@ -9,7 +9,7 @@ import NotificationSettings from '../../components/old/notification-settings/Not
 const actionNames = {
   hideNotificationSettings: 'onHide',
   setNotificationSetting: 'onChange',
-  leaveChannel: 'onLeave',
+  onLeaveChannel: 'onLeave',
 }
 
 const ConnectedNotificationSettings = connect(

@@ -18,6 +18,8 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
+  showLeaveChannelDialog,
+  hideLeaveChannelDialog,
   setChannel,
   handleBadChannel,
 } from './'
@@ -45,8 +47,18 @@ export const leaveChannel = channelId => dispatch => {
         type: types.LEAVE_CHANNEL,
         payload: channelId,
       })
+      dispatch(hideLeaveChannelDialog())
     })
     .catch(err => dispatch(error(err)))
+}
+
+export const onLeaveChannel = (channelId, isPrivate) => dispatch => {
+  if (isPrivate) {
+    dispatch(showLeaveChannelDialog())
+    return
+  }
+
+  dispatch(leaveChannel(channelId))
 }
 
 export const kickMemberFromChannel = params => dispatch => {
@@ -151,12 +163,6 @@ export function handleRoomCreateError(message) {
   return {
     type: types.HANDLE_ROOM_CREATE_ERROR,
     payload: message,
-  }
-}
-
-export function clearRoomCreateError() {
-  return {
-    type: types.CLEAR_ROOM_CREATE_ERROR,
   }
 }
 

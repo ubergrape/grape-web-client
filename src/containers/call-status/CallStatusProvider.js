@@ -21,7 +21,7 @@ const ConnectedCallStatus = connect(
   mapActionsToProps(actionNames),
 )(CallStatus)
 
-const Wrapper = ({ classes }) => (
+const CallStatusProvider = ({ classes }) => (
   <div className={classes.wrapper}>
     <Provider store={getStore()}>
       <ConnectedCallStatus />
@@ -29,4 +29,4 @@ const Wrapper = ({ classes }) => (
   </div>
 )
 
-export default injectSheet(styles)(Wrapper)
+export default injectSheet(styles)(CallStatusProvider)

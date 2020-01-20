@@ -72,7 +72,7 @@ class RoomInfo extends PureComponent {
     setRoomIcon: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeleteDialog: PropTypes.func.isRequired,
-    leaveChannel: PropTypes.func.isRequired,
+    onLeaveChannel: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onUnpin: PropTypes.func.isRequired,
@@ -109,7 +109,8 @@ class RoomInfo extends PureComponent {
   }
 
   onLeave = () => {
-    this.props.leaveChannel(this.props.channel.id)
+    const { onLeaveChannel, channel } = this.props
+    onLeaveChannel(channel.id, !channel.isPublic)
   }
 
   onChangePrivacy = () => {

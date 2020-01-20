@@ -311,7 +311,7 @@ class NotificationSettings extends PureComponent {
 
   onLeave = () => {
     const { onLeave, onHide, channel } = this.props
-    onLeave(channel.id)
+    onLeave(channel.id, !channel.isPublic)
     onHide()
   }
 

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import style from './roomStyle'
+import roomTheme from './roomTheme'
 import Icon from '../room-icon/RoomIcon'
 
 class Roomname extends PureComponent {
@@ -89,4 +89,4 @@ class Roomname extends PureComponent {
   }
 }
 
-export default injectSheet(style)(Roomname)
+export default injectSheet(roomTheme)(Roomname)

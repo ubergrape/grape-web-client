@@ -7,7 +7,7 @@ import cn from 'classnames'
 
 import { defaultAvatar } from '../../../constants/images'
 import Avatar from '../avatar/Avatar'
-import style from './userStyle'
+import userTheme from './userTheme'
 
 const Status = ({ classes, status, borderColor }) => (
   <i
@@ -82,4 +82,4 @@ class Username extends PureComponent {
   }
 }
 
-export default injectSheet(style)(Username)
+export default injectSheet(userTheme)(Username)
