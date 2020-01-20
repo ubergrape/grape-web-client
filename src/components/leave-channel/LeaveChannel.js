@@ -51,7 +51,7 @@ class LeaveChannel extends PureComponent {
       <Dialog
         title={formatMessage(messages.title)}
         show={show}
-        width={475}
+        width={451}
         onHide={this.onHide}
       >
         <div className={classes.content}>
