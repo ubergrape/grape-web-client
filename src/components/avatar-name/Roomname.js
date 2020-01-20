@@ -3,10 +3,10 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import cn from 'classnames'
 
-import style from './roomStyle'
+import roomTheme from './roomTheme'
 import Icon from '../room-icon/RoomIcon'
 
-@injectSheet(style)
+@injectSheet(roomTheme)
 export default class Roomname extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,

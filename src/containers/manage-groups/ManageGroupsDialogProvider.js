@@ -8,7 +8,7 @@ import { ManageGroupsDialog } from '../../components/manage-groups'
 
 const actionNames = {
   joinChannel: 'onJoin',
-  leaveChannel: 'onLeave',
+  onLeaveChannel: 'onLeave',
   selectManageGroupsFilter: 'onSelectFilter',
   hideManageGroups: 'onHide',
   showNewConversation: 'createNewGroup',

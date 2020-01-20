@@ -177,6 +177,26 @@ const callStatusSelector = createSelector(
   state => state,
 )
 
+export const markdownTipsSelector = createSelector(
+  state => state.markdownTips,
+  state => state,
+)
+
+const introSelector = createSelector(
+  state => state.intro,
+  state => state,
+)
+
+const footerSelector = createSelector(
+  state => state.footer,
+  state => state,
+)
+
+const leaveChannelSelector = createSelector(
+  state => state.leaveChannel,
+  state => state,
+)
+
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
   (app, initialDataLoading) => ({
@@ -613,11 +633,6 @@ export const historyComponentSelector = createSelector(
   }),
 )
 
-export const markdownTipsSelector = createSelector(
-  state => state.markdownTips,
-  state => state,
-)
-
 export const isChannelInactiveSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
@@ -625,11 +640,6 @@ export const isChannelInactiveSelector = createSelector(
       return !channel.permissions.canPostMessages
     return channels.length === 0 || !channel
   },
-)
-
-const footerSelector = createSelector(
-  state => state.footer,
-  state => state,
 )
 
 export const footerComponentSelector = createSelector(
@@ -703,11 +713,6 @@ export const browserNotificationComponentSelector = createSelector(
   }),
 )
 
-const introSelector = createSelector(
-  state => state.intro,
-  state => state,
-)
-
 export const introComponentSelector = createSelector(
   [introSelector, orgSelector],
   (intro, { permissions }) => ({
@@ -729,5 +734,13 @@ export const callStatusComponentSelector = createSelector(
   (callStatus, user) => ({
     callStatus,
     user,
+  }),
+)
+
+export const leaveChannelComponentSelector = createSelector(
+  [leaveChannelSelector, channelSelector],
+  (leaveChannel, channel) => ({
+    ...leaveChannel,
+    channel,
   }),
 )

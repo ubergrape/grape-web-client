@@ -98,6 +98,7 @@ export default {
   "noChannelsToChatIn": "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
   "joinGroup": "Join a group",
   "startNewConversation": "Start a new conversation",
+  "groupIncomingDescription": "{name} invited you to the group call",
   "unsuportedBrowserIncomingCall": "Sorry, video conferencing isn’t supported in this browser",
   "replyWithMessage": "Reply with a message",
   "unsupportedBrowserShort": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call.",
@@ -260,5 +261,9 @@ export default {
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
   "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
-  "groupIncomingDescription": "{name} invited you to the group call"
+  "leaveGroupDialogTitle": "Leave Private Group",
+  "leaveGroupDialogMessage": "Are you sure you want to leave the private group {channel}? You {wontAbleToRejoin} this group unless you get invited again.",
+  "wontAbleToRejoin": "won't be able to re-join",
+  "leaveGroupDialogCancel": "Cancel",
+  "leaveGroupDialogButton": "Leave private group"
 }

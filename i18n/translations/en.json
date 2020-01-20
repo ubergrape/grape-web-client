@@ -9,8 +9,7 @@
   "reconnectNow": "try it now",
   "tryingToReconnect": "Trying to reconnect ...",
   "reconnectAlert": "You've been successfully reconnected!",
-  "noRoomFound":
-    "We could not find what you were looking for - the group might have been deleted, renamed or moved.",
+  "noRoomFound": "We could not find what you were looking for - the group might have been deleted, renamed or moved.",
   "noMessageFound": "We could not find the message you were looking for.",
   "cannotMessageYourself": "You cannot message yourself.",
   "loadingChatHistory": "Loading your chat history…",
@@ -20,17 +19,13 @@
   "privateMessageHint": "(Private message)",
   "_privateMessageHint.comment": "Browser notification private message hint.",
   "groupInviteNotificationTitle": "{name} invited you to the group {group}",
-  "_groupInviteNotificationTitle.comment":
-    "Browser notification group invite title.",
+  "_groupInviteNotificationTitle.comment": "Browser notification group invite title.",
   "groupInviteNotificationContent": "{name} (Group Invite)",
-  "_groupInviteNotificationContent.comment":
-    "Browser notification group invite content.",
+  "_groupInviteNotificationContent.comment": "Browser notification group invite content.",
   "grapeCallPmInvitationContent": "invites you to a Grape call …",
-  "_grapeCallPmInvitationContent.comment":
-    "Browser notification for incoming pm Grape Call.",
+  "_grapeCallPmInvitationContent.comment": "Browser notification for incoming pm Grape Call.",
   "grapeCallPmMissedContent": "called you",
-  "_grapeCallPmMissedContent.comment":
-    "Browser notification for missed pm Grape Call.",
+  "_grapeCallPmMissedContent.comment": "Browser notification for missed pm Grape Call.",
   "createNewPrivateGroup": "Create new private group",
   "inviteToGroup": "Invite to group",
   "createGroup": "Create group",
@@ -41,8 +36,7 @@
   "usersNotFoundFor": "No one found for",
   "dropFileToUpload": "Drop your file to upload it!",
   "_dropFileToUpload.comment": "Hint on the drop overlay screen.",
-  "dropFileToUploadMaxFileSize":
-    "We support almost every file type up to a size of {limit}mb.",
+  "dropFileToUploadMaxFileSize": "We support almost every file type up to a size of {limit}mb.",
   "_dropFileToUploadMaxFileSize.comment": "Hint on the drop overlay screen.",
   "fileUploadTitle": "Uploading {uploading} of {total} files",
   "_fileUploadTitle.comment": "Upload notification title",
@@ -55,14 +49,11 @@
   "_quoteFooter.comment": "Quoted message footer text.",
   "userIsTyping": "{user} is typing",
   "userAndUsersAreTyping": "{users} and {user} are typing",
-  "usersAreTyping":
-    "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing",
+  "usersAreTyping": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing",
   "imageWithDescr": "Image: [{description}]",
-  "_imageWithDescr.comment":
-    "**Used when rendered inline image from markdown with description.**",
+  "_imageWithDescr.comment": "**Used when rendered inline image from markdown with description.**",
   "imageWithoutDescr": "Image: [No Description]",
-  "_imageWithoutDescr.comment":
-    "**Used when rendered inline image from markdown without description.**",
+  "_imageWithoutDescr.comment": "**Used when rendered inline image from markdown without description.**",
   "pinToFavorites": "Pin to Favorites",
   "_pinToFavorites.comment": "Tooltip text",
   "labeledMessagesTooltip": "Important Messages",
@@ -75,8 +66,7 @@
   "oneCallSameTime": "You can only be in one call at the same time.",
   "userInAnotherCall": "{name} is in another call right now.",
   "recalculateScrollPosition": "Recalculating the scroll position…",
-  "_recalculateScrollPosition.comment":
-    "Message showing when the user resizes the browser window.",
+  "_recalculateScrollPosition.comment": "Message showing when the user resizes the browser window.",
   "pending": "Pending",
   "_pending.comment": "message delivery status in tooltip",
   "unsent": "Unsent",
@@ -89,24 +79,19 @@
   "createTask": "Create Task",
   "_createTask.comment": "NLP create task dialog title.",
   "moreServices": "More Services",
-  "_moreServices.comment":
-    "More Services button in message nlp create task dialog.",
+  "_moreServices.comment": "More Services button in message nlp create task dialog.",
   "linkToAConnectedTask": "Link to a connected Task",
   "_linkToAConnectedTask.comment": "Nlp create task dialog link label.",
   "_tasks.comment": "NLP tasks list dialog title.",
-  "messageNotSendCheckConnection":
-    "The message couldn't be sent. Check your internet connection and",
+  "messageNotSendCheckConnection": "The message couldn't be sent. Check your internet connection and",
   "clickToTryAgain": "click to try again",
-  "roomIsPublic":
-    "This group is public. Every member can join and read the history.",
-  "roomIsPrivate":
-    "This group is private. Only invited members can see and join this group.",
+  "roomIsPublic": "This group is public. Every member can join and read the history.",
+  "roomIsPrivate": "This group is private. Only invited members can see and join this group.",
   "welcomeToRoom": "Welcome to {channel}",
   "inviteMoreToGroup": "Invite more people to this group",
   "addServiceIntegration": "Add service integration",
   "welcomeToPm": "Private messages with {partner}",
-  "pmIntro":
-    "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
+  "pmIntro": "This is a private conversation between you and {partner}.{br}Private conversations are only accessible to the two of you.",
   "deleteMessagesQuestion": "Delete the selected Message?",
   "linkInClipboard": "Message link added to clipboard",
   "close": "Close",
@@ -119,8 +104,7 @@
   "description": "Description",
   "create": "Create",
   "enter": "Enter",
-  "justInvited":
-    "Congratulations! You just invited {user} {amount, plural, =0 {} one {and one more people} other {and {amount} more people}}.",
+  "justInvited": "Congratulations! You just invited {user} {amount, plural, =0 {} one {and one more people} other {and {amount} more people}}.",
   "sharedFiles": "Shared Files",
   "pinnedMesages": "Pinned Messages",
   "groupInfo": "Group Info",
@@ -128,57 +112,45 @@
   "loading": "Loading...",
   "communication": "Communicating with Grape universe, this may take a moment",
   "wantToChat": "Want to chat?",
-  "noChannelsToChatIn":
-    "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
+  "noChannelsToChatIn": "You have no people or groups to chat with at the moment. Join a group or start a new conversation to have more fun.",
   "joinGroup": "Join a group",
   "startNewConversation": "Start a new conversation",
   "groupIncomingDescription": "{name} invited you to the group call",
   "_groupIncomingDescription.comment": "Group call incoming screen description",
-  "unsuportedBrowserIncomingCall":
-    "Sorry, video conferencing isn’t supported in this browser",
+  "unsuportedBrowserIncomingCall": "Sorry, video conferencing isn’t supported in this browser",
   "replyWithMessage": "Reply with a message",
-  "unsupportedBrowserShort":
-    "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call.",
-  "pleaseUseDesktopApp":
-    "Please use our {desktopApp} instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "unsupportedBrowserShort": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call.",
+  "pleaseUseDesktopApp": "Please use our {desktopApp} instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience.",
   "desktopApp": "desktop app",
   "chromeOrFirefox": "Chrome or Firefox",
   "download": "download",
   "introHlWelcome": "Welcome",
   "_introHlWelcome.comment": "Intro welcome hl.",
-  "introTextWelcome":
-    "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.",
+  "introTextWelcome": "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.",
   "_introTextWelcome.comment": "Intro welcome text.",
   "introHlSearchBrowser": "Find your team data",
   "_introHlSearchBrowser.comment": "Intro SearchBrowser hl.",
-  "introTextSearchBrowser":
-    "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #",
+  "introTextSearchBrowser": "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #",
   "_introTextSearchBrowser.comment": "Intro SearchBrowser text.",
   "introHlManageGroups": "Manage groups",
   "_introHlManageGroups.comment": "Intro data hl.",
-  "introTextGroups":
-    "Chat groups can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).",
+  "introTextGroups": "Chat groups can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).",
   "_introTextGroups.comment": "Intro data text.",
   "introHlPm": "Communicate 1-to-1",
   "_introHlPm.comment": "Intro data hl.",
-  "introTextPm":
-    "Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.",
+  "introTextPm": "Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.",
   "_introTextPm.comment": "Intro data text.",
   "introHlSearch": "Stay productive",
   "_introHlSearch.comment": "Intro search hl.",
-  "introTextSearch":
-    "Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.",
+  "introTextSearch": "Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.",
   "_introTextSearch.comment": "Intro search text.",
   "addTeamMembersLinkIntro": "add your team members",
-  "_addTeamMembersLinkIntro.comment":
-    "Link to the members admin within 'Well done' intro screen.",
+  "_addTeamMembersLinkIntro.comment": "Link to the members admin within 'Well done' intro screen.",
   "connectServicesLinkIntro": "connect your services",
-  "_connectServicesLinkIntro.comment":
-    "Link to the integrations admin within 'Well done' intro screen.",
+  "_connectServicesLinkIntro.comment": "Link to the integrations admin within 'Well done' intro screen.",
   "introHlDone": "Well done!",
   "_introHlDone.comment": "Intro data hl.",
-  "introTextDone":
-    "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!",
+  "introTextDone": "Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!",
   "_introTextDone.comment": "Intro data text.",
   "skipIntro": "Skip tutorial",
   "_skipIntro.comment": "Intro footer skip button",
@@ -190,38 +162,27 @@
   "emailAddresses": "Email addresses",
   "inviteLink": "Or use this invite-link",
   "inviteToOrgTitle": "Invite people to your organization",
-  "inviteToOrgNote":
-    "Invite multiple users at once, just separate their email addresses with a comma.",
+  "inviteToOrgNote": "Invite multiple users at once, just separate their email addresses with a comma.",
   "InviteToOrgMessage": "You can add personal message to the invitation email.",
   "loadingLink": "Loading link…",
-  "_loadingLink.comment":
-    "used in invite to org link input placeholder, while link is loading",
+  "_loadingLink.comment": "used in invite to org link input placeholder, while link is loading",
   "inviteToOrgError": "Enter valid email addresses separated by a comma.",
   "sendInvites": "Send invitation emails",
   "personalMessage": "Personal message",
   "linkAttachmentRemoveDialogTitle": "Remove attachment",
-  "_linkAttachmentRemoveDialogTitle.comment":
-    "Link attachment Remove Dialog: modal dialog title",
+  "_linkAttachmentRemoveDialogTitle.comment": "Link attachment Remove Dialog: modal dialog title",
   "linkAttachmentRemoveDialogAdminDomain": "All links from {domain}",
-  "_linkAttachmentRemoveDialogAdminDomain.comment":
-    "Link attachment Remove Dialog: remove all the links from this domain",
+  "_linkAttachmentRemoveDialogAdminDomain.comment": "Link attachment Remove Dialog: remove all the links from this domain",
   "linkAttachmentRemoveDialogAdminLinkForOrg": "Just the link {url}",
-  "_linkAttachmentRemoveDialogAdminLinkForOrg.comment":
-    "Link attachment Remove Dialog: remove this link for the entire org",
+  "_linkAttachmentRemoveDialogAdminLinkForOrg.comment": "Link attachment Remove Dialog: remove this link for the entire org",
   "linkAttachmentRemoveDialogCancel": "Cancel",
-  "_linkAttachmentRemoveDialogCancel.comment":
-    "Link attachment Remove Dialog: close the dialog without removing the attachment",
+  "_linkAttachmentRemoveDialogCancel.comment": "Link attachment Remove Dialog: close the dialog without removing the attachment",
   "linkAttachmentRemoveDialogConfirm": "Yes, remove",
-  "_linkAttachmentRemoveDialogConfirm.comment":
-    "Link attachment Remove Dialog: confirm attachment removal",
-  "linkAttachmentRemoveDialogAdminCheckbox":
-    "Disable future attachments from this website?",
-  "_linkAttachmentRemoveDialogAdminCheckbox.comment":
-    "Link attachment Remove Dialog: admin checkbox to remove the link for the organization",
-  "linkAttachmentRemoveDialogMessage":
-    "Are you sure you wish to remove this attachment from the message?",
-  "_linkAttachmentRemoveDialogMessage.comment":
-    "Link attachment Remove Dialog: ask user to confirm removal.",
+  "_linkAttachmentRemoveDialogConfirm.comment": "Link attachment Remove Dialog: confirm attachment removal",
+  "linkAttachmentRemoveDialogAdminCheckbox": "Disable future attachments from this website?",
+  "_linkAttachmentRemoveDialogAdminCheckbox.comment": "Link attachment Remove Dialog: admin checkbox to remove the link for the organization",
+  "linkAttachmentRemoveDialogMessage": "Are you sure you wish to remove this attachment from the message?",
+  "_linkAttachmentRemoveDialogMessage.comment": "Link attachment Remove Dialog: ask user to confirm removal.",
   "loginHeadline": "Join the chat!",
   "_loginHeadline.comment": "Embedded chat login view headline.",
   "loginHint": "Please log in to join the conversation on Grape.",
@@ -235,14 +196,11 @@
   "manageGroupsDialogTitle": "Manage Groups",
   "_manageGroupsDialogTitle.comment": "Manage Groups Dialog: dialog title",
   "manageGroupsLinkJoinable": "Groups you can join",
-  "_manageGroupsLinkJoinable.comment":
-    "Manage Groups Dialog: show joinable groups link",
+  "_manageGroupsLinkJoinable.comment": "Manage Groups Dialog: show joinable groups link",
   "manageGroupsLinkJoined": "Groups you belong to",
-  "_manageGroupsLinkJoined.comment":
-    "Manage Groups Dialog: show \"Groups you belong to\" link",
+  "_manageGroupsLinkJoined.comment": "Manage Groups Dialog: show \"Groups you belong to\" link",
   "manageGroupsCreateNew": "new conversation",
-  "_manageGroupsCreateNew.comment":
-    "Manage Groups Dialog: create new conversation button",
+  "_manageGroupsCreateNew.comment": "Manage Groups Dialog: create new conversation button",
   "markdownTipsLinkMessage": "You can also use {markdown}",
   "example": "Example",
   "_example.comment": "Title",
@@ -250,8 +208,7 @@
   "_result.comment": "Title",
   "inlineStyles": "Inline Styles",
   "_inlineStyles.comment": "Title",
-  "inlineStylesExample":
-    "You can write in *italic*, **bold** and in ~~strike trough~~",
+  "inlineStylesExample": "You can write in *italic*, **bold** and in ~~strike trough~~",
   "_inlineStylesExample.comment": "Markdown: inline typography styles example",
   "links": "Links",
   "_links.comment": "Title",
@@ -267,16 +224,13 @@
   "_blockquote.comment": "Title",
   "blockquoteExample": "> One of the coolest products I've used in a while",
   "_blockquoteExample.comment": "Markdown: blockquote example",
-  "markdownTipsPitch":
-    "How to improve your chat messages with some nifty styles",
+  "markdownTipsPitch": "How to improve your chat messages with some nifty styles",
   "markdownTipsDialogTitle": "Markdown tips",
   "deletedUser": "Deleted user",
   "dateSeparatorToday": "Today, {date}",
-  "_dateSeparatorToday.comment":
-    "Date separator used in history, search, mentions etc.",
+  "_dateSeparatorToday.comment": "Date separator used in history, search, mentions etc.",
   "dateSeparatorYesterday": "Yesterday, {date}",
-  "_dateSeparatorYesterday.comment":
-    "Date separator used in history, search, mentions etc.",
+  "_dateSeparatorYesterday.comment": "Date separator used in history, search, mentions etc.",
   "editMessage": "Edit message",
   "_editMessage.comment": "Message menu tooltip and dropdown.",
   "showMoreActions": "Show more actions",
@@ -292,8 +246,7 @@
   "quoteMessage": "Quote message",
   "localTime": "Local time",
   "newConversation": "New Conversation",
-  "_newConversation.comment":
-    "*Describe NewConversation*: this is used in Navigation",
+  "_newConversation.comment": "*Describe NewConversation*: this is used in Navigation",
   "searchPeopleAndGroups": "Search people and groups…",
   "nothingThatMatches": "There's nothing that matches ",
   "favorites": "Favorites",
@@ -315,20 +268,15 @@
   "_notificationSettingOff.comment": "Notification setting name.",
   "notificationSettingStatusComplete": "saved",
   "muteGroupTitle": "Mute this Group",
-  "muteAllNotifications":
-    "Block all notifications for this group on all your devices",
-  "muteAllNotificationsHint":
-    "This group is completely muted on all your devices. No more rings and beeps coming from\n        {channel} - but you can still come back anytime to check it out for new messages.\n        If you want to leave the group and remove it from your sidebar, {leaveButton}",
+  "muteAllNotifications": "Block all notifications for this group on all your devices",
+  "muteAllNotificationsHint": "This group is completely muted on all your devices. No more rings and beeps coming from\n        {channel} - but you can still come back anytime to check it out for new messages.\n        If you want to leave the group and remove it from your sidebar, {leaveButton}",
   "clickHereInlineLink": "click here",
-  "_clickHereInlineLink.comment":
-    "Link used inline in the middle of a sentence.",
+  "_clickHereInlineLink.comment": "Link used inline in the middle of a sentence.",
   "desktopNotificationsTitle": "Desktop Notifications",
   "mobileNotificationsTitle": "Mobile Push Notifications",
-  "notificationSettingsHint":
-    "You can change the default preferences in your account's {link}",
+  "notificationSettingsHint": "You can change the default preferences in your account's {link}",
   "notificationSettingsHintLink": "notification settings",
-  "_notificationSettingsHintLink.comment":
-    "An inline link in channel notification settings.",
+  "_notificationSettingsHintLink.comment": "An inline link in channel notification settings.",
   "inviteNewMembers": "Invite new members",
   "_inviteNewMembers.comment": "Main org dropdown menu",
   "orgSettings": "Organization Settings",
@@ -350,54 +298,38 @@
   "logOut": "Log out",
   "_logOut.comment": "Main org dropdown menu",
   "settings": "Settings",
-  "roomDeleteDialogInputLabel":
-    "Please type in the name of the group to confirm",
+  "roomDeleteDialogInputLabel": "Please type in the name of the group to confirm",
   "_roomDeleteDialogInputLabel.comment": "Room Delete Dialog: input label",
   "roomDeleteDialogDelete": "delete",
-  "_roomDeleteDialogDelete.comment":
-    "Room Delete Dialog: delete button message",
-  "roomDeleteDialogConfirmMessage":
-    "Are you sure you want to delete this group?",
-  "_roomDeleteDialogConfirmMessage.comment":
-    "Room Delete Dialog: confirm (info) message",
+  "_roomDeleteDialogDelete.comment": "Room Delete Dialog: delete button message",
+  "roomDeleteDialogConfirmMessage": "Are you sure you want to delete this group?",
+  "_roomDeleteDialogConfirmMessage.comment": "Room Delete Dialog: confirm (info) message",
   "roomDeleteDialogConfirmWarning": "Warning: This action can't be undone!",
-  "_roomDeleteDialogConfirmWarning.comment":
-    "Room Delete Dialog: confirm (warning) message",
+  "_roomDeleteDialogConfirmWarning.comment": "Room Delete Dialog: confirm (warning) message",
   "roomDeleteDialogTitle": "Delete \"{roomName}\"?",
   "_roomDeleteDialogTitle.comment": "Room Delete Dialog: dialog title",
-  "roomDeleteDialogProvideName":
-    "Please enter the name of the group you want to delete.",
-  "_roomDeleteDialogProvideName.comment":
-    "Room Delete Dialog: validation message",
+  "roomDeleteDialogProvideName": "Please enter the name of the group you want to delete.",
+  "_roomDeleteDialogProvideName.comment": "Room Delete Dialog: validation message",
   "roomDeleteDialogNotMatchingName": "Group name doesn't match",
-  "_roomDeleteDialogNotMatchingName.comment":
-    "Room Delete Dialog: validation message",
+  "_roomDeleteDialogNotMatchingName.comment": "Room Delete Dialog: validation message",
   "roomDeleteDialoginputPlaceholder": "Confirm group name...",
-  "_roomDeleteDialoginputPlaceholder.comment":
-    "Room Delete Dialog: input's placeholder",
+  "_roomDeleteDialoginputPlaceholder.comment": "Room Delete Dialog: input's placeholder",
   "roomColor": "Group Color",
   "roomIcon": "Group Icon",
   "labeledMessagesSidebarTitle": "Important Messages",
   "sidebarLabelInChannel": "in {channel}",
   "labeledMessagesNoContentTitle": "This is where the magic happens.",
-  "labeledMessagesNoContentText1":
-    "Grape automatically summarizes your conversations, so you can browse and find them based on context - we call it “amplified intelligence”.",
-  "labeledMessagesNoContentText2":
-    "Write a few Tasks or Questions to see them appear here!",
-  "newImportantMessages":
-    "{amount} {amount, plural, one {new important message} other {new important messages}}",
-  "trainingModeHintWithLink":
-    "IA: This system is in training mode ({learnMoreLink})",
+  "labeledMessagesNoContentText1": "Grape automatically summarizes your conversations, so you can browse and find them based on context - we call it “amplified intelligence”.",
+  "labeledMessagesNoContentText2": "Write a few Tasks or Questions to see them appear here!",
+  "newImportantMessages": "{amount} {amount, plural, one {new important message} other {new important messages}}",
+  "trainingModeHintWithLink": "IA: This system is in training mode ({learnMoreLink})",
   "learnMoreLink": "learn more",
   "_learnMoreLink.comment": "learn more link",
   "noMessagesFound": "No messages found",
   "emptyPinnedMessagesSidebarHeadline": "No messages have been pinned yet!",
-  "_emptyPinnedMessagesSidebarHeadline.comment":
-    "Headline in the sidebar, pinned messages zero design.",
-  "emptyPinnedMessagesSidebarDescription":
-    "Choose \"Pin message\" in the context menu of any message to make it show up here.",
-  "_emptyPinnedMessagesSidebarDescription.comment":
-    "Description in the sidebar, pinned messages zero design.",
+  "_emptyPinnedMessagesSidebarHeadline.comment": "Headline in the sidebar, pinned messages zero design.",
+  "emptyPinnedMessagesSidebarDescription": "Choose \"Pin message\" in the context menu of any message to make it show up here.",
+  "_emptyPinnedMessagesSidebarDescription.comment": "Description in the sidebar, pinned messages zero design.",
   "makeRoomPrivate": "Make group private",
   "makeRoomPublic": "Make group public",
   "deleteRoom": "Delete group",
@@ -406,29 +338,23 @@
   "enterGroupNameHere": "Enter group name here…",
   "notificationSettingsTooltip": "Edit notification settings",
   "membersList": "Members List",
-  "_membersList.comment":
-    "Room Info Panel: link to members list of the current room",
-  "_inviteMoreToGroup.comment":
-    "Room Info Panel: invite people to the group/room",
-  "_addServiceIntegration.comment":
-    "Room Info Panel: link to add an integration to the current room",
+  "_membersList.comment": "Room Info Panel: link to members list of the current room",
+  "_inviteMoreToGroup.comment": "Room Info Panel: invite people to the group/room",
+  "_addServiceIntegration.comment": "Room Info Panel: link to add an integration to the current room",
   "leaveChannel": "Leave {channel}",
   "_leaveChannel.comment": "Room Info Panel: leave room link",
   "members": "Members",
   "sharedInRoom": "Shared in {channelName}",
-  "_sharedInRoom.comment":
-    "*Describe sharedInRoom*, example: 'Shared in Office'",
+  "_sharedInRoom.comment": "*Describe sharedInRoom*, example: 'Shared in Office'",
   "sharedInPm": "Shared with {channelName}",
   "_sharedInPm.comment": "*Describe sharedInPm*, example: Shared with Felix'",
   "noSharedFiles": "No shared files",
   "showRoomMentions": "Show Group mentions",
   "_showRoomMentions.comment": "Option in messages mention sidebar.",
   "onlyInThisConversationMentions": "Only in this conversation",
-  "_onlyInThisConversationMentions.comment":
-    "Option in messages mention sidebar.",
+  "_onlyInThisConversationMentions.comment": "Option in messages mention sidebar.",
   "onlyInThisConversationMessages": "Only in this conversation",
-  "_onlyInThisConversationMessages.comment":
-    "Option in messages search sidebar.",
+  "_onlyInThisConversationMessages.comment": "Option in messages search sidebar.",
   "searchActivities": "Include activities",
   "_searchActivities.comment": "Option in messages search sidebar.",
   "mentionsSidebarTitle": "Mentions",
@@ -440,13 +366,15 @@
   "phone": "Phone",
   "aboutUserTitle": "About this user",
   "_aboutUserTitle.comment": "User profile sidebar, about user title.",
-  "videoConferencingTitle":
-    "Sorry, video conferencing isn't supported in this browser.",
-  "unsupportedBrowser":
-    "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call. Please use our {desktopApp} instead.",
+  "videoConferencingTitle": "Sorry, video conferencing isn't supported in this browser.",
+  "unsupportedBrowser": "Unfortunately, the browser you are using at the moment doesn’t support video conferencing with Grape Call. Please use our {desktopApp} instead.",
   "openInDesktop": "Open in Grape Desktop",
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
-  "altenativeBrowser":
-    "Alternatively you can use Grape with {browsers} to enjoy the full experience."
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "leaveGroupDialogTitle": "Leave Private Group",
+  "leaveGroupDialogMessage": "Are you sure you want to leave the private group {channel}? You {wontAbleToRejoin} this group unless you get invited again.",
+  "wontAbleToRejoin": "won't be able to re-join",
+  "leaveGroupDialogCancel": "Cancel",
+  "leaveGroupDialogButton": "Leave private group"
 }

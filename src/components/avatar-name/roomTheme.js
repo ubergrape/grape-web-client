@@ -3,7 +3,7 @@ import { smaller } from 'grape-theme/dist/fonts'
 import { icon as iconSize } from 'grape-theme/dist/sizes'
 
 import create from '../inline-icon/create'
-import style from './style'
+import theme from './theme'
 
 const createIcon = ({ name, width }) => ({
   extend: create(name, { color: grayDark, width, top: '0.1em' }),
@@ -11,7 +11,7 @@ const createIcon = ({ name, width }) => ({
 })
 
 export default {
-  ...style,
+  ...theme,
   abbr: {
     textAlign: 'center',
     flexShrink: 0,

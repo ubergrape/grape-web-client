@@ -1,4 +1,4 @@
-import style from './style'
+import theme from './theme'
 
 const statusSize = 10
 // Position status indicator in the middle of the icon circle of the right-bottom
@@ -7,7 +7,7 @@ const factor = (1 + Math.sin(Math.PI / 4)) / 2
 const statusPositionCalc = `calc(100% * ${factor} - ${statusSize / 2}px)`
 
 export default {
-  ...style,
+  ...theme,
   status: {
     position: 'absolute',
     left: statusPositionCalc,
