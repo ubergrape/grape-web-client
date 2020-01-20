@@ -9,7 +9,7 @@ import { Sidebar } from '../../components/sidebar'
 const actionNames = [
   'hideSidebar',
   'showSidebarSubview',
-  'leaveChannel',
+  'onLeaveChannel',
   'goToChannel',
   'openPm',
   'kickMemberFromChannel',

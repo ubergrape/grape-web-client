@@ -23,6 +23,8 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
+  showLeaveChannelDialog,
+  hideLeaveChannelDialog,
   setChannel,
   handleBadChannel,
 } from './'
@@ -61,8 +63,18 @@ export const leaveChannel = channelId => dispatch => {
         payload: channelId,
       })
       dispatch(removeManageGroupChannel(channelId))
+      dispatch(hideLeaveChannelDialog())
     })
     .catch(err => dispatch(error(err)))
+}
+
+export const onLeaveChannel = (channelId, isPrivate) => dispatch => {
+  if (isPrivate) {
+    dispatch(showLeaveChannelDialog())
+    return
+  }
+
+  dispatch(leaveChannel(channelId))
 }
 
 export const kickMemberFromChannel = params => dispatch => {
@@ -245,9 +257,8 @@ export function createRoomWithUsers(room, users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .then(
-        () =>
-          newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
+      .then(() =>
+        newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
       )
       .then(() => {
         if (newRoom) {
