@@ -27,7 +27,6 @@ import {
   endSound,
   goToLastUsedChannel,
   showSidebar,
-  setInitialDataLoading,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -194,7 +193,6 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
   if (channels) {
     dispatch(goToLastUsedChannel())
   } else {
-    dispatch(setInitialDataLoading(false))
     dispatch(showSidebar(false))
     dispatch(goTo('/chat'))
   }

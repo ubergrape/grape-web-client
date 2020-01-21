@@ -1,5 +1,5 @@
-import omit from 'lodash/omit'
 import find from 'lodash/find'
+import has from 'lodash/has'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
@@ -95,6 +95,7 @@ export const handleUserProfile = profile => dispatch => {
 
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
+  const currentChannel = channelSelector(getState())
 
   dispatch(hideBrowser())
 
@@ -102,8 +103,6 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then(channel => {
       if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
-
-      const currentChannel = channelSelector(getState())
 
       dispatch({
         type: types.SET_CHANNEL,
@@ -164,25 +163,22 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(allChannels))
-      dispatch(
-        setOrg({
-          ...omit(org, 'users', 'channels', 'rooms', 'pms'),
-          labelsConfig,
-        }),
-      )
+      dispatch(setOrg({ ...org, labelsConfig }))
+
       dispatch(ensureBrowserNotificationPermission())
 
       dispatch(setInitialDataLoading(false))
 
-      const { route } = appSelector(getState())
-      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
+      const state = getState()
+      const { route } = appSelector(state)
+      const isMemberOfAnyRooms = joinedChannelsSelector(state)
 
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined
-      if (route && route.params.channelId) {
+      if (has(route, 'params.channelId')) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
-        const channelToSet = findLastUsedChannel(allChannels) || allChannels[0]
+        const channelToSet = findLastUsedChannel(allChannels)
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
           dispatch(setChannel(conf.channelId || channelToSet.id))
