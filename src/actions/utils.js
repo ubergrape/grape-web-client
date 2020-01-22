@@ -143,9 +143,9 @@ export const normalizeMessage = (() => {
     }
 
     const channelId = msg.channelId || msg.channel
-
     const channel = find(channels, { id: channelId })
-    const link = createLinkToMessage(channel, id)
+
+    const link = createLinkToMessage(channelId, id)
     const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
     const linkAttachments = (msg.linkAttachments || []).slice(
@@ -225,7 +225,7 @@ export const normalizeMessage = (() => {
     const channelId = msg.channelId || msg.channel
 
     const channel = find(channels, { id: channelId })
-    const link = createLinkToMessage(channel, id)
+    const link = createLinkToMessage(channelId, id)
 
     return {
       type,
