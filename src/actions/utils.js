@@ -33,11 +33,13 @@ export function pinToFavorite(channel) {
 }
 
 const lastMessageToLastMessageTime = channel => {
-  const { lastMessage } = channel
+  const {
+    lastMessage: { time },
+  } = channel
 
   const newChannel = {
     ...channel,
-    lastMessageTime: lastMessage ? lastMessage.time : null,
+    lastMessageTime: time,
   }
 
   delete newChannel.lastMessage
