@@ -459,8 +459,6 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
   const { call } = payload
 
   if (data.call.id === call.id) {
-    dispatch(endSound())
-    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })

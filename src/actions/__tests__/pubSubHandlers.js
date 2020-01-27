@@ -71,11 +71,7 @@ describe('pubSubHandlers actions', () => {
           data: ic1,
         },
       },
-      [
-        { type: types.END_SOUND },
-        { type: types.CLOSE_INCOMING_CALL },
-        { type: types.CLEAR_INCOMING_CALL_DATA },
-      ],
+      [{ type: types.CLEAR_INCOMING_CALL_DATA }],
       err => {
         onError(done, err)
       },

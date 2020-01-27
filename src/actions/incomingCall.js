@@ -12,24 +12,9 @@ export const rejectIncomingCall = args => dispatch => {
   api
     .rejectCall(args)
     .then(() => {
-      dispatch(closeIncomingCall())
       dispatch({
         type: types.CLEAR_INCOMING_CALL_DATA,
       })
-      dispatch(endSound())
-    })
-    .catch(err => dispatch(error(err)))
-}
-
-export const cancelIncomingCall = args => dispatch => {
-  api
-    .cancelCall(args)
-    .then(() => {
-      dispatch(closeIncomingCall())
-      dispatch({
-        type: types.CLEAR_INCOMING_CALL_DATA,
-      })
-      dispatch(endSound())
     })
     .catch(err => dispatch(error(err)))
 }
