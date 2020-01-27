@@ -71,11 +71,7 @@ describe('pubSubHandlers actions', () => {
           data: ic1,
         },
       },
-      [
-        { type: types.END_SOUND },
-        { type: types.CLOSE_INCOMING_CALL },
-        { type: types.CLEAR_INCOMING_CALL_DATA },
-      ],
+      [{ type: types.CLEAR_INCOMING_CALL_DATA }],
       err => {
         onError(done, err)
       },
@@ -179,7 +175,7 @@ describe('pubSubHandlers actions', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
+  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
     expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
       {
         channels: [c1],
@@ -191,11 +187,7 @@ describe('pubSubHandlers actions', () => {
           data: ic3,
         },
       },
-      [
-        { type: types.END_SOUND },
-        { type: types.CLOSE_INCOMING_CALL },
-        { type: types.HANDLE_JOINED_CALL },
-      ],
+      [{ type: types.HANDLE_JOINED_CALL }],
       err => {
         onError(done, err)
       },
@@ -213,11 +205,7 @@ describe('pubSubHandlers actions', () => {
           data: ic3,
         },
       },
-      [
-        { type: types.END_SOUND },
-        { type: types.CLOSE_INCOMING_CALL },
-        { type: types.HANDLE_JOINED_CALL },
-      ],
+      [{ type: types.HANDLE_JOINED_CALL }],
       err => {
         onError(done, err)
       },
