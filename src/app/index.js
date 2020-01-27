@@ -33,6 +33,13 @@ export const suspend = () => {
 }
 
 export function init() {
+  if (__DEV__ || __TEST__) {
+    addLocaleData([...en, ...de])
+    moment.locale(conf.user.languageCode)
+    subscribe(resume())
+    return
+  }
+
   Raven.config(conf.server.sentryJsDsn).install()
   Raven.setUserContext({
     email: conf.user.email,
