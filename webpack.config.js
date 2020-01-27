@@ -1,9 +1,10 @@
 const path = require('path')
-const webpack = require('webpack') // eslint-disable-line import/no-extraneous-dependencies
-const CopyFilesPlugin = require('copy-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // eslint-disable-line import/no-extraneous-dependencies
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const webpack = require('webpack')
+const CopyFilesPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 const { NODE_ENV, STATIC_PATH, APP, ANALIZE, THEME } = process.env
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
@@ -35,6 +36,10 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
   }),
   new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en|de/),
+  new webpack.optimize.ModuleConcatenationPlugin(),
+  new LodashModuleReplacementPlugin({
+    shorthands: true,
+  }),
   new DuplicatePackageCheckerPlugin(),
 ]
 

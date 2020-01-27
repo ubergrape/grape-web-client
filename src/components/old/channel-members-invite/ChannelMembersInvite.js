@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import map from 'lodash/map'
+import { map } from 'lodash'
 import {
   FormattedMessage,
   defineMessages,

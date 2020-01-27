@@ -1,4 +1,4 @@
-import has from 'lodash/has'
+import { has } from 'lodash'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'

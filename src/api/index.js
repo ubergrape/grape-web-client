@@ -3,7 +3,7 @@
  */
 /* eslint-disable global-require */
 
-import merge from 'lodash/merge'
+import { merge } from 'lodash'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'

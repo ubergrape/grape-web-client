@@ -1,4 +1,4 @@
-import findIndex from 'lodash/findIndex'
+import { findIndex } from 'lodash'
 
 import * as types from '../constants/actionTypes'
 

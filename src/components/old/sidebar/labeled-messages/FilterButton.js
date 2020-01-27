@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { blue, white } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import Chip from 'grape-web/lib/components/chip'
 
 class FilterButton extends PureComponent {

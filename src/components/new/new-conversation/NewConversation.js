@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import merge from 'lodash/merge'
+import { merge } from 'lodash'
 
 import { A11yDialog, A11yDialogStyles } from '../a11y-dialog'
 import { Tabs } from '../tabs'

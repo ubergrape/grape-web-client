@@ -5146,10 +5146,10 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
   integrity sha1-TK+tdrxi8C+gObL5Tpo906ORpyU=
 
-grape-browser@^3.21.1:
-  version "3.21.1"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.21.1.tgz#dc9fa22109c5aea8d49421759ef9bd141a2671f4"
-  integrity sha512-QTbpwNOvXe54QbrPj0+nDDY2Ntdqrdzf962t0ooe1v92LFDv8jfVJUEwLapDtEieJhvWQThMORevoDReLQvKYw==
+grape-browser@^3.22.1:
+  version "3.22.1"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.22.1.tgz#67f62e436395a29986668799ce38173c87cb951e"
+  integrity sha512-Zqp3c3qWBe3WlT8rjtllFRN21c2jBu4L+TUi3StygzuSHA7q6TPZOeP5lKCmuKDIlGOlTVqvXqMbZt4JKPfRGQ==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -5186,7 +5186,38 @@ grape-theme@3.x, grape-theme@^3.4.1, grape-theme@^3.5.0:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
 
-grape-web@^1.10.1, grape-web@^1.8.0:
+grape-web@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.11.1.tgz#30c96424c25d6f92b036061f0ac907e40a8e74b2"
+  integrity sha512-jnzjHB7T+bP58PZ0ETmADWqd9+/wEf5WUhkIY80EUIUk57rdW4ZuiZEUlXRvbzES2EqQl2JeVVHzAIPnBEYLjw==
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^1.1.0"
+    grape-theme "3.x"
+    jss "^9.8.7"
+    jss-default-unit "^8.0.2"
+    jss-expand "^5.3.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.1.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^8.0.1"
+    lodash "^4.17.13"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^16.7.0"
+    react-dom "^16.7.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^2.2.3"
+
+grape-web@^1.8.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.10.1.tgz#88f401bd989198f259fe048958a25a175349c0fe"
   integrity sha512-hrLZ3Nvn3/K0wUEVf1w/+/dUixiHOD3UHzIc4BA8ZUjgQWDrRkH8BIWyVlD8S3K/UcahS8C2x02NcMj2JQE7ng==
@@ -7308,6 +7339,13 @@ lodash-es@^4.2.1:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
   integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
+
+lodash-webpack-plugin@^0.11.5:
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/lodash-webpack-plugin/-/lodash-webpack-plugin-0.11.5.tgz#c4bd064b4f561c3f823fa5982bdeb12c475390b9"
+  integrity sha512-QWfEIYxpixOdbd6KBe5g6MDWcyTgP3trDXwKHFqTlXrWiLcs/67fGQ0IWeRyhWlTITQIgMpJAYd2oeIztuV5VA==
+  dependencies:
+    lodash "^4.17.4"
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"

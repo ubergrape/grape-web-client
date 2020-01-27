@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import assignIn from 'lodash/assignIn'
+import { assignIn } from 'lodash'
 
 import useTheme from '../theme/useTheme'
 import ResizableTextarea from '../resizable-textarea/ResizableTextarea'

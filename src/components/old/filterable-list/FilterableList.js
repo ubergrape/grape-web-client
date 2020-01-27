@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
-import noop from 'lodash/noop'
-import isEqual from 'lodash/isEqual'
+import { noop, isEqual } from 'lodash'
 
 import TagsInput from '../tags-input/TagsInput'
 

@@ -1,6 +1,4 @@
-import pick from 'lodash/pick'
-import last from 'lodash/last'
-import keyBy from 'lodash/keyBy'
+import { pick, last, keyBy } from 'lodash'
 
 /**
  * Merge message data with props to cover all rows representation cases.

@@ -12,7 +12,7 @@ import {
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import cn from 'classnames'
 import color from 'color'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import Chip from 'grape-web/lib/components/chip'
 
 import { Grapedown } from '../../grapedown'

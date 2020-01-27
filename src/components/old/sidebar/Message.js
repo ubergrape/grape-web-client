@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { icon as iconSize, spacer } from 'grape-theme/dist/sizes'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import cn from 'classnames'
 
 import Avatar from '../avatar/Avatar'

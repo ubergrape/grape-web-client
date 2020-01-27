@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { routerReducer, routerMiddleware } from 'grape-web/lib/router'
-import mapValues from 'lodash/mapValues'
+import { mapValues } from 'lodash'
 import history from './history'
 import * as reducersOrStateMaps from '../reducers'
 import detectCircular from '../middleware/detectCircular'

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import colors from 'grape-theme/dist/base-colors'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 
 import { userStatusMap } from '../../../constants/app'
 import Username from '../avatar-name/Username'

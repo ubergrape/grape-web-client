@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import capitalize from 'lodash/capitalize'
+import { capitalize } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
 
 import { getArrowOffset } from './utils'

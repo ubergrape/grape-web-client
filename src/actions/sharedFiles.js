@@ -1,4 +1,4 @@
-import find from 'lodash/find'
+import { find } from 'lodash'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'

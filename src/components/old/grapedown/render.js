@@ -1,5 +1,5 @@
 import { mdReact } from 'markdown-react-js'
-import pick from 'lodash/pick'
+import { pick } from 'lodash'
 import { defineMessages } from 'react-intl'
 import emojiPlugin from './markdown-it-emoji'
 import forcebreakPlugin from '../../../utils/markdown-it-plugins/forcebreak'

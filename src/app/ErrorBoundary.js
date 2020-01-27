@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Raven from 'raven-js'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
@@ -8,7 +8,7 @@ import { isElectron } from 'grape-web/lib/x-platform/electron'
  * We use inline styles to avoid any errors coming from JSS. In addtion this is
  * not translatted since at this point the user settings are not know.
  */
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
     this.state = { hasError: false }

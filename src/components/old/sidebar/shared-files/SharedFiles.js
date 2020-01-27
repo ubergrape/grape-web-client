@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/components/spinner'
 

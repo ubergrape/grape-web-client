@@ -1,5 +1,4 @@
-import find from 'lodash/find'
-import has from 'lodash/has'
+import { find, has } from 'lodash'
 import moment from 'moment-timezone'
 
 import conf from '../conf'

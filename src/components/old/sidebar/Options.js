@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import uniqueId from 'lodash/uniqueId'
+import { uniqueId } from 'lodash'
 import { grayBlueLight } from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'

@@ -4,7 +4,7 @@ import { blue, blueLight } from 'grape-theme/dist/base-colors'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from 'lodash'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'

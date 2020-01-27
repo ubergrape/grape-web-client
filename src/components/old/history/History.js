@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
+import { get, isEqual, isEmpty, has } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
-import has from 'lodash/has'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
 import { InputSearch } from '../../input'

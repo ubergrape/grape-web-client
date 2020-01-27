@@ -1,5 +1,4 @@
-import find from 'lodash/find'
-import random from 'lodash/random'
+import { find, random } from 'lodash'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {

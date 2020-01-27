@@ -1,5 +1,4 @@
-import findIndex from 'lodash/findIndex'
-import find from 'lodash/find'
+import { findIndex, find } from 'lodash'
 import * as types from '../constants/actionTypes'
 
 const initialState = []

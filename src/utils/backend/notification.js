@@ -1,7 +1,4 @@
-import noop from 'lodash/noop'
-import find from 'lodash/find'
-import filter from 'lodash/filter'
-import every from 'lodash/every'
+import { noop, find, filter, every } from 'lodash'
 import warning from 'warning'
 
 import { transports, dispatchers } from '../../constants/notification'

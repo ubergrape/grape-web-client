@@ -1,11 +1,13 @@
-import find from 'lodash/find'
-import map from 'lodash/map'
-import each from 'lodash/each'
-import intersection from 'lodash/intersection'
-import isEmpty from 'lodash/isEmpty'
-import keyBy from 'lodash/keyBy'
+import {
+  find,
+  map,
+  each,
+  intersection,
+  isEmpty,
+  keyBy,
+  camelCase,
+} from 'lodash'
 
-import camelCase from 'lodash/camelCase'
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
 import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
@@ -33,13 +35,11 @@ export function pinToFavorite(channel) {
 }
 
 const lastMessageToLastMessageTime = channel => {
-  const {
-    lastMessage: { time },
-  } = channel
+  const { lastMessage } = channel
 
   const newChannel = {
     ...channel,
-    lastMessageTime: time,
+    lastMessageTime: lastMessage ? lastMessage.time : null,
   }
 
   delete newChannel.lastMessage

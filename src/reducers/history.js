@@ -1,8 +1,4 @@
-import reject from 'lodash/reject'
-import findIndex from 'lodash/findIndex'
-import isNil from 'lodash/isNil'
-import uniqBy from 'lodash/uniqBy'
-import some from 'lodash/some'
+import { reject, findIndex, isNil, uniqBy, some } from 'lodash'
 
 import * as types from '../constants/actionTypes'
 import conf from '../conf'

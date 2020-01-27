@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
 import icons from 'grape-web/lib/svg-icons/data'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'

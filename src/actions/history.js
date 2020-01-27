@@ -1,5 +1,4 @@
-import findLast from 'lodash/findLast'
-import last from 'lodash/last'
+import { findLast, last } from 'lodash'
 import moment from 'moment'
 
 import * as types from '../constants/actionTypes'

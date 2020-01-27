@@ -1,8 +1,4 @@
-import snakeCase from 'lodash/snakeCase'
-import camelCase from 'lodash/camelCase'
-import isPlainObject from 'lodash/isPlainObject'
-import mapKeys from 'lodash/mapKeys'
-import mapValues from 'lodash/mapValues'
+import { snakeCase, camelCase, isPlainObject, mapKeys, mapValues } from 'lodash'
 
 const mapKeysDeep = (object, callback) => {
   if (Array.isArray(object)) {

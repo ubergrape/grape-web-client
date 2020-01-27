@@ -1,5 +1,4 @@
-import startsWith from 'lodash/startsWith'
-import get from 'lodash/get'
+import { startsWith, get } from 'lodash'
 import { defineMessages } from 'react-intl'
 
 /**

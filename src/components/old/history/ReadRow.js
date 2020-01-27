@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import GlobalEvent from 'grape-web/lib/components/global-event'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { readRowDelay } from '../../../constants/delays'
 
 export default class ReadRow extends PureComponent {

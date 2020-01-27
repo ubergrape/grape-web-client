@@ -1,4 +1,4 @@
-import merge from 'lodash/merge'
+import { merge } from 'lodash'
 import parseUrl from 'grape-web/lib/parse-url'
 
 const parseServiceUrl = url => {

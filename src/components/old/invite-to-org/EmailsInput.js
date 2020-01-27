@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import random from 'lodash/random'
-import noop from 'lodash/noop'
+import { random, noop } from 'lodash'
 
 import Input from '../input/GrayInputNormal'
 

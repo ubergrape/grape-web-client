@@ -1,5 +1,5 @@
 import React from 'react'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import findMatches from 'grape-web/lib/search/findMatches'
 
 import Highlight from '../../highlight/YellowHighlight'

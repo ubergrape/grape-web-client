@@ -1,4 +1,4 @@
-import merge from 'lodash/merge'
+import { merge } from 'lodash'
 import * as images from '../constants/images'
 import * as types from '../constants/actionTypes'
 

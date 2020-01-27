@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import findIndex from 'lodash/findIndex'
-import isFunction from 'lodash/isFunction'
-import isEqualWith from 'lodash/isEqualWith'
+import { findIndex, isFunction, isEqualWith } from 'lodash'
 import {
   SCROLL_TO_ALIGNMENT_START,
   SCROLL_TO_ALIGNMENT_END,

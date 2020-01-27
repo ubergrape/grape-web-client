@@ -1,5 +1,4 @@
-import pick from 'lodash/pick'
-import find from 'lodash/find'
+import { pick, find } from 'lodash'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'

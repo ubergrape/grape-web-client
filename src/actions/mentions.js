@@ -1,4 +1,4 @@
-import sortBy from 'lodash/sortBy'
+import { sortBy } from 'lodash'
 import conf from '../conf'
 
 import * as types from '../constants/actionTypes'

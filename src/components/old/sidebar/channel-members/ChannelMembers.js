@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 
 import { limit, bottomOffset } from '../../../../constants/sidebar'
 import User from './User'

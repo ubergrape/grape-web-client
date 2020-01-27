@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
-import merge from 'lodash/merge'
+import { merge } from 'lodash'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 
 import Tooltip from '../tooltip/Tooltip'

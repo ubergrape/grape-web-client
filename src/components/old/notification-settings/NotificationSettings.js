@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import each from 'lodash/each'
-import random from 'lodash/random'
-import capitalize from 'lodash/capitalize'
+import { each, random, capitalize } from 'lodash'
 import {
   FormattedMessage,
   defineMessages,

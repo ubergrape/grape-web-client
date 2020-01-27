@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import capitalize from 'lodash/capitalize'
-import noop from 'lodash/noop'
+import { capitalize, noop } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/components/outside-click'
 import { pickHTMLProps } from 'pick-react-known-prop'

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import keyname from 'keyname'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 
 import { styles } from './theme'
 

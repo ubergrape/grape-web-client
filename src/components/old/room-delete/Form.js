@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { FormattedMessage } from 'react-intl'
-import uniqueId from 'lodash/uniqueId'
+import { uniqueId } from 'lodash'
 import Button from 'grape-web/lib/components/button'
 import Input from 'grape-web/lib/components/input'
 import FormControl from 'grape-web/lib/components/form/formControl'

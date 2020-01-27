@@ -1,5 +1,4 @@
-import merge from 'lodash/merge'
-import isEmpty from 'lodash/isEmpty'
+import { merge, isEmpty } from 'lodash'
 import {
   blueLighter,
   grayBlueLighter,

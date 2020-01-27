@@ -1,10 +1,5 @@
 import { createSelector } from 'reselect'
-import find from 'lodash/find'
-import omit from 'lodash/omit'
-import pick from 'lodash/pick'
-// TODO: use this from lodash 4 after
-// https://github.com/ubergrape/chatgrape/issues/3326
-import differenceBy from 'lodash/differenceBy'
+import { find, omit, pick, differenceBy } from 'lodash'
 import * as images from '../constants/images'
 
 export const initialDataLoadingSelector = createSelector(

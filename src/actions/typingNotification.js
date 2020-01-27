@@ -1,4 +1,4 @@
-import each from 'lodash/each'
+import { each } from 'lodash'
 
 import * as types from '../constants/actionTypes'
 

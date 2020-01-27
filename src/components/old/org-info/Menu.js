@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import MenuList from 'grape-web/lib/components/menu/menuList'
 import Divider from 'grape-web/lib/components/divider'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 
 import {
   InviteItem,

@@ -1,9 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import CellMeasurerCache from 'react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache'
-import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
-import filter from 'lodash/filter'
-import every from 'lodash/every'
+import { isEqual, keys, filter, every } from 'lodash'
 
 import FifoCache from '../../../utils/fifo-cache/FifoCache'
 

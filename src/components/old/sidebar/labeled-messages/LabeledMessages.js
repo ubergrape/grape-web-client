@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
-import noop from 'lodash/noop'
+import { noop } from 'lodash'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import {
