@@ -9,6 +9,8 @@ import { BrowserNotification } from '../../components/browser-notification'
 const actionNames = {
   goToChannel: 'onGoToChannel',
   setNotification: 'setNotification',
+  closeIncomingCall: 'onCloseIncomingCall',
+  endSound: 'endSound',
 }
 
 const ConnectedBrowserNotification = connect(
