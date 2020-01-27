@@ -1,7 +1,6 @@
-const webpack = require('webpack')
 const webpackConfig = require('./webpack.config')
 
-module.exports = function(config) {
+module.exports = config => {
   config.set({
     browsers: ['Chrome'],
     singleRun: process.env.SINGLE_RUN,

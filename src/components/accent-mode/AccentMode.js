@@ -12,10 +12,12 @@ export default class AccentMode extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     onChange: PropTypes.func,
+    onBlur: PropTypes.func,
   }
 
   static defaultProps = {
     onChange: noop,
+    onBlur: noop,
   }
 
   constructor(props) {
@@ -44,7 +46,7 @@ export default class AccentMode extends Component {
   }
 
   onBlur = e => {
-    this.props.children.props.onBlur(e)
+    this.props.onBlur(e)
     this.onExit()
   }
 

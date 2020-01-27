@@ -91,9 +91,7 @@
     "i18n-export": "babel-node i18n/scripts/export.js",
     "i18n-import": "yarn build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
-    "prepublishOnly": "yarn all",
-    "sg": "cross-env STATIC_PATH=/dist/ styleguidist server",
-    "sg:build": "styleguidist build"
+    "prepublishOnly": "yarn all"
   },
   "lint-staged": {
     "*.js": [
