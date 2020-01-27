@@ -33,8 +33,12 @@ export const loadOlderChannels = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
 
   const lastChannel = channels.sort((a, b) => {
-    if (a.lastMessageTime < b.lastMessageTime) return -1
-    if (a.lastMessageTime > b.lastMessageTime) return 1
+    const aTime =
+      a.lastMessageTime === null ? new Date().toISOString() : a.lastMessageTime
+    const bTime =
+      b.lastMessageTime === null ? new Date().toISOString() : b.lastMessageTime
+    if (aTime < bTime) return -1
+    if (aTime > bTime) return 1
     return 0
   })[0]
 
