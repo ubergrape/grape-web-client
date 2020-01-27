@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const webpack = require('webpack')
 
-module.exports = exports = {
+const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -8,11 +9,11 @@ module.exports = exports = {
       __TEST__: process.env.NODE_ENV === 'test',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 
   module: {
-    loaders: [
+    rules: [
       {
         loader: 'babel-loader',
         test: /\.js$/,
@@ -25,3 +26,5 @@ module.exports = exports = {
     ],
   },
 }
+
+module.exports = config

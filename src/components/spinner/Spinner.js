@@ -35,7 +35,7 @@ const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
   return styles
 }, {})
 
-@injectSheet({
+const styles = {
   ...keyframes,
   spinner: {
     display: 'flex',
@@ -69,8 +69,9 @@ const keyframes = Object.keys(sizesMap).reduce((styles, size) => {
       .alpha(0.7)
       .rgbaString(),
   },
-})
-export default class Spinner extends PureComponent {
+}
+
+class Spinner extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     delay: PropTypes.number,
@@ -121,3 +122,5 @@ export default class Spinner extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Spinner)
