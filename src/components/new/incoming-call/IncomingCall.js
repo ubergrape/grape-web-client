@@ -28,7 +28,9 @@ class IncomingCall extends PureComponent {
     data: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     rejectIncomingCall: PropTypes.func.isRequired,
+    closeIncomingCall: PropTypes.func.isRequired,
     replyWithMessage: PropTypes.func.isRequired,
+    endSound: PropTypes.func.isRequired,
   }
 
   onReject = () => {
@@ -51,6 +53,12 @@ class IncomingCall extends PureComponent {
       },
     } = this.props
     replyWithMessage({ channelId, callId })
+  }
+
+  closeIncomingCall = () => {
+    const { closeIncomingCall, endSound } = this.props
+    closeIncomingCall()
+    endSound()
   }
 
   render() {
@@ -99,6 +107,7 @@ class IncomingCall extends PureComponent {
                 </button>
                 <a
                   href={`${grapecallUrl}?call_id=${call.id}`}
+                  onClick={this.closeIncomingCall}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(classes.button, classes.accept)}
