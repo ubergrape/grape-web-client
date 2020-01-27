@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import expect from 'expect.js'
 import { create } from '../'
 
