@@ -5,6 +5,7 @@
     "lib"
   ],
   "dependencies": {
+    "@babel/node": "^7.8.3",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "css-functions": "^1.0.5",
