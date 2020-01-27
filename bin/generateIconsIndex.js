@@ -1,13 +1,13 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { sync as globSync } from 'glob'
-import { basename } from 'path'
-import camelCase from 'lodash/camelCase'
-import { writeFileSync } from 'fs'
+const glob = require('glob')
+const { basename } = require('path')
+const camelCase = require('lodash/camelCase')
+const { writeFileSync } = require('fs')
 
 const basePath = `${process.cwd()}/src/svg-icons`
 const target = `${basePath}/raw.js`
 
-const exports = globSync(`${basePath}/svg/*.svg`).map(filePath => {
+const exports = glob.sync(`${basePath}/svg/*.svg`).map(filePath => {
   const fileName = basename(filePath, '.svg')
   return `export ${camelCase(fileName)} from './svg/${fileName}.svg'`
 })
