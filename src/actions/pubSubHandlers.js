@@ -28,6 +28,7 @@ import {
   goToLastUsedChannel,
   showSidebar,
   setIntialDataLoading,
+  closeIncomingCall,
 } from './'
 
 const addNewMessage = message => (dispatch, getState) => {
@@ -334,9 +335,7 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
   const { time, channel, author, event } = payload
   const currUser = userSelector(getState())
 
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
+  dispatch(closeIncomingCall())
   dispatch({
     type: types.CLOSE_CALL_STATUS,
   })
@@ -373,9 +372,7 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
   if (currUser.id !== author.id) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
@@ -403,9 +400,7 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     (channel.type === 'room' && user.id === author.id)
   ) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
@@ -422,13 +417,6 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   if (channel.type === 'pm' && data.call.id !== call.id) return
 
   const user = userSelector(getState())
-
-  if (user.id === author.id) {
-    dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
-  }
 
   if (channel.type === 'room') {
     if (user.id === author.id) {
@@ -472,9 +460,7 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 
   if (data.call.id === call.id) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
