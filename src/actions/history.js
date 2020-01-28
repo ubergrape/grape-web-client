@@ -198,6 +198,18 @@ function loadNewer(params) {
   }
 }
 
+const handleBadMessage = () => dispatch => {
+  dispatch(loadLatest())
+  dispatch(
+    showAlert({
+      level: 'warning',
+      type: alerts.MESSAGE_NOT_FOUND,
+      closeAfter: 6000,
+      isClosable: true,
+    }),
+  )
+}
+
 function loadFragment() {
   return (dispatch, getState) => {
     const channel = channelSelector(getState())
@@ -233,9 +245,8 @@ function loadFragment() {
           },
         })
       })
-      .catch(err => {
-        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
-        dispatch(error(err))
+      .catch(() => {
+        dispatch(handleBadMessage())
       })
   }
 }
