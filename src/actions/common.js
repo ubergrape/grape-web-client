@@ -93,6 +93,18 @@ export const handleUserProfile = profile => dispatch => {
   }
 }
 
+export const handleBadChannel = alertType => dispatch => {
+  dispatch(goToLastUsedChannel())
+  dispatch(
+    showAlert({
+      level: 'warning',
+      type: alertType || alerts.CHANNEL_NOT_FOUND,
+      closeAfter: 6000,
+      isClosable: true,
+    }),
+  )
+}
+
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
 
@@ -114,19 +126,9 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
         },
       })
     })
-    .catch(err => dispatch(error(err)))
-}
-
-export const handleBadChannel = alertType => dispatch => {
-  dispatch(goToLastUsedChannel())
-  dispatch(
-    showAlert({
-      level: 'warning',
-      type: alertType || alerts.CHANNEL_NOT_FOUND,
-      closeAfter: 6000,
-      isClosable: true,
-    }),
-  )
+    .catch(() => {
+      dispatch(handleBadChannel(alerts.CHANNEL_NOT_FOUND))
+    })
 }
 
 export const setIntialDataLoading = payload => dispatch => {
