@@ -18,32 +18,15 @@ class A11yDialog extends Component {
     children: null,
   }
 
-  componentDidMount() {
-    const dialog = document.getElementById(this.props.id)
-
-    const callback = mutationsList => {
-      mutationsList.forEach(mutation => {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'aria-hidden' &&
-          mutation.target.getAttribute('aria-hidden')
-        ) {
-          this.props.onHide()
-        }
-      })
-    }
-
-    const observer = new MutationObserver(callback)
-    observer.observe(dialog, { attributes: true })
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.show) this.dialog.show()
-    else this.dialog.hide()
   }
 
   onDialogRef = dialog => {
     this.dialog = dialog
+    this.dialog.on('hide', () => {
+      this.props.onHide()
+    })
   }
 
   render() {
@@ -54,6 +37,7 @@ class A11yDialog extends Component {
         id={id}
         title={title}
         appRoot="#grape-client"
+        dialogRoot="#dialog-root"
         dialogRef={this.onDialogRef}
         classNames={classNames}
         closeButtonLabel={closeButtonLabel}

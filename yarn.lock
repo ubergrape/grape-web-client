@@ -1429,10 +1429,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-a11y-dialog@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/a11y-dialog/-/a11y-dialog-4.0.1.tgz#41b45d04793f4064c9df3b044160d9fd006f4c0f"
-  integrity sha512-JsYMIaoZt7nZM1oDbxLBijyl09uZa91+UdPF+P9YadmmdtaVYx44v131UcqAhN48jNp8/BGV/80uMsBacPo2gg==
+a11y-dialog@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/a11y-dialog/-/a11y-dialog-5.2.0.tgz#bc3f9ccb7154a840bffd61b9385edbd093f7f209"
+  integrity sha512-vymlarVdoDKNwQPq513D5IANZu7fdOiWjQJG0FuEFI77RfJUGrxpfI6puwXy7hxKmVTSf4bNq6ZgCb+EikIl8g==
 
 abab@^2.0.0:
   version "2.0.3"
@@ -3411,7 +3411,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.6.0:
+create-react-class@^15.5.1:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -9559,15 +9559,12 @@ raw-loader@^0.5.1:
   resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
   integrity sha1-DD0L6u2KAclm2Xh793goElKpeao=
 
-react-a11y-dialog@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-a11y-dialog/-/react-a11y-dialog-2.0.0.tgz#ae91fe804548a144c4f52e22da18700e4c11a280"
-  integrity sha512-BTKtBmgWu8RUYz1pJiXPTJnW/f3M2eFg14flxD5mHtTUifS6aajb8Aw58/07v6iHmERb8cfXJMPDl+BhsTMKQQ==
+react-a11y-dialog@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/react-a11y-dialog/-/react-a11y-dialog-4.1.1.tgz#abbc27efc0f63f51966d404926f8f926e8155dc5"
+  integrity sha512-UM/9jctw8lMnDmFTc2+l8LmCm8SeaBUxQeQS4z2yDcCY2Mhu7S9CpmAL8fIRJ/3jM7mIx8wsHRwXD9qdJ4X3FQ==
   dependencies:
-    a11y-dialog "^4.0.0"
-    create-react-class "^15.5.2"
-    prop-types "^15.5.8"
-    react "^15.3.2"
+    a11y-dialog "^5.2.0"
 
 react-addons-shallow-compare@^15.6.0:
   version "15.6.2"
@@ -9803,17 +9800,6 @@ react-visibility-sensor@^5.0.2:
   integrity sha512-cTUHqIK+zDYpeK19rzW6zF9YfT4486TIgizZW53wEZ+/GPBbK7cNS0EHyJVyHYacwFEvvHLEKfgJndbemWhB/w==
   dependencies:
     prop-types "^15.7.2"
-
-react@^15.3.2:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
-  integrity sha1-26BDSrQ5z+gvEI8PURZjkIF5qnI=
-  dependencies:
-    create-react-class "^15.6.0"
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.10"
 
 react@^16.7.0:
   version "16.12.0"

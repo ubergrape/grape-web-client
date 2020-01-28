@@ -1,4 +1,5 @@
 import theme from '../../../../constants/theme'
+import { zIndex } from '../../../../utils/z-index'
 
 export default {
   /*
@@ -6,19 +7,25 @@ export default {
     http://edenspiekermann.github.io/a11y-dialog/#usage
   */
   base: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 5,
+    '&[data-a11y-dialog-native] > :first-child': {
+      isolate: false,
+      display: 'none',
+    },
   },
   element: {
     position: 'absolute',
+    zIndex: zIndex('dialog'),
+    top: 0,
+    left: 0,
     width: '100%',
     height: '100%',
     backgroundColor: theme.colorBackgroundNeutral,
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    '&[open]': {
+      isolate: false,
+      display: 'flex',
+    },
   },
   document: {
     display: 'flex',
