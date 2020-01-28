@@ -32,15 +32,13 @@ export const loadOlderChannels = () => (dispatch, getState) => {
   const conf = confSelector(getState())
   const channels = channelsSelector(getState())
 
-  const lastChannel = channels.sort((a, b) => {
-    const aTime =
-      a.lastMessageTime === null ? new Date().toISOString() : a.lastMessageTime
-    const bTime =
-      b.lastMessageTime === null ? new Date().toISOString() : b.lastMessageTime
-    if (aTime < bTime) return -1
-    if (aTime > bTime) return 1
-    return 0
-  })[0]
+  const lastChannel = channels
+    .filter(channel => channel.lastMessageTime)
+    .sort((a, b) => {
+      if (a.lastMessageTime < b.lastMessageTime) return -1
+      if (a.lastMessageTime > b.lastMessageTime) return 1
+      return 0
+    })[0]
 
   api
     .getOverview(conf.organization.id, {
