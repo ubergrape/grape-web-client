@@ -246,6 +246,7 @@ function loadFragment() {
         })
       })
       .catch(() => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch(handleBadMessage())
       })
   }
