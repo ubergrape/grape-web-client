@@ -244,8 +244,13 @@ function loadFragment() {
           },
         })
       })
-      .catch(() => {
-        dispatch(handleBadMessage())
+      .catch(err => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        if (err.message === 'Message Not Found') {
+          dispatch(handleBadMessage())
+        } else {
+          dispatch(error(err))
+        }
       })
   }
 }

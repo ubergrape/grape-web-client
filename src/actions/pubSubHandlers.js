@@ -415,6 +415,13 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   const user = userSelector(getState())
 
+  if (user.id === author.id) {
+    dispatch(endSound())
+    dispatch({
+      type: types.CLOSE_INCOMING_CALL,
+    })
+  }
+
   if (channel.type === 'room') {
     if (user.id === author.id) {
       dispatch({
@@ -456,6 +463,8 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
   const { call } = payload
 
   if (data.call.id === call.id) {
+    dispatch(endSound())
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })

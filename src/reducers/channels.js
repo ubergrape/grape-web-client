@@ -177,7 +177,7 @@ export default function reduce(state = initialState, action) {
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
-        mentioned: 0,
+        mentions: 0,
         unread: 0,
       })
       return newState
