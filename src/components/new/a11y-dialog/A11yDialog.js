@@ -20,6 +20,7 @@ class A11yDialog extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show) this.dialog.show()
+    else this.dialog.hide()
   }
 
   onDialogRef = dialog => {
