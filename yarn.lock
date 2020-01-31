@@ -4049,10 +4049,10 @@ grape-theme@3.x, grape-theme@^3.4.1:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
 
-grape-web@^1.8.0:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.10.1.tgz#88f401bd989198f259fe048958a25a175349c0fe"
-  integrity sha512-hrLZ3Nvn3/K0wUEVf1w/+/dUixiHOD3UHzIc4BA8ZUjgQWDrRkH8BIWyVlD8S3K/UcahS8C2x02NcMj2JQE7ng==
+grape-web@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.11.2.tgz#e1d40a66f680daeb70f7619a23e2ac5dabdb120d"
+  integrity sha512-qTpqIKKL5MFVQ2XPHHwyuB0FVivQyEVcIAFYkSFgUNGSVgdj7RZIUOtxmNzUtxEIUAy7fHw29wTB5MQPb0HnEg==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
