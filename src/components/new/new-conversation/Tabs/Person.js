@@ -29,7 +29,7 @@ class Person extends Component {
     this.onChangeFilterDebounced(value)
   }
 
-  isRowLoaded = index => !!this.props.data.list[index]
+  isRowLoaded = index => Boolean(this.props.data.list[index])
 
   rowHeight = (list, index) => {
     if (list[index].text) return 70

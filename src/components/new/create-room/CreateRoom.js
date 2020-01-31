@@ -104,7 +104,7 @@ class CreateNewGroup extends Component {
     this.props.onCreateRoom()
   }
 
-  isRowLoaded = index => !!this.props.users[index]
+  isRowLoaded = index => Boolean(this.props.users[index])
 
   render() {
     const {
