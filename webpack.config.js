@@ -39,6 +39,8 @@ const plugins = [
   new webpack.optimize.ModuleConcatenationPlugin(),
   new LodashModuleReplacementPlugin({
     shorthands: true,
+    collections: true,
+    paths: true,
   }),
   new DuplicatePackageCheckerPlugin(),
 ]
