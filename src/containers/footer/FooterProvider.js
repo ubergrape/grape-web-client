@@ -17,7 +17,6 @@ const actionNames = {
   showEmojiSuggestBrowser: 'onShowEmojiSuggestBrowser',
   hideBrowser: 'onHideBrowser',
   createMessage: 'onCreateMessage',
-  setUnsentMessage: 'onSetUnsentMessage',
   editMessageSend: 'onEditMessageSend',
   editMessageAbort: 'onEditMessageAbort',
   editPreviousMessage: 'onEditPreviousMessage',
