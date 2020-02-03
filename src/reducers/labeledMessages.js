@@ -21,6 +21,8 @@ export default function reduce(state = initialState, action) {
   const { payload } = action
 
   switch (action.type) {
+    case types.HIDE_SIDEBAR:
+      return initialState
     case types.SET_SIDEBAR_OPTIONS:
       return { ...state, options: merge({}, state.options, action.payload) }
     case types.REQUEST_LABELED_MESSAGES:
@@ -43,8 +45,6 @@ export default function reduce(state = initialState, action) {
         messages: [...state.messages, ...payload.messages],
         labelsConfig: payload.labelsConfig,
       }
-    case types.HIDE_SIDEBAR:
-      return initialState
     case types.TOGGLE_SEARCH_IN_CHANNEL_ONLY: {
       const options = merge({}, state.options)
       options.currentChannelOnly.status = !options.currentChannelOnly.status
