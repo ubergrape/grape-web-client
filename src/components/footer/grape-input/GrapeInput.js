@@ -94,7 +94,6 @@ class GrapeInput extends PureComponent {
     onSetTyping: PropTypes.func.isRequired,
     onAbortEdit: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
-    onSetUnsentMessage: PropTypes.func.isRequired,
     onEditPreviousMessage: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowEmojiSuggestBrowser: PropTypes.func.isRequired,
@@ -200,14 +199,13 @@ class GrapeInput extends PureComponent {
   }
 
   onSelectChannel(prev, next) {
-    const { targetMessage, onSetUnsentMessage } = this.props
+    const { targetMessage } = this.props
     if (prev.id && !targetMessage) {
-      onSetUnsentMessage(prev.id, this.input.getTextContent())
+      this.saveDraftMessageToLocalStorage(this.input.getTextContent())
     }
 
     const draftMessages = this.getDraftMessages()
-
-    this.input.setTextContent(next.unsent || draftMessages[next.id] || '', {
+    this.input.setTextContent(draftMessages[next.id] || '', {
       silent: true,
     })
     this.focus()
@@ -223,7 +221,6 @@ class GrapeInput extends PureComponent {
       onCreateMessage,
       onUpdateMessage,
       channel,
-      onSetUnsentMessage,
       onHideBrowser,
     } = this.props
 
@@ -249,7 +246,7 @@ class GrapeInput extends PureComponent {
         onCreateMessage({ channelId: channel.id, attachments })
       }
     }
-    onSetUnsentMessage(channel.id, '')
+    this.saveDraftMessageToLocalStorage('')
     onHideBrowser()
   }
 
@@ -299,8 +296,6 @@ class GrapeInput extends PureComponent {
       onHideBrowser,
       targetMessage,
       onAbortEdit,
-      channel,
-      onSetUnsentMessage,
     } = this.props
 
     if (showBrowser) {
@@ -308,8 +303,8 @@ class GrapeInput extends PureComponent {
       this.focus()
     } else if (targetMessage) {
       onAbortEdit()
+      this.saveDraftMessageToLocalStorage('')
       this.input.setTextContent('', { silent: true })
-      onSetUnsentMessage(channel.id, '')
     }
   }
 
@@ -373,6 +368,23 @@ class GrapeInput extends PureComponent {
       default:
         return null
     }
+  }
+
+  saveDraftMessageToLocalStorage(content) {
+    let { draftMessages = '{}' } = localStorage
+    const {
+      channel: { id },
+    } = this.props
+
+    draftMessages = JSON.parse(draftMessages)
+
+    if (content) {
+      draftMessages[id] = content
+    } else {
+      delete draftMessages[id]
+    }
+
+    localStorage.setItem('draftMessages', JSON.stringify(draftMessages))
   }
 
   startTypingThrottled = throttle(

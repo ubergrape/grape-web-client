@@ -216,19 +216,6 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.SET_UNSENT_MESSAGE: {
-      const { id, msg } = action.payload
-      const newState = [...state]
-      const index = findIndex(newState, { id })
-      if (index === -1) return state
-      const channel = newState[index]
-      newState.splice(index, 1, {
-        ...channel,
-        unsent: msg,
-      })
-      return newState
-    }
-
     case types.ADD_USER_TO_ORG: {
       if (findIndex(state, { id: action.payload.id }) === -1) {
         return [...state, action.payload]
