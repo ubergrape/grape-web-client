@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
+import { debouncingTime } from 'grape-web/lib/constants/time'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
 import throttle from 'lodash/throttle'
@@ -309,6 +310,7 @@ class GrapeInput extends PureComponent {
   }
 
   onChange = () => {
+    this.updateDraftOnEdit()
     this.startTypingThrottled()
     this.stopTypingDebounced()
   }
@@ -369,6 +371,10 @@ class GrapeInput extends PureComponent {
         return null
     }
   }
+
+  updateDraftOnEdit = debounce(() => {
+    this.saveDraftMessageToLocalStorage(this.input.getTextContent())
+  }, debouncingTime)
 
   saveDraftMessageToLocalStorage(content) {
     let { draftMessages = '{}' } = localStorage
