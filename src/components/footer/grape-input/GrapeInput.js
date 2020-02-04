@@ -309,6 +309,7 @@ class GrapeInput extends PureComponent {
   }
 
   onChange = () => {
+    this.saveDraftMessageToLocalStorage(this.input.getTextContent())
     this.startTypingThrottled()
     this.stopTypingDebounced()
   }
