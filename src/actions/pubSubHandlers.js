@@ -122,7 +122,7 @@ export const handleNewSystemMessage = message => dispatch => {
 }
 
 export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
-  const { id: channelId, lastMessageTimestamp } = channelData
+  const { id: channelId } = channelData
 
   dispatch(removeSharedFiles(id))
   dispatch(removeMention(id))
@@ -134,24 +134,10 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
   api
     .getChannel(channelId)
     .then(channel => {
-      const { mentions } = channel.lastMessage
-      const isMessageWithMention = Object.keys(mentions).every(
-        key => mentions[key].length,
-      )
-
       dispatch({
         type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
         payload: normalizeChannelData({
           ...channel,
-          // Replacing lastMessageTime value, because backend returns timestamp for
-          // already deleted message. If it's correct now, you can remove lastMessage
-          // and mentions  below.
-          lastMessage: lastMessageTimestamp
-            ? {
-                time: lastMessageTimestamp,
-              }
-            : null,
-          mentions: isMessageWithMention,
         }),
       })
     })
