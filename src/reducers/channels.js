@@ -1,5 +1,6 @@
 import findIndex from 'lodash/findIndex'
 import find from 'lodash/find'
+import omit from 'lodash/omit'
 import * as types from '../constants/actionTypes'
 
 const initialState = []
@@ -161,11 +162,12 @@ export default function reduce(state = initialState, action) {
       const mentions = channel.mentions || 0
 
       newState.splice(index, 1, {
-        ...channel,
+        ...omit(channel, 'temporaryInNavigation'),
         lastMessageTime: message.time,
         mentions: mentions + mentionsCount || channel.mentions,
         unread: isCurrentUser ? 0 : channel.unread + 1,
       })
+
       return newState
     }
 
