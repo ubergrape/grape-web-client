@@ -188,7 +188,7 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL_UNREAD_COUNTER: {
-      const { id, lastMessageTime, mentions } = action.payload
+      const { id, lastMessageTime, unread, mentions } = action.payload
       const index = findIndex(state, { id })
       if (index === -1) return state
       const newState = [...state]
@@ -197,9 +197,8 @@ export default function reduce(state = initialState, action) {
       newState.splice(index, 1, {
         ...channel,
         lastMessageTime,
-        // Backend sending wrong unread counter, please remove two line below
-        unread: channel.unread ? channel.unread - 1 : 0,
-        mentions: channel.mentions && mentions ? channel.mentions - 1 : 0,
+        mentions,
+        unread,
       })
       return newState
     }
