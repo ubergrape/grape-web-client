@@ -194,6 +194,7 @@ export const handleJoinedChannel = ({
   userData: user,
 }) => (dispatch, getState) => {
   const { id } = userSelector(getState())
+  const currentChannel = channelSelector(getState())
   const channels = channelsSelector(getState())
 
   if (!channel) return
@@ -212,6 +213,7 @@ export const handleJoinedChannel = ({
     payload: {
       channel,
       user,
+      currentChannelId: currentChannel.id,
       isCurrentUser: id === user.id,
     },
   })
@@ -231,11 +233,17 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const currentChannel = channelSelector(getState())
     const isCurrentUser = user.id === userId
 
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId, isCurrentUser },
+      payload: {
+        channelId,
+        userId,
+        isCurrentUser,
+        currentChannelId: currentChannel.id,
+      },
     })
 
     if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
