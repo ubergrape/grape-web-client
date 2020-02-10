@@ -15,6 +15,7 @@ import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
+  countChannelMentions,
   normalizeUserData,
   findLastUsedChannel,
 } from './utils'
@@ -118,7 +119,7 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
       dispatch({
         type: types.SET_CHANNEL,
         payload: {
-          channel,
+          channel: countChannelMentions(channel),
           currentChannel,
           messageId,
         },

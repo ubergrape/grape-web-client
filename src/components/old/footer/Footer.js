@@ -38,7 +38,6 @@ class Footer extends PureComponent {
     onHideBrowser: PropTypes.func.isRequired,
     onCreateMessage: PropTypes.func.isRequired,
     onSetTyping: PropTypes.func.isRequired,
-    onSetUnsentMessage: PropTypes.func.isRequired,
     onEditPreviousMessage: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowEmojiSuggestBrowser: PropTypes.func.isRequired,
@@ -108,7 +107,6 @@ class Footer extends PureComponent {
       onOpenFileDialog,
       onHideBrowser,
       onCreateMessage,
-      onSetUnsentMessage,
       onEditMessageSend,
       onEditMessageAbort,
       onEditPreviousMessage,
@@ -170,7 +168,6 @@ class Footer extends PureComponent {
                 onCreateMessage={onCreateMessage}
                 onUpdateMessage={onEditMessageSend}
                 onAbortEdit={onEditMessageAbort}
-                onSetUnsentMessage={onSetUnsentMessage}
                 onEditPreviousMessage={onEditPreviousMessage}
                 onRequestAutocomplete={onRequestAutocomplete}
                 onRequestAutocompleteServices={onRequestAutocompleteServices}

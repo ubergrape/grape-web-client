@@ -21,6 +21,8 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
+    case types.HIDE_SIDEBAR:
+      return initialState
     case types.SET_SIDEBAR_OPTIONS:
       return { ...state, options: merge({}, state.options, action.payload) }
     case types.SET_SIDEBAR_IS_LOADING:

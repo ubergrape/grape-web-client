@@ -1,12 +1,4 @@
-import {
-  find,
-  map,
-  each,
-  intersection,
-  isEmpty,
-  keyBy,
-  camelCase,
-} from 'lodash'
+import { find, each, isEmpty, keyBy, camelCase } from 'lodash'
 
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
@@ -24,7 +16,17 @@ export function doesMessageChannelExist(msg, state) {
   return Boolean(channel)
 }
 
-export function pinToFavorite(channel) {
+export const countChannelMentions = channel => {
+  const { groupMentions } = channel
+  const newChannel = {
+    ...channel,
+    mentions: channel.mentions + groupMentions,
+  }
+  delete newChannel.groupMentions
+  return newChannel
+}
+
+export const pinToFavorite = channel => {
   const { pin } = channel
   const newChannel = {
     ...channel,
@@ -34,7 +36,7 @@ export function pinToFavorite(channel) {
   return newChannel
 }
 
-const lastMessageToLastMessageTime = channel => {
+export const lastMessageToLastMessageTime = channel => {
   const { lastMessage } = channel
 
   const newChannel = {
@@ -47,7 +49,9 @@ const lastMessageToLastMessageTime = channel => {
 }
 
 export function normalizeChannelData(channel) {
-  const normalized = lastMessageToLastMessageTime(pinToFavorite(channel))
+  const normalized = lastMessageToLastMessageTime(
+    pinToFavorite(countChannelMentions(channel)),
+  )
   return normalized
 }
 
@@ -256,30 +260,6 @@ export const normalizeMessage = (() => {
 
 export function filterEmptyMessage({ text, attachments }) {
   return (text && text.trim().length !== 0) || !isEmpty(attachments)
-}
-
-/**
- * Count number of mentions that
- * match user id or joined room id when
- * some user or room is mentioned.
- */
-export function countMentions(message, user, rooms) {
-  const { mentions } = message
-  let count = 0
-  if (isEmpty(mentions)) return count
-
-  if (mentions.user) {
-    const userMentions = mentions.user.filter(userId => userId === user.id)
-    count += userMentions.length
-  }
-
-  if (mentions.room) {
-    const joinedRoomsIds = map(rooms, 'id')
-    const roomMentions = intersection(mentions.room, joinedRoomsIds)
-    count += roomMentions.length
-  }
-
-  return count
 }
 
 export function roomNameFromUsers(users) {

@@ -14,6 +14,7 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_EVERY_MEMBER_LOADED:
       return { ...state, isEveryMemberLoaded: true }
     case types.ADD_USER_TO_CHANNEL: {
+      if (payload.currentChannelId !== payload.channel.id) return state
       if (state.users.some(({ id }) => id === payload.user.id))
         return { ...state }
       return {
@@ -42,6 +43,7 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.REMOVE_USER_FROM_CHANNEL: {
+      if (payload.currentChannelId !== payload.channelId) return state
       return {
         ...state,
         users: state.users.filter(user => user.id !== payload.userId),
