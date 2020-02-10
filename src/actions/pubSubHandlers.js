@@ -1,5 +1,8 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import intersection from 'lodash/intersection'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
@@ -15,7 +18,7 @@ import {
   joinedChannelsSelector,
   incomingCallSelector,
 } from '../selectors'
-import { normalizeMessage, countMentions, pinToFavorite } from './utils'
+import { normalizeMessage, normalizeChannelData, pinToFavorite } from './utils'
 import {
   goTo,
   error,
@@ -31,13 +34,37 @@ import {
   closeIncomingCall,
 } from './'
 
+/**
+ * Count number of mentions that
+ * match user id or joined room id when
+ * some user or room is mentioned.
+ */
+const countMessageMentions = (message, user, rooms) => {
+  const { mentions } = message
+  let count = 0
+  if (isEmpty(mentions)) return count
+
+  if (mentions.user) {
+    const userMentions = mentions.user.filter(userId => userId === user.id)
+    count += userMentions.length
+  }
+
+  if (mentions.room) {
+    const joinedRoomsIds = map(rooms, 'id')
+    const roomMentions = intersection(mentions.room, joinedRoomsIds)
+    count += roomMentions.length
+  }
+
+  return count
+}
+
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
   const rooms = roomsSelector(state)
   const channel = channelSelector(state)
   const nMessage = normalizeMessage(message, state)
-  const mentionsCount = countMentions(nMessage, user, rooms)
+  const mentionsCount = countMessageMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
 
   if (nMessage.attachments.length && currentChannel.id === nMessage.id)
@@ -109,9 +136,9 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     .then(channel => {
       dispatch({
         type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-        payload: {
+        payload: normalizeChannelData({
           ...channel,
-        },
+        }),
       })
     })
     .catch(err => dispatch(error(err)))
@@ -167,6 +194,7 @@ export const handleJoinedChannel = ({
   userData: user,
 }) => (dispatch, getState) => {
   const { id } = userSelector(getState())
+  const currentChannel = channelSelector(getState())
   const channels = channelsSelector(getState())
 
   if (!channel) return
@@ -185,6 +213,7 @@ export const handleJoinedChannel = ({
     payload: {
       channel,
       user,
+      currentChannelId: currentChannel.id,
       isCurrentUser: id === user.id,
     },
   })
@@ -204,11 +233,17 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const currentChannel = channelSelector(getState())
     const isCurrentUser = user.id === userId
 
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId, isCurrentUser },
+      payload: {
+        channelId,
+        userId,
+        isCurrentUser,
+        currentChannelId: currentChannel.id,
+      },
     })
 
     if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())

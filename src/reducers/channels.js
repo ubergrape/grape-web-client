@@ -1,5 +1,6 @@
 import findIndex from 'lodash/findIndex'
 import find from 'lodash/find'
+import omit from 'lodash/omit'
 import * as types from '../constants/actionTypes'
 
 const initialState = []
@@ -159,12 +160,14 @@ export default function reduce(state = initialState, action) {
       if (index === -1) return state
       const channel = newState[index]
       const mentions = channel.mentions || 0
+
       newState.splice(index, 1, {
-        ...channel,
+        ...omit(channel, 'temporaryInNavigation'),
         lastMessageTime: message.time,
         mentions: mentions + mentionsCount || channel.mentions,
         unread: isCurrentUser ? 0 : channel.unread + 1,
       })
+
       return newState
     }
 
@@ -185,15 +188,17 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL_UNREAD_COUNTER: {
-      const { id, unread, lastMessage } = action.payload
+      const { id, lastMessageTime, unread, mentions } = action.payload
       const index = findIndex(state, { id })
       if (index === -1) return state
       const newState = [...state]
+      const channel = state[index]
 
       newState.splice(index, 1, {
-        ...state[index],
+        ...channel,
+        lastMessageTime,
+        mentions,
         unread,
-        lastMessageTime: lastMessage ? lastMessage.time : null,
       })
       return newState
     }
@@ -208,19 +213,6 @@ export default function reduce(state = initialState, action) {
           ...channel,
           favorited,
         })
-      })
-      return newState
-    }
-
-    case types.SET_UNSENT_MESSAGE: {
-      const { id, msg } = action.payload
-      const newState = [...state]
-      const index = findIndex(newState, { id })
-      if (index === -1) return state
-      const channel = newState[index]
-      newState.splice(index, 1, {
-        ...channel,
-        unsent: msg,
       })
       return newState
     }

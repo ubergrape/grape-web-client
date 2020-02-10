@@ -33,15 +33,6 @@ export function hideBrowser() {
   }
 }
 
-export function setUnsentMessage(channelId, msg) {
-  return dispatch => {
-    dispatch({
-      type: types.SET_UNSENT_MESSAGE,
-      payload: { id: channelId, msg },
-    })
-  }
-}
-
 export function requestAutocompleteServices() {
   return (dispatch, getState) => {
     dispatch({ type: types.REQUEST_AUTOCOMPLETE_SERVICES })
