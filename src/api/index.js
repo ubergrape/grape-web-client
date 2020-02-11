@@ -139,6 +139,13 @@ const setOpenFileDialogHandler = fn => {
 
 const setChannel = (id, messageId) =>
   actionsReady.then(actions => {
+    if (!id) {
+      // eslint-disable-next-line no-console
+      console.error(
+        'channelId parameter for setChannel should be a number. Please check documentation: https://uebergrape.staging.chatgrape.com/doc/development/embedded_web_client.html?highlight=embedded#change-channel',
+      )
+      return
+    }
     actions.setChannel(id, messageId)
   })
 
