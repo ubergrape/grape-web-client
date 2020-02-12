@@ -14,7 +14,7 @@ export default class Footer extends PureComponent {
     disabled: PropTypes.bool,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
-    channels: PropTypes.object.isRequired,
+    typingChannels: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     showBrowser: PropTypes.oneOf([
       false,
@@ -39,7 +39,6 @@ export default class Footer extends PureComponent {
     onHideBrowser: PropTypes.func.isRequired,
     onCreateMessage: PropTypes.func.isRequired,
     onSetTyping: PropTypes.func.isRequired,
-    onSetUnsentMessage: PropTypes.func.isRequired,
     onEditPreviousMessage: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowEmojiSuggestBrowser: PropTypes.func.isRequired,
@@ -82,7 +81,7 @@ export default class Footer extends PureComponent {
   render() {
     const {
       classes,
-      channels,
+      typingChannels,
       channel,
       org,
       conf,
@@ -109,7 +108,6 @@ export default class Footer extends PureComponent {
       onOpenFileDialog,
       onHideBrowser,
       onCreateMessage,
-      onSetUnsentMessage,
       onEditMessageSend,
       onEditMessageAbort,
       onEditPreviousMessage,
@@ -134,7 +132,7 @@ export default class Footer extends PureComponent {
             <div className={classes.above}>
               <div className={classes.typingNotificationContainer}>
                 <TypingNotification
-                  channels={channels}
+                  channels={typingChannels}
                   channel={channel}
                   cleanupTyping={onCleanupTyping}
                   className={classes.typingNotification}
@@ -171,7 +169,6 @@ export default class Footer extends PureComponent {
                 onCreateMessage={onCreateMessage}
                 onUpdateMessage={onEditMessageSend}
                 onAbortEdit={onEditMessageAbort}
-                onSetUnsentMessage={onSetUnsentMessage}
                 onEditPreviousMessage={onEditPreviousMessage}
                 onRequestAutocomplete={onRequestAutocomplete}
                 onRequestAutocompleteServices={onRequestAutocompleteServices}

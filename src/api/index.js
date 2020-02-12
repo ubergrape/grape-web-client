@@ -7,7 +7,7 @@ import merge from 'lodash/merge'
 import Emitter from 'component-emitter'
 
 import conf from '../conf'
-import { toCamel } from '../utils/convertCase'
+import { toCamel } from '../utils/convert-case'
 import { loadConfig } from '../utils/backend/api'
 import rpc from '../utils/backend/rpc'
 import ie10Polyfills from './ie10Polyfills'

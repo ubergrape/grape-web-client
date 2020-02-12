@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash/differenceBy'
@@ -11,7 +12,190 @@ export const initialDataLoadingSelector = createSelector(
   state => state,
 )
 
-export const confSelector = createSelector(state => state.conf, state => state)
+export const confSelector = createSelector(
+  state => state.conf,
+  state => state,
+)
+
+export const userSelector = createSelector(
+  state => state.user,
+  state => state,
+)
+
+export const channelsSelector = createSelector(
+  state => state.channels,
+  state => state,
+)
+
+const channelsToMentionSelector = createSelector(
+  state => state.footer.channelsToMention,
+  state => state,
+)
+
+const foundChannelsSelector = createSelector(
+  state => state.navigation.foundChannels,
+  state => state,
+)
+
+const searchingChannelsSelector = createSelector(
+  state => state.navigation.searchingChannels,
+  state => state,
+)
+
+export const roomDeleteSelector = createSelector(
+  state => state.roomDelete,
+  state => state,
+)
+
+export const orgSelector = createSelector(
+  state => state.org,
+  state => state,
+)
+
+export const billingWarningSelector = createSelector(
+  state => state.billingWarning,
+  state => state,
+)
+
+const typingChannelsSelector = createSelector(
+  state => state.typingChannels,
+  state => state,
+)
+
+const notificationSettingsSelector = createSelector(
+  state => state.notificationSettings,
+  state => state,
+)
+
+const renameRoomErrorSelector = createSelector(
+  state => state.renameRoomError,
+  state => state,
+)
+
+export const sharedFilesSelector = createSelector(
+  state => state.sharedFiles,
+  state => state,
+)
+
+export const mentionsSelector = createSelector(
+  state => state.mentions,
+  state => state,
+)
+
+export const sidebarSelector = createSelector(
+  state => state.sidebar,
+  state => state,
+)
+
+export const labeledMessagesSelector = createSelector(
+  state => state.labeledMessages,
+  state => state,
+)
+
+const pinnedMessagesSelector = createSelector(
+  state => state.pinnedMessages,
+  state => state,
+)
+
+export const channelMembersSelector = createSelector(
+  state => state.channelMembers,
+  state => state,
+)
+
+export const messageSearchSelector = createSelector(
+  state => state.messageSearch,
+  state => state,
+)
+
+export const alertsSelector = createSelector(
+  state => state.alerts,
+  state => state,
+)
+
+const inviteChannelMembersSelector = createSelector(
+  state => state.inviteChannelMembers,
+  state => state,
+)
+
+const inviteToOrgSelector = createSelector(
+  state => state.inviteToOrg,
+  state => state,
+)
+
+const createRoomErrorSelector = createSelector(
+  state => state.createRoomError,
+  state => state,
+)
+
+const reconnectSelector = createSelector(
+  state => state.reconnect,
+  state => state,
+)
+
+export const historySelector = createSelector(
+  state => state.history,
+  state => state,
+)
+
+export const soundsSelector = createSelector(
+  state => state.sounds,
+  state => state,
+)
+
+const fileUploadSelector = createSelector(
+  state => state.fileUpload,
+  state => state,
+)
+
+export const manageGroupsSelector = createSelector(
+  state => state.manageGroups,
+  state => state,
+)
+
+export const linkAttachmentsSelector = createSelector(
+  state => state.linkAttachments,
+  state => state,
+)
+
+const browserNotificationSelector = createSelector(
+  state => state.browserNotification,
+  state => state,
+)
+
+export const incomingCallSelector = createSelector(
+  state => state.incomingCall,
+  state => state,
+)
+
+const videoConferenceWarningSelector = createSelector(
+  state => state.videoConferenceWarning,
+  state => state,
+)
+
+const callStatusSelector = createSelector(
+  state => state.callStatus,
+  state => state,
+)
+
+export const markdownTipsSelector = createSelector(
+  state => state.markdownTips,
+  state => state,
+)
+
+const introSelector = createSelector(
+  state => state.intro,
+  state => state,
+)
+
+const footerSelector = createSelector(
+  state => state.footer,
+  state => state,
+)
+
+const leaveChannelSelector = createSelector(
+  state => state.leaveChannel,
+  state => state,
+)
 
 export const appSelector = createSelector(
   [state => state.app, initialDataLoadingSelector],
@@ -21,67 +205,21 @@ export const appSelector = createSelector(
   }),
 )
 
-/**
- * state.users is not necessarily a list of all users in the organisation
- * since it gets filled by pm objects from pm get_overview
- * https://uebergrape.staging.chatgrape.com/doc/chat_api/rpc.html#chat.rpc.PM.get_overview
- */
-export const usersSelector = createSelector(
-  state => state.users,
-  state => state,
+export const pmsSelector = createSelector(channelsSelector, channels =>
+  channels.filter(channel => channel.type === 'pm'),
 )
 
-export const userSelector = createSelector(state => state.user, state => state)
-
-export const activeUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => user.isActive),
+export const roomsSelector = createSelector(channelsSelector, channels =>
+  channels.filter(channel => channel.type === 'room'),
 )
 
-export const invitedUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => user.isOnlyInvited),
+export const joinedChannelsSelector = createSelector(
+  [channelsSelector],
+  channels => Boolean(channels.length),
 )
 
-export const deletedUsersSelector = createSelector(usersSelector, users =>
-  users.filter(user => !user.isActive),
-)
-
-export const initialChannelsSelector = createSelector(
-  state => state.channels,
-  state => state,
-)
-
-/**
- * Fill the `initialChannelsSelector` with pm objects
- * instead of pm ID's.
- */
-export const channelsSelector = createSelector(
-  [initialChannelsSelector, usersSelector],
-  (channels, users) =>
-    channels
-      .map(channel => {
-        if (channel.type === 'room') {
-          return {
-            ...channel,
-            users: channel.users,
-          }
-        }
-
-        if (channel.type === 'pm') {
-          const user = find(users, _user => _user.id === channel.id)
-          if (!user) return null
-          return {
-            ...user,
-            ...channel,
-            name: user.partner.displayName,
-            users: channel.users,
-          }
-        }
-
-        return channel
-        // TODO remove it once no logic left which assumes we have all channels and users.
-        // Handles pm channels when mate user was not found in `users`.
-      })
-      .filter(Boolean),
+export const activePmsSelector = createSelector(pmsSelector, pms =>
+  pms.filter(pm => pm.lastMessageTime),
 )
 
 export const channelSelector = createSelector(
@@ -89,116 +227,21 @@ export const channelSelector = createSelector(
   channels => find(channels, 'current') || {},
 )
 
-export const channelsToMentionSelector = createSelector(
-  state => state.footer.channelsToMention,
-  state => state,
-)
-
-export const foundChannelsSelector = createSelector(
-  state => state.navigation.foundChannels,
-  state => state,
-)
-
-export const searchingChannelsSelector = createSelector(
-  state => state.navigation.searchingChannels,
-  state => state,
-)
-
-export const roomsSelector = createSelector(channelsSelector, channels =>
-  channels.filter(channel => channel.type === 'room'),
-)
-
-export const joinedRoomsSelector = createSelector(roomsSelector, rooms =>
-  rooms.filter(room => room.joined),
-)
-
-export const roomDeleteSelector = createSelector(
-  state => state.roomDelete,
-  state => state,
-)
-
-export const pmsSelector = createSelector(channelsSelector, channels =>
-  channels.filter(channel => channel.type === 'pm'),
-)
-
-export const joinedChannelsSelector = createSelector(
-  [joinedRoomsSelector, pmsSelector],
-  (joinedRooms, pms) => Boolean(joinedRooms.length || pms.length),
-)
-
-export const activePmsSelector = createSelector(pmsSelector, pms =>
-  pms.filter(pm => pm.firstMessageTime),
-)
-
 export const currentPmsSelector = createSelector(
   pmsSelector,
   pms => find(pms, 'current') || {},
 )
 
-export const invitedUsersWithPmSlector = createSelector(
-  invitedUsersSelector,
-  users => users.filter(user => user.pm),
-)
-
-export const deletedUsersWithPmSelector = createSelector(
-  deletedUsersSelector,
-  users => users.filter(user => user.pm),
-)
-
-export const orgSelector = createSelector(state => state.org, state => state)
-
-export const billingWarningSelector = createSelector(
-  state => state.billingWarning,
-  state => state,
-)
-
-export const typingChannelsSelector = createSelector(
-  state => state.typingChannels,
-  state => state,
-)
-
-export const typingNotificationSelector = createSelector(
-  [typingChannelsSelector, channelSelector],
-  (channels, channel) => ({ channels, channel }),
-)
-
-export const setTypingSelector = createSelector(
-  [
-    userSelector,
-    usersSelector,
-    orgSelector,
-    channelSelector,
-    typingNotificationSelector,
-  ],
-  (user, users, org, channel, typingNotification) => ({
-    user,
-    users,
-    org,
-    channel,
-    typingNotification,
-  }),
-)
-
-export const userProfileSelector = createSelector([currentPmsSelector], pm => ({
+const userProfileSelector = createSelector([currentPmsSelector], pm => ({
   ...pm.partner,
 }))
-
-const notificationSettingsSelector = createSelector(
-  state => state.notificationSettings,
-  state => state,
-)
 
 export const notificationSettingsComponentSelector = createSelector(
   [userSelector, notificationSettingsSelector],
   (user, notificationSettings) => ({ user, ...notificationSettings }),
 )
 
-export const renameRoomErrorSelector = createSelector(
-  state => state.renameRoomError,
-  state => state,
-)
-
-export const roomInfoSelector = createSelector(
+const roomInfoSelector = createSelector(
   [
     renameRoomErrorSelector,
     channelSelector,
@@ -213,17 +256,7 @@ export const roomInfoSelector = createSelector(
   }),
 )
 
-export const sharedFilesSelector = createSelector(
-  state => state.sharedFiles,
-  state => state,
-)
-
-export const mentionsSelector = createSelector(
-  state => state.mentions,
-  state => state,
-)
-
-export const mentionsWithChannels = createSelector(
+const mentionsWithChannels = createSelector(
   [mentionsSelector, channelsSelector, orgSelector],
   (search, channels, { customEmojis }) => ({
     ...search,
@@ -235,12 +268,7 @@ export const mentionsWithChannels = createSelector(
   }),
 )
 
-export const messageSearchSelector = createSelector(
-  state => state.messageSearch,
-  state => state,
-)
-
-export const messageSearchWithChannels = createSelector(
+const messageSearchWithChannels = createSelector(
   [messageSearchSelector, channelsSelector, orgSelector],
   (search, channels, { customEmojis }) => ({
     ...search,
@@ -252,17 +280,7 @@ export const messageSearchWithChannels = createSelector(
   }),
 )
 
-export const alertsSelector = createSelector(
-  state => state.alerts,
-  state => state,
-)
-
-export const inviteChannelMembersSelector = createSelector(
-  state => state.inviteChannelMembers,
-  state => state,
-)
-
-export const newConversationSelector = createSelector(
+const newConversationSelector = createSelector(
   [
     state => state.newConversation,
     joinedChannelsSelector,
@@ -285,46 +303,30 @@ export const newConversationSelector = createSelector(
   }),
 )
 
-export const inviteToOrgSelector = createSelector(
-  state => state.inviteToOrg,
-  state => state,
-)
-
-export const createRoomErrorSelector = createSelector(
-  state => state.createRoomError,
-  state => state,
-)
-
-export const reconnectSelector = createSelector(
-  state => state.reconnect,
-  state => state,
-)
-
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector, reconnectSelector],
   ({ alerts }, channel, reconnect) => ({ alerts, channel, reconnect }),
 )
 
 export const unreadChannelsSelector = createSelector(
-  [joinedRoomsSelector, activePmsSelector, channelSelector],
+  [roomsSelector, activePmsSelector, channelSelector],
   (rooms, pms, channel) => ({
     amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
-    channelName:
-      channel.name || (channel.users && channel.users[0].displayName),
+    channelName: channel.name,
   }),
 )
 
-export const unreadMentionsAmountSelector = createSelector(
-  [joinedRoomsSelector, activePmsSelector],
+const unreadMentionsAmountSelector = createSelector(
+  [roomsSelector, activePmsSelector],
   (rooms, pms) =>
     rooms
       .concat(pms)
-      .filter(channel => channel.mentioned)
-      .map(channel => channel.mentioned)
+      .filter(channel => channel.mentions)
+      .map(channel => channel.mentions)
       .reduce((amount, mentions) => amount + mentions, 0),
 )
 
-export const isInviterSelector = createSelector(
+const isInviterSelector = createSelector(
   [orgSelector, userSelector],
   ({ inviterRole }, { role }) => role >= inviterRole,
 )
@@ -348,15 +350,15 @@ export const newConversationComponentSelector = createSelector(
 export const inviteDialogSelector = createSelector(
   [
     channelSelector,
+    channelMembersSelector,
     inviteChannelMembersSelector,
     isInviterSelector,
     confSelector,
   ],
-  (channel, inviteChannelMembers, isInviter, conf) => ({
+  (channel, channelMembers, inviteChannelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
-      // Sift users which already participate in channel
-      .filter(user => !channel.users.some(id => id === user.id))
+      .filter(user => !channelMembers.users.some(({ id }) => id === user.id))
       // Sift users which picked to be invited
       .filter(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
@@ -404,30 +406,27 @@ export const orgInfoSelector = createSelector(
   }),
 )
 
-export const navigationPmsSelector = createSelector([pmsSelector], pms =>
-  pms.filter(
-    pm => pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited,
-  ),
-)
+const unixToIsoTime = timestamp =>
+  timestamp ? new Date(timestamp).getTime() : null
 
-function unixToIsoTimestamp(timestamp) {
-  return new Date(timestamp * 1000).getTime()
-}
-
-function sortRecentChannels(a, b) {
+const sortRecentChannels = (a, b) => {
   let bCompareValue
   let aCompareValue
 
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
+  } else if (a.lastMessageTime) {
+    aCompareValue = unixToIsoTime(a.lastMessageTime)
   } else {
-    aCompareValue = a.latestMessageTime || unixToIsoTimestamp(a.created)
+    aCompareValue = unixToIsoTime(a.created)
   }
 
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
+  } else if (b.lastMessageTime) {
+    bCompareValue = unixToIsoTime(b.lastMessageTime)
   } else {
-    bCompareValue = b.latestMessageTime || unixToIsoTimestamp(b.created)
+    bCompareValue = unixToIsoTime(b.created)
   }
 
   return bCompareValue - aCompareValue
@@ -435,8 +434,7 @@ function sortRecentChannels(a, b) {
 
 export const navigationSelector = createSelector(
   [
-    joinedRoomsSelector,
-    navigationPmsSelector,
+    channelsSelector,
     channelSelector,
     initialDataLoadingSelector,
     userSelector,
@@ -446,8 +444,7 @@ export const navigationSelector = createSelector(
     orgSelector,
   ],
   (
-    joinedRooms,
-    pms,
+    channels,
     channel,
     isLoading,
     user,
@@ -456,16 +453,16 @@ export const navigationSelector = createSelector(
     { organization: { colors } },
     { permissions },
   ) => {
-    const joined = [...joinedRooms, ...pms]
-    const recent = joined
+    const recent = channels
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = joined
+
+    const favorited = channels
       .filter(_channel => _channel.favorited)
       .sort((a, b) => b.favorited.order - a.favorited.order)
 
     return {
-      joined,
+      channels,
       recent,
       favorited,
       isLoading,
@@ -484,26 +481,6 @@ export const favoriteSelector = createSelector(
     favorited: Boolean(favorited),
     id,
   }),
-)
-
-export const sidebarSelector = createSelector(
-  state => state.sidebar,
-  state => state,
-)
-
-export const labeledMessagesSelector = createSelector(
-  state => state.labeledMessages,
-  state => state,
-)
-
-export const pinnedMessagesSelector = createSelector(
-  state => state.pinnedMessages,
-  state => state,
-)
-
-export const channelMembersSelector = createSelector(
-  state => state.channelMembers,
-  state => state,
 )
 
 export const sidebarComponentSelector = createSelector(
@@ -601,17 +578,15 @@ export const headerSelector = createSelector(
     sidebar,
     mentions,
     partner,
-    permissions,
+    permissions: {
+      ...permissions,
+      ...channel.permissions,
+    },
     isMemberOfAnyRooms,
     colors,
     features,
     user,
   }),
-)
-
-export const historySelector = createSelector(
-  state => state.history,
-  state => state,
 )
 
 export const historyComponentSelector = createSelector(
@@ -622,7 +597,7 @@ export const historyComponentSelector = createSelector(
     initialDataLoadingSelector,
     joinedChannelsSelector,
     userSelector,
-    usersSelector,
+    pmsSelector,
     confSelector,
   ],
   (
@@ -641,6 +616,14 @@ export const historyComponentSelector = createSelector(
       ...org.permissions,
       ...channel.permissions,
     },
+    channel: pick(channel, [
+      'id',
+      'isPublic',
+      'creator',
+      'name',
+      'type',
+      'partner',
+    ]),
     isLoading,
     isMemberOfAnyRooms,
     user,
@@ -650,12 +633,7 @@ export const historyComponentSelector = createSelector(
   }),
 )
 
-export const markdownTipsSelector = createSelector(
-  state => state.markdownTips,
-  state => state,
-)
-
-export const isChannelDisabledSelector = createSelector(
+export const isChannelInactiveSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
     if (channel && Object.keys(channel).length)
@@ -664,51 +642,44 @@ export const isChannelDisabledSelector = createSelector(
   },
 )
 
-export const footerSelector = createSelector(
-  state => state.footer,
-  state => state,
-)
-
 export const footerComponentSelector = createSelector(
   [
-    typingNotificationSelector,
     footerSelector,
+    typingChannelsSelector,
+    channelSelector,
     orgSelector,
     historySelector,
-    isChannelDisabledSelector,
+    isChannelInactiveSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
     confSelector,
     orgSelector,
   ],
   (
-    typingNotification,
     footer,
+    typingChannels,
+    channel,
     org,
     history,
-    isChannelDisabled,
+    inactive,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
     { permissions },
   ) => ({
-    ...typingNotification,
     ...footer,
+    typingChannels,
+    channel,
     org,
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
-    disabled: isChannelDisabled,
+    disabled: inactive,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
     permissions,
   }),
-)
-
-export const soundsSelector = createSelector(
-  state => state.sounds,
-  state => state,
 )
 
 export const toastNotificationSelector = createSelector(
@@ -719,51 +690,27 @@ export const toastNotificationSelector = createSelector(
   }),
 )
 
-export const fileUploadSelector = createSelector(
-  state => state.fileUpload,
-  state => state,
-)
-
 export const fileUploadComponentSelector = createSelector(
-  [fileUploadSelector, isChannelDisabledSelector],
-  (fileUpload, disabled) => ({
+  [fileUploadSelector, isChannelInactiveSelector],
+  (fileUpload, inactive) => ({
     ...fileUpload,
-    disabled,
+    disabled: inactive,
   }),
-)
-
-export const manageGroupsSelector = createSelector(
-  state => state.manageGroups,
-  state => state,
-)
-
-export const linkAttachmentsSelector = createSelector(
-  state => state.linkAttachments,
-  state => state,
-)
-
-export const browserNotificationSelector = createSelector(
-  state => state.browserNotification,
-  state => state,
-)
-
-export const incomingCallSelector = createSelector(
-  state => state.incomingCall,
-  state => state,
 )
 
 export const browserNotificationComponentSelector = createSelector(
-  [browserNotificationSelector, confSelector, incomingCallSelector],
-  (browserNotification, conf, incomingCall) => ({
+  [
+    browserNotificationSelector,
+    channelSelector,
+    confSelector,
+    incomingCallSelector,
+  ],
+  (browserNotification, channel, conf, incomingCall) => ({
     ...browserNotification,
     conf,
+    channel,
     incomingCall,
   }),
-)
-
-export const introSelector = createSelector(
-  state => state.intro,
-  state => state,
 )
 
 export const introComponentSelector = createSelector(
@@ -774,22 +721,12 @@ export const introComponentSelector = createSelector(
   }),
 )
 
-export const videoConferenceWarningSelector = createSelector(
-  state => state.videoConferenceWarning,
-  state => state,
-)
-
 export const videoConferenceWarningComponentSelector = createSelector(
   [videoConferenceWarningSelector, channelSelector],
-  (videoConferenceWarning, { videoconferenceUrl }) => ({
+  (videoConferenceWarning, { grapecallUrl }) => ({
     ...videoConferenceWarning,
-    videoconferenceUrl,
+    grapecallUrl,
   }),
-)
-
-export const callStatusSelector = createSelector(
-  state => state.callStatus,
-  state => state,
 )
 
 export const callStatusComponentSelector = createSelector(
@@ -797,5 +734,13 @@ export const callStatusComponentSelector = createSelector(
   (callStatus, user) => ({
     callStatus,
     user,
+  }),
+)
+
+export const leaveChannelComponentSelector = createSelector(
+  [leaveChannelSelector, channelSelector],
+  (leaveChannel, channel) => ({
+    ...leaveChannel,
+    channel,
   }),
 )

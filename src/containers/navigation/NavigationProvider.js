@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -6,26 +6,22 @@ import getStore from '../../app/store'
 import { navigationSelector as selector } from '../../selectors'
 import Navigation from '../../components/navigation/Navigation'
 
-const actionNames = [
-  'showNewConversation',
-  'showManageGroups',
-  'goToChannel',
-  'openPm',
-  'joinChannel',
-  'searchChannelsForNavigation',
-]
+const actionNames = {
+  showNewConversation: 'showNewConversation',
+  showManageGroups: 'showManageGroups',
+  openPm: 'openPm',
+  openChannelFromNavigation: 'openChannel',
+  loadOlderChannels: 'loadOlderChannels',
+  searchChannelsForNavigation: 'searchChannelsForNavigation',
+}
 
 const ConnectedNavigation = connect(
   selector,
   mapActionsToProps(actionNames),
 )(Navigation)
 
-export default class NavigationProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedNavigation />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedNavigation />
+  </Provider>
+)

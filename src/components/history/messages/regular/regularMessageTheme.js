@@ -1,5 +1,5 @@
 import fonts from 'grape-theme/dist/fonts'
-import { red } from 'grape-theme/dist/base-colors'
+import { red, white } from 'grape-theme/dist/base-colors'
 
 import { styles as baseStyles } from '../baseMessageTheme'
 import createInlineIcon from '../../../inline-icon/create'
@@ -16,17 +16,34 @@ export const styles = {
   authorClickable: {
     composes: '$clickable',
   },
+  unsent: {
+    backgroundColor: white,
+  },
   disabled: {
     opacity: 0.5,
   },
   unsentWarning: {
-    extend: [createInlineIcon('warning', { color: red }), fonts.small],
+    extend: [createInlineIcon('warning', { color: red, top: 2 }), fonts.small],
+    fill: red,
     color: red,
     marginTop: 5,
     '& a': {
       isolate: false,
       color: red,
     },
+  },
+  unsentText: {
+    extend: fonts.small,
+    marginLeft: 5,
+    color: red,
+  },
+  unsentButton: {
+    cursor: 'pointer',
+    marginLeft: 3,
+    extend: fonts.small,
+    border: 0,
+    color: red,
+    textDecoration: 'underline',
   },
   actionText: {
     display: 'block',

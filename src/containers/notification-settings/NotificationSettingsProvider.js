@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Provider, connect } from 'react-redux'
 
 import { mapActionsToProps } from '../../app/redux'
@@ -9,7 +9,7 @@ import NotificationSettings from '../../components/notification-settings/Notific
 const actionNames = {
   hideNotificationSettings: 'onHide',
   setNotificationSetting: 'onChange',
-  leaveChannel: 'onLeave',
+  onLeaveChannel: 'onLeave',
 }
 
 const ConnectedNotificationSettings = connect(
@@ -17,12 +17,8 @@ const ConnectedNotificationSettings = connect(
   mapActionsToProps(actionNames),
 )(NotificationSettings)
 
-export default class NotificationSettingsProvider extends PureComponent {
-  render() {
-    return (
-      <Provider store={getStore()}>
-        <ConnectedNotificationSettings />
-      </Provider>
-    )
-  }
-}
+export default () => (
+  <Provider store={getStore()}>
+    <ConnectedNotificationSettings />
+  </Provider>
+)

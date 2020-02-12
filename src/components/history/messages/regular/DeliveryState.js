@@ -111,7 +111,7 @@ const DeliveryState = ({ time, state, classes }) => {
 
 DeliveryState.propTypes = {
   classes: PropTypes.object.isRequired,
-  time: PropTypes.instanceOf(Date).isRequired,
+  time: PropTypes.string.isRequired,
   state: PropTypes.oneOf(messageDeliveryStates),
 }
 

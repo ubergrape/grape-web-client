@@ -35,7 +35,7 @@ const messagePropType = PropTypes.shape({
   author: PropTypes.shape({
     id: idPropType.isRequired,
   }).isRequired,
-  time: PropTypes.instanceOf(Date).isRequired,
+  time: PropTypes.string.isRequired,
   text: PropTypes.string,
 })
 
@@ -48,7 +48,6 @@ export default class Row extends PureComponent {
     user: PropTypes.shape({
       id: idPropType.isRequired,
     }).isRequired,
-    channel: PropTypes.object.isRequired,
     message: messagePropType.isRequired,
     prevMessage: messagePropType,
     onEdit: PropTypes.func.isRequired,
@@ -112,7 +111,7 @@ export default class Row extends PureComponent {
 
     // eslint-disable-next-line no-alert
     if (window.confirm(formatMessage(messages.confirm))) {
-      onRemove([...duplicates, message.id].map(id => ({ id })))
+      onRemove([...duplicates, message].map(({ state, id }) => ({ state, id })))
     }
   }
 
@@ -149,7 +148,6 @@ export default class Row extends PureComponent {
       colors,
       permissions,
       onRemoveLinkAttachment,
-      channel,
     } = this.props
 
     let separator = null
@@ -172,7 +170,6 @@ export default class Row extends PureComponent {
       key: `row-${message.id}`,
       colors,
       user,
-      channel,
       onPin,
       onUnpin,
       onOpenPm,

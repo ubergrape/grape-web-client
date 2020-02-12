@@ -4,19 +4,20 @@ import moment from 'moment-timezone'
 
 import conf from '../conf'
 import * as types from '../constants/actionTypes'
+import { itemsToLoad } from '../constants/navigation'
 import { reopen } from '../app/client'
 import {
-  channelsSelector,
-  userSelector,
   appSelector,
   joinedChannelsSelector,
+  channelsSelector,
+  channelSelector,
 } from '../selectors'
 import * as api from '../utils/backend/api'
 import * as alerts from '../constants/alerts'
 import {
   normalizeChannelData,
+  countChannelMentions,
   normalizeUserData,
-  removeBrokenPms,
   findLastUsedChannel,
 } from './utils'
 import {
@@ -24,9 +25,8 @@ import {
   showToastNotification,
   showIntro,
   showAlert,
-  goToLastUsedChannel,
   addChannel,
-  handleRoomCreateError,
+  goToLastUsedChannel,
   showNewConversation,
   hideBrowser,
 } from './'
@@ -43,59 +43,12 @@ export function error(err) {
   }
 }
 
-export const setChannels = channels => (dispatch, getState) => {
-  const user = userSelector(getState())
-
-  const payload = channels
-    .filter(removeBrokenPms)
-    .map(channel => normalizeChannelData(channel, user.id))
+export const setChannels = channels => dispatch => {
+  const payload = channels.map(channel => normalizeChannelData(channel))
 
   dispatch({
     type: types.SET_CHANNELS,
     payload,
-  })
-}
-
-export const setUsers = users => dispatch => {
-  dispatch({
-    type: types.SET_USERS,
-    payload: users.map(normalizeUserData),
-  })
-}
-
-export const addUser = user => dispatch => {
-  dispatch({
-    type: types.ADD_USER_TO_ORG,
-    payload: normalizeUserData(user),
-  })
-}
-
-export const addNewChannel = id => (dispatch, getState) => {
-  const user = userSelector(getState())
-
-  return api
-    .getChannel(id)
-    .then(channel => {
-      if (channel.type === 'room') {
-        dispatch(
-          addChannel({
-            ...channel,
-            users: [id, user.id],
-          }),
-        )
-        return
-      }
-      dispatch(addUser(channel))
-    })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
-    })
-}
-
-export const updateUserPartnerInfo = userInfo => dispatch => {
-  dispatch({
-    type: types.UPDATE_USER_PARTNER_INFO,
-    payload: userInfo,
   })
 }
 
@@ -141,43 +94,6 @@ export const handleUserProfile = profile => dispatch => {
   }
 }
 
-export const setChannel = (channelOrChannelId, messageId) => (
-  dispatch,
-  getState,
-) => {
-  const channels = channelsSelector(getState())
-  let channel
-  if (typeof channelOrChannelId === 'number') {
-    channel = find(channels, { id: channelOrChannelId })
-  } else {
-    channel = channelOrChannelId
-  }
-
-  if (!channel) return
-
-  dispatch(hideBrowser())
-
-  api
-    .getChannel(channel.id)
-    .then(
-      ({ permissions, manageMembersUrl, videoconferenceUrl, grapecallUrl }) => {
-        dispatch({
-          type: types.SET_CHANNEL,
-          payload: {
-            channel: {
-              ...normalizeChannelData(channel),
-              permissions,
-              // videoconferenceUrl is the old one and will be depcrecated longterm
-              videoconferenceUrl: grapecallUrl || videoconferenceUrl,
-              manageMembersUrl,
-            },
-            messageId,
-          },
-        })
-      },
-    )
-}
-
 export const handleBadChannel = alertType => dispatch => {
   dispatch(goToLastUsedChannel())
   dispatch(
@@ -188,6 +104,32 @@ export const handleBadChannel = alertType => dispatch => {
       isClosable: true,
     }),
   )
+}
+
+export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+
+  dispatch(hideBrowser())
+
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
+
+      const currentChannel = channelSelector(getState())
+
+      dispatch({
+        type: types.SET_CHANNEL,
+        payload: {
+          channel: countChannelMentions(channel),
+          currentChannel,
+          messageId,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch(handleBadChannel(alerts.CHANNEL_NOT_FOUND))
+    })
 }
 
 export const setIntialDataLoading = payload => dispatch => {
@@ -214,16 +156,17 @@ export const loadInitialData = clientId => (dispatch, getState) => {
 
   Promise.all([
     api.getOrg(conf.organization.id),
-    api.getPmsOverview(conf.organization.id),
+    api.getOverview(conf.organization.id, { limit: itemsToLoad }),
+    api.getPinnedOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.loadLabelsConfig(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, users, profile, labelsConfig]) => {
+    .then(([org, channels, pinnedChannels, profile, labelsConfig]) => {
+      const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
-      dispatch(setChannels(org.channels))
-      dispatch(setUsers(users))
+      dispatch(setChannels(allChannels))
       dispatch(
         setOrg({
           ...omit(org, 'users', 'channels', 'rooms', 'pms'),
@@ -242,8 +185,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       if (route && route.params.channelId) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
-        const channels = channelsSelector(getState())
-        const channelToSet = findLastUsedChannel(channels) || channels[0]
+        const channelToSet = findLastUsedChannel(allChannels) || allChannels[0]
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
           dispatch(setChannel(conf.channelId || channelToSet.id))

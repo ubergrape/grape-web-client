@@ -2,9 +2,6 @@
 
 exports[`history reducer ADD_NEW_MESSAGE should add the new message if clientsideId is not available 1`] = `
 Object {
-  "channel": Object {
-    "id": "channelId1",
-  },
   "loadedNewerMessage": false,
   "messages": Array [
     Object {
@@ -26,9 +23,6 @@ Object {
 
 exports[`history reducer ADD_NEW_MESSAGE should add the new message if the clientsideId can not be found 1`] = `
 Object {
-  "channel": Object {
-    "id": "channelId1",
-  },
   "loadedNewerMessage": false,
   "messages": Array [
     Object {
@@ -59,9 +53,6 @@ Object {
 
 exports[`history reducer ADD_NEW_MESSAGE should not set scrollTo if the author is a different user 1`] = `
 Object {
-  "channel": Object {
-    "id": "channelId1",
-  },
   "loadedNewerMessage": false,
   "messages": Array [
     Object {
@@ -78,19 +69,10 @@ Object {
 }
 `;
 
-exports[`history reducer ADD_NEW_MESSAGE should not update the state on a different channel 1`] = `
-Object {
-  "channel": Object {
-    "id": "aaa",
-  },
-}
-`;
+exports[`history reducer ADD_NEW_MESSAGE should not update the state on a different channel 1`] = `Object {}`;
 
 exports[`history reducer ADD_NEW_MESSAGE should set scrollTo if the author is the current user 1`] = `
 Object {
-  "channel": Object {
-    "id": "channelId1",
-  },
   "loadedNewerMessage": false,
   "messages": Array [
     Object {
@@ -109,9 +91,6 @@ Object {
 
 exports[`history reducer ADD_NEW_MESSAGE should update the message based on the clientsideId and set the state of the message to sent 1`] = `
 Object {
-  "channel": Object {
-    "id": "channelId1",
-  },
   "loadedNewerMessage": false,
   "messages": Array [
     Object {

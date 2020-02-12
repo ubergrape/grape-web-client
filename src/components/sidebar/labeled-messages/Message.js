@@ -27,10 +27,8 @@ class Message extends PureComponent {
       author: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }),
-      time: PropTypes.instanceOf(Date).isRequired,
-      channel: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }).isRequired,
+      time: PropTypes.string.isRequired,
+      channel: PropTypes.object.isRequired,
       labels: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.string.isRequired,
@@ -73,7 +71,12 @@ class Message extends PureComponent {
             id="sidebarLabelInChannel"
             defaultMessage="in {channel}"
             desctiption="Labeled messages sidebar channel headline."
-            values={{ channel: channel.name }}
+            values={{
+              channel:
+                channel.type === 'room'
+                  ? channel.name
+                  : channel.partner.displayName,
+            }}
           >
             {(...nodes) => <span className={classes.channel}>{nodes}</span>}
           </FormattedMessage>

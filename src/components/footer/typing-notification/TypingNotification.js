@@ -34,8 +34,7 @@ export default class TypingNotification extends PureComponent {
   render() {
     const { channels, channel, className } = this.props
 
-    if (!channel || !channels[channel.id] || !channels[channel.id].length)
-      return null
+    if (!channel || !channels[channel.id]) return null
 
     return (
       <div className={className}>

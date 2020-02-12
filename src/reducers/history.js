@@ -13,7 +13,6 @@ const initialState = {
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
-  channel: null,
   backendHasNewerMessages: true,
 }
 
@@ -52,7 +51,6 @@ export default function reduce(state = initialState, action) {
     case types.SET_CHANNEL:
       return {
         ...state,
-        channel: payload.channel,
         selectedMessageId: payload.messageId,
         selectedMessageIdTimestamp: Date.now(),
         olderMessagesRequest: undefined,
@@ -117,17 +115,15 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.GO_TO_CHANNEL:
-      // Clicked on the current channel.
-      if (state.channel && payload === state.channel.id) return state
       return { ...state, messages: [], loadedNewerMessage: false }
     // when the client is disconnected and re-connects SET_INITIAL_DATA_LOADING is triggered
     // to avoid unexpected behaviour from existing data this case resets the state
     case types.SET_INITIAL_DATA_LOADING:
       if (!payload) return state
-      return { ...initialState }
+      return initialState
     case types.REMOVE_ROOM:
-      if (state.channel && payload === state.channel.id) {
-        return { ...initialState }
+      if (payload.channelId === payload.currentChannelId) {
+        return initialState
       }
       return state
     case types.CLEAR_HISTORY:
@@ -179,8 +175,8 @@ export default function reduce(state = initialState, action) {
       // This is not very accurate and might change in the future. So lets not couple
       // the rest of the logic with this design and use data structure which allows
       // individual messages to have different states.
-      const { channelId, isCurrentUser, userId } = payload
-      if (!state.channel || channelId !== state.channel.id || isCurrentUser) {
+      const { channelId, currentChannelId, isCurrentUser, userId } = payload
+      if (channelId !== currentChannelId || isCurrentUser) {
         return state
       }
 
@@ -193,11 +189,12 @@ export default function reduce(state = initialState, action) {
     case types.REQUEST_POST_MESSAGE: {
       // Message was sent to a non-active channel. Happens for e.g. when
       // uploading files. Avoid a message flash in the wrong channel.
-      if (state.channel && payload.channelId !== state.channel.id) {
+      if (payload.channelId !== payload.currentChannelId) {
         return state
       }
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
+
       return {
         ...state,
         // REQUEST_POST_MESSAGE is always triggered by the current user and thats
@@ -214,7 +211,8 @@ export default function reduce(state = initialState, action) {
     }
     case types.ADD_NEW_MESSAGE: {
       const newMessage = payload.message
-      if (newMessage.channelId !== state.channel.id) return state
+
+      if (newMessage.channelId !== payload.currentChannelId) return state
       // Do not append a message if the history is not up to date
       if (state.backendHasNewerMessages) return state
 

@@ -12,15 +12,29 @@ export const createRowsState = (() => {
   function canGroup(message, prevMessage) {
     if (!message || !prevMessage) return false
 
-    // Is not the same author.
-    if (prevMessage.author.id !== message.author.id) return false
+    // Is not the same bot
+    if (
+      message.type === 'activity' &&
+      (prevMessage.author.name !== message.author.name ||
+        prevMessage.author.id !== message.author.id)
+    )
+      return false
+
+    // Is not the same author
+    if (
+      message.type === 'regular' &&
+      prevMessage.author.id !== message.author.id
+    )
+      return false
 
     if (message.attachments.length) return false
 
     if (prevMessage.attachments.length) return false
 
     // Group if within defined time threshold.
-    return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
+    return (
+      Date.parse(prevMessage.time) + timeThreshold > Date.parse(message.time)
+    )
   }
 
   function isSame(message, prevMessage) {
@@ -69,7 +83,6 @@ export const createRowsState = (() => {
             props,
             'user',
             'colors',
-            'channel',
             'customEmojis',
             'onEdit',
             'onRemove',

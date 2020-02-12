@@ -3,7 +3,7 @@ import request from 'superagent'
 import assign from 'lodash/assign'
 
 import conf from '../../conf'
-import { toSnake, toCamel } from '../convertCase'
+import { toSnake, toCamel } from '../convert-case'
 import client from './client'
 
 const log = debug('rpc')

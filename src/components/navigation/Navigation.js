@@ -15,6 +15,7 @@ import FilteredList from './FilteredList'
 import Channel from './Channel'
 import Actions from './Actions'
 import { styles } from './theme'
+import { itemsToLoad } from '../../constants/navigation'
 
 const messages = defineMessages({
   favorites: {
@@ -36,11 +37,11 @@ export default class Navigation extends PureComponent {
     shortcuts: PropTypes.array,
     foundChannels: PropTypes.array.isRequired,
     searchingChannels: PropTypes.bool.isRequired,
-    goToChannel: PropTypes.func.isRequired,
     openPm: PropTypes.func.isRequired,
-    joinChannel: PropTypes.func.isRequired,
+    openChannel: PropTypes.func.isRequired,
     showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
+    loadOlderChannels: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     colors: PropTypes.object,
@@ -62,6 +63,7 @@ export default class Navigation extends PureComponent {
     this.state = {
       bottomOffset: 5,
       step: 10,
+      loaded: itemsToLoad,
       shift: 20,
       filter: '',
     }
@@ -112,8 +114,16 @@ export default class Navigation extends PureComponent {
   }
 
   onScroll = e => {
-    const { shift, bottomOffset, step } = this.state
-    if (shift >= this.props.recent.length) return
+    const { shift, loaded, bottomOffset, step } = this.state
+
+    if (shift >= loaded) {
+      this.setState({
+        loaded: loaded + itemsToLoad,
+      })
+
+      this.props.loadOlderChannels()
+      return
+    }
 
     const { offsetHeight, scrollTop, scrollHeight } = e.target
     if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
@@ -179,24 +189,22 @@ export default class Navigation extends PureComponent {
       focusedChannel: undefined,
     })
 
-    const { id, partner, type, joined, isPublic } = channel
-    const { openPm, joinChannel, goToChannel } = this.props
-
-    if (type === 'pm' && !joined) {
-      openPm(partner.id)
-      return
-    }
+    const { id, type, partner } = channel
+    const { openPm, openChannel } = this.props
 
     if (type === 'user') {
       openPm(id)
       return
     }
 
-    if (type === 'room' && isPublic && !joined) {
-      joinChannel(id)
+    if (type === 'pm') {
+      openPm(partner.id)
+      return
     }
 
-    goToChannel(id)
+    if (type === 'room') {
+      openChannel(id)
+    }
   }
 
   renderFilteredChannel = params => {

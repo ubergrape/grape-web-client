@@ -122,8 +122,6 @@ If possible reference the github issue when leaving a TODO or FIXME.
 1.  Don't use `PropTypes.object` when possible, use `PropTypes.shape()` and describe properties you use within that component.
 1.  Avoid creating objects within render and passing them to the child. Try to use static refs as much as possible.
 1.  Pass props to the child explicitly, avoid using spread operator here as much as possible.
-1.  Use react-styleguidist to work on public components - components which provide interface to the rest of the application. Don't do so with private components which are only used inside of that parent.
-1.  Make public components easy to use in styleguidist by leveraging the default props. For e.g. all callbacks should be optional. Don't use default props much in private components.
 1.  Each public render component should have a directory in src/components and export its API from index.js.
 1.  Use constants.js and utils.js file in each component directory to share code/variables between private components. Export public constants and utils from index.js.
 

@@ -1,46 +1,77 @@
 import pick from 'lodash/pick'
 import find from 'lodash/find'
-import findIndex from 'lodash/findIndex'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import intersection from 'lodash/intersection'
 
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import { typingThrottlingDelay } from '../constants/delays'
 import {
   orgSelector,
-  usersSelector,
+  pmsSelector,
   userSelector,
   channelSelector,
-  joinedRoomsSelector,
+  roomsSelector,
   channelsSelector,
   sidebarSelector,
   joinedChannelsSelector,
   incomingCallSelector,
 } from '../selectors'
-import { normalizeMessage, countMentions, pinToFavorite } from './utils'
+import { normalizeMessage, normalizeChannelData, pinToFavorite } from './utils'
 import {
   goTo,
+  error,
   addChannel,
   addSharedFiles,
   removeSharedFiles,
   addMention,
   removeMention,
-  addNewChannel,
   endSound,
   goToLastUsedChannel,
   showSidebar,
   setIntialDataLoading,
+  closeIncomingCall,
 } from './'
+
+/**
+ * Count number of mentions that
+ * match user id or joined room id when
+ * some user or room is mentioned.
+ */
+const countMessageMentions = (message, user, rooms) => {
+  const { mentions } = message
+  let count = 0
+  if (isEmpty(mentions)) return count
+
+  if (mentions.user) {
+    const userMentions = mentions.user.filter(userId => userId === user.id)
+    count += userMentions.length
+  }
+
+  if (mentions.room) {
+    const joinedRoomsIds = map(rooms, 'id')
+    const roomMentions = intersection(mentions.room, joinedRoomsIds)
+    count += roomMentions.length
+  }
+
+  return count
+}
 
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = joinedRoomsSelector(state)
+  const rooms = roomsSelector(state)
+  const channel = channelSelector(state)
   const nMessage = normalizeMessage(message, state)
-  const mentionsCount = countMentions(nMessage, user, rooms)
+  const mentionsCount = countMessageMentions(nMessage, user, rooms)
   const currentChannel = channelSelector(state)
 
   if (nMessage.attachments.length && currentChannel.id === nMessage.id)
     dispatch(addSharedFiles(nMessage))
+
   if (mentionsCount) dispatch(addMention(nMessage))
+
   dispatch({
     type: types.UPDATE_CHANNEL_STATS,
     payload: {
@@ -55,74 +86,68 @@ const addNewMessage = message => (dispatch, getState) => {
     payload: {
       message: nMessage,
       currentUserId: user.id,
+      currentChannelId: channel.id,
     },
   })
 }
 
-export const handleNewMessage = message => (dispatch, getState) => {
-  const state = getState()
-  const channels = channelSelector(state)
-  const user = userSelector(state)
-  // This is a special case for activity messages. These are special messages and the only
-  // one having the property type attached to it. It is showed in the
-  // "Development activities" channel and therefor it's not necessary to invoke addNewChannel
-  // which would result in the undesired API call open_pm.
-  if (message.type) {
-    dispatch(addNewMessage(message))
-    return
-  }
-  if (
-    message.author.id === user.id ||
-    findIndex(channels, { id: message.author.id }) !== -1
-  ) {
-    dispatch(addNewMessage(message))
-    return
+export const handleNewMessage = data => (dispatch, getState) => {
+  const channels = channelsSelector(getState())
+  const { channel: channelId, channelData: channel, ...rest } = data
+
+  const message = {
+    channelId,
+    channel,
+    ...rest,
   }
 
-  dispatch(addNewChannel(message.channel)).then(() => {
-    dispatch(addNewMessage(message))
-  })
+  if (!find(channels, { id: channelId })) {
+    dispatch(addChannel(channel))
+  }
+
+  dispatch(addNewMessage(message))
 }
 
 export const handleNewSystemMessage = message => dispatch => {
-  const { channelId, messageId } = message
+  const { channelId, messageId, channelData, channel } = message
   api.getMessage(channelId, messageId).then(res => {
-    dispatch(handleNewMessage(res))
+    dispatch(
+      handleNewMessage({
+        channel,
+        channelData,
+        ...res,
+      }),
+    )
   })
 }
 
-export function handleRemovedMessage({ id, channel }) {
-  return dispatch => {
-    dispatch(removeSharedFiles(id))
-    dispatch(removeMention(id))
-    dispatch({
-      type: types.REMOVE_MESSAGE,
-      payload: id,
-    })
-    // setTimeout should be there because of backend updating issues.
-    // It can be removed if GRAPE-15530 issue resolved.
-    setTimeout(() => {
-      api.getChannel(channel).then(res => {
-        const {
-          unread,
-          lastMessage: { time },
-        } = res
-        dispatch({
-          type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
-          payload: {
-            id: channel,
-            unread,
-            time,
-          },
-        })
+export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
+  const { id: channelId } = channelData
+
+  dispatch(removeSharedFiles(id))
+  dispatch(removeMention(id))
+  dispatch({
+    type: types.REMOVE_MESSAGE,
+    payload: id,
+  })
+
+  api
+    .getChannel(channelId)
+    .then(channel => {
+      dispatch({
+        type: types.UPDATE_CHANNEL_UNREAD_COUNTER,
+        payload: normalizeChannelData({
+          ...channel,
+        }),
       })
-    }, 1000)
-  }
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function handleReadChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
 
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
@@ -130,6 +155,7 @@ export function handleReadChannel({ user: userId, channel: channelId }) {
         isCurrentUser: userId === user.id,
         userId,
         channelId,
+        currentChannelId,
       },
     })
   }
@@ -158,34 +184,39 @@ export function handleMembershipUpdate({ membership }) {
   }
 }
 
-export function handleNewChannel({ channel }) {
-  return addChannel(channel)
+export const handleNewChannel = ({ channel }) => dispatch => {
+  dispatch(addChannel(channel))
 }
 
-const addUserToChannel = payload => dispatch => {
+export const handleJoinedChannel = ({
+  channel: channelId,
+  channelData: channel,
+  userData: user,
+}) => (dispatch, getState) => {
+  const { id } = userSelector(getState())
+  const currentChannel = channelSelector(getState())
+  const channels = channelsSelector(getState())
+
+  if (!channel) return
+
+  if (!find(channels, { id: channelId })) {
+    dispatch(
+      addChannel({
+        ...channel,
+        temporaryInNavigation: Date.now(),
+      }),
+    )
+  }
+
   dispatch({
     type: types.ADD_USER_TO_CHANNEL,
-    payload,
+    payload: {
+      channel,
+      user,
+      currentChannelId: currentChannel.id,
+      isCurrentUser: id === user.id,
+    },
   })
-}
-
-export function handleJoinedChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
-    const currentUser = userSelector(getState())
-    const channels = joinedChannelsSelector(getState())
-    const isCurrentUser = currentUser.id === userId
-    const channel = find(channels, { id: channelId })
-
-    if (!channel) {
-      dispatch(addNewChannel(channelId))
-    }
-
-    api.getUser(orgSelector(getState()).id, userId).then(foundUser => {
-      dispatch(
-        addUserToChannel({ channelId, user: foundUser, userId, isCurrentUser }),
-      )
-    })
-  }
 }
 
 const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
@@ -202,18 +233,32 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 export function handleLeftChannel({ user: userId, channel: channelId }) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+    const currentChannel = channelSelector(getState())
+    const isCurrentUser = user.id === userId
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: { channelId, userId },
+      payload: {
+        channelId,
+        userId,
+        isCurrentUser,
+        currentChannelId: currentChannel.id,
+      },
     })
-    if (user.id === userId) dispatch(handleCurrentUserLeftChannel())
+
+    if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
   }
 }
 
-export const handleNotification = notification => dispatch => {
+export const handleNotification = data => (dispatch, getState) => {
+  const { id } = channelSelector(getState())
+
   dispatch({
     type: types.HANDLE_NOTIFICATION,
-    payload: { ...notification },
+    payload: {
+      ...data,
+      currentChannelId: id,
+    },
   })
 }
 
@@ -235,14 +280,17 @@ export function handleUpateChannel({ channel }) {
   }
 }
 
-export function handleRemoveRoom({ channel: id }) {
+export function handleRemoveRoom({ channel: channelId }) {
   return (dispatch, getState) => {
-    const { id: currentId } = channelSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
-      payload: id,
+      payload: {
+        channelId,
+        currentChannelId,
+      },
     })
-    if (id === currentId) dispatch(goTo('/chat'))
+    if (channelId === currentChannelId) dispatch(goTo('/chat'))
   }
 }
 
@@ -250,7 +298,7 @@ export const handleUserStatusChange = ({ status, user: id }) => (
   dispatch,
   getState,
 ) => {
-  const users = usersSelector(getState())
+  const users = pmsSelector(getState())
   const user = userSelector(getState())
   const { show, showSubview } = sidebarSelector(getState())
 
@@ -293,13 +341,36 @@ export function handleFavoriteChange({ changed }) {
   }
 }
 
+export const handleTypingNotification = ({
+  user: userId,
+  userData: { displayName, id },
+  channel: channelId,
+  typing,
+}) => (dispatch, getState) => {
+  const user = userSelector(getState())
+
+  // Its a notification from current user.
+  // We call that action directly from subscription sometimes.
+  if (userId === user.id || !typing) return
+
+  dispatch({
+    type: types.HANDLE_USER_TYPING,
+    payload: {
+      channelId,
+      user: {
+        id,
+        displayName,
+        expires: Date.now() + typingThrottlingDelay,
+      },
+    },
+  })
+}
+
 export const handleIncomingCall = payload => (dispatch, getState) => {
   const { time, channel, author, event } = payload
   const currUser = userSelector(getState())
 
-  dispatch({
-    type: types.CLOSE_INCOMING_CALL,
-  })
+  dispatch(closeIncomingCall())
   dispatch({
     type: types.CLOSE_CALL_STATUS,
   })
@@ -336,9 +407,7 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
   if (currUser.id !== author.id) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
@@ -366,9 +435,7 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     (channel.type === 'room' && user.id === author.id)
   ) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
@@ -412,22 +479,17 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   }
 
   const channels = channelsSelector(getState())
-  const users = usersSelector(getState())
+  const { partner } = find(channels, { id: channel.id })
 
-  const callerId = find(channels, { id: channel.id }).users.filter(
-    id => id !== user.id,
-  )
-  const caller = find(users, { partner: { id: callerId[0] } })
-
-  if (caller) {
+  if (partner) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload: {
         ...payload,
         author: {
-          id: caller.partner.id,
-          avatar: caller.partner.avatar,
-          displayName: caller.partner.displayName,
+          avatar: partner.avatar,
+          displayName: partner.displayName,
+          id: partner.id,
         },
       },
     })
@@ -440,9 +502,7 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 
   if (data.call.id === call.id) {
     dispatch(endSound())
-    dispatch({
-      type: types.CLOSE_INCOMING_CALL,
-    })
+    dispatch(closeIncomingCall())
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })

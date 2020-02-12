@@ -11,7 +11,7 @@ import { styles } from './sharedFileTheme'
 class SharedFile extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
+    time: PropTypes.string.isRequired,
     channelName: PropTypes.string.isRequired,
     channelType: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

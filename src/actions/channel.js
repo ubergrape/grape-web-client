@@ -6,10 +6,9 @@ import * as alerts from '../constants/alerts'
 import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
-  joinedRoomsSelector,
+  roomsSelector,
   userSelector,
   channelSelector,
-  channelsSelector,
   orgSelector,
   pmsSelector,
   manageGroupsSelector,
@@ -24,7 +23,8 @@ import {
   error,
   goToChannel,
   loadNotificationSettings,
-  addUser,
+  showLeaveChannelDialog,
+  hideLeaveChannelDialog,
   setChannel,
   handleBadChannel,
 } from './'
@@ -63,8 +63,18 @@ export const leaveChannel = channelId => dispatch => {
         payload: channelId,
       })
       dispatch(removeManageGroupChannel(channelId))
+      dispatch(hideLeaveChannelDialog())
     })
     .catch(err => dispatch(error(err)))
+}
+
+export const onLeaveChannel = (channelId, isPrivate) => dispatch => {
+  if (isPrivate) {
+    dispatch(showLeaveChannelDialog())
+    return
+  }
+
+  dispatch(leaveChannel(channelId))
 }
 
 export const kickMemberFromChannel = params => dispatch => {
@@ -139,7 +149,8 @@ export const joinChannel = id => dispatch => {
     type: types.REQUEST_JOIN_CHANNEL,
     payload: id,
   })
-  api
+
+  return api
     .joinChannel(id)
     .then(() => {
       dispatch(removeManageGroupChannel(id))
@@ -196,7 +207,7 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
   const foundChannel = find(channels, ({ partner }) => partner.id === userId)
   if (foundChannel) {
-    dispatch(goToChannel(foundChannel, options))
+    dispatch(goToChannel(foundChannel.id, options))
     return
   }
 
@@ -207,58 +218,26 @@ export const openPm = (userId, options) => (dispatch, getState) => {
 
   api
     .openPm(org.id, userId)
-    .then(({ id, users }) => Promise.all([users, api.getChannel(id)]))
-    .then(([users, pmChannel]) => {
-      dispatch(addUser(pmChannel))
-      dispatch(
-        addChannel({
-          ...pmChannel,
-          users,
-        }),
-      )
-      // Using id because after adding, channel was normalized.
-      dispatch(goToChannel(pmChannel.id, options))
+    .then(({ id }) => api.getChannel(id))
+    .then(channel => {
+      dispatch(addChannel(channel))
+      dispatch(goToChannel(channel.id, options))
     })
     .catch(err => {
       dispatch(handleRoomCreateError(err.message))
     })
 }
 
-export const openChannel = (channelId, messageId) => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
-  const foundChannel = find(channels, { id: channelId })
-  if (foundChannel) {
-    const { id, type, isPublic, joined } = foundChannel
-    if (type === 'room' && isPublic && !joined) {
-      dispatch(joinChannel(id))
-    }
-    dispatch(setChannel(id, messageId))
-    return
-  }
+export const openChannel = (channelId, messageId) => dispatch => {
+  dispatch(setChannel(channelId, messageId))
+}
 
-  dispatch({
-    type: types.REQUEST_CHANNEL_AND_USERS,
-    payload: { channelId, messageId },
-  })
+export const openChannelFromNavigation = channelId => (dispatch, getState) => {
+  const channel = channelSelector(getState())
 
-  api
-    .getChannel(channelId)
-    .then(channel => {
-      if (channel.type === 'pm') {
-        const currUser = userSelector(getState())
-        const userIds = [currUser.id, channel.partner.id]
-        const pmChannel = { ...channel, users: userIds }
-        dispatch(addUser(pmChannel))
-        dispatch(addChannel(pmChannel))
-        dispatch(setChannel(pmChannel.id, messageId))
-        return
-      }
+  if (channel.id === channelId) return
 
-      dispatch(addChannel(channel))
-      dispatch(setChannel(channel, messageId))
-      dispatch(joinChannel(channelId))
-    })
-    .catch(() => dispatch(handleBadChannel()))
+  dispatch(goToChannel(channelId))
 }
 
 export function createRoomWithUsers(room, users) {
@@ -278,9 +257,8 @@ export function createRoomWithUsers(room, users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .then(
-        () =>
-          newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
+      .then(() =>
+        newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
       )
       .then(() => {
         if (newRoom) {
@@ -390,7 +368,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(joinedRoomsSelector(getState()), { id })
+    const room = find(roomsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,

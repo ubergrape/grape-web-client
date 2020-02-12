@@ -18,7 +18,7 @@ import Menu from './Menu'
 class ActivityMessage extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
+    time: PropTypes.string.isRequired,
     title: PropTypes.node,
     children: PropTypes.node,
     tag: PropTypes.string,

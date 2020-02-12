@@ -7,17 +7,13 @@ import { borderRadius } from '../../bubbleTheme'
 
 export default useTheme(Bubble, {
   styles: {
-    bubble: {
+    bubble: ({ color }) => ({
       backgroundColor: white,
-      border: {
-        width: 1,
-        style: 'solid',
-        color: borderDefault,
-        radius: borderRadius,
-      },
+      border: `1px solid ${borderDefault}`,
+      borderRadius: `${borderRadius}px`,
       maxWidth: 620,
-      boxShadow: [-3, 0, 0, 0, grayMercury],
-    },
+      boxShadow: `-3px 0px 0px 0px ${color || grayMercury}`,
+    }),
     content: {
       backgroundColor: white,
       padding: [5, 10],

@@ -5,10 +5,10 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   items: [],
   isLoading: false,
-  channel: undefined,
 }
 
 export default function reduce(state = initialState, action) {
+  const { payload } = action
   switch (action.type) {
     case types.SET_SIDEBAR_IS_LOADING:
     case types.REQUEST_PINNED_MESSAGES:
@@ -21,35 +21,33 @@ export default function reduce(state = initialState, action) {
       }
     case types.SET_CHANNEL:
       // Don't reset the state if channel hasn't changed.
-      if (state.channel && state.channel.id === action.payload.channel.id) {
+      if (payload.currentChannel.id === payload.channel.id) {
         return state
       }
-      return { ...initialState, channel: action.payload.channel }
+      return initialState
     case types.UPDATE_MESSAGE: {
-      const message = action.payload
-
       if (
         // That message comes from a different channel.
-        message.channelId !== state.channel.id ||
+        payload.channelId !== payload.channel.id ||
         // We don't support attachments currently.
-        message.attachments.length
+        payload.attachments.length
       ) {
         return state
       }
 
-      const index = findIndex(state.items, { id: message.id })
+      const index = findIndex(state.items, { id: payload.id })
 
-      if (index === -1 && !message.isPinned) return state
+      if (index === -1 && !payload.isPinned) return state
 
       let items = [...state.items]
 
       // Add a new message, which has been just pinned.
       if (index === -1) {
-        items.push(message)
+        items.push(payload)
         items = items.sort((a, b) => (a.time > b.time ? -1 : 1))
         // Update a message.
-      } else if (message.isPinned) {
-        items[index] = { ...items[index], ...message }
+      } else if (payload.isPinned) {
+        items[index] = { ...items[index], ...payload }
         // Remove a message.
       } else {
         items.splice(index, 1)

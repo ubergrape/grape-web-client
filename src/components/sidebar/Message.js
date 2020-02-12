@@ -68,7 +68,7 @@ export default class Message extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     message: PropTypes.shape({
-      time: PropTypes.instanceOf(Date).isRequired,
+      time: PropTypes.string.isRequired,
       author: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }).isRequired,

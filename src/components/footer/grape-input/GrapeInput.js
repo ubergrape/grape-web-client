@@ -3,10 +3,11 @@ import React, { PureComponent } from 'react'
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import GlobalEvent from 'grape-web/lib/components/global-event'
+import { debouncingTime } from 'grape-web/lib/constants/time'
 import { GrapeBrowser } from 'grape-browser'
 import * as emoji from 'grape-browser/lib/components/emoji'
-import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import cn from 'classnames'
 
@@ -16,6 +17,7 @@ import {
   getImageAttachments,
   formatQuote,
 } from './utils'
+import { typingThrottlingDelay } from '../../../constants/delays'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
@@ -93,7 +95,6 @@ class GrapeInput extends PureComponent {
     onSetTyping: PropTypes.func.isRequired,
     onAbortEdit: PropTypes.func.isRequired,
     onHideBrowser: PropTypes.func.isRequired,
-    onSetUnsentMessage: PropTypes.func.isRequired,
     onEditPreviousMessage: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowEmojiSuggestBrowser: PropTypes.func.isRequired,
@@ -136,12 +137,11 @@ class GrapeInput extends PureComponent {
   }
 
   componentDidMount() {
-    let { draftMessages = '{}' } = localStorage
     const {
       channel: { id },
     } = this.props
+    const draftMessages = this.getDraftMessages()
 
-    draftMessages = JSON.parse(draftMessages)
     if (draftMessages[id]) {
       this.input.setTextContent(draftMessages[id], { silent: true })
     }
@@ -200,15 +200,13 @@ class GrapeInput extends PureComponent {
   }
 
   onSelectChannel(prev, next) {
-    const { targetMessage, onSetUnsentMessage } = this.props
+    const { targetMessage } = this.props
     if (prev.id && !targetMessage) {
-      onSetUnsentMessage(prev.id, this.input.getTextContent())
+      this.saveDraftMessageToLocalStorage(this.input.getTextContent())
     }
 
-    let { draftMessages = '{}' } = localStorage
-    draftMessages = JSON.parse(draftMessages)
-
-    this.input.setTextContent(next.unsent || draftMessages[next.id] || '', {
+    const draftMessages = this.getDraftMessages()
+    this.input.setTextContent(draftMessages[next.id] || '', {
       silent: true,
     })
     this.focus()
@@ -224,7 +222,6 @@ class GrapeInput extends PureComponent {
       onCreateMessage,
       onUpdateMessage,
       channel,
-      onSetUnsentMessage,
       onHideBrowser,
     } = this.props
 
@@ -233,8 +230,8 @@ class GrapeInput extends PureComponent {
     if (targetMessage) {
       onUpdateMessage({
         channelId: channel.id,
-        messageId: targetMessage.id,
         text: data.content,
+        message: targetMessage,
       })
     } else {
       const attachments = getImageAttachments(data.objects)
@@ -250,7 +247,7 @@ class GrapeInput extends PureComponent {
         onCreateMessage({ channelId: channel.id, attachments })
       }
     }
-    onSetUnsentMessage(channel.id, '')
+    this.saveDraftMessageToLocalStorage('')
     onHideBrowser()
   }
 
@@ -273,7 +270,7 @@ class GrapeInput extends PureComponent {
       case '#':
         if (permissions.canUseGrapesearch) {
           // Avoid browser opening in case of `#s` input.
-          if (!showBrowser && (query && query.length > 1)) return
+          if (!showBrowser && query && query.length > 1) return
           onRequestAutocomplete({ search, filters })
           onShowSearchBrowser(search)
         }
@@ -300,8 +297,6 @@ class GrapeInput extends PureComponent {
       onHideBrowser,
       targetMessage,
       onAbortEdit,
-      channel,
-      onSetUnsentMessage,
     } = this.props
 
     if (showBrowser) {
@@ -309,15 +304,19 @@ class GrapeInput extends PureComponent {
       this.focus()
     } else if (targetMessage) {
       onAbortEdit()
+      this.saveDraftMessageToLocalStorage('')
       this.input.setTextContent('', { silent: true })
-      onSetUnsentMessage(channel.id, '')
     }
   }
 
   onChange = () => {
+    this.updateDraftOnEdit()
     this.startTypingThrottled()
     this.stopTypingDebounced()
   }
+
+  getDraftMessages = () =>
+    localStorage.draftMessages ? JSON.parse(localStorage.draftMessages) : {}
 
   getBrowserProps(browser) {
     const {
@@ -373,6 +372,27 @@ class GrapeInput extends PureComponent {
     }
   }
 
+  updateDraftOnEdit = debounce(() => {
+    this.saveDraftMessageToLocalStorage(this.input.getTextContent())
+  }, debouncingTime)
+
+  saveDraftMessageToLocalStorage(content) {
+    let { draftMessages = '{}' } = localStorage
+    const {
+      channel: { id },
+    } = this.props
+
+    draftMessages = JSON.parse(draftMessages)
+
+    if (content) {
+      draftMessages[id] = content
+    } else {
+      delete draftMessages[id]
+    }
+
+    localStorage.setItem('draftMessages', JSON.stringify(draftMessages))
+  }
+
   startTypingThrottled = throttle(
     () => {
       const { channel, onSetTyping } = this.props
@@ -380,7 +400,7 @@ class GrapeInput extends PureComponent {
         onSetTyping({ channel, typing: true })
       }
     },
-    5000,
+    typingThrottlingDelay,
     { trailing: false },
   )
 

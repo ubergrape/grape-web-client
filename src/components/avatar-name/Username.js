@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'grape-web/lib/jss'
 import { white } from 'grape-theme/dist/base-colors'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -7,7 +7,7 @@ import cn from 'classnames'
 
 import { defaultAvatar } from '../../constants/images'
 import Avatar from '../avatar/Avatar'
-import style from './userStyle'
+import userTheme from './userTheme'
 
 const Status = ({ classes, status, borderColor }) => (
   <i
@@ -26,7 +26,7 @@ Status.defaultProps = {
   borderColor: white,
 }
 
-@injectSheet(style)
+@injectSheet(userTheme)
 export default class Username extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -63,6 +63,7 @@ export default class Username extends PureComponent {
       >
         <Avatar
           src={avatar}
+          type="image"
           className={cn(classes.avatar, theme.classes.avatar)}
         >
           {status && (

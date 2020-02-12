@@ -10,9 +10,7 @@ import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 const dotAnimation = `dot-${random(1000000)}`
 
 const getText = (users, max) => {
-  if (!users.length) return null
-
-  const names = users.map(user => user.name)
+  const names = users.map(user => user.displayName)
 
   if (names.length === 1) {
     return (
@@ -58,27 +56,7 @@ const getText = (users, max) => {
  * - Val, Oleg and Leo are typing.
  * - Val, Oleg, Leo and 3 others are typing.
  */
-@injectSheet({
-  typingUsers: {
-    extend: [small, ellipsis],
-    color: grayLight,
-    '&:after': {
-      content: '"…"',
-      overflow: 'hidden',
-      display: 'inline-block',
-      verticalAlign: 'bottom',
-      width: 0,
-      animation: `${dotAnimation} steps(4, end) 1s infinite`,
-      color: 'inherit',
-    },
-  },
-  [`@keyframes ${dotAnimation}`]: {
-    to: {
-      width: '1em',
-    },
-  },
-})
-export default class TypingUsers extends PureComponent {
+class TypingUsers extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     users: PropTypes.array,
@@ -97,3 +75,24 @@ export default class TypingUsers extends PureComponent {
     return <div className={classes.typingUsers}>{getText(users, max)}</div>
   }
 }
+
+export default injectSheet({
+  typingUsers: {
+    extend: [small, ellipsis],
+    color: grayLight,
+    '&:after': {
+      content: '"…"',
+      overflow: 'hidden',
+      display: 'inline-block',
+      verticalAlign: 'bottom',
+      width: 0,
+      animation: `${dotAnimation} steps(4, end) 1s infinite`,
+      color: 'inherit',
+    },
+  },
+  [`@keyframes ${dotAnimation}`]: {
+    to: {
+      width: '1em',
+    },
+  },
+})(TypingUsers)

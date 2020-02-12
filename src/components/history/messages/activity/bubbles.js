@@ -11,12 +11,12 @@ import conf from '../../../../conf'
 
 export const ActivityBubble = useTheme(Bubble, {
   styles: baseStyles({
-    color:
+    backgroundColor:
       (conf.organization.colors && conf.organization.colors.mateMessage) ||
       expanderColor,
   }),
 })
 
 export const SelectedBubble = useTheme(Bubble, {
-  styles: baseStyles({ color: yellow }),
+  styles: baseStyles({ backgroundColor: yellow }),
 })

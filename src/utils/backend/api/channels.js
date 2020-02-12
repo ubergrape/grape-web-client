@@ -200,8 +200,8 @@ export const postMessage = (channelId, text = '', options) => {
     // If an id is already given, like for e.g. in case of file uploads,
     // backend expect an attachment to be the id.
     // Otherwise it expects an attachment object.
-    optionsArg.attachments = optionsArg.attachments.map(
-      attachment => (attachment.id ? attachment.id : attachment),
+    optionsArg.attachments = optionsArg.attachments.map(attachment =>
+      attachment.id ? attachment.id : attachment,
     )
   }
 
@@ -232,3 +232,26 @@ export const setTyping = (channelId, isTyping) =>
     action: 'set_typing',
     args: [channelId, isTyping],
   })
+
+export const getOverview = (
+  orgId,
+  { limit, excludePinned = true, olderThen = [] } = {},
+) =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_overview',
+      args: [orgId, { limit, excludePinned, olderThen }],
+    },
+    { camelize: true },
+  ).then(response => response.channels)
+
+export const getPinnedOverview = orgId =>
+  rpc(
+    {
+      ns: 'channels',
+      action: 'get_pinned_overview',
+      args: [orgId],
+    },
+    { camelize: true },
+  ).then(response => response.channels)

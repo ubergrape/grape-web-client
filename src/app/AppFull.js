@@ -27,6 +27,7 @@ import { IntroProvider } from '../containers/intro'
 import { VideoConferenceWarningDialogProvider } from '../containers/video-conference-warning-dialog'
 import { IncomingCallProvider } from '../containers/incoming-call'
 import { CallStatusProvider } from '../containers/call-status'
+import { LeaveChannelProvider } from '../containers/leave-channel'
 import { AppProvider } from '../containers/app'
 import { AppLayout } from '../components/app-layout'
 
@@ -55,6 +56,7 @@ const Globals = () => (
     <VideoConferenceWarningDialogProvider />
     <IncomingCallProvider />
     <CallStatusProvider />
+    <LeaveChannelProvider />
     <IntroProvider />
   </section>
 )

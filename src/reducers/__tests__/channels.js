@@ -27,7 +27,7 @@ describe('channels reducer', () => {
 
   it('should handle correct update unread field on UPDATE_CHANNEL_UNREAD_COUNTER', () => {
     expect(
-      channels([{ unread: 1, latestMessageTime: 1508772967000 }], {
+      channels([{ unread: 1 }], {
         type: UPDATE_CHANNEL_UNREAD_COUNTER,
         payload: {
           id: 3339,
@@ -40,7 +40,7 @@ describe('channels reducer', () => {
 
   it('should return same state if channel not found on UPDATE_CHANNEL_UNREAD_COUNTER', () => {
     expect(
-      channels([{ unread: 1, id: 3338, latestMessageTime: 1508772967000 }], {
+      channels([{ unread: 1, id: 3338 }], {
         type: UPDATE_CHANNEL_UNREAD_COUNTER,
         payload: {
           id: 3339,

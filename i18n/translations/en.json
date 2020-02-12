@@ -371,5 +371,10 @@
   "openInDesktop": "Open in Grape Desktop",
   "downloadGrape": "{download}, if you haven’t installed it yet.",
   "downloadGrapeDesktop": "Download Grape Desktop",
-  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience."
+  "altenativeBrowser": "Alternatively you can use Grape with {browsers} to enjoy the full experience.",
+  "leaveGroupDialogTitle": "Leave Private Group",
+  "leaveGroupDialogMessage": "Are you sure you want to leave the private group {channel}? You {wontAbleToRejoin} this group unless you get invited again.",
+  "wontAbleToRejoin": "won't be able to re-join",
+  "leaveGroupDialogCancel": "Cancel",
+  "leaveGroupDialogButton": "Leave private group"
 }

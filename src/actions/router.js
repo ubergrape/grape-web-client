@@ -6,8 +6,9 @@ import * as types from '../constants/actionTypes'
 import { channelsSelector, channelSelector } from '../selectors'
 import { findLastUsedChannel } from './utils'
 import * as history from '../app/history'
+import * as api from '../utils/backend/api'
 
-import { openPm, openChannel } from './'
+import { openPm, error, openChannel, addChannel } from './'
 
 export function goTo(pathOrUrl, options = {}) {
   return (dispatch, getState) => {
@@ -44,44 +45,43 @@ export function goToMessage(message) {
   }
 }
 
-export function goToChannel(channelOrChannelId, options) {
+export function goToChannel(channelId, options) {
   return (dispatch, getState) => {
-    const { id: currentId } = channelSelector(getState())
+    const { id: currentChannelId } = channelSelector(getState())
 
-    if (
-      channelOrChannelId === currentId ||
-      (channelOrChannelId.id && channelOrChannelId.id === currentId)
-    )
-      return
+    if (channelId === currentChannelId) return
 
     if (!conf.embed) {
       dispatch({
         type: types.GO_TO_CHANNEL,
-        payload: channelOrChannelId,
       })
     }
 
-    let channel = channelOrChannelId
+    const channels = channelsSelector(getState())
+    const channel = find(channels, ({ id }) => id === channelId)
 
-    if (typeof channelOrChannelId === 'number') {
-      const channels = channelsSelector(getState())
-      channel = find(channels, ({ id }) => id === channelOrChannelId)
-      // Assume we don't have always have all channels in the future.
-      if (!channel) channel = { id: channelOrChannelId, slug: '' }
+    if (!channel) {
+      api
+        .getChannel(channelId)
+        .then(_channel => {
+          dispatch(addChannel(_channel))
+          const slug = _channel.slug || _channel.partner.username
+          dispatch(goTo(`/chat/channel/${_channel.id}/${slug}`, options))
+        })
+        .catch(err => dispatch(error(err)))
+      return
     }
 
-    const slug = channel.slug == null ? channel.partner.username : channel.slug
+    const slug = channel.slug || channel.partner.username
     dispatch(goTo(`/chat/channel/${channel.id}/${slug}`, options))
   }
 }
 
 export const goToLastUsedChannel = () => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const channel = findLastUsedChannel(channels, true)
-  const joinedChannel = findLastUsedChannel(channels, false)
+  const channel = findLastUsedChannel(channels)
 
-  if (channel) dispatch(goToChannel(channel))
-  else if (joinedChannel) dispatch(goToChannel(joinedChannel))
+  if (channel) dispatch(goToChannel(channel.id))
   else goTo('/chat')
 }
 

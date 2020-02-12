@@ -1,13 +1,15 @@
 import { size as avatarSize } from '../../avatar'
 
-export const styles = ({ color }) => ({
+export const styles = ({ backgroundColor, borderColor }) => ({
   bubble: {
     '&:before': {
-      background: `${color} !important`,
+      background: `${backgroundColor} !important`,
+      border: borderColor ? `1px solid ${borderColor}` : '0',
     },
   },
   content: {
     minHeight: avatarSize,
-    background: `${color} !important`,
+    background: `${backgroundColor} !important`,
+    border: borderColor ? `1px solid ${borderColor}` : '0',
   },
 })

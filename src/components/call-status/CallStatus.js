@@ -8,7 +8,7 @@ import Icon from 'grape-web/lib/svg-icons/Icon'
 import { injectIntl } from 'react-intl'
 import { defaultIconSlug } from '../../constants/channel'
 
-import styles from './theme'
+import theme from './theme'
 
 const secondsToHms = s => ({
   hours: ((s - (s % 3600)) / 3600) % 60,
@@ -115,4 +115,4 @@ class CallStatus extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(injectIntl(CallStatus))
+export default injectSheet(theme)(injectIntl(CallStatus))
