@@ -114,7 +114,9 @@ function onRequest(ctx, callback) {
   let file
 
   if (
-    /((staging|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com)$/.test(host)
+    /((staging|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com|jira.ubergrape.com)$/.test(
+      host,
+    )
   ) {
     const match = url.match(/\/static\/app\/(.*)/)
     // eslint-disable-next-line prefer-destructuring
