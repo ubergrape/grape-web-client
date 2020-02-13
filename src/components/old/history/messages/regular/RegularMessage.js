@@ -276,7 +276,7 @@ class RegularMessage extends PureComponent {
                   />
                 )}
               </div>
-              {isMenuOpened && (
+              {isMenuOpened && docType !== 'system' && (
                 <Menu
                   {...this.props}
                   isLinkAttachments={
