@@ -20,7 +20,6 @@ import {
 } from '../selectors'
 import { normalizeMessage, normalizeChannelData, pinToFavorite } from './utils'
 import {
-  goTo,
   error,
   addChannel,
   addSharedFiles,
@@ -220,13 +219,12 @@ export const handleJoinedChannel = ({
 }
 
 const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
-  const channels = joinedChannelsSelector(getState())
-  if (channels) {
-    dispatch(goToLastUsedChannel())
-  } else {
+  const isJoinedChannels = joinedChannelsSelector(getState())
+
+  dispatch(goToLastUsedChannel())
+  if (!isJoinedChannels) {
     dispatch(setIntialDataLoading(false))
     dispatch(showSidebar(false))
-    dispatch(goTo('/chat'))
   }
 }
 
@@ -290,7 +288,15 @@ export function handleRemoveRoom({ channel: channelId }) {
         currentChannelId,
       },
     })
-    if (channelId === currentChannelId) dispatch(goTo('/chat'))
+
+    if (channelId === currentChannelId) {
+      const isJoinedChannels = joinedChannelsSelector(getState())
+      dispatch(goToLastUsedChannel())
+      if (!isJoinedChannels) {
+        dispatch(setIntialDataLoading(false))
+        dispatch(showSidebar(false))
+      }
+    }
   }
 }
 
