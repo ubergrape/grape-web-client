@@ -25,7 +25,7 @@ import {
   endSound,
   goToLastUsedChannel,
   showSidebar,
-  setIntialDataLoading,
+  setInitialDataLoading,
   closeIncomingCall,
 } from './'
 
@@ -219,7 +219,7 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
 
   dispatch(goToLastUsedChannel())
   if (!isJoinedChannels) {
-    dispatch(setIntialDataLoading(false))
+    dispatch(setInitialDataLoading(false))
     dispatch(showSidebar(false))
   }
 }
@@ -289,7 +289,7 @@ export function handleRemoveRoom({ channel: channelId }) {
       const isJoinedChannels = joinedChannelsSelector(getState())
       dispatch(goToLastUsedChannel())
       if (!isJoinedChannels) {
-        dispatch(setIntialDataLoading(false))
+        dispatch(setInitialDataLoading(false))
         dispatch(showSidebar(false))
       }
     }
