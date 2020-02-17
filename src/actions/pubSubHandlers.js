@@ -16,7 +16,6 @@ import {
 } from '../selectors'
 import { normalizeMessage, normalizeChannelData, pinToFavorite } from './utils'
 import {
-  goTo,
   error,
   addChannel,
   addSharedFiles,
@@ -26,6 +25,7 @@ import {
   endSound,
   goToLastUsedChannel,
   showSidebar,
+  setIntialDataLoading,
   closeIncomingCall,
 } from './'
 
@@ -215,12 +215,12 @@ export const handleJoinedChannel = ({
 }
 
 const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
-  const channels = joinedChannelsSelector(getState())
-  if (channels) {
-    dispatch(goToLastUsedChannel())
-  } else {
+  const isJoinedChannels = joinedChannelsSelector(getState())
+
+  dispatch(goToLastUsedChannel())
+  if (!isJoinedChannels) {
+    dispatch(setIntialDataLoading(false))
     dispatch(showSidebar(false))
-    dispatch(goTo('/chat'))
   }
 }
 
@@ -284,7 +284,15 @@ export function handleRemoveRoom({ channel: channelId }) {
         currentChannelId,
       },
     })
-    if (channelId === currentChannelId) dispatch(goTo('/chat'))
+
+    if (channelId === currentChannelId) {
+      const isJoinedChannels = joinedChannelsSelector(getState())
+      dispatch(goToLastUsedChannel())
+      if (!isJoinedChannels) {
+        dispatch(setIntialDataLoading(false))
+        dispatch(showSidebar(false))
+      }
+    }
   }
 }
 
@@ -361,8 +369,11 @@ export const handleTypingNotification = ({
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { time, channel, author, event } = payload
+  const { time, channel, author, event, organizationId } = payload
   const currUser = userSelector(getState())
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
 
   dispatch(closeIncomingCall())
   dispatch({
@@ -392,10 +403,11 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
-  const { author, call, time, channel, event } = payload
+  const { author, call, time, channel, event, organizationId } = payload
   const { data } = incomingCallSelector(getState())
+  const org = orgSelector(getState())
 
-  if (data.call.id !== call.id) return
+  if (data.call.id !== call.id || org.id !== organizationId) return
 
   const currUser = userSelector(getState())
 
@@ -419,10 +431,12 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
+  const { author, channel, call, organizationId } = payload
   const { data } = incomingCallSelector(getState())
-  const { author, channel, call } = payload
-
   const user = userSelector(getState())
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
 
   if (
     (channel.type === 'pm' && data.call.id === call.id) ||
@@ -440,10 +454,15 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
+  const { author, call, channel, organizationId } = payload
   const { data } = incomingCallSelector(getState())
-  const { author, call, channel } = payload
+  const org = orgSelector(getState())
 
-  if (channel.type === 'pm' && data.call.id !== call.id) return
+  if (
+    (channel.type === 'pm' && data.call.id !== call.id) ||
+    org.id !== organizationId
+  )
+    return
 
   const user = userSelector(getState())
 
@@ -491,8 +510,11 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
+  const { call, organizationId } = payload
   const { data } = incomingCallSelector(getState())
-  const { call } = payload
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
 
   if (data.call.id === call.id) {
     dispatch(endSound())
@@ -504,8 +526,8 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 }
 
 export const handleStartedCall = data => (dispatch, getState) => {
-  const user = userSelector(getState())
   const { author, channel, call } = data
+  const user = userSelector(getState())
 
   if (user.id === author.id) {
     dispatch({
@@ -523,12 +545,12 @@ export const handleStartedCall = data => (dispatch, getState) => {
   })
 }
 
-export const handleFinishedCall = data => (dispatch, getState) => {
-  const channels = channelsSelector(getState())
+export const handleFinishedCall = payload => (dispatch, getState) => {
   const {
     call,
     channel: { id },
-  } = data
+  } = payload
+  const channels = channelsSelector(getState())
 
   const channel = find(channels, { id })
 

@@ -442,3 +442,93 @@ export const psb17 = {
   },
   time: '2019-12-17T09:28:26.740Z',
 }
+
+export const psb18 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 2918,
+  },
+  call: {
+    id: '70a9bdeef8904880920ba7b71d3376ca',
+    started: null,
+  },
+  channel: {
+    id: 8991,
+    name: null,
+    type: 'pm',
+  },
+  event: 'call.missed',
+  message: 'Missed Call',
+  organizationId: 1,
+  time: '2019-08-19T22:08:11.537Z',
+  title: 'asdf',
+}
+
+export const psb19 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13761,
+  },
+  call: {
+    id: '05990999027840459020f0a05ef5040b',
+    started: '2019-08-19T20:50:43.980385+00:00',
+  },
+  channel: {
+    id: 8991,
+    name: null,
+    type: 'pm',
+  },
+  event: 'call.hungup',
+  message: 'Hung up Call',
+  organizationId: 1,
+  time: '2019-08-19T20:50:46.732Z',
+  title: 'asdf',
+}
+
+export const psb20 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13762,
+  },
+  call: {
+    id: '05990999027840459020f0a05ef5040a',
+    started: '2019-08-19T20:52:43.980385+00:00',
+  },
+  channel: {
+    id: 6009,
+    name: 'Room',
+    type: 'room',
+    color: '#97A6BD',
+    icon: 'phone',
+  },
+  event: 'call.joined',
+  message: 'Joined Call',
+  organizationId: 1,
+  time: '2019-08-19T20:52:46.732Z',
+  title: 'asdf',
+}
+
+export const psb21 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13761,
+  },
+  call: {
+    id: '33e7d18169d442868a72856871396e47',
+    started: null,
+  },
+  channel: {
+    id: 8991,
+    name: null,
+    type: 'pm',
+  },
+  event: 'call.rejected',
+  message: 'Rejected Call',
+  organizationId: 1,
+  time: '2019-08-19T07:02:07.308Z',
+  title: 'asdf',
+}
