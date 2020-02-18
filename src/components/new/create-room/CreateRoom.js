@@ -9,6 +9,7 @@ import { Input, InputMultiplePicker } from '../input'
 import { InfiniteAutoRowHeightList } from '../list'
 import { ColorPicker } from '../color-picker'
 import { Button } from '../buttons'
+import { ButtonsGroup } from '../buttons-group'
 import { Checkbox } from '../checkbox'
 import { Textarea } from '../textarea'
 import RowRenderer from './RowRenderer/RowRenderer'
@@ -292,22 +293,18 @@ class CreateNewGroup extends Component {
           </div>
         </div>
         <div className={classes.buttons}>
-          <Button
-            type="basic"
-            styleType="minimal"
-            styles={{ margin: '0 4px' }}
-            onClick={this.onCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="primary"
-            styleType="standart"
-            styles={{ margin: '0 4px' }}
-            onClick={this.onCreateRoom}
-          >
-            Create Group
-          </Button>
+          <ButtonsGroup>
+            <Button type="basic" styleType="minimal" onClick={this.onCancel}>
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              styleType="standart"
+              onClick={this.onCreateRoom}
+            >
+              Create Group
+            </Button>
+          </ButtonsGroup>
         </div>
       </div>
     )

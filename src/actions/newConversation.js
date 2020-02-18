@@ -91,6 +91,7 @@ const loadUsersMembers = () => (dispatch, getState) => {
           dispatch(handleUsersResults(results))
           return
         }
+
         dispatch(
           handleUsersResults([
             { text: 'People you already have a conversation with' },
@@ -142,6 +143,7 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
           dispatch(handleUsersResults(results))
           return
         }
+
         dispatch(
           handleUsersResults([
             { text: 'People you can start a new conversation with' },

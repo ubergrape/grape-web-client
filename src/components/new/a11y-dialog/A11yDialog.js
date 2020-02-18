@@ -25,10 +25,12 @@ class A11yDialog extends Component {
   }
 
   onDialogRef = dialog => {
-    this.dialog = dialog
-    this.dialog.on('hide', () => {
-      this.props.onHide()
-    })
+    if (dialog) {
+      this.dialog = dialog
+      this.dialog.on('hide', () => {
+        this.props.onHide()
+      })
+    }
   }
 
   render() {
