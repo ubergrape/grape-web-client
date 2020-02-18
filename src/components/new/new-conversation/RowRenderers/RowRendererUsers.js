@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import { Status } from '../../status'
+import conf from '../../../../conf'
 import styles from './../styles/RowRendererStyles'
 
 class RowRendererUsers extends Component {
@@ -66,7 +67,7 @@ class RowRendererUsers extends Component {
         <div className={classes.text}>
           <span className={classes.name}>
             {user.displayName}
-            {user.role === 3 && (
+            {user.role === conf.constants.roles.ROLE_GUEST && (
               <span className={classes.guestLabel}>Guest</span>
             )}
           </span>
