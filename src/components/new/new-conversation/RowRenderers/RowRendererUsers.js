@@ -48,6 +48,7 @@ class RowRendererUsers extends Component {
       )
 
     const user = list[index]
+
     return (
       <button
         className={classes.button}
@@ -63,7 +64,12 @@ class RowRendererUsers extends Component {
           <Status status={user.status} />
         </div>
         <div className={classes.text}>
-          <span className={classes.name}>{user.displayName}</span>
+          <span className={classes.name}>
+            {user.displayName}
+            {user.role === 3 && (
+              <span className={classes.guestLabel}>Guest</span>
+            )}
+          </span>
           <span className={classes.description}>{user.whatIDo}</span>
         </div>
         {user.lastMessageTimestamp && (

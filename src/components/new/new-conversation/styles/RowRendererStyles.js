@@ -48,6 +48,13 @@ export default {
     textOverflow: 'ellipsis',
     pointerEvents: 'none',
   },
+  guestLabel: {
+    background: theme.colorBackgroundButtonLightActive,
+    fontSize: theme.fontSizeLabelWeb,
+    borderRadius: 8,
+    padding: '2px 8px',
+    marginLeft: 5,
+  },
   description: {
     fontSize: theme.fontSizeLabelWeb,
     color: theme.colorTextHint,
