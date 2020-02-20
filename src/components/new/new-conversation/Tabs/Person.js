@@ -64,32 +64,32 @@ class Person extends Component {
             </p>
           </div>
         )}
-        {isUsersLoaded && (
-          <div className={classes.list}>
-            <InfiniteAutoRowHeightList
-              rowHeight={this.rowHeight}
-              loadMoreRows={() => {
-                actions.onSearchUsers()
-              }}
-              isRowLoaded={this.isRowLoaded}
-              list={list}
-              rowCount={Infinity}
-              minimumBatchSize={50}
-              width={680}
-              threshold={30}
-              rowRenderer={(index, key, style) => (
-                <RowRendererUsers
-                  actions={actions}
-                  list={list}
-                  index={index}
-                  key={key}
-                  style={style}
-                />
-              )}
-              noRowsRenderer={() => <NoRowsRendererUsers />}
-            />
-          </div>
-        )}
+        <div className={classes.list}>
+          <InfiniteAutoRowHeightList
+            rowHeight={this.rowHeight}
+            loadMoreRows={() => {
+              actions.onSearchUsers()
+            }}
+            isRowLoaded={this.isRowLoaded}
+            list={list}
+            rowCount={Infinity}
+            minimumBatchSize={50}
+            width={680}
+            threshold={30}
+            rowRenderer={(index, key, style) => (
+              <RowRendererUsers
+                actions={actions}
+                list={list}
+                index={index}
+                key={key}
+                style={style}
+              />
+            )}
+            noRowsRenderer={() => (
+              <NoRowsRendererUsers isUsersLoaded={isUsersLoaded} />
+            )}
+          />
+        </div>
       </div>
     )
   }

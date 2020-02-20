@@ -40,14 +40,14 @@ export const onChangeGroupsFilterNewConversation = filter => dispatch => {
   })
 }
 
-const flipUsersLoadingStatus = payload => dispatch => {
+const flipNewConversationUsersLoadingStatus = payload => dispatch => {
   dispatch({
     type: types.REQUEST_USERS_SEARCH_NEW_CONVERSATION,
     payload,
   })
 }
 
-const flipGroupsLoadingStatus = payload => dispatch => {
+const flipNewConversationGroupsLoadingStatus = payload => dispatch => {
   dispatch({
     type: types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION,
     payload,
@@ -60,7 +60,7 @@ const handleUsersResults = results => dispatch => {
     payload: results,
   })
 
-  dispatch(flipUsersLoadingStatus(true))
+  dispatch(flipNewConversationUsersLoadingStatus(true))
 }
 
 const handleGroupsResults = results => dispatch => {
@@ -69,7 +69,7 @@ const handleGroupsResults = results => dispatch => {
     payload: results,
   })
 
-  dispatch(flipGroupsLoadingStatus(true))
+  dispatch(flipNewConversationGroupsLoadingStatus(true))
 }
 
 const loadUsersMembers = () => (dispatch, getState) => {
@@ -116,7 +116,7 @@ export const onSearchUsersNewConversation = () => (dispatch, getState) => {
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
 
-  if (!users.length) dispatch(flipUsersLoadingStatus(false))
+  if (!users.length) dispatch(flipNewConversationUsersLoadingStatus(false))
 
   if (isMembersNotLoaded) return dispatch(loadUsersMembers())
 
@@ -198,7 +198,7 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
     isMemberOfEachChannel,
   } = newConversationSelector(getState())
 
-  if (!groups.length) dispatch(flipGroupsLoadingStatus(false))
+  if (!groups.length) dispatch(flipNewConversationGroupsLoadingStatus(false))
 
   if (isMembersNotLoaded) return dispatch(loadGroupsMembers())
 

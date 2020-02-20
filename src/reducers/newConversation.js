@@ -47,7 +47,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filterUsers: payload,
-        isUsersLoaded: false,
         isMembersNotLoaded: false,
         users: [],
         page: 1,
@@ -56,7 +55,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filterGroups: payload,
-        isGroupsLoaded: false,
         isMembersNotLoaded: false,
         groups: [],
         page: 1,

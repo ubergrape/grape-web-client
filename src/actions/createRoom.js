@@ -1,3 +1,5 @@
+import { find } from 'lodash'
+
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import { error, joinChannel, goToChannel, onHideNewConversation } from './'
@@ -32,13 +34,6 @@ export const onChangeDescriptionCreateRoom = text => dispatch => {
   })
 }
 
-export const onClickMultipleInputCreateRoom = isFocused => dispatch => {
-  dispatch({
-    type: types.CHANGE_MULTIPLE_INPUT_FOCUS_CREATE_ROOM,
-    payload: isFocused,
-  })
-}
-
 export const onChangeFilterCreateRoom = text => dispatch => {
   dispatch({
     type: types.CHANGE_FILTER_CREATE_ROOM,
@@ -46,18 +41,48 @@ export const onChangeFilterCreateRoom = text => dispatch => {
   })
 }
 
-export const onClickCheckedStatusCreateRoom = user => dispatch => {
+export const onAddMemberCreateRoom = user => dispatch => {
   dispatch({
-    type: types.CHANGE_CHECKED_STATUS_CREATE_ROOM,
+    type: types.ADD_MEMBER_CREATE_ROOM,
     payload: user,
   })
 }
 
-const normilizeUsers = users => users.map(user => ({ ...user, checked: false }))
+export const onDeleteMemberCreateRoom = id => dispatch => {
+  dispatch({
+    type: types.DELETE_MEMBER_CREATE_ROOM,
+    payload: id,
+  })
+}
+
+const normilizeUsers = (users, pickedUsers) => {
+  return users.map(user => {
+    if (find(pickedUsers, { id: user.id })) {
+      return {
+        ...user,
+        checked: true,
+      }
+    }
+
+    return {
+      ...user,
+      checked: false,
+    }
+  })
+}
+
+const flipCreateRoomUsersLoadingStatus = payload => dispatch => {
+  dispatch({
+    type: types.REQUEST_USERS_SEARCH_CREATE_ROOM,
+    payload,
+  })
+}
 
 export const onSearchUsersCreateRoom = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
-  const { page, filter } = createRoomSelector(getState())
+  const { page, pickedUsers, users, filter } = createRoomSelector(getState())
+
+  if (!users.length) dispatch(flipCreateRoomUsersLoadingStatus(false))
 
   return api
     .getUsers(id, {
@@ -68,15 +93,19 @@ export const onSearchUsersCreateRoom = () => (dispatch, getState) => {
     .then(({ results }) => {
       dispatch({
         type: types.HANDLE_USERS_SEARCH_CREATE_ROOM,
-        payload: normilizeUsers(results),
+        payload: normilizeUsers(results, pickedUsers),
       })
+
+      dispatch(flipCreateRoomUsersLoadingStatus(true))
     })
     .catch(err => dispatch(error(err)))
 }
 
 export const onCreateRoom = () => (dispatch, getState) => {
   const { id: organization } = orgSelector(getState())
-  const { name, description, isPublic, users } = createRoomSelector(getState())
+  const { name, description, isPublic, pickedUsers } = createRoomSelector(
+    getState(),
+  )
 
   api
     .createRoom({
@@ -84,7 +113,7 @@ export const onCreateRoom = () => (dispatch, getState) => {
       organization,
       description,
       isPublic,
-      users: users.filter(({ checked }) => checked).map(({ email }) => email),
+      users: pickedUsers.map(({ email }) => email),
     })
     .then(room => {
       dispatch(joinChannel(room.id))

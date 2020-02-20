@@ -7,9 +7,10 @@ const initialState = {
   description: '',
   color: 0,
   isPublic: true,
-  isFocused: false,
   page: 1,
   users: [],
+  pickedUsers: [],
+  isUsersLoaded: true,
   filter: '',
   error: '',
 }
@@ -42,11 +43,6 @@ export default function reduce(state = initialState, action) {
         ...state,
         description: payload,
       }
-    case types.CHANGE_MULTIPLE_INPUT_FOCUS_CREATE_ROOM:
-      return {
-        ...state,
-        isFocused: payload,
-      }
     case types.HANDLE_USERS_SEARCH_CREATE_ROOM:
       return {
         ...state,
@@ -58,17 +54,38 @@ export default function reduce(state = initialState, action) {
         ...state,
         error: payload,
       }
-    case types.CHANGE_CHECKED_STATUS_CREATE_ROOM: {
+    case types.ADD_MEMBER_CREATE_ROOM: {
       const { users } = state
       const newUsers = [...users]
+
       const index = findIndex(newUsers, { id: payload.id })
       if (index === -1) return state
+
       const currUser = newUsers[index]
       const user = { ...currUser, checked: !currUser.checked }
       newUsers.splice(index, 1, user)
+
       return {
         ...state,
-        users: [...newUsers],
+        users: newUsers,
+        pickedUsers: [...state.pickedUsers, payload],
+      }
+    }
+    case types.DELETE_MEMBER_CREATE_ROOM: {
+      const { users } = state
+      const newUsers = [...users]
+
+      const index = findIndex(newUsers, { id: payload })
+      if (index === -1) return state
+
+      const currUser = newUsers[index]
+      const user = { ...currUser, checked: !currUser.checked }
+      newUsers.splice(index, 1, user)
+
+      return {
+        ...state,
+        users: newUsers,
+        pickedUsers: state.pickedUsers.filter(({ id }) => id !== payload),
       }
     }
     case types.CHANGE_FILTER_CREATE_ROOM:
@@ -77,6 +94,11 @@ export default function reduce(state = initialState, action) {
         filter: payload,
         users: [],
         page: 1,
+      }
+    case types.REQUEST_USERS_SEARCH_CREATE_ROOM:
+      return {
+        ...state,
+        isUsersLoaded: payload,
       }
     default:
       return state

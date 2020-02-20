@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
+import { noop } from 'lodash'
 import injectSheet from 'grape-web/lib/jss'
 
 import { Icon } from '../icon'
@@ -13,19 +14,15 @@ class Input extends Component {
     error: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
     defaultValue: PropTypes.string,
-    onBlur: PropTypes.func,
-    onClick: PropTypes.func,
+    onKeyDown: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func,
   }
 
   static defaultProps = {
     defaultValue: '',
     type: 'text',
-    onBlur: () => {},
-    onClick: () => {},
-    onChange: () => {},
-    onFocus: () => {},
+    onKeyDown: noop,
+    onChange: noop,
   }
 
   static defaultProps = {
@@ -47,9 +44,7 @@ class Input extends Component {
       placeholder,
       classes,
       onChange,
-      onClick,
-      onFocus,
-      onBlur,
+      onKeyDown,
     } = this.props
 
     return (
@@ -60,9 +55,7 @@ class Input extends Component {
           placeholder={placeholder || ''}
           className={cn(classes.input, classes.inputPS)}
           onChange={onChange}
-          onClick={onClick}
-          onFocus={onFocus}
-          onBlur={onBlur}
+          onKeyDown={onKeyDown}
         />
         {error && (
           <Icon

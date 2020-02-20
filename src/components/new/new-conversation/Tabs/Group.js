@@ -34,12 +34,12 @@ class Group extends Component {
     this.props.actions.onChangeView('create')
   }
 
+  isRowLoaded = index => Boolean(this.props.data.list[index])
+
   rowHeight = (list, index) => {
     if (list[index].text) return 70
     return 40
   }
-
-  isRowLoaded = index => !!this.props.data.list[index]
 
   render() {
     const { classes, data, actions } = this.props
@@ -77,32 +77,32 @@ class Group extends Component {
             </p>
           </div>
         )}
-        {isGroupsLoaded && (
-          <div className={classes.list}>
-            <InfiniteAutoRowHeightList
-              rowHeight={this.rowHeight}
-              loadMoreRows={() => {
-                actions.onSearchGroups()
-              }}
-              isRowLoaded={this.isRowLoaded}
-              list={list}
-              rowCount={Infinity}
-              minimumBatchSize={50}
-              width={680}
-              threshold={30}
-              rowRenderer={(index, key, style) => (
-                <RowRendererGroups
-                  actions={actions}
-                  list={list}
-                  index={index}
-                  key={key}
-                  style={style}
-                />
-              )}
-              noRowsRenderer={() => <NoRowsRendererGroups />}
-            />
-          </div>
-        )}
+        <div className={classes.list}>
+          <InfiniteAutoRowHeightList
+            rowHeight={this.rowHeight}
+            loadMoreRows={() => {
+              actions.onSearchGroups()
+            }}
+            isRowLoaded={this.isRowLoaded}
+            list={list}
+            rowCount={Infinity}
+            minimumBatchSize={50}
+            width={680}
+            threshold={30}
+            rowRenderer={(index, key, style) => (
+              <RowRendererGroups
+                actions={actions}
+                list={list}
+                index={index}
+                key={key}
+                style={style}
+              />
+            )}
+            noRowsRenderer={() => (
+              <NoRowsRendererGroups isGroupsLoaded={isGroupsLoaded} />
+            )}
+          />
+        </div>
       </div>
     )
   }

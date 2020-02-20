@@ -53,7 +53,7 @@ export default {
   },
   list: {
     marginTop: 12,
-    height: ({ users }) => (users.length > 0 ? 96 : 20),
+    height: 160,
   },
   buttons: {
     display: 'flex',

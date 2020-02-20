@@ -18,11 +18,11 @@ class RowRendererUsers extends Component {
 
   onClickRow = () => {
     const { actions, list, index } = this.props
-    const { isActive, pm, id } = list[index]
+    const { pm, id } = list[index]
 
     actions.onHide()
 
-    if (isActive) {
+    if (pm) {
       actions.goToChannel(pm)
       return
     }

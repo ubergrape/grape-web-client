@@ -14,8 +14,8 @@ const actionNames = {
   onChangeColorCreateRoom: 'onChangeColor',
   onChangeTypeCreateRoom: 'onChangeType',
   onChangeDescriptionCreateRoom: 'onChangeDescription',
-  onClickMultipleInputCreateRoom: 'onClickMultipleInput',
-  onClickCheckedStatusCreateRoom: 'onClickCheckedStatus',
+  onAddMemberCreateRoom: 'onAddMember',
+  onDeleteMemberCreateRoom: 'onDeleteMember',
   onCreateRoom: 'onCreateRoom',
   onHideNewConversation: 'onHide',
 }

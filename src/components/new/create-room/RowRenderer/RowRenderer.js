@@ -12,12 +12,19 @@ class RowRenderer extends Component {
     index: PropTypes.number.isRequired,
     list: PropTypes.array.isRequired,
     checked: PropTypes.bool.isRequired,
-    onClickCheckedStatus: PropTypes.func.isRequired,
+    onAddMember: PropTypes.func.isRequired,
+    onDeleteMember: PropTypes.func.isRequired,
   }
 
   onClick = () => {
-    const { index, list, onClickCheckedStatus } = this.props
-    onClickCheckedStatus(list[index])
+    const { index, list, onAddMember, onDeleteMember } = this.props
+
+    if (list[index].checked) {
+      onDeleteMember(list[index].id)
+      return
+    }
+
+    onAddMember(list[index])
   }
 
   render() {

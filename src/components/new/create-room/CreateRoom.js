@@ -16,11 +16,10 @@ import RowRenderer from './RowRenderer/RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer/NoRowsRenderer'
 import styles from './styles/CreateRoomStyles'
 
-class CreateNewGroup extends Component {
+class CreateRoom extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isPublic: PropTypes.bool,
-    isFocused: PropTypes.bool,
     name: PropTypes.string,
     color: PropTypes.number,
     description: PropTypes.string,
@@ -28,12 +27,14 @@ class CreateNewGroup extends Component {
     error: PropTypes.string,
     visibility: PropTypes.string,
     users: PropTypes.array,
+    pickedUsers: PropTypes.array,
+    isUsersLoaded: PropTypes.bool,
     onChangeColor: PropTypes.func.isRequired,
-    onClickCheckedStatus: PropTypes.func.isRequired,
+    onAddMember: PropTypes.func.isRequired,
+    onDeleteMember: PropTypes.func.isRequired,
     onChangeName: PropTypes.func.isRequired,
     onChangeType: PropTypes.func.isRequired,
     onChangeDescription: PropTypes.func.isRequired,
-    onClickMultipleInput: PropTypes.func.isRequired,
     onSearchUsers: PropTypes.func.isRequired,
     onChangeFilter: PropTypes.func.isRequired,
     onHide: PropTypes.func.isRequired,
@@ -44,17 +45,20 @@ class CreateNewGroup extends Component {
   static defaultProps = {
     error: undefined,
     isPublic: true,
-    isFocused: false,
     name: '',
     color: 0,
     description: '',
     filter: '',
     visibility: 'public',
     users: [],
+    pickedUsers: [],
+    isUsersLoaded: true,
   }
 
   componentDidMount() {
-    if (this.props.visibility === 'private') this.props.onChangeType(false)
+    const { visibility, onChangeType, onSearchUsers } = this.props
+    if (visibility === 'private') onChangeType(false)
+    onSearchUsers()
   }
 
   onChangeName = ({ target }) => {
@@ -70,16 +74,6 @@ class CreateNewGroup extends Component {
   onChangeDescription = ({ target }) => {
     const { value } = target
     this.props.onChangeDescription(value)
-  }
-
-  onBlurMultipleInput = () => {
-    this.props.onClickMultipleInput(false)
-  }
-
-  onClickMultipleInput = () => {
-    const { onClickMultipleInput, onSearchUsers } = this.props
-    onClickMultipleInput(true)
-    onSearchUsers()
   }
 
   onChangeFilter = ({ target }) => {
@@ -114,15 +108,15 @@ class CreateNewGroup extends Component {
       color,
       description,
       isPublic,
-      isFocused,
       filter,
       users,
+      pickedUsers,
+      isUsersLoaded,
       error,
       onChangeColor,
-      onClickCheckedStatus,
+      onAddMember,
+      onDeleteMember,
     } = this.props
-
-    const pickedUsers = users.filter(user => user.checked)
 
     return (
       <div className={classes.wrapper}>
@@ -233,63 +227,62 @@ class CreateNewGroup extends Component {
             <div className={classes.content}>
               <InputMultiplePicker
                 list={pickedUsers}
-                focused={isFocused}
-                onClick={this.onClickMultipleInput}
-                onFocus={this.onClickMultipleInput}
-                onBlur={this.onBlurMultipleInput}
+                value={filter}
                 onChange={this.onChangeFilter}
-                actions={{
-                  onClickCheckbox: onClickCheckedStatus,
-                }}
+                onDeleteMember={onDeleteMember}
               />
             </div>
             <span className={classes.hint}>
               Optional. Consider adding other people for lively discussions, if
               you don&apos;t want to chat with yourself.
             </span>
-            {(users.length > 0 || filter || isFocused) && (
+            <div>
               <div>
-                <div>
-                  {pickedUsers.length > 0 ? (
-                    <span className={classes.hintDarkLargeMargin}>
-                      Selected people:{' '}
-                      <span className={classes.counter}>
-                        {pickedUsers.length}
-                      </span>
+                {pickedUsers.length > 0 ? (
+                  <span className={classes.hintDarkLargeMargin}>
+                    Selected people:{' '}
+                    <span className={classes.counter}>
+                      {pickedUsers.length}
                     </span>
-                  ) : (
-                    <span className={classes.hintDarkLargeMargin}>
-                      People you recently interacted with.
-                    </span>
-                  )}
-                </div>
-                <div className={classes.list}>
-                  <InfiniteAutoRowHeightList
-                    rowHeight={() => 32}
-                    loadMoreRows={() => {
-                      this.props.onSearchUsers()
-                    }}
-                    isRowLoaded={this.isRowLoaded}
-                    list={users}
-                    rowCount={Infinity}
-                    minimumBatchSize={50}
-                    width={680}
-                    threshold={30}
-                    rowRenderer={(index, key, style) => (
-                      <RowRenderer
-                        list={users}
-                        index={index}
-                        checked={users[index].checked}
-                        key={key}
-                        style={style}
-                        onClickCheckedStatus={onClickCheckedStatus}
-                      />
-                    )}
-                    noRowsRenderer={() => <NoRowsRenderer filter={filter} />}
-                  />
-                </div>
+                  </span>
+                ) : (
+                  <span className={classes.hintDarkLargeMargin}>
+                    People you recently interacted with.
+                  </span>
+                )}
               </div>
-            )}
+              <div className={classes.list}>
+                <InfiniteAutoRowHeightList
+                  rowHeight={() => 32}
+                  loadMoreRows={() => {
+                    this.props.onSearchUsers()
+                  }}
+                  isRowLoaded={this.isRowLoaded}
+                  list={users}
+                  rowCount={Infinity}
+                  minimumBatchSize={50}
+                  width={680}
+                  threshold={30}
+                  rowRenderer={(index, key, style) => (
+                    <RowRenderer
+                      list={users}
+                      index={index}
+                      checked={users[index].checked}
+                      key={key}
+                      style={style}
+                      onAddMember={onAddMember}
+                      onDeleteMember={onDeleteMember}
+                    />
+                  )}
+                  noRowsRenderer={() => (
+                    <NoRowsRenderer
+                      isUsersLoaded={isUsersLoaded}
+                      filter={filter}
+                    />
+                  )}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className={classes.buttons}>
@@ -311,4 +304,4 @@ class CreateNewGroup extends Component {
   }
 }
 
-export default injectSheet(styles)(CreateNewGroup)
+export default injectSheet(styles)(CreateRoom)

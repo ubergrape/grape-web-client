@@ -7,8 +7,8 @@ import styles from '../styles/InputMultiplePickerItemStyles'
 
 class InputMultiplePickerItem extends Component {
   onClick = () => {
-    const { item, actions } = this.props
-    actions.onClickCheckbox(item)
+    const { item, onDeleteMember } = this.props
+    onDeleteMember(item.id)
   }
 
   render() {
@@ -28,7 +28,7 @@ class InputMultiplePickerItem extends Component {
 InputMultiplePickerItem.propTypes = {
   classes: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
+  onDeleteMember: PropTypes.func.isRequired,
 }
 
 export default injectSheet(styles)(InputMultiplePickerItem)
