@@ -180,7 +180,7 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       if (has(route, 'params.channelId')) {
         dispatch(setChannel(route.params.channelId, route.params.messageId))
       } else {
-        const channelToSet = findLastUsedChannel(allChannels)
+        const channelToSet = findLastUsedChannel(channelsSelector(getState()))
         if ((conf.channelId || channelToSet) && isMemberOfAnyRooms) {
           // In embedded chat conf.channelId is defined.
           dispatch(setChannel(conf.channelId || channelToSet.id))
