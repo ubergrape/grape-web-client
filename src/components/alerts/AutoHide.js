@@ -17,21 +17,31 @@ export default class AutoHide extends PureComponent {
     onHide: noop,
   }
 
-  state = { timeoutId: undefined }
+  constructor(props) {
+    super(props)
+    this.state = {
+      timeoutId: undefined,
+    }
+  }
 
-  componentWillReceiveProps(nextProps) {
-    const { delay, data } = nextProps
+  componentDidMount() {
+    const { delay } = this.props
     if (delay) {
-      this.setState({
-        timeoutId: setTimeout(() => {
-          this.props.onHide(data)
-        }, delay),
-      })
+      this.setTimeoutId()
     }
   }
 
   componentWillUnmount() {
     if (this.state.timeoutId) clearTimeout(this.state.timeoutId)
+  }
+
+  setTimeoutId = () => {
+    const { onHide, data, delay } = this.props
+    this.setState({
+      timeoutId: setTimeout(() => {
+        onHide(data)
+      }, delay),
+    })
   }
 
   render() {
