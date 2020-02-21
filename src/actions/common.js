@@ -1,4 +1,4 @@
-import { find, has } from 'lodash'
+import { find, has, omit } from 'lodash'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
@@ -107,7 +107,6 @@ export const handleBadChannel = alertType => dispatch => {
 
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
   const channels = channelsSelector(getState())
-  const currentChannel = channelSelector(getState())
 
   dispatch(hideBrowser())
 
@@ -115,6 +114,8 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then(channel => {
       if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
+
+      const currentChannel = channelSelector(getState())
 
       dispatch({
         type: types.SET_CHANNEL,
@@ -165,15 +166,18 @@ export const loadInitialData = clientId => (dispatch, getState) => {
       const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
       dispatch(setChannels(allChannels))
-      dispatch(setOrg({ ...org, labelsConfig }))
-
+      dispatch(
+        setOrg({
+          ...omit(org, 'users', 'channels', 'rooms', 'pms'),
+          labelsConfig,
+        }),
+      )
       dispatch(ensureBrowserNotificationPermission())
 
       dispatch(setInitialDataLoading(false))
 
-      const state = getState()
-      const { route } = appSelector(state)
-      const isMemberOfAnyRooms = joinedChannelsSelector(state)
+      const { route } = appSelector(getState())
+      const isMemberOfAnyRooms = joinedChannelsSelector(getState())
 
       // A route for the embedded client can be 'undefined', and for the full
       // client the channelId can also be 'undefined' in case no channel is defined

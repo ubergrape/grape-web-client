@@ -133,7 +133,8 @@ export const joinChannel = id => dispatch => {
     type: types.REQUEST_JOIN_CHANNEL,
     payload: id,
   })
-  api.joinChannel(id).catch(err => dispatch(error(err)))
+
+  return api.joinChannel(id).catch(err => dispatch(error(err)))
 }
 
 export const updateChannelPartnerInfo = channel => dispatch => {
@@ -150,12 +151,6 @@ export function inviteToChannel(emailAddresses, options = {}) {
       .inviteToChannel(emailAddresses, id)
       .then(() => dispatch(invitedToChannel(emailAddresses, id)))
       .catch(err => dispatch(error(err)))
-  }
-}
-
-export function requestRoomCreate() {
-  return {
-    type: types.REQUEST_ROOM_CREATE,
   }
 }
 
@@ -204,7 +199,11 @@ export const openChannel = (channelId, messageId) => dispatch => {
   dispatch(setChannel(channelId, messageId))
 }
 
-export const openChannelFromNavigation = channelId => dispatch => {
+export const openChannelFromNavigation = channelId => (dispatch, getState) => {
+  const channel = channelSelector(getState())
+
+  if (channel.id === channelId) return
+
   dispatch(goToChannel(channelId))
 }
 

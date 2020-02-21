@@ -1260,11 +1260,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ubergrape/react-notification@^6.5.3":
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/@ubergrape/react-notification/-/react-notification-6.5.3.tgz#5c05928f30f87a64ef8b5ddbae5f1c4f7a36b9d7"
-  integrity sha1-XAWSjzD4emTvi13brl8cT3o2udc=
-
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"

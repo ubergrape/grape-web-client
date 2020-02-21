@@ -103,6 +103,7 @@ class History extends Component {
         nextProps.selectedMessageIdTimestamp
     const channelHasChanged =
       get(channel, 'id') !== get(this.props, 'channel.id')
+
     if (
       channelHasChanged ||
       selectedMessageHasChanged ||

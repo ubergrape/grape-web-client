@@ -40,6 +40,7 @@ const plugins = [
   new LodashModuleReplacementPlugin({
     shorthands: true,
     collections: true,
+    flattening: true,
     paths: true,
   }),
   new DuplicatePackageCheckerPlugin(),
