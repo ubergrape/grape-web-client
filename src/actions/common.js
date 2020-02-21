@@ -94,7 +94,7 @@ export const handleUserProfile = profile => dispatch => {
 }
 
 export const handleBadChannel = alertType => dispatch => {
-  dispatch(goToLastUsedChannel())
+  if (!conf.embed) dispatch(goToLastUsedChannel())
   dispatch(
     showAlert({
       level: 'warning',
