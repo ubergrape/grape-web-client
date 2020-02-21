@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "2.8.4-unicorn",
+  "version": "2.8.5-unicorn",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
