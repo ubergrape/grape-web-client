@@ -37,8 +37,9 @@ export default {
   closeButton: {
     isolate: false,
     position: 'absolute',
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
+    padding: [0, 0, 4, 0],
     right: 24,
     top: 24,
     border: 0,
