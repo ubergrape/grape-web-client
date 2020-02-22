@@ -33,7 +33,7 @@ export default class RouteChanger extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.location !== prevProps.location ||
+      this.props.location.pathname !== prevProps.location.pathname ||
       // this is needed since initially the app will be loading and
       // once loaded re-render the whole tree
       this.props.isLoading !== prevProps.isLoading
