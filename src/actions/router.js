@@ -117,5 +117,6 @@ export const handleChangeRoute = ({ name, params }) => dispatch => {
       break
     }
     default:
+      dispatch(goToLastUsedChannel())
   }
 }
