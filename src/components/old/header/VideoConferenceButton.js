@@ -135,7 +135,11 @@ const VideoConferenceButton = props => {
     )
   }
 
-  if (userStatusMap[user.status] === 'inCall') {
+  if (
+    userStatusMap[user.status] === 'inCall' ||
+    (channel.type === 'pm' &&
+      userStatusMap[channel.partner.status] === 'inCall')
+  ) {
     return (
       <Tooltip message={tooltips.inCall}>
         <button onClick={showOnCallToast} className={props.classes.button}>
