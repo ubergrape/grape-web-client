@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
@@ -313,6 +314,7 @@ export const unreadChannelsSelector = createSelector(
   (rooms, pms, channel) => ({
     amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
     channelName: channel.name,
+    partnerName: isEmpty(channel.partner) ? null : channel.partner.displayName,
   }),
 )
 
