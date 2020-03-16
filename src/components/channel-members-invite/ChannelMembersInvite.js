@@ -139,6 +139,7 @@ class ChannelMembersInvite extends PureComponent {
         goTo={goTo}
         channel={channel}
         showInviteGuests
+        showEmailToInvite={false}
       >
         <InviteButton
           classes={classes}
