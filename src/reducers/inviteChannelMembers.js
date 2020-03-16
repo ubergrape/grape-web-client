@@ -4,6 +4,7 @@ const initialState = {
   show: false,
   filter: '',
   listed: [],
+  loaded: false,
   users: [],
 }
 
@@ -32,12 +33,14 @@ export default function reduce(state = initialState, action) {
     case types.FILTER_CHANNEL_MEMBERS_INVITE:
       return {
         ...state,
+        loaded: false,
         filter: action.payload,
       }
     case types.FOUND_USERS_TO_INVITE:
       return {
         ...state,
         users: action.payload,
+        loaded: true,
       }
     case types.SET_CHANNEL:
       return initialState

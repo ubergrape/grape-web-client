@@ -1,5 +1,5 @@
 import { grayBlueLighter } from 'grape-theme/dist/base-colors'
-import { small } from 'grape-theme/dist/fonts'
+import { small, normal } from 'grape-theme/dist/fonts'
 
 import link from '../button/link'
 
@@ -9,11 +9,16 @@ export const styles = {
     position: 'relative',
     padding: 15,
     borderTop: [3, 'solid', grayBlueLighter],
-    borderBottom: [3, 'solid', grayBlueLighter],
   },
   list: {
     display: 'block',
     height: 150,
+  },
+  linksWrapper: {
+    width: '100%',
+    display: 'block',
+    borderTop: ({ isInviter, showInviteGuests }) =>
+      isInviter || showInviteGuests ? `3px solid ${grayBlueLighter}` : 0,
   },
   linkWrapper: {
     display: 'block',
@@ -27,8 +32,17 @@ export const styles = {
       paddingBottom: 10,
     },
   },
-  link: {
+  linkSmall: {
     extend: [link, small],
+  },
+  link: {
+    extend: [link, normal],
+  },
+  textBold: {
+    fontWeight: 600,
+  },
+  emptyOrg: {
+    margin: [10, 0],
   },
   user: {
     display: 'block',
@@ -45,5 +59,9 @@ export const styles = {
   note: {
     composes: '$list',
     padding: 20,
+  },
+  noteSmall: {
+    composes: '$list',
+    padding: [5, 20],
   },
 }
