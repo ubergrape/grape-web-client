@@ -4,3 +4,5 @@ export const reactVirtualizedRecalculationDelay = 400
 export const readRowDelay = reactVirtualizedRecalculationDelay + 50
 
 export const typingThrottlingDelay = 5000
+
+export const reconnectionDelay = 60000

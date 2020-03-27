@@ -127,7 +127,7 @@ const createRoomErrorSelector = createSelector(
   state => state,
 )
 
-const reconnectSelector = createSelector(
+export const reconnectSelector = createSelector(
   state => state.reconnect,
   state => state,
 )
