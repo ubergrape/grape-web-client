@@ -15,17 +15,17 @@ import ErrorBoundary from './ErrorBoundary'
 
 let sheetsInsertionPoint
 let renderContainer
-let isSuspended = true
+// let isSuspended = true
 
 export const resume = () => {
-  if (!isSuspended) return null
-  isSuspended = false
+  // if (!isSuspended) return null
+  // isSuspended = false
   return client.connect()
 }
 
 // NOTE: we made sure suspend doesn't do anything as it causes WebSocket connection issues
 // In addition from a product perspective it only would make sense if it starts to
-// refetch the hisotry (which it odesn't do).
+// refetch the hisotry (which it doesn't do).
 export const suspend = () => {
   // if (isSuspended) return
   // isSuspended = true
