@@ -1,5 +1,8 @@
 import { open } from '../app/client'
 import * as types from '../constants/actionTypes'
+import { reconnectionDelay } from '../constants/delays'
+
+import { reconnectSelector } from '../selectors'
 
 export const handleReconnecting = payload => dispatch => {
   dispatch({
@@ -8,15 +11,32 @@ export const handleReconnecting = payload => dispatch => {
   })
 }
 
-export const onReconnect = () => dispatch => {
-  open()
+export const onReconnect = () => (dispatch, getState) => {
+  const { openTime } = reconnectSelector(getState())
+
   dispatch(handleReconnecting(true))
+
+  if (Date.now() - openTime < reconnectionDelay) {
+    setTimeout(() => {
+      dispatch(handleReconnecting(false))
+    }, 1000)
+    return
+  }
+
+  open()
 }
 
-export const setTimer = backoff => dispatch => {
+export const setTimer = payload => dispatch => {
   dispatch({
     type: types.SET_TIMER,
-    payload: { backoff },
+    payload,
+  })
+}
+
+export const setOpenTime = payload => dispatch => {
+  dispatch({
+    type: types.SET_OPEN_TIME,
+    payload,
   })
 }
 
