@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -20,14 +21,12 @@ class InviteGuests extends PureComponent {
   render() {
     const { classes, channel, conf } = this.props
 
-    if (!channel.permissions.canInviteGuests) return null
+    if (isEmpty(channel) || !channel.permissions.canInviteGuests) return null
 
     return (
       <div className={classes.linkWrapper}>
         <a
-          href={`${conf.server.guestInviteUrl}?group_id=${
-            channel.id
-          }&next=/chat`}
+          href={`${conf.server.guestInviteUrl}?group_id=${channel.id}&next=/chat`}
           className={classes.link}
         >
           <FormattedMessage

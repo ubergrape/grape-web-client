@@ -376,5 +376,8 @@
   "leaveGroupDialogMessage": "Sind Sie sicher, dass Sie die private Gruppe {channel} verlassen möchten? Sie können der Gruppe {wontAbleToRejoin}, solange Sie nicht neu eingeladen werden.",
   "wontAbleToRejoin": "nicht wieder beitreten",
   "leaveGroupDialogCancel": "Abbrechen",
-  "leaveGroupDialogButton": "Private Gruppe verlassen"
+  "leaveGroupDialogButton": "Private Gruppe verlassen",
+  "feelsLonely": "Ein bisschen einsam hier, oder?",
+  "noOtherMembers": "Es scheint, als ob Ihre Grape-Organisation noch keine Mitglieder außer Ihnen bis jetzt hat. Ein Messenger funktioniert meistens mit einigen Menschen deutlich besser, also warum nicht ein paar einladen? Sobald jemand beitritt können Sie Ihre Konversationen beginnen.",
+  "inviteUsersNow": "jetzt Nutzer einladen"
 }

@@ -273,7 +273,12 @@ export function roomNameFromUsers(users) {
     .slice(0, maxChannelNameLength - 1)
 }
 
-export const findLastUsedChannel = channels =>
-  channels
+export const findLastUsedChannel = channels => {
+  return channels
     .filter(channel => channel.lastMessageTime)
-    .sort((a, b) => b.lastMessageTime - a.lastMessageTime)[0]
+    .sort((a, b) => {
+      if (a.lastMessageTime < b.lastMessageTime) return 1
+      if (a.lastMessageTime > b.lastMessageTime) return -1
+      return 0
+    })[0]
+}

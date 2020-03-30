@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import cn from 'classnames'
@@ -70,7 +71,7 @@ class IncomingCall extends PureComponent {
     } = this.props
     const { channel, message, author, grapecallUrl, call } = data
 
-    if (!show) return null
+    if (!show || isEmpty(data)) return null
 
     return (
       <div className={classes.wrapper}>
