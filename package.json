@@ -145,7 +145,7 @@
     "build:analize": "cross-env ANALIZE=true NODE_ENV=production yarn build:watch",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coveralls": "jest --coverage --collectCoverageFrom src/**/*.{js} && cat ./coverage/lcov.info | coveralls",
+    "test:coveralls": "jest --coverage --collectCoverageFrom=src/**/*.js && cat ./coverage/lcov.info | coveralls",
     "lint": "eslint src",
     "lint:staged": "lint-staged",
     "clear:build": "rimraf '{dist,lib}'",
