@@ -1,4 +1,4 @@
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory as createHistory } from 'history'
 import getBoundActions from './boundActions'
 
 const history = createHistory()
