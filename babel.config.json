@@ -1,0 +1,26 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    "macros",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-export-default-from",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    "transform-react-stateless-component-name",
+    [
+      "react-intl",
+      {
+        "messagesDir": "./i18n"
+      }
+    ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-remove-prop-types",
+        "transform-react-constant-elements"
+      ]
+    }
+  },
+  "babelrc": false
+}
