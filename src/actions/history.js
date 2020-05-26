@@ -547,7 +547,9 @@ export const handleSystemMessageUpdate = message => (dispatch, getState) => {
 export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
     const state = getState()
-    const { labelsConfig } = orgSelector(state)
+    const { labelsConfig, id } = orgSelector(state)
+
+    if (id !== message.organization) return
 
     dispatch({
       type: types.UPDATE_MESSAGE,
