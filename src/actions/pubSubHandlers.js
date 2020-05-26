@@ -92,7 +92,10 @@ const addNewMessage = message => (dispatch, getState) => {
 
 export const handleNewMessage = data => (dispatch, getState) => {
   const channels = channelsSelector(getState())
+  const org = orgSelector(getState())
   const { channel: channelId, channelData: channel, ...rest } = data
+
+  if (org.id !== data.organization) return
 
   const message = {
     channelId,
@@ -107,8 +110,12 @@ export const handleNewMessage = data => (dispatch, getState) => {
   dispatch(addNewMessage(message))
 }
 
-export const handleNewSystemMessage = message => dispatch => {
+export const handleNewSystemMessage = message => (dispatch, getState) => {
+  const org = orgSelector(getState())
   const { channelId, messageId, channelData, channel } = message
+
+  if (org.id !== channel.organization) return
+
   api.getMessage(channelId, messageId).then(res => {
     dispatch(
       handleNewMessage({
@@ -164,8 +171,8 @@ export function handleMembershipUpdate({ membership }) {
   return (dispatch, getState) => {
     const { organization, user: userId, role, title } = membership
 
-    const { id } = orgSelector(getState())
-    if (id !== organization) return
+    const org = orgSelector(getState())
+    if (org.id !== organization) return
 
     dispatch({
       type: types.UPDATE_MEMBERSHIP,
@@ -192,11 +199,12 @@ export const handleJoinedChannel = ({
   channelData: channel,
   userData: user,
 }) => (dispatch, getState) => {
+  const org = orgSelector(getState())
   const { id } = userSelector(getState())
   const currentChannel = channelSelector(getState())
   const channels = channelsSelector(getState())
 
-  if (!channel) return
+  if (!channel || org.id !== channel.organization) return
 
   if (!find(channels, { id: channelId })) {
     dispatch(
