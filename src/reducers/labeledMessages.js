@@ -53,7 +53,6 @@ export default function reduce(state = initialState, action) {
         options,
         messages: initialState.messages,
         labelsConfig: initialState.labelsConfig,
-        isLoading: true,
       }
     }
     case types.SET_CHANNEL: {
@@ -66,7 +65,6 @@ export default function reduce(state = initialState, action) {
       }
 
       if (state.options.currentChannelOnly.status) {
-        newState.isLoading = true
         newState.messages = []
       }
 
