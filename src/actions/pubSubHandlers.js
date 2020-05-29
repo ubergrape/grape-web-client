@@ -93,9 +93,14 @@ const addNewMessage = message => (dispatch, getState) => {
 export const handleNewMessage = data => (dispatch, getState) => {
   const channels = channelsSelector(getState())
   const org = orgSelector(getState())
-  const { channel: channelId, channelData: channel, ...rest } = data
+  const {
+    channel: channelId,
+    organization,
+    channelData: channel,
+    ...rest
+  } = data
 
-  if (org.id !== data.organization) return
+  if (org.id !== organization) return
 
   const message = {
     channelId,
@@ -112,9 +117,9 @@ export const handleNewMessage = data => (dispatch, getState) => {
 
 export const handleNewSystemMessage = message => (dispatch, getState) => {
   const org = orgSelector(getState())
-  const { channelId, messageId, channelData, channel } = message
+  const { channelId, organizationId, messageId, channelData, channel } = message
 
-  if (org.id !== channel.organization) return
+  if (org.id !== organizationId) return
 
   api.getMessage(channelId, messageId).then(res => {
     dispatch(
@@ -127,8 +132,14 @@ export const handleNewSystemMessage = message => (dispatch, getState) => {
   })
 }
 
-export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
+export const handleRemovedMessage = ({ organizationId, id, channelData }) => (
+  dispatch,
+  getState,
+) => {
+  const org = orgSelector(getState())
   const { id: channelId } = channelData
+
+  if (org.id !== organizationId) return
 
   dispatch(removeSharedFiles(id))
   dispatch(removeMention(id))
@@ -150,10 +161,45 @@ export const handleRemovedMessage = ({ id, channelData }) => dispatch => {
     .catch(err => dispatch(error(err)))
 }
 
-export function handleReadChannel({ user: userId, channel: channelId }) {
+export const handleMessageUpdate = message => (dispatch, getState) => {
+  const state = getState()
+  const { labelsConfig, id } = orgSelector(state)
+
+  if (id !== message.organization) return
+
+  dispatch({
+    type: types.UPDATE_MESSAGE,
+    payload: normalizeMessage(message, state, labelsConfig),
+  })
+}
+
+export const handleSystemMessageUpdate = message => (dispatch, getState) => {
+  const state = getState()
+  const org = orgSelector(state)
+  const { channelId, messageId, organizationId } = message
+
+  if (org.id !== organizationId) return
+
+  api.getMessage(channelId, messageId).then(msg => {
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: normalizeMessage(msg, state),
+    })
+  })
+}
+
+export function handleReadChannel({
+  organizationId,
+  user: userId,
+  channel: channelId,
+}) {
   return (dispatch, getState) => {
-    const user = userSelector(getState())
-    const { id: currentChannelId } = channelSelector(getState())
+    const state = getState()
+    const user = userSelector(state)
+    const org = orgSelector(state)
+    const { id: currentChannelId } = channelSelector(state)
+
+    if (org.id !== organizationId) return
 
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
@@ -167,30 +213,38 @@ export function handleReadChannel({ user: userId, channel: channelId }) {
   }
 }
 
-export function handleMembershipUpdate({ membership }) {
-  return (dispatch, getState) => {
-    const { organization, user: userId, role, title } = membership
+export const handleMembershipUpdate = ({ membership }) => (
+  dispatch,
+  getState,
+) => {
+  const { organization, user: userId, role, title } = membership
+  const org = orgSelector(getState())
 
-    const org = orgSelector(getState())
-    if (org.id !== organization) return
+  if (org.id !== organization) return
 
-    dispatch({
-      type: types.UPDATE_MEMBERSHIP,
-      payload: {
-        userId,
-        update: {
-          role,
-          title,
-        },
+  dispatch({
+    type: types.UPDATE_MEMBERSHIP,
+    payload: {
+      userId,
+      update: {
+        role,
+        title,
       },
-    })
+    },
+  })
 
-    const user = userSelector(getState())
-    if (userId === user.id) dispatch(goToLastUsedChannel())
-  }
+  const user = userSelector(getState())
+  if (userId === user.id) dispatch(goToLastUsedChannel())
 }
 
-export const handleNewChannel = ({ channel }) => dispatch => {
+export const handleNewChannel = ({ organizationId, channel }) => (
+  dispatch,
+  getState,
+) => {
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
+
   dispatch(addChannel(channel))
 }
 
@@ -198,13 +252,15 @@ export const handleJoinedChannel = ({
   channel: channelId,
   channelData: channel,
   userData: user,
+  organizationId,
 }) => (dispatch, getState) => {
-  const org = orgSelector(getState())
-  const { id } = userSelector(getState())
-  const currentChannel = channelSelector(getState())
-  const channels = channelsSelector(getState())
+  const state = getState()
+  const org = orgSelector(state)
+  const { id } = userSelector(state)
+  const currentChannel = channelSelector(state)
+  const channels = channelsSelector(state)
 
-  if (!channel || org.id !== channel.organization) return
+  if (!channel || org.id !== organizationId) return
 
   if (!find(channels, { id: channelId })) {
     dispatch(
@@ -236,28 +292,38 @@ const handleCurrentUserLeftChannel = () => (dispatch, getState) => {
   }
 }
 
-export function handleLeftChannel({ user: userId, channel: channelId }) {
-  return (dispatch, getState) => {
-    const user = userSelector(getState())
-    const currentChannel = channelSelector(getState())
-    const isCurrentUser = user.id === userId
+export const handleLeftChannel = ({
+  user: userId,
+  channel: channelId,
+  organizationId,
+}) => (dispatch, getState) => {
+  const state = getState()
+  const org = orgSelector(state)
+  const user = userSelector(state)
+  const currentChannel = channelSelector(state)
+  const isCurrentUser = user.id === userId
 
-    dispatch({
-      type: types.REMOVE_USER_FROM_CHANNEL,
-      payload: {
-        channelId,
-        userId,
-        isCurrentUser,
-        currentChannelId: currentChannel.id,
-      },
-    })
+  if (org.id !== organizationId) return
 
-    if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
-  }
+  dispatch({
+    type: types.REMOVE_USER_FROM_CHANNEL,
+    payload: {
+      channelId,
+      userId,
+      isCurrentUser,
+      currentChannelId: currentChannel.id,
+    },
+  })
+
+  if (isCurrentUser) dispatch(handleCurrentUserLeftChannel())
 }
 
 export const handleNotification = data => (dispatch, getState) => {
-  const { id } = channelSelector(getState())
+  const state = getState()
+  const org = orgSelector(state)
+  const { id } = channelSelector(state)
+
+  if (org.if !== data.organizationId) return
 
   dispatch({
     type: types.HANDLE_NOTIFICATION,
@@ -268,7 +334,7 @@ export const handleNotification = data => (dispatch, getState) => {
   })
 }
 
-export function handleUpateChannel({ channel }) {
+export const handleUpdateChannel = ({ channel }) => {
   const updatable = [
     'id',
     'type',
@@ -280,41 +346,53 @@ export function handleUpateChannel({ channel }) {
     'slug',
     'permissions',
   ]
+
   return {
     type: types.UPDATE_CHANNEL,
     payload: pick(channel, updatable),
   }
 }
 
-export function handleRemoveRoom({ channel: channelId }) {
-  return (dispatch, getState) => {
-    const { id: currentChannelId } = channelSelector(getState())
-    dispatch({
-      type: types.REMOVE_ROOM,
-      payload: {
-        channelId,
-        currentChannelId,
-      },
-    })
+export const handleRemoveRoom = ({ organizationId, channel: channelId }) => (
+  dispatch,
+  getState,
+) => {
+  const state = getState()
+  const org = orgSelector(state)
+  const { id: currentChannelId } = channelSelector(state)
 
-    if (channelId === currentChannelId) {
-      const isJoinedChannels = joinedChannelsSelector(getState())
-      dispatch(goToLastUsedChannel())
-      if (!isJoinedChannels) {
-        dispatch(setIntialDataLoading(false))
-        dispatch(showSidebar(false))
-      }
+  if (org.id !== organizationId) return
+
+  dispatch({
+    type: types.REMOVE_ROOM,
+    payload: {
+      channelId,
+      currentChannelId,
+    },
+  })
+
+  if (channelId === currentChannelId) {
+    const isJoinedChannels = joinedChannelsSelector(getState())
+    dispatch(goToLastUsedChannel())
+    if (!isJoinedChannels) {
+      dispatch(setIntialDataLoading(false))
+      dispatch(showSidebar(false))
     }
   }
 }
 
-export const handleUserStatusChange = ({ status, user: id }) => (
-  dispatch,
-  getState,
-) => {
-  const users = pmsSelector(getState())
-  const user = userSelector(getState())
-  const { show, showSubview } = sidebarSelector(getState())
+export const handleUserStatusChange = ({
+  organizationId,
+  status,
+  user: id,
+}) => (dispatch, getState) => {
+  const state = getState()
+  const users = pmsSelector(state)
+  const user = userSelector(state)
+  const org = orgSelector(state)
+  const { show, showSubview } = sidebarSelector(state)
+
+  if (org.id !== organizationId) return
 
   if (find(users, { partner: { id } })) {
     dispatch({
@@ -338,34 +416,51 @@ export const handleUserStatusChange = ({ status, user: id }) => (
   }
 }
 
-export function handleUserUpdate({ user }) {
+export const handleUserUpdate = ({ user, organizationId }) => (
+  dispatch,
+  getState,
+) => {
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
+
   // TODO: handle if user change username and
   // he is current mate in active PM and
   // redirect at the new PM URL in this case
-  return {
+  dispatch({
     type: types.UPDATE_USER,
     payload: user,
-  }
+  })
 }
 
-export function handleFavoriteChange({ changed }) {
-  return {
+export const handleFavoriteChange = ({ organizationId, changed }) => (
+  dispatch,
+  getState,
+) => {
+  const org = orgSelector(getState())
+
+  if (org.id !== organizationId) return
+
+  dispatch({
     type: types.CHANGE_FAVORITED,
     payload: changed.map(pinToFavorite),
-  }
+  })
 }
 
 export const handleTypingNotification = ({
   user: userId,
   userData: { displayName, id },
   channel: channelId,
+  organizationId,
   typing,
 }) => (dispatch, getState) => {
-  const user = userSelector(getState())
+  const state = getState()
+  const user = userSelector(state)
+  const org = orgSelector(state)
 
   // Its a notification from current user.
   // We call that action directly from subscription sometimes.
-  if (userId === user.id || !typing) return
+  if (userId === user.id || !typing || org.id !== organizationId) return
 
   dispatch({
     type: types.HANDLE_USER_TYPING,
@@ -377,6 +472,17 @@ export const handleTypingNotification = ({
         expires: Date.now() + typingThrottlingDelay,
       },
     },
+  })
+}
+
+export const handleMessageLabeled = message => (dispatch, getState) => {
+  const org = orgSelector(getState())
+
+  if (org.id !== message.organizationId) return
+
+  dispatch({
+    type: types.HANDLE_MESSAGE_LABELED,
+    payload: message,
   })
 }
 
@@ -416,8 +522,9 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 
 export const handleMissedCall = payload => (dispatch, getState) => {
   const { author, call, time, channel, event, organizationId } = payload
-  const { data } = incomingCallSelector(getState())
-  const org = orgSelector(getState())
+  const state = getState()
+  const { data } = incomingCallSelector(state)
+  const org = orgSelector(state)
 
   if (data.call.id !== call.id || org.id !== organizationId) return
 
@@ -444,9 +551,10 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
   const { author, channel, call, organizationId } = payload
-  const { data } = incomingCallSelector(getState())
-  const user = userSelector(getState())
-  const org = orgSelector(getState())
+  const state = getState()
+  const { data } = incomingCallSelector(state)
+  const user = userSelector(state)
+  const org = orgSelector(state)
 
   if (org.id !== organizationId) return
 
@@ -467,16 +575,16 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
   const { author, call, channel, organizationId } = payload
-  const { data } = incomingCallSelector(getState())
-  const org = orgSelector(getState())
+  const state = getState()
+  const { data } = incomingCallSelector(state)
+  const org = orgSelector(state)
+  const user = userSelector(state)
 
   if (
     (channel.type === 'pm' && data.call.id !== call.id) ||
     org.id !== organizationId
   )
     return
-
-  const user = userSelector(getState())
 
   if (user.id === author.id) {
     dispatch(endSound())
@@ -503,7 +611,7 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
     return
   }
 
-  const channels = channelsSelector(getState())
+  const channels = channelsSelector(state)
   const { partner } = find(channels, { id: channel.id })
 
   if (partner) {
@@ -523,8 +631,9 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
   const { call, organizationId } = payload
-  const { data } = incomingCallSelector(getState())
-  const org = orgSelector(getState())
+  const state = getState()
+  const { data } = incomingCallSelector(state)
+  const org = orgSelector(state)
 
   if (org.id !== organizationId) return
 
@@ -537,14 +646,14 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
   }
 }
 
-export const handleStartedCall = data => (dispatch, getState) => {
-  const { author, channel, call } = data
+export const handleStartedCall = payload => (dispatch, getState) => {
+  const { author, channel, call } = payload
   const user = userSelector(getState())
 
   if (user.id === author.id) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload: data,
+      payload,
     })
   }
 
