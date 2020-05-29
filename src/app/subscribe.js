@@ -31,6 +31,7 @@ export default function subscribe(channel) {
     if (!isSuspended) {
       boundActions.showAlert({
         level: 'danger',
+        delay: 3000,
         type: alerts.CONNECTION_LOST,
       })
     }
@@ -159,15 +160,11 @@ export default function subscribe(channel) {
 
   channel.on('error', boundActions.handleConnectionError)
 
-  channel.on('setOpenTime', timestamp => {
-    boundActions.setOpenTime(timestamp)
-  })
-
-  channel.on('setTimer', backoff => {
+  channel.on('set:timer', backoff => {
     boundActions.setTimer(parseInt(backoff / 1000, 10))
   })
 
-  channel.on('setReconnectingState', () => {
+  channel.on('set:reconnecting:state', () => {
     setTimeout(() => {
       boundActions.handleReconnecting(false)
     }, 1000)

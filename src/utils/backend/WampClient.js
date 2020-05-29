@@ -6,7 +6,6 @@ import prettyBytes from 'pretty-bytes'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import Backoff from './Backoff'
-import { reconnectionDelay } from '../../constants/delays'
 
 const log = debug('ws')
 const prefix = 'http://domain/'
@@ -29,8 +28,6 @@ export default class WampClient {
     this.backoff = new Backoff(options.backoff)
     this.pingInterval = options.pingInterval || pingInterval
     this.url = options.url
-    this.openTime = null
-    this.reconnectionRejected = false
     this.reset()
   }
 
@@ -54,7 +51,6 @@ export default class WampClient {
     this.wamp = null
     this.socket = null
     this.id = null
-    this.openTime = null
     this.reopening = false
     this.connected = false
     if (this.intervalId) clearInterval(this.intervalId)
@@ -73,40 +69,22 @@ export default class WampClient {
     this.wamp.off()
     this.socket.off()
     this.socket.close(3001)
-    this.out.emit('setReconnectingState')
+    this.reopen()
+    this.out.emit('set:reconnecting:state')
   }
 
   reopen() {
     if (this.reopening) return
     this.reopening = true
     const backoff = this.backoff.duration()
-    this.out.emit('setTimer', backoff)
-    this.onError(new Error('Reopen'))
-    this.out.emit('setReconnectingState')
+    this.out.emit('set:timer', backoff)
     if (backoff >= this.backoff.max) this.onDisconnected()
-
-    if (Date.now() - this.openTime < reconnectionDelay) {
-      this.reconnectionRejected = true
-      setTimeout(() => {
-        this.reopening = false
-        this.reopen()
-      }, backoff)
-      return
-    } else if (this.reconnectionRejected) {
-      this.reconnectionRejected = false
-      this.reopening = false
-      onConnectionEvent('reopening')
-      log('reopening')
-      this.open()
-      return
-    }
-
     log('reopen in %sms', backoff)
     onConnectionEvent('reopen in %sms', backoff)
     setTimeout(() => {
+      this.reopening = false
       onConnectionEvent('reopening')
       log('reopening')
-      this.reopening = false
       this.open()
     }, backoff)
   }
@@ -119,7 +97,7 @@ export default class WampClient {
     if (!this.connected || this.reopening) return
     if (this.waitingForPong) {
       this.waitingForPong = false
-      onConnectionEvent("Didn't receive a pong")
+      onConnectionEvent("didn't receive a pong")
       this.onError(new Error("Didn't receive a pong."))
       return
     }
@@ -163,8 +141,6 @@ export default class WampClient {
     this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
-      this.openTime = Date.now()
-      this.out.emit('setOpenTime', this.openTime)
       log('new session id %s', this.id)
       onConnectionEvent('new session id', this.id)
       this.out.emit('set:id', this.id)
@@ -206,7 +182,6 @@ export default class WampClient {
     onConnectionEvent('error', err)
     log(err)
     this.out.emit('error', err)
-    if (this.reopening) return
     this.close()
     this.reopen()
   }
