@@ -12,6 +12,7 @@ import { noop } from 'lodash'
 
 import { styles } from './theme'
 
+import OrgInviteButton from './OrgInviteButton'
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 import Username from '../avatar-name/Username'
@@ -19,27 +20,6 @@ import InviteGuests from '../invite-guests/InviteGuests'
 import { userStatusMap } from '../../../constants/app'
 
 const SelectedUser = ({ displayName }) => displayName
-
-function OrgInviteButton({ isInviter, onClick, classes }) {
-  if (!isInviter) return null
-
-  return (
-    <div className={classes.linkWrapper}>
-      <button className={classes.link} onClick={onClick}>
-        <FormattedMessage
-          id="inviteToOrganization"
-          defaultMessage="Invite a new person to your organization"
-        />
-      </button>
-    </div>
-  )
-}
-
-OrgInviteButton.propTypes = {
-  classes: PropTypes.object.isRequired,
-  isInviter: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-}
 
 const messages = defineMessages({
   placeholder: {
@@ -62,6 +42,7 @@ class ChooseUsersDialog extends PureComponent {
     showInviteToOrg: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
+    loaded: PropTypes.bool.isRequired,
     onClickList: PropTypes.func,
     onClickFocusReset: PropTypes.func,
     goTo: PropTypes.func,
@@ -70,6 +51,7 @@ class ChooseUsersDialog extends PureComponent {
     isInviter: PropTypes.bool.isRequired,
     isFilterFocused: PropTypes.bool,
     show: PropTypes.bool.isRequired,
+    showEmailToInvite: PropTypes.bool.isRequired,
     showInviteGuests: PropTypes.bool.isRequired,
   }
 
@@ -108,6 +90,16 @@ class ChooseUsersDialog extends PureComponent {
     )
   }
 
+  renderLoading = () => {
+    const { classes } = this.props
+
+    return (
+      <div className={classes.note}>
+        <FormattedMessage id="loading" defaultMessage="Loading..." />
+      </div>
+    )
+  }
+
   renderEmptyItems = () => {
     const { classes } = this.props
 
@@ -117,6 +109,35 @@ class ChooseUsersDialog extends PureComponent {
           id="everyoneInvited"
           defaultMessage="Everyone has been invited to this group"
         />
+      </div>
+    )
+  }
+
+  renderNoOtherMembers = () => {
+    const { classes } = this.props
+
+    return (
+      <div className={classes.noteSmall}>
+        <div className={classes.textBold}>
+          <FormattedMessage
+            id="feelsLonely"
+            defaultMessage="Feeling lonely here?"
+          />
+        </div>
+        <div className={classes.emptyOrg}>
+          <FormattedMessage
+            id="noOtherMembers"
+            defaultMessage="It seems that your Grape organization has no other members than you yet. Using a messenger is more convenient with several people, so why not invite someone. As soon as they join, you can come back and start a conversation."
+          />
+        </div>
+        <div>
+          <OrgInviteButton
+            font="normal"
+            id="inviteUsersNow"
+            onClick={this.onInvite}
+            className={classes.link}
+          />
+        </div>
       </div>
     )
   }
@@ -144,6 +165,8 @@ class ChooseUsersDialog extends PureComponent {
       filter,
       listed,
       title,
+      users,
+      loaded,
       children,
       isInviter,
       isFilterFocused,
@@ -155,6 +178,7 @@ class ChooseUsersDialog extends PureComponent {
       onClickFocusReset,
       goTo,
       conf,
+      showEmailToInvite,
       showInviteGuests,
     } = this.props
 
@@ -165,7 +189,8 @@ class ChooseUsersDialog extends PureComponent {
             listClassName={classes.list}
             isFilterFocused={isFilterFocused}
             filter={filter}
-            items={this.props.users}
+            items={users}
+            loaded={loaded}
             selected={listed}
             placeholder={formatMessage(messages.placeholder)}
             onClick={onClickList}
@@ -177,15 +202,23 @@ class ChooseUsersDialog extends PureComponent {
             renderSelected={SelectedUser}
             renderNotFound={this.renderNotFound}
             renderEmptyItems={this.renderEmptyItems}
+            renderNoOtherMembers={this.renderNoOtherMembers}
+            renderLoading={this.renderLoading}
+            isInviter={isInviter}
+            showEmailToInvite={showEmailToInvite}
           />
           {children}
         </div>
-        <div>
-          <OrgInviteButton
-            isInviter={isInviter}
-            onClick={this.onInvite}
-            classes={classes}
-          />
+        <div className={classes.linksWrapper}>
+          {isInviter && (
+            <div className={classes.linkWrapper}>
+              <OrgInviteButton
+                id="inviteToOrganization"
+                onClick={this.onInvite}
+                className={classes.linkSmall}
+              />
+            </div>
+          )}
           {showInviteGuests && (
             <InviteGuests channel={channel} onClick={goTo} conf={conf} />
           )}

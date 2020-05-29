@@ -323,7 +323,7 @@ export const unreadChannelsSelector = createSelector(
   [roomsSelector, activePmsSelector, channelSelector],
   (rooms, pms, channel) => ({
     amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
-    channelName: channel.name,
+    channel,
   }),
 )
 

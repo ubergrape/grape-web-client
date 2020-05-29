@@ -13,6 +13,9 @@ class FilterableList extends Component {
     isFilterFocused: PropTypes.bool.isRequired,
     listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
+    loaded: PropTypes.bool.isRequired,
+    isInviter: PropTypes.bool.isRequired,
+    showEmailToInvite: PropTypes.bool.isRequired,
     selected: PropTypes.array.isRequired,
     filter: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -23,8 +26,10 @@ class FilterableList extends Component {
     onChange: PropTypes.func,
     renderItem: PropTypes.func,
     renderSelected: PropTypes.func,
+    renderLoading: PropTypes.func,
     renderNotFound: PropTypes.func,
     renderEmptyItems: PropTypes.func,
+    renderNoOtherMembers: PropTypes.func,
     children: PropTypes.element,
   }
 
@@ -39,8 +44,10 @@ class FilterableList extends Component {
     onChange: noop,
     renderItem: noop,
     renderSelected: noop,
+    renderLoading: noop,
     renderNotFound: noop,
     renderEmptyItems: noop,
+    renderNoOtherMembers: noop,
   }
 
   constructor(props) {
@@ -115,15 +122,23 @@ class FilterableList extends Component {
       items,
       filter,
       selected,
+      loaded,
+      isInviter,
       renderItem,
+      showEmailToInvite,
+      renderLoading,
       renderNotFound,
       renderEmptyItems,
+      renderNoOtherMembers,
     } = this.props
+
+    if (!loaded) return renderLoading()
 
     if (!items.length) {
       if (filter) return renderNotFound()
-      if (selected.length) return null
+      if (selected.length || !isInviter) return null
 
+      if (showEmailToInvite) return renderNoOtherMembers()
       return renderEmptyItems()
     }
 

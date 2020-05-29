@@ -3,12 +3,7 @@ import moment from 'moment'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {
-  userSelector,
-  channelSelector,
-  historySelector,
-  orgSelector,
-} from '../selectors'
+import { userSelector, channelSelector, historySelector } from '../selectors'
 import * as alerts from '../constants/alerts'
 import {
   SCROLL_TO_ALIGNMENT_START,
@@ -528,30 +523,6 @@ export function createMessage({ channelId, text, attachments = [] }) {
         })
         .catch(err => dispatch(error(err)))
     }
-  }
-}
-
-export const handleSystemMessageUpdate = message => (dispatch, getState) => {
-  const state = getState()
-  const { channelId, messageId } = message
-
-  api.getMessage(channelId, messageId).then(msg => {
-    dispatch({
-      type: types.UPDATE_MESSAGE,
-      payload: normalizeMessage(msg, state),
-    })
-  })
-}
-
-export function handleMessageUpdate(message) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const { labelsConfig } = orgSelector(state)
-
-    dispatch({
-      type: types.UPDATE_MESSAGE,
-      payload: normalizeMessage(message, state, labelsConfig),
-    })
   }
 }
 

@@ -26,8 +26,3 @@ export const open = () => {
 export const disconnect = () => {
   get().disconnect()
 }
-
-export const suspend = () => {
-  get().out.emit('suspend')
-  disconnect()
-}
