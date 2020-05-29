@@ -58,13 +58,6 @@ export const loadLabeledMessages = (options = {}, callback = noop) => (
     .catch(err => dispatch(error(err)))
 }
 
-export const handleMessageLabeled = message => dispatch => {
-  dispatch({
-    type: types.HANDLE_MESSAGE_LABELED,
-    payload: message,
-  })
-}
-
 export const selectLabeledMessagesFilter = ({ name }) => dispatch => {
   dispatch({
     type: types.SELECT_LABELED_MESSAGE_FILTER,
