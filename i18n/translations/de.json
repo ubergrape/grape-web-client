@@ -1,5 +1,7 @@
 {
   "noEmojiFound": "Kein Emoji gefunden.",
+  "enterMessagePlaceholder": "Stichwort eingeben …",
+  "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt.",
   "willNotifyRoom": "— jeden in dieser Gruppe benachrichtigen",
   "_willNotifyRoom.comment": "*Describe willNotifyRoom*: this string is decribing action",
   "wontNotifyRoom": "— Benachrichtigt keine Gruppenmitglieder",
@@ -13,12 +15,10 @@
   "_yourBusinessTools.comment": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'",
   "resultsAmountHint": "{amount} Ergebnisse",
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
-  "grapeSearch": "Grape-Suche",
+  "grapeSearch": "Grape Search",
   "noResults": "Keine Ergebnisse.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "Service auswählen",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "Keine Services gefunden.",
-  "enterMessagePlaceholder": "Nachricht eingeben …",
-  "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt."
+  "noServicesFound": "Keine Services gefunden."
 }
