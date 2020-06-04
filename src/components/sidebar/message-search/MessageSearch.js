@@ -166,11 +166,11 @@ export default class MessageSearch extends PureComponent {
       }
 
       // Render channel name.
-      const { channel } = message
+      const { channel, channelName } = message
       if (!prevMessage || prevMessage.channel !== channel) {
         elements.push(
           <div className={classes.channel} key={`${message.id}-channel`}>
-            {channel.channelName}
+            {channelName}
           </div>,
         )
       }
