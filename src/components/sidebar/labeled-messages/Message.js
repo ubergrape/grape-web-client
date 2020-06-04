@@ -28,6 +28,7 @@ class Message extends PureComponent {
         name: PropTypes.string.isRequired,
       }),
       time: PropTypes.string.isRequired,
+      channelName: PropTypes.string.isRequired,
       channel: PropTypes.object.isRequired,
       labels: PropTypes.arrayOf(
         PropTypes.shape({
@@ -57,7 +58,7 @@ class Message extends PureComponent {
 
   render() {
     const {
-      message: { text, author, time, channel, labels },
+      message: { text, author, time, channelName, labels },
       customEmojis,
       classes,
       className,
@@ -72,7 +73,7 @@ class Message extends PureComponent {
             defaultMessage="in {channel}"
             desctiption="Labeled messages sidebar channel headline."
             values={{
-              channel: channel.channelName,
+              channel: channelName,
             }}
           >
             {(...nodes) => <span className={classes.channel}>{nodes}</span>}

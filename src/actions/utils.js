@@ -141,6 +141,7 @@ export const normalizeMessage = (() => {
       action,
       state: msgState,
       docType,
+      channelName,
     } = msg
     const time = msg.time || new Date().toISOString()
     const userTime = msg.userTime || time
@@ -178,6 +179,7 @@ export const normalizeMessage = (() => {
       attachments,
       mentions,
       channelId,
+      channelName,
       channel,
       linkAttachments,
       labels,
@@ -193,7 +195,7 @@ export const normalizeMessage = (() => {
 
   function normalizeActivityMessage(msg, state) {
     const channels = channelsSelector(state)
-    const { id } = msg
+    const { id, channelName } = msg
     const type = 'activity'
     const time = msg.time || new Date().toISOString()
     const author = {
@@ -241,6 +243,7 @@ export const normalizeMessage = (() => {
       type,
       id,
       channelId,
+      channelName,
       channel,
       link,
       text,
