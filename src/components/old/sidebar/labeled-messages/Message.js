@@ -72,10 +72,7 @@ class Message extends PureComponent {
             defaultMessage="in {channel}"
             desctiption="Labeled messages sidebar channel headline."
             values={{
-              channel:
-                channel.type === 'room'
-                  ? channel.name
-                  : channel.partner.displayName,
+              channel: channel.channelName,
             }}
           >
             {(...nodes) => <span className={classes.channel}>{nodes}</span>}
