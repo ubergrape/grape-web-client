@@ -6,6 +6,8 @@
  */
 export default {
   "noEmojiFound": "Kein Emoji gefunden.",
+  "enterMessagePlaceholder": "Stichwort eingeben …",
+  "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt.",
   "willNotifyRoom": "— jeden in dieser Gruppe benachrichtigen",
   "wontNotifyRoom": "— Benachrichtigt keine Gruppenmitglieder",
   "notInRoom": "nicht in Gruppe",
@@ -15,11 +17,9 @@ export default {
   "searchInfo": "Durchsuchen Sie Wikipedia, YouTube und {tools}, indem Sie {plusIcon} rechts-oben oder auf Ihrer Tastatur drücken.",
   "yourBusinessTools": "Ihre Firmen-Software",
   "resultsAmountHint": "{amount} Ergebnisse",
-  "grapeSearch": "Grape-Suche",
+  "grapeSearch": "Grape Search",
   "noResults": "Keine Ergebnisse.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "Service auswählen",
-  "noServicesFound": "Keine Services gefunden.",
-  "enterMessagePlaceholder": "Nachricht eingeben …",
-  "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt."
+  "noServicesFound": "Keine Services gefunden."
 }

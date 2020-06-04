@@ -6,6 +6,8 @@
  */
 export default {
   "noEmojiFound": "No emoji found.",
+  "enterMessagePlaceholder": "Enter a keyword …",
+  "groupPostingLimitedPlaceholder": "Posting to this group has been limited.",
   "willNotifyRoom": "— notify everyone in this group",
   "wontNotifyRoom": "— does not notify group members",
   "notInRoom": "not in group",
@@ -19,7 +21,5 @@ export default {
   "noResults": "No Results.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "select service",
-  "noServicesFound": "No services found.",
-  "enterMessagePlaceholder": "Enter a message …",
-  "groupPostingLimitedPlaceholder": "Posting to this group has been limited."
+  "noServicesFound": "No services found."
 }
