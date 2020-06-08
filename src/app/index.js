@@ -4,6 +4,7 @@ import Raven from 'raven-js'
 import { addLocaleData } from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
+import pl from 'react-intl/locale-data/pl'
 import moment from 'moment'
 
 import conf from '../conf'
@@ -34,7 +35,7 @@ export const suspend = () => {
 
 export function init() {
   if (__DEV__ || __TEST__) {
-    addLocaleData([...en, ...de])
+    addLocaleData([...en, ...de, ...pl])
     moment.locale(conf.user.languageCode)
     subscribe(resume())
     return
@@ -49,7 +50,7 @@ export function init() {
     organizationID: conf.organization.id,
   })
   Raven.context(() => {
-    addLocaleData([...en, ...de])
+    addLocaleData([...en, ...de, ...pl])
     moment.locale(conf.user.languageCode)
     subscribe(resume())
   })
