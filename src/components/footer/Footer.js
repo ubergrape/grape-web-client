@@ -11,7 +11,7 @@ import TypingNotification from './typing-notification/TypingNotification'
 @injectSheet(styles)
 export default class Footer extends PureComponent {
   static propTypes = {
-    disabled: PropTypes.bool,
+    isPostingLimited: PropTypes.bool,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
     typingChannels: PropTypes.object.isRequired,
@@ -59,7 +59,7 @@ export default class Footer extends PureComponent {
   }
 
   static defaultProps = {
-    disabled: false,
+    isPostingLimited: false,
     org: {},
     conf: {},
     targetMessage: undefined,
@@ -90,7 +90,7 @@ export default class Footer extends PureComponent {
       showBrowser,
       customEmojis,
       images,
-      disabled,
+      isPostingLimited,
       isMemberOfAnyRooms,
       search,
       autocomplete,
@@ -138,7 +138,7 @@ export default class Footer extends PureComponent {
                   className={classes.typingNotification}
                 />
               </div>
-              {!disabled && (
+              {!isPostingLimited && (
                 <MarkdownTipsLink
                   onClick={onShowMarkdownTips}
                   className={classes.markdownTipsLink}
@@ -154,7 +154,7 @@ export default class Footer extends PureComponent {
                 conf={conf}
                 targetMessage={targetMessage}
                 quoteMessage={quoteMessage}
-                disabled={disabled}
+                isPostingLimited={isPostingLimited}
                 showBrowser={showBrowser}
                 search={search}
                 autocomplete={autocomplete}
@@ -182,7 +182,7 @@ export default class Footer extends PureComponent {
                 permissions={permissions}
               />
               <Controls
-                disabled={disabled}
+                isPostingLimited={isPostingLimited}
                 showBrowser={showBrowser}
                 onUpload={onUploadFiles}
                 onShowEmojiBrowser={onShowEmojiBrowser}

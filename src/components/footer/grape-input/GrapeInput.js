@@ -77,7 +77,7 @@ class GrapeInput extends PureComponent {
     channel: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
+    isPostingLimited: PropTypes.bool,
     showBrowser: PropTypes.oneOf([
       false,
       'emoji',
@@ -111,7 +111,7 @@ class GrapeInput extends PureComponent {
   }
 
   static defaultProps = {
-    disabled: false,
+    isPostingLimited: false,
     org: {},
     conf: {},
     targetMessage: null,
@@ -191,7 +191,7 @@ class GrapeInput extends PureComponent {
     // Skip every combinination with Shift that doesn't produce a single letter.
     if (e.shiftKey && e.key.length > 1) return
     if (inputNodes.indexOf(e.target.nodeName) >= 0) return
-    if (this.disabled) return
+    if (this.isPostingLimited) return
     this.focus()
   }
 
@@ -429,7 +429,7 @@ class GrapeInput extends PureComponent {
       images,
       showBrowser,
       targetMessage,
-      disabled,
+      isPostingLimited,
       onEditPreviousMessage,
       onHideBrowser,
       onRequestAutocompleteServicesStats,
@@ -446,7 +446,7 @@ class GrapeInput extends PureComponent {
       <GlobalEvent event="keydown" handler={this.onKeyDown}>
         <div
           className={cn(classes.wrapper, {
-            [classes.wrapperDisabled]: disabled,
+            [classes.wrapperDisabled]: isPostingLimited,
           })}
         >
           <div
@@ -467,7 +467,7 @@ class GrapeInput extends PureComponent {
             />
           </div>
           <GrapeBrowser
-            disabled={disabled}
+            isPostingLimited={isPostingLimited}
             locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
