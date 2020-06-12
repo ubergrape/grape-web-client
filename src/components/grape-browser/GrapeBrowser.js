@@ -44,7 +44,7 @@ class GrapeBrowser extends Component {
     focused: PropTypes.bool,
     data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     /* eslint-enable react/no-unused-prop-types */
-    disabled: PropTypes.bool,
+    isPostingLimited: PropTypes.bool,
     classes: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
@@ -87,7 +87,7 @@ class GrapeBrowser extends Component {
     channel: {},
     customEmojis: undefined,
     focused: false,
-    disabled: false,
+    isPostingLimited: false,
     setTrigger: false,
     isLoading: false,
     onDidMount: noop,
@@ -477,7 +477,7 @@ class GrapeBrowser extends Component {
             onSubmit={this.onSubmit}
             onEditPrevious={onEditPrevious}
             onDidMount={this.onDidMountEditable}
-            disabled={this.props.disabled}
+            isPostingLimited={this.props.isPostingLimited}
             focused={this.state.inputFocused}
             content={this.state.content}
             channel={channel}
