@@ -49,7 +49,7 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
-    case types.SHOW_ALERT: {
+    case types.HANDLE_GET_CHANNEL_ERROR: {
       const {
         channel: { id },
       } = action.payload

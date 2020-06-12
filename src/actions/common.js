@@ -134,6 +134,12 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
       })
     })
     .catch(() => {
+      dispatch({
+        type: types.HANDLE_GET_CHANNEL_ERROR,
+        payload: {
+          channel: currentChannel,
+        },
+      })
       dispatch(handleBadChannel(alerts.CHANNEL_NOT_FOUND))
     })
 }
