@@ -13,7 +13,7 @@ import { Beacon } from '../intro'
 const AttachmentButton = props => {
   const {
     classes,
-    disabled,
+    isPostingLimited,
     onDropAccepted,
     onDropRejected,
     onOpenFileDialog,
@@ -25,7 +25,7 @@ const AttachmentButton = props => {
       <IconButton
         className={classes.button}
         onClick={onOpenFileDialog}
-        disabled={disabled}
+        disabled={isPostingLimited}
       >
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
@@ -36,14 +36,14 @@ const AttachmentButton = props => {
     <Dropzone
       className={classes.dropzone}
       maxSize={maxFileSize}
-      disableClick={disabled}
+      disableClick={isPostingLimited}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
     >
       <IconButton
         className={classes.button}
         onClick={onOpenFileDialog}
-        disabled={disabled}
+        disabled={isPostingLimited}
       >
         <Icon className={classes.contolIcon} name="paperclip" />
       </IconButton>
@@ -61,7 +61,7 @@ class Controls extends PureComponent {
       'search',
     ]).isRequired,
     classes: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
+    isPostingLimited: PropTypes.bool,
     onUpload: PropTypes.func.isRequired,
     onShowEmojiBrowser: PropTypes.func.isRequired,
     onShowSearchBrowser: PropTypes.func.isRequired,
@@ -72,7 +72,7 @@ class Controls extends PureComponent {
   }
 
   static defaultProps = {
-    disabled: false,
+    isPostingLimited: false,
     onOpenFileDialog: undefined,
     permissions: {},
   }
@@ -98,10 +98,15 @@ class Controls extends PureComponent {
   }
 
   render() {
-    const { classes, disabled, onOpenFileDialog, permissions } = this.props
+    const {
+      classes,
+      isPostingLimited,
+      onOpenFileDialog,
+      permissions,
+    } = this.props
     return (
       <div className={classes.controls}>
-        {!disabled && (
+        {!isPostingLimited && (
           <div>
             <AttachmentButton
               classes={classes}

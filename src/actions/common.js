@@ -106,7 +106,15 @@ export const handleBadChannel = alertType => dispatch => {
 }
 
 export const setChannel = (channelId, messageId) => (dispatch, getState) => {
+  const currentChannel = channelSelector(getState())
   const channels = channelsSelector(getState())
+
+  dispatch({
+    type: types.REQUEST_CHANNEL,
+    payload: {
+      channel: currentChannel,
+    },
+  })
 
   dispatch(hideBrowser())
 
@@ -114,8 +122,6 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
     .getChannel(channelId)
     .then(channel => {
       if (!find(channels, { id: channelId })) dispatch(addChannel(channel))
-
-      const currentChannel = channelSelector(getState())
 
       dispatch({
         type: types.SET_CHANNEL,
@@ -127,6 +133,12 @@ export const setChannel = (channelId, messageId) => (dispatch, getState) => {
       })
     })
     .catch(() => {
+      dispatch({
+        type: types.HANDLE_GET_CHANNEL_ERROR,
+        payload: {
+          channel: currentChannel,
+        },
+      })
       dispatch(handleBadChannel(alerts.CHANNEL_NOT_FOUND))
     })
 }

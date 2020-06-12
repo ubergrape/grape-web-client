@@ -644,7 +644,7 @@ export const historyComponentSelector = createSelector(
   }),
 )
 
-export const isChannelInactiveSelector = createSelector(
+export const isPostingLimitedSelector = createSelector(
   [channelSelector, channelsSelector],
   (channel, channels) => {
     if (channel && Object.keys(channel).length)
@@ -660,7 +660,7 @@ export const footerComponentSelector = createSelector(
     channelSelector,
     orgSelector,
     historySelector,
-    isChannelInactiveSelector,
+    isPostingLimitedSelector,
     channelsToMentionSelector,
     joinedChannelsSelector,
     confSelector,
@@ -672,7 +672,7 @@ export const footerComponentSelector = createSelector(
     channel,
     org,
     history,
-    inactive,
+    isPostingLimited,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -685,7 +685,7 @@ export const footerComponentSelector = createSelector(
     targetMessage: find(history.messages, { id: footer.targetMessage }),
     customEmojis: org.customEmojis,
     images: { ...images, orgLogo: org.logo },
-    disabled: inactive,
+    isPostingLimited,
     channelsToMention,
     isMemberOfAnyRooms,
     conf,
@@ -702,10 +702,10 @@ export const toastNotificationSelector = createSelector(
 )
 
 export const fileUploadComponentSelector = createSelector(
-  [fileUploadSelector, isChannelInactiveSelector],
-  (fileUpload, inactive) => ({
+  [fileUploadSelector, isPostingLimitedSelector],
+  (fileUpload, isPostingLimited) => ({
     ...fileUpload,
-    disabled: inactive,
+    disabled: isPostingLimited,
   }),
 )
 
