@@ -24,6 +24,7 @@ export default function reduce(state = initialState, action) {
           const newChannel = {
             ...Object.assign({}, channel, action.payload.channel),
             current: true,
+            switching: false,
           }
           // In case of empty PM we're adding it to the navigation
           // with the current timestamp to sort later by it's value.
@@ -39,12 +40,53 @@ export default function reduce(state = initialState, action) {
           newState.push({
             ...channel,
             current: false,
+            switching: false,
           })
           return newState
         }
         newState.push(channel)
         return newState
       }, [])
+    }
+
+    case types.HANDLE_GET_CHANNEL_ERROR: {
+      const {
+        channel: { id },
+      } = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        switching: false,
+      })
+
+      return newState
+    }
+
+    case types.REQUEST_CHANNEL: {
+      const {
+        channel: { id },
+      } = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        switching: true,
+      })
+
+      return newState
     }
 
     case types.ADD_CALL: {
