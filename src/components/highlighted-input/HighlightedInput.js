@@ -275,8 +275,7 @@ class HighlightedInput extends Component {
       'onChange',
       'onFocus',
       'onBlur',
-      'onKeyPress',
-      'isPostingLimited',
+      'onKeyPress'
     )
 
     const { enterMessage, groupPostingLimited } = messages
