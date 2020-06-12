@@ -41,7 +41,7 @@ class HighlightedInput extends Component {
     sheet: PropTypes.object.isRequired,
     Editable: PropTypes.func.isRequired,
     focused: PropTypes.bool,
-    disabled: PropTypes.bool,
+    isPostingLimited: PropTypes.bool,
     theme: PropTypes.object,
     value: PropTypes.string,
     tokens: PropTypes.arrayOf(PropTypes.string),
@@ -53,7 +53,7 @@ class HighlightedInput extends Component {
     value: '',
     tokens: [],
     focused: true,
-    disabled: false,
+    isPostingLimited: false,
     theme: {},
     caretPosition: 'end',
     onChange: noop,
@@ -265,7 +265,7 @@ class HighlightedInput extends Component {
       Editable,
       theme,
       sheet: { classes },
-      disabled,
+      isPostingLimited,
       intl: { formatMessage },
     } = this.props
 
@@ -276,7 +276,7 @@ class HighlightedInput extends Component {
       'onFocus',
       'onBlur',
       'onKeyPress',
-      'disabled',
+      'isPostingLimited',
     )
 
     const { enterMessage, groupPostingLimited } = messages
@@ -293,7 +293,7 @@ class HighlightedInput extends Component {
         >
           {this.renderHighlighterContent()}
         </div>
-        {disabled ? (
+        {isPostingLimited ? (
           <div className={classes.limited}>
             <span>{formatMessage(groupPostingLimited)}</span>
           </div>
