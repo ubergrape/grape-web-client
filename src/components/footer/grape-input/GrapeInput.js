@@ -186,6 +186,10 @@ class GrapeInput extends PureComponent {
    * outside, but not in some other input cabable field.
    */
   onKeyDown = e => {
+    if (this.props.channel.switching) {
+      e.preventDefault()
+      return
+    }
     // For e.g. when trying to copy text from history.
     if (e.altKey || e.ctrlKey || e.metaKey) return
     // Skip every combinination with Shift that doesn't produce a single letter.
