@@ -93,7 +93,7 @@
   "roomIsPrivate": "Diese Gruppe ist privat. Nur eingeladene Mitglieder können sie sehen oder ihr beitreten.",
   "welcomeToRoom": "Willkommen zu {channel}",
   "inviteMoreToGroup": "Weitere Mitglieder zur Gruppe einladen",
-  "_inviteMoreToGroup.comment": "Room Info Panel: invite people to the group/room",
+  "_inviteMoreToGroup.comment": "Room Info Panel: invite members to the group/room",
   "addServiceIntegration": "Service Integration hinzufügen",
   "_addServiceIntegration.comment": "Room Info Panel: link to add an integration to the current room",
   "welcomeToPm": "Privatnachricht mit {partner}",

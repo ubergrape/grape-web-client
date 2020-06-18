@@ -95,8 +95,8 @@ const RoomActions = ({
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
             id="inviteMoreToGroup"
-            defaultMessage="Invite more people to this group"
-            description="Room Info Panel: invite people to the group/room"
+            defaultMessage="Invite more members to this group"
+            description="Room Info Panel: invite members to the group/room"
           />
         </button>
       </li>

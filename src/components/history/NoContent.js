@@ -63,7 +63,7 @@ function RoomContent(props) {
           <button onClick={onInvite} className={classes.buttonInvite}>
             <FormattedMessage
               id="inviteMoreToGroup"
-              defaultMessage="Invite more people to this group"
+              defaultMessage="Invite more members to this group"
             />
           </button>
         )}
