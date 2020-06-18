@@ -37,8 +37,8 @@ export default class FilteredList extends PureComponent {
       return (
         <div className={classes.notFound}>
           <FormattedMessage
-            id="searchPeopleAndGroups"
-            defaultMessage="Search people and groups…"
+            id="searchMembersAndGroups"
+            defaultMessage="Search members and groups…"
           />
         </div>
       )
