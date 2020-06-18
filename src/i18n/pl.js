@@ -184,7 +184,7 @@ export default {
   "quoteMessage": "Cytuj wiadomość",
   "localTime": "Czas lokalny",
   "newConversation": "Nowa konwersacja",
-  "searchPeopleAndGroups": "Przeszukaj użytkowników i grupy..",
+  "searchMembersAndGroups": "Przeszukaj użytkowników i grupy..",
   "nothingThatMatches": "Nie ma nic, co by pasowało ",
   "favorites": "Ulubione",
   "recent": "Ostatnie",

@@ -184,7 +184,7 @@ export default {
   "quoteMessage": "Quote message",
   "localTime": "Local time",
   "newConversation": "New Conversation",
-  "searchPeopleAndGroups": "Search members and groups…",
+  "searchMembersAndGroups": "Search members and groups…",
   "nothingThatMatches": "There's nothing that matches ",
   "favorites": "Favorites",
   "recent": "Recent",
