@@ -263,7 +263,6 @@
   "recent": "Ostatnie",
   "enterGroupName": "Wpisz nazwę grupy",
   "private": "Prywatny",
-  "public": "Publiczność",
   "notificationSettingsTitle": "Powiadomienie w {group}",
   "_notificationSettingsTitle.comment": "Notification settings dialog.",
   "notificationSettingDefault": "Domyślne ustawienia powiadomień",
