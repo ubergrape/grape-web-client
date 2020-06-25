@@ -16,7 +16,7 @@ function getRoomNote(item) {
         <FormattedMessage
           id="willNotifyRoom"
           description="*Describe willNotifyRoom*: this string is decribing action"
-          defaultMessage="— notify everyone in this room"
+          defaultMessage="— notify everyone in this group"
         />
       </span>
     )
@@ -26,7 +26,7 @@ function getRoomNote(item) {
       <FormattedMessage
         id="wontNotifyRoom"
         description="*Describe wountNotifyRoom*: this string is decribing action"
-        defaultMessage="— does not notify room members"
+        defaultMessage="— does not notify group members"
       />
     </span>
   )

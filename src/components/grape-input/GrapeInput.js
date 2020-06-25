@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { shouldPureComponentUpdate } from 'react-pure-render'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
 import noop from 'lodash/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
@@ -13,6 +14,13 @@ import parseQuery from '../query/parse'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
 
 import { toMarkdown, fromMarkdown, getEmojiObjects } from './utils'
+
+const messages = defineMessages({
+  placeholder: {
+    id: 'enterMessagePlaceholder',
+    defaultMessage: 'Enter a message …',
+  },
+})
 
 class GrapeInput extends Component {
   static propTypes = {
@@ -27,6 +35,7 @@ class GrapeInput extends Component {
     content: PropTypes.string,
     channel: PropTypes.object,
     Editable: PropTypes.any,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -191,6 +200,7 @@ class GrapeInput extends Component {
   render() {
     const {
       sheet: { classes },
+      intl: { formatMessage },
       ...rest
     } = this.props
 
@@ -201,6 +211,7 @@ class GrapeInput extends Component {
           value={this.state.value}
           tokens={Object.keys(this.state.objects)}
           getTokenClass={this.getTokenClass}
+          placeholder={formatMessage(messages.placeholder)}
           theme={classes}
           onDidMount={this.onInputDidMount}
           onKeyDown={this.onKeyDown}
@@ -213,4 +224,4 @@ class GrapeInput extends Component {
   }
 }
 
-export default injectSheet(style)(GrapeInput)
+export default injectSheet(style)(injectIntl(GrapeInput))

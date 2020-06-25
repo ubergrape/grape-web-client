@@ -14,8 +14,8 @@ import { SERVICES_TRIGGER } from '../../query/constants'
 
 const messages = defineMessages({
   placeholder: {
-    id: 'grapeSearch',
-    defaultMessage: 'Grape Search',
+    id: 'enterKeywordPlaceholder',
+    defaultMessage: 'Enter a keyword …',
   },
 })
 
