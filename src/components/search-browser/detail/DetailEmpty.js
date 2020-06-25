@@ -27,7 +27,7 @@ class DetailEmpty extends Component {
         <span className={classes.note}>
           <FormattedMessage
             id="noDetailForItem"
-            defaultMessage="No Detail Infos for this Item"
+            defaultMessage="No detail infos for this item"
           />
         </span>
       </div>

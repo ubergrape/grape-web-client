@@ -14,8 +14,8 @@ function getRoomNote(item) {
     return (
       <span>
         <FormattedMessage
-          id="willNotifyRoom"
-          description="*Describe willNotifyRoom*: this string is decribing action"
+          id="willNotifyGroup"
+          description="*Describe willNotifyGroup*: this string is describing action"
           defaultMessage="— notify everyone in this group"
         />
       </span>
@@ -24,8 +24,8 @@ function getRoomNote(item) {
   return (
     <span>
       <FormattedMessage
-        id="wontNotifyRoom"
-        description="*Describe wountNotifyRoom*: this string is decribing action"
+        id="wontNotifyGroup"
+        description="*Describe wontNotifyGroup*: this string is describing action"
         defaultMessage="— does not notify group members"
       />
     </span>
@@ -47,7 +47,7 @@ export function map(originalData) {
       if (!item.inRoom) {
         item.note = (
           <span>
-            — <FormattedMessage id="notInRoom" defaultMessage="not in room" />
+            — <FormattedMessage id="notInGroup" defaultMessage="not in group" />
           </span>
         )
       }

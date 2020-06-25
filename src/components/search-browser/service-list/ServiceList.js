@@ -17,7 +17,7 @@ import SectionHeader from '../../section-header/SectionHeader'
 const messages = defineMessages({
   services: {
     id: 'serviesHeadline',
-    defaultMessage: 'services',
+    defaultMessage: 'select service',
     description: '**Headline in services list of grape-browser**',
   },
 })

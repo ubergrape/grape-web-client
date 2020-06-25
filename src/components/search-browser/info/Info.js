@@ -31,7 +31,7 @@ class Info extends Component {
       <div className={classes.info}>
         <FormattedMessage
           id="searchInfo"
-          defaultMessage="Search Wikipedia, Youtube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key"
+          defaultMessage="Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard"
           values={{
             tools: (
               <a href="" onClick={this.onAddIntegration}>

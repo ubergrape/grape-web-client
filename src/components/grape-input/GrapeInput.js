@@ -18,7 +18,7 @@ import { toMarkdown, fromMarkdown, getEmojiObjects } from './utils'
 const messages = defineMessages({
   placeholder: {
     id: 'enterMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
+    defaultMessage: 'Enter a message…',
   },
 })
 
