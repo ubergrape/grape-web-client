@@ -21,10 +21,6 @@ import {
 import style from './style'
 
 const messages = defineMessages({
-  enterMessage: {
-    id: 'enterMessagePlaceholder',
-    defaultMessage: 'Enter a message …',
-  },
   groupPostingLimited: {
     id: 'groupPostingLimitedPlaceholder',
     defaultMessage: 'Posting to this group has been limited.',
@@ -32,37 +28,6 @@ const messages = defineMessages({
 })
 
 class HighlightedInput extends Component {
-  static propTypes = {
-    onDidMount: PropTypes.func,
-    onChange: PropTypes.func,
-    onResize: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    getTokenClass: PropTypes.func,
-    sheet: PropTypes.object.isRequired,
-    Editable: PropTypes.func.isRequired,
-    focused: PropTypes.bool,
-    isPostingLimited: PropTypes.bool,
-    theme: PropTypes.object,
-    value: PropTypes.string,
-    tokens: PropTypes.arrayOf(PropTypes.string),
-    caretPosition: PropTypes.oneOf(['start', 'end']),
-    intl: intlShape.isRequired,
-  }
-
-  static defaultProps = {
-    value: '',
-    tokens: [],
-    focused: true,
-    isPostingLimited: false,
-    theme: {},
-    caretPosition: 'end',
-    onChange: noop,
-    onKeyDown: noop,
-    onDidMount: noop,
-    onResize: noop,
-    getTokenClass: noop,
-  }
-
   constructor(props) {
     super(props)
     const { value } = props
@@ -264,6 +229,7 @@ class HighlightedInput extends Component {
     const {
       Editable,
       theme,
+      placeholder,
       sheet: { classes },
       isPostingLimited,
       intl: { formatMessage },
@@ -278,7 +244,7 @@ class HighlightedInput extends Component {
       'onKeyPress',
     )
 
-    const { enterMessage, groupPostingLimited } = messages
+    const { groupPostingLimited } = messages
 
     return (
       <div
@@ -301,7 +267,7 @@ class HighlightedInput extends Component {
             <Editable
               {...editableProps}
               autoFocus
-              placeholder={formatMessage(enterMessage)}
+              placeholder={placeholder}
               data-test="editable"
               onKeyDown={this.onKeyDown}
               onChange={this.onChange}
@@ -314,6 +280,38 @@ class HighlightedInput extends Component {
       </div>
     )
   }
+}
+
+HighlightedInput.defaultProps = {
+  value: '',
+  tokens: [],
+  focused: true,
+  isPostingLimited: false,
+  theme: {},
+  caretPosition: 'end',
+  onChange: noop,
+  onKeyDown: noop,
+  onDidMount: noop,
+  onResize: noop,
+  getTokenClass: noop,
+}
+
+HighlightedInput.propTypes = {
+  onDidMount: PropTypes.func,
+  onChange: PropTypes.func,
+  onResize: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  getTokenClass: PropTypes.func,
+  sheet: PropTypes.object.isRequired,
+  Editable: PropTypes.func.isRequired,
+  focused: PropTypes.bool,
+  isPostingLimited: PropTypes.bool,
+  theme: PropTypes.object,
+  value: PropTypes.string,
+  tokens: PropTypes.arrayOf(PropTypes.string),
+  caretPosition: PropTypes.oneOf(['start', 'end']),
+  placeholder: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
 }
 
 export default injectSheet(style)(injectIntl(HighlightedInput))

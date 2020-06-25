@@ -1,6 +1,7 @@
 {
   "noEmojiFound": "Nie znaleziono żadnego emoji.",
-  "enterKeywordPlaceholder": "Wpisz słowo kluczowe..",
+  "enterKeywordPlaceholder": "Wpisz słowo kluczowe…",
+  "enterMessagePlaceholder": "Enter a message…",
   "groupPostingLimitedPlaceholder": "Postowania na tej grupie zostało ograniczone.",
   "willNotifyRoom": "- powiadom wszystkich w tej grupie",
   "_willNotifyRoom.comment": "*Describe willNotifyRoom*: this string is decribing action",
