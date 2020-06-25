@@ -1,6 +1,6 @@
 {
   "noEmojiFound": "No emoji found.",
-  "enterMessagePlaceholder": "Enter a keyword …",
+  "enterKeywordPlaceholder": "Enter a keyword …",
   "groupPostingLimitedPlaceholder": "Posting to this group has been limited.",
   "willNotifyRoom": "— notify everyone in this group",
   "_willNotifyRoom.comment": "*Describe willNotifyRoom*: this string is decribing action",
