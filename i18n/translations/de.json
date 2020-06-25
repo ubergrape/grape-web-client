@@ -15,7 +15,6 @@
   "_yourBusinessTools.comment": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'",
   "resultsAmountHint": "{amount} Ergebnisse",
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
-  "grapeSearch": "Grape Search",
   "noResults": "Keine Ergebnisse.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "Service auswählen",
