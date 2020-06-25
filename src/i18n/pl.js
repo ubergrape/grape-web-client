@@ -6,7 +6,8 @@
  */
 export default {
   "noEmojiFound": "Nie znaleziono żadnego emoji.",
-  "enterKeywordPlaceholder": "Wpisz słowo kluczowe..",
+  "enterKeywordPlaceholder": "Wpisz słowo kluczowe…",
+  "enterMessagePlaceholder": "Enter a message…",
   "groupPostingLimitedPlaceholder": "Postowania na tej grupie zostało ograniczone.",
   "willNotifyRoom": "- powiadom wszystkich w tej grupie",
   "wontNotifyRoom": "- nie powiadamiaj użytkowników grupy",
