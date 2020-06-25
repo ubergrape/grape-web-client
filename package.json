@@ -77,10 +77,10 @@
     "webpack": "^4.28.4"
   },
   "scripts": {
-    "all": "yarn test && yarn build && yarn i18n-export",
+    "all": "yarn test && yarn build && yarn i18n:export",
     "build": "yarn clear:lib && babel src --out-dir lib",
     "build:watch": "yarn clear:lib && babel --watch src --out-dir lib",
-    "build:i18n": "yarn clear:i18n && yarn build && yarn i18n-export",
+    "build:i18n": "yarn clear:i18n && yarn build && yarn i18n:export",
     "lint": "eslint src",
     "emoji": "bin/emoji",
     "test:watch": "cross-env NODE_ENV=test karma start",
