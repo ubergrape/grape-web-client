@@ -87,8 +87,8 @@
     "test": "cross-env SINGLE_RUN=true NODE_ENV=testing karma start",
     "clear:lib": "rimraf './lib/*'",
     "clear:i18n": "rimraf './i18n/{src,export}'",
-    "i18n-export": "babel-node i18n/scripts/export.js",
-    "i18n-import": "yarn build && babel-node i18n/scripts/import.js",
+    "i18n:export": "babel-node i18n/scripts/export.js",
+    "i18n:import": "yarn build && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
     "prepublishOnly": "yarn all"
   },
