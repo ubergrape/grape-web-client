@@ -257,6 +257,7 @@
   "localTime": "Lokale Zeit",
   "newConversation": "Neue Konversation",
   "_newConversation.comment": "*Describe NewConversation*: this is used in Navigation",
+  "searchMembersAndGroups": "Mitglieder und Gruppen suchen...",
   "nothingThatMatches": "Keine passenden Ergebnisse für ",
   "favorites": "Favoriten",
   "recent": "Aktuell",
