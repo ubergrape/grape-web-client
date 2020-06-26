@@ -1,7 +1,7 @@
 {
   "noEmojiFound": "Kein Emoji gefunden.",
   "enterKeywordPlaceholder": "Stichwort eingeben…",
-  "enterMessagePlaceholder": "Enter a message…",
+  "enterMessagePlaceholder": "Nachricht eingeben...",
   "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt.",
   "willNotifyGroup": "— jeden in dieser Gruppe benachrichtigen",
   "_willNotifyGroup.comment": "*Describe willNotifyGroup*: this string is describing action",
