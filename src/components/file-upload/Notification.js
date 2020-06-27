@@ -69,8 +69,8 @@ const Message = ({ uploads, uploadingAmount, classes }) => (
       )}
       {!uploadingAmount && (
         <FormattedMessage
-          id="fileUploadTitleFinished"
-          defaultMessage="Upload finished"
+          id="fileUploadStatus"
+          defaultMessage="Upload status"
           description="Upload notification title"
         />
       )}

@@ -29,16 +29,16 @@ const Message = ({ classes }) => (
     <div className={classes.message}>
       <p className={classes.text}>
         <FormattedMessage
-          id="roomDeleteDialogConfirmMessage"
-          defaultMessage="Are you sure you want to delete this room?"
-          description="Room Delete Dialog: confirm (info) message"
+          id="groupDeleteDialogConfirmMessage"
+          defaultMessage="Are you sure you want to delete this group?"
+          description="Group Delete Dialog: confirm (info) message"
         />
       </p>
       <p className={classes.warning}>
         <FormattedMessage
-          id="roomDeleteDialogConfirmWarning"
+          id="groupDeleteDialogConfirmWarning"
           defaultMessage="Warning: This action can't be undone!"
-          description="Room Delete Dialog: confirm (warning) message"
+          description="Group Delete Dialog: confirm (warning) message"
         />
       </p>
     </div>

@@ -36,7 +36,7 @@ const messages = defineMessages({
   },
   anyMention: {
     id: 'notificationSettingAnyMention',
-    defaultMessage: 'Mentions and announcements (@room)',
+    defaultMessage: 'Mentions and announcements (@group)',
     description: 'Notification setting name.',
   },
   directMention: {
@@ -62,10 +62,7 @@ const Title = ({ classes, children, setting, status }) => (
     <span
       className={`${classes.status} ${!status ? classes.statusHidden : ''}`}
     >
-      <FormattedMessage
-        id="notificationSettingStatusComplete"
-        defaultMessage="saved"
-      />
+      <FormattedMessage id="notificationSettingSaved" defaultMessage="saved" />
     </span>
   </div>
 )
@@ -111,15 +108,15 @@ const MuteAllSetting = ({
       <p className={classes.allMutedHint}>
         <FormattedMessage
           id="muteAllNotificationsHint"
-          defaultMessage="This group is completely muted on all your devices. No more rings and beeps coming from
-        {channel} - but you can still come back anytime to check it out for new messages.
-        If you want to leave the group and remove it from your sidebar, {leaveButton}"
+          defaultMessage="This group is completely muted on all your devices. No more rings and beeps coming from 
+          {channel} - but you can still come back anytime to check it out for new messages. 
+          If you want to leave the group and remove it from your sidebar, {leaveButton}"
           values={{
             channel: channel.name,
             leaveButton: (
               <button className={classes.buttonLink} onClick={onLeave}>
                 <FormattedMessage
-                  id="clickHereInlineLink"
+                  id="clickHere"
                   defaultMessage="click here"
                   description="Link used inline in the middle of a sentence."
                 />

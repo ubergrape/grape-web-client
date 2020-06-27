@@ -22,13 +22,13 @@ const messages = defineMessages({
     defaultMessage: 'Remove attachment',
   },
   option1: {
-    id: 'linkAttachmentRemoveDialogAdminDomain',
+    id: 'linkAttachmentRemoveDialogByDomain',
     description:
       'Link attachment Remove Dialog: remove all the links from this domain',
     defaultMessage: 'All links from {domain}',
   },
   option2: {
-    id: 'linkAttachmentRemoveDialogAdminLinkForOrg',
+    id: 'linkAttachmentRemoveDialogLinkForOrg',
     description:
       'Link attachment Remove Dialog: remove this link for the entire org',
     defaultMessage: 'Just the link {url}',
@@ -131,7 +131,7 @@ export default class LinkAttachmentRemoveDialog extends PureComponent {
             className={classes.checkbox}
           />
           <FormattedMessage
-            id="linkAttachmentRemoveDialogAdminCheckbox"
+            id="linkAttachmentRemoveDialogRemoveCheckbox"
             description="Link attachment Remove Dialog: admin checkbox to remove the link for the organization"
             defaultMessage="Disable future attachments from this website?"
           />

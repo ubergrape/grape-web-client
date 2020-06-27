@@ -7,14 +7,14 @@ export default ({ classes, onResend }) => (
     <div className={classes.unsentWarning}>
       <span className={classes.unsentText}>
         <FormattedMessage
-          id="messageNotSendCheckConnection"
-          defaultMessage="This message didn't send. Check your internet connection and"
+          id="messageNotSentCheckConnection"
+          defaultMessage="The message couldn't be sent. Check your internet connection and"
         />
       </span>
       <button className={classes.unsentButton} onClick={onResend}>
         <FormattedMessage
           id="clickToTryAgain"
-          defaultMessage="click to try again"
+          defaultMessage="click here to try again"
         />
       </button>
     </div>

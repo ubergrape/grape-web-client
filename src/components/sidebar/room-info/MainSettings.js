@@ -132,10 +132,10 @@ export default class MainSettings extends PureComponent {
       allowEdit,
     } = this.props
 
-    if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
+    if (!allowEdit) return <p className={classes.groupName}>{channel.name}</p>
 
     return (
-      <div className={classes.roomName}>
+      <div className={classes.groupName}>
         <EditableText
           placeholder={formatMessage(messages.placeholder)}
           clearError={clearRoomRenameError}

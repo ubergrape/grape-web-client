@@ -34,7 +34,10 @@ export default class Author extends PureComponent {
     return (
       <span onClick={onClick} className={`${classes.root} ${className}`}>
         {author || (
-          <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />
+          <FormattedMessage
+            id="deletedMember"
+            defaultMessage="Deleted member"
+          />
         )}
       </span>
     )

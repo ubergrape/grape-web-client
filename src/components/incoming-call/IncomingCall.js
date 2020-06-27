@@ -155,7 +155,7 @@ class IncomingCall extends PureComponent {
                 <p>
                   <FormattedMessage
                     id="pleaseUseDesktopApp"
-                    defaultMessage="Please use our {desktopApp} instaed instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience."
+                    defaultMessage="Please use our {desktopApp} instead ({download}, if you haven’t installed it yet). Alternatively you can use Grape with {browsers} to enjoy the full experience."
                     values={{
                       desktopApp: (
                         <span className={cn(classes.text, classes.bold)}>

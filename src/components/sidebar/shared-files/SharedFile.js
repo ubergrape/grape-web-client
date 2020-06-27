@@ -86,9 +86,9 @@ class SharedFile extends PureComponent {
       case 'room': {
         message = (
           <FormattedMessage
-            id="sharedInRoom"
+            id="sharedInGroup"
             defaultMessage="Shared in {channelName}"
-            description="*Describe sharedInRoom*, example: 'Shared in Office'"
+            description="*Describe sharedInGroup*, example: 'Shared in Office'"
             values={{ channelName }}
           />
         )
