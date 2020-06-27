@@ -15,14 +15,14 @@ export default class TextAlert extends PureComponent {
         return (
           <FormattedMessage
             id="reconnectAlert"
-            defaultMessage="Reconnected successfully."
+            defaultMessage="You've been successfully reconnected!"
           />
         )
       case types.CHANNEL_NOT_FOUND:
         return (
           <FormattedMessage
-            id="noRoomFound"
-            defaultMessage="We could not find what you were looking for&nbsp;- the room might have been deleted, renamed or moved."
+            id="noGroupFound"
+            defaultMessage="We could not find what you were looking for - the group might have been deleted, renamed or moved."
           />
         )
       case types.MESSAGE_NOT_FOUND:
@@ -36,7 +36,7 @@ export default class TextAlert extends PureComponent {
         return (
           <FormattedMessage
             id="cannotMessageYourself"
-            defaultMessage="You cannot message yourself."
+            defaultMessage="You can't message yourself."
           />
         )
       case types.LOADING_HISTORY:

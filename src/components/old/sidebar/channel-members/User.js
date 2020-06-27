@@ -11,7 +11,7 @@ import {
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import { userStatusMap } from '../../../../constants/app'
-import { Username } from '../../avatar-name'
+import { UserName } from '../../avatar-name'
 import buttonIcon from '../../button/icon'
 import { getRoles } from '../utils'
 
@@ -79,7 +79,7 @@ class User extends PureComponent {
           className={classes.userNameContainer}
           onClick={this.onSelectMember}
         >
-          <Username
+          <UserName
             statusBorderColor={grayBlueLighter}
             avatar={user.avatar}
             status={userStatusMap[user.status]}

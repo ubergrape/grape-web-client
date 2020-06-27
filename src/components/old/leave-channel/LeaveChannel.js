@@ -58,11 +58,9 @@ class LeaveChannel extends PureComponent {
           <div className={classes.text}>
             <FormattedMessage
               id="leaveGroupDialogMessage"
-              defaultMessage="Are you sure you want to leave the private group {channel}? You {wontAbleToRejoin} this group unless you get invited again."
+              defaultMessage="Are you sure you want to leave the private group {group}? You {wontAbleToRejoin} this group unless you get invited again."
               values={{
-                channel: (
-                  <span className={classes.textBold}>{channel.name}</span>
-                ),
+                group: <span className={classes.textBold}>{channel.name}</span>,
                 wontAbleToRejoin: (
                   <span className={classes.textBold}>
                     <FormattedMessage

@@ -7,7 +7,7 @@ import FabButton from './FabButton'
 
 const tip = (
   <FormattedMessage
-    id="labeledMessagesTooltip"
+    id="importantMessages"
     defaultMessage="Important Messages"
   />
 )

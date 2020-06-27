@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import { pick, find } from 'lodash'
 
 import { userStatusMap } from '../../../../constants/app'
-import { Username } from '../../avatar-name'
+import { UserName } from '../../avatar-name'
 import {
   SharedFiles as SharedFilesText,
   UserProfile as UserProfileText,
@@ -34,9 +34,9 @@ const tabs = [
     render: 'renderAbout',
     title: (
       <FormattedMessage
-        id="aboutUserTitle"
-        defaultMessage="About this user"
-        description="User profile sidebar, about user title."
+        id="aboutMemberTitle"
+        defaultMessage="About this member"
+        description="Member profile sidebar, about user title."
       />
     ),
     onClick: 'onUserInfoClick',
@@ -173,7 +173,7 @@ class UserProfile extends PureComponent {
         onClose={onClose}
       >
         <div className={classes.userNameContainer}>
-          <Username
+          <UserName
             statusBorderColor={baseColors.grayBlueLighter}
             avatar={avatar}
             status={userStatusMap[status]}

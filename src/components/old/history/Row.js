@@ -14,7 +14,7 @@ import { styles } from './rowTheme'
 const messages = defineMessages({
   confirm: {
     id: 'deleteMessagesQuestion',
-    defaultMessage: 'Delete the selected Message?',
+    defaultMessage: 'Delete the selected message?',
   },
   copy: {
     id: 'linkInClipboard',

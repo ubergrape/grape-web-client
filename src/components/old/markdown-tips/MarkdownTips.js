@@ -42,8 +42,8 @@ const messages = defineMessages({
     description: 'Markdown: code block example',
   },
   blockquoteTitle: {
-    id: 'blockquote',
-    defaultMessage: 'Blockquote',
+    id: 'blockquotes',
+    defaultMessage: 'Blockquotes',
     description: 'Title',
   },
   blockquoteExample: {

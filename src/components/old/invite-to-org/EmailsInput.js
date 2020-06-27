@@ -27,7 +27,7 @@ export default function EmailsInput(props) {
       <label className={classes.label} htmlFor={id}>
         <FormattedMessage
           id="emailAddresses"
-          defaultMessage="Email addresses"
+          defaultMessage="E-mail addresses"
         />
       </label>
       <Input

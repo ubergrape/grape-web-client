@@ -43,8 +43,8 @@ export const InviteSuccess = ({ invited }) => (
     id="justInvited"
     defaultMessage={`Congratulations! You just invited {user} {amount, plural,
         =0 {}
-        one {and one more people}
-        other {and {amount} more people}}.`}
+        one {and one more member}
+        other {and {amount} more members}}.`}
     values={{
       user: invited[0],
       amount: invited.length - 1,
@@ -73,7 +73,7 @@ export const UserProfile = () => (
 )
 
 export const Loading = () => (
-  <FormattedMessage id="loading" defaultMessage="Loading..." />
+  <FormattedMessage id="loading" defaultMessage="Loading…" />
 )
 
 export const Communication = () => (

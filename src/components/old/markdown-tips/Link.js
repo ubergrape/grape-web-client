@@ -37,7 +37,7 @@ class Link extends PureComponent {
     )
     return (
       <FormattedMessage
-        id="markdownTipsLinkMessage"
+        id="youCanUseMarkdown"
         defaultMessage="You can also use {markdown}"
         values={{ markdown: button }}
       >

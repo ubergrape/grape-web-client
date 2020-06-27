@@ -4,16 +4,16 @@ import { defineMessages, intlShape } from 'react-intl'
 
 const messages = defineMessages({
   makePrivate: {
-    id: 'makeRoomPrivate',
-    defaultMessage: 'Make room private',
+    id: 'makeGroupPrivate',
+    defaultMessage: 'Make group private',
   },
   makePublic: {
-    id: 'makeRoomPublic',
-    defaultMessage: 'Make room public',
+    id: 'makeGroupPublic',
+    defaultMessage: 'Make group public',
   },
-  deleteRoom: {
-    id: 'deleteRoom',
-    defaultMessage: 'Delete room',
+  deleteGroup: {
+    id: 'deleteGroup',
+    defaultMessage: 'Delete group',
   },
 })
 
@@ -42,12 +42,10 @@ export default function AdditionalActions(props) {
       {allowDelete && (
         <li>
           <button
-            className={`${classes.additionalActionButton} ${
-              classes.deleteRoomButton
-            }`}
+            className={`${classes.additionalActionButton} ${classes.deleteRoomButton}`}
             onClick={onDeleteClick}
           >
-            {formatMessage(messages.deleteRoom)}
+            {formatMessage(messages.deleteGroup)}
           </button>
         </li>
       )}

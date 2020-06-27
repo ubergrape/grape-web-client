@@ -57,7 +57,7 @@ const Contacts = ({
       <li className={classes.row}>
         <Icon name="envelope" className={classes.icon} />
         <span className={classes.name}>
-          <FormattedMessage id="email" defaultMessage="Email" />
+          <FormattedMessage id="email" defaultMessage="E-mail" />
         </span>
         <span className={classes.value}>
           <a href={`mailto:${email}`} className={classes.link}>

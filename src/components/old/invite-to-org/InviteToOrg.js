@@ -21,12 +21,12 @@ import { styles } from './inviteToOrgTheme'
 const messages = defineMessages({
   title: {
     id: 'inviteToOrgTitle',
-    defaultMessage: 'Invite people to your organization',
+    defaultMessage: 'Invite members to your organization',
   },
   invitePlaceholder: {
     id: 'inviteToOrgNote',
     defaultMessage:
-      'Invite multiple users at once, just separate their email addresses with a comma.',
+      'Invite multiple members at once, just separate their e-mail addresses with a comma.',
   },
   messagesPlaceholder: {
     id: 'InviteToOrgMessage',
@@ -40,7 +40,7 @@ const messages = defineMessages({
   },
   error: {
     id: 'inviteToOrgError',
-    defaultMessage: 'Enter valid email addresses separated by a space.',
+    defaultMessage: 'Enter valid e-mail addresses separated by a comma.',
   },
 })
 
@@ -174,7 +174,7 @@ class InviteToOrg extends PureComponent {
               >
                 <FormattedMessage
                   id="sendInvites"
-                  defaultMessage="Send invitation emails"
+                  defaultMessage="Send invitation e-mails"
                 />
               </button>
             </div>

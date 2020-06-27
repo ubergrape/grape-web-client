@@ -5,8 +5,8 @@ import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 const messages = defineMessages({
   placeholder: {
-    id: 'searchPeopleAndGroups',
-    defaultMessage: 'Search people and groups…',
+    id: 'searchMembersAndGroups',
+    defaultMessage: 'Search members and groups…',
   },
 })
 

@@ -23,8 +23,8 @@ const messages = defineMessages({
     defaultMessage: 'Only in this conversation',
     description: 'Option in messages search sidebar.',
   },
-  searchActivitiesOption: {
-    id: 'searchActivities',
+  includeActivitiesOption: {
+    id: 'includeActivities',
     defaultMessage: 'Include activities',
     description: 'Option in messages search sidebar.',
   },
@@ -132,7 +132,7 @@ const Content = props => {
             },
             {
               ...options.searchActivities,
-              label: formatMessage(messages.searchActivitiesOption),
+              label: formatMessage(messages.includeActivitiesOption),
               handler: toggleSearchActivities,
             },
           ]}

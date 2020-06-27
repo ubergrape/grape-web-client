@@ -6,7 +6,7 @@ import cn from 'classnames'
 import roomTheme from './roomTheme'
 import Icon from '../room-icon/RoomIcon'
 
-class Roomname extends PureComponent {
+class GroupName extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string,
@@ -89,4 +89,4 @@ class Roomname extends PureComponent {
   }
 }
 
-export default injectSheet(roomTheme)(Roomname)
+export default injectSheet(roomTheme)(GroupName)

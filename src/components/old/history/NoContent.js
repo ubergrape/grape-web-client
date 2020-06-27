@@ -22,13 +22,13 @@ Illustration.propTypes = {
 const text = {
   public: (
     <FormattedMessage
-      id="roomIsPublic"
+      id="groupIsPublic"
       defaultMessage="This group is public. Every member can join and read the history."
     />
   ),
   private: (
     <FormattedMessage
-      id="roomIsPrivate"
+      id="groupIsPrivate"
       defaultMessage="This group is private. Only invited members can see and join this group."
     />
   ),
@@ -53,9 +53,9 @@ function RoomContent(props) {
       <div className={classes.description}>
         <h2 className={classes.title}>
           <FormattedMessage
-            id="welcomeToRoom"
-            defaultMessage="Welcome to {channel}"
-            values={{ channel: name }}
+            id="welcomeToGroup"
+            defaultMessage="Welcome to {group}"
+            values={{ group: name }}
           />
         </h2>
         <p className={classes.text}>{text[isPublic ? 'public' : 'private']}</p>
@@ -63,7 +63,7 @@ function RoomContent(props) {
           <button onClick={onInvite} className={classes.buttonInvite}>
             <FormattedMessage
               id="inviteMoreToGroup"
-              defaultMessage="Invite more people to this group"
+              defaultMessage="Invite more members to this group"
             />
           </button>
         )}
@@ -106,7 +106,7 @@ function PmContent(props) {
         <h2 className={classes.title}>
           <FormattedMessage
             id="welcomeToPm"
-            defaultMessage="Private messages with {partner}"
+            defaultMessage="Private conversation with {partner}"
             values={{ partner: partner.displayName }}
           />
         </h2>

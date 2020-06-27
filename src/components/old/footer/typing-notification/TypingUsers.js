@@ -26,7 +26,7 @@ const getText = (users, max) => {
     const last = names.pop()
     return (
       <FormattedMessage
-        id="userAndUsersAreTyping"
+        id="usersAndUserAreTyping"
         values={{
           users: names.join(', '),
           user: last,

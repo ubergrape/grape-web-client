@@ -110,7 +110,7 @@ const Footer = props => {
       </FormattedMessage>
       <FormattedMessage
         id="skipIfDone"
-        defaultMessage="Already done?{skip}"
+        defaultMessage="Already done? {skip}"
         description="Intro footer"
         values={{
           skip: <SkipButton className={classes.skip} onClick={onSkip} />,

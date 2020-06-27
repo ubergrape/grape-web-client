@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
 const messages = defineMessages({
-  inviteUsersNow: {
-    id: 'inviteUsersNow',
-    defaultMessage: 'Invite users now',
+  inviteMembersNow: {
+    id: 'inviteMembersNow',
+    defaultMessage: 'Invite members now',
   },
   inviteToOrganization: {
     id: 'inviteToOrganization',

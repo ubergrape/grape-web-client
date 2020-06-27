@@ -317,9 +317,9 @@ export function hideRoomDeleteDialog() {
   }
 }
 
-export function deleteChannel({ roomId, roomName }) {
+export function deleteChannel({ roomId, groupName }) {
   return dispatch =>
-    api.deleteChannel(roomId, roomName).catch(err => dispatch(error(err)))
+    api.deleteChannel(roomId, groupName).catch(err => dispatch(error(err)))
 }
 
 export function clearRoomRenameError() {

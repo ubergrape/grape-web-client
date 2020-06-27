@@ -10,7 +10,7 @@ import Message from './Message'
 import messages from './messages'
 
 const getInitialState = () => ({
-  roomName: '',
+  groupName: '',
   isValid: true,
   errorMessage: null,
 })
@@ -46,7 +46,7 @@ class RoomDeleteDialog extends PureComponent {
   state = getInitialState()
 
   onChange = e => {
-    this.setState({ roomName: e.target.value })
+    this.setState({ groupName: e.target.value })
   }
 
   onHide = () => {
@@ -65,11 +65,11 @@ class RoomDeleteDialog extends PureComponent {
       onDelete,
       room: { id: roomId },
     } = this.props
-    const { roomName } = this.state
+    const { groupName } = this.state
     if (!this.checkValidity()) return
     onDelete({
       roomId,
-      roomName,
+      groupName,
     })
     this.onHide()
   }
@@ -80,13 +80,13 @@ class RoomDeleteDialog extends PureComponent {
   }
 
   checkValidity() {
-    const { roomName } = this.state
+    const { groupName } = this.state
     const {
       room: { name },
       intl: { formatMessage },
     } = this.props
 
-    if (!roomName) {
+    if (!groupName) {
       this.setState({
         isValid: false,
         errorMessage: formatMessage(messages.provideName),
@@ -94,7 +94,7 @@ class RoomDeleteDialog extends PureComponent {
       return false
     }
 
-    if (name !== roomName) {
+    if (name !== groupName) {
       this.setState({
         isValid: false,
         errorMessage: formatMessage(messages.notMatchingName),
@@ -118,18 +118,18 @@ class RoomDeleteDialog extends PureComponent {
       room,
     } = this.props
 
-    const { roomName, isValid, errorMessage } = this.state
+    const { groupName, isValid, errorMessage } = this.state
 
     return (
       <Dialog
         show={show}
         onHide={this.onHide}
-        title={formatMessage(messages.title, { roomName: room && room.name })}
+        title={formatMessage(messages.title, { groupName: room && room.name })}
       >
         <div className={classes.root}>
           <Message />
           <Form
-            value={roomName}
+            value={groupName}
             onSubmit={this.onSubmit}
             onChange={this.onChange}
             onRefInput={this.onRefInput}

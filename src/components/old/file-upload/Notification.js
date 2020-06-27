@@ -27,8 +27,9 @@ const Upload = ({ classes, progress, isComplete, name, error }) => (
         </span>
         <span>{name.substr(name.length - 7)}</span>
       </span>
-      {isComplete &&
-        !error && <Icon name="check" className={classes.iconSuccess} />}
+      {isComplete && !error && (
+        <Icon name="check" className={classes.iconSuccess} />
+      )}
       {error && <Icon name="remove" className={classes.iconError} />}
     </div>
     <LinearProgress
@@ -68,8 +69,8 @@ const Message = ({ uploads, uploadingAmount, classes }) => (
       )}
       {!uploadingAmount && (
         <FormattedMessage
-          id="fileUploadTitleFinished"
-          defaultMessage="Upload finished"
+          id="fileUploadStatus"
+          defaultMessage="Upload status"
           description="Upload notification title"
         />
       )}

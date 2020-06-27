@@ -70,7 +70,7 @@ class ReconnectionAlert extends PureComponent {
         ) : (
           <FormattedMessage
             id="tryingToReconnect"
-            defaultMessage="Trying to reconnect ..."
+            defaultMessage="Trying to reconnect…"
           />
         )}
       </div>

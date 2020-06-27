@@ -100,7 +100,7 @@ export default permissions => {
         text={
           <FormattedMessage
             id="introTextPm"
-            defaultMessage="Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet."
+            defaultMessage="Start private conversations with your colleagues - even if they haven’t joined Grape yet."
             description="Intro data text."
           />
         }
@@ -173,7 +173,7 @@ export default permissions => {
       text={
         <FormattedMessage
           id="introTextDone"
-          defaultMessage="Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us by clicking the question mark on the top right corner."
+          defaultMessage="Don't forget to {addTeamMembersLink} and to {connectServicesLink}. If you have any question, do not hesitate to write us!"
           description="Intro data text."
           values={{
             addTeamMembersLink: <AddTeamMembersLink className={classes.link} />,

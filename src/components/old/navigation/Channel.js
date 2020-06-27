@@ -4,8 +4,8 @@ import colors from 'grape-theme/dist/base-colors'
 import { noop } from 'lodash'
 
 import { userStatusMap } from '../../../constants/app'
-import Username from '../avatar-name/Username'
-import Roomname from '../avatar-name/Roomname'
+import UserName from '../avatar-name/UserName'
+import GroupName from '../avatar-name/GroupName'
 
 const maxUnread = 99
 
@@ -34,7 +34,7 @@ function Room(props) {
 
   return (
     <div className={classes.channelInner}>
-      <Roomname
+      <GroupName
         {...channel}
         statusBorderColor={colors.grayBlueLighter}
         showPrivateStatus
@@ -62,7 +62,7 @@ function Pm(props) {
 
   return (
     <div className={classes.channelInner}>
-      <Username
+      <UserName
         statusBorderColor={colors.grayBlueLighter}
         avatar={partner ? partner.avatar : avatar}
         status={partner ? userStatusMap[partner.status] : userStatusMap[status]}

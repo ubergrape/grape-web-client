@@ -43,9 +43,9 @@ const Form = ({
       <FormControl error={!isValid} className={classes.formControl}>
         <FormLabel htmlFor={inputId} className={classes.label}>
           <FormattedMessage
-            id="roomDeleteDialogInputLabel"
-            defaultMessage="Please type in the name of the room to confirm"
-            description="Room Delete Dialog: input label"
+            id="groupDeleteDialogInputLabel"
+            defaultMessage="Please type in the name of the group to confirm"
+            description="Group Delete Dialog: input label"
           />
         </FormLabel>
         <Input
@@ -70,9 +70,9 @@ const Form = ({
     <div className={classes.buttonContainer}>
       <Button color="accent" raised type="submit" className={classes.button}>
         <FormattedMessage
-          id="roomDeleteDialogDelete"
+          id="groupDeleteDialogDelete"
           defaultMessage="delete"
-          description="Room Delete Dialog: delete button message"
+          description="Group Delete Dialog: delete button message"
         />
       </Button>
     </div>

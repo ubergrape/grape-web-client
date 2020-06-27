@@ -25,7 +25,10 @@ class Author extends PureComponent {
     return (
       <button onClick={onClick} className={`${classes.root} ${className}`}>
         {author || (
-          <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />
+          <FormattedMessage
+            id="deletedMember"
+            defaultMessage="Deleted member"
+          />
         )}
       </button>
     )

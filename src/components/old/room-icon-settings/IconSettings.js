@@ -12,7 +12,7 @@ function RenderColors({ theme, channel, onSetRoomColor }) {
   return (
     <div className={classes.roomColors}>
       <h1 className={classes.iconSettingsTitle}>
-        <FormattedMessage id="roomColor" defaultMessage="Room Color" />
+        <FormattedMessage id="groupColor" defaultMessage="Group Color" />
       </h1>
       <ul className={classes.iconSettingsList}>
         {roomColors.map(color => {
@@ -43,7 +43,7 @@ function RenderIcons({ theme, colors, channel, onSetRoomIcon }) {
   return (
     <div>
       <h1 className={classes.iconSettingsTitle}>
-        <FormattedMessage id="roomIcon" defaultMessage="Room Icon" />
+        <FormattedMessage id="groupIcon" defaultMessage="Group Icon" />
       </h1>
       <ul className={classes.iconSettingsList}>
         {icons.map(slug => {
