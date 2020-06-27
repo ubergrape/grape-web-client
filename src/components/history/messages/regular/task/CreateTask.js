@@ -56,7 +56,7 @@ const LinkSection = ({ classes, onFocus, onBlur, isFocused }) => (
       <FormattedMessage
         id="linkToAConnectedTask"
         defaultMessage="Link to a connected Task"
-        description="Nlp create task dialog link label."
+        description="NLP create task dialog link label."
       />
     </FormLabel>
     <FormGroup row>

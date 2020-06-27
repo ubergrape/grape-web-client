@@ -38,7 +38,7 @@ const Empty = ({ classes, className }) => (
     <Icon name="pinColored" className={classes.icon} />
     <h1 className={classes.headline}>
       <FormattedMessage
-        id="emptyPinnedMessagesSidebarHeadline"
+        id="emptyPinnedMessagesSidebarHl"
         defaultMessage="No messages have been pinned yet!"
         description="Headline in the sidebar, pinned messages zero design."
       />
@@ -46,7 +46,7 @@ const Empty = ({ classes, className }) => (
     <p className={classes.description}>
       <FormattedMessage
         id="emptyPinnedMessagesSidebarDescription"
-        defaultMessage="Choose &quot;Pin message&quot; in the context menu of any message to make it show up here."
+        defaultMessage='Choose "Pin message" in the context menu of any message to make it show up here.'
         description="Description in the sidebar, pinned messages zero design."
       />
     </p>

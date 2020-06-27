@@ -74,7 +74,8 @@ export default class SharedFiles extends PureComponent {
     if (total !== 0) return null
     return (
       <div className={classes.empty}>
-        <FormattedMessage id="noSharedFiles" defaultMessage="No shared files" />.
+        <FormattedMessage id="noSharedFiles" defaultMessage="No shared files" />
+        .
       </div>
     )
   }

@@ -84,8 +84,8 @@ const RoomActions = ({
         <a href={channel.manageMembersUrl} className={classes.membersListLink}>
           <FormattedMessage
             id="membersList"
-            defaultMessage="Edit Members List"
-            description="Room Info Panel: link to members list of the current room"
+            defaultMessage="Members List"
+            description="Group Info Panel: link to members list of the current grou"
           />
         </a>
       </li>
@@ -96,7 +96,7 @@ const RoomActions = ({
           <FormattedMessage
             id="inviteMoreToGroup"
             defaultMessage="Invite more members to this group"
-            description="Room Info Panel: invite members to the group/room"
+            description="Group Info Panel: invite members to the group"
           />
         </button>
       </li>
@@ -110,7 +110,7 @@ const RoomActions = ({
           <FormattedMessage
             id="addServiceIntegration"
             defaultMessage="Add service integration"
-            description="Room Info Panel: link to add an integration to the current room"
+            description="Group Info Panel: link to add an integration to the current group"
           />
         </button>
       </li>
@@ -122,7 +122,7 @@ const RoomActions = ({
             id="leaveChannel"
             defaultMessage="Leave {channel}"
             values={{ channel: channel.name }}
-            description="Room Info Panel: leave room link"
+            description="Group Info Panel: leave group link"
           />
         </button>
       </li>
