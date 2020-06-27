@@ -3,17 +3,17 @@ import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 
-import Roomname from '../avatar-name/Roomname'
+import GroupName from '../avatar-name/GroupName'
 import { styles } from './groupTheme'
 
 const messages = defineMessages({
   unjoined: {
-    id: 'manageGroupsJoinableBtn',
+    id: 'manageGroupsJoinableButton',
     defaultMessage: 'join',
     description: 'Manage Groups Dialog: join button label',
   },
   joined: {
-    id: 'manageGroupsJoinedBtn',
+    id: 'manageGroupsJoinedButton',
     defaultMessage: 'leave',
     description: 'Manage Groups Dialog: leave button label',
   },
@@ -47,7 +47,7 @@ class Group extends PureComponent {
     return (
       <div className={classes.item}>
         <div className={classes.group}>
-          <Roomname
+          <GroupName
             {...group}
             showPrivateStatus
             showRoomInfo

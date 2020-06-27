@@ -7,7 +7,7 @@ import roomTheme from './roomTheme'
 import Icon from '../room-icon/RoomIcon'
 
 @injectSheet(roomTheme)
-export default class Roomname extends PureComponent {
+export default class GroupName extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string,

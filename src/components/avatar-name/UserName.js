@@ -27,7 +27,7 @@ Status.defaultProps = {
 }
 
 @injectSheet(userTheme)
-export default class Username extends PureComponent {
+export default class UserName extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,

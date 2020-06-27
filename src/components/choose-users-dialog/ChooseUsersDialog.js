@@ -15,7 +15,7 @@ import { styles } from './theme'
 import OrgInviteButton from './OrgInviteButton'
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
-import Username from '../avatar-name/Username'
+import UserName from '../avatar-name/UserName'
 import InviteGuests from '../invite-guests/InviteGuests'
 import { userStatusMap } from '../../constants/app'
 
@@ -23,7 +23,7 @@ const SelectedUser = ({ displayName }) => displayName
 
 const messages = defineMessages({
   placeholder: {
-    id: 'typeName',
+    id: 'addMembers',
     defaultMessage: 'Add members…',
   },
 })
@@ -82,7 +82,7 @@ export default class ChooseUsersDialog extends PureComponent {
 
     return (
       <div className={className} key={id}>
-        <Username
+        <UserName
           name={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
@@ -97,7 +97,7 @@ export default class ChooseUsersDialog extends PureComponent {
 
     return (
       <div className={classes.note}>
-        <FormattedMessage id="loading" defaultMessage="Loading..." />
+        <FormattedMessage id="loading" defaultMessage="Loading…" />
       </div>
     )
   }
@@ -135,7 +135,7 @@ export default class ChooseUsersDialog extends PureComponent {
         <div>
           <OrgInviteButton
             font="normal"
-            id="inviteUsersNow"
+            id="inviteMembersNow"
             onClick={this.onInvite}
             className={classes.link}
           />

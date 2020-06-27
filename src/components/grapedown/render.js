@@ -14,14 +14,14 @@ import {
 import { nonStandardProps } from './utils'
 
 const messages = defineMessages({
-  imageWithDescr: {
-    id: 'imageWithDescr',
+  imageWithDescription: {
+    id: 'imageWithDescription',
     defaultMessage: 'Image: [{description}]',
     description:
       '**Used when rendered inline image from markdown with description.**',
   },
-  imageWithoutDescr: {
-    id: 'imageWithoutDescr',
+  imageWithoutDescription: {
+    id: 'imageWithoutDescription',
     defaultMessage: 'Image: [No Description]',
     description:
       '**Used when rendered inline image from markdown without description.**',
@@ -75,10 +75,10 @@ class Renderer {
 
   renderInlineImage = (token, attrs, children) => {
     const { formatMessage } = this.props.intl
-    let message = messages.imageWithoutDescr
+    let message = messages.imageWithoutDescription
     let values
     if (children.length) {
-      message = messages.imageWithDescr
+      message = messages.imageWithDescription
       values = { description: children[0] }
     }
     return renderInlineImage(attrs.src, formatMessage(message, values))

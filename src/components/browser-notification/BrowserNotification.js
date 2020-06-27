@@ -14,7 +14,7 @@ import { dispatchers } from '../../constants/notification'
 const messages = defineMessages({
   pm: {
     id: 'privateMessageHint',
-    defaultMessage: '(Private message)',
+    defaultMessage: '(Private Conversation)',
     description: 'Browser notification private message hint.',
   },
   groupInviteTitle: {
@@ -29,7 +29,7 @@ const messages = defineMessages({
   },
   grapeCallPmInvitationContent: {
     id: 'grapeCallPmInvitationContent',
-    defaultMessage: 'invites you to a Grape call …',
+    defaultMessage: 'invites you to a Grape Call…',
     description: 'Browser notification for incoming pm Grape Call.',
   },
   grapeCallPmMissedContent: {

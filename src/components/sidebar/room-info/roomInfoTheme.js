@@ -15,7 +15,7 @@ export const styles = () => ({
     height: '100%',
     color: grayBlueDark,
   },
-  roomName: {
+  groupName: {
     extend: bigger,
     width: '100%',
     color: grayDark,

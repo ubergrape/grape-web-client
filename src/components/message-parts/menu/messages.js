@@ -46,10 +46,7 @@ export const remove = (
 )
 
 export const removeLinkAttachment = (
-  <FormattedMessage
-    id="deleteLinkAttachment"
-    defaultMessage="Delete attachment"
-  />
+  <FormattedMessage id="deleteAttachment" defaultMessage="Delete attachment" />
 )
 
 export const quote = (
