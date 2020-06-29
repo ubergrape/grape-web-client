@@ -1,1 +1,1 @@
-export { default as Username } from './UserName'
+export { default as UserName } from './UserName'
