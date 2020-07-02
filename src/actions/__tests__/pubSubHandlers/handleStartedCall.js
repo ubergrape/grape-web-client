@@ -19,7 +19,7 @@ const onError = (done, err) => {
 }
 
 describe('handleStartedCall action', () => {
-  it('handleStartedCall should disaptch ADD_CALL action', done => {
+  it('handleStartedCall should dispatch ADD_CALL action', done => {
     expect(handleStartedCall(psb13)).toDispatchActionsWithState(
       {
         org: {
@@ -36,7 +36,7 @@ describe('handleStartedCall action', () => {
     )
   })
 
-  it('handleStartedCall should disaptch HANDLE_JOINED_CALL and ADD_CALL actions', done => {
+  it('handleStartedCall should dispatch HANDLE_JOINED_CALL and ADD_CALL actions', done => {
     expect(handleStartedCall(psb14)).toDispatchActionsWithState(
       {
         org: {
