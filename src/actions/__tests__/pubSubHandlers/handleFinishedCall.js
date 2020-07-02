@@ -19,7 +19,7 @@ const onError = (done, err) => {
 }
 
 describe('handleFinishedCall action', () => {
-  it('handleFinishedCall should disaptch REMOVE_CALL action', done => {
+  it('handleFinishedCall should dispatch REMOVE_CALL action', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
         org: {
@@ -47,7 +47,7 @@ describe('handleFinishedCall action', () => {
     )
   })
 
-  it('handleFinishedCall should disaptch REMOVE_CALL and CLOSE_CALL_STATUS actions', done => {
+  it('handleFinishedCall should dispatch REMOVE_CALL and CLOSE_CALL_STATUS actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
         org: {

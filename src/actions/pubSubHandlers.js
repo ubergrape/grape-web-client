@@ -319,7 +319,7 @@ export const handleNotification = data => (dispatch, getState) => {
   const org = orgSelector(state)
   const { id } = channelSelector(state)
 
-  if (org.if !== data.organizationId) return
+  if (org.id !== data.organizationId) return
 
   dispatch({
     type: types.HANDLE_NOTIFICATION,
@@ -506,6 +506,7 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 
     const notification = {
       dispatcher: 'incoming',
+      organizationId,
       channel,
       author,
       event,
@@ -535,6 +536,7 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
     const notification = {
       dispatcher: 'missed',
+      organizationId,
       channel,
       author,
       event,
