@@ -7,7 +7,7 @@
 export default {
   "noEmojiFound": "Kein Emoji gefunden.",
   "enterKeywordPlaceholder": "Stichwort eingeben…",
-  "enterMessagePlaceholder": "Enter a message…",
+  "enterMessagePlaceholder": "Nachricht eingeben...",
   "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt.",
   "willNotifyGroup": "— jeden in dieser Gruppe benachrichtigen",
   "wontNotifyGroup": "— Benachrichtigt keine Gruppenmitglieder",
