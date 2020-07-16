@@ -18,7 +18,7 @@
     "jss-isolate": "^5.1.0",
     "jss-props-sort": "^6.0.0",
     "jss-vendor-prefixer": "^8.0.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "material-ui": "1.0.0-beta.22",
     "mdurl": "^1.0.1",
     "normalize-jss": "^3.1.0",
