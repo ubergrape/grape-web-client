@@ -34,7 +34,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
+  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, ADD_CALL, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         channels: [с3],
@@ -48,6 +48,7 @@ describe('handleIncomingCall action', () => {
       [
         { type: types.CLOSE_INCOMING_CALL },
         { type: types.CLOSE_CALL_STATUS },
+        { type: types.ADD_CALL },
         { type: types.HANDLE_INCOMING_CALL },
         { type: types.SHOW_INCOMING_CALL },
         { type: types.HANDLE_NOTIFICATION },
@@ -58,7 +59,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS actions', done => {
+  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, ADD_CALL and HANDLE_INCOMING_CALL actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {
@@ -68,7 +69,12 @@ describe('handleIncomingCall action', () => {
           id: 2918,
         },
       },
-      [{ type: types.CLOSE_INCOMING_CALL }, { type: types.CLOSE_CALL_STATUS }],
+      [
+        { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLOSE_CALL_STATUS },
+        { type: types.ADD_CALL },
+        { type: types.HANDLE_INCOMING_CALL },
+      ],
       err => {
         onError(done, err)
       },
