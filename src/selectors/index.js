@@ -27,6 +27,11 @@ export const channelsSelector = createSelector(
   state => state,
 )
 
+export const callsSelector = createSelector(
+  state => state.calls,
+  state => state,
+)
+
 const channelsToMentionSelector = createSelector(
   state => state.footer.channelsToMention,
   state => state,
@@ -162,7 +167,7 @@ const browserNotificationSelector = createSelector(
   state => state,
 )
 
-export const incomingCallSelector = createSelector(
+const incomingCallSelector = createSelector(
   state => state.incomingCall,
   state => state,
 )
@@ -225,6 +230,16 @@ export const activePmsSelector = createSelector(pmsSelector, pms =>
 export const channelSelector = createSelector(
   channelsSelector,
   channels => find(channels, 'current') || {},
+)
+
+export const callSelector = createSelector(
+  [callsSelector, channelSelector],
+  (calls, channel) => find(calls, call => call.channel === channel.id) || {},
+)
+
+export const incomingCallComponentSelector = createSelector(
+  [incomingCallSelector, callSelector],
+  (incomingCall, call) => ({ ...incomingCall, call }),
 )
 
 export const currentPmsSelector = createSelector(
@@ -561,6 +576,7 @@ export const headerSelector = createSelector(
     joinedChannelsSelector,
     confSelector,
     userSelector,
+    callSelector,
   ],
   (
     { permissions },
@@ -572,6 +588,7 @@ export const headerSelector = createSelector(
     isMemberOfAnyRooms,
     { organization: { colors } },
     user,
+    call,
   ) => ({
     favorite,
     channel,
@@ -585,6 +602,7 @@ export const headerSelector = createSelector(
     isMemberOfAnyRooms,
     colors,
     user,
+    call,
   }),
 )
 
@@ -703,12 +721,14 @@ export const browserNotificationComponentSelector = createSelector(
     channelSelector,
     confSelector,
     incomingCallSelector,
+    callSelector,
   ],
-  (browserNotification, channel, conf, incomingCall) => ({
+  (browserNotification, channel, conf, incomingCall, call) => ({
     ...browserNotification,
     conf,
     channel,
     incomingCall,
+    call,
   }),
 )
 
@@ -729,9 +749,10 @@ export const videoConferenceWarningComponentSelector = createSelector(
 )
 
 export const callStatusComponentSelector = createSelector(
-  [callStatusSelector, userSelector],
-  (callStatus, user) => ({
+  [callStatusSelector, callSelector, userSelector],
+  (callStatus, call, user) => ({
     callStatus,
+    call,
     user,
   }),
 )

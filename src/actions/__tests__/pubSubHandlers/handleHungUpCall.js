@@ -26,6 +26,11 @@ describe('handleHungUpCall action', () => {
         org: {
           id: 2,
         },
+        calls: [
+          {
+            id: '05990999027840459020f0a05ef5040b',
+          },
+        ],
         incomingCall: {
           show: false,
           data: ic2,
@@ -44,6 +49,11 @@ describe('handleHungUpCall action', () => {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
+          },
+        ],
         user: {
           id: 13761,
         },
@@ -65,6 +75,11 @@ describe('handleHungUpCall action', () => {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: '05990999027840459020f0a05ef5040a',
+          },
+        ],
         user: {
           id: 13761,
         },
@@ -91,6 +106,11 @@ describe('handleHungUpCall action', () => {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: '05990999027840459020f0a05ef5040a',
+          },
+        ],
         user: {
           id: 13761,
         },

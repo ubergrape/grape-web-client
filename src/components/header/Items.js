@@ -98,6 +98,7 @@ function Items(props) {
     intl,
     channel,
     user,
+    call,
     colors,
     showVideoConferenceWarning,
     showToastNotification,
@@ -129,6 +130,7 @@ function Items(props) {
         <li className={classes.videoConference}>
           <VideoConferenceButton
             channel={channel}
+            call={call}
             user={user}
             colors={colors}
             intl={intl}
@@ -186,6 +188,7 @@ Items.propTypes = {
   classes: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  call: PropTypes.object.isRequired,
   partner: PropTypes.object.isRequired,
   colors: PropTypes.object,
   mentions: PropTypes.number,

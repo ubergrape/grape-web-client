@@ -4,11 +4,11 @@ import { userStatusMap } from '../../../constants/app'
 import isChromeOrFirefox from '../../../utils/is-chrome-or-firefox'
 import messages from './messages'
 
-export default ({ channel, user }) => {
+export default ({ channel, call, user }) => {
   if (userStatusMap[user.status] === 'inCall') {
     if (channel.type === 'room') {
       // Current user participating in another call
-      if (isEmpty(channel.calls)) {
+      if (isEmpty(call)) {
         return {
           icon: 'camera',
           type: 'button',
@@ -43,7 +43,7 @@ export default ({ channel, user }) => {
     }
   }
 
-  if (!isEmpty(channel.calls)) {
+  if (!isEmpty(call)) {
     // Join ongoing call
     if (isChromeOrFirefox) {
       return {

@@ -27,6 +27,11 @@ describe('handleMissedCall action', () => {
         org: {
           id: 2,
         },
+        calls: [
+          {
+            id: '70a9bdeef8904880920ba7b71d3376ca',
+          },
+        ],
         incomingCall: {
           show: false,
           data: ic4,
@@ -45,6 +50,11 @@ describe('handleMissedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: '33e7d18169d442868a72856871396e47',
+          },
+        ],
         incomingCall: {
           show: false,
           data: ic4,
@@ -63,6 +73,11 @@ describe('handleMissedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: '70a9bdeef8904880920ba7b71d3376cb',
+          },
+        ],
         channels: [c2],
         user: {
           id: 13788,

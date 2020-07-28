@@ -16,6 +16,7 @@ class VideoConferenceButton extends PureComponent {
     classes: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    call: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     showVideoConferenceWarning: PropTypes.func.isRequired,
     showToastNotification: PropTypes.func.isRequired,
@@ -49,11 +50,11 @@ class VideoConferenceButton extends PureComponent {
   }
 
   render() {
-    const { channel, classes, user } = this.props
+    const { channel, call, classes, user } = this.props
 
     if (isEmpty(channel)) return null
 
-    const buttonProps = getButtonProps({ user, channel })
+    const buttonProps = getButtonProps({ user, channel, call })
 
     if (buttonProps.type === 'button') {
       return (

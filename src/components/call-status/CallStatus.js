@@ -20,6 +20,7 @@ class CallStatus extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     callStatus: PropTypes.object.isRequired,
+    call: PropTypes.object.isRequired,
     updateCallStatusTimer: PropTypes.func.isRequired,
     closeCallStatus: PropTypes.func.isRequired,
   }
@@ -48,11 +49,11 @@ class CallStatus extends PureComponent {
   onCancel = () => {
     const {
       closeCallStatus,
+      call: { id: callId },
       callStatus: { data },
     } = this.props
     const {
       channel: { id: channelId },
-      call: { id: callId },
     } = data
 
     closeCallStatus({ channelId, callId })

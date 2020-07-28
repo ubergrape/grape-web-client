@@ -96,10 +96,11 @@ const getCallCallbacks = ({ dispatcher }, props) => {
     endSound,
     channel,
     browserNotification,
+    call,
     incomingCall,
   } = props
   const {
-    data: { grapecallUrl, call },
+    data: { grapecallUrl },
   } = incomingCall
 
   if (dispatcher === 'incoming') {
@@ -238,9 +239,12 @@ class BrowserNotification extends PureComponent {
       content: PropTypes.string,
       event: PropTypes.string.isRequired,
     }),
+    channel: PropTypes.object.isRequired,
+    notification: PropTypes.object,
   }
 
   static defaultProps = {
+    notification: undefined,
     browserNotification: undefined,
   }
 
