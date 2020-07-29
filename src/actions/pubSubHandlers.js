@@ -598,16 +598,12 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 export const handleJoinedCall = payload => (dispatch, getState) => {
   const { author, call, channel, organizationId } = payload
   const state = getState()
-  const {
-    data: {
-      call: { id: callId },
-    },
-  } = incomingCallSelector(state)
+  const { data } = incomingCallSelector(state)
   const org = orgSelector(state)
   const user = userSelector(state)
 
   if (
-    (channel.type === 'pm' && callId !== call.id) ||
+    (channel.type === 'pm' && data.call.id !== call.id) ||
     org.id !== organizationId
   )
     return
