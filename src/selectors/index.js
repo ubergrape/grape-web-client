@@ -167,7 +167,7 @@ const browserNotificationSelector = createSelector(
   state => state,
 )
 
-const incomingCallSelector = createSelector(
+export const incomingCallSelector = createSelector(
   state => state.incomingCall,
   state => state,
 )
@@ -233,13 +233,8 @@ export const channelSelector = createSelector(
 )
 
 export const callSelector = createSelector(
-  [callsSelector, channelSelector],
-  (calls, channel) => find(calls, call => call.channel === channel.id) || {},
-)
-
-export const incomingCallComponentSelector = createSelector(
-  [incomingCallSelector, callSelector],
-  (incomingCall, call) => ({ ...incomingCall, call }),
+  callsSelector,
+  calls => calls[0] || {},
 )
 
 export const currentPmsSelector = createSelector(

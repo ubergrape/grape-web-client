@@ -27,7 +27,6 @@ class IncomingCall extends PureComponent {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     data: PropTypes.object.isRequired,
-    call: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
     rejectIncomingCall: PropTypes.func.isRequired,
     closeIncomingCall: PropTypes.func.isRequired,
@@ -38,19 +37,20 @@ class IncomingCall extends PureComponent {
   onReject = () => {
     const {
       rejectIncomingCall,
-      call: { id: callId },
       data: {
+        call: { id: callId },
         channel: { id: channelId },
       },
     } = this.props
+
     rejectIncomingCall({ channelId, callId })
   }
 
   replyWithMessage = () => {
     const {
       replyWithMessage,
-      call: { id: callId },
       data: {
+        call: { id: callId },
         channel: { id: channelId },
       },
     } = this.props
@@ -67,11 +67,10 @@ class IncomingCall extends PureComponent {
     const {
       show,
       classes,
-      call,
       data,
       intl: { formatMessage },
     } = this.props
-    const { channel, message, author, grapecallUrl } = data
+    const { channel, message, author, grapecallUrl, call } = data
 
     if (!show || isEmpty(data)) return null
 

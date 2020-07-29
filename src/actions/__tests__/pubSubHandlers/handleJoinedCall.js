@@ -67,7 +67,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch ADD_CALL and HANDLE_JOINED_CALL actions for user who is creating 1-1 call', done => {
+  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL action for user who is creating 1-1 call', done => {
     expect(handleJoinedCall(psb6)).toDispatchActionsWithState(
       {
         org: {
@@ -86,7 +86,7 @@ describe('handleJoinedCall action', () => {
           data: ic3,
         },
       },
-      [{ type: types.ADD_CALL }, { type: types.HANDLE_JOINED_CALL }],
+      [{ type: types.HANDLE_JOINED_CALL }],
       err => {
         onError(done, err)
       },

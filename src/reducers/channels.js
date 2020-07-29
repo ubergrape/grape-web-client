@@ -89,6 +89,46 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
+    case types.ADD_CALL_TO_CHANNEL: {
+      const { channelId, call } = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id: channelId })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        calls: [
+          {
+            ...call,
+          },
+        ],
+      })
+
+      return newState
+    }
+
+    case types.REMOVE_CALL_FROM_CHANNEL: {
+      const id = action.payload
+
+      const newState = [...state]
+      const index = findIndex(newState, { id })
+
+      if (index === -1) return state
+
+      const channel = newState[index]
+
+      newState.splice(index, 1, {
+        ...channel,
+        calls: [],
+      })
+
+      return newState
+    }
+
     case types.ADD_CHANNEL: {
       const channel = action.payload
       if (find(state, { id: channel.id })) {
