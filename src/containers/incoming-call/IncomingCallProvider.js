@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
-import { incomingCallComponentSelector as selector } from '../../selectors'
+import { incomingCallSelector as selector } from '../../selectors'
 import { IncomingCall } from '../../components/incoming-call'
 
 const actionNames = [

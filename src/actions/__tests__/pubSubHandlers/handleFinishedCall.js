@@ -19,7 +19,7 @@ const onError = (done, err) => {
 }
 
 describe('handleFinishedCall action', () => {
-  it('handleFinishedCall should dispatch REMOVE_CALL action', done => {
+  it('handleFinishedCall should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
         org: {
@@ -41,14 +41,14 @@ describe('handleFinishedCall action', () => {
           },
         ],
       },
-      [{ type: types.REMOVE_CALL }],
+      [{ type: types.REMOVE_CALL }, { type: types.REMOVE_CALL_FROM_CHANNEL }],
       err => {
         onError(done, err)
       },
     )
   })
 
-  it('handleFinishedCall should dispatch CLOSE_CALL_STATUS and REMOVE_CALL actions', done => {
+  it('handleFinishedCall should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
         org: {
@@ -70,7 +70,11 @@ describe('handleFinishedCall action', () => {
           },
         ],
       },
-      [{ type: types.CLOSE_CALL_STATUS }, { type: types.REMOVE_CALL }],
+      [
+        { type: types.CLOSE_CALL_STATUS },
+        { type: types.REMOVE_CALL },
+        { type: types.REMOVE_CALL_FROM_CHANNEL },
+      ],
       err => {
         onError(done, err)
       },

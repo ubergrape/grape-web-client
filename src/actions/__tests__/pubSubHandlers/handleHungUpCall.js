@@ -69,7 +69,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for PM calls', done => {
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for 1-1 call', done => {
     expect(handleHungUpCall(psb4)).toDispatchActionsWithState(
       {
         org: {
@@ -93,6 +93,7 @@ describe('handleHungUpCall action', () => {
         { type: types.CLOSE_INCOMING_CALL },
         { type: types.CLEAR_INCOMING_CALL_DATA },
         { type: types.CLOSE_CALL_STATUS },
+        { type: types.REMOVE_CALL },
       ],
       err => {
         onError(done, err)
@@ -124,6 +125,7 @@ describe('handleHungUpCall action', () => {
         { type: types.CLOSE_INCOMING_CALL },
         { type: types.CLEAR_INCOMING_CALL_DATA },
         { type: types.CLOSE_CALL_STATUS },
+        { type: types.REMOVE_CALL },
       ],
       err => {
         onError(done, err)
