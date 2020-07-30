@@ -86,11 +86,22 @@ export default ({ channel, call }) => {
   }
 
   // User participating in call in current channel, but can join unlimited times from same/another devices
+  if (isChromeOrFirefox) {
+    return {
+      icon: 'cameraActive',
+      type: 'link',
+      className: 'cameraActive',
+      message: messages.joinConference,
+      link: channel.grapecallUrl,
+    }
+  }
+
+  // Show warning for unsupported browsers
   return {
     icon: 'cameraActive',
-    type: 'link',
+    type: 'button',
     className: 'cameraActive',
     message: messages.joinConference,
-    link: channel.grapecallUrl,
+    onClick: 'showVideoConferenceWarning',
   }
 }
