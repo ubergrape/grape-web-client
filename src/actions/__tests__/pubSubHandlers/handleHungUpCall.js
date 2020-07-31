@@ -7,7 +7,7 @@ import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
 
 import { handleHungUpCall } from '../..'
-import { psb19, psb3, psb4, psb10 } from '../data/pubSubHandlers'
+import { psb19, psb3, psb4, psb10, psb22, psb23 } from '../data/pubSubHandlers'
 import { ic2 } from '../data/incomingCall'
 
 beforeEach(registerAssertions)
@@ -69,7 +69,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for 1-1 call', done => {
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for 1-1 call', done => {
     expect(handleHungUpCall(psb4)).toDispatchActionsWithState(
       {
         org: {
@@ -101,7 +101,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for group calls', done => {
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for group calls', done => {
     expect(handleHungUpCall(psb10)).toDispatchActionsWithState(
       {
         org: {
@@ -126,6 +126,68 @@ describe('handleHungUpCall action', () => {
         { type: types.CLEAR_INCOMING_CALL_DATA },
         { type: types.CLOSE_CALL_STATUS },
         { type: types.REMOVE_CALL },
+      ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for 1-1 call', done => {
+    expect(handleHungUpCall(psb22)).toDispatchActionsWithState(
+      {
+        org: {
+          id: 1,
+        },
+        calls: [
+          {
+            id: '05990999027840459020f0a05ef5040a',
+          },
+        ],
+        user: {
+          id: 13761,
+        },
+        incomingCall: {
+          show: false,
+          data: ic2,
+        },
+      },
+      [
+        { type: types.END_SOUND },
+        { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
+        { type: types.CLOSE_CALL_STATUS },
+      ],
+      err => {
+        onError(done, err)
+      },
+    )
+  })
+
+  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for group calls', done => {
+    expect(handleHungUpCall(psb23)).toDispatchActionsWithState(
+      {
+        org: {
+          id: 1,
+        },
+        calls: [
+          {
+            id: '05990999027840459020f0a05ef5040a',
+          },
+        ],
+        user: {
+          id: 13761,
+        },
+        incomingCall: {
+          show: false,
+          data: {},
+        },
+      },
+      [
+        { type: types.END_SOUND },
+        { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
+        { type: types.CLOSE_CALL_STATUS },
       ],
       err => {
         onError(done, err)

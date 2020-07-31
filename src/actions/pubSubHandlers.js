@@ -568,7 +568,7 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
-  const { author, channel, call, organizationId } = payload
+  const { author, channel, call, organizationId, activeSessions } = payload
   const state = getState()
   const currentCall = callSelector(state)
   const user = userSelector(state)
@@ -588,10 +588,14 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
-    dispatch({
-      type: types.REMOVE_CALL,
-      payload: call.id,
-    })
+
+    // If user joined multiple times to same call, call shoudn't be removed from calls reducer
+    if (!activeSessions.length) {
+      dispatch({
+        type: types.REMOVE_CALL,
+        payload: call.id,
+      })
+    }
   }
 }
 
