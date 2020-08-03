@@ -547,10 +547,10 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 
   const { author, call, time, channel, event, organizationId } = payload
   const state = getState()
-  const currentCall = callSelector(state)
+  const { data } = incomingCallSelector(state)
   const org = orgSelector(state)
 
-  if (currentCall.id !== call.id || org.id !== organizationId) return
+  if (data.call.id !== call.id || org.id !== organizationId) return
 
   const currUser = userSelector(getState())
 
@@ -625,8 +625,9 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   if (user.id === author.id) {
     dispatch(endSound())
+    dispatch(closeIncomingCall())
     dispatch({
-      type: types.CLOSE_INCOMING_CALL,
+      type: types.CLEAR_INCOMING_CALL_DATA,
     })
     dispatch({
       type: types.ADD_CALL,

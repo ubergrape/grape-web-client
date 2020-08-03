@@ -27,11 +27,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 2,
         },
-        calls: [
-          {
-            id: '05990999027840459020f0a05ef5040a',
-          },
-        ],
+        calls: [],
         incomingCall: {
           show: false,
           data: ic3,
@@ -50,11 +46,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
-        calls: [
-          {
-            id: '33e7d18169d442868a72856871396e47',
-          },
-        ],
+        calls: [],
         incomingCall: {
           show: false,
           data: ic3,
@@ -73,11 +65,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
-        calls: [
-          {
-            id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
-          },
-        ],
+        calls: [],
         user: {
           id: 13762,
         },
@@ -99,11 +87,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
-        calls: [
-          {
-            id: 'a4693a20a2ce4f1fb60d26b0ad0306da',
-          },
-        ],
+        calls: [],
         channels: [c1],
         user: {
           id: 13761,
@@ -116,6 +100,7 @@ describe('handleJoinedCall action', () => {
       [
         { type: types.END_SOUND },
         { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
         { type: types.ADD_CALL },
         { type: types.HANDLE_JOINED_CALL },
       ],
@@ -131,11 +116,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
-        calls: [
-          {
-            id: '05990999027840459020f0a05ef5040a',
-          },
-        ],
+        calls: [],
         user: {
           id: 13761,
         },
@@ -147,6 +128,7 @@ describe('handleJoinedCall action', () => {
       [
         { type: types.END_SOUND },
         { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
         { type: types.ADD_CALL },
         { type: types.HANDLE_JOINED_CALL },
       ],
@@ -162,11 +144,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
-        calls: [
-          {
-            id: '05990999027840459020f0a05ef5040a',
-          },
-        ],
+        calls: [],
         user: {
           id: 13761,
         },
