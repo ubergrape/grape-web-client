@@ -619,10 +619,7 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
     })
     dispatch({
       type: types.ADD_CALL,
-      payload: {
-        ...call,
-        channel: channel.id,
-      },
+      payload: call,
     })
   }
 
@@ -705,13 +702,9 @@ export const handleStartedCall = payload => (dispatch, getState) => {
       type: types.HANDLE_STARTED_CALL,
       payload,
     })
-
     dispatch({
       type: types.ADD_CALL,
-      payload: {
-        ...call,
-        channel: channelId,
-      },
+      payload: call,
     })
   }
 
