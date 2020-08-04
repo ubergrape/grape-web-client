@@ -716,14 +716,12 @@ export const browserNotificationComponentSelector = createSelector(
     channelSelector,
     confSelector,
     incomingCallSelector,
-    callSelector,
   ],
-  (browserNotification, channel, conf, incomingCall, call) => ({
+  (browserNotification, channel, conf, incomingCall) => ({
     ...browserNotification,
     conf,
     channel,
     incomingCall,
-    call,
   }),
 )
 
