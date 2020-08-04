@@ -96,11 +96,10 @@ const getCallCallbacks = ({ dispatcher }, props) => {
     endSound,
     channel,
     browserNotification,
-    call,
     incomingCall,
   } = props
   const {
-    data: { grapecallUrl },
+    data: { grapecallUrl, call },
   } = incomingCall
 
   if (dispatcher === 'incoming') {
