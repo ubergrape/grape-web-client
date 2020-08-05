@@ -21,15 +21,14 @@ const getFontFace = ({
 
 @injectSheet({
   '@font-face': [
-    getFontFace({ family: 'nota-sans' }),
-    getFontFace({ family: 'proxima-nova' }),
+    getFontFace({ family: 'noto-sans' }),
     getFontFace({
-      family: 'proxima-nova',
+      family: 'noto-sans',
       style: 'bold',
       weight: 700,
     }),
     getFontFace({
-      family: 'proxima-nova',
+      family: 'noto-sans',
       style: 'italic',
     }),
   ],

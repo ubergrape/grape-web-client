@@ -4191,6 +4191,37 @@ grape-web@^1.11.2:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
+grape-web@^1.11.2-18838.0.0:
+  version "1.11.2-18838.0.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.11.2-18838.0.0.tgz#9a72d354faace2172efa1320cda645194f1dc723"
+  integrity sha512-aFfOLUYKCsPFtZjG2XIPS2GUmZ10IAFbZEtltRqFESdF2ZvejS396svQwuUTLjjXFIvwh+OhtuZRLZNYzDKaMw==
+  dependencies:
+    classnames "^2.2.5"
+    color "^0.10.1"
+    css-functions "^1.0.5"
+    css-vendor "^1.1.0"
+    grape-theme "3.x"
+    jss "^9.8.7"
+    jss-default-unit "^8.0.2"
+    jss-expand "^5.3.0"
+    jss-extend "^6.2.0"
+    jss-increase-specificity "^0.3.5"
+    jss-isolate "^5.1.0"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^8.0.1"
+    lodash "^4.17.13"
+    material-ui "1.0.0-beta.22"
+    mdurl "^1.0.1"
+    normalize-jss "^3.1.0"
+    prop-types "^15.5.10"
+    react "^16.7.0"
+    react-dom "^16.7.0"
+    react-jss "^8.3.3"
+    react-router-dom "^4.2.2"
+    react-router-redux "^5.0.0-alpha.9"
+    reset-jss "^0.1.0"
+    styled-jss "^2.2.3"
+
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
