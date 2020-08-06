@@ -51,14 +51,15 @@ export const setChannels = channels => dispatch => {
   })
 }
 
-export function setOrg(org) {
-  return {
-    type: types.SET_ORG,
-    payload: {
-      org,
-    },
-  }
-}
+export const setCalls = payload => ({
+  type: types.SET_CALLS,
+  payload,
+})
+
+export const setOrg = payload => ({
+  type: types.SET_ORG,
+  payload,
+})
 
 export function trackAnalytics(name, options) {
   return dispatch => {
@@ -171,12 +172,14 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     api.getPinnedOverview(conf.organization.id),
     api.getUserProfile(conf.organization.id),
     api.loadLabelsConfig(conf.organization.id),
+    api.getCalls(conf.organization.id),
     api.joinOrg(conf.organization.id, clientId),
     api.setProfile({ timezone: moment.tz.guess() }),
   ])
-    .then(([org, channels, pinnedChannels, profile, labelsConfig]) => {
+    .then(([org, channels, pinnedChannels, profile, labelsConfig, calls]) => {
       const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
+      dispatch(setCalls(calls))
       dispatch(setChannels(allChannels))
       dispatch(
         setOrg({

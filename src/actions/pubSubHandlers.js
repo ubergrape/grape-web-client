@@ -1,5 +1,6 @@
 import { pick, find, isEmpty, map, intersection } from 'lodash'
 
+import conf from '../conf'
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import { typingThrottlingDelay } from '../constants/delays'
@@ -13,6 +14,7 @@ import {
   sidebarSelector,
   joinedChannelsSelector,
   incomingCallSelector,
+  callSelector,
 } from '../selectors'
 import { normalizeMessage, normalizeChannelData, pinToFavorite } from './utils'
 import {
@@ -315,6 +317,8 @@ export const handleLeftChannel = ({
 }
 
 export const handleNotification = data => (dispatch, getState) => {
+  if (conf.embed) return
+
   const state = getState()
   const org = orgSelector(state)
   const { id } = channelSelector(state)
@@ -483,7 +487,18 @@ export const handleMessageLabeled = message => (dispatch, getState) => {
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
-  const { time, channel, author, event, organizationId } = payload
+  if (conf.embed) return
+
+  const {
+    time,
+    call,
+    channel,
+    message,
+    author,
+    event,
+    grapecallUrl,
+    organizationId,
+  } = payload
   const currUser = userSelector(getState())
   const org = orgSelector(getState())
 
@@ -496,7 +511,13 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 
   dispatch({
     type: types.HANDLE_INCOMING_CALL,
-    payload,
+    payload: {
+      call,
+      channel,
+      message,
+      author,
+      grapecallUrl,
+    },
   })
 
   if (currUser.id !== author.id) {
@@ -518,6 +539,8 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { author, call, time, channel, event, organizationId } = payload
   const state = getState()
   const { data } = incomingCallSelector(state)
@@ -548,16 +571,18 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
-  const { author, channel, call, organizationId } = payload
+  if (conf.embed) return
+
+  const { author, channel, call, organizationId, activeSessions } = payload
   const state = getState()
-  const { data } = incomingCallSelector(state)
+  const currentCall = callSelector(state)
   const user = userSelector(state)
   const org = orgSelector(state)
 
   if (org.id !== organizationId) return
 
   if (
-    (channel.type === 'pm' && data.call.id === call.id) ||
+    (channel.type === 'pm' && currentCall.id === call.id) ||
     (channel.type === 'room' && user.id === author.id)
   ) {
     dispatch(endSound())
@@ -565,13 +590,24 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
-    dispatch({
-      type: types.CLOSE_CALL_STATUS,
-    })
+
+    // If user joined multiple times to same call, call shoudn't be removed from calls reducer.
+    // Same goes to call status popup, it should stay on place till last device from same user will leave the call.
+    if (!activeSessions.length) {
+      dispatch({
+        type: types.CLOSE_CALL_STATUS,
+      })
+      dispatch({
+        type: types.REMOVE_CALL,
+        payload: call.id,
+      })
+    }
   }
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { author, call, channel, organizationId } = payload
   const state = getState()
   const { data } = incomingCallSelector(state)
@@ -586,8 +622,13 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   if (user.id === author.id) {
     dispatch(endSound())
+    dispatch(closeIncomingCall())
     dispatch({
-      type: types.CLOSE_INCOMING_CALL,
+      type: types.CLEAR_INCOMING_CALL_DATA,
+    })
+    dispatch({
+      type: types.ADD_CALL,
+      payload: call,
     })
   }
 
@@ -595,7 +636,11 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
     if (user.id === author.id) {
       dispatch({
         type: types.HANDLE_JOINED_CALL,
-        payload,
+        payload: {
+          call,
+          channel,
+          author,
+        },
       })
     }
     return
@@ -604,7 +649,11 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   if (user.id !== author.id) {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
-      payload,
+      payload: {
+        call,
+        channel,
+        author,
+      },
     })
     return
   }
@@ -616,7 +665,8 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
     dispatch({
       type: types.HANDLE_JOINED_CALL,
       payload: {
-        ...payload,
+        call,
+        channel,
         author: {
           avatar: partner.avatar,
           displayName: partner.displayName,
@@ -628,14 +678,20 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { call, organizationId } = payload
   const state = getState()
-  const { data } = incomingCallSelector(state)
+  const {
+    data: {
+      call: { id: callId },
+    },
+  } = incomingCallSelector(state)
   const org = orgSelector(state)
 
   if (org.id !== organizationId) return
 
-  if (data.call.id === call.id) {
+  if (callId === call.id) {
     dispatch(endSound())
     dispatch(closeIncomingCall())
     dispatch({
@@ -645,37 +701,42 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 }
 
 export const handleStartedCall = payload => (dispatch, getState) => {
-  const { author, channel, call } = payload
+  if (conf.embed) return
+
+  const {
+    author,
+    channel: { id: channelId },
+    call,
+  } = payload
   const user = userSelector(getState())
 
   if (user.id === author.id) {
     dispatch({
-      type: types.HANDLE_JOINED_CALL,
+      type: types.HANDLE_STARTED_CALL,
       payload,
+    })
+    dispatch({
+      type: types.ADD_CALL,
+      payload: call,
     })
   }
 
   dispatch({
-    type: types.ADD_CALL,
+    type: types.ADD_CALL_TO_CHANNEL,
     payload: {
-      channel,
       call,
+      channelId,
     },
   })
 }
 
 export const handleFinishedCall = payload => (dispatch, getState) => {
-  const {
-    call,
-    channel: { id },
-  } = payload
-  const channels = channelsSelector(getState())
+  if (conf.embed) return
 
-  const channel = find(channels, { id })
+  const { channel, call } = payload
+  const currentCall = callSelector(getState())
 
-  if (!channel) return
-
-  if (channel.calls[0].id === call.id) {
+  if (currentCall.id === call.id) {
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
@@ -683,6 +744,11 @@ export const handleFinishedCall = payload => (dispatch, getState) => {
 
   dispatch({
     type: types.REMOVE_CALL,
-    payload: id,
+    payload: call.id,
+  })
+
+  dispatch({
+    type: types.REMOVE_CALL_FROM_CHANNEL,
+    payload: channel.id,
   })
 }

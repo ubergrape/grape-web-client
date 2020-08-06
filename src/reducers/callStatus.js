@@ -10,6 +10,7 @@ export default (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case types.HANDLE_JOINED_CALL:
+    case types.HANDLE_STARTED_CALL:
       return {
         ...state,
         show: true,

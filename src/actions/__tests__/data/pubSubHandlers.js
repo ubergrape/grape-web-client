@@ -58,6 +58,7 @@ export const psb3 = {
     type: 'pm',
   },
   event: 'call.hungup',
+  activeSessions: [],
   message: 'Hung up Call',
   organizationId: 1,
   time: '2019-08-19T20:50:46.732Z',
@@ -80,6 +81,7 @@ export const psb4 = {
     type: 'pm',
   },
   event: 'call.hungup',
+  activeSessions: [],
   message: 'Hung up Call',
   organizationId: 1,
   time: '2019-08-19T20:52:46.732Z',
@@ -214,6 +216,7 @@ export const psb10 = {
     icon: 'phone',
   },
   event: 'call.hungup',
+  activeSessions: [],
   message: 'Hung up Call',
   organizationId: 1,
   time: '2019-08-19T20:52:46.732Z',
@@ -481,6 +484,7 @@ export const psb19 = {
     type: 'pm',
   },
   event: 'call.hungup',
+  activeSessions: [],
   message: 'Hung up Call',
   organizationId: 1,
   time: '2019-08-19T20:50:46.732Z',
@@ -530,5 +534,53 @@ export const psb21 = {
   message: 'Rejected Call',
   organizationId: 1,
   time: '2019-08-19T07:02:07.308Z',
+  title: 'asdf',
+}
+
+export const psb22 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13761,
+  },
+  call: {
+    id: '05990999027840459020f0a05ef5040a',
+    started: '2019-08-19T20:52:43.980385+00:00',
+  },
+  channel: {
+    id: 8991,
+    name: null,
+    type: 'pm',
+  },
+  event: 'call.hungup',
+  activeSessions: ['b5feef1fd88146d1970c9669738379c1'],
+  message: 'Hung up Call',
+  organizationId: 1,
+  time: '2019-08-19T20:52:46.732Z',
+  title: 'asdf',
+}
+
+export const psb23 = {
+  author: {
+    avatar: 'https://staging.chatgrape.com/imgsrc/s/avatar/400x400/',
+    displayName: 'asdf',
+    id: 13761,
+  },
+  call: {
+    id: '05990999027840459020f0a05ef5040a',
+    started: '2019-08-19T20:52:43.980385+00:00',
+  },
+  channel: {
+    id: 6009,
+    name: 'Room',
+    type: 'room',
+    color: '#97A6BD',
+    icon: 'phone',
+  },
+  event: 'call.hungup',
+  activeSessions: ['b5feef1fd88146d1970c9669738379c1'],
+  message: 'Hung up Call',
+  organizationId: 1,
+  time: '2019-08-19T20:52:46.732Z',
   title: 'asdf',
 }

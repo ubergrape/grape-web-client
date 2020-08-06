@@ -22,6 +22,11 @@ export const channelsSelector = createSelector(
   state => state,
 )
 
+export const callsSelector = createSelector(
+  state => state.calls,
+  state => state,
+)
+
 const channelsToMentionSelector = createSelector(
   state => state.footer.channelsToMention,
   state => state,
@@ -215,6 +220,11 @@ export const activePmsSelector = createSelector(pmsSelector, pms =>
 export const channelSelector = createSelector(
   channelsSelector,
   channels => find(channels, 'current') || {},
+)
+
+export const callSelector = createSelector(
+  callsSelector,
+  calls => calls[0] || {},
 )
 
 export const currentPmsSelector = createSelector(
@@ -572,9 +582,10 @@ export const headerSelector = createSelector(
     joinedChannelsSelector,
     confSelector,
     userSelector,
+    callSelector,
   ],
   (
-    { permissions, features },
+    { permissions },
     favorite,
     channel,
     { show: sidebar },
@@ -583,6 +594,7 @@ export const headerSelector = createSelector(
     isMemberOfAnyRooms,
     { organization: { colors } },
     user,
+    call,
   ) => ({
     favorite,
     channel,
@@ -595,8 +607,8 @@ export const headerSelector = createSelector(
     },
     isMemberOfAnyRooms,
     colors,
-    features,
     user,
+    call,
   }),
 )
 
@@ -741,9 +753,10 @@ export const videoConferenceWarningComponentSelector = createSelector(
 )
 
 export const callStatusComponentSelector = createSelector(
-  [callStatusSelector, userSelector],
-  (callStatus, user) => ({
+  [callStatusSelector, callSelector, userSelector],
+  (callStatus, call, user) => ({
     callStatus,
+    call,
     user,
   }),
 )
