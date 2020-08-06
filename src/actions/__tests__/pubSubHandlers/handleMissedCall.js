@@ -27,6 +27,7 @@ describe('handleMissedCall action', () => {
         org: {
           id: 2,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic4,
@@ -45,6 +46,7 @@ describe('handleMissedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic4,
@@ -63,6 +65,7 @@ describe('handleMissedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         channels: [c2],
         user: {
           id: 13788,

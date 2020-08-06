@@ -19,12 +19,18 @@ const onError = (done, err) => {
 }
 
 describe('handleFinishedCall action', () => {
-  it('handleFinishedCall should dispatch REMOVE_CALL action', done => {
+  it('handleFinishedCall should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            channel: 6009,
+            id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+          },
+        ],
         channels: [
           {
             id: 1,
@@ -32,27 +38,28 @@ describe('handleFinishedCall action', () => {
           {
             id: 6009,
             current: true,
-            calls: [
-              {
-                id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
-              },
-            ],
           },
         ],
       },
-      [{ type: types.REMOVE_CALL }],
+      [{ type: types.REMOVE_CALL }, { type: types.REMOVE_CALL_FROM_CHANNEL }],
       err => {
         onError(done, err)
       },
     )
   })
 
-  it('handleFinishedCall should dispatch REMOVE_CALL and CLOSE_CALL_STATUS actions', done => {
+  it('handleFinishedCall should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            channel: 6009,
+            id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+          },
+        ],
         channels: [
           {
             id: 1,
@@ -60,27 +67,31 @@ describe('handleFinishedCall action', () => {
           {
             id: 6009,
             current: true,
-            calls: [
-              {
-                id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
-              },
-            ],
           },
         ],
       },
-      [{ type: types.CLOSE_CALL_STATUS }, { type: types.REMOVE_CALL }],
+      [
+        { type: types.CLOSE_CALL_STATUS },
+        { type: types.REMOVE_CALL },
+        { type: types.REMOVE_CALL_FROM_CHANNEL },
+      ],
       err => {
         onError(done, err)
       },
     )
   })
 
-  it('handleFinishedCall should not dispatch any actions if channel for event not in store', done => {
+  it('handleFinishedCall should not dispatch any actions if channel related to event not in store', done => {
     expect(handleFinishedCall(psb17)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [
+          {
+            id: 'f4fcee65-b818-457e-857a-fc59d23362b5',
+          },
+        ],
         channels: [
           {
             id: 1,

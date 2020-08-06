@@ -58,7 +58,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS actions', done => {
+  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS and HANDLE_INCOMING_CALL actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {
@@ -68,7 +68,11 @@ describe('handleIncomingCall action', () => {
           id: 2918,
         },
       },
-      [{ type: types.CLOSE_INCOMING_CALL }, { type: types.CLOSE_CALL_STATUS }],
+      [
+        { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLOSE_CALL_STATUS },
+        { type: types.HANDLE_INCOMING_CALL },
+      ],
       err => {
         onError(done, err)
       },
