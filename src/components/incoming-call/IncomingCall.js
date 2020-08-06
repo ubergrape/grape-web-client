@@ -38,10 +38,11 @@ class IncomingCall extends PureComponent {
     const {
       rejectIncomingCall,
       data: {
-        channel: { id: channelId },
         call: { id: callId },
+        channel: { id: channelId },
       },
     } = this.props
+
     rejectIncomingCall({ channelId, callId })
   }
 
@@ -49,8 +50,8 @@ class IncomingCall extends PureComponent {
     const {
       replyWithMessage,
       data: {
-        channel: { id: channelId },
         call: { id: callId },
+        channel: { id: channelId },
       },
     } = this.props
     replyWithMessage({ channelId, callId })
