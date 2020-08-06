@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import intersection from 'lodash/intersection'
 
+import conf from '../conf'
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import { typingThrottlingDelay } from '../constants/delays'
@@ -320,6 +321,8 @@ export const handleLeftChannel = ({
 }
 
 export const handleNotification = data => (dispatch, getState) => {
+  if (conf.embed) return
+
   const state = getState()
   const org = orgSelector(state)
   const { id } = channelSelector(state)
@@ -488,6 +491,8 @@ export const handleMessageLabeled = message => (dispatch, getState) => {
 }
 
 export const handleIncomingCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const {
     time,
     call,
@@ -538,6 +543,8 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 }
 
 export const handleMissedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { author, call, time, channel, event, organizationId } = payload
   const state = getState()
   const { data } = incomingCallSelector(state)
@@ -568,6 +575,8 @@ export const handleMissedCall = payload => (dispatch, getState) => {
 }
 
 export const handleHungUpCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { author, channel, call, organizationId, activeSessions } = payload
   const state = getState()
   const currentCall = callSelector(state)
@@ -601,6 +610,8 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
 }
 
 export const handleJoinedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { author, call, channel, organizationId } = payload
   const state = getState()
   const { data } = incomingCallSelector(state)
@@ -671,6 +682,8 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 }
 
 export const handleRejectedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { call, organizationId } = payload
   const state = getState()
   const {
@@ -692,6 +705,8 @@ export const handleRejectedCall = payload => (dispatch, getState) => {
 }
 
 export const handleStartedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const {
     author,
     channel: { id: channelId },
@@ -720,6 +735,8 @@ export const handleStartedCall = payload => (dispatch, getState) => {
 }
 
 export const handleFinishedCall = payload => (dispatch, getState) => {
+  if (conf.embed) return
+
   const { channel, call } = payload
   const currentCall = callSelector(getState())
 

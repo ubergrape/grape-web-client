@@ -72,7 +72,6 @@ export default function subscribe(channel) {
     const cData = toCamel(data)
     switch (cData.event) {
       case 'notification.new':
-        if (conf.embed) break
         boundActions.handleNotification(cData)
         break
       case 'message.new':
@@ -127,31 +126,24 @@ export default function subscribe(channel) {
         boundActions.handleFavoriteChange(cData)
         break
       case 'call.incoming':
-        if (conf.embed) break
         boundActions.handleIncomingCall(cData)
         break
-      case 'call.hungup':
-        if (conf.embed) break
-        boundActions.handleHungUpCall(cData)
-        break
       case 'call.missed':
-        if (conf.embed) break
         boundActions.handleMissedCall(cData)
         break
+      case 'call.hungup':
+        boundActions.handleHungUpCall(cData)
+        break
       case 'call.joined':
-        if (conf.embed) break
         boundActions.handleJoinedCall(cData)
         break
       case 'call.rejected':
-        if (conf.embed) break
         boundActions.handleRejectedCall(cData)
         break
       case 'call.started':
-        if (conf.embed) break
         boundActions.handleStartedCall(cData)
         break
       case 'call.finished':
-        if (conf.embed) break
         boundActions.handleFinishedCall(cData)
         break
       default:
