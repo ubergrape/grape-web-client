@@ -594,12 +594,13 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     dispatch({
       type: types.CLEAR_INCOMING_CALL_DATA,
     })
-    dispatch({
-      type: types.CLOSE_CALL_STATUS,
-    })
 
-    // If user joined multiple times to same call, call shoudn't be removed from calls reducer
+    // If user joined multiple times to same call, call shoudn't be removed from calls reducer.
+    // Same goes to call status popup, it should stay on place till last device from same user will leave the call.
     if (!activeSessions.length) {
+      dispatch({
+        type: types.CLOSE_CALL_STATUS,
+      })
       dispatch({
         type: types.REMOVE_CALL,
         payload: call.id,
