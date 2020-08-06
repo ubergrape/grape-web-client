@@ -238,9 +238,12 @@ class BrowserNotification extends PureComponent {
       content: PropTypes.string,
       event: PropTypes.string.isRequired,
     }),
+    channel: PropTypes.object.isRequired,
+    notification: PropTypes.object,
   }
 
   static defaultProps = {
+    notification: undefined,
     browserNotification: undefined,
   }
 

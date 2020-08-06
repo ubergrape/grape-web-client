@@ -27,6 +27,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 2,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic3,
@@ -45,6 +46,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic3,
@@ -57,12 +59,13 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL actions for user who is creating 1-1 call', done => {
+  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL action for user who is creating 1-1 call', done => {
     expect(handleJoinedCall(psb6)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [],
         user: {
           id: 13762,
         },
@@ -78,12 +81,13 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
+  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
     expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [],
         channels: [c1],
         user: {
           id: 13761,
@@ -96,6 +100,8 @@ describe('handleJoinedCall action', () => {
       [
         { type: types.END_SOUND },
         { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
+        { type: types.ADD_CALL },
         { type: types.HANDLE_JOINED_CALL },
       ],
       err => {
@@ -104,12 +110,13 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and HANDLE_JOINED_CALL actions for user who joining group call', done => {
+  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who joining group call', done => {
     expect(handleJoinedCall(psb11)).toDispatchActionsWithState(
       {
         org: {
           id: 1,
         },
+        calls: [],
         user: {
           id: 13761,
         },
@@ -121,6 +128,8 @@ describe('handleJoinedCall action', () => {
       [
         { type: types.END_SOUND },
         { type: types.CLOSE_INCOMING_CALL },
+        { type: types.CLEAR_INCOMING_CALL_DATA },
+        { type: types.ADD_CALL },
         { type: types.HANDLE_JOINED_CALL },
       ],
       err => {
@@ -135,6 +144,7 @@ describe('handleJoinedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         user: {
           id: 13761,
         },

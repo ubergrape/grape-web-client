@@ -26,6 +26,7 @@ describe('handleRejectedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic1,
@@ -44,6 +45,7 @@ describe('handleRejectedCall action', () => {
         org: {
           id: 2,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic1,
@@ -62,6 +64,7 @@ describe('handleRejectedCall action', () => {
         org: {
           id: 1,
         },
+        calls: [],
         incomingCall: {
           show: false,
           data: ic1,

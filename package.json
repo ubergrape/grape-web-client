@@ -136,7 +136,7 @@
     "build:watch": "webpack --progress --colors --watch",
     "build:analize": "cross-env ANALIZE=true NODE_ENV=production yarn build:watch",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "yarn:test --watch",
     "test:coveralls": "jest --coverage --collectCoverageFrom src/**/*.{js} && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "eslint src",
     "lint:staged": "lint-staged",

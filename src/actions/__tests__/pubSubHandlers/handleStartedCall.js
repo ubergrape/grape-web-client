@@ -19,7 +19,7 @@ const onError = (done, err) => {
 }
 
 describe('handleStartedCall action', () => {
-  it('handleStartedCall should dispatch ADD_CALL action', done => {
+  it('handleStartedCall should dispatch ADD_CALL_TO_CHANNEL action', done => {
     expect(handleStartedCall(psb13)).toDispatchActionsWithState(
       {
         org: {
@@ -29,14 +29,14 @@ describe('handleStartedCall action', () => {
           id: 13762,
         },
       },
-      [{ type: types.ADD_CALL }],
+      [{ type: types.ADD_CALL_TO_CHANNEL }],
       err => {
         onError(done, err)
       },
     )
   })
 
-  it('handleStartedCall should dispatch HANDLE_JOINED_CALL and ADD_CALL actions', done => {
+  it('handleStartedCall should dispatch HANDLE_JOINED_CALL, ADD_CALL and ADD_CALL_TO_CHANNEL actions', done => {
     expect(handleStartedCall(psb14)).toDispatchActionsWithState(
       {
         org: {
@@ -46,7 +46,11 @@ describe('handleStartedCall action', () => {
           id: 13761,
         },
       },
-      [{ type: types.HANDLE_JOINED_CALL }, { type: types.ADD_CALL }],
+      [
+        { type: types.HANDLE_STARTED_CALL },
+        { type: types.ADD_CALL },
+        { type: types.ADD_CALL_TO_CHANNEL },
+      ],
       err => {
         onError(done, err)
       },
