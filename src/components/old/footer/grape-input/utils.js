@@ -1,4 +1,4 @@
-import { startsWith, get } from 'lodash'
+import { startsWith } from 'lodash'
 import { defineMessages } from 'react-intl'
 
 /**
@@ -74,32 +74,6 @@ export function searchChannelsToMention(mentions, channel) {
   )
 
   return result
-}
-
-function isImage(mime) {
-  return String(mime).substr(0, 5) === 'image'
-}
-
-export function getImageAttachments(objects) {
-  // Find embeddable images.
-  const imageObjects = objects.filter(
-    obj => isImage(obj.mimeType) && get(obj, 'detail.preview.embeddable'),
-  )
-
-  const attachments = imageObjects.map(obj => {
-    const { image } = obj.detail.preview
-    return {
-      name: obj.name,
-      url: obj.url,
-      source: obj.service,
-      mimeType: obj.mimeType,
-      thumbnailUrl: image.url,
-      thumbnailWidth: image.width,
-      thumbnailHeight: image.height,
-    }
-  })
-
-  return attachments
 }
 
 const messages = defineMessages({

@@ -12,7 +12,6 @@ import cn from 'classnames'
 import {
   getEmojiSearchData,
   searchChannelsToMention,
-  getImageAttachments,
   formatQuote,
 } from './utils'
 import { typingThrottlingDelay } from '../../../../constants/delays'
@@ -229,8 +228,6 @@ class GrapeInput extends PureComponent {
       onHideBrowser,
     } = this.props
 
-    let sendText = true
-
     if (targetMessage) {
       onUpdateMessage({
         channelId: channel.id,
@@ -238,18 +235,7 @@ class GrapeInput extends PureComponent {
         message: targetMessage,
       })
     } else {
-      const attachments = getImageAttachments(data.objects)
-      // If a message text contains only media objects we will render a preview
-      // in the history for, there is no need to send this objects as text.
-      if (data.objectsOnly && attachments.length === data.objects.length) {
-        sendText = false
-      }
-      // Separate message to make it separately editable and removable.
-      if (sendText)
-        onCreateMessage({ channelId: channel.id, text: data.content })
-      if (attachments.length) {
-        onCreateMessage({ channelId: channel.id, attachments })
-      }
+      onCreateMessage({ channelId: channel.id, text: data.content })
     }
     this.saveDraftMessageToLocalStorage('')
     onHideBrowser()
