@@ -42,7 +42,8 @@ class Link extends PureComponent {
     // In Electron calls should be opened in a second window.
     // In a Browser it should be opened as a new tab.
     if (isCallUrl(href)) {
-      if (isElectron && tag !== 'calling') {
+      const tagsToOpenAsExternal = ['calling', 'inCall']
+      if (isElectron && !tagsToOpenAsExternal.includes(tag)) {
         return (
           <button className={classes.externalLink} onClick={this.onClick}>
             {children}
