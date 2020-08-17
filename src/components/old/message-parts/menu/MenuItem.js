@@ -60,7 +60,7 @@ class MenuItem extends PureComponent {
     const { name, classes, index, total, onRefItem } = this.props
 
     return (
-      <Tooltip key={name} placement="top" message={messages[name]} inline>
+      <Tooltip key={name} placement="top" message={messages[name]}>
         <button
           className={getItemClassName(classes, name, index, total)}
           onClick={this.onSelect}
