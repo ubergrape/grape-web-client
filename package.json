@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "2.14.1-unicorn",
+  "version": "2.14.2-unicorn",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -102,7 +102,7 @@
     "file-loader": "^0.8.4",
     "glob": "^7.0.6",
     "html-loader": "^0.5.5",
-    "http-mitm-proxy": "^0.7.0",
+    "http-mitm-proxy": "^0.8.2",
     "husky": "^0.14.3",
     "idempotent-babel-polyfill": "^7.0.0",
     "jest": "^22.4.3",

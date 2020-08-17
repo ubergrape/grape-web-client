@@ -34,18 +34,20 @@ export const rightCenter = {
 
 const wrapper = {
   position: 'relative',
+  '&:hover > div': {
+    isolate: false,
+    transition: 'opacity 0.5s step-end',
+    opacity: 1,
+  },
 }
 
 export const styles = {
   wrapper,
-  wrapperInline: {
-    ...wrapper,
-    display: 'inline-block',
-  },
   tooltip: {
     display: 'block',
     lineHeight: 1,
     whiteSpace: 'nowrap',
+    opacity: 0,
   },
   childrenWrapper: {
     display: 'flex',
