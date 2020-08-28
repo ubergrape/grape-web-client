@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "2.14.2-unicorn",
+  "version": "2.15.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -20,10 +20,10 @@
     "custom-event-polyfill": "^0.2.1",
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
-    "grape-browser": "^3.23.4",
+    "grape-browser": "^3.24.0",
     "grape-js-emoji": "^3.4.0",
-    "grape-theme": "^3.5.0",
-    "grape-web": "^1.11.2",
+    "grape-theme": "^3.6.0",
+    "grape-web": "^1.12.0",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",

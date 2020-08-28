@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import { small, normal } from 'grape-theme/dist/fonts'
+import { smallest, small, normal } from 'grape-theme/dist/fonts'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import { grayBlueLighter } from 'grape-theme/dist/base-colors'
 import Icon from 'grape-web/lib/svg-icons/Icon'
@@ -86,7 +86,7 @@ export default injectSheet({
   },
   headerControlClose: {
     extend: iconSize,
-    fontSize: 8,
+    fontSize: smallest.fontSize,
   },
   headerDescr: {
     extend: [small, ellipsis],
