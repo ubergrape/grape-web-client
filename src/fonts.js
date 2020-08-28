@@ -8,10 +8,11 @@ function get(fontSize) {
 // TODO
 // Move it to sizes.js
 export default {
-  smaller: get(11),
-  small: get(13),
-  normal: get(15),
-  big: get(17),
-  bigger: get(19),
-  biggest: get(21)
+  smallest: get(7),
+  smaller: get(10),
+  small: get(12),
+  normal: get(14),
+  big: get(16),
+  bigger: get(18),
+  biggest: get(20)
 }
