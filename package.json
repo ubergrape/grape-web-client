@@ -9,7 +9,7 @@
     "color": "^0.10.1",
     "css-functions": "^1.0.5",
     "css-vendor": "^1.1.0",
-    "grape-theme": "3.x",
+    "grape-theme": "^3.6.0",
     "jss": "^9.8.7",
     "jss-default-unit": "^8.0.2",
     "jss-expand": "^5.3.0",
