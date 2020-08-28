@@ -5,7 +5,7 @@ import IconButton from 'grape-web/lib/components/icon-button'
 import color from 'color'
 import { grayLight, white } from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
-import { small } from 'grape-theme/dist/fonts'
+import { smaller, small } from 'grape-theme/dist/fonts'
 
 import Tooltip from '../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
@@ -14,7 +14,7 @@ import TaskIcon from './TaskIcon'
   taskButton: {
     width: 'auto',
     height: 20,
-    fontSize: 11,
+    fontSize: smaller.fontSize,
     border: [
       1,
       'solid',

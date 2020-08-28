@@ -1,4 +1,4 @@
-import { smaller, small, normal } from 'grape-theme/dist/fonts'
+import { smallest, smaller, small, normal } from 'grape-theme/dist/fonts'
 import { ellipsis } from 'grape-web/lib/jss-utils/mixins'
 import {
   grayLight,
@@ -19,7 +19,7 @@ export const styles = {
   taskButton: {
     width: 'auto',
     height: 20,
-    fontSize: 11,
+    fontSize: small.fontSize,
     border: [
       1,
       'solid',
@@ -98,7 +98,7 @@ export const styles = {
     width: iconSize.s,
     height: iconSize.s,
     '& $iconButtonIcon': {
-      fontSize: 8,
+      fontSize: smallest.fontSize,
     },
   },
   headerDescr: {
