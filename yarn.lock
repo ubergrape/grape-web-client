@@ -4135,21 +4135,21 @@ grape-js-emoji@^3.4.0:
   dependencies:
     emoji-datasource "4.0.0"
 
-grape-theme@3.x, grape-theme@^3.4.1:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
-  integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
+grape-theme@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.6.0.tgz#518f086721dbed114b7496ce57e6a3c7ebce7233"
+  integrity sha512-HfMwAONjsg22wI5xcXOxiswPcApHyzHV2fPSg5sPJp9M/0mAftBNwGm1wp6vANA81XXN09uqJ5eUnt9/SdB3yQ==
 
-grape-web@^1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.11.2.tgz#e1d40a66f680daeb70f7619a23e2ac5dabdb120d"
-  integrity sha512-qTpqIKKL5MFVQ2XPHHwyuB0FVivQyEVcIAFYkSFgUNGSVgdj7RZIUOtxmNzUtxEIUAy7fHw29wTB5MQPb0HnEg==
+grape-web@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.12.0.tgz#bf2f792abfe221ee63fd742c82a8b63de6e2fa94"
+  integrity sha512-UMPhyBFqPMhKFSa+DVVqYZKba9KXbQHWGcnkmlO6diywnTOZzjMjl0RQ2b9LIU1a0oEn6SdX/9/OCfBSaLE4Kw==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
     css-functions "^1.0.5"
     css-vendor "^1.1.0"
-    grape-theme "3.x"
+    grape-theme "^3.6.0"
     jss "^9.8.7"
     jss-default-unit "^8.0.2"
     jss-expand "^5.3.0"
@@ -4158,7 +4158,7 @@ grape-web@^1.11.2:
     jss-isolate "^5.1.0"
     jss-props-sort "^6.0.0"
     jss-vendor-prefixer "^8.0.1"
-    lodash "^4.17.13"
+    lodash "^4.17.19"
     material-ui "1.0.0-beta.22"
     mdurl "^1.0.1"
     normalize-jss "^3.1.0"
@@ -5521,6 +5521,11 @@ lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
+
+lodash@^4.17.19:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 log-symbols@3.0.0:
   version "3.0.0"
