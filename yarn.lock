@@ -4135,7 +4135,7 @@ grape-js-emoji@^3.4.0:
   dependencies:
     emoji-datasource "4.0.0"
 
-grape-theme@3.x, grape-theme@^3.4.1:
+grape-theme@3.x:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
