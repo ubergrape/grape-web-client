@@ -3387,10 +3387,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
-grape-theme@3.x:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
-  integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
+grape-theme@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.6.0.tgz#518f086721dbed114b7496ce57e6a3c7ebce7233"
+  integrity sha512-HfMwAONjsg22wI5xcXOxiswPcApHyzHV2fPSg5sPJp9M/0mAftBNwGm1wp6vANA81XXN09uqJ5eUnt9/SdB3yQ==
 
 growl@1.10.5:
   version "1.10.5"

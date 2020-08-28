@@ -3,7 +3,7 @@ import { normal } from 'grape-theme/dist/fonts'
 import palette from './palette'
 
 export const constants = {
-  fontFamily: '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
+  fontFamily: "noto-sans, 'Helvetica Neue', Arial, Helvetica, sans-serif",
   fontSize: normal.fontSize,
   fontWeightLight: 300,
   fontWeightRegular: 400,
