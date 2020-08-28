@@ -28,19 +28,19 @@ const getFontFace = ({
 
 const styles = {
   '@font-face': [
-    getFontFace({ family: 'proxima-nova' }),
+    getFontFace({ family: 'noto-sans' }),
     getFontFace({
-      family: 'proxima-nova',
+      family: 'noto-sans',
       style: 'bold',
       weight: 700,
     }),
     getFontFace({
-      family: 'proxima-nova',
+      family: 'noto-sans',
       style: 'italic',
     }),
   ],
   wrapper: {
-    fontFamily: "proxima-nova, 'Helvetica Neue', Arial, Helvetica, sans-serif",
+    fontFamily: "noto-sans, 'Helvetica Neue', Arial, Helvetica, sans-serif",
   },
 }
 
