@@ -4140,6 +4140,11 @@ grape-theme@3.x:
   resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.5.0.tgz#8ccea527247ede816a3b3beb7339e172449c5cde"
   integrity sha512-fHB6+x4zVCyoPm1N1oFjLs/C8Apm5YJ/rCuF9QHr6yDOAA9m66emyIwS4oySQIJtkQpDklTEZy37h7nniSFQxg==
 
+grape-theme@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/grape-theme/-/grape-theme-3.6.0.tgz#518f086721dbed114b7496ce57e6a3c7ebce7233"
+  integrity sha512-HfMwAONjsg22wI5xcXOxiswPcApHyzHV2fPSg5sPJp9M/0mAftBNwGm1wp6vANA81XXN09uqJ5eUnt9/SdB3yQ==
+
 grape-web@^1.11.2:
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.11.2.tgz#e1d40a66f680daeb70f7619a23e2ac5dabdb120d"
