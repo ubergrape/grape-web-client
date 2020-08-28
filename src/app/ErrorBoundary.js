@@ -37,7 +37,7 @@ class ErrorBoundary extends React.Component {
             style={{
               fontFamily:
                 "noto-sans, 'Helvetica Neue', Arial, Helvetica, sans-serif",
-              fontSize: 18,
+              fontSize: 17,
             }}
           >
             Something went wrong. Our team has been notified.
