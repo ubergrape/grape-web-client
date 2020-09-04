@@ -4120,10 +4120,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
-grape-browser@^3.24.0-18756.0.0:
-  version "3.24.0-18756.0.0"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.24.0-18756.0.0.tgz#e864167c8834d2464edb81e4ae1ca2a3ae5ce205"
-  integrity sha512-dY5ZFIJbwiX76w4XTUK+D8JeXI2n/CE/AdaOR13VIaa3k7i6wGDUlaLvdBfcJJ8k7F1oWRxChsooLIUyIv6Y6w==
+grape-browser@^3.24.1:
+  version "3.24.1"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.24.1.tgz#383f31cc1842b6f91c388327365734dd5ac4b751"
+  integrity sha512-XSgtG2lP8wdcOQa+jEYcOIOpRRCpikQ0O1MfvyPQIE1NHSstBDjGt9Wdtiq7BrTQxSXK2moPfRUKH7yeJhkGMA==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
