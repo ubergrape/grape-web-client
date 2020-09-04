@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.24.0-18756.0.0",
+  "version": "3.24.1",
   "main": "lib/index.js",
   "files": [
     "lib"
