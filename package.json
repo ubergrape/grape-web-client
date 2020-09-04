@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "2.15.0-unicorn",
+  "version": "2.15.0-18756.0.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -21,7 +21,7 @@
     "custom-event-polyfill": "^0.2.1",
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
-    "grape-browser": "^3.24.0",
+    "grape-browser": "^3.24.1",
     "grape-js-emoji": "^3.4.0",
     "grape-theme": "^3.6.0",
     "grape-web": "^1.12.0",
