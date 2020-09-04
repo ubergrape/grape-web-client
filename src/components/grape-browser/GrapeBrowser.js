@@ -338,6 +338,12 @@ class GrapeBrowser extends Component {
     }
 
     state.inputFocused = false
+
+    if (this.props.channel.id !== nextProps.channel.id) {
+      state.inputFocused = true
+      return state
+    }
+
     if (nextProps.focused && state.browserOpened) {
       state.inputFocused = !browserWithInput[state.browser]
     }
