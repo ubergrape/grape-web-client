@@ -458,6 +458,7 @@ class GrapeInput extends PureComponent {
           </div>
           <GrapeBrowser
             isPostingLimited={isPostingLimited}
+            targetMessage={targetMessage}
             locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
