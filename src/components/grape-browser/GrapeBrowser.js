@@ -46,6 +46,8 @@ class GrapeBrowser extends Component {
     /* eslint-enable react/no-unused-prop-types */
     isPostingLimited: PropTypes.bool,
     targetMessage: PropTypes.object,
+    quoteMessage: PropTypes.object,
+    editable: PropTypes.object,
     classes: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
@@ -90,6 +92,8 @@ class GrapeBrowser extends Component {
     focused: false,
     isPostingLimited: false,
     targetMessage: null,
+    quoteMessage: null,
+    editable: null,
     setTrigger: false,
     isLoading: false,
     onDidMount: noop,
@@ -341,10 +345,17 @@ class GrapeBrowser extends Component {
 
     state.inputFocused = false
     // In some cases like switching channels and entering/exiting edit mode,
-    // putting focus to input field
+    // putting focus to input field, quoting and inserting objects from Grape Search
     if (
       this.props.channel.id !== nextProps.channel.id ||
-      this.props.targetMessage !== nextProps.targetMessage
+      this.props.targetMessage !== nextProps.targetMessage ||
+      this.props.quoteMessage !== nextProps.quoteMessage ||
+      (this.props.editable &&
+        isEqual(
+          this.props.editable.state.objects,
+          nextProps.editable.state.objects,
+        ) &&
+        !state.browserOpened)
     ) {
       state.inputFocused = true
       return state
