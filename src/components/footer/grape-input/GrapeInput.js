@@ -419,6 +419,7 @@ class GrapeInput extends PureComponent {
       images,
       showBrowser,
       targetMessage,
+      quoteMessage,
       isPostingLimited,
       onEditPreviousMessage,
       onHideBrowser,
@@ -432,6 +433,7 @@ class GrapeInput extends PureComponent {
     if (showBrowser) {
       browserProps = this.getBrowserProps(showBrowser)
     }
+
     return (
       <GlobalEvent event="keydown" handler={this.onKeyDown}>
         <div
@@ -459,10 +461,12 @@ class GrapeInput extends PureComponent {
           <GrapeBrowser
             isPostingLimited={isPostingLimited}
             targetMessage={targetMessage}
+            quoteMessage={quoteMessage}
             locale={conf.user.languageCode}
             focused={this.state.focused}
             customEmojis={customEmojis}
             images={images}
+            editable={this.input}
             onAbort={this.onAbort}
             onComplete={this.onComplete}
             onEditPrevious={onEditPreviousMessage}
