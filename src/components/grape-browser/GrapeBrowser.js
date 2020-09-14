@@ -335,7 +335,6 @@ class GrapeBrowser extends Component {
     if (canShowBrowser) {
       state.browserOpened = true
     } else {
-      state.browser = null
       state.browserOpened = false
     }
 
@@ -344,8 +343,8 @@ class GrapeBrowser extends Component {
     }
 
     const { channel, targetMessage, quoteMessage, editable } = this.props
-    const { browserOpened } = this.state
     state.inputFocused = false
+
     // In some cases like switching channels and entering/exiting edit mode,
     // putting focus to input field, quoting and inserting objects from Grape Search
     if (
@@ -354,7 +353,7 @@ class GrapeBrowser extends Component {
       quoteMessage !== nextProps.quoteMessage ||
       (editable &&
         isEqual(editable.state.objects, nextProps.editable.state.objects) &&
-        browserOpened !== state.browserOpened)
+        this.state.browser !== state.browser)
     ) {
       state.inputFocused = true
       return state
