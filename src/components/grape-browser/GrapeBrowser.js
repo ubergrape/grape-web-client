@@ -194,7 +194,7 @@ class GrapeBrowser extends Component {
 
   onSelectSearchBrowserItem = ({ item, query }) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
-    this.closeBrowser(null, () => {
+    this.closeBrowser({ inputFocused: true }, () => {
       this.insertItem(item, query)
     })
   }
@@ -335,6 +335,7 @@ class GrapeBrowser extends Component {
     if (canShowBrowser) {
       state.browserOpened = true
     } else {
+      state.browser = null
       state.browserOpened = false
     }
 
@@ -342,7 +343,7 @@ class GrapeBrowser extends Component {
       state.content = ''
     }
 
-    const { channel, targetMessage, quoteMessage, editable } = this.props
+    const { channel, targetMessage, quoteMessage } = this.props
     state.inputFocused = false
 
     // In some cases like switching channels and entering/exiting edit mode,
@@ -351,9 +352,7 @@ class GrapeBrowser extends Component {
       channel.id !== nextProps.channel.id ||
       targetMessage !== nextProps.targetMessage ||
       quoteMessage !== nextProps.quoteMessage ||
-      (editable &&
-        isEqual(editable.state.objects, nextProps.editable.state.objects) &&
-        this.state.browser !== state.browser)
+      (this.state && this.state.browserOpened !== state.browserOpened)
     ) {
       state.inputFocused = true
       return state
