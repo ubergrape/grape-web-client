@@ -466,7 +466,6 @@ class GrapeInput extends PureComponent {
             focused={this.state.focused}
             customEmojis={customEmojis}
             images={images}
-            editable={this.input}
             onAbort={this.onAbort}
             onComplete={this.onComplete}
             onEditPrevious={onEditPreviousMessage}
