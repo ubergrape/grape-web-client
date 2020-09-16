@@ -134,11 +134,11 @@ export const loadChannelMembers = (isInitialLoading, after) => (
     .catch(err => dispatch(error(err)))
 }
 
-export function invitedToChannel(emailAddresses, channelId) {
+export function invitedToChannel(ids, channelId) {
   return {
     type: types.INVITED_TO_CHANNEL,
     payload: {
-      emailAddresses,
+      ids,
       channelId,
     },
   }
@@ -165,12 +165,12 @@ export const updateChannelPartnerInfo = channel => dispatch => {
   })
 }
 
-export function inviteToChannel(emailAddresses, options = {}) {
+export function inviteToChannel(ids, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
     return api
-      .inviteToChannel(emailAddresses, id)
-      .then(() => dispatch(invitedToChannel(emailAddresses, id)))
+      .inviteToChannel(ids, id)
+      .then(() => dispatch(invitedToChannel(ids, id)))
       .catch(err => dispatch(error(err)))
   }
 }
@@ -245,7 +245,7 @@ export function createRoomWithUsers(room, users) {
     dispatch(requestRoomCreate())
 
     const user = userSelector(getState())
-    const emailAddresses = users.map(({ email }) => email)
+    const ids = users.map(({ id }) => id)
     let newRoom
 
     return api
@@ -257,13 +257,11 @@ export function createRoomWithUsers(room, users) {
         newRoom = _newRoom
         return api.joinChannel(newRoom.id)
       })
-      .then(() =>
-        newRoom ? api.inviteToChannel(emailAddresses, newRoom.id) : null,
-      )
+      .then(() => (newRoom ? api.inviteToChannel(ids, newRoom.id) : null))
       .then(() => {
         if (newRoom) {
           dispatch(goToChannel(newRoom.id))
-          dispatch(invitedToChannel(emailAddresses, newRoom.id))
+          dispatch(invitedToChannel(ids, newRoom.id))
         }
       })
       .catch(err => {
