@@ -118,11 +118,11 @@ export const loadChannelMembers = (isInitialLoading, after) => (
     .catch(err => dispatch(error(err)))
 }
 
-export function invitedToChannel(emailAddresses, channelId) {
+export function invitedToChannel(ids, channelId) {
   return {
     type: types.INVITED_TO_CHANNEL,
     payload: {
-      emailAddresses,
+      ids,
       channelId,
     },
   }
@@ -144,12 +144,12 @@ export const updateChannelPartnerInfo = channel => dispatch => {
   })
 }
 
-export function inviteToChannel(emailAddresses, options = {}) {
+export function inviteToChannel(ids, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
     return api
-      .inviteToChannel(emailAddresses, id)
-      .then(() => dispatch(invitedToChannel(emailAddresses, id)))
+      .inviteToChannel(ids, id)
+      .then(() => dispatch(invitedToChannel(ids, id)))
       .catch(err => dispatch(error(err)))
   }
 }
