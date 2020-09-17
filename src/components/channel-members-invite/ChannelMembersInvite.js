@@ -102,7 +102,7 @@ class ChannelMembersInvite extends PureComponent {
     } = this.props
 
     if (!listed.length) return
-    if (channel.type === 'room') inviteToChannel(map(listed, 'email'))
+    if (channel.type === 'room') inviteToChannel(map(listed, 'id'))
     hideChannelMembersInvite()
     showToastNotification(
       <InviteSuccess invited={map(listed, 'displayName')} />,
@@ -119,7 +119,6 @@ class ChannelMembersInvite extends PureComponent {
       addToChannelMembersInvite,
       removeFromChannelMembersInvite,
       listed,
-      inviteToChannel,
       hideChannelMembersInvite,
       ...rest
     } = this.props

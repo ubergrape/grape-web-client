@@ -62,11 +62,11 @@ export const joinChannel = channelId =>
     args: [channelId],
   })
 
-export const inviteToChannel = (emailAddresses, channelId) =>
+export const inviteToChannel = (ids, channelId) =>
   rpc({
     ns: 'channels',
     action: 'invite',
-    args: [channelId, emailAddresses],
+    args: [channelId, ids],
   })
 
 export const getPinnedChannels = orgId =>

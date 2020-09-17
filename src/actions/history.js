@@ -396,6 +396,8 @@ export function editPreviousMessage() {
     const { messages } = historySelector(state)
     const user = userSelector(state)
     const message = findLast(messages, msg => msg.author.id === user.id)
+    // Prevent from editing message which didn't sent yet
+    if (message.state === 'pending') return
     dispatch(editMessage(message))
   }
 }

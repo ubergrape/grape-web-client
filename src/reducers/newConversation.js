@@ -43,17 +43,6 @@ export default function reduce(state = initialState, action) {
       let found = []
 
       if (users.length) found = users
-      if (search) {
-        found = [
-          {
-            displayName: search,
-            id: search,
-            email: search,
-            username: search,
-          },
-          ...users,
-        ]
-      }
 
       return {
         ...state,
