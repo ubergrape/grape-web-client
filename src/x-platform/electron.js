@@ -46,7 +46,7 @@ export { openUrl }
  * - highlight OSX Tray
  * - highlight Windows Taskbar Icon
  */
-export function addBadge(text) {
+export const addBadge = text => {
   window.grapeAppBridge.addBadge(text)
 }
 
@@ -56,9 +56,32 @@ export function addBadge(text) {
  * - remove OSX Tray highlighting
  * - remove Windows Taskbar Icon highlighting
  */
-export function removeBadge() {
+export const removeBadge = () => {
   window.grapeAppBridge.removeBadge()
 }
 
-// window.GrapeAppBridge comes from preload script in desktop app
+// Sends signal to Electron that call started
+export const onCallStarted = () => {
+  // Backward compatibility, remove within sometime
+  if (window.grapeAppBridge.onCallStarted) {
+    window.grapeAppBridge.onCallStarted()
+  }
+}
+
+// Sends signal to Electron that call finished
+export const onCallFinished = () => {
+  // Backward compatibility, remove within sometime
+  if (window.grapeAppBridge.onCallFinished) {
+    window.grapeAppBridge.onCallFinished()
+  }
+}
+
+export const setWebClientVersion = version => {
+  // Backward compatibility, remove within sometime
+  if (window.grapeAppBridge.setWebClientVersion) {
+    window.grapeAppBridge.setWebClientVersion(version)
+  }
+}
+
+// window.grapeAppBridge comes from preload script in desktop app
 export const isElectron = window.grapeAppBridge
