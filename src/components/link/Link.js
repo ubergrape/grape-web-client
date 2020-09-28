@@ -15,10 +15,12 @@ class Link extends PureComponent {
     tag: PropTypes.string,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,
+    channel: PropTypes.object,
   }
 
   static defaultProps = {
     tag: '',
+    channel: {},
   }
 
   onClick = () => {
@@ -37,7 +39,7 @@ class Link extends PureComponent {
   }
 
   render() {
-    const { href, children, tag, classes } = this.props
+    const { href, channel, children, tag, classes } = this.props
 
     // In Electron calls should be opened in a second window.
     // In a Browser it should be opened as a new tab.
@@ -55,8 +57,7 @@ class Link extends PureComponent {
         <a
           href={href}
           className={classes.externalLink}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={`grape_call_${channel.organization}_${channel.id}`}
         >
           {children}
         </a>
