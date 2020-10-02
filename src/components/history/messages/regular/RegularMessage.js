@@ -36,6 +36,7 @@ export default class RegularMessage extends PureComponent {
     time: PropTypes.string.isRequired,
     linkAttachments: PropTypes.array,
     customEmojis: PropTypes.object,
+    channel: PropTypes.object,
     children: PropTypes.string,
     hasBubbleArrow: PropTypes.bool,
     permissions: PropTypes.object.isRequired,
@@ -90,6 +91,7 @@ export default class RegularMessage extends PureComponent {
     duplicates: 0,
     linkAttachments: [],
     customEmojis: {},
+    channel: {},
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -175,6 +177,7 @@ export default class RegularMessage extends PureComponent {
   render() {
     const {
       author,
+      channel,
       user,
       time,
       avatar,
@@ -252,6 +255,7 @@ export default class RegularMessage extends PureComponent {
                         tag={tag}
                         text={children}
                         user={user}
+                        channel={channel}
                         customEmojis={customEmojis}
                       />
                     )}
@@ -263,6 +267,7 @@ export default class RegularMessage extends PureComponent {
                         tag={tag}
                         text={children}
                         user={user}
+                        channel={channel}
                         customEmojis={customEmojis}
                       />
                     )}
