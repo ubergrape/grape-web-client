@@ -77,7 +77,8 @@ class VideoConferenceButton extends PureComponent {
         <Tooltip message={buttonProps.message}>
           <a
             href={buttonProps.link}
-            target={`grape_call_${channel.organization}_${channel.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className={classes.button}
           >
             <Icon
