@@ -5,6 +5,10 @@
 
 import merge from 'lodash/merge'
 import Emitter from 'component-emitter'
+import {
+  isElectron,
+  setWebClientVersion,
+} from 'grape-web/lib/x-platform/electron'
 
 import conf from '../conf'
 import { toCamel } from '../utils/convert-case'
@@ -60,6 +64,8 @@ const init = config => {
   actionsReady.then(actions => {
     actions.setConf(conf)
   })
+
+  if (isElectron) setWebClientVersion(grapeVersion)
 
   app.init()
   app.renderSheetsInsertionPoints()
