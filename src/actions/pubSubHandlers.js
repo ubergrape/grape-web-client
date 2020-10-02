@@ -3,6 +3,11 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import intersection from 'lodash/intersection'
+import {
+  isElectron,
+  onCallStarted,
+  onCallFinished,
+} from 'grape-web/lib/x-platform/electron'
 
 import conf from '../conf'
 import * as api from '../utils/backend/api'
@@ -508,6 +513,7 @@ export const handleIncomingCall = payload => (dispatch, getState) => {
 
   if (org.id !== organizationId) return
 
+  if (isElectron) onCallFinished()
   dispatch(closeIncomingCall())
   dispatch({
     type: types.CLOSE_CALL_STATUS,
@@ -598,6 +604,7 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
     // If user joined multiple times to same call, call shoudn't be removed from calls reducer.
     // Same goes to call status popup, it should stay on place till last device from same user will leave the call.
     if (!activeSessions.length) {
+      if (isElectron) onCallFinished()
       dispatch({
         type: types.CLOSE_CALL_STATUS,
       })
@@ -606,6 +613,14 @@ export const handleHungUpCall = payload => (dispatch, getState) => {
         payload: call.id,
       })
     }
+  }
+}
+
+const joinedCall = payload => {
+  if (isElectron) onCallStarted()
+  return {
+    type: types.HANDLE_JOINED_CALL,
+    payload,
   }
 }
 
@@ -638,27 +653,25 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
 
   if (channel.type === 'room') {
     if (user.id === author.id) {
-      dispatch({
-        type: types.HANDLE_JOINED_CALL,
-        payload: {
+      dispatch(
+        joinedCall({
           call,
           channel,
           author,
-        },
-      })
+        }),
+      )
     }
     return
   }
 
   if (user.id !== author.id) {
-    dispatch({
-      type: types.HANDLE_JOINED_CALL,
-      payload: {
+    dispatch(
+      joinedCall({
         call,
         channel,
         author,
-      },
-    })
+      }),
+    )
     return
   }
 
@@ -666,9 +679,8 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
   const { partner } = find(channels, { id: channel.id })
 
   if (partner) {
-    dispatch({
-      type: types.HANDLE_JOINED_CALL,
-      payload: {
+    dispatch(
+      joinedCall({
         call,
         channel,
         author: {
@@ -676,8 +688,8 @@ export const handleJoinedCall = payload => (dispatch, getState) => {
           displayName: partner.displayName,
           id: partner.id,
         },
-      },
-    })
+      }),
+    )
   }
 }
 
@@ -715,6 +727,7 @@ export const handleStartedCall = payload => (dispatch, getState) => {
   const user = userSelector(getState())
 
   if (user.id === author.id) {
+    if (isElectron) onCallStarted()
     dispatch({
       type: types.HANDLE_STARTED_CALL,
       payload,
@@ -741,6 +754,7 @@ export const handleFinishedCall = payload => (dispatch, getState) => {
   const currentCall = callSelector(getState())
 
   if (currentCall.id === call.id) {
+    if (isElectron) onCallFinished()
     dispatch({
       type: types.CLOSE_CALL_STATUS,
     })
