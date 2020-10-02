@@ -14,12 +14,16 @@ export default options =>
         'intl/locale-data/jsonp/en.js',
         'intl/locale-data/jsonp/de.js',
         'intl/locale-data/jsonp/pl.js',
+        'intl/locale-data/jsonp/fr.js',
+        'intl/locale-data/jsonp/it.js',
       ],
       require => {
         require('intl')
         require('intl/locale-data/jsonp/en.js')
         require('intl/locale-data/jsonp/de.js')
         require('intl/locale-data/jsonp/pl.js')
+        require('intl/locale-data/jsonp/fr.js')
+        require('intl/locale-data/jsonp/it.js')
         resolve()
       },
     )
