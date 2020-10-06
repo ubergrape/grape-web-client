@@ -8,11 +8,19 @@ import { FormattedMessage } from 'react-intl'
 import Tooltip from '../tooltip/HoverTooltip'
 import { iconSize } from './constants'
 
-const tip = (
+const pinTip = (
   <FormattedMessage
     id="pinToFavorites"
-    description="Tooltip text"
+    description="Pin to favorites tooltip text"
     defaultMessage="Pin to Favorites"
+  />
+)
+
+const removeTip = (
+  <FormattedMessage
+    id="removeFromFavorites"
+    description="Tooltip text"
+    defaultMessage="Remove from Favorites"
   />
 )
 
@@ -66,7 +74,7 @@ export default class Favorite extends PureComponent {
     const { favorited, classes } = this.props
 
     return (
-      <Tooltip message={tip}>
+      <Tooltip message={favorited ? removeTip : pinTip}>
         <IconButton onClick={this.onToggle} className={classes.button}>
           <Icon
             name={favorited ? 'starFilled' : 'star'}
