@@ -83,7 +83,8 @@ export const Loading = () => (
 export const Communication = () => (
   <FormattedMessage
     id="communication"
-    defaultMessage="Communicating with Grape universe, this may take a moment"
+    defaultMessage="Communicating with {product} universe, this may take a moment"
+    values={{ product: __PRODUCT_NAME__ }}
   />
 )
 

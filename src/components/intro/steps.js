@@ -29,8 +29,9 @@ export default permissions => {
       text={
         <FormattedMessage
           id="introTextWelcome"
-          defaultMessage="Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used Grape already, we recommend you to take our 90 seconds tutorial."
+          defaultMessage="{product} is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used {product} already, we recommend you to take our 90 seconds tutorial."
           description="Intro welcome text."
+          values={{ product: __PRODUCT_NAME__ }}
         />
       }
       image={mascot.regular}
@@ -52,8 +53,9 @@ export default permissions => {
         text={
           <FormattedMessage
             id="introTextSearchBrowser"
-            defaultMessage="Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #"
+            defaultMessage="Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open {product} Search click the button or press #"
             description="Intro SearchBrowser text."
+            values={{ product: __PRODUCT_NAME__ }}
           />
         }
         image={mascot.reading}
@@ -100,8 +102,9 @@ export default permissions => {
         text={
           <FormattedMessage
             id="introTextPm"
-            defaultMessage="Start private conversations with your colleagues - even if they haven’t joined Grape yet."
+            defaultMessage="Start private conversations with your colleagues - even if they haven’t joined {product} yet."
             description="Intro data text."
+            values={{ product: __PRODUCT_NAME__ }}
           />
         }
         image={mascot.holdingMail}

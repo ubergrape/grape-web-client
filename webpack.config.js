@@ -5,7 +5,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // eslint-di
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
 
-const { NODE_ENV, STATIC_PATH, APP, ANALIZE, THEME } = process.env
+const { NODE_ENV, STATIC_PATH, APP, ANALIZE, THEME, PRODUCT_NAME } = process.env
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 
 const plugins = [
@@ -32,6 +32,8 @@ const plugins = [
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
     __THEME__: JSON.stringify(THEME),
+    // using JSON.stringify for 'Grape' to receive string in code - https://webpack.js.org/plugins/define-plugin/#usage
+    __PRODUCT_NAME__: JSON.stringify(PRODUCT_NAME) || JSON.stringify('Grape'),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
   }),
   new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en|de/),

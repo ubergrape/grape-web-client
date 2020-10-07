@@ -21,13 +21,20 @@ To release a new version of the repo make sure to complete the following steps (
 - [ ] Release on npm `npm publish`
 - [ ] Push updates and tags `git push && git push --tags`
 
-## Theme release
+## Environment variable
 
-To release a version with a special theme, make sure to include THEME environment variable.
+### THEME variable
+
+To release/debug a version with a special theme, make sure to include `THEME` environment variable.
 E.g `THEME=name npm publish`. Names of themes for companies you can find in internal Notion wiki:
 https://www.notion.so/grape/Customer-themes-8fdfc74c9e1f4c09aebbab8f4404954f
 
-The version of release should match with default version, but theme name ending should be added, like `1.14.0-name`.
+The version of release should match with default version, but the theme name ending should be added at the end, like `1.14.0-name`.
+
+### PRODUCT_NAME variable
+
+To replace `Grape` (used by default) product name to another one, use `PRODUCT_NAME` environment variable while releasing/debugging.
+E.g `PRODUCT_NAME='Grain' npm publish`.
 
 ## Use the new release on "chatgrape"
 

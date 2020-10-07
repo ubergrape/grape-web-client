@@ -3,6 +3,7 @@
   "globals": {
     "__STATIC_PATH__": true,
     "__THEME__": true,
+    "__PRODUCT_NAME__": true
   },
   "env": {
     "jest": true
