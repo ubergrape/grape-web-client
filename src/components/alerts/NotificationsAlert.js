@@ -46,7 +46,8 @@ export default class NotificationsAlert extends PureComponent {
         &nbsp;
         <FormattedMessage
           id="notificationsExplanation"
-          defaultMessage="so your team members can reach you on Grape."
+          defaultMessage="so your team members can reach you on {product}."
+          values={{ product: __PRODUCT_NAME__ }}
         />
         &nbsp;
         <Button

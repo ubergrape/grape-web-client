@@ -51,7 +51,8 @@ export default class NoContent extends PureComponent {
         <p className={classes.text}>
           <FormattedMessage
             id="labeledMessagesNoContentText1"
-            defaultMessage="Grape automatically summarizes your conversations, so you can browse and find them based on context - we call it “amplified intelligence”."
+            defaultMessage="{product} automatically summarizes your conversations, so you can browse and find them based on context - we call it “amplified intelligence”."
+            values={{ product: __PRODUCT_NAME__ }}
           />
         </p>
         <p className={classes.text}>

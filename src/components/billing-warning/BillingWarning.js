@@ -13,8 +13,8 @@ import { styles } from './theme'
 
 const messages = defineMessages({
   title: {
-    id: 'grapeTrial',
-    defaultMessage: 'Grape Trial',
+    id: 'productTrial',
+    defaultMessage: '{product} Trial',
   },
 })
 
@@ -54,13 +54,17 @@ export default class BillingWarning extends PureComponent {
 
   render() {
     const {
-      intl: { formatMessage },
       sheet: { classes },
     } = this.props
 
     return (
       <Dialog
-        title={formatMessage(messages.title)}
+        title={
+          <FormattedMessage
+            {...messages.title}
+            values={{ product: __PRODUCT_NAME__ }}
+          />
+        }
         show={this.props.show}
         onHide={this.onHide}
       >

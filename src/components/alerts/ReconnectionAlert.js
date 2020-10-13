@@ -53,7 +53,8 @@ export default class ReconnectionAlert extends PureComponent {
       <div className={classes.reconnectionAlert}>
         <FormattedMessage
           id="connectionTrouble"
-          defaultMessage="We're having trouble connecting to Grape."
+          defaultMessage="We're having trouble connecting to {product}."
+          values={{ product: __PRODUCT_NAME__ }}
         />
         &nbsp;
         {backoff > 0 && !reconnecting ? (

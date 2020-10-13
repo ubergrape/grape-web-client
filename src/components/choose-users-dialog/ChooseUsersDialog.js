@@ -129,7 +129,8 @@ export default class ChooseUsersDialog extends PureComponent {
         <div className={classes.emptyOrg}>
           <FormattedMessage
             id="noOtherMembers"
-            defaultMessage="It seems that your Grape organization has no other members than you yet. Using a messenger is more convenient with several people, so why not invite someone. As soon as they join, you can come back and start a conversation."
+            defaultMessage="It seems that your {product} organization has no other members than you yet. Using a messenger is more convenient with several people, so why not invite someone. As soon as they join, you can come back and start a conversation."
+            values={{ product: __PRODUCT_NAME__ }}
           />
         </div>
         <div>

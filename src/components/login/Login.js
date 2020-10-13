@@ -73,8 +73,9 @@ export default class Login extends PureComponent {
         </FormattedMessage>
         <FormattedMessage
           id="loginHint"
-          defaultMessage="Please log in to join the conversation on Grape."
+          defaultMessage="Please log in to join the conversation on {product}."
           description="Embedded chat login view hint."
+          values={{ product: __PRODUCT_NAME__ }}
         >
           {(...children) => <h2 className={classes.hint}>{children}</h2>}
         </FormattedMessage>
