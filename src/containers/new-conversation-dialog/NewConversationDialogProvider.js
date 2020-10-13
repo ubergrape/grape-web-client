@@ -15,7 +15,6 @@ const actionNames = [
   'removeFromNewConversation',
   'searchUsers',
   'clearRoomCreateError',
-  'openPm',
 ]
 
 const ConnectedNewConversationDialog = connect(

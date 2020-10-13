@@ -6,7 +6,7 @@ import keyBy from 'lodash/keyBy'
 import camelCase from 'lodash/camelCase'
 import staticUrl from '../utils/static-url'
 import { defaultAvatar, invitedAvatar } from '../constants/images'
-import { maxChannelNameLength, maxLinkAttachments } from '../constants/app'
+import { maxLinkAttachments } from '../constants/app'
 import { channelsSelector } from '../selectors'
 import conf from '../conf'
 
@@ -267,13 +267,6 @@ export const normalizeMessage = (() => {
 
 export function filterEmptyMessage({ text, attachments }) {
   return (text && text.trim().length !== 0) || !isEmpty(attachments)
-}
-
-export function roomNameFromUsers(users) {
-  return users
-    .map(user => user.displayName)
-    .join(', ')
-    .slice(0, maxChannelNameLength - 1)
 }
 
 export const findLastUsedChannel = channels => {

@@ -42,7 +42,6 @@ class NewConversationDialog extends PureComponent {
     hideNewConversation: PropTypes.func.isRequired,
     searchUsers: PropTypes.func.isRequired,
     clearRoomCreateError: PropTypes.func.isRequired,
-    openPm: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     show: PropTypes.bool,
     isMemberOfAnyRooms: PropTypes.bool.isRequired,
@@ -112,14 +111,8 @@ class NewConversationDialog extends PureComponent {
   }
 
   onCreate = () => {
-    const { listed, openPm, createRoomWithUsers, organization } = this.props
+    const { listed, createRoomWithUsers, organization } = this.props
     const { name, color, icon, isPublic } = this.state
-
-    if (listed.length === 1 && !name) {
-      this.setState({ saving: true })
-      openPm(listed[0].id)
-      return
-    }
 
     this.setState({ saving: true })
     createRoomWithUsers(
