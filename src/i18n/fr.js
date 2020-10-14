@@ -53,7 +53,7 @@ export default {
   "imageWithDescription": "Image : [{description}]",
   "imageWithoutDescription": "Image : [Pas de description]",
   "pinToFavorites": "Ajouter aux favoris",
-  "removeFromFavorites": "Pin to Favorites",
+  "removeFromFavorites": "Remove from Favorites",
   "importantMessages": "Messages importants",
   "mentions": "Mentions",
   "searchMessages": "Recherche de messages",

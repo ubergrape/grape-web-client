@@ -60,7 +60,7 @@
   "_imageWithoutDescription.comment": "**Used when rendered inline image from markdown without description.**",
   "pinToFavorites": "Zu Favoriten hinzufügen",
   "_pinToFavorites.comment": "Pin to favorites tooltip text",
-  "removeFromFavorites": "Pin to Favorites",
+  "removeFromFavorites": "Remove from Favorites",
   "_removeFromFavorites.comment": "Remove from favorites tooltip text",
   "importantMessages": "Wichtige Nachrichten",
   "mentions": "Erwähnungen",
