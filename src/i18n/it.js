@@ -113,7 +113,7 @@ export default {
   "introHlWelcome": "Benvenuti a",
   "introTextWelcome": "{product} è un'applicazione di chat per i gruppi di lavoro. Vi aiutiamo a rendere la comunicazione del vostro team più efficiente, produttiva e divertente. Se non avete già usato {product}, vi consigliamo di seguire il nostro tutorial di 90 secondi.",
   "introHlSearchBrowser": "Trovare i dati del vostro team",
-  "introTextSearchBrowser": "Cercate appuntamenti, file e altre integrazioni di servizi (come Google Apps o Exchange) o navigare sul web (ad es. GIF). Per aprire {product} Search sul pulsante o premere #",
+  "introTextSearchBrowser": "Cercate appuntamenti, file e altre integrazioni di servizi (come Google Apps o Exchange) o navigare sul web (ad es. GIF). Per aprire Grape Search sul pulsante o premere #",
   "introHlManageGroups": "Gestire gruppi",
   "introTextGroups": "I gruppi di chat sono pubblici o privati e possono essere basati su progetti, argomenti (ad es. pranzo quotidiano) o sui vostri dipartimenti (ad es. marketing).",
   "introHlPm": "Comunicare 1 a 1",

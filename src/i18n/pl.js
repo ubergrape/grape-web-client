@@ -113,7 +113,7 @@ export default {
   "introHlWelcome": "Witamy",
   "introTextWelcome": "{product} to aplikacja na czacie dla zespołów. Pomożemy Ci sprawić, aby komunikacja w Twoim zespole była bardziej efektywna, produktywna i przyjemna. Jeśli jeszcze nie korzystałeś z {product}, zalecamy skorzystanie z naszego 90 sekundowego tutorialu.",
   "introHlSearchBrowser": "Znajdź dane swojego zespołu",
-  "introTextSearchBrowser": "Wyszukuj terminy, pliki i inne dane z integracji usług (np. Google Apps lub Exchange) lub przeglądaj strony internetowe (np. GIF-y). Aby otworzyć {product} Search kliknij przycisk lub wciśnij #",
+  "introTextSearchBrowser": "Wyszukuj terminy, pliki i inne dane z integracji usług (np. Google Apps lub Exchange) lub przeglądaj strony internetowe (np. GIF-y). Aby otworzyć Grape Search kliknij przycisk lub wciśnij #",
   "introHlManageGroups": "Zarządzaj grupami",
   "introTextGroups": "Grupy czatowe mogą być publiczne lub prywatne i mogą opierać się na projektach, tematach (np. codzienny lunch) lub Twoich działach (np. marketing).",
   "introHlPm": "Przekazać jeden na jedne",

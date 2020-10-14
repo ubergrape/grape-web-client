@@ -137,7 +137,7 @@
   "_introTextWelcome.comment": "Intro welcome text.",
   "introHlSearchBrowser": "Find your team data",
   "_introHlSearchBrowser.comment": "Intro SearchBrowser hl.",
-  "introTextSearchBrowser": "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open {product} Search click the button or press #",
+  "introTextSearchBrowser": "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #",
   "_introTextSearchBrowser.comment": "Intro SearchBrowser text.",
   "introHlManageGroups": "Manage groups",
   "_introHlManageGroups.comment": "Intro data hl.",

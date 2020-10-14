@@ -113,7 +113,7 @@ export default {
   "introHlWelcome": "Welcome",
   "introTextWelcome": "{product} is a chat application for teams. We help you to make your team communication more efficient, productive and fun. If you haven't used {product} already, we recommend you to take our 90 seconds tutorial.",
   "introHlSearchBrowser": "Find your team data",
-  "introTextSearchBrowser": "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open {product} Search click the button or press #",
+  "introTextSearchBrowser": "Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs). To open Grape Search click the button or press #",
   "introHlManageGroups": "Manage groups",
   "introTextGroups": "Chat groups can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).",
   "introHlPm": "Communicate 1-to-1",
