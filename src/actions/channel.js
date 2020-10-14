@@ -14,11 +14,7 @@ import {
   manageGroupsSelector,
   channelMembersSelector,
 } from '../selectors'
-import {
-  normalizeChannelData,
-  normalizeUserData,
-  roomNameFromUsers,
-} from './utils'
+import { normalizeChannelData, normalizeUserData } from './utils'
 import {
   error,
   goToChannel,
@@ -240,34 +236,31 @@ export const openChannelFromNavigation = channelId => (dispatch, getState) => {
   dispatch(goToChannel(channelId))
 }
 
-export function createRoomWithUsers(room, users) {
-  return (dispatch, getState) => {
-    dispatch(requestRoomCreate())
+export const createRoomWithUsers = (room, users) => dispatch => {
+  dispatch(requestRoomCreate())
 
-    const user = userSelector(getState())
-    const ids = users.map(({ id }) => id)
-    let newRoom
+  const ids = users.map(({ id }) => id)
+  let newRoom
 
-    return api
-      .createRoom({
-        ...room,
-        name: room.name || roomNameFromUsers([user, ...users]),
-      })
-      .then(_newRoom => {
-        newRoom = _newRoom
-        return api.joinChannel(newRoom.id)
-      })
-      .then(() => (newRoom ? api.inviteToChannel(ids, newRoom.id) : null))
-      .then(() => {
-        if (newRoom) {
-          dispatch(goToChannel(newRoom.id))
-          dispatch(invitedToChannel(ids, newRoom.id))
-        }
-      })
-      .catch(err => {
-        dispatch(handleRoomCreateError(err.message))
-      })
-  }
+  return api
+    .createRoom({
+      ...room,
+      name: room.name,
+    })
+    .then(_newRoom => {
+      newRoom = _newRoom
+      return api.joinChannel(newRoom.id)
+    })
+    .then(() => (newRoom ? api.inviteToChannel(ids, newRoom.id) : null))
+    .then(() => {
+      if (newRoom) {
+        dispatch(goToChannel(newRoom.id))
+        dispatch(invitedToChannel(ids, newRoom.id))
+      }
+    })
+    .catch(err => {
+      dispatch(handleRoomCreateError(err.message))
+    })
 }
 
 export function renameRoom(id, name) {
