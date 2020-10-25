@@ -82,6 +82,7 @@ export default class LinkAttachment extends PureComponent {
     width: PropTypes.number,
     height: PropTypes.number,
     embedHtml: PropTypes.string,
+    autoPlay: PropTypes.bool,
     ts: PropTypes.number,
     fields: PropTypes.array,
     className: PropTypes.string,
@@ -108,6 +109,7 @@ export default class LinkAttachment extends PureComponent {
     imageUrl: null,
     thumbUrl: null,
     embedHtml: null,
+    autoPlay: false,
     ts: null,
     className: '',
     onRemove: null,
@@ -209,6 +211,7 @@ export default class LinkAttachment extends PureComponent {
   renderEmbed() {
     const {
       embedHtml,
+      autoPlay,
       imageUrl,
       width,
       height,
@@ -229,6 +232,7 @@ export default class LinkAttachment extends PureComponent {
         <Embed
           embedHtml={embedHtml}
           thumbUrl={thumbUrl}
+          autoPlay={autoPlay}
           width={width}
           height={height}
           permalink={sourceUrl}
