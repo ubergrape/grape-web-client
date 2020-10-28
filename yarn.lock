@@ -4118,10 +4118,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
-grape-browser@^3.25.0-beta.1:
-  version "3.25.0-beta.1"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.25.0-beta.1.tgz#0b4a3fda97605b386a7437f9e92b4c7de1fcd338"
-  integrity sha512-H5mugJuxc4Z6hEigokmX2vn0qaQrXdpuAeY4Zks4Bn75e8xmDMbtnKiPlrDEZAB6SD38CFBXSYDLOsDWu8lX1Q==
+grape-browser@^3.25.0:
+  version "3.25.0"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.25.0.tgz#c1c91d73a41991d5fdcd30f457eb60300212589c"
+  integrity sha512-Ia8C08TKZuC8lk7NetazgnHdnxBF/OrnkvFHurP5Re5H4fntoyGZMUIKX9UDSm8tXWvTWzM0HunWJ0D6NSS7/g==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -4189,10 +4189,10 @@ grape-web@^1.12.0:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
-grape-web@^1.13.0-beta.1:
-  version "1.13.0-beta.1"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.0-beta.1.tgz#c023b5abd5ef7ab4caf0518904e9035465b4b6ad"
-  integrity sha512-CRDFdo8oNfE7a4d1oLYoq/AsjNCVON5mdjxi88FHxB51hlHNf7M9a1w9ikz3L/rN2jGSXhzMsHnRRhqzCePnpg==
+grape-web@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.0.tgz#d0893fc81fd31fcd84c7a7f042f8ebd1132c0041"
+  integrity sha512-sBbKp8KZe9FynYm7J+ionpOYJYPnHU+oKWCMazSigsrqhZMGcA8mBzHJPGGDdliM+Lb19qQrdJXUo5ikEum7YQ==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
