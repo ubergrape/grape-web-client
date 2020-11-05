@@ -13,6 +13,7 @@ export default class Embed extends PureComponent {
     thumbUrl: PropTypes.string,
     permalink: PropTypes.string.isRequired,
     embedHtml: PropTypes.string.isRequired,
+    autoPlay: PropTypes.bool.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -73,6 +74,7 @@ export default class Embed extends PureComponent {
   render() {
     const {
       thumbUrl,
+      autoPlay,
       width,
       height,
       sheet: { classes },
@@ -89,7 +91,7 @@ export default class Embed extends PureComponent {
         <div
           style={{ width: 1, paddingBottom: `${100 * (height / width)}%` }}
         />
-        {!isOpen ? this.renderActions() : this.renderIframe()}
+        {isOpen || autoPlay ? this.renderIframe() : this.renderActions()}
       </div>
     )
   }
