@@ -266,6 +266,7 @@ class GrapeInput extends PureComponent {
         }
         break
       case '@':
+        if (channel.type === 'pm') return
         onSearchChannelsToMention(org, search, 12, channel.id)
         onShowUsersAndRoomsBrowser(search)
         break
