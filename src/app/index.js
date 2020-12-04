@@ -7,6 +7,11 @@ import de from 'react-intl/locale-data/de'
 import pl from 'react-intl/locale-data/pl'
 import fr from 'react-intl/locale-data/fr'
 import it from 'react-intl/locale-data/it'
+import es from 'react-intl/locale-data/es'
+import ro from 'react-intl/locale-data/ro'
+import ru from 'react-intl/locale-data/ru'
+import tr from 'react-intl/locale-data/tr'
+import uk from 'react-intl/locale-data/uk'
 import moment from 'moment'
 
 import conf from '../conf'
@@ -37,7 +42,18 @@ export const suspend = () => {
 
 export function init() {
   if (__DEV__ || __TEST__) {
-    addLocaleData([...en, ...de, ...pl, ...fr, ...it])
+    addLocaleData([
+      ...en,
+      ...de,
+      ...pl,
+      ...fr,
+      ...it,
+      ...es,
+      ...ro,
+      ...ru,
+      ...tr,
+      ...uk,
+    ])
     moment.locale(conf.user.languageCode)
     subscribe(resume())
     return
@@ -52,7 +68,18 @@ export function init() {
     organizationID: conf.organization.id,
   })
   Raven.context(() => {
-    addLocaleData([...en, ...de, ...pl, ...fr, ...it])
+    addLocaleData([
+      ...en,
+      ...de,
+      ...pl,
+      ...fr,
+      ...it,
+      ...es,
+      ...ro,
+      ...ru,
+      ...tr,
+      ...uk,
+    ])
     moment.locale(conf.user.languageCode)
     subscribe(resume())
   })

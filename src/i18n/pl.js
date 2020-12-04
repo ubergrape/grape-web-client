@@ -92,7 +92,7 @@ export default {
   "description": "Opis",
   "create": "Stwórz",
   "enter": "Wejdź",
-  "justInvited": "Gratulacje! Zaprosiłeś tylko jednego {user} {amount, plural, =0 {} one {and one more member} inny {and {amount} more members}}.",
+  "justInvited": "Gratulacje! Zaprosiłeś tylko jednego {user} {amount, plural, =0 {} one {i jeszcze jeden członek} other {i {amount} more więcej członków}}.",
   "sharedFiles": "Pliki współdzielone",
   "pinnedMesages": "Przypięte komunikaty",
   "groupInfo": "Informacje o grupie",
