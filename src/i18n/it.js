@@ -11,7 +11,7 @@ export default {
   "groupPostingLimitedPlaceholder": "L'invio di messaggi a questo gruppo è stato limitato.",
   "willNotifyGroup": "- informare tutti i membri di questo gruppo",
   "wontNotifyGroup": "- non notificare ai membri del gruppo",
-  "notInGroup": "non in gruppo",
+  "notInGroup": "non nel gruppo",
   "insertAction": "Inserire nel messaggio",
   "openAction": "Apri",
   "noDetailForItem": "Non ci sono informazioni dettagliate per questa voce",
