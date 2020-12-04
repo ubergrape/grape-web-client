@@ -112,7 +112,7 @@
   "description": "Description",
   "create": "Créer",
   "enter": "Entrer",
-  "justInvited": "Félicitations ! Vous venez d'inviter {user} {montant, pluriel, =0 {} un {et un membre supplémentaire} autre {et {amount} plus de membres}}.",
+  "justInvited": "Félicitations ! Vous venez d'inviter {user} {amount, plural, =0 {} one {et un membre supplémentaire} other {et {amount} plus de membres}}.",
   "sharedFiles": "Fichiers partagés",
   "pinnedMesages": "Messages épinglés",
   "groupInfo": "Informations sur le groupe",
