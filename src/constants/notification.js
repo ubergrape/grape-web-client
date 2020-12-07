@@ -11,7 +11,7 @@ export const dispatchers = {
   ],
   mentions: ['mention', 'group_mention'],
   messages: ['message', 'pm', 'mention', 'group_mention', 'activity'],
-  invites: ['room_invite'],
+  invites: ['room_invite', 'auto_room_invite'],
   calls: ['incoming', 'missed'],
 }
 
