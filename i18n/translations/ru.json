@@ -1,1 +1,24 @@
-{ }
+{
+  "noEmojiFound": "Эмоджи не найдено.",
+  "enterKeywordPlaceholder": "Введите ключевое слово..",
+  "enterMessagePlaceholder": "Введите сообщение..",
+  "groupPostingLimitedPlaceholder": "Размещение в этой группе было ограничено.",
+  "willNotifyGroup": "- уведомлять всех в этой группе",
+  "_willNotifyGroup.comment": "*Describe willNotifyGroup*: this string is describing action",
+  "wontNotifyGroup": "- не уведомляет членов группы",
+  "_wontNotifyGroup.comment": "*Describe wontNotifyGroup*: this string is describing action",
+  "notInGroup": "не в группе",
+  "insertAction": "Вставить в сообщение",
+  "openAction": "Открыть",
+  "noDetailForItem": "Никаких подробных сведений по этому пункту",
+  "searchInfo": "Поиск в Википедии, YouTube, Giphy и {tools}, нажав {plusIcon} или нажав клавишу \"плюс\" на клавиатуре",
+  "yourBusinessTools": "бизнес-инструменты",
+  "_yourBusinessTools.comment": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'",
+  "resultsAmountHint": "{amount} результаты",
+  "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
+  "noResults": "Нет результатов.",
+  "amountResults": "{resultsAmount} {resultsAmount, множественное число, один {Result} other {Results}}",
+  "serviesHeadline": "избранная услуга",
+  "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
+  "noServicesFound": "Услуги не найдены."
+}
