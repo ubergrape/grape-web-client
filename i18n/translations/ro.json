@@ -1,1 +1,24 @@
-{ }
+{
+  "noEmojiFound": "Nu s-a găsit niciun emoji.",
+  "enterKeywordPlaceholder": "Introduceți un cuvânt cheie ...",
+  "enterMessagePlaceholder": "Introduceți un mesaj ...",
+  "groupPostingLimitedPlaceholder": "Postările în acest grup au fost limitate.",
+  "willNotifyGroup": "- anunțați pe toți din acest grup",
+  "_willNotifyGroup.comment": "*Describe willNotifyGroup*: this string is describing action",
+  "wontNotifyGroup": "- nu notifică membrii grupului",
+  "_wontNotifyGroup.comment": "*Describe wontNotifyGroup*: this string is describing action",
+  "notInGroup": "nu în grup",
+  "insertAction": "Introduceți în mesaj",
+  "openAction": "Deschis",
+  "noDetailForItem": "Nu există informații detaliate pentru acest articol",
+  "searchInfo": "Căutați pe Wikipedia, YouTube, Giphy și {tools} făcând clic pe {plusIcon} sau apăsând tasta plus de pe tastatură",
+  "yourBusinessTools": "instrumentele dvs. de afaceri",
+  "_yourBusinessTools.comment": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'",
+  "resultsAmountHint": "{amount} rezultate",
+  "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
+  "noResults": "Fara rezultate.",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
+  "serviesHeadline": "selectați serviciul",
+  "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
+  "noServicesFound": "Nu s-au găsit servicii."
+}
