@@ -25,6 +25,19 @@ let sheetsInsertionPoint
 let renderContainer
 // let isSuspended = true
 
+const languages = [
+  ...en,
+  ...de,
+  ...pl,
+  ...fr,
+  ...it,
+  ...es,
+  ...ro,
+  ...ru,
+  ...tr,
+  ...uk,
+]
+
 export const resume = () => {
   // if (!isSuspended) return null
   // isSuspended = false
@@ -42,18 +55,7 @@ export const suspend = () => {
 
 export function init() {
   if (__DEV__ || __TEST__) {
-    addLocaleData([
-      ...en,
-      ...de,
-      ...pl,
-      ...fr,
-      ...it,
-      ...es,
-      ...ro,
-      ...ru,
-      ...tr,
-      ...uk,
-    ])
+    addLocaleData(languages)
     moment.locale(conf.user.languageCode)
     subscribe(resume())
     return
@@ -68,18 +70,7 @@ export function init() {
     organizationID: conf.organization.id,
   })
   Raven.context(() => {
-    addLocaleData([
-      ...en,
-      ...de,
-      ...pl,
-      ...fr,
-      ...it,
-      ...es,
-      ...ro,
-      ...ru,
-      ...tr,
-      ...uk,
-    ])
+    addLocaleData(languages)
     moment.locale(conf.user.languageCode)
     subscribe(resume())
   })

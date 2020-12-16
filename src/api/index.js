@@ -4,6 +4,7 @@
 /* eslint-disable global-require */
 
 import merge from 'lodash/merge'
+import has from 'lodash/has'
 import Emitter from 'component-emitter'
 import {
   isElectron,
@@ -48,7 +49,13 @@ const checkShowHideComponent = (() => {
   }
 })()
 
-const init = config => {
+const init = _config => {
+  const config = _config
+  // Using "uk" instead "ua", as react-intl using it for ukrainian
+  if (has(config, 'user.languageCode') && config.user.languageCode === 'ua') {
+    config.user.languageCode = 'uk'
+  }
+
   conf.setup(
     merge(toCamel(config), {
       organization: {
