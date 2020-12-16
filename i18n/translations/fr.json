@@ -17,7 +17,7 @@
   "resultsAmountHint": "{amount} résultats",
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
   "noResults": "Aucun résultat.",
-  "amountResults": "{resultsAmount} {resultsAmount, pluriel, un {Result} autre {Results} }",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results} }",
   "serviesHeadline": "sélectionner un service",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
   "noServicesFound": "Aucun service trouvé."
