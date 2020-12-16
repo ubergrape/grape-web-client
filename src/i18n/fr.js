@@ -19,7 +19,7 @@ export default {
   "yourBusinessTools": "vos outils professionnels",
   "resultsAmountHint": "{amount} résultats",
   "noResults": "Aucun résultat.",
-  "amountResults": "{resultsAmount} {resultsAmount, pluriel, un {Result} autre {Results} }",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results} }",
   "serviesHeadline": "sélectionner un service",
   "noServicesFound": "Aucun service trouvé."
 }

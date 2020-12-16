@@ -19,7 +19,7 @@ export default {
   "yourBusinessTools": "ваші бізнес-інструменти",
   "resultsAmountHint": "{amount} результатів",
   "noResults": "Немає результатів.",
-  "amountResults": "{resultsAmount} {resultsAmount, множина, одна {Result} інша {Results}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "виберіть послугу",
   "noServicesFound": "Послуг не знайдено."
 }
