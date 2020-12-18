@@ -19,10 +19,25 @@ const RefreshButton = ({ className, amount, onClick }) => (
   <FormattedMessage
     id="newImportantMessages"
     defaultMessage={`{amount} {amount, plural,
-        one {new important message}
-        other {new important messages}}`}
+      one {{newImportantMessagesOne}}
+      other {{newImportantMessagesOther}}
+    }`}
     desctiption="Labeled messages sidebar button text."
-    values={{ amount }}
+    values={{
+      amount,
+      newImportantMessagesOne: (
+        <FormattedMessage
+          id="newImportantMessagesOne"
+          defaultMessage="new important message"
+        />
+      ),
+      newImportantMessagesOther: (
+        <FormattedMessage
+          id="newImportantMessagesOther"
+          defaultMessage="new important messages"
+        />
+      ),
+    }}
   >
     {(...nodes) => (
       <Button raised className={className} onClick={onClick}>

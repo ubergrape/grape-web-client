@@ -39,11 +39,38 @@ const getText = (users, max) => {
   return (
     <FormattedMessage
       id="usersAreTyping"
+      defaultMessage="{usersAreTypingUsersAndAmount} {othersAmount, plural,
+        one {{usersAreTypingOthersAmountOnePlural}}
+        other {{usersAreTypingOthersAmountOtherPlural}}
+      } {usersAreTypingOthersAmountTyping}"
       values={{
         users: names.slice(0, max).join(', '),
         othersAmount: names.length - max,
+        usersAreTypingUsersAndAmount: (
+          <FormattedMessage
+            id="usersAreTypingUsersAndAmount"
+            defaultMessage="{users} and {othersAmount}"
+          />
+        ),
+        usersAreTypingOthersAmountOnePlural: (
+          <FormattedMessage
+            id="usersAreTypingOthersAmountOnePlural"
+            defaultMessage="other"
+          />
+        ),
+        usersAreTypingOthersAmountOtherPlural: (
+          <FormattedMessage
+            id="usersAreTypingOthersAmountOtherPlural"
+            defaultMessage="others"
+          />
+        ),
+        usersAreTypingOthersAmountTyping: (
+          <FormattedMessage
+            id="usersAreTypingOthersAmountTyping"
+            defaultMessage="are typing"
+          />
+        ),
       }}
-      defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
     />
   )
 }
@@ -65,7 +92,6 @@ class TypingUsers extends PureComponent {
 
   static defaultProps = {
     max: 3,
-    className: null,
     users: [],
   }
 

@@ -42,19 +42,43 @@ export function Enter() {
   return <FormattedMessage id="enter" defaultMessage="Enter" />
 }
 
-export const InviteSuccess = ({ invited }) => (
-  <FormattedMessage
-    id="justInvited"
-    defaultMessage={`Congratulations! You just invited {user} {amount, plural,
+export const InviteSuccess = ({ invited }) => {
+  const user = invited[0]
+  const amount = invited.length - 1
+
+  return (
+    <FormattedMessage
+      id="justInvited"
+      defaultMessage={`{justInvitedCongratulations} {amount, plural,
         =0 {}
-        one {and one more member}
-        other {and {amount} more members}}.`}
-    values={{
-      user: invited[0],
-      amount: invited.length - 1,
-    }}
-  />
-)
+        one {{amountOnePlural}}
+        other {{amountOtherPlural}}
+      }.`}
+      values={{
+        user,
+        amount,
+        justInvitedCongratulations: (
+          <FormattedMessage
+            id="justInvitedCongratulations"
+            defaultMessage="Congratulations! You just invited {user}"
+          />
+        ),
+        justInvitedAmountOnePlural: (
+          <FormattedMessage
+            id="justInvitedAmountOnePlural"
+            defaultMessage="and one more member"
+          />
+        ),
+        justInvitedAmountOtherPlural: (
+          <FormattedMessage
+            id="justInvitedAmountOtherPlural"
+            defaultMessage="and {amount} more members"
+          />
+        ),
+      }}
+    />
+  )
+}
 
 InviteSuccess.propTypes = {
   invited: PropTypes.arrayOf(PropTypes.string).isRequired,
