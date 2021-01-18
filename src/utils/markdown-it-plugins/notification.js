@@ -7,6 +7,10 @@ const reduceTokens = (state, tokens, currTokens = []) =>
       const newToken = new state.Token('text', '', 0)
       newToken.content = '\n'
       nextTokens.push(newToken)
+    } else if (token.type === 'code_inline') {
+      const newToken = new state.Token('text', '', 0)
+      newToken.content = token.content
+      nextTokens.push(newToken)
     } else if (enabledTypes.indexOf(token.type) !== -1) {
       nextTokens.push(token)
     } else if (token.children) {
