@@ -21,5 +21,10 @@ export default {
   "noResults": "Немає результатів.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "виберіть послугу",
-  "noServicesFound": "Послуг не знайдено."
+  "noServicesFound": "Послуг не знайдено.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }

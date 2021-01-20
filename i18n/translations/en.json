@@ -22,5 +22,10 @@
   "resultsAmountResults": "Results",
   "serviesHeadline": "select service",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "No services found."
+  "noServicesFound": "No services found.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }

@@ -21,5 +21,10 @@ export default {
   "noResults": "Fara rezultate.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "selectați serviciul",
-  "noServicesFound": "Nu s-au găsit servicii."
+  "noServicesFound": "Nu s-au găsit servicii.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }
