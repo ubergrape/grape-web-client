@@ -21,5 +21,10 @@ export default {
   "noResults": "Sonuç yok.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "hizmet seçin",
-  "noServicesFound": "Hizmet bulunamadı."
+  "noServicesFound": "Hizmet bulunamadı.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }
