@@ -73,6 +73,34 @@ export const TutorialItem = props => (
   </Item>
 )
 
+export const TermsOfService = () => (
+  <Item
+    icon="help"
+    href="https://www.grape.io/terms-of-service"
+    target="grape-terms-of-service"
+  >
+    <FormattedMessage
+      id="termsOfService"
+      defaultMessage="Terms of Service"
+      description="Main org dropdown menu"
+    />
+  </Item>
+)
+
+export const PrivacyPolicy = () => (
+  <Item
+    icon="help"
+    href="https://www.grape.io/privacy"
+    target="grape-privacy-policy"
+  >
+    <FormattedMessage
+      id="privacyPolicy"
+      defaultMessage="Privacy Policy"
+      description="Main org dropdown menu"
+    />
+  </Item>
+)
+
 export const SupportItem = ({ href }) => (
   <Item icon="help" href={href} target="grape-support">
     <FormattedMessage

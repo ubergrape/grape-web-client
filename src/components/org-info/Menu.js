@@ -13,6 +13,8 @@ import {
   AccountSettingsItem,
   NotificationSettingsItem,
   TutorialItem,
+  TermsOfService,
+  PrivacyPolicy,
   SupportItem,
   SwitchOrganizationsItem,
   LogoutItem,
@@ -88,6 +90,8 @@ class Menu extends PureComponent {
       items.push(<TutorialItem onClick={onShowIntro} key={++key} />)
     }
 
+    items.push(<TermsOfService key={++key} />)
+    items.push(<PrivacyPolicy key={++key} />)
     items.push(<SupportItem href={supportLink} key={++key} />)
 
     if (canSwitchOrganization) {
