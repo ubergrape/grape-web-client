@@ -50,6 +50,10 @@ const getText = (users, max) => {
           <FormattedMessage
             id="usersAreTypingUsersAndAmount"
             defaultMessage="{users} and {othersAmount}"
+            values={{
+              users: names.slice(0, max).join(', '),
+              othersAmount: names.length - max,
+            }}
           />
         ),
         usersAreTypingOthersAmountOnePlural: (

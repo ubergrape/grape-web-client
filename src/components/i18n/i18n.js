@@ -61,6 +61,9 @@ export const InviteSuccess = ({ invited }) => {
           <FormattedMessage
             id="justInvitedCongratulations"
             defaultMessage="Congratulations! You just invited {user}"
+            values={{
+              user,
+            }}
           />
         ),
         justInvitedAmountOnePlural: (
@@ -73,6 +76,9 @@ export const InviteSuccess = ({ invited }) => {
           <FormattedMessage
             id="justInvitedAmountOtherPlural"
             defaultMessage="and {amount} more members"
+            values={{
+              amount,
+            }}
           />
         ),
       }}
