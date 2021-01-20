@@ -128,6 +128,7 @@ const getCallProperties = props => {
   if (dispatcher === 'incoming') {
     return {
       title: author.displayName,
+      icon: author.avatar,
       content: intl.formatMessage(messages.grapeCallPmInvitationContent),
       requireInteraction: true,
     }
@@ -135,6 +136,7 @@ const getCallProperties = props => {
 
   return {
     title: author.displayName,
+    icon: author.avatar,
     content: intl.formatMessage(messages.grapeCallPmMissedContent),
   }
 }
