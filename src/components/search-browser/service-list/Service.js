@@ -56,9 +56,13 @@ Service.propTypes = {
   sheet: PropTypes.object.isRequired,
   focused: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
-  resultsAmount: PropTypes.number.isRequired,
+  resultsAmount: PropTypes.number,
   onSelect: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
+}
+
+Service.defaultProps = {
+  resultsAmount: null,
 }
 
 export default injectSheet(style)(Service)
