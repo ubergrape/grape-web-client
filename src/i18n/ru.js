@@ -21,5 +21,10 @@ export default {
   "noResults": "Нет результатов.",
   "amountResults": "{resultsAmount} {resultsAmount, множественное число, один {Result} other {Results}}",
   "serviesHeadline": "избранная услуга",
-  "noServicesFound": "Услуги не найдены."
+  "noServicesFound": "Услуги не найдены.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }

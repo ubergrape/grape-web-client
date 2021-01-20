@@ -21,5 +21,10 @@ export default {
   "noResults": "No hay resultados.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
   "serviesHeadline": "seleccionar el servicio",
-  "noServicesFound": "No se han encontrado servicios."
+  "noServicesFound": "No se han encontrado servicios.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }

@@ -20,5 +20,10 @@
   "amountResults": "{resultsAmount} {risultatiAmount, plurale, one {Result} other {Results}}",
   "serviesHeadline": "seleziona il servizio",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "Nessun servizio trovato."
+  "noServicesFound": "Nessun servizio trovato.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }
