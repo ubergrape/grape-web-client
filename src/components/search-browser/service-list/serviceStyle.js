@@ -10,6 +10,7 @@ export default {
     background: colors.white,
     color: colors.grayDark,
     userSelect: 'none',
+    width: '100%',
     '&, & *': {
       isolate: false,
       cursor: 'pointer',
