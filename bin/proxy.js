@@ -10,7 +10,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 
 const caFolder = './ca'
-const chatgrapeCACertsFileName = 'chatgrape-labs.pem'
+// const chatgrapeCACertsFileName = 'chatgrape-labs.pem'
 const mozillaCACertsURL = 'https://curl.haxx.se/ca/cacert.pem'
 const mozillaCACertsFileName = 'mozilla-root-certs.pem'
 const updateAfter = [7, 'days']
@@ -89,12 +89,13 @@ function getMozillaCACerts() {
 }
 
 function getHttpsAgent() {
-  const ca = [
-    `${caFolder}/${mozillaCACertsFileName}`,
-    `${caFolder}/${chatgrapeCACertsFileName}`,
-  ].map(f => fs.readFileSync(f))
+  // const ca = [
+  //   `${caFolder}/${mozillaCACertsFileName}`,
+  //   `${caFolder}/${chatgrapeCACertsFileName}`,
+  // ].map(f => fs.readFileSync(f))
+
   // Disable SSLv3
-  return new https.Agent({ keepAlive, ca, secureOptions })
+  return new https.Agent({ keepAlive, secureOptions })
 }
 
 function onError(ctx, err) {
