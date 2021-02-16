@@ -20,13 +20,13 @@ export default {
   "resultsAmountHint": "{amount} wyniki",
   "noResults": "Brak wyników.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
-  "resultsAmountResult": "Result",
-  "resultsAmountResults": "Results",
+  "resultsAmountResult": "Wynik",
+  "resultsAmountResults": "Wyniki",
   "serviesHeadline": "wybrana usługa",
   "noServicesFound": "Nie znaleziono żadnych usług.",
-  "emojiEmoticons": "emoticons",
-  "emojiNature": "nature",
-  "emojiObjects": "objects",
-  "emojiPlaces": "places",
-  "emojiOther": "other"
+  "emojiEmoticons": "emotikony",
+  "emojiNature": "charakter",
+  "emojiObjects": "obiekty",
+  "emojiPlaces": "miejsca",
+  "emojiOther": "inny"
 }
