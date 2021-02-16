@@ -18,14 +18,14 @@
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
   "noResults": "Aucun résultat.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
-  "resultsAmountResult": "Result",
-  "resultsAmountResults": "Results",
+  "resultsAmountResult": "Résultat",
+  "resultsAmountResults": "Résultats",
   "serviesHeadline": "sélectionner un service",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
   "noServicesFound": "Aucun service trouvé.",
-  "emojiEmoticons": "emoticons",
+  "emojiEmoticons": "émoticônes",
   "emojiNature": "nature",
-  "emojiObjects": "objects",
-  "emojiPlaces": "places",
-  "emojiOther": "other"
+  "emojiObjects": "objets",
+  "emojiPlaces": "lieux",
+  "emojiOther": "autre"
 }
