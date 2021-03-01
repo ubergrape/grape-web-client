@@ -1,22 +1,25 @@
 import React from 'react'
-import { TakeoverDialog } from 'aurora'
-import { OverlayContainer } from '@react-aria/overlays'
+import { TakeoverDialog, Button } from 'aurora-ui'
+import { OverlayContainer, useModal } from '@react-aria/overlays'
 
-const NewConversationDialog = ({ show, hideNewConversation, ...props }) => {
+const NewConversationDialog = ({ isOpen, hideNewConversation, ...props }) => {
+  const { modalProps } = useModal()
+
   return (
-    <div>
-      <OverlayContainer>
-        <TakeoverDialog
-          title="Title"
-          isOpen={show}
-          onClose={hideNewConversation}
-          isDismissable
-          {...props}
-        >
-          <span>Children</span>
-        </TakeoverDialog>
-      </OverlayContainer>
-    </div>
+    <OverlayContainer>
+      <TakeoverDialog
+        title="Title"
+        isOpen={isOpen}
+        onClose={hideNewConversation}
+        isDismissable
+        modalProps={modalProps}
+        {...props}
+      >
+        <div>
+          Children<Button>123</Button>
+        </div>
+      </TakeoverDialog>
+    </OverlayContainer>
   )
 }
 

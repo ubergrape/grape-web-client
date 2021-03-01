@@ -74,6 +74,10 @@ const exportsObject = {
         test: /\.html$/,
         loader: 'html-loader',
       },
+      {
+        test: /\.css$/,
+        loader: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins,

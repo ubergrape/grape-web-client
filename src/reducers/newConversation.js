@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false,
+  isOpen: false,
 }
 
 export default function reduce(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_NEW_CONVERSATION:
       return {
         ...initialState,
-        show: true,
+        isOpen: true,
       }
     case types.HIDE_NEW_CONVERSATION:
       return initialState

@@ -157,41 +157,6 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@react-aria/button@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@react-aria/button/-/button-3.3.1.tgz#f180ffa95e3e822b7da4937421cf8280dd17af17"
-  integrity sha512-LXNuo0L79AhYqnxV+Y3J3xt7hPcmCVCEpZaC/dBzovR1MLunrdpk3QAXsRt3tqza1XvoqdvNhNHQm1Z1kyBTUg==
-  dependencies:
-    "@babel/runtime" "^7.6.2"
-    "@react-aria/focus" "^3.2.2"
-    "@react-aria/i18n" "^3.3.0"
-    "@react-aria/interactions" "^3.3.3"
-    "@react-aria/utils" "^3.6.0"
-    "@react-stately/toggle" "^3.2.1"
-    "@react-types/button" "^3.3.1"
-
-"@react-aria/dialog@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@react-aria/dialog/-/dialog-3.1.2.tgz#868970e7fdaa6ddb91a0d8d5b492778607d417fd"
-  integrity sha512-CUHzLdcKxnQ1IpbJOJ3BIDe762QoTOFXZfDAheNiTi24ym85w7KkW7dnfJDK2+J5RY15c5KWooOZvTaBmIJ7Xw==
-  dependencies:
-    "@babel/runtime" "^7.6.2"
-    "@react-aria/focus" "^3.2.2"
-    "@react-aria/utils" "^3.3.0"
-    "@react-stately/overlays" "^3.1.1"
-    "@react-types/dialog" "^3.3.0"
-
-"@react-aria/focus@^3.2.2", "@react-aria/focus@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@react-aria/focus/-/focus-3.2.3.tgz#3e4137498a7fb5235d056c30fd94ab4a82e73aea"
-  integrity sha512-+OWmJMivrq3f8ApWihH1KJYqYj3rZV34YJORacBohcAsF1Qd1V1/P+w3dMkf24kV0wqAiWePCF1FwgnrL/rYzQ==
-  dependencies:
-    "@babel/runtime" "^7.6.2"
-    "@react-aria/interactions" "^3.3.0"
-    "@react-aria/utils" "^3.4.0"
-    "@react-types/shared" "^3.3.0"
-    clsx "^1.1.1"
-
 "@react-aria/i18n@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@react-aria/i18n/-/i18n-3.3.0.tgz#7f92ae81f6536b19b17b89c0991ddb6c10f2512a"
@@ -204,7 +169,7 @@
     "@react-aria/utils" "^3.6.0"
     "@react-types/shared" "^3.4.0"
 
-"@react-aria/interactions@^3.2.1", "@react-aria/interactions@^3.3.0", "@react-aria/interactions@^3.3.3":
+"@react-aria/interactions@^3.2.1", "@react-aria/interactions@^3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@react-aria/interactions/-/interactions-3.3.3.tgz#02852a11530f73d1ae4525cdef7c2595acde2fdc"
   integrity sha512-wq6YwVFMzT7jdpVGqGoqXPCANHl6BvOOL1Lrg3vb+df5pvoCFNWBytqv/yQVpT4PKOSUbxSBdOTubvtZlu0l+g==
@@ -235,7 +200,7 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@react-aria/utils@^3.3.0", "@react-aria/utils@^3.4.0", "@react-aria/utils@^3.6.0":
+"@react-aria/utils@^3.3.0", "@react-aria/utils@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@react-aria/utils/-/utils-3.6.0.tgz#b7446f202469015713af8bf2812b748e694eca12"
   integrity sha512-DO5F00T5NQ7j3GGWvruV8HrEd3YcN7KfbbvKvNZ3JWHETHNJxIc2xBz4Af6FSQzAjHkOrapd++SNoNLutRSz9Q==
@@ -265,16 +230,6 @@
     "@react-stately/utils" "^3.1.1"
     "@react-types/overlays" "^3.2.1"
 
-"@react-stately/toggle@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@react-stately/toggle/-/toggle-3.2.1.tgz#8b10b5eb99c3c4df2c36d17a5f23b77773ed7722"
-  integrity sha512-gZVuJ8OYoATUoXzdprsyx6O1w3wCrN+J0KnjhrjjKTrBG68n3pZH0p6dM0XpsaCzlSv0UgNa4fhHS3dYfr/ovw==
-  dependencies:
-    "@babel/runtime" "^7.6.2"
-    "@react-stately/utils" "^3.1.1"
-    "@react-types/checkbox" "^3.2.1"
-    "@react-types/shared" "^3.2.1"
-
 "@react-stately/utils@^3.1.1", "@react-stately/utils@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@react-stately/utils/-/utils-3.2.0.tgz#0b90a70fee3236025ad8bed1f0e3555d5fc10296"
@@ -289,21 +244,6 @@
   dependencies:
     "@react-types/shared" "^3.4.0"
 
-"@react-types/checkbox@^3.2.1":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@react-types/checkbox/-/checkbox-3.2.2.tgz#7182d44a533e2ffd2c9118372cbc2c33b006eb18"
-  integrity sha512-WAAqLdjf6GUWjsMN5NaFMFumOtGTq+3+48CpM0ah2L+qmhMdj1s4gvHDerhls6u4ovRK/7zhg7XK+qQwcYVqMg==
-  dependencies:
-    "@react-types/shared" "^3.4.0"
-
-"@react-types/dialog@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@react-types/dialog/-/dialog-3.3.0.tgz#60a2b53f250ee082b53aef9340c80f1afe654bc7"
-  integrity sha512-63Vsr/UOZiaajlNDQUgWDi6v3EMenV1f8Cwh+L4lcyIJnbC6WeC2VEV3ld/TYVC0U58SQ0k7u2EIyHkWjc5kdQ==
-  dependencies:
-    "@react-types/overlays" "^3.2.1"
-    "@react-types/shared" "^3.2.1"
-
 "@react-types/overlays@^3.2.1", "@react-types/overlays@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@react-types/overlays/-/overlays-3.4.0.tgz#3c4619906bb12e3697e770b59c2090bb18da25bd"
@@ -311,7 +251,7 @@
   dependencies:
     "@react-types/shared" "^3.3.0"
 
-"@react-types/shared@^3.2.1", "@react-types/shared@^3.3.0", "@react-types/shared@^3.4.0":
+"@react-types/shared@^3.3.0", "@react-types/shared@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@react-types/shared/-/shared-3.4.0.tgz#a7cbf8c676b4b3b7b687bcdc8e44828c34d115f4"
   integrity sha512-qYuL9JdIVC5JQmUgmurtm4JZQrg6IUy8wrMbaqNbt1e85Zg7A6ff1ffFrZ5IIgc1LDxYC7BB9KtL/bCgnjqrng==
@@ -782,9 +722,9 @@ attr-accept@^1.1.3:
   dependencies:
     core-js "^2.5.0"
 
-"aurora@git://github.com/ubergrape/grape-ds.git#npm":
+"aurora-ui@git://github.com/ubergrape/grape-ds.git#npm":
   version "1.0.0"
-  resolved "git://github.com/ubergrape/grape-ds.git#80345e7220302c2a4673cc245d142e1247b64b6c"
+  resolved "git://github.com/ubergrape/grape-ds.git#045b9186e842bbcaea37477c9d1cd50588fce855"
 
 autoprefixer-core@^5.2.0, autoprefixer-core@^5.2.1:
   version "5.2.1"

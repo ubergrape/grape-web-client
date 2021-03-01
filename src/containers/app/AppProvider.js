@@ -3,9 +3,12 @@ import { Provider as ReduxProvider, connect } from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
 import ThemeProvider from 'grape-web/lib/components/theme-provider'
-import { ThemeProvider as AuroraThemeProvider } from 'aurora'
+import { ThemeProvider as AuroraThemeProvider } from 'aurora-ui'
 import { JssProvider, jss } from 'grape-web/lib/jss'
 import { IntlProvider } from 'react-intl'
+import { OverlayProvider } from '@react-aria/overlays'
+
+import 'aurora-ui/build/index.css'
 
 import { mapActionsToProps } from '../../app/redux'
 import { appSelector } from '../../selectors'
@@ -53,7 +56,9 @@ export default class AppProvider extends PureComponent {
                 locale={conf.user.languageCode}
                 messages={translations[conf.user.languageCode]}
               >
-                <AppOrLoginConnected {...this.props} />
+                <OverlayProvider style={{ height: '100%' }}>
+                  <AppOrLoginConnected {...this.props} />
+                </OverlayProvider>
               </IntlProvider>
             </ThemeProvider>
           </AuroraThemeProvider>
