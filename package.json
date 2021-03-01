@@ -8,7 +8,11 @@
     "node": "^14"
   },
   "dependencies": {
+    "@react-aria/button": "^3.3.1",
+    "@react-aria/dialog": "^3.1.2",
+    "@react-aria/focus": "^3.2.3",
     "@react-aria/overlays": "^3.6.1",
+    "@react-stately/overlays": "^3.1.1",
     "aurora": "git://github.com/ubergrape/grape-ds.git#npm",
     "babel-plugin-macros": "^2.2.2",
     "babel-runtime": "^6.25.0",
