@@ -45,7 +45,6 @@ class History extends Component {
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onNewConversation: PropTypes.func.isRequired,
-    onJoinGroup: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
     channel: PropTypes.object.isRequired,
     users: PropTypes.array,
@@ -191,7 +190,6 @@ class History extends Component {
       loadedNewerMessage,
       isMemberOfAnyRooms,
       onNewConversation,
-      onJoinGroup,
       permissions,
       backendHasNewerMessages,
     } = this.props
@@ -200,12 +198,7 @@ class History extends Component {
     if (isLoading) return <LoadingText />
 
     if (!isMemberOfAnyRooms) {
-      return (
-        <NoChannels
-          onJoinGroup={onJoinGroup}
-          onNewConversation={onNewConversation}
-        />
-      )
+      return <NoChannels onNewConversation={onNewConversation} />
     }
 
     if (!user || isEmpty(channel)) return null

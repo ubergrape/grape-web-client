@@ -171,12 +171,6 @@ export function inviteToChannel(ids, options = {}) {
   }
 }
 
-export function requestRoomCreate() {
-  return {
-    type: types.REQUEST_ROOM_CREATE,
-  }
-}
-
 export function handleRoomCreateError(message) {
   return {
     type: types.HANDLE_ROOM_CREATE_ERROR,
@@ -234,33 +228,6 @@ export const openChannelFromNavigation = channelId => (dispatch, getState) => {
   if (channel.id === channelId) return
 
   dispatch(goToChannel(channelId))
-}
-
-export const createRoomWithUsers = (room, users) => dispatch => {
-  dispatch(requestRoomCreate())
-
-  const ids = users.map(({ id }) => id)
-  let newRoom
-
-  return api
-    .createRoom({
-      ...room,
-      name: room.name,
-    })
-    .then(_newRoom => {
-      newRoom = _newRoom
-      return api.joinChannel(newRoom.id)
-    })
-    .then(() => (newRoom ? api.inviteToChannel(ids, newRoom.id) : null))
-    .then(() => {
-      if (newRoom) {
-        dispatch(goToChannel(newRoom.id))
-        dispatch(invitedToChannel(ids, newRoom.id))
-      }
-    })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
-    })
 }
 
 export function renameRoom(id, name) {

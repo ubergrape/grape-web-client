@@ -1,10 +1,9 @@
 import { createSelector } from 'reselect'
+// TODO: use this from lodash 4 after
+// https://github.com/ubergrape/chatgrape/issues/3326
 import find from 'lodash/find'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-// TODO: use this from lodash 4 after
-// https://github.com/ubergrape/chatgrape/issues/3326
-import differenceBy from 'lodash/differenceBy'
 import * as images from '../constants/images'
 
 export const initialDataLoadingSelector = createSelector(
@@ -124,11 +123,6 @@ const inviteChannelMembersSelector = createSelector(
 
 const inviteToOrgSelector = createSelector(
   state => state.inviteToOrg,
-  state => state,
-)
-
-const createRoomErrorSelector = createSelector(
-  state => state.createRoomError,
   state => state,
 )
 
@@ -291,26 +285,8 @@ const messageSearchWithChannels = createSelector(
 )
 
 const newConversationSelector = createSelector(
-  [
-    state => state.newConversation,
-    joinedChannelsSelector,
-    channelSelector,
-    confSelector,
-    orgSelector,
-  ],
-  (
-    newConversation,
-    isMemberOfAnyRooms,
-    channel,
-    { organization: { colors } },
-    { defaults },
-  ) => ({
-    ...newConversation,
-    isMemberOfAnyRooms,
-    channel,
-    colors,
-    defaults,
-  }),
+  state => state.newConversation,
+  state => state,
 )
 
 export const alertsAndChannelSelector = createSelector(
@@ -342,21 +318,8 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [
-    newConversationSelector,
-    orgSelector,
-    isInviterSelector,
-    createRoomErrorSelector,
-  ],
-  (newConversation, { id: organization }, isInviter, error) => {
-    return {
-      ...newConversation,
-      isInviter,
-      organization,
-      error,
-      users: differenceBy(newConversation.found, newConversation.listed, 'id'),
-    }
-  },
+  [newConversationSelector],
+  newConversation => newConversation,
 )
 
 export const inviteDialogSelector = createSelector(

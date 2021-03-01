@@ -7,7 +7,6 @@ import { blue } from 'grape-theme/dist/base-colors'
 import {
   WantToChat,
   NoChannelsToChatIn,
-  JoinGroup,
   StartNewConversation,
 } from '../i18n/i18n'
 import buttonSecondary from '../button/secondary'
@@ -49,7 +48,7 @@ const styles = {
   },
 }
 
-const NoChannels = ({ classes, onJoinGroup, onNewConversation }) => (
+const NoChannels = ({ classes, onNewConversation }) => (
   <div className={classes.block}>
     <div className={classes.message}>
       <h3 className={classes.title}>
@@ -59,9 +58,6 @@ const NoChannels = ({ classes, onJoinGroup, onNewConversation }) => (
         <NoChannelsToChatIn />
       </p>
       <div className={classes.buttons}>
-        <button onClick={onJoinGroup} className={classes.button}>
-          <JoinGroup />
-        </button>
         <button onClick={onNewConversation} className={classes.button}>
           <StartNewConversation />
         </button>

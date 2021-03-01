@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import List from 'grape-web/lib/components/list/list'
 import injectSheet from 'grape-web/lib/jss'
 
-import { Groups as GroupsText } from '../i18n/i18n'
 import { Beacon } from '../intro'
 import Action from './Action'
 
@@ -21,7 +20,7 @@ const styles = () => ({
 })
 
 function Actions(props) {
-  const { onNewConversation, onManageGroups, classes, permissions } = props
+  const { onNewConversation, classes, permissions } = props
 
   return (
     <List className={classes.root}>
@@ -43,24 +42,6 @@ function Actions(props) {
           )}
         </Action>
       )}
-      {permissions.canCreateRoom && (
-        <Action icon="conversations" onClick={onManageGroups}>
-          {({ renderText }) => (
-            <GroupsText>
-              {(...children) => (
-                <span>
-                  {renderText(children)}
-                  <Beacon
-                    id="manageGroups"
-                    placement="right"
-                    shift={beaconShift}
-                  />
-                </span>
-              )}
-            </GroupsText>
-          )}
-        </Action>
-      )}
     </List>
   )
 }
@@ -68,7 +49,6 @@ function Actions(props) {
 Actions.propTypes = {
   classes: PropTypes.object.isRequired,
   onNewConversation: PropTypes.func.isRequired,
-  onManageGroups: PropTypes.func.isRequired,
   permissions: PropTypes.object,
 }
 

@@ -6,7 +6,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.REQUEST_ROOM_CREATE:
     case types.CLEAR_ROOM_CREATE_ERROR:
       return { message: undefined }
     case types.HANDLE_ROOM_CREATE_ERROR:
