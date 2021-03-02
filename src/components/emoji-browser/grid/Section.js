@@ -80,7 +80,11 @@ class Section extends Component {
     return (
       <section>
         <SectionHeader
-          text={formatMessage(labels[this.props.label])}
+          text={
+            labels[this.props.label]
+              ? formatMessage(labels[this.props.label])
+              : this.props.label
+          }
           hint={this.props.hint}
         />
         <div className={this.props.contentClassName} ref="content">
