@@ -80,6 +80,17 @@ Allow all of cookies in IE:
 
 <img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="60%">
 
+#### Browsers
+
+You can configure the proxy in the network settings of your browser or use an add-on to easily turn it on and off.
+
+Example plugins to set the proxy:
+
+- Firefox: [SmartProxy](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
+- Chrome: [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
+
+Your localhost proxy is a **HTTP proxy** that can handle HTTP and HTTPS connections. Make sure to select HTTP as proxy protocol in those plugins.
+
 ## Trusting certificate on Firefox
 
 Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
@@ -103,7 +114,7 @@ You can use your Mac's public IP address and default bridged network adapter to 
 yarn build
 ```
 
-## Develop dependencies like grape-web or grape-browser locally
+## Develop dependencies like grape-web, grape-browser or aurora-ui locally
 
 You can use `yarn link` to switch to the specific package and use it locally.
 
@@ -115,8 +126,24 @@ cd <your_path>/grape-web-client
 yarn link grape-browser
 yarn run start:dev:all # node_modules are cached! restart this process if it was already running
 
+# in a second terminal
 cd <your_path>/grape-browser
 yarn run build:watch
 ```
 
 Ideally the package has a `build:watch` script so you do not constantly need to re-run the build. If not please add one.
+
+for **aurora-ui**, be sure to link the `web` directory:
+
+```sh
+cd <your_path>/grape-ds/web
+yarn link
+
+cd <your_path>/grape-web-client
+yarn link aurora-ui
+yarn start:dev:all # node_modules are cached! restart this process if it was already running
+
+# in a second terminal
+cd <your_path>/grape-ds/web
+yarn build:lib:watch
+```
