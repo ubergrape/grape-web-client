@@ -80,6 +80,17 @@ Allow all of cookies in IE:
 
 <img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="60%">
 
+#### Browsers
+
+You can configure the proxy in the network settings of your browser or use an add-on to easily turn it on and off.
+
+Example plugins to set the proxy:
+
+- Firefox: [SmartProxy](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
+- Chrome: [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
+
+Your localhost proxy is a **HTTP proxy** that can handle HTTP and HTTPS connections. Make sure to select HTTP as proxy protocol in those plugins.
+
 ## Trusting certificate on Firefox
 
 Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
