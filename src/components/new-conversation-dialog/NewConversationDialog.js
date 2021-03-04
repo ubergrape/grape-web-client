@@ -1,5 +1,5 @@
 import React from 'react'
-import { TakeoverDialog, Button } from 'aurora-ui'
+import { TakeoverDialog, Button } from '@ubergrape/aurora-ui'
 import { OverlayContainer, useModal } from '@react-aria/overlays'
 
 const NewConversationDialog = ({ isOpen, hideNewConversation, ...props }) => {

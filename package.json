@@ -10,7 +10,7 @@
   "dependencies": {
     "@react-aria/overlays": "^3.6.1",
     "@react-stately/overlays": "^3.1.1",
-    "aurora-ui": "git://github.com/ubergrape/grape-ds.git#npm",
+    "@ubergrape/aurora-ui": "^0.0.2",
     "babel-plugin-macros": "^2.2.2",
     "babel-runtime": "^6.25.0",
     "classnames": "^2.2.5",
@@ -175,7 +175,7 @@
     ],
     "testURL": "http://www.example.com",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest-mocks/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "<rootDir>/jest-mocks/fileMock.js"
     }
   },
   "prettier": {
