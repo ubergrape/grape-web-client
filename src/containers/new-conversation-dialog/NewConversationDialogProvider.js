@@ -5,7 +5,12 @@ import getStore from '../../app/store'
 import { newConversationComponentSelector as selector } from '../../selectors'
 import { NewConversationDialog } from '../../components/new-conversation-dialog'
 
-const actionNames = ['showNewConversation', 'hideNewConversation']
+const actionNames = {
+  showNewConversation: 'showNewConversation',
+  hideNewConversation: 'hideNewConversation',
+  onSearchGroupsNewConversation: 'onSearchGroups',
+  onChangeGroupsQueryNewConversation: 'onChangeGroupsQuery',
+}
 
 const ConnectedNewConversationDialog = connect(
   selector,

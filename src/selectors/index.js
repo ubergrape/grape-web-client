@@ -208,7 +208,7 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'pm'),
 )
 
-export const roomsSelector = createSelector(channelsSelector, channels =>
+export const groupsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'room'),
 )
 
@@ -284,7 +284,7 @@ const messageSearchWithChannels = createSelector(
   }),
 )
 
-const newConversationSelector = createSelector(
+export const newConversationSelector = createSelector(
   state => state.newConversation,
   state => state,
 )
@@ -295,17 +295,17 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const unreadChannelsSelector = createSelector(
-  [roomsSelector, activePmsSelector, channelSelector],
-  (rooms, pms, channel) => ({
-    amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
+  [groupsSelector, activePmsSelector, channelSelector],
+  (groups, pms, channel) => ({
+    amount: groups.concat(pms).filter(_channel => _channel.unread).length,
     channel,
   }),
 )
 
 const unreadMentionsAmountSelector = createSelector(
-  [roomsSelector, activePmsSelector],
-  (rooms, pms) =>
-    rooms
+  [groupsSelector, activePmsSelector],
+  (groups, pms) =>
+    groups
       .concat(pms)
       .filter(channel => channel.mentions)
       .map(channel => channel.mentions)
@@ -318,8 +318,11 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [newConversationSelector],
-  newConversation => newConversation,
+  [newConversationSelector, groupsSelector],
+  (newConversation, groups) => ({
+    ...newConversation,
+    isMemberOfAnyGroups: Boolean(groups.length),
+  }),
 )
 
 export const inviteDialogSelector = createSelector(

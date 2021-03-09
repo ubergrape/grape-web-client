@@ -7,7 +7,7 @@ import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import isChatUrl from '../../utils/is-chat-url'
 import isCallUrl from '../../utils/is-call-url'
-import styles from './theme'
+import theme from './theme'
 
 class Link extends PureComponent {
   static propTypes = {
@@ -94,4 +94,4 @@ class Link extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(Link)
+export default injectSheet(theme)(Link)

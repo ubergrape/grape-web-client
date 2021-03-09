@@ -8,7 +8,7 @@ import getButtonProps from './getButtonProps'
 
 import Tooltip from '../../tooltip/HoverTooltip'
 
-import styles from './styles'
+import theme from './theme'
 import messages from './messages'
 
 class VideoConferenceButton extends PureComponent {
@@ -94,4 +94,4 @@ class VideoConferenceButton extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(VideoConferenceButton)
+export default injectSheet(theme)(VideoConferenceButton)

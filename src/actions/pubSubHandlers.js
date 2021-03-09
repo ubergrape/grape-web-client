@@ -18,7 +18,7 @@ import {
   pmsSelector,
   userSelector,
   channelSelector,
-  roomsSelector,
+  groupsSelector,
   channelsSelector,
   sidebarSelector,
   joinedChannelsSelector,
@@ -67,7 +67,7 @@ const countMessageMentions = (message, user, rooms) => {
 const addNewMessage = message => (dispatch, getState) => {
   const state = getState()
   const user = userSelector(state)
-  const rooms = roomsSelector(state)
+  const rooms = groupsSelector(state)
   const channel = channelSelector(state)
   const nMessage = normalizeMessage(message, state)
   const mentionsCount = countMessageMentions(nMessage, user, rooms)

@@ -1,5 +1,5 @@
 import { blue, blueLight } from 'grape-theme/dist/base-colors'
-import { iconSize } from './../constants'
+import { iconSize } from '../constants'
 
 export default ({ palette }) => ({
   button: {

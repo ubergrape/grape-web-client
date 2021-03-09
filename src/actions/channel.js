@@ -6,7 +6,7 @@ import * as alerts from '../constants/alerts'
 import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
-  roomsSelector,
+  groupsSelector,
   userSelector,
   channelSelector,
   orgSelector,
@@ -326,7 +326,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(roomsSelector(getState()), { id })
+    const room = find(groupsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,
