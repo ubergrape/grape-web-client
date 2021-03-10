@@ -6,12 +6,7 @@ import { OverlayContainer, useModal } from '@react-aria/overlays'
 import { Groups } from './groups'
 import theme from './theme'
 
-const NewConversationDialog = ({
-  isOpen,
-  hideNewConversation,
-  classes,
-  ...props
-}) => {
+const NewConversationDialog = ({ classes, ...props }) => {
   const { modalProps } = useModal()
 
   const [overflowPadding, setOverflowPadding] = useState('0px')
@@ -25,8 +20,8 @@ const NewConversationDialog = ({
       <div className={classes.wrapper}>
         <TakeoverDialog
           title="New conversation"
-          isOpen={isOpen}
-          onClose={hideNewConversation}
+          isOpen={props.isOpen}
+          onClose={props.hideNewConversation}
           onOverflowPaddingChanged={onOverflowPaddingChanged}
           isDismissable
           modalProps={modalProps}

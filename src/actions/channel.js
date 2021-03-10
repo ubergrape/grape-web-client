@@ -11,7 +11,6 @@ import {
   channelSelector,
   orgSelector,
   pmsSelector,
-  manageGroupsSelector,
   channelMembersSelector,
 } from '../selectors'
 import { normalizeChannelData, normalizeUserData } from './utils'
@@ -24,16 +23,6 @@ import {
   setChannel,
   handleBadChannel,
 } from './'
-
-const removeManageGroupChannel = channelId => (dispatch, getState) => {
-  const { groups, show } = manageGroupsSelector(getState())
-  if (find(groups, ({ id }) => id === channelId) && show) {
-    dispatch({
-      type: types.REMOVE_MANAGE_GROUPS_CHANNEL,
-      payload: channelId,
-    })
-  }
-}
 
 export function addChannel(channel) {
   return {
@@ -58,7 +47,6 @@ export const leaveChannel = channelId => dispatch => {
         type: types.LEAVE_CHANNEL,
         payload: channelId,
       })
-      dispatch(removeManageGroupChannel(channelId))
       dispatch(hideLeaveChannelDialog())
     })
     .catch(err => dispatch(error(err)))
@@ -140,20 +128,6 @@ export function invitedToChannel(ids, channelId) {
   }
 }
 
-export const joinChannel = id => dispatch => {
-  dispatch({
-    type: types.REQUEST_JOIN_CHANNEL,
-    payload: id,
-  })
-
-  return api
-    .joinChannel(id)
-    .then(() => {
-      dispatch(removeManageGroupChannel(id))
-    })
-    .catch(err => dispatch(error(err)))
-}
-
 export const updateChannelPartnerInfo = channel => dispatch => {
   dispatch({
     type: types.UPDATE_CHANNEL_PARTNER_INFO,
@@ -228,6 +202,20 @@ export const openChannelFromNavigation = channelId => (dispatch, getState) => {
   if (channel.id === channelId) return
 
   dispatch(goToChannel(channelId))
+}
+
+export const joinChannel = id => dispatch => {
+  dispatch({
+    type: types.REQUEST_JOIN_CHANNEL,
+    payload: id,
+  })
+
+  return api
+    .joinChannel(id)
+    .then(() => {
+      dispatch(openChannel(id))
+    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function renameRoom(id, name) {

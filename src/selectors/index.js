@@ -146,11 +146,6 @@ const fileUploadSelector = createSelector(
   state => state,
 )
 
-export const manageGroupsSelector = createSelector(
-  state => state.manageGroups,
-  state => state,
-)
-
 export const linkAttachmentsSelector = createSelector(
   state => state.linkAttachments,
   state => state,

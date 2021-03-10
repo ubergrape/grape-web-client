@@ -10,6 +10,8 @@ const actionNames = {
   hideNewConversation: 'hideNewConversation',
   onSearchGroupsNewConversation: 'onSearchGroups',
   onChangeGroupsQueryNewConversation: 'onChangeGroupsQuery',
+  openChannel: 'openChannel',
+  joinChannel: 'joinChannel',
 }
 
 const ConnectedNewConversationDialog = connect(

@@ -4,20 +4,34 @@ import debounce from 'lodash/debounce'
 import {
   Text,
   ActionLink,
-  Button,
+  GroupItem,
+  Icon,
   Flex,
   SearchField,
 } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
-import InfiniteAutoRowHeightList from '../InfiniteAutoRowHeightList'
+import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 
 import theme from './theme'
 
 const rowHeight = (list, index) => {
-  if (list[index].text) return 70
+  if (list[index].text) return 62
   return 40
+}
+
+const colorMap = {
+  '#707782': 1,
+  '#97A6BD': 2,
+  '#ED8928': 3,
+  '#E96038': 4,
+  '#A16027': 5,
+  '#6257D2': 6,
+  '#0080FF': 7,
+  '#EA4C3A': 8,
+  '#6FC936': 9,
+  '#36BDBD': 10,
 }
 
 const Groups = ({
@@ -27,6 +41,9 @@ const Groups = ({
   isMemberOfAnyGroups,
   onChangeGroupsQuery,
   onSearchGroups,
+  hideNewConversation,
+  openChannel,
+  joinChannel,
   overflowPadding,
   classes,
 }) => {
@@ -37,6 +54,17 @@ const Groups = ({
   const isRowLoaded = useCallback(({ index }) => Boolean(groups[index]), [
     groups,
   ])
+
+  const onListItemClick = (id, membership) => {
+    hideNewConversation()
+
+    if (membership) {
+      openChannel(id)
+      return
+    }
+
+    joinChannel(id)
+  }
 
   if (!isMemberOfAnyGroups) {
     return (
@@ -51,14 +79,14 @@ const Groups = ({
             You can invite other people to this group later.
           </Text>
         </Flex>
-        <Button
-          className={classes.button}
+        <ActionLink
+          variant="primary"
+          className={classes.link}
+          href="#"
           icon="people"
-          appearance="minimal"
-          variant="basic"
         >
           Create a new group
-        </Button>
+        </ActionLink>
       </Flex>
     )
   }
@@ -71,7 +99,7 @@ const Groups = ({
       </Text>
       <ActionLink
         variant="primary"
-        className={classes.button}
+        className={classes.link}
         href="#"
         icon="people"
       >
@@ -97,8 +125,8 @@ const Groups = ({
         className={classes.search}
         placeholder="Search for a group ..."
       />
-      <div style={{ flex: 1 }}>
-        <div style={{ height: 'calc(100% - 1px)' }}>
+      <div className={classes.listWrapper}>
+        <div className={classes.list}>
           <InfiniteAutoRowHeightList
             rowHeight={rowHeight}
             loadMoreRows={onSearchGroups}
@@ -110,22 +138,57 @@ const Groups = ({
             rowRenderer={(index, key, style) => {
               if (groups[index].text) {
                 return (
-                  <div key={groups[index].text} style={style}>
-                    <span style={{ fontWeight: 900 }}>
+                  <Flex items="flex-end" key={groups[index].text} style={style}>
+                    <Text
+                      maxWidth="initial"
+                      className={classes.cluster}
+                      emphasis
+                    >
                       {groups[index].text}
-                    </span>
-                  </div>
+                    </Text>
+                  </Flex>
                 )
               }
 
+              const {
+                id,
+                name,
+                color,
+                isPublic,
+                membership,
+                description,
+                membersCount,
+              } = groups[index]
+
               return (
-                <div key={groups[index].id} style={style}>
-                  {groups[index].name}
+                <div style={style} key={id}>
+                  <Flex>
+                    <GroupItem
+                      className={classes.group}
+                      name={name}
+                      description={description}
+                      members={membersCount}
+                      color={colorMap[color]}
+                      {...(!isPublic && { groupType: 'private' })}
+                      onClick={() => onListItemClick(id, membership)}
+                    />
+                    {membership && (
+                      <Icon
+                        className={classes.icon}
+                        name="person"
+                        color="danger"
+                        size="small"
+                      />
+                    )}
+                  </Flex>
                 </div>
               )
             }}
             noRowsRenderer={() => (
-              <NoRowsRenderer isGroupsLoading={isGroupsLoading} />
+              <NoRowsRenderer
+                classes={classes}
+                isGroupsLoading={isGroupsLoading}
+              />
             )}
           />
         </div>
