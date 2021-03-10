@@ -33,7 +33,7 @@ export default {
   },
   list: {
     minHeight: 300,
-    height: 'calc(100% - 1px)',
+    height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],
       margin: [2.5, 0],

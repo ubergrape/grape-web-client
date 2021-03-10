@@ -115,7 +115,7 @@ function onRequest(ctx, callback) {
   let file
 
   if (
-    /((staging|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com|jira.ubergrape.com)$/.test(
+    /((staging|development|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com|jira.ubergrape.com)$/.test(
       host,
     )
   ) {

@@ -134,7 +134,7 @@ const Groups = ({
             list={groups}
             minimumBatchSize={50}
             width={680 - overflowPadding}
-            threshold={30}
+            threshold={25}
             rowRenderer={(index, key, style) => {
               if (groups[index].text) {
                 return (

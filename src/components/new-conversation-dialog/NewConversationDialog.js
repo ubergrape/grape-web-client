@@ -9,7 +9,7 @@ import theme from './theme'
 const NewConversationDialog = ({ classes, ...props }) => {
   const { modalProps } = useModal()
 
-  const [overflowPadding, setOverflowPadding] = useState('0px')
+  const [overflowPadding, setOverflowPadding] = useState(0)
 
   const onOverflowPaddingChanged = padding => {
     setOverflowPadding(padding)

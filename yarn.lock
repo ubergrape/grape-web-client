@@ -509,10 +509,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ubergrape/aurora-ui@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-0.0.2.tgz#ed61e6c162cc639be6b5ba066f7fedcbd3ba3090"
-  integrity sha512-xzEiMLkNOr/RNeMEmKW88GhkaK6BymiPUI7dDyU7xHJvFAgA3uiuwAcLvVrd1+EUKbJOned/vS3EqSPTamagxg==
+"@ubergrape/aurora-ui@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-0.0.3.tgz#0bc2f58d5dacc2457acd5cb519d204dfae420013"
+  integrity sha512-1Yff+pm6qLq7V6QiTW1ieG0nZ9p22zBmUbkkv9c2ZTM67VRbn4ms5HKYnKzYOg1p9jMKhqM1eZ5WeZ5TicYexw==
   dependencies:
     "@react-aria/button" "^3.2.1"
     "@react-aria/checkbox" "^3.2.1"
@@ -527,6 +527,7 @@
     clsx "^1.1.1"
     grape-icons ubergrape/grape-icons
     jss "^10.3.0"
+    jss-increase-specificity "^0.3.5"
     jss-plugin-camel-case "^10.3.0"
     jss-plugin-default-unit "^10.3.0"
     jss-plugin-expand "^10.3.0"
