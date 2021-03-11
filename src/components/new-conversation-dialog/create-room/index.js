@@ -1,12 +1,13 @@
 import React from 'react'
 import {
   Flex,
-  Button,
   ActionLink,
   Switch,
   TextField,
   TextArea,
   TagsInput,
+  ButtonGroup,
+  Button,
 } from '@ubergrape/aurora-ui'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -49,17 +50,12 @@ const CreateRoom = ({ hideCreateRoom, classes }) => {
         isNecessityLabel
         className={classes.members}
       />
-      <Flex className={classes.buttons}>
+      <ButtonGroup className={classes.buttons}>
         <Button variant="primary">Create group</Button>
-        <Button
-          className={classes.cancel}
-          onClick={hideCreateRoom}
-          variant="basic"
-          appearance="minimal"
-        >
+        <Button onClick={hideCreateRoom} variant="basic" appearance="minimal">
           Cancel
         </Button>
-      </Flex>
+      </ButtonGroup>
     </Flex>
   )
 }

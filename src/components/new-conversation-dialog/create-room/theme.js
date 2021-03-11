@@ -25,7 +25,4 @@ export default {
     flex: '0 0 auto',
     marginTop: 24,
   },
-  cancel: {
-    marginLeft: 16,
-  },
 }
