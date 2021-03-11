@@ -284,6 +284,11 @@ export const newConversationSelector = createSelector(
   state => state,
 )
 
+const createRoomSelector = createSelector(
+  state => state.createRoom,
+  state => state,
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector, reconnectSelector],
   ({ alerts }, channel, reconnect) => ({ alerts, channel, reconnect }),
@@ -313,9 +318,10 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [newConversationSelector, groupsSelector],
-  (newConversation, groups) => ({
+  [newConversationSelector, createRoomSelector, groupsSelector],
+  (newConversation, createRoom, groups) => ({
     ...newConversation,
+    ...createRoom,
     isMemberOfAnyGroups: Boolean(groups.length),
   }),
 )

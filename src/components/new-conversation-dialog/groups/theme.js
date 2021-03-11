@@ -28,11 +28,10 @@ export default {
   },
   listWrapper: {
     flex: 1,
-    minHeight: 300,
     marginTop: 12,
   },
   list: {
-    minHeight: 300,
+    minHeight: 120,
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],

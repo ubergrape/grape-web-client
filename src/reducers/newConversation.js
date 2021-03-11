@@ -3,7 +3,8 @@ import { uniqBy } from 'lodash'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  isOpen: false,
+  tab: 0,
+  isNewConversationOpened: false,
   groups: [],
   isGroupsLoading: false,
   isMembershipGroupsLoading: false,
@@ -18,14 +19,19 @@ export default function reduce(state = initialState, action) {
     case types.SHOW_NEW_CONVERSATION:
       return {
         ...initialState,
-        isOpen: true,
+        isNewConversationOpened: true,
       }
     case types.HIDE_NEW_CONVERSATION:
       return initialState
+    case types.SET_NEW_CONVERSATION_TAB:
+      return {
+        ...state,
+        tab: payload,
+      }
     case types.CHANGE_QUERY_GROUPS_NEW_CONVERSATION:
       return {
         ...initialState,
-        isOpen: true,
+        isNewConversationOpened: true,
         groupsQuery: payload,
       }
     case types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION:

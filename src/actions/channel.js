@@ -145,19 +145,6 @@ export function inviteToChannel(ids, options = {}) {
   }
 }
 
-export function handleRoomCreateError(message) {
-  return {
-    type: types.HANDLE_ROOM_CREATE_ERROR,
-    payload: message,
-  }
-}
-
-export function clearRoomCreateError() {
-  return {
-    type: types.CLEAR_ROOM_CREATE_ERROR,
-  }
-}
-
 export const openPm = (userId, options) => (dispatch, getState) => {
   const org = orgSelector(getState())
   const channels = pmsSelector(getState())
@@ -186,9 +173,6 @@ export const openPm = (userId, options) => (dispatch, getState) => {
     .then(channel => {
       dispatch(addChannel(channel))
       dispatch(goToChannel(channel.id, options))
-    })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
     })
 }
 

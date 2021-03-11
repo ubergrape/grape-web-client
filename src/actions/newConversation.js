@@ -1,5 +1,6 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
+import { itemsToLoad } from '../constants/navigation'
 import { error } from './'
 
 import { newConversationSelector, orgSelector } from '../selectors'
@@ -10,13 +11,14 @@ export const showNewConversation = () => {
   }
 }
 
-const itemsToLoad = 50
+export const hideNewConversation = () => ({
+  type: types.HIDE_NEW_CONVERSATION,
+})
 
-export const hideNewConversation = () => {
-  return {
-    type: types.HIDE_NEW_CONVERSATION,
-  }
-}
+export const setNewConversationTab = payload => ({
+  type: types.SET_NEW_CONVERSATION_TAB,
+  payload,
+})
 
 const requestGroupsNewConversation = payload => {
   return {
@@ -25,10 +27,10 @@ const requestGroupsNewConversation = payload => {
   }
 }
 
-const handleGroupsResults = results => dispatch => {
+const handleGroupsResults = payload => dispatch => {
   dispatch({
     type: types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION,
-    payload: results,
+    payload,
   })
 
   dispatch(requestGroupsNewConversation(false))

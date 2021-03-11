@@ -8,10 +8,13 @@ import { NewConversationDialog } from '../../components/new-conversation-dialog'
 const actionNames = {
   showNewConversation: 'showNewConversation',
   hideNewConversation: 'hideNewConversation',
+  setNewConversationTab: 'setNewConversationTab',
   onSearchGroupsNewConversation: 'onSearchGroups',
   onChangeGroupsQueryNewConversation: 'onChangeGroupsQuery',
   openChannel: 'openChannel',
   joinChannel: 'joinChannel',
+  showCreateRoom: 'showCreateRoom',
+  hideCreateRoom: 'hideCreateRoom',
 }
 
 const ConnectedNewConversationDialog = connect(
