@@ -8,7 +8,7 @@ import emojiReplace from 'markdown-it-emoji/lib/replace'
 import normalizeOpts from 'markdown-it-emoji/lib/normalize_opts'
 import jsEmoji from '../emoji/emoji'
 
-module.exports = function emojiPlugin(md, options) {
+export default function emojiPlugin(md, options) {
   const defaults = {
     defs: jsEmoji.map.colons,
     shortcuts: emojiesShortcuts,
