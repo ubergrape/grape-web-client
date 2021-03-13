@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const CopyFilesPlugin = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
@@ -121,15 +121,10 @@ if (isDevServer) {
 }
 
 if (NODE_ENV === 'production') {
-  exportsObject.plugins.push(
-    // This plugin turns all loader into minimize mode!!!
-    // https://github.com/webpack/webpack/issues/283
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false,
-      },
-    }),
-  )
+  exportsObject.optimization = {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  }
   exportsObject.performance = {
     hints: 'error',
     maxEntrypointSize: 4200 * 1024,
