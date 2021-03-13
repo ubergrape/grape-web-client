@@ -9,12 +9,16 @@ import theme from './theme'
 
 const NewConversationDialog = ({
   classes,
+  isOpen,
   tab,
+  hideNewConversation,
   setNewConversationTab,
   ...props
 }) => {
   const { modalProps } = useModal()
 
+  /* This is needed to dynamically adjust the padding to not overflow custom bar content.
+  Usually it works automatically, but virtualized list requires accurate width. */
   const [overflowPadding, setOverflowPadding] = useState(0)
 
   const onOverflowPaddingChanged = padding => {
@@ -26,27 +30,27 @@ const NewConversationDialog = ({
       <div className={classes.wrapper}>
         <TakeoverDialog
           title="New conversation"
-          isOpen={props.isNewConversationOpened}
-          onClose={props.hideNewConversation}
+          isOpen={isOpen}
+          onClose={hideNewConversation}
           onOverflowPaddingChanged={onOverflowPaddingChanged}
           isDismissable
           modalProps={modalProps}
           {...props}
         >
-          {props.isCreateRoomOpened ? (
-            <CreateRoom {...props} />
-          ) : (
+          {props.view === 'tabs' ? (
             <Tabs
               onTabClick={setNewConversationTab}
               tab={tab}
               className={classes.tabs}
               align="justify"
             >
-              <Tab name="Person">Person tab</Tab>
+              <Tab name="Person" />
               <Tab name="Group">
                 <Groups overflowPadding={overflowPadding} {...props} />
               </Tab>
             </Tabs>
+          ) : (
+            <CreateRoom overflowPadding={overflowPadding} {...props} />
           )}
         </TakeoverDialog>
       </div>

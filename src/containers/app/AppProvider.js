@@ -8,6 +8,7 @@ import { JssProvider, jss } from 'grape-web/lib/jss'
 import { IntlProvider } from 'react-intl'
 import { OverlayProvider } from '@react-aria/overlays'
 
+// Styles from overlayscrollbars package for custom scrollbar
 import '@ubergrape/aurora-ui/build/index.css'
 
 import { mapActionsToProps } from '../../app/redux'

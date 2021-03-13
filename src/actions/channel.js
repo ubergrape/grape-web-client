@@ -197,7 +197,7 @@ export const joinChannel = id => dispatch => {
   return api
     .joinChannel(id)
     .then(() => {
-      dispatch(openChannel(id))
+      dispatch(goToChannel(id))
     })
     .catch(err => dispatch(error(err)))
 }

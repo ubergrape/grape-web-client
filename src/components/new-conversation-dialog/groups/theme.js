@@ -28,10 +28,10 @@ export default {
   },
   listWrapper: {
     flex: 1,
+    minHeight: 126, // 120 + 6. 40 is one block, 40 * 3 = 120. 6 this is sum of margins from list below
     marginTop: 12,
   },
   list: {
-    minHeight: 120,
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],

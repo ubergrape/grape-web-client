@@ -9,12 +9,20 @@ const actionNames = {
   showNewConversation: 'showNewConversation',
   hideNewConversation: 'hideNewConversation',
   setNewConversationTab: 'setNewConversationTab',
-  onSearchGroupsNewConversation: 'onSearchGroups',
-  onChangeGroupsQueryNewConversation: 'onChangeGroupsQuery',
-  openChannel: 'openChannel',
+  onSearchGroups: 'onSearchGroups',
+  onChangeGroupsQuery: 'onChangeGroupsQuery',
+  goToChannel: 'goToChannel',
   joinChannel: 'joinChannel',
   showCreateRoom: 'showCreateRoom',
   hideCreateRoom: 'hideCreateRoom',
+  setIsPrivate: 'setIsPrivate',
+  onGroupNameChange: 'onGroupNameChange',
+  onGroupDescriptionChange: 'onGroupDescriptionChange',
+  onChangeMembersQuery: 'onChangeMembersQuery',
+  onSearchMembers: 'onSearchMembers',
+  onMemberSelect: 'onMemberSelect',
+  onMemberRemove: 'onMemberRemove',
+  onCreateRoom: 'onCreateRoom',
 }
 
 const ConnectedNewConversationDialog = connect(

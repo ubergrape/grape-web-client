@@ -284,7 +284,7 @@ export const newConversationSelector = createSelector(
   state => state,
 )
 
-const createRoomSelector = createSelector(
+export const createRoomSelector = createSelector(
   state => state.createRoom,
   state => state,
 )

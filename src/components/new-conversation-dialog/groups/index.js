@@ -1,40 +1,23 @@
 import React, { useCallback, useEffect } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
-import {
-  Text,
-  ActionLink,
-  GroupItem,
-  Icon,
-  Flex,
-  SearchField,
-} from '@ubergrape/aurora-ui'
+import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 
 import theme from './theme'
+import RowRenderer from './RowRenderer'
 
 const rowHeight = (list, index) => {
   if (list[index].text) return 62
   return 40
 }
 
-const colorMap = {
-  '#707782': 1,
-  '#97A6BD': 2,
-  '#ED8928': 3,
-  '#E96038': 4,
-  '#A16027': 5,
-  '#6257D2': 6,
-  '#0080FF': 7,
-  '#EA4C3A': 8,
-  '#6FC936': 9,
-  '#36BDBD': 10,
-}
-
 const Groups = ({
+  classes,
+  overflowPadding,
   groups,
   isGroupsLoading,
   isMemberOfEachGroup,
@@ -43,10 +26,8 @@ const Groups = ({
   onSearchGroups,
   hideNewConversation,
   showCreateRoom,
-  openChannel,
+  goToChannel,
   joinChannel,
-  overflowPadding,
-  classes,
 }) => {
   useEffect(() => {
     onSearchGroups()
@@ -60,7 +41,7 @@ const Groups = ({
     hideNewConversation()
 
     if (membership) {
-      openChannel(id)
+      goToChannel(id)
       return
     }
 
@@ -121,9 +102,7 @@ const Groups = ({
         </Flex>
       )}
       <SearchField
-        onChange={debounce(query => {
-          onChangeGroupsQuery(query)
-        }, debouncingTime)}
+        onChange={debounce(query => onChangeGroupsQuery(query), debouncingTime)}
         label="Group search"
         className={classes.search}
         placeholder="Search for a group ..."
@@ -138,55 +117,16 @@ const Groups = ({
             minimumBatchSize={50}
             width={680 - overflowPadding}
             threshold={25}
-            rowRenderer={(index, key, style) => {
-              if (groups[index].text) {
-                return (
-                  <Flex items="flex-end" key={groups[index].text} style={style}>
-                    <Text
-                      maxWidth="initial"
-                      className={classes.cluster}
-                      emphasis
-                    >
-                      {groups[index].text}
-                    </Text>
-                  </Flex>
-                )
-              }
-
-              const {
-                id,
-                name,
-                color,
-                isPublic,
-                membership,
-                description,
-                membersCount,
-              } = groups[index]
-
-              return (
-                <div style={style} key={id}>
-                  <Flex>
-                    <GroupItem
-                      className={classes.group}
-                      name={name}
-                      description={description}
-                      members={membersCount}
-                      color={colorMap[color]}
-                      {...(!isPublic && { groupType: 'private' })}
-                      onClick={() => onListItemClick(id, membership)}
-                    />
-                    {membership && (
-                      <Icon
-                        className={classes.icon}
-                        name="person"
-                        color="danger"
-                        size="small"
-                      />
-                    )}
-                  </Flex>
-                </div>
-              )
-            }}
+            rowRenderer={(index, key, style) => (
+              <RowRenderer
+                index={index}
+                key={key}
+                style={style}
+                classes={classes}
+                groups={groups}
+                onListItemClick={onListItemClick}
+              />
+            )}
             noRowsRenderer={() => (
               <NoRowsRenderer
                 classes={classes}

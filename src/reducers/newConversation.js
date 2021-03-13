@@ -1,69 +1,60 @@
-import { uniqBy } from 'lodash'
+import uniqBy from 'lodash/uniqBy'
 
 import * as types from '../constants/actionTypes'
 
-const initialState = {
+export const initial = {
   tab: 0,
-  isNewConversationOpened: false,
+  view: 'tabs',
+  isOpen: false,
   groups: [],
   isGroupsLoading: false,
-  isMembershipGroupsLoading: false,
+  isGroupsWithMembershipLoading: false,
   isMemberOfEachGroup: false,
   groupsQuery: '',
   page: 1,
 }
 
-export default function reduce(state = initialState, action) {
-  const { payload, type } = action
-  switch (type) {
-    case types.SHOW_NEW_CONVERSATION:
-      return {
-        ...initialState,
-        isNewConversationOpened: true,
-      }
-    case types.HIDE_NEW_CONVERSATION:
-      return initialState
-    case types.SET_NEW_CONVERSATION_TAB:
-      return {
-        ...state,
-        tab: payload,
-      }
-    case types.CHANGE_QUERY_GROUPS_NEW_CONVERSATION:
-      return {
-        ...initialState,
-        isNewConversationOpened: true,
-        groupsQuery: payload,
-      }
-    case types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION:
-      return {
-        ...state,
-        isGroupsLoading: payload,
-      }
-    case types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION:
-      return {
-        ...state,
-        groups: uniqBy([...state.groups, ...payload], group =>
-          [group.id, group.text].join(),
-        ),
-        page: state.page + 1,
-      }
-    case types.HANDLE_NO_GROUPS_LEFT_TO_JOIN:
-      return {
-        ...state,
-        isMemberOfEachGroup: true,
-      }
-    case types.REQUEST_MEMBERSHIP_GROUPS_LOADING:
-      return {
-        ...state,
-        isMembershipGroupsLoading: true,
-        page: 1,
-      }
-    case types.CHANGE_ALL_GROUPS_LOADED:
-      return {
-        ...state,
-        isAllGroupsLoaded: true,
-      }
-    default:
-      return state
-  }
+export const states = {
+  [types.HIDE_NEW_CONVERSATION]: () => initial,
+  [types.SHOW_NEW_CONVERSATION]: state => ({
+    ...state,
+    isOpen: true,
+  }),
+  [types.HIDE_CREATE_ROOM]: state => ({
+    ...state,
+    view: 'tabs',
+  }),
+  [types.SHOW_CREATE_ROOM]: state => ({
+    ...state,
+    view: 'create',
+  }),
+  [types.SET_NEW_CONVERSATION_TAB]: (state, payload) => ({
+    ...state,
+    tab: payload,
+  }),
+  [types.CHANGE_GROUPS_QUERY]: (state, payload) => ({
+    ...initial,
+    isOpen: true,
+    groupsQuery: payload,
+  }),
+  [types.REQUEST_GROUPS_SEARCH]: (state, payload) => ({
+    ...state,
+    isGroupsLoading: payload,
+  }),
+  [types.HANDLE_GROUPS_SEARCH]: (state, payload) => ({
+    ...state,
+    groups: uniqBy([...state.groups, ...payload], group =>
+      [group.id, group.text].join(),
+    ),
+    page: state.page + 1,
+  }),
+  [types.HANDLE_NO_GROUPS_LEFT_TO_JOIN]: state => ({
+    ...state,
+    isMemberOfEachGroup: true,
+  }),
+  [types.REQUEST_MEMBERSHIP_GROUPS_LOADING]: state => ({
+    ...state,
+    isGroupsWithMembershipLoading: true,
+    page: 1,
+  }),
 }

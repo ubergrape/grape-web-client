@@ -20,16 +20,14 @@ export const setNewConversationTab = payload => ({
   payload,
 })
 
-const requestGroupsNewConversation = payload => {
-  return {
-    type: types.REQUEST_GROUPS_SEARCH_NEW_CONVERSATION,
-    payload,
-  }
-}
+const requestGroupsNewConversation = payload => ({
+  type: types.REQUEST_GROUPS_SEARCH,
+  payload,
+})
 
 const handleGroupsResults = payload => dispatch => {
   dispatch({
-    type: types.HANDLE_GROUPS_SEARCH_NEW_CONVERSATION,
+    type: types.HANDLE_GROUPS_SEARCH,
     payload,
   })
 
@@ -62,17 +60,17 @@ const loadMembershipGroups = () => (dispatch, getState) => {
     .catch(err => dispatch(error(err)))
 }
 
-export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
+export const onSearchGroups = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
   const {
     groupsQuery,
-    isMembershipGroupsLoading,
+    isGroupsWithMembershipLoading,
     page,
   } = newConversationSelector(getState())
 
   dispatch(requestGroupsNewConversation(true))
 
-  if (isMembershipGroupsLoading) return dispatch(loadMembershipGroups())
+  if (isGroupsWithMembershipLoading) return dispatch(loadMembershipGroups())
 
   return api
     .getRooms(id, {
@@ -95,11 +93,11 @@ export const onSearchGroupsNewConversation = () => (dispatch, getState) => {
     .catch(err => dispatch(error(err)))
 }
 
-export const onChangeGroupsQueryNewConversation = query => dispatch => {
+export const onChangeGroupsQuery = payload => dispatch => {
   dispatch({
-    type: types.CHANGE_QUERY_GROUPS_NEW_CONVERSATION,
-    payload: query,
+    type: types.CHANGE_GROUPS_QUERY,
+    payload,
   })
 
-  dispatch(onSearchGroupsNewConversation())
+  dispatch(onSearchGroups())
 }
