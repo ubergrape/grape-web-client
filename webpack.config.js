@@ -66,6 +66,7 @@ const exportsObject = {
   devServer: {
     writeToDisk: true,
   },
+  bail: true,
   module: {
     rules: [
       {
