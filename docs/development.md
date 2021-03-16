@@ -57,11 +57,26 @@ Also install the `ca/chatgrape-labs.pem` certificate.
 In order to use the web proxy you have to change your network settings to use
 the web proxy for both http and https.
 
-#### For Mac
+### Proxy Setup
+
+#### Browsers
+
+You can configure the proxy in the network settings of your browser or use an add-on to easily turn it on and off. This allows you to only set the proxy for one browser or just one domain, so a broken proxy does not interfere with other apps and websites.
+
+Example plugins to set the proxy:
+
+- Firefox: [SmartProxy](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
+- Chrome: [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
+
+Your localhost proxy is a **HTTP proxy** that can handle HTTP and HTTPS connections. Make sure to select HTTP as proxy protocol in those plugins.
+
+#### macOS
+
+You can also configure the proxy globally for all apps, e.g. to test the local web-client in the desktop app.
 
 ![A configuration dialog for proxy settings](./proxy-mac.jpg)
 
-#### For Windows (IE)
+#### Windows (IE)
 
 To access localhost in VirtualBox machine (from Mac), use: 10.0.2.2:8081
 
@@ -74,24 +89,19 @@ For embedded client in demo/embedded.html use `staticBaseUrl: 'http://10.0.2.2:8
 
 Enable proxy in IE:
 
-<img src="./proxy-ie.png" alt="A configuration dialog for proxy settings" width="60%">
+<img src="./proxy-ie.png" alt="A configuration dialog for proxy settings" width="40%">
 
 Allow all of cookies in IE:
 
-<img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="60%">
+<img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="40%">
 
-#### Browsers
+#### Parallels
 
-You can configure the proxy in the network settings of your browser or use an add-on to easily turn it on and off.
+You can use your Mac's public IP address and default bridged network adapter to configure the proxy instead of 0.0.0.0.
 
-Example plugins to set the proxy:
+### Certificate Setup
 
-- Firefox: [SmartProxy](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
-- Chrome: [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
-
-Your localhost proxy is a **HTTP proxy** that can handle HTTP and HTTPS connections. Make sure to select HTTP as proxy protocol in those plugins.
-
-## Trusting certificate on Firefox
+#### Trusting certificate on Firefox
 
 Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
 
@@ -99,14 +109,10 @@ Add all certificates here manually.
 
 ![Firefox authorities dialog](./authorities.png)
 
-## Trusting certificate on Windows
+#### Trusting certificate on Windows
 
 1.  Open shell as an admin (right click in start menu).
 1.  Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
-
-## Parallels
-
-You can use your Mac's public IP address and default bridged network adapter to configure the proxy instead of 0.0.0.0.
 
 ## Build once
 
@@ -147,3 +153,7 @@ yarn start:dev:all # node_modules are cached! restart this process if it was alr
 cd <your_path>/grape-ds/web
 yarn build:lib:watch
 ```
+
+If you are working on web-client and aurora-ui code at the same time and need to have multiple terminals open, have a look at [grape_fronted.py](./grape_fronted.py), it automatically opens four terminal panes in iTerm2 and runs the necessary commands. Screenshot:
+
+![](iterm2.png)
