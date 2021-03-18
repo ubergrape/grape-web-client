@@ -2,8 +2,12 @@ export default {
   wrapper: {
     flex: 1,
   },
-  link: {
+  backWrapper: {
     flex: '0 0 auto',
+    display: 'flex',
+  },
+  back: {
+    marginRight: 8, // icon has a width of 24, not 16 like in the design -> 12 - (24-16)/2
   },
   switch: {
     flex: '0 0 auto',
