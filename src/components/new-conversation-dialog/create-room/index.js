@@ -40,7 +40,7 @@ const CreateRoom = ({
   onCreateRoom,
 }) => {
   useEffect(() => {
-    onSearchMembers()
+    // onSearchMembers()
   }, [])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
@@ -73,7 +73,7 @@ const CreateRoom = ({
         onChange={onGroupNameChange}
         description="Should represent the topic of the group."
         maxLength={30}
-        width={260}
+        width={410}
         className={classes.name}
       />
       <TextArea
