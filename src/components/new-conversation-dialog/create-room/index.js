@@ -64,6 +64,7 @@ const CreateRoom = ({
       </div>
       <Switch
         label="Make group private"
+        aria-label="Make group private"
         onChange={setIsPrivate}
         className={classes.switch}
         helpText="Only group members can view a private group and invite other people to join."
