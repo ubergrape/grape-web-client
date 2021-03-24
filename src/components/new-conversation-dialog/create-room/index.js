@@ -114,8 +114,11 @@ const CreateRoom = ({
           )
         })}
       </TagsInput>
-      <Text className={classes.selectedMembers}>
-        Selected members:&nbsp;<Text emphasis>{selectedMembers.length}</Text>
+      <Text className={classes.selectedMembers} size="small">
+        Selected members:&nbsp;
+        <Text emphasis size="small">
+          {selectedMembers.length}
+        </Text>
       </Text>
       <div className={classes.listWrapper}>
         <div className={classes.list}>
