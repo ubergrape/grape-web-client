@@ -4,6 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { OverlayContainer, useModal } from '@react-aria/overlays'
 
 import Groups from './groups'
+import People from './people'
 import CreateRoom from './create-room'
 import theme from './theme'
 
@@ -44,7 +45,9 @@ const NewConversationDialog = ({
               className={classes.tabs}
               align="justify"
             >
-              <Tab name="Person" />
+              <Tab name="Person">
+                <People overflowPadding={overflowPadding} {...props} />
+              </Tab>
               <Tab name="Group">
                 <Groups overflowPadding={overflowPadding} {...props} />
               </Tab>

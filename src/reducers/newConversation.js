@@ -10,8 +10,13 @@ export const initial = {
   isGroupsLoading: false,
   isGroupsWithMembershipLoading: false,
   isMemberOfEachGroup: false,
+  people: [],
+  isPeopleLoading: false,
+  isInPmWithEveryPerson: false,
   groupsQuery: '',
-  page: 1,
+  groupsPage: 1,
+  peopleQuery: '',
+  peoplePage: 1,
 }
 
 export const states = {
@@ -46,7 +51,7 @@ export const states = {
     groups: uniqBy([...state.groups, ...payload], group =>
       [group.id, group.text].join(),
     ),
-    page: state.page + 1,
+    groupsPage: state.groupsPage + 1,
   }),
   [types.HANDLE_NO_GROUPS_LEFT_TO_JOIN]: state => ({
     ...state,
@@ -55,6 +60,29 @@ export const states = {
   [types.REQUEST_MEMBERSHIP_GROUPS_LOADING]: state => ({
     ...state,
     isGroupsWithMembershipLoading: true,
-    page: 1,
+    groupsPage: 1,
+  }),
+  [types.CHANGE_PEOPLE_QUERY]: (state, payload) => ({
+    ...initial,
+    isOpen: true,
+    peopleQuery: payload,
+  }),
+  [types.REQUEST_PEOPLE_SEARCH]: (state, payload) => ({
+    ...state,
+    isPeopleLoading: payload,
+  }),
+  [types.HANDLE_PEOPLE_SEARCH]: (state, payload) => ({
+    ...state,
+    people: uniqBy([...state.people, ...payload], person => [person.id].join()),
+    peoplePage: state.peoplePage + 1,
+  }),
+  [types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN]: state => ({
+    ...state,
+    isInPmWithEveryPerson: true,
+  }),
+  [types.REQUEST_MEMBERSHIP_PEOPLE_LOADING]: state => ({
+    ...state,
+    isPeopleWithPmLoading: true,
+    peoplePage: 1,
   }),
 }
