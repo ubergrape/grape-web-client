@@ -23,7 +23,13 @@ cd grape-web-client
 npm i
 ```
 
-## Development
+## Build once
+
+```bash
+yarn build
+```
+
+## Local Dev Server
 
 Start a local dev server:
 
@@ -47,6 +53,8 @@ In `demo/embedded.html`, change `serviceUrl` parameter to your `stage` or `dev` 
 
 To resolve CORS errors (Windows, IE, VirtualBox), please follow [this](https://www.webdavsystem.com/ajax/programming/cross_origin_requests) guide. If it didn't help - try [this](https://answers.microsoft.com/en-us/ie/forum/ie11-iewindows_10/cannot-watch-videos-on-internet-explorer-11/a3253887-b5c5-424c-91c1-ec9ed4b73b01).
 
+### Certificates
+
 On your first run, the certificate `.http-mitm-proxy/certs/ca.pem` is created. You have to
 install and trust this certificate using your standard OS tools.
 
@@ -54,10 +62,23 @@ Also install the `ca/chatgrape-labs.pem` certificate.
 
 ![A dialog showing current trust settings](./ca-trust.jpg)
 
+#### Trusting certificates on Firefox
+
+Firefox doesn't trust the OS certificate store, you need to add Grape's CA as an authority additionally.
+
+Add all certificates here manually:
+
+![Firefox authorities dialog](./authorities.png)
+
+#### Trusting certificates on Windows
+
+1.  Open shell as an admin (right click in start menu).
+1.  Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
+
+### Proxy
+
 In order to use the web proxy you have to change your network settings to use
 the web proxy for both http and https.
-
-### Proxy Setup
 
 #### Browsers
 
@@ -89,36 +110,15 @@ For embedded client in demo/embedded.html use `staticBaseUrl: 'http://10.0.2.2:8
 
 Enable proxy in IE:
 
-<img src="./proxy-ie.png" alt="A configuration dialog for proxy settings" width="40%">
+<img src="./proxy-ie.png" alt="A configuration dialog for proxy settings" width="60%">
 
 Allow all of cookies in IE:
 
-<img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="40%">
+<img src="./cookies-ie.png" alt="A configuration dialog for cookies settings" width="60%">
 
 #### Parallels
 
 You can use your Mac's public IP address and default bridged network adapter to configure the proxy instead of 0.0.0.0.
-
-### Certificate Setup
-
-#### Trusting certificate on Firefox
-
-Firefox doesn't trust the trusted system certificate, you need to add it as an authority additionally.
-
-Add all certificates here manually.
-
-![Firefox authorities dialog](./authorities.png)
-
-#### Trusting certificate on Windows
-
-1.  Open shell as an admin (right click in start menu).
-1.  Install both certificates using `certutil –addstore -enterprise –f “Root” <pathtocertificatefile>``
-
-## Build once
-
-```bash
-yarn build
-```
 
 ## Develop dependencies like grape-web, grape-browser or aurora-ui locally
 
