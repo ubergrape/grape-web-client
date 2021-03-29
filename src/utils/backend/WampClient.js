@@ -49,6 +49,7 @@ export default class WampClient {
     this.pingInterval = options.pingInterval || pingInterval
     this.url = options.url
     this.reset()
+    this.watchOnlineStatus()
   }
 
   connect() {
@@ -129,6 +130,15 @@ export default class WampClient {
       if (err) return this.onError(err)
       return logWamp(res)
     })
+  }
+
+  /**
+   * Watch the connection status, as reported by the browser.
+   * we only use this for logging currently
+   */
+  watchOnlineStatus = () => {
+    window.addEventListener('online', this.onOnlineStatusChange)
+    window.addEventListener('offline', this.onOnlineStatusChange)
   }
 
   /**
@@ -231,5 +241,9 @@ export default class WampClient {
     )
     this.close()
     this.reopen()
+  }
+
+  onOnlineStatusChange = event => {
+    logWs('browser connection status: %s', event.type, event)
   }
 }
