@@ -2,9 +2,9 @@ export default {
   wrapper: {
     flex: 1,
   },
-  header: {
+  description: {
     flex: '0 0 auto',
-    marginTop: 16,
+    marginTop: 8,
   },
   search: {
     flex: '0 0 auto',
@@ -13,6 +13,10 @@ export default {
   empty: {
     flex: '0 0 auto',
     marginTop: 24,
+  },
+  member: {
+    flex: '0 0 auto',
+    marginTop: 16,
   },
   listWrapper: {
     flex: 1,

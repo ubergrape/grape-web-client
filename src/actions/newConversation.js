@@ -171,7 +171,7 @@ export const onSearchPeople = () => (dispatch, getState) => {
     .then(({ results }) => {
       if (results.length < itemsToLoad) {
         if (!results.length && peoplePage === 1) {
-          dispatch({ type: types.HANDLE_NO_PEOPLE_IN_ORGANIZATION })
+          dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
         }
         dispatch({ type: types.REQUEST_MEMBERSHIP_PEOPLE_LOADING })
         dispatch(loadMembershipPeople())

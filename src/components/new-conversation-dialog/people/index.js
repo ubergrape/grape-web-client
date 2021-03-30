@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 
-import { Flex, SearchField } from '@ubergrape/aurora-ui'
+import { Text, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
 import { InfiniteAutoRowHeightList } from '../../list'
@@ -20,7 +20,7 @@ const People = ({
   overflowPadding,
   people,
   isPeopleLoading,
-  // isInPmWithEveryPerson,
+  isInPmWithEveryPerson,
   onChangePeopleQuery,
   onSearchPeople,
   hideNewConversation,
@@ -48,6 +48,16 @@ const People = ({
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
+      {isInPmWithEveryPerson && (
+        <Flex direction="column" className={classes.member}>
+          <Text maxWidth="initial" emphasis>
+            You&#39;re a very communicative person!
+          </Text>
+          <Text maxWidth="initial" className={classes.description}>
+            All members are already chatting with you. Keep in touch with them.
+          </Text>
+        </Flex>
+      )}
       <SearchField
         onChange={debounce(query => onChangePeopleQuery(query), debouncingTime)}
         aria-label="Person search"
