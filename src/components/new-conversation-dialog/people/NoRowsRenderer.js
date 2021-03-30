@@ -8,7 +8,9 @@ const NoRowsRenderer = ({ isPeopleLoading, classes }) => (
     {isPeopleLoading ? (
       <Text className={classes.loading}>Loading...</Text>
     ) : (
-      <Text className={classes.notFound}>Not found</Text>
+      <Text className={classes.notFound}>
+        Nice name, but unfortunately nobody could be found.
+      </Text>
     )}
   </div>
 )
