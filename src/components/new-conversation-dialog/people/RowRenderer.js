@@ -40,6 +40,7 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           name={name}
           status={userStatusMap[status]}
           description={whatIDo}
+          size="regular"
           onClick={() => onListItemClick(id, pm)}
         />
         {pm && <Text size="small">10m</Text>}
