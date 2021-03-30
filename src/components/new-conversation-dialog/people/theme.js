@@ -8,6 +8,7 @@ export default {
   },
   search: {
     flex: '0 0 auto',
+    marginTop: 16,
   },
   empty: {
     flex: '0 0 auto',
