@@ -1,10 +1,10 @@
 export default {
   wrapper: {
     flex: 1,
-    paddingTop: 16,
   },
   header: {
     flex: '0 0 auto',
+    marginTop: 16,
   },
   link: {
     flex: '0 0 auto',
