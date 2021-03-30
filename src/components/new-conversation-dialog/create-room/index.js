@@ -1,8 +1,7 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import debounce from 'lodash/debounce'
 import {
   Flex,
-  ActionLink,
   Switch,
   TextField,
   TextArea,
@@ -11,6 +10,8 @@ import {
   Text,
   ButtonGroup,
   Button,
+  Icon,
+  Headline,
 } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import injectSheet from 'grape-web/lib/jss'
@@ -39,26 +40,31 @@ const CreateRoom = ({
   onCreateRoom,
 }) => {
   useEffect(() => {
-    onSearchMembers()
+    // onSearchMembers()
   }, [])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
   ])
 
+  const [hoverBack, setHoverBack] = useState(false)
+
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
-      <ActionLink
-        className={classes.link}
-        variant="basic"
-        onClick={hideCreateRoom}
-        href="#"
-        icon="arrowLeft"
-      >
-        Create a new group
-      </ActionLink>
+      <div className={classes.backWrapper}>
+        <button
+          onClick={hideCreateRoom}
+          className={classes.back}
+          onMouseEnter={() => setHoverBack(true)}
+          onMouseLeave={() => setHoverBack(false)}
+        >
+          <Icon name="arrowLeft" color={hoverBack ? 'link' : 'primary'} />
+        </button>
+        <Headline size="base">Create a new group</Headline>
+      </div>
       <Switch
         label="Make group private"
+        aria-label="Make group private"
         onChange={setIsPrivate}
         className={classes.switch}
         helpText="Only group members can view a private group and invite other people to join."
@@ -68,7 +74,7 @@ const CreateRoom = ({
         onChange={onGroupNameChange}
         description="Should represent the topic of the group."
         maxLength={30}
-        width={260}
+        width={410}
         className={classes.name}
       />
       <TextArea
@@ -108,8 +114,11 @@ const CreateRoom = ({
           )
         })}
       </TagsInput>
-      <Text className={classes.selectedMembers}>
-        Selected members:&nbsp;<Text emphasis>{selectedMembers.length}</Text>
+      <Text className={classes.selectedMembers} size="small">
+        Selected members:&nbsp;
+        <Text emphasis size="small">
+          {selectedMembers.length}
+        </Text>
       </Text>
       <div className={classes.listWrapper}>
         <div className={classes.list}>

@@ -12,7 +12,6 @@ const NewConversationDialog = ({
   classes,
   isOpen,
   tab,
-  hideNewConversation,
   setNewConversationTab,
   ...props
 }) => {
@@ -25,6 +24,8 @@ const NewConversationDialog = ({
   const onOverflowPaddingChanged = padding => {
     setOverflowPadding(padding)
   }
+
+  const { hideNewConversation } = props
 
   return (
     <OverlayContainer>
