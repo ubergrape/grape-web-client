@@ -1,10 +1,7 @@
 export default {
   wrapper: {
     flex: 1,
-  },
-  header: {
-    flex: '0 0 auto',
-    marginTop: 16,
+    paddingTop: 16,
   },
   search: {
     flex: '0 0 auto',
