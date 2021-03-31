@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -39,6 +39,10 @@ const CreateRoom = ({
   onMemberRemove,
   onCreateRoom,
 }) => {
+  useEffect(() => {
+    onSearchMembers()
+  }, [])
+
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
   ])
