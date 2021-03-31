@@ -2,8 +2,15 @@ export default {
   wrapper: {
     flex: 1,
   },
-  link: {
+  backWrapper: {
     flex: '0 0 auto',
+    display: 'flex',
+  },
+  back: {
+    marginRight: 8,
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
   },
   switch: {
     flex: '0 0 auto',

@@ -65,7 +65,7 @@ const Groups = ({
           variant="primary"
           onClick={showCreateRoom}
           className={classes.link}
-          href="#"
+          href="#create-room"
           icon="people"
         >
           Create a new group
