@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -40,26 +40,19 @@ const CreateRoom = ({
   onCreateRoom,
 }) => {
   useEffect(() => {
-    // onSearchMembers()
+    onSearchMembers()
   }, [])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
   ])
 
-  const [hoverBack, setHoverBack] = useState(false)
-
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
       <div className={classes.backWrapper}>
-        <button
-          onClick={hideCreateRoom}
-          className={classes.back}
-          onMouseEnter={() => setHoverBack(true)}
-          onMouseLeave={() => setHoverBack(false)}
-        >
-          <Icon name="arrowLeft" color={hoverBack ? 'link' : 'primary'} />
-        </button>
+        <a onClick={hideCreateRoom} href="#groups" className={classes.back}>
+          <Icon name="arrowLeft" />
+        </a>
         <Headline size="base">Create a new group</Headline>
       </div>
       <Switch
