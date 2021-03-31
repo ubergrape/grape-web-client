@@ -40,7 +40,7 @@ const CreateRoom = ({
   onCreateRoom,
 }) => {
   useEffect(() => {
-    // onSearchMembers()
+    onSearchMembers()
   }, [])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
