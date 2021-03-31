@@ -103,6 +103,12 @@ export const onCreateRoom = payload => (dispatch, getState) => {
       dispatch(goToChannel(channelId))
     })
     .catch(err => {
+      if (err.message === 'Name must not be empty') {
+        dispatch({
+          type: types.HANDLE_EMPTY_GROUP_NAME_ERROR,
+          payload: err.message,
+        })
+      }
       dispatch(error(err))
     })
 }

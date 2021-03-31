@@ -11,6 +11,7 @@ export const initial = {
   members: [],
   selectedMembers: [],
   page: 1,
+  errorMessage: '',
   isMembersLoading: false,
 }
 
@@ -49,6 +50,10 @@ export const states = {
   [types.HANDLE_GROUP_DESCRIPTION_CHANGE]: (state, payload) => ({
     ...state,
     description: payload,
+  }),
+  [types.HANDLE_EMPTY_GROUP_NAME_ERROR]: (state, payload) => ({
+    ...state,
+    errorMessage: payload,
   }),
   [types.CHANGE_MEMBERS_QUERY]: (state, payload) => ({
     ...state,

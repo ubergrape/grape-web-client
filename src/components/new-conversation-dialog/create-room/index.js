@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -28,6 +28,7 @@ const CreateRoom = ({
   members,
   selectedMembers,
   membersQuery,
+  errorMessage,
   isMembersLoading,
   hideCreateRoom,
   setIsPrivate,
@@ -39,13 +40,18 @@ const CreateRoom = ({
   onMemberRemove,
   onCreateRoom,
 }) => {
-  useEffect(() => {
-    onSearchMembers()
-  }, [])
-
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
   ])
+
+  const [isTagsInputInteracted, setTagsInputIntaraction] = useState(false)
+
+  const onTagsInputFocus = () => {
+    if (!isTagsInputInteracted) {
+      onSearchMembers()
+      setTagsInputIntaraction(true)
+    }
+  }
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
@@ -66,6 +72,7 @@ const CreateRoom = ({
         label="Group name"
         onChange={onGroupNameChange}
         description="Should represent the topic of the group."
+        validationHelp={errorMessage}
         maxLength={30}
         width={410}
         className={classes.name}
@@ -84,6 +91,7 @@ const CreateRoom = ({
           query => onChangeMembersQuery(query),
           debouncingTime,
         )}
+        onFocus={onTagsInputFocus}
         description="Consider adding other people for lively discussions. You can also do this later."
         isNecessityLabel
         className={classes.members}
@@ -107,43 +115,47 @@ const CreateRoom = ({
           )
         })}
       </TagsInput>
-      <Text className={classes.selectedMembers} size="small">
-        Selected members:&nbsp;
-        <Text emphasis size="small">
-          {selectedMembers.length}
-        </Text>
-      </Text>
-      <div className={classes.listWrapper}>
-        <div className={classes.list}>
-          <InfiniteAutoRowHeightList
-            rowHeight={() => 32}
-            loadMoreRows={onSearchMembers}
-            isRowLoaded={isRowLoaded}
-            list={members}
-            minimumBatchSize={50}
-            width={680 - overflowPadding}
-            threshold={25}
-            rowRenderer={(index, key, style) => (
-              <RowRenderer
-                index={index}
-                key={key}
-                style={style}
-                members={members}
-                onMemberRemove={onMemberRemove}
-                onMemberSelect={onMemberSelect}
-                classes={classes}
+      {isTagsInputInteracted && (
+        <>
+          <Text className={classes.selectedMembers} size="small">
+            Selected members:&nbsp;
+            <Text emphasis size="small">
+              {selectedMembers.length}
+            </Text>
+          </Text>
+          <div className={classes.listWrapper}>
+            <div className={classes.list}>
+              <InfiniteAutoRowHeightList
+                rowHeight={() => 32}
+                loadMoreRows={onSearchMembers}
+                isRowLoaded={isRowLoaded}
+                list={members}
+                minimumBatchSize={50}
+                width={680 - overflowPadding}
+                threshold={25}
+                rowRenderer={(index, key, style) => (
+                  <RowRenderer
+                    index={index}
+                    key={key}
+                    style={style}
+                    members={members}
+                    onMemberRemove={onMemberRemove}
+                    onMemberSelect={onMemberSelect}
+                    classes={classes}
+                  />
+                )}
+                noRowsRenderer={() => (
+                  <NoRowsRenderer
+                    classes={classes}
+                    membersQuery={membersQuery}
+                    isMembersLoading={isMembersLoading}
+                  />
+                )}
               />
-            )}
-            noRowsRenderer={() => (
-              <NoRowsRenderer
-                classes={classes}
-                membersQuery={membersQuery}
-                isMembersLoading={isMembersLoading}
-              />
-            )}
-          />
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      )}
       <ButtonGroup className={classes.buttons}>
         <Button onClick={onCreateRoom} variant="primary">
           Create group
