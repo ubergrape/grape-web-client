@@ -12,12 +12,16 @@ export default {
     alignItems: 'center',
     cursor: 'pointer',
   },
+  form: {
+    width: ({ overflowPadding }) => `calc(100% - ${overflowPadding}px)`,
+  },
   switch: {
     flex: '0 0 auto',
     marginTop: 24,
   },
   name: {
     flex: '0 0 auto',
+    maxWidth: 410,
     marginTop: 24,
   },
   description: {
@@ -29,6 +33,7 @@ export default {
     marginTop: 24,
   },
   listWrapper: {
+    position: 'relative',
     flex: 1,
     minHeight: 102, // 96 + 6. 32 is one block, 32 * 3 = 96. 6 this is sum of margins from list below
     marginTop: 8,
@@ -39,6 +44,8 @@ export default {
     display: 'flex',
   },
   list: {
+    // https://stackoverflow.com/a/8468131
+    position: 'absolute',
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],
