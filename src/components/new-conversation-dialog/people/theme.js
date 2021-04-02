@@ -38,10 +38,7 @@ export default {
     marginLeft: 4,
     marginBottom: 12,
   },
-  loading: {
-    marginLeft: 4,
-  },
-  notFound: {
-    marginLeft: 4,
+  time: {
+    margin: [0, 8, 0, 'auto'],
   },
 }

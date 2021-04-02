@@ -56,10 +56,4 @@ export default {
     top: '50%',
     transform: 'translateY(-50%)',
   },
-  loading: {
-    marginLeft: 4,
-  },
-  groupNotFound: {
-    marginLeft: 4,
-  },
 }

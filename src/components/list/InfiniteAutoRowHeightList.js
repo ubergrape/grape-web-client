@@ -13,6 +13,7 @@ const InfiniteAutoRowHeightList = memo(
     noRowsRenderer,
     list,
     threshold,
+    overscanRowCount,
     minimumBatchSize,
     width,
     rowHeight,
@@ -33,6 +34,7 @@ const InfiniteAutoRowHeightList = memo(
               height={height}
               rowHeight={({ index }) => rowHeight(list, index)}
               rowCount={list.length}
+              overscanRowCount={overscanRowCount}
               onRowsRendered={onRowsRendered}
               rowRenderer={({ index, key, style }) =>
                 rowRenderer(index, key, style)
@@ -44,7 +46,9 @@ const InfiniteAutoRowHeightList = memo(
       )}
     </InfiniteLoader>
   ),
-  (prevProps, nextProps) => isEqual(prevProps.list, nextProps.list),
+  (prevProps, nextProps) =>
+    isEqual(prevProps.list, nextProps.list) &&
+    prevProps.isListLoading === nextProps.isListLoading,
 )
 
 InfiniteAutoRowHeightList.propTypes = {
@@ -54,6 +58,7 @@ InfiniteAutoRowHeightList.propTypes = {
   noRowsRenderer: PropTypes.func.isRequired,
   list: PropTypes.array.isRequired,
   threshold: PropTypes.number,
+  overscanRowCount: PropTypes.number,
   minimumBatchSize: PropTypes.number,
   width: PropTypes.number.isRequired,
   rowHeight: PropTypes.func.isRequired,
@@ -61,6 +66,7 @@ InfiniteAutoRowHeightList.propTypes = {
 
 InfiniteAutoRowHeightList.defaultProps = {
   threshold: 15,
+  overscanRowCount: 15,
   minimumBatchSize: 10,
 }
 

@@ -40,6 +40,7 @@ export default {
   },
   selectedMembers: {
     flex: '0 0 auto',
+    padding: [0, 2.5],
     marginTop: 8,
     display: 'flex',
   },

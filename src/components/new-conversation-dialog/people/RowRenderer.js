@@ -33,7 +33,7 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
 
   return (
     <div style={style} key={id}>
-      <Flex>
+      <Flex items="center">
         <AvatarItem
           src={avatar}
           alt={name}
@@ -41,9 +41,14 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           status={userStatusMap[status]}
           description={whatIDo}
           size="regular"
+          maxWidth={600}
           onClick={() => onListItemClick(id, pm)}
         />
-        {pm && <Text size="small">10m</Text>}
+        {pm && (
+          <Text className={classes.time} size="small">
+            10m
+          </Text>
+        )}
       </Flex>
     </div>
   )
