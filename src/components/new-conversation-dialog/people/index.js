@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 
@@ -51,18 +52,34 @@ const People = ({
       {isInPmWithEveryPerson && (
         <Flex direction="column" className={classes.member}>
           <Text maxWidth="initial" emphasis>
-            You&#39;re a very communicative person!
+            <FormattedMessage
+              id="ncdInPmWithEveryPerson1"
+              defaultMessage="You're a very communicative person!"
+            />
           </Text>
           <Text maxWidth="initial" className={classes.description}>
-            All members are already chatting with you. Keep in touch with them.
+            <FormattedMessage
+              id="ncdInPmWithEveryPerson2"
+              defaultMessage="All members are already chatting with you. Keep in touch with them."
+            />
           </Text>
         </Flex>
       )}
       <SearchField
         onChange={debounce(query => onChangePeopleQuery(query), debouncingTime)}
-        aria-label="Person search"
+        aria-label={
+          <FormattedMessage
+            id="ncdPersonSearchLabel"
+            defaultMessage="Person search"
+          />
+        }
         className={classes.search}
-        placeholder="Search for a person ..."
+        placeholder={
+          <FormattedMessage
+            id="ncdPersonSearchPlaceholder"
+            defaultMessage="Search for a person ..."
+          />
+        }
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>

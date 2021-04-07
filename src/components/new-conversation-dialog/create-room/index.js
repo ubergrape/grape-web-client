@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -53,38 +54,97 @@ const CreateRoom = ({
         <a onClick={hideCreateRoom} href="#groups" className={classes.back}>
           <Icon name="arrowLeft" />
         </a>
-        <Headline size="base">Create a new group</Headline>
+        <Headline size="base">
+          <FormattedMessage
+            id="ncdCreateGroup"
+            defaultMessage="Create a new group"
+          />
+        </Headline>
       </div>
       <Switch
-        label="Make group private"
-        aria-label="Make group private"
+        label={
+          <FormattedMessage
+            id="ncdGroupPrivateLabel"
+            defaultMessage="Make group private"
+            description="switch label"
+          />
+        }
+        aria-label={
+          <FormattedMessage
+            id="ncdGroupPrivateLabel"
+            defaultMessage="Make group private"
+            description="switch label"
+          />
+        }
         onChange={setIsPrivate}
         className={classes.switch}
-        helpText="Only group members can view a private group and invite other people to join."
+        helpText={
+          <FormattedMessage
+            id="ncdGroupPrivateHelpText"
+            defaultMessage="Only group members can view a private group and invite other people to join."
+            description="switch help text"
+          />
+        }
       />
       <TextField
-        label="Group name"
+        label={
+          <FormattedMessage
+            id="ncdGroupNameLabel"
+            defaultMessage="Group name"
+            description="text field label"
+          />
+        }
         onChange={onGroupNameChange}
-        description="Should represent the topic of the group."
+        description={
+          <FormattedMessage
+            id="ncdGroupNameDescription"
+            defaultMessage="Should represent the topic of the group."
+            description="text field description"
+          />
+        }
         maxLength={30}
         width={410}
         className={classes.name}
       />
       <TextArea
-        label="Description"
+        label={
+          <FormattedMessage
+            id="ncdGroupDescriptionLabel"
+            defaultMessage="Description"
+            description="text area label"
+          />
+        }
         onChange={onGroupDescriptionChange}
-        description="Help others understand the purpose of this group."
+        description={
+          <FormattedMessage
+            id="ncdGroupDescriptionDescription"
+            defaultMessage="Help others understand the purpose of this group."
+            description="text area description"
+          />
+        }
         isNecessityLabel
         maxLength={120}
         className={classes.description}
       />
       <TagsInput
-        label="Members"
+        label={
+          <FormattedMessage
+            id="ncdGroupMembersLabel"
+            defaultMessage="Members"
+            description="group members input label"
+          />
+        }
         onChange={debounce(
           query => onChangeMembersQuery(query),
           debouncingTime,
         )}
-        description="Consider adding other people for lively discussions. You can also do this later."
+        description={
+          <FormattedMessage
+            id="ncdGroupMembersDescription"
+            defaultMessage="Consider adding other people for lively discussions. You can also do this later."
+            description="description for group members input"
+          />
+        }
         isNecessityLabel
         className={classes.members}
       >
@@ -108,7 +168,11 @@ const CreateRoom = ({
         })}
       </TagsInput>
       <Text className={classes.selectedMembers} size="small">
-        Selected members:&nbsp;
+        <FormattedMessage
+          id="ncdGroupMembersSelected"
+          defaultMessage="Selected members:"
+        />
+        &nbsp;
         <Text emphasis size="small">
           {selectedMembers.length}
         </Text>
@@ -146,10 +210,16 @@ const CreateRoom = ({
       </div>
       <ButtonGroup className={classes.buttons}>
         <Button onClick={onCreateRoom} variant="primary">
-          Create group
+          <FormattedMessage
+            id="ncdGroupCreateButton"
+            defaultMessage="Create group"
+          />
         </Button>
         <Button onClick={hideCreateRoom} variant="basic" appearance="minimal">
-          Cancel
+          <FormattedMessage
+            id="ncdGroupCreateCancelButton"
+            defaultMessage="Cancel"
+          />
         </Button>
       </ButtonGroup>
     </Flex>

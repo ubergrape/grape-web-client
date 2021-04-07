@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Text } from '@ubergrape/aurora-ui'
@@ -6,10 +7,16 @@ import { Text } from '@ubergrape/aurora-ui'
 const NoRowsRenderer = ({ isPeopleLoading, classes }) => (
   <div>
     {isPeopleLoading ? (
-      <Text className={classes.loading}>Loading...</Text>
+      <Text className={classes.loading}>
+        <FormattedMessage id="loading" defaultMessage="Loading…" />
+      </Text>
     ) : (
       <Text className={classes.notFound}>
-        Nice name, but unfortunately nobody could be found.
+        <FormattedMessage
+          id="ncdPeopleSearchNotFound"
+          defaultMessage="Nice name, but unfortunately nobody could be found."
+          description="shown when people search returns 0 results"
+        />
       </Text>
     )}
   </div>

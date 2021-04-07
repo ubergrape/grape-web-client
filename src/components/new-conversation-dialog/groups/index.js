@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
@@ -53,12 +54,16 @@ const Groups = ({
       <Flex direction="column" items="start" className={classes.wrapper}>
         <Flex direction="column" className={classes.empty}>
           <Text maxWidth="initial" emphasis>
-            You’re the first!
+            <FormattedMessage
+              id="ncdNoGroups1"
+              defaultMessage="You're the first!"
+            />
           </Text>
           <Text maxWidth="initial" className={classes.description}>
-            No one else has created a group yet. Don&#39;t be too stressed and
-            just create the first group around a topic that comes to your mind.
-            You can invite other people to this group later.
+            <FormattedMessage
+              id="ncdNoGroups2"
+              defaultMessage="No one else has created a group yet. Don't be too stressed and just create the first group around a topic that comes to your mind. You can invite other people to this group later."
+            />
           </Text>
         </Flex>
         <ActionLink
@@ -68,7 +73,10 @@ const Groups = ({
           href="#create-room"
           icon="people"
         >
-          Create a new group
+          <FormattedMessage
+            id="ncdCreateGroup"
+            defaultMessage="Create a new group"
+          />
         </ActionLink>
       </Flex>
     )
@@ -77,8 +85,10 @@ const Groups = ({
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
       <Text maxWidth="initial" className={classes.header}>
-        Join an existing group or create a new one. Groups are best organized
-        around a topic.
+        <FormattedMessage
+          id="ncdJoinGroupHeader"
+          defaultMessage="Join an existing group or create a new one. Groups are best organized around a topic."
+        />
       </Text>
       <ActionLink
         variant="primary"
@@ -87,25 +97,42 @@ const Groups = ({
         href="#"
         icon="people"
       >
-        Create a new group
+        <FormattedMessage
+          id="ncdCreateGroup"
+          defaultMessage="Create a new group"
+        />
       </ActionLink>
       {isMemberOfEachGroup && (
         <Flex direction="column" className={classes.member}>
           <Text maxWidth="initial" emphasis>
-            You won&#39;t miss any chat going on!
+            <FormattedMessage
+              id="ncdMemberOfEachGroup1"
+              defaultMessage="You won't miss any chat going on!"
+            />
           </Text>
           <Text maxWidth="initial" className={classes.description}>
-            You&#39;re already part of every existing group here, there is
-            nothing that can be publicly said without your notice. You may want
-            to conversations going.
+            <FormattedMessage
+              id="ncdMemberOfEachGroup2"
+              defaultMessage="You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to conversations going."
+            />
           </Text>
         </Flex>
       )}
       <SearchField
         onChange={debounce(query => onChangeGroupsQuery(query), debouncingTime)}
-        label="Group search"
+        label={
+          <FormattedMessage
+            id="ncdGroupSearchLabel"
+            defaultMessage="Group search"
+          />
+        }
         className={classes.search}
-        placeholder="Search for a group ..."
+        placeholder={
+          <FormattedMessage
+            id="ncdGroupSearchPlaceholder"
+            defaultMessage="Search for a group ..."
+          />
+        }
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>
