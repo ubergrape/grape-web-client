@@ -151,7 +151,6 @@
     "lint": "eslint src",
     "lint:staged": "lint-staged",
     "clear:build": "rimraf '{dist,lib}'",
-    "i18n:export": "yarn clear:i18n && yarn build && babel-node i18n/scripts/export.js",
     "i18n:export": "formatjs extract 'src/**/*.js' --out-file i18n/translations/en.json --format ./i18n/scripts/lingohub-formatter.js",
     "i18n:import": "babel-node i18n/scripts/import.js",
     "precommit": "lint-staged",
