@@ -13,14 +13,16 @@ components # react render components
   images   # local components images
   tests
   index.js
-containers # react container components connected to the Redux store
 constants  # app constants, for e.g. redux's
+containers # react container components connected to the Redux store
 fonts      # web fonts
 i18n       # contains translations
-images     # static assets
-legacy     # legacy pieces of the app
+images     # static assets (images)
+middleware # redux's middlewares
 reducers   # redux's reducers
 selectors  # redux's selectios
+sounds     # static assets (sounds)
+themes     # static themes, e.g. colors
 utils      # general purpose utils
 index.js   # app entry point
 ```
