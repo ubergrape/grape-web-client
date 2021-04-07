@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
@@ -29,6 +29,7 @@ const Groups = ({
   showCreateRoom,
   goToChannel,
   joinChannel,
+  intl: { formatMessage },
 }) => {
   useEffect(() => {
     onSearchGroups()
@@ -120,19 +121,15 @@ const Groups = ({
       )}
       <SearchField
         onChange={debounce(query => onChangeGroupsQuery(query), debouncingTime)}
-        label={
-          <FormattedMessage
-            id="ncdGroupSearchLabel"
-            defaultMessage="Group search"
-          />
-        }
+        label={formatMessage({
+          id: 'ncdGroupSearchLabel',
+          defaultMessage: 'Group search',
+        })}
         className={classes.search}
-        placeholder={
-          <FormattedMessage
-            id="ncdGroupSearchPlaceholder"
-            defaultMessage="Search for a group ..."
-          />
-        }
+        placeholder={formatMessage({
+          id: 'ncdGroupSearchPlaceholder',
+          defaultMessage: 'Search for a group ...',
+        })}
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>
@@ -167,4 +164,4 @@ const Groups = ({
   )
 }
 
-export default injectSheet(theme)(Groups)
+export default injectSheet(theme)(injectIntl(Groups))

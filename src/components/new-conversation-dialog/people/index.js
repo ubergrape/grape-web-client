@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 
@@ -27,6 +27,7 @@ const People = ({
   hideNewConversation,
   goToChannel,
   openPm,
+  intl: { formatMessage },
 }) => {
   useEffect(() => {
     onSearchPeople()
@@ -67,19 +68,15 @@ const People = ({
       )}
       <SearchField
         onChange={debounce(query => onChangePeopleQuery(query), debouncingTime)}
-        aria-label={
-          <FormattedMessage
-            id="ncdPersonSearchLabel"
-            defaultMessage="Person search"
-          />
-        }
+        aria-label={formatMessage({
+          id: 'ncdPersonSearchLabel',
+          defaultMessage: 'Person search',
+        })}
         className={classes.search}
-        placeholder={
-          <FormattedMessage
-            id="ncdPersonSearchPlaceholder"
-            defaultMessage="Search for a person ..."
-          />
-        }
+        placeholder={formatMessage({
+          id: 'ncdPersonSearchPlaceholder',
+          defaultMessage: 'Search for a person ...',
+        })}
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>
@@ -114,4 +111,4 @@ const People = ({
   )
 }
 
-export default injectSheet(theme)(People)
+export default injectSheet(theme)(injectIntl(People))

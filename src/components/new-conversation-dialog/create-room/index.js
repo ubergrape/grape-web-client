@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -39,6 +39,7 @@ const CreateRoom = ({
   onMemberSelect,
   onMemberRemove,
   onCreateRoom,
+  intl: { formatMessage },
 }) => {
   useEffect(() => {
     onSearchMembers()
@@ -62,89 +63,73 @@ const CreateRoom = ({
         </Headline>
       </div>
       <Switch
-        label={
-          <FormattedMessage
-            id="ncdGroupPrivateLabel"
-            defaultMessage="Make group private"
-            description="switch label"
-          />
-        }
-        aria-label={
-          <FormattedMessage
-            id="ncdGroupPrivateLabel"
-            defaultMessage="Make group private"
-            description="switch label"
-          />
-        }
+        label={formatMessage({
+          id: 'ncdGroupPrivateLabel',
+          defaultMessage: 'Make group private',
+          description: 'switch label',
+        })}
+        aria-label={formatMessage({
+          id: 'ncdGroupPrivateLabel',
+          defaultMessage: 'Make group private',
+          description: 'switch label',
+        })}
         onChange={setIsPrivate}
         className={classes.switch}
-        helpText={
-          <FormattedMessage
-            id="ncdGroupPrivateHelpText"
-            defaultMessage="Only group members can view a private group and invite other people to join."
-            description="switch help text"
-          />
-        }
+        helpText={formatMessage({
+          id: 'ncdGroupPrivateHelpText',
+          defaultMessage:
+            'Only group members can view a private group and invite other people to join.',
+          description: 'switch help text',
+        })}
       />
       <TextField
-        label={
-          <FormattedMessage
-            id="ncdGroupNameLabel"
-            defaultMessage="Group name"
-            description="text field label"
-          />
-        }
+        label={formatMessage({
+          id: 'ncdGroupNameLabel',
+          defaultMessage: 'Group name',
+          description: 'text field label',
+        })}
         onChange={onGroupNameChange}
-        description={
-          <FormattedMessage
-            id="ncdGroupNameDescription"
-            defaultMessage="Should represent the topic of the group."
-            description="text field description"
-          />
-        }
+        description={formatMessage({
+          id: 'ncdGroupNameDescription',
+          defaultMessage: 'Should represent the topic of the group.',
+          description: 'text field description',
+        })}
         maxLength={30}
         width={410}
         className={classes.name}
       />
       <TextArea
-        label={
-          <FormattedMessage
-            id="ncdGroupDescriptionLabel"
-            defaultMessage="Description"
-            description="text area label"
-          />
-        }
+        label={formatMessage({
+          id: 'ncdGroupDescriptionLabel',
+          defaultMessage: 'Description',
+          description: 'text area label',
+        })}
         onChange={onGroupDescriptionChange}
-        description={
-          <FormattedMessage
-            id="ncdGroupDescriptionDescription"
-            defaultMessage="Help others understand the purpose of this group."
-            description="text area description"
-          />
-        }
+        description={formatMessage({
+          id: 'ncdGroupDescriptionDescription',
+          defaultMessage: 'Help others understand the purpose of this group.',
+          description: 'text area description',
+        })}
         isNecessityLabel
         maxLength={120}
         className={classes.description}
       />
       <TagsInput
-        label={
-          <FormattedMessage
-            id="ncdGroupMembersLabel"
-            defaultMessage="Members"
-            description="group members input label"
-          />
-        }
+        label={formatMessage({
+          id: 'ncdGroupMembersLabel',
+          defaultMessage: 'Members',
+          description: 'group members input label',
+        })}
         onChange={debounce(
           query => onChangeMembersQuery(query),
           debouncingTime,
         )}
-        description={
-          <FormattedMessage
-            id="ncdGroupMembersDescription"
-            defaultMessage="Consider adding other people for lively discussions. You can also do this later."
-            description="description for group members input"
-          />
-        }
+        description={formatMessage({
+          id: 'ncdGroupMembersDescription',
+          defaultMessage:
+            'Consider adding other people for lively discussions. You can also do this later.',
+          description: 'description for group members input',
+        })}
         isNecessityLabel
         className={classes.members}
       >
@@ -226,4 +211,4 @@ const CreateRoom = ({
   )
 }
 
-export default injectSheet(theme)(CreateRoom)
+export default injectSheet(theme)(injectIntl(CreateRoom))
