@@ -134,6 +134,10 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       query: peopleQuery,
     })
     .then(({ results }) => {
+      if (!results.length && peoplePage === 1 && !peopleQuery) {
+        dispatch({ type: types.HANDLE_NO_OTHER_PEOPLE_IN_ORG })
+        return
+      }
       if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
         dispatch(
           handlePeopleResults([

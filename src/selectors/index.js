@@ -318,11 +318,12 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [newConversationSelector, createRoomSelector, groupsSelector],
-  (newConversation, createRoom, groups) => ({
+  [newConversationSelector, createRoomSelector, groupsSelector, orgSelector],
+  (newConversation, createRoom, groups, { name }) => ({
     ...newConversation,
     ...createRoom,
     isMemberOfAnyGroups: Boolean(groups.length),
+    orgName: name,
   }),
 )
 
