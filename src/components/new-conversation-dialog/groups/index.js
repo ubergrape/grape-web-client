@@ -73,12 +73,11 @@ const Groups = ({
           className={classes.link}
           href="#create-room"
           icon="people"
-        >
-          {formatMessage({
+          title={formatMessage({
             id: 'ncdCreateGroup',
             defaultMessage: 'Create a new group',
           })}
-        </ActionLink>
+        />
       </Flex>
     )
   }
@@ -95,14 +94,13 @@ const Groups = ({
         variant="primary"
         onClick={showCreateRoom}
         className={classes.link}
-        href="#"
+        href="#create-room"
         icon="people"
-      >
-        {formatMessage({
+        title={formatMessage({
           id: 'ncdCreateGroup',
           defaultMessage: 'Create a new group',
         })}
-      </ActionLink>
+      />
       {isMemberOfEachGroup && (
         <Flex direction="column" className={classes.member}>
           <Text maxWidth="initial" emphasis>
