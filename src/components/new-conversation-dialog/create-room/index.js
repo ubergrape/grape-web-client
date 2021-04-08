@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
+import cn from 'classnames'
 import debounce from 'lodash/debounce'
 import {
   Flex,
@@ -6,12 +7,12 @@ import {
   TextField,
   TextArea,
   TagsInput,
-  Tag,
   Text,
   ButtonGroup,
   Button,
   Icon,
   Headline,
+  useFocusStyle,
 } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import injectSheet from 'grape-web/lib/jss'
@@ -29,12 +30,15 @@ const CreateRoom = ({
   selectedMembers,
   membersQuery,
   errorMessage,
+  currentSelectedMember,
   isMembersLoading,
   hideCreateRoom,
   setIsPrivate,
+  isTagsInputInteracted,
   onGroupNameChange,
   onGroupDescriptionChange,
   onChangeMembersQuery,
+  onCurrentSelectedMemberChange,
   onSearchMembers,
   onMemberSelect,
   onMemberRemove,
@@ -42,15 +46,48 @@ const CreateRoom = ({
 }) => {
   const ref = useRef()
 
+  useEffect(() => {
+    // https://github.com/adobe/react-spectrum/issues/874
+    document
+      .querySelector('[aria-labelledby="New conversation"] .os-viewport')
+      .focus()
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (document.activeElement.classList.contains('ReactVirtualized__List')) {
+        if (e.keyCode === 13) {
+          const { id, isSelected } = members[currentSelectedMember]
+          if (isSelected) {
+            onMemberRemove(id)
+          } else {
+            onMemberSelect(id)
+          }
+        }
+      }
+    }
+
+    document
+      .querySelector(
+        '[aria-labelledby="New conversation"] .ReactVirtualized__List',
+      )
+      .addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document
+        .querySelector(
+          '[aria-labelledby="New conversation"] .ReactVirtualized__List',
+        )
+        .removeEventListener('keydown', handleKeyDown)
+    }
+  }, [members, currentSelectedMember])
+
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
   ])
 
-  const [isTagsInputInteracted, setTagsInputIntaraction] = useState(false)
-
   const onTagsInputFocus = () => {
     if (!isTagsInputInteracted) {
-      setTagsInputIntaraction(true)
       onSearchMembers()
     }
   }
@@ -60,10 +97,16 @@ const CreateRoom = ({
     onCreateRoom()
   }
 
+  const { focus, onFocusVisible } = useFocusStyle({ isInvalid: false })
+
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
       <div className={classes.backWrapper}>
-        <a onClick={hideCreateRoom} href="#groups" className={classes.back}>
+        <a
+          onClick={hideCreateRoom}
+          href="#groups"
+          className={cn(classes.back, onFocusVisible)}
+        >
           <Icon name="arrowLeft" />
         </a>
         <Headline size="base">Create a new group</Headline>
@@ -100,50 +143,38 @@ const CreateRoom = ({
             debouncingTime,
           )}
           maxHeight={67}
+          tags={selectedMembers}
           onFocus={onTagsInputFocus}
+          onRemove={onMemberRemove}
           description="Consider adding other people for lively discussions. You can also do this later."
           isNecessityLabel
           className={classes.members}
-        >
-          {selectedMembers.map(member => {
-            const { id, firstName, avatar, lastName, displayName } = member
-            const name =
-              !firstName || !lastName ? displayName : `${firstName} ${lastName}`
-
-            return (
-              <Tag
-                key={id}
-                avatarSrc={avatar}
-                avatarAlt={name}
-                onRemove={() => {
-                  onMemberRemove(id)
-                }}
-              >
-                {name}
-              </Tag>
-            )
-          })}
-        </TagsInput>
-        {isTagsInputInteracted && (
-          <>
-            <Text className={classes.selectedMembers} size="small">
-              Selected members:&nbsp;
-              <Text emphasis size="small">
-                {selectedMembers.length}
-              </Text>
+        />
+        <div className={classes.membersListWrapper}>
+          <Text className={classes.selectedMembers} size="small">
+            Selected members:&nbsp;
+            <Text emphasis size="small">
+              {selectedMembers.length}
             </Text>
-            <div className={classes.listWrapper}>
-              <div className={classes.list}>
-                <InfiniteAutoRowHeightList
-                  rowHeight={() => 32}
-                  loadMoreRows={onSearchMembers}
-                  isRowLoaded={isRowLoaded}
-                  list={members}
-                  minimumBatchSize={50}
-                  width={680 - overflowPadding}
-                  threshold={25}
-                  overscanRowCount={25}
-                  rowRenderer={(index, key, style) => (
+          </Text>
+          <div className={classes.listWrapper}>
+            <div className={classes.list}>
+              <InfiniteAutoRowHeightList
+                rowHeight={() => 32}
+                loadMoreRows={onSearchMembers}
+                isRowLoaded={isRowLoaded}
+                list={members}
+                minimumBatchSize={50}
+                width={680 - overflowPadding}
+                threshold={25}
+                overscanRowCount={25}
+                isKeyboardNavigationEnabled
+                rowRenderer={({ index, key, style, scrollToRow }) => {
+                  if (scrollToRow !== currentSelectedMember) {
+                    onCurrentSelectedMemberChange(scrollToRow)
+                  }
+
+                  return (
                     <RowRenderer
                       index={index}
                       key={key}
@@ -152,20 +183,23 @@ const CreateRoom = ({
                       onMemberRemove={onMemberRemove}
                       onMemberSelect={onMemberSelect}
                       classes={classes}
+                      {...(scrollToRow === index && {
+                        className: focus,
+                      })}
                     />
-                  )}
-                  noRowsRenderer={() => (
-                    <NoRowsRenderer
-                      classes={classes}
-                      membersQuery={membersQuery}
-                      isMembersLoading={isMembersLoading}
-                    />
-                  )}
-                />
-              </div>
+                  )
+                }}
+                noRowsRenderer={() => (
+                  <NoRowsRenderer
+                    classes={classes}
+                    membersQuery={membersQuery}
+                    isMembersLoading={isMembersLoading}
+                  />
+                )}
+              />
             </div>
-          </>
-        )}
+          </div>
+        </div>
         <ButtonGroup className={classes.buttons}>
           <Button onClick={onSubmit} variant="primary">
             Create group

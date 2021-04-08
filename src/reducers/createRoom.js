@@ -12,6 +12,8 @@ export const initial = {
   selectedMembers: [],
   page: 1,
   errorMessage: '',
+  isTagsInputInteracted: false,
+  currentSelectedMember: 0,
   isMembersLoading: false,
 }
 
@@ -66,6 +68,14 @@ export const states = {
   [types.REQUEST_MEMBERS_SEARCH]: (state, payload) => ({
     ...state,
     isMembersLoading: payload,
+  }),
+  [types.HANDLE_TAGS_INPUT_INTERACTION]: (state, payload) => ({
+    ...state,
+    isTagsInputInteracted: payload,
+  }),
+  [types.HANDLE_CURRENT_SELECTED_MEMBER]: (state, payload) => ({
+    ...state,
+    currentSelectedMember: payload,
   }),
   [types.HANDLE_MEMBERS_SEARCH]: (state, payload) => ({
     ...state,

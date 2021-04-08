@@ -27,7 +27,7 @@ export default {
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],
-      margin: [2.5, 0],
+      margin: [2, 0],
       display: 'flex',
     },
     '& .ReactVirtualized__List:focus': {

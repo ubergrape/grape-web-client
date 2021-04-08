@@ -26,8 +26,18 @@ export const onGroupDescriptionChange = payload => ({
   payload,
 })
 
+export const onCurrentSelectedMemberChange = payload => ({
+  type: types.HANDLE_CURRENT_SELECTED_MEMBER,
+  payload,
+})
+
 const requestMembersNewConversation = payload => ({
   type: types.REQUEST_MEMBERS_SEARCH,
+  payload,
+})
+
+const onTagsInputInteraction = payload => ({
+  type: types.HANDLE_TAGS_INPUT_INTERACTION,
   payload,
 })
 
@@ -50,6 +60,7 @@ export const onSearchMembers = () => (dispatch, getState) => {
       })
 
       dispatch(requestMembersNewConversation(false))
+      dispatch(onTagsInputInteraction(true))
     })
     .catch(err => {
       dispatch(error(err))

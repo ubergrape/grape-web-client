@@ -1,9 +1,12 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader'
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import List from 'react-virtualized/dist/commonjs/List'
+import {
+  AutoSizer,
+  InfiniteLoader,
+  ArrowKeyStepper,
+  List,
+} from 'react-virtualized'
 
 const InfiniteAutoRowHeightList = memo(
   ({
@@ -11,6 +14,7 @@ const InfiniteAutoRowHeightList = memo(
     loadMoreRows,
     rowRenderer,
     noRowsRenderer,
+    isKeyboardNavigationEnabled,
     list,
     threshold,
     overscanRowCount,
@@ -28,19 +32,30 @@ const InfiniteAutoRowHeightList = memo(
       {({ onRowsRendered, registerChild }) => (
         <AutoSizer disableWidth>
           {({ height }) => (
-            <List
-              ref={registerChild}
-              width={width}
-              height={height}
-              rowHeight={({ index }) => rowHeight(list, index)}
+            <ArrowKeyStepper
+              disabled={!isKeyboardNavigationEnabled}
+              mode="cells"
+              columnCount={1}
               rowCount={list.length}
-              overscanRowCount={overscanRowCount}
-              onRowsRendered={onRowsRendered}
-              rowRenderer={({ index, key, style }) =>
-                rowRenderer(index, key, style)
-              }
-              noRowsRenderer={noRowsRenderer}
-            />
+            >
+              {({ onSectionRendered, scrollToRow }) => (
+                <List
+                  ref={registerChild}
+                  width={width}
+                  height={height}
+                  scrollToIndex={scrollToRow}
+                  rowHeight={({ index }) => rowHeight(list, index)}
+                  rowCount={list.length}
+                  overscanRowCount={overscanRowCount}
+                  onSectionRendered={onSectionRendered}
+                  onRowsRendered={onRowsRendered}
+                  rowRenderer={({ index, key, style }) =>
+                    rowRenderer({ index, key, style, scrollToRow })
+                  }
+                  noRowsRenderer={noRowsRenderer}
+                />
+              )}
+            </ArrowKeyStepper>
           )}
         </AutoSizer>
       )}
@@ -56,6 +71,7 @@ InfiniteAutoRowHeightList.propTypes = {
   loadMoreRows: PropTypes.func.isRequired,
   rowRenderer: PropTypes.func.isRequired,
   noRowsRenderer: PropTypes.func.isRequired,
+  isKeyboardNavigationEnabled: PropTypes.bool,
   list: PropTypes.array.isRequired,
   threshold: PropTypes.number,
   overscanRowCount: PropTypes.number,
@@ -65,6 +81,7 @@ InfiniteAutoRowHeightList.propTypes = {
 }
 
 InfiniteAutoRowHeightList.defaultProps = {
+  isKeyboardNavigationEnabled: false,
   threshold: 15,
   overscanRowCount: 15,
   minimumBatchSize: 10,

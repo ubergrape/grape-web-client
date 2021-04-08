@@ -5,15 +5,17 @@ export default {
   backWrapper: {
     flex: '0 0 auto',
     display: 'flex',
+    padding: [2, 2, 0],
   },
   back: {
     marginRight: 8,
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
+    borderRadius: '50%',
   },
   form: {
-    width: ({ overflowPadding }) => `calc(100% - ${overflowPadding}px)`,
+    width: '100%',
   },
   switch: {
     flex: '0 0 auto',
@@ -32,17 +34,22 @@ export default {
     flex: '0 0 auto',
     marginTop: 24,
   },
+  membersListWrapper: {
+    display: ({ isTagsInputInteracted }) =>
+      isTagsInputInteracted ? 'block' : 'none',
+  },
+  selectedMembers: {
+    flex: '0 0 auto',
+    padding: [0, 2],
+    marginTop: 8,
+    display: 'flex',
+  },
   listWrapper: {
+    // https://stackoverflow.com/a/8468131
     position: 'relative',
     flex: 1,
     minHeight: 102, // 96 + 6. 32 is one block, 32 * 3 = 96. 6 this is sum of margins from list below
     marginTop: 8,
-  },
-  selectedMembers: {
-    flex: '0 0 auto',
-    padding: [0, 2.5],
-    marginTop: 8,
-    display: 'flex',
   },
   list: {
     // https://stackoverflow.com/a/8468131
@@ -50,12 +57,16 @@ export default {
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],
-      margin: [2.5, 0],
+      margin: [2, 0],
       display: 'flex',
     },
     '& .ReactVirtualized__List:focus': {
       outline: 0,
     },
+  },
+  itemWrapper: {
+    width: '100%',
+    margin: [0, 2],
   },
   item: {
     width: '100%',
