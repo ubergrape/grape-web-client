@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { injectIntl } from 'react-intl'
 import { TakeoverDialog, Tabs, Tab } from '@ubergrape/aurora-ui'
 import injectSheet from 'grape-web/lib/jss'
 import { OverlayContainer, useModal } from '@react-aria/overlays'
@@ -13,6 +14,7 @@ const NewConversationDialog = ({
   isOpen,
   tab,
   setNewConversationTab,
+  intl: { formatMessage },
   ...props
 }) => {
   const { modalProps } = useModal()
@@ -31,7 +33,11 @@ const NewConversationDialog = ({
     <OverlayContainer>
       <div className={classes.wrapper}>
         <TakeoverDialog
-          title="New conversation"
+          title={formatMessage({
+            id: 'ncdTitle',
+            defaultMessage: 'New conversation',
+            description: 'title for new conversation dialog',
+          })}
           isOpen={isOpen}
           onClose={hideNewConversation}
           onOverflowPaddingChanged={onOverflowPaddingChanged}
@@ -46,10 +52,22 @@ const NewConversationDialog = ({
               className={classes.tabs}
               align="justify"
             >
-              <Tab name="Person">
+              <Tab
+                name={formatMessage({
+                  id: 'ncdPersonTab',
+                  defaultMessage: 'Person',
+                  description: 'tab title for person tab',
+                })}
+              >
                 <People overflowPadding={overflowPadding} {...props} />
               </Tab>
-              <Tab name="Group">
+              <Tab
+                name={formatMessage({
+                  id: 'ncdGroupTab',
+                  defaultMessage: 'Group',
+                  description: 'tab title for group tab',
+                })}
+              >
                 <Groups overflowPadding={overflowPadding} {...props} />
               </Tab>
             </Tabs>
@@ -62,4 +80,4 @@ const NewConversationDialog = ({
   )
 }
 
-export default injectSheet(theme)(NewConversationDialog)
+export default injectSheet(theme)(injectIntl(NewConversationDialog))

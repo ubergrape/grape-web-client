@@ -52,11 +52,6 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           excludeFromTabOrder
           onClick={() => onListItemClick(id, pm)}
         />
-        {pm && (
-          <Text className={classes.time} size="small">
-            10m
-          </Text>
-        )}
       </Flex>
     </div>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Text } from '@ubergrape/aurora-ui'
@@ -6,11 +7,20 @@ import { Text } from '@ubergrape/aurora-ui'
 const NoRowsRenderer = ({ isMembersLoading, membersQuery, classes }) => (
   <div>
     {isMembersLoading ? (
-      <Text className={classes.loading}>Loading...</Text>
+      <Text className={classes.loading}>
+        <FormattedMessage id="loading" defaultMessage="Loading…" />
+      </Text>
     ) : (
       <Text className={classes.memberNotFound}>
-        No member named&nbsp;<Text emphasis>{membersQuery}</Text>&nbsp;could be
-        found.
+        <FormattedMessage
+          id="ncdCreateRoomPeopleSearchNotFound"
+          defaultMessage="No member named&nbsp;{searchTerm}&nbsp;could be
+        found."
+          description="shown when people search in create room dialog returns 0 results"
+          values={{
+            searchTerm: <Text emphasis>{membersQuery}</Text>,
+          }}
+        />
       </Text>
     )}
   </div>

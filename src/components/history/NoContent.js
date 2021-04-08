@@ -64,6 +64,7 @@ function RoomContent(props) {
             <FormattedMessage
               id="inviteMoreToGroup"
               defaultMessage="Invite more members to this group"
+              description="No Content: invite members to the group"
             />
           </button>
         )}
@@ -74,7 +75,7 @@ function RoomContent(props) {
           >
             <FormattedMessage
               id="addServiceIntegration"
-              defaultMessage="Add service integration"
+              defaultMessage="Add Service Integrations"
             />
           </button>
         )}
