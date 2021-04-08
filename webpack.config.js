@@ -32,7 +32,7 @@ const plugins = [
     __DEV__: !NODE_ENV || NODE_ENV === 'development',
     __TEST__: NODE_ENV === 'test',
     __STATIC_PATH__: JSON.stringify(STATIC_PATH),
-    __THEME__: JSON.stringify(THEME),
+    __THEME__: JSON.stringify(THEME) || 'grape',
     // using JSON.stringify for 'Grape' to receive string in code - https://webpack.js.org/plugins/define-plugin/#usage
     __PRODUCT_NAME__: JSON.stringify(PRODUCT_NAME) || JSON.stringify('Grape'),
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -49,6 +49,7 @@ const plugins = [
 ]
 
 const exportsObject = {
+  target: 'web',
   mode: NODE_ENV === 'production' ? 'production' : 'development',
   entry: () => {
     const app = ['idempotent-babel-polyfill', './src/index.js']
