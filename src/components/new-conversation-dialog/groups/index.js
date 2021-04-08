@@ -74,10 +74,10 @@ const Groups = ({
           href="#create-room"
           icon="people"
         >
-          <FormattedMessage
-            id="ncdCreateGroup"
-            defaultMessage="Create a new group"
-          />
+          {formatMessage({
+            id: 'ncdCreateGroup',
+            defaultMessage: 'Create a new group',
+          })}
         </ActionLink>
       </Flex>
     )
@@ -98,10 +98,10 @@ const Groups = ({
         href="#"
         icon="people"
       >
-        <FormattedMessage
-          id="ncdCreateGroup"
-          defaultMessage="Create a new group"
-        />
+        {formatMessage({
+          id: 'ncdCreateGroup',
+          defaultMessage: 'Create a new group',
+        })}
       </ActionLink>
       {isMemberOfEachGroup && (
         <Flex direction="column" className={classes.member}>
