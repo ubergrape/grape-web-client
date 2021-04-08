@@ -6,7 +6,15 @@ import Tooltip from '../../../../../tooltip/HoverTooltip'
 import TaskIcon from './TaskIcon'
 
 export default ({ classes, isConnected, amount, onClick, onRefButton }) => (
-  <Tooltip message={<FormattedMessage id="tasks" defaultMessage="Tasks" />}>
+  <Tooltip
+    message={
+      <FormattedMessage
+        id="tasksTooltip"
+        defaultMessage="Tasks"
+        description="Message NLP task button tooltip."
+      />
+    }
+  >
     <IconButton
       className={classes.taskButton}
       onClick={onClick}

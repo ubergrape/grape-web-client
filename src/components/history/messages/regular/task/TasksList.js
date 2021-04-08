@@ -38,7 +38,7 @@ export default class TasksList extends PureComponent {
         <Header
           title={
             <FormattedMessage
-              id="tasks"
+              id="tasksHeader"
               defaultMessage="Tasks"
               description="NLP tasks list dialog title."
             />

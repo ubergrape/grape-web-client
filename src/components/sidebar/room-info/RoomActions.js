@@ -94,7 +94,7 @@ const RoomActions = ({
       <li className={classes.action}>
         <button onClick={onInvite} className={classes.buttonInvite}>
           <FormattedMessage
-            id="inviteMoreToGroup"
+            id="inviteMoreToGroupGroupInfo"
             defaultMessage="Invite more members to this group"
             description="Group Info Panel: invite members to the group"
           />
@@ -108,7 +108,7 @@ const RoomActions = ({
           className={classes.buttonIntegration}
         >
           <FormattedMessage
-            id="addServiceIntegration"
+            id="addServiceIntegrationGroupInfo"
             defaultMessage="Add service integration"
             description="Group Info Panel: link to add an integration to the current group"
           />
