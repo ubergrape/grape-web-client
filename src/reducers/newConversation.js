@@ -10,12 +10,9 @@ export const initial = {
   isGroupsLoading: false,
   isGroupsWithMembershipLoading: false,
   isMemberOfEachGroup: false,
-  isNoOtherGroups: false,
   people: [],
   isPeopleLoading: false,
-  isPeopleWithPmLoading: false,
   isInPmWithEveryPerson: false,
-  isNoOtherPerson: false,
   groupsQuery: '',
   groupsPage: 1,
   peopleQuery: '',
@@ -43,10 +40,9 @@ export const states = {
   [types.CHANGE_GROUPS_QUERY]: (state, payload) => ({
     ...initial,
     isOpen: true,
-    isMemberOfEachGroup: state.isMemberOfEachGroup,
     groupsQuery: payload,
   }),
-  [types.SET_GROUPS_SEARCH_LOADING_STATE]: (state, payload) => ({
+  [types.REQUEST_GROUPS_SEARCH]: (state, payload) => ({
     ...state,
     isGroupsLoading: payload,
   }),
@@ -61,10 +57,6 @@ export const states = {
     ...state,
     isMemberOfEachGroup: true,
   }),
-  [types.HANDLE_NO_OTHER_GROUPS_IN_ORG]: state => ({
-    ...state,
-    isNoOtherGroups: true,
-  }),
   [types.REQUEST_MEMBERSHIP_GROUPS_LOADING]: state => ({
     ...state,
     isGroupsWithMembershipLoading: true,
@@ -73,10 +65,9 @@ export const states = {
   [types.CHANGE_PEOPLE_QUERY]: (state, payload) => ({
     ...initial,
     isOpen: true,
-    isInPmWithEveryPerson: state.isInPmWithEveryPerson,
     peopleQuery: payload,
   }),
-  [types.SET_PEOPLE_SEARCH_LOADING_STATE]: (state, payload) => ({
+  [types.REQUEST_PEOPLE_SEARCH]: (state, payload) => ({
     ...state,
     isPeopleLoading: payload,
   }),
@@ -88,10 +79,6 @@ export const states = {
   [types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN]: state => ({
     ...state,
     isInPmWithEveryPerson: true,
-  }),
-  [types.HANDLE_NO_OTHER_PEOPLE_IN_ORG]: state => ({
-    ...state,
-    isNoOtherPerson: true,
   }),
   [types.REQUEST_MEMBERSHIP_PEOPLE_LOADING]: state => ({
     ...state,

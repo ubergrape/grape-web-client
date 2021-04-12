@@ -11,9 +11,6 @@ export const initial = {
   members: [],
   selectedMembers: [],
   page: 1,
-  errorDetails: {},
-  isTagsInputInteracted: false,
-  currentSelectedMember: 0,
   isMembersLoading: false,
 }
 
@@ -53,10 +50,6 @@ export const states = {
     ...state,
     description: payload,
   }),
-  [types.HANDLE_CREATE_ROOM_ERROR_DETAILS]: (state, payload) => ({
-    ...state,
-    errorDetails: payload,
-  }),
   [types.CHANGE_MEMBERS_QUERY]: (state, payload) => ({
     ...state,
     page: 1,
@@ -68,14 +61,6 @@ export const states = {
   [types.REQUEST_MEMBERS_SEARCH]: (state, payload) => ({
     ...state,
     isMembersLoading: payload,
-  }),
-  [types.HANDLE_TAGS_INPUT_INTERACTION]: (state, payload) => ({
-    ...state,
-    isTagsInputInteracted: payload,
-  }),
-  [types.HANDLE_SELECTED_MEMBER_CHANGE]: (state, payload) => ({
-    ...state,
-    currentSelectedMember: payload,
   }),
   [types.HANDLE_MEMBERS_SEARCH]: (state, payload) => ({
     ...state,
