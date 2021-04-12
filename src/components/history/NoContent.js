@@ -75,6 +75,7 @@ function RoomContent(props) {
           >
             <FormattedMessage
               id="addServiceIntegration"
+              defaultMessage="Add Service Integrations"
             />
           </button>
         )}

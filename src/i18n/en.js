@@ -10,6 +10,7 @@ export default {
   "accountSettings": "Account Settings",
   "addGroupDescription": "Add a group description here…",
   "addMembers": "Add members…",
+  "addServiceIntegration": "Add Service Integrations",
   "addServiceIntegrationGroupInfo": "Add service integration",
   "addServiceIntegrations": "Add Service Integrations",
   "addTeamMembersLinkIntro": "add your team members",

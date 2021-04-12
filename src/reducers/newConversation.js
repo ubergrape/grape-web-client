@@ -13,6 +13,7 @@ export const initial = {
   people: [],
   isPeopleLoading: false,
   isInPmWithEveryPerson: false,
+  isNoOtherPerson: false,
   groupsQuery: '',
   groupsPage: 1,
   peopleQuery: '',
@@ -79,6 +80,10 @@ export const states = {
   [types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN]: state => ({
     ...state,
     isInPmWithEveryPerson: true,
+  }),
+  [types.HANDLE_NO_OTHER_PEOPLE_IN_ORG]: state => ({
+    ...state,
+    isNoOtherPerson: true,
   }),
   [types.REQUEST_MEMBERSHIP_PEOPLE_LOADING]: state => ({
     ...state,

@@ -43,7 +43,6 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           size="regular"
           onClick={() => onListItemClick(id, pm)}
         />
-        {pm && <Text size="small">10m</Text>}
       </Flex>
     </div>
   )

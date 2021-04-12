@@ -124,6 +124,7 @@ const loadMembershipPeople = () => (dispatch, getState) => {
     peopleQuery,
     isInPmWithEveryPerson,
     peoplePage,
+    people,
   } = newConversationSelector(getState())
 
   api
@@ -134,6 +135,24 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       query: peopleQuery,
     })
     .then(({ results }) => {
+      // we don't have the information on how many users this organization has
+      // if both RPC calls return zero results (with an empty query!),
+      // so `people` and `results` arrays are empty, we can assume that there
+      // are no other users in this organization.
+      if (
+        !people.length &&
+        peoplePage === 1 &&
+        !peopleQuery &&
+        !results.length
+      ) {
+        dispatch({ type: types.HANDLE_NO_OTHER_PEOPLE_IN_ORG })
+        return
+      }
+      // check here if no other people are left to join and not in
+      // onSearchPeople
+      if (!people && peoplePage === 1 && !peopleQuery) {
+        dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
+      }
       if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
         dispatch(
           handlePeopleResults([
@@ -169,15 +188,14 @@ export const onSearchPeople = () => (dispatch, getState) => {
       query: peopleQuery,
     })
     .then(({ results }) => {
+      // call handlePeopleResults before loadMembershipPeople, because it
+      // updates `people`, which is needed by loadMembershipPeople
+      dispatch(handlePeopleResults(results))
+
       if (results.length < itemsToLoad) {
-        if (!results.length && peoplePage === 1) {
-          dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
-        }
         dispatch({ type: types.REQUEST_MEMBERSHIP_PEOPLE_LOADING })
         dispatch(loadMembershipPeople())
       }
-
-      dispatch(handlePeopleResults(results))
     })
     .catch(err => dispatch(error(err)))
 }

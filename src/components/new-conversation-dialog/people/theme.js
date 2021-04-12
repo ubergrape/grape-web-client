@@ -18,6 +18,10 @@ export default {
     flex: '0 0 auto',
     marginTop: 16,
   },
+  link: {
+    flex: '0 0 auto',
+    marginTop: 16,
+  },
   listWrapper: {
     flex: 1,
     minHeight: 126, // 120 + 6. 40 is one block, 40 * 3 = 120. 6 this is sum of margins from list below

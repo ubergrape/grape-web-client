@@ -168,6 +168,7 @@ class Api extends Emitter {
   authStatus = 'unauthorized'
   rpc = rpc
   version = grapeVersion
+  theme = __THEME__ || 'grape'
 
   setAuthStatus(nextStatus) {
     if (nextStatus === this.authStatus) return
