@@ -26,8 +26,8 @@ export const onGroupDescriptionChange = payload => ({
   payload,
 })
 
-export const onCurrentSelectedMemberChange = payload => ({
-  type: types.HANDLE_CURRENT_SELECTED_MEMBER,
+export const onSelectedMemberChange = payload => ({
+  type: types.HANDLE_SELECTED_MEMBER_CHANGE,
   payload,
 })
 
