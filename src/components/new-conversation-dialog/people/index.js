@@ -26,6 +26,7 @@ const People = ({
   onSearchPeople,
   hideNewConversation,
   goToChannel,
+  orgName,
   openPm,
   intl: { formatMessage },
 }) => {
@@ -103,6 +104,7 @@ const People = ({
             noRowsRenderer={() => (
               <NoRowsRenderer
                 classes={classes}
+                orgName={orgName}
                 isPeopleLoading={isPeopleLoading}
               />
             )}

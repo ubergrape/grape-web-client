@@ -30,7 +30,7 @@ const CreateRoom = ({
   members,
   selectedMembers,
   membersQuery,
-  errorMessage,
+  errorDetails,
   currentSelectedMember,
   isMembersLoading,
   hideCreateRoom,
@@ -105,6 +105,7 @@ const CreateRoom = ({
     <Flex direction="column" items="start" className={classes.wrapper}>
       <div className={classes.backWrapper}>
         <a
+          aria-label="Go back to groups tab"
           onClick={hideCreateRoom}
           href="#groups"
           className={cn(classes.back, onFocusVisible)}
@@ -132,7 +133,6 @@ const CreateRoom = ({
           })}
           onChange={setIsPrivate}
           className={classes.switch}
-          validationHelp={errorMessage}
           helpText={formatMessage({
             id: 'ncdGroupPrivateHelpText',
             defaultMessage:
@@ -147,6 +147,9 @@ const CreateRoom = ({
             description: 'text field label',
           })}
           onChange={onGroupNameChange}
+          {...(errorDetails.name && {
+            validationHelp: errorDetails.name[0].message,
+          })}
           description={formatMessage({
             id: 'ncdGroupNameDescription',
             defaultMessage: 'Should represent the topic of the group.',

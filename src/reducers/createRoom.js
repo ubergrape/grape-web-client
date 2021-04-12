@@ -11,7 +11,7 @@ export const initial = {
   members: [],
   selectedMembers: [],
   page: 1,
-  errorMessage: '',
+  errorDetails: {},
   isTagsInputInteracted: false,
   currentSelectedMember: 0,
   isMembersLoading: false,
@@ -53,9 +53,9 @@ export const states = {
     ...state,
     description: payload,
   }),
-  [types.HANDLE_EMPTY_GROUP_NAME_ERROR]: (state, payload) => ({
+  [types.HANDLE_CREATE_ROOM_ERROR_DETAILS]: (state, payload) => ({
     ...state,
-    errorMessage: payload,
+    errorDetails: payload,
   }),
   [types.CHANGE_MEMBERS_QUERY]: (state, payload) => ({
     ...state,

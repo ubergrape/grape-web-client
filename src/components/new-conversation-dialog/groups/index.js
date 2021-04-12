@@ -20,9 +20,10 @@ const Groups = ({
   classes,
   overflowPadding,
   groups,
+  isTabLoading,
   isGroupsLoading,
   isMemberOfEachGroup,
-  isMemberOfAnyGroups,
+  isNoOtherGroups,
   onChangeGroupsQuery,
   onSearchGroups,
   hideNewConversation,
@@ -50,7 +51,9 @@ const Groups = ({
     joinChannel(id)
   }
 
-  if (!isMemberOfAnyGroups) {
+  if (isTabLoading) return null
+
+  if (isNoOtherGroups) {
     return (
       <Flex direction="column" items="start" className={classes.wrapper}>
         <Flex direction="column" className={classes.empty}>
