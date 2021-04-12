@@ -20,13 +20,8 @@ export const setNewConversationTab = payload => ({
   payload,
 })
 
-export const setTabLoadingState = payload => ({
-  type: types.SET_TAB_LOADING_STATE,
-  payload,
-})
-
 const requestGroupsNewConversation = payload => ({
-  type: types.REQUEST_GROUPS_SEARCH,
+  type: types.SET_GROUPS_SEARCH_LOADING_STATE,
   payload,
 })
 
@@ -52,7 +47,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
     .getRooms(id, {
       pageSize: itemsToLoad,
       membership: true,
-      groupsPage,
+      page: groupsPage,
       query: groupsQuery,
     })
     .then(({ results }) => {
@@ -63,19 +58,19 @@ const loadMembershipGroups = () => (dispatch, getState) => {
         !groupsQuery
       ) {
         dispatch({ type: types.HANDLE_NO_OTHER_GROUPS_IN_ORG })
-        dispatch(setTabLoadingState(false))
         return
+      }
+      if (!groups.length && groupsPage === 1) {
+        dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
       }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
         dispatch(
           handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
         )
-        dispatch(setTabLoadingState(false))
         return
       }
 
       dispatch(handleGroupsResults(results))
-      dispatch(setTabLoadingState(false))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -96,19 +91,16 @@ export const onSearchGroups = () => (dispatch, getState) => {
     .getRooms(id, {
       pageSize: itemsToLoad,
       membership: false,
-      groupsPage,
+      page: groupsPage,
       query: groupsQuery,
     })
     .then(({ results }) => {
+      dispatch(handleGroupsResults(results))
+
       if (results.length < itemsToLoad) {
-        if (!results.length && groupsPage === 1) {
-          dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
-        }
         dispatch({ type: types.REQUEST_MEMBERSHIP_GROUPS_LOADING })
         dispatch(loadMembershipGroups())
       }
-
-      dispatch(handleGroupsResults(results))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -123,7 +115,7 @@ export const onChangeGroupsQuery = payload => dispatch => {
 }
 
 const requestPeopleNewConversation = payload => ({
-  type: types.REQUEST_PEOPLE_SEARCH,
+  type: types.SET_PEOPLE_SEARCH_LOADING_STATE,
   payload,
 })
 
@@ -142,16 +134,35 @@ const loadMembershipPeople = () => (dispatch, getState) => {
     peopleQuery,
     isInPmWithEveryPerson,
     peoplePage,
+    people,
   } = newConversationSelector(getState())
 
   api
     .getUsers(id, {
       pageSize: itemsToLoad,
       membership: true,
-      peoplePage,
+      page: peoplePage,
       query: peopleQuery,
     })
     .then(({ results }) => {
+      // we don't have the information on how many users this organization has
+      // if both RPC calls return zero results (with an empty query!),
+      // so `people` and `results` arrays are empty, we can assume that there
+      // are no other users in this organization.
+      if (
+        !people.length &&
+        peoplePage === 1 &&
+        !peopleQuery &&
+        !results.length
+      ) {
+        dispatch({ type: types.HANDLE_NO_OTHER_PEOPLE_IN_ORG })
+        return
+      }
+      // check here if no other people are left to join and not in
+      // onSearchPeople
+      if (!results.length && peoplePage === 1 && !peopleQuery) {
+        dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
+      }
       if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
         dispatch(
           handlePeopleResults([
@@ -183,19 +194,18 @@ export const onSearchPeople = () => (dispatch, getState) => {
     .getUsers(id, {
       pageSize: itemsToLoad,
       membership: false,
-      peoplePage,
+      page: peoplePage,
       query: peopleQuery,
     })
     .then(({ results }) => {
+      // call handlePeopleResults before loadMembershipPeople, because it
+      // updates `people`, which is needed by loadMembershipPeople
+      dispatch(handlePeopleResults(results))
+
       if (results.length < itemsToLoad) {
-        if (!results.length && peoplePage === 1) {
-          dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
-        }
         dispatch({ type: types.REQUEST_MEMBERSHIP_PEOPLE_LOADING })
         dispatch(loadMembershipPeople())
       }
-
-      dispatch(handlePeopleResults(results))
     })
     .catch(err => dispatch(error(err)))
 }

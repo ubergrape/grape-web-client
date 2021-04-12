@@ -73,7 +73,7 @@ export const states = {
     ...state,
     isTagsInputInteracted: payload,
   }),
-  [types.HANDLE_CURRENT_SELECTED_MEMBER]: (state, payload) => ({
+  [types.HANDLE_SELECTED_MEMBER_CHANGE]: (state, payload) => ({
     ...state,
     currentSelectedMember: payload,
   }),

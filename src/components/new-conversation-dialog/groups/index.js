@@ -20,7 +20,6 @@ const Groups = ({
   classes,
   overflowPadding,
   groups,
-  isTabLoading,
   isGroupsLoading,
   isMemberOfEachGroup,
   isNoOtherGroups,
@@ -50,8 +49,6 @@ const Groups = ({
 
     joinChannel(id)
   }
-
-  if (isTabLoading) return null
 
   if (isNoOtherGroups) {
     return (

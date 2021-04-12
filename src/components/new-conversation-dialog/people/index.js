@@ -3,7 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import debounce from 'lodash/debounce'
 
-import { Text, Flex, SearchField } from '@ubergrape/aurora-ui'
+import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
 import { InfiniteAutoRowHeightList } from '../../list'
@@ -22,12 +22,14 @@ const People = ({
   people,
   isPeopleLoading,
   isInPmWithEveryPerson,
+  isNoOtherPerson,
   onChangePeopleQuery,
   onSearchPeople,
   hideNewConversation,
   goToChannel,
-  orgName,
   openPm,
+  orgName,
+  showInviteToOrg,
   intl: { formatMessage },
 }) => {
   useEffect(() => {
@@ -38,6 +40,11 @@ const People = ({
     people,
   ])
 
+  const onInviteToOrgClick = () => {
+    hideNewConversation()
+    showInviteToOrg()
+  }
+
   const onListItemClick = (id, pm) => {
     hideNewConversation()
 
@@ -47,6 +54,41 @@ const People = ({
     }
 
     openPm(id)
+  }
+
+  if (isNoOtherPerson) {
+    return (
+      <Flex direction="column" className={classes.member}>
+        <Text maxWidth="initial" emphasis>
+          <FormattedMessage
+            id="ncdPeopleSearchNoOtherPeople1"
+            defaultMessage="Feeling lonely here?"
+            description="shown when there are no people in the organisation"
+          />
+        </Text>
+        <Text maxWidth="initial" className={classes.description}>
+          <FormattedMessage
+            id="ncdPeopleSearchNoOtherPeople2"
+            defaultMessage="It seems that {organizationName} has no other member than you yet, so why not invite someone? As soon as they join, you can come back and start a conversation."
+            description="shown when there are no people in the organisation"
+            values={{ organizationName: orgName }}
+          />
+        </Text>
+        <ActionLink
+          variant="primary"
+          onClick={onInviteToOrgClick}
+          className={classes.link}
+          href="#invite-to-organization"
+          icon="people"
+          title={formatMessage({
+            id: 'ncdInviteToOrga',
+            defaultMessage: 'Invite members to {organizationName}',
+            description: 'Action link title, shown when there a no members',
+            values: { organizationName: orgName },
+          })}
+        />
+      </Flex>
+    )
   }
 
   return (

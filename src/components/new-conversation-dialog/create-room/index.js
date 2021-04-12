@@ -39,7 +39,7 @@ const CreateRoom = ({
   onGroupNameChange,
   onGroupDescriptionChange,
   onChangeMembersQuery,
-  onCurrentSelectedMemberChange,
+  onSelectedMemberChange,
   onSearchMembers,
   onMemberSelect,
   onMemberRemove,
@@ -223,7 +223,7 @@ const CreateRoom = ({
                 isKeyboardNavigationEnabled
                 rowRenderer={({ index, key, style, scrollToRow }) => {
                   if (scrollToRow !== currentSelectedMember) {
-                    onCurrentSelectedMemberChange(scrollToRow)
+                    onSelectedMemberChange(scrollToRow)
                   }
 
                   return (
