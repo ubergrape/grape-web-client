@@ -23,7 +23,7 @@ const styles = {
     right: 0,
     top: headerHeight,
     width,
-    zIndex: zIndex('base'),
+    zIndex: zIndex('toast'),
   },
   // We don't want notification to cover sidebar.
   hasSidebar: {
