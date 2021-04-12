@@ -43,11 +43,15 @@ const InfiniteAutoRowHeightList = memo(
                   ref={registerChild}
                   width={width}
                   height={height}
-                  scrollToIndex={scrollToRow}
+                  {...(isKeyboardNavigationEnabled && {
+                    scrollToIndex: scrollToRow,
+                  })}
+                  {...(isKeyboardNavigationEnabled && {
+                    onSectionRendered,
+                  })}
                   rowHeight={({ index }) => rowHeight(list, index)}
                   rowCount={list.length}
                   overscanRowCount={overscanRowCount}
-                  onSectionRendered={onSectionRendered}
                   onRowsRendered={onRowsRendered}
                   rowRenderer={({ index, key, style }) =>
                     rowRenderer({ index, key, style, scrollToRow })
