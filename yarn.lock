@@ -5637,7 +5637,7 @@ grape-browser@^3.27.1:
     redux-thunk "^1.0.0"
     reselect "^2.0.1"
 
-"grape-icons@github:ubergrape/grape-icons":
+grape-icons@ubergrape/grape-icons:
   version "0.0.0"
   resolved "https://codeload.github.com/ubergrape/grape-icons/tar.gz/35d5c23c533d7e5cef7021b774c5461718eaa40f"
 
