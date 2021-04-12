@@ -33,7 +33,7 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
 
   return (
     <div style={style} key={id}>
-      <Flex>
+      <Flex items="center">
         <AvatarItem
           src={avatar}
           alt={name}
@@ -41,6 +41,15 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           status={userStatusMap[status]}
           description={whatIDo}
           size="regular"
+          /*
+            680px - 8px of scrollbar width.
+            Without maxWidth value text ellipsis will not work.
+            Without scrollbar length of item will be a bit small (for 8px)
+            then whole width of container. There's no custom scrollbar for list,
+            so I can't calculate in dynamicaly.
+          */
+          maxWidth={672}
+          excludeFromTabOrder
           onClick={() => onListItemClick(id, pm)}
         />
       </Flex>

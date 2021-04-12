@@ -20,9 +20,10 @@ const Groups = ({
   classes,
   overflowPadding,
   groups,
+  isTabLoading,
   isGroupsLoading,
   isMemberOfEachGroup,
-  isMemberOfAnyGroups,
+  isNoOtherGroups,
   onChangeGroupsQuery,
   onSearchGroups,
   hideNewConversation,
@@ -50,7 +51,9 @@ const Groups = ({
     joinChannel(id)
   }
 
-  if (!isMemberOfAnyGroups) {
+  if (isTabLoading) return null
+
+  if (isNoOtherGroups) {
     return (
       <Flex direction="column" items="start" className={classes.wrapper}>
         <Flex direction="column" className={classes.empty}>
@@ -134,12 +137,14 @@ const Groups = ({
           <InfiniteAutoRowHeightList
             rowHeight={rowHeight}
             loadMoreRows={onSearchGroups}
+            isListLoading={isGroupsLoading}
             isRowLoaded={isRowLoaded}
             list={groups}
             minimumBatchSize={50}
             width={680 - overflowPadding}
             threshold={25}
-            rowRenderer={(index, key, style) => (
+            overscanRowCount={25}
+            rowRenderer={({ index, key, style }) => (
               <RowRenderer
                 index={index}
                 key={key}

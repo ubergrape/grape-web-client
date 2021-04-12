@@ -93,7 +93,7 @@ const People = ({
         </>
       ) : (
         <>
-          {isInPmWithEveryPerson && (
+          {isInPmWithEveryPerson && !!people.length && (
             <Flex direction="column" className={classes.member}>
               <Text maxWidth="initial" emphasis>
                 <FormattedMessage
@@ -129,12 +129,14 @@ const People = ({
               <InfiniteAutoRowHeightList
                 rowHeight={rowHeight}
                 loadMoreRows={onSearchPeople}
+                isListLoading={isPeopleLoading}
                 isRowLoaded={isRowLoaded}
                 list={people}
                 minimumBatchSize={50}
                 width={680 - overflowPadding}
                 threshold={25}
-                rowRenderer={(index, key, style) => (
+                overscanRowCount={25}
+                rowRenderer={({ index, key, style }) => (
                   <RowRenderer
                     index={index}
                     key={key}
@@ -147,6 +149,7 @@ const People = ({
                 noRowsRenderer={() => (
                   <NoRowsRenderer
                     classes={classes}
+                    orgName={orgName}
                     isPeopleLoading={isPeopleLoading}
                   />
                 )}

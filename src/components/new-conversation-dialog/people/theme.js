@@ -31,7 +31,7 @@ export default {
     height: 'calc(100% - 6px)',
     '& .ReactVirtualized__Grid__innerScrollContainer': {
       overflow: [['visible'], '!important'],
-      margin: [2.5, 0],
+      margin: [2, 0],
       display: 'flex',
     },
     '& .ReactVirtualized__List:focus': {
@@ -42,10 +42,7 @@ export default {
     marginLeft: 4,
     marginBottom: 12,
   },
-  loading: {
-    marginLeft: 4,
-  },
-  notFound: {
-    marginLeft: 4,
+  time: {
+    margin: [0, 8, 0, 'auto'],
   },
 }

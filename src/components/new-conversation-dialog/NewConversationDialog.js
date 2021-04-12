@@ -42,6 +42,12 @@ const NewConversationDialog = ({
           onClose={hideNewConversation}
           onOverflowPaddingChanged={onOverflowPaddingChanged}
           isDismissable
+          closeAriaLabel={formatMessage({
+            id: 'closeTakeoverDialog',
+            defaultMessage: 'Close',
+            description:
+              'aria-label for close button in takeover dialog component',
+          })}
           modalProps={modalProps}
           {...props}
         >

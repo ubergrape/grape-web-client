@@ -20,6 +20,11 @@ export const setNewConversationTab = payload => ({
   payload,
 })
 
+export const setTabLoadingState = payload => ({
+  type: types.SET_TAB_LOADING_STATE,
+  payload,
+})
+
 const requestGroupsNewConversation = payload => ({
   type: types.REQUEST_GROUPS_SEARCH,
   payload,
@@ -38,6 +43,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
   const {
     groupsQuery,
+    groups,
     isMemberOfEachGroup,
     groupsPage,
   } = newConversationSelector(getState())
@@ -50,14 +56,26 @@ const loadMembershipGroups = () => (dispatch, getState) => {
       query: groupsQuery,
     })
     .then(({ results }) => {
+      if (
+        groupsPage === 1 &&
+        !groups.length &&
+        !results.length &&
+        !groupsQuery
+      ) {
+        dispatch({ type: types.HANDLE_NO_OTHER_GROUPS_IN_ORG })
+        dispatch(setTabLoadingState(false))
+        return
+      }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
         dispatch(
           handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
         )
+        dispatch(setTabLoadingState(false))
         return
       }
 
       dispatch(handleGroupsResults(results))
+      dispatch(setTabLoadingState(false))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -88,9 +106,12 @@ export const onSearchGroups = () => (dispatch, getState) => {
         }
         dispatch({ type: types.REQUEST_MEMBERSHIP_GROUPS_LOADING })
         dispatch(loadMembershipGroups())
+        dispatch(handleGroupsResults(results))
+        return
       }
 
       dispatch(handleGroupsResults(results))
+      dispatch(setTabLoadingState(false))
     })
     .catch(err => dispatch(error(err)))
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Text } from '@ubergrape/aurora-ui'
 
-const NoRowsRenderer = ({ isPeopleLoading, classes }) => (
+const NoRowsRenderer = ({ isPeopleLoading, orgName, classes }) => (
   <div>
     {isPeopleLoading ? (
       <Text className={classes.loading}>
@@ -14,7 +14,10 @@ const NoRowsRenderer = ({ isPeopleLoading, classes }) => (
       <Text className={classes.notFound}>
         <FormattedMessage
           id="ncdPeopleSearchNotFound"
-          defaultMessage="Nice name, but unfortunately nobody could be found."
+          values={{
+            orgName,
+          }}
+          defaultMessage="Nice name, but unfortunately nobody in {orgName} could be found."
           description="shown when people search returns 0 results"
         />
       </Text>
@@ -24,6 +27,7 @@ const NoRowsRenderer = ({ isPeopleLoading, classes }) => (
 
 NoRowsRenderer.propTypes = {
   isPeopleLoading: PropTypes.bool.isRequired,
+  orgName: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 }
 

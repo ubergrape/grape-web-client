@@ -36,8 +36,9 @@ if (conf.forceLongpolling) {
       `${data.ns}/${data.action}`,
       ...(data.args || []),
       (err, res) => {
-        if (err) log('err', err, err.details)
-        else log('res', res)
+        if (err) {
+          log('err', err, err.details)
+        } else log('res', res)
         callback(err, res)
       },
     )

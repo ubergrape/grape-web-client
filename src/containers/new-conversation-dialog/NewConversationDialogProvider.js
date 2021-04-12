@@ -27,6 +27,7 @@ const actionNames = {
   onMemberRemove: 'onMemberRemove',
   onCreateRoom: 'onCreateRoom',
   showInviteToOrg: 'showInviteToOrg',
+  onCurrentSelectedMemberChange: 'onCurrentSelectedMemberChange',
 }
 
 const ConnectedNewConversationDialog = connect(

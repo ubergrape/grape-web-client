@@ -4,12 +4,14 @@ import * as types from '../constants/actionTypes'
 
 export const initial = {
   tab: 0,
+  isTabLoading: false,
   view: 'tabs',
   isOpen: false,
   groups: [],
   isGroupsLoading: false,
   isGroupsWithMembershipLoading: false,
   isMemberOfEachGroup: false,
+  isNoOtherGroups: false,
   people: [],
   isPeopleLoading: false,
   isInPmWithEveryPerson: false,
@@ -36,7 +38,12 @@ export const states = {
   }),
   [types.SET_NEW_CONVERSATION_TAB]: (state, payload) => ({
     ...state,
+    isTabLoading: true,
     tab: payload,
+  }),
+  [types.SET_TAB_LOADING_STATE]: (state, payload) => ({
+    ...state,
+    isTabLoading: payload,
   }),
   [types.CHANGE_GROUPS_QUERY]: (state, payload) => ({
     ...initial,
@@ -57,6 +64,10 @@ export const states = {
   [types.HANDLE_NO_GROUPS_LEFT_TO_JOIN]: state => ({
     ...state,
     isMemberOfEachGroup: true,
+  }),
+  [types.HANDLE_NO_OTHER_GROUPS_IN_ORG]: state => ({
+    ...state,
+    isNoOtherGroups: true,
   }),
   [types.REQUEST_MEMBERSHIP_GROUPS_LOADING]: state => ({
     ...state,
