@@ -107,7 +107,7 @@ const CreateRoom = ({
         <a
           aria-label="Go back to groups tab"
           onClick={hideCreateRoom}
-          href="#groups"
+          href="#new-conversation"
           className={cn(classes.back, onFocusVisible)}
         >
           <Icon name="arrowLeft" />

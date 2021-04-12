@@ -60,7 +60,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
         dispatch({ type: types.HANDLE_NO_OTHER_GROUPS_IN_ORG })
         return
       }
-      if (!groups.length && groupsPage === 1) {
+      if (!groups.length && groupsPage === 1 && !groupsQuery) {
         dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
       }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
