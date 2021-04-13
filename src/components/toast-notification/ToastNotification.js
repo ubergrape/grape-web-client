@@ -89,8 +89,7 @@ const styleNotification = notification => {
   }
 }
 
-@injectSheet(styles)
-export default class ToastNotification extends PureComponent {
+class ToastNotification extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -127,3 +126,5 @@ export default class ToastNotification extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(ToastNotification)
