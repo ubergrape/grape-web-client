@@ -283,7 +283,7 @@ export default {
   "ncdCreateRoomPeopleSearchNotFound": "Keine Mitglieder mit dem Namen {searchTerm} gefunden.",
   "ncdGroupCreateButton": "Gruppe erstellen",
   "ncdGroupCreateCancelButton": "Abbrechen",
-  "ncdGroupDescriptionDescription": "Hilft anderen zu verstehen was der Zweck der Gruppe ist.",
+  "ncdGroupDescriptionDescription": "Hilft anderen zu verstehen, was der Zweck der Gruppe ist.",
   "ncdGroupDescriptionLabel": "Beschreibung",
   "ncdGroupMembersDescription": "Fügen Sie Personen für eine lebhafte Diskussion hinzu. Sie können das auch noch später machen.",
   "ncdGroupMembersLabel": "Mitglieder",
