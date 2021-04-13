@@ -1,10 +1,9 @@
 import { createSelector } from 'reselect'
+// TODO: use this from lodash 4 after
+// https://github.com/ubergrape/chatgrape/issues/3326
 import find from 'lodash/find'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-// TODO: use this from lodash 4 after
-// https://github.com/ubergrape/chatgrape/issues/3326
-import differenceBy from 'lodash/differenceBy'
 import * as images from '../constants/images'
 
 export const initialDataLoadingSelector = createSelector(
@@ -127,11 +126,6 @@ const inviteToOrgSelector = createSelector(
   state => state,
 )
 
-const createRoomErrorSelector = createSelector(
-  state => state.createRoomError,
-  state => state,
-)
-
 const reconnectSelector = createSelector(
   state => state.reconnect,
   state => state,
@@ -149,11 +143,6 @@ export const soundsSelector = createSelector(
 
 const fileUploadSelector = createSelector(
   state => state.fileUpload,
-  state => state,
-)
-
-export const manageGroupsSelector = createSelector(
-  state => state.manageGroups,
   state => state,
 )
 
@@ -214,7 +203,7 @@ export const pmsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'pm'),
 )
 
-export const roomsSelector = createSelector(channelsSelector, channels =>
+export const groupsSelector = createSelector(channelsSelector, channels =>
   channels.filter(channel => channel.type === 'room'),
 )
 
@@ -290,27 +279,14 @@ const messageSearchWithChannels = createSelector(
   }),
 )
 
-const newConversationSelector = createSelector(
-  [
-    state => state.newConversation,
-    joinedChannelsSelector,
-    channelSelector,
-    confSelector,
-    orgSelector,
-  ],
-  (
-    newConversation,
-    isMemberOfAnyRooms,
-    channel,
-    { organization: { colors } },
-    { defaults },
-  ) => ({
-    ...newConversation,
-    isMemberOfAnyRooms,
-    channel,
-    colors,
-    defaults,
-  }),
+export const newConversationSelector = createSelector(
+  state => state.newConversation,
+  state => state,
+)
+
+export const createRoomSelector = createSelector(
+  state => state.createRoom,
+  state => state,
 )
 
 export const alertsAndChannelSelector = createSelector(
@@ -319,17 +295,17 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const unreadChannelsSelector = createSelector(
-  [roomsSelector, activePmsSelector, channelSelector],
-  (rooms, pms, channel) => ({
-    amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
+  [groupsSelector, activePmsSelector, channelSelector],
+  (groups, pms, channel) => ({
+    amount: groups.concat(pms).filter(_channel => _channel.unread).length,
     channel,
   }),
 )
 
 const unreadMentionsAmountSelector = createSelector(
-  [roomsSelector, activePmsSelector],
-  (rooms, pms) =>
-    rooms
+  [groupsSelector, activePmsSelector],
+  (groups, pms) =>
+    groups
       .concat(pms)
       .filter(channel => channel.mentions)
       .map(channel => channel.mentions)
@@ -342,21 +318,12 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [
-    newConversationSelector,
-    orgSelector,
-    isInviterSelector,
-    createRoomErrorSelector,
-  ],
-  (newConversation, { id: organization }, isInviter, error) => {
-    return {
-      ...newConversation,
-      isInviter,
-      organization,
-      error,
-      users: differenceBy(newConversation.found, newConversation.listed, 'id'),
-    }
-  },
+  [newConversationSelector, createRoomSelector, orgSelector],
+  (newConversation, createRoom, { name: orgName }) => ({
+    ...newConversation,
+    ...createRoom,
+    orgName,
+  }),
 )
 
 export const inviteDialogSelector = createSelector(

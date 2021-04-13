@@ -1,239 +1,89 @@
-import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
-import sample from 'lodash/sample'
-import { colors as roomColors, icons } from 'grape-theme/dist/room-settings'
+import React, { useState } from 'react'
+import { injectIntl } from 'react-intl'
+import { TakeoverDialog, Tabs, Tab } from '@ubergrape/aurora-ui'
 import injectSheet from 'grape-web/lib/jss'
-import { defineMessages, intlShape, injectIntl } from 'react-intl'
+import { OverlayContainer, useModal } from '@react-aria/overlays'
 
-import { Create } from '../i18n/i18n'
-import { styles } from './newConversationTheme'
-import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
-import AdvancedSettings from './AdvancedSettings'
+import Groups from './groups'
+import People from './people'
+import CreateRoom from './create-room'
+import theme from './theme'
 
-const getInitialState = ({ groupDefaults }) => ({
-  name: '',
-  error: '',
-  isPublic: !(groupDefaults && groupDefaults.visibility === 'private'),
-  saving: false,
-  focusedInput: 'users',
-  color: sample(roomColors),
-  icon: sample(icons),
-})
+const NewConversationDialog = ({
+  classes,
+  isOpen,
+  tab,
+  setNewConversationTab,
+  intl: { formatMessage },
+  ...props
+}) => {
+  const { modalProps } = useModal()
 
-const messages = defineMessages({
-  title: {
-    id: 'newConversation',
-    defaultMessage: 'New Conversation',
-  },
-})
+  /* This is needed to dynamically adjust the padding to not overflow custom bar content.
+  Usually it works automatically, but virtualized list requires accurate width. */
+  const [overflowPadding, setOverflowPadding] = useState(0)
 
-class NewConversationDialog extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    channel: PropTypes.object,
-    intl: intlShape.isRequired,
-    organization: PropTypes.number,
-    error: PropTypes.object.isRequired,
-    colors: PropTypes.object,
-    showNewConversation: PropTypes.func.isRequired,
-    createRoomWithUsers: PropTypes.func.isRequired,
-    addToNewConversation: PropTypes.func.isRequired,
-    removeFromNewConversation: PropTypes.func.isRequired,
-    hideNewConversation: PropTypes.func.isRequired,
-    searchUsers: PropTypes.func.isRequired,
-    clearRoomCreateError: PropTypes.func.isRequired,
-    listed: PropTypes.array.isRequired,
-    show: PropTypes.bool,
-    isMemberOfAnyRooms: PropTypes.bool.isRequired,
-    defaults: PropTypes.object,
+  const onOverflowPaddingChanged = padding => {
+    setOverflowPadding(padding)
   }
 
-  static defaultProps = {
-    organization: null,
-    channel: {},
-    colors: {},
-    defaults: {},
-    show: false,
-  }
+  const { hideNewConversation } = props
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      ...getInitialState(props.defaults),
-      error: props.error.message,
-    }
-  }
-
-  componentWillReceiveProps({ show, error, isMemberOfAnyRooms, defaults }) {
-    if (!show) {
-      this.setState(getInitialState(defaults))
-      if (
-        this.props.isMemberOfAnyRooms !== isMemberOfAnyRooms &&
-        !isMemberOfAnyRooms
-      ) {
-        this.props.showNewConversation()
-      }
-      return
-    }
-
-    const { message } = error
-    if (message !== this.state.error) {
-      this.setState({
-        error: message,
-        saving: false,
-      })
-      return
-    }
-
-    this.setState({ saving: false })
-  }
-
-  componentDidUpdate(prevProps) {
-    const { show, searchUsers } = this.props
-    // Initial population first time dialog was showed.
-    if (show && !prevProps.show) searchUsers('')
-  }
-
-  onSetRoomIcon = icon => {
-    this.setState({ icon })
-  }
-
-  onSetRoomColor = color => {
-    this.setState({ color })
-  }
-
-  onChangeRoomName = ({ name }) => {
-    this.setState({ name })
-  }
-
-  onPrivacyChange = () => {
-    this.setState({ isPublic: !this.state.isPublic })
-  }
-
-  onCreate = () => {
-    const { listed, createRoomWithUsers, organization } = this.props
-    const { name, color, icon, isPublic } = this.state
-
-    this.setState({ saving: true })
-    createRoomWithUsers(
-      {
-        name,
-        icon,
-        color,
-        organization,
-        isPublic,
-      },
-      listed,
-    ).then(() => {
-      this.setState({ saving: false })
-    })
-  }
-
-  onHide = () => {
-    this.props.clearRoomCreateError()
-    this.props.hideNewConversation()
-  }
-
-  onClickRoomName = () => {
-    this.setState({ focusedInput: 'name' })
-  }
-
-  onClickList = () => {
-    this.setState({ focusedInput: 'users' })
-  }
-
-  onClickFocusReset = () => {
-    this.setState({ focusedInput: '' })
-  }
-
-  renderSettings = () => {
-    const { classes, clearRoomCreateError, colors } = this.props
-    const {
-      focusedInput,
-      error,
-      isPublic,
-      saving,
-      name,
-      color,
-      icon,
-    } = this.state
-
-    return (
-      <div className={classes.advancedSettings}>
-        <AdvancedSettings
-          icon={icon}
-          color={color}
-          colors={colors}
-          name={name}
-          saving={saving}
-          isPublic={isPublic}
-          clearRoomCreateError={clearRoomCreateError}
-          error={error}
-          isNameFocused={focusedInput === 'name'}
-          onClickRoomName={this.onClickRoomName}
-          onCreate={this.onCreate}
-          onChangeRoomName={this.onChangeRoomName}
-          onPrivacyChange={this.onPrivacyChange}
-          onSetRoomColor={this.onSetRoomColor}
-          onSetRoomIcon={this.onSetRoomIcon}
-        />
-      </div>
-    )
-  }
-
-  renderFooter() {
-    const { classes, listed } = this.props
-    const { name, saving } = this.state
-
-    return (
-      <div className={classes.footer}>
-        <button
-          onClick={this.onCreate}
-          className={classes.createButton}
-          disabled={(!listed.length && !name) || saving}
+  return (
+    <OverlayContainer>
+      <div className={classes.wrapper}>
+        <TakeoverDialog
+          title={formatMessage({
+            id: 'ncdTitle',
+            defaultMessage: 'New conversation',
+            description: 'title for new conversation dialog',
+          })}
+          isOpen={isOpen}
+          onClose={hideNewConversation}
+          onOverflowPaddingChanged={onOverflowPaddingChanged}
+          isDismissable
+          closeAriaLabel={formatMessage({
+            id: 'closeTakeoverDialog',
+            defaultMessage: 'Close',
+            description:
+              'aria-label for close button in takeover dialog component',
+          })}
+          modalProps={modalProps}
+          {...props}
         >
-          <Create />
-        </button>
+          {props.view === 'tabs' ? (
+            <Tabs
+              onTabClick={setNewConversationTab}
+              tab={tab}
+              className={classes.tabs}
+              align="justify"
+            >
+              <Tab
+                name={formatMessage({
+                  id: 'ncdPersonTab',
+                  defaultMessage: 'Person',
+                  description: 'tab title for person tab',
+                })}
+              >
+                <People overflowPadding={overflowPadding} {...props} />
+              </Tab>
+              <Tab
+                name={formatMessage({
+                  id: 'ncdGroupTab',
+                  defaultMessage: 'Group',
+                  description: 'tab title for group tab',
+                })}
+              >
+                <Groups overflowPadding={overflowPadding} {...props} />
+              </Tab>
+            </Tabs>
+          ) : (
+            <CreateRoom overflowPadding={overflowPadding} {...props} />
+          )}
+        </TakeoverDialog>
       </div>
-    )
-  }
-
-  render() {
-    const {
-      classes,
-      searchUsers,
-      addToNewConversation,
-      removeFromNewConversation,
-      organization,
-      channel,
-      intl: { formatMessage },
-      ...chooseUsersProps
-    } = this.props
-    const { focusedInput } = this.state
-
-    if (!organization) return null
-
-    return (
-      <ChooseUsersDialog
-        {...chooseUsersProps}
-        title={formatMessage(messages.title)}
-        theme={{ classes }}
-        onHide={this.onHide}
-        onClickList={this.onClickList}
-        onClickFocusReset={this.onClickFocusReset}
-        isFilterFocused={focusedInput === 'users'}
-        onChangeFilter={searchUsers}
-        onSelectUser={user => addToNewConversation(user)}
-        onRemoveSelectedUser={user => removeFromNewConversation(user)}
-        channel={channel}
-        showInviteGuests={false}
-        showEmailToInvite
-      >
-        {this.renderSettings()}
-        {this.renderFooter()}
-      </ChooseUsersDialog>
-    )
-  }
+    </OverlayContainer>
+  )
 }
 
-export default injectSheet(styles)(injectIntl(NewConversationDialog))
+export default injectSheet(theme)(injectIntl(NewConversationDialog))

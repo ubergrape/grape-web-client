@@ -1,21 +1,34 @@
 import React, { PureComponent } from 'react'
 import { Provider, connect } from 'react-redux'
-
 import { mapActionsToProps } from '../../app/redux'
 import getStore from '../../app/store'
 import { newConversationComponentSelector as selector } from '../../selectors'
 import { NewConversationDialog } from '../../components/new-conversation-dialog'
 
-const actionNames = [
-  'createRoomWithUsers',
-  'showInviteToOrg',
-  'showNewConversation',
-  'hideNewConversation',
-  'addToNewConversation',
-  'removeFromNewConversation',
-  'searchUsers',
-  'clearRoomCreateError',
-]
+const actionNames = {
+  showNewConversation: 'showNewConversation',
+  hideNewConversation: 'hideNewConversation',
+  setNewConversationTab: 'setNewConversationTab',
+  onSearchPeople: 'onSearchPeople',
+  onChangePeopleQuery: 'onChangePeopleQuery',
+  onSearchGroups: 'onSearchGroups',
+  onChangeGroupsQuery: 'onChangeGroupsQuery',
+  goToChannel: 'goToChannel',
+  joinChannel: 'joinChannel',
+  openPm: 'openPm',
+  showCreateRoom: 'showCreateRoom',
+  hideCreateRoom: 'hideCreateRoom',
+  setIsPrivate: 'setIsPrivate',
+  onGroupNameChange: 'onGroupNameChange',
+  onGroupDescriptionChange: 'onGroupDescriptionChange',
+  onChangeMembersQuery: 'onChangeMembersQuery',
+  onSearchMembers: 'onSearchMembers',
+  onMemberSelect: 'onMemberSelect',
+  onMemberRemove: 'onMemberRemove',
+  onCreateRoom: 'onCreateRoom',
+  showInviteToOrg: 'showInviteToOrg',
+  onSelectedMemberChange: 'onSelectedMemberChange',
+}
 
 const ConnectedNewConversationDialog = connect(
   selector,

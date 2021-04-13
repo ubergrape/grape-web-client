@@ -1,11 +1,11 @@
 import rpc from '../rpc'
 
-export const createRoom = roomId =>
+export const createRoom = params =>
   rpc(
     {
       ns: 'rooms',
       action: 'create',
-      args: [roomId],
+      args: [params],
     },
     { camelize: true },
   )
@@ -55,12 +55,12 @@ export const setRoomIcon = (roomId, icon) =>
     args: [roomId, icon],
   })
 
-export const getRooms = (orgId, { membership, page, pageSize = 2000 } = {}) =>
+export const getRooms = (orgId, params) =>
   rpc(
     {
       ns: 'rooms',
       action: 'get_rooms',
-      args: [orgId, { membership, page, pageSize }],
+      args: [orgId, params],
     },
     { camelize: true },
   )

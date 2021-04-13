@@ -6,12 +6,11 @@ import * as alerts from '../constants/alerts'
 import { limit } from '../constants/sidebar'
 import * as api from '../utils/backend/api'
 import {
-  roomsSelector,
+  groupsSelector,
   userSelector,
   channelSelector,
   orgSelector,
   pmsSelector,
-  manageGroupsSelector,
   channelMembersSelector,
 } from '../selectors'
 import { normalizeChannelData, normalizeUserData } from './utils'
@@ -24,16 +23,6 @@ import {
   setChannel,
   handleBadChannel,
 } from './'
-
-const removeManageGroupChannel = channelId => (dispatch, getState) => {
-  const { groups, show } = manageGroupsSelector(getState())
-  if (find(groups, ({ id }) => id === channelId) && show) {
-    dispatch({
-      type: types.REMOVE_MANAGE_GROUPS_CHANNEL,
-      payload: channelId,
-    })
-  }
-}
 
 export function addChannel(channel) {
   return {
@@ -58,7 +47,6 @@ export const leaveChannel = channelId => dispatch => {
         type: types.LEAVE_CHANNEL,
         payload: channelId,
       })
-      dispatch(removeManageGroupChannel(channelId))
       dispatch(hideLeaveChannelDialog())
     })
     .catch(err => dispatch(error(err)))
@@ -140,20 +128,6 @@ export function invitedToChannel(ids, channelId) {
   }
 }
 
-export const joinChannel = id => dispatch => {
-  dispatch({
-    type: types.REQUEST_JOIN_CHANNEL,
-    payload: id,
-  })
-
-  return api
-    .joinChannel(id)
-    .then(() => {
-      dispatch(removeManageGroupChannel(id))
-    })
-    .catch(err => dispatch(error(err)))
-}
-
 export const updateChannelPartnerInfo = channel => dispatch => {
   dispatch({
     type: types.UPDATE_CHANNEL_PARTNER_INFO,
@@ -168,25 +142,6 @@ export function inviteToChannel(ids, options = {}) {
       .inviteToChannel(ids, id)
       .then(() => dispatch(invitedToChannel(ids, id)))
       .catch(err => dispatch(error(err)))
-  }
-}
-
-export function requestRoomCreate() {
-  return {
-    type: types.REQUEST_ROOM_CREATE,
-  }
-}
-
-export function handleRoomCreateError(message) {
-  return {
-    type: types.HANDLE_ROOM_CREATE_ERROR,
-    payload: message,
-  }
-}
-
-export function clearRoomCreateError() {
-  return {
-    type: types.CLEAR_ROOM_CREATE_ERROR,
   }
 }
 
@@ -219,9 +174,6 @@ export const openPm = (userId, options) => (dispatch, getState) => {
       dispatch(addChannel(channel))
       dispatch(goToChannel(channel.id, options))
     })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
-    })
 }
 
 export const openChannel = (channelId, messageId) => dispatch => {
@@ -236,31 +188,18 @@ export const openChannelFromNavigation = channelId => (dispatch, getState) => {
   dispatch(goToChannel(channelId))
 }
 
-export const createRoomWithUsers = (room, users) => dispatch => {
-  dispatch(requestRoomCreate())
-
-  const ids = users.map(({ id }) => id)
-  let newRoom
+export const joinChannel = id => dispatch => {
+  dispatch({
+    type: types.REQUEST_JOIN_CHANNEL,
+    payload: id,
+  })
 
   return api
-    .createRoom({
-      ...room,
-      name: room.name,
-    })
-    .then(_newRoom => {
-      newRoom = _newRoom
-      return api.joinChannel(newRoom.id)
-    })
-    .then(() => (newRoom ? api.inviteToChannel(ids, newRoom.id) : null))
+    .joinChannel(id)
     .then(() => {
-      if (newRoom) {
-        dispatch(goToChannel(newRoom.id))
-        dispatch(invitedToChannel(ids, newRoom.id))
-      }
+      dispatch(goToChannel(id))
     })
-    .catch(err => {
-      dispatch(handleRoomCreateError(err.message))
-    })
+    .catch(err => dispatch(error(err)))
 }
 
 export function renameRoom(id, name) {
@@ -359,7 +298,7 @@ export function setRoomIcon(id, icon) {
 
 export function showRoomDeleteDialog(id) {
   return (dispatch, getState) => {
-    const room = find(roomsSelector(getState()), { id })
+    const room = find(groupsSelector(getState()), { id })
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: room,

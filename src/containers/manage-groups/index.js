@@ -1,1 +1,0 @@
-export ManageGroupsDialogProvider from './ManageGroupsDialogProvider'

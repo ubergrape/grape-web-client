@@ -1,4 +1,4 @@
-import './polyfills'
-import api from './api'
+require('./polyfills')
+const api = require('./api')
 
 module.exports = api

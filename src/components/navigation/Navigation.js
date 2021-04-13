@@ -39,7 +39,6 @@ export default class Navigation extends PureComponent {
     searchingChannels: PropTypes.bool.isRequired,
     openPm: PropTypes.func.isRequired,
     openChannel: PropTypes.func.isRequired,
-    showManageGroups: PropTypes.func.isRequired,
     showNewConversation: PropTypes.func.isRequired,
     loadOlderChannels: PropTypes.func.isRequired,
     searchChannelsForNavigation: PropTypes.func.isRequired,
@@ -279,20 +278,13 @@ export default class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    const {
-      isLoading,
-      classes,
-      showNewConversation,
-      showManageGroups,
-      permissions,
-    } = this.props
+    const { isLoading, classes, showNewConversation, permissions } = this.props
     if (isLoading) return null
     return (
       <div className={classes.navigationWrapper}>
         {!this.state.filter && (
           <Actions
             onNewConversation={showNewConversation}
-            onManageGroups={showManageGroups}
             permissions={permissions}
           />
         )}

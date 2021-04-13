@@ -2,7 +2,7 @@ import { grayBlueLighter, grayBlueDark } from 'grape-theme/dist/base-colors'
 import { normal, small } from 'grape-theme/dist/fonts'
 import buttonPrimary from '../button/primary'
 
-import { horizontalPadding } from '../input/theme/grayBigger'
+import { horizontalPadding } from '../input/theme/gray'
 
 export const styles = {
   wrapper: {

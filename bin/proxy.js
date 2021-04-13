@@ -26,7 +26,7 @@ const argv = parseArgs(process.argv.slice(2))
 const listenOnPort = argv.port || '3128'
 const devHost = argv.devHost || 'localhost'
 const devPort = argv.devPort || '8081'
-const devPath = argv.devPath || '/static/app'
+const devPath = argv.devPath || '/dist/app'
 const helpRequested = argv.h || argv.help
 
 const proxy = Proxy()
@@ -115,7 +115,7 @@ function onRequest(ctx, callback) {
   let file
 
   if (
-    /((staging|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com|jira.ubergrape.com)$/.test(
+    /((staging|development|dev[0-9]+|test[0-9]+)\.chatgrape\.com|ug-cdn\.com|jira.ubergrape.com)$/.test(
       host,
     )
   ) {

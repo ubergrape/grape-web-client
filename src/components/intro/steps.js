@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  white,
-  blue,
-  green,
-  orange,
-  purple,
-} from 'grape-theme/dist/base-colors'
+import { white, blue, green, purple } from 'grape-theme/dist/base-colors'
 import injectSheet from 'grape-web/lib/jss'
 import { FormattedMessage } from 'react-intl'
 import Button from 'grape-web/lib/components/button'
@@ -60,30 +54,6 @@ export default permissions => {
         }
         image={mascot.reading}
         background={green}
-      />
-    ))
-
-  if (permissions.canCreateRoom)
-    steps.push(props => (
-      <View
-        {...props}
-        beacon="manageGroups"
-        headline={
-          <FormattedMessage
-            id="introHlManageGroups"
-            defaultMessage="Manage groups"
-            description="Intro data hl."
-          />
-        }
-        text={
-          <FormattedMessage
-            id="introTextGroups"
-            defaultMessage="Chat groups can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing)."
-            description="Intro data text."
-          />
-        }
-        image={mascot.holdingLock}
-        background={orange}
       />
     ))
 

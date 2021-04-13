@@ -8,7 +8,6 @@ import Navigation from '../../components/navigation/Navigation'
 
 const actionNames = {
   showNewConversation: 'showNewConversation',
-  showManageGroups: 'showManageGroups',
   openPm: 'openPm',
   openChannelFromNavigation: 'openChannel',
   loadOlderChannels: 'loadOlderChannels',

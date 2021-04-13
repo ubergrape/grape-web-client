@@ -12,7 +12,7 @@ import {
 } from 'react-intl'
 
 import isChromeOrFirefox from '../../utils/is-chrome-or-firefox'
-import styles from './theme'
+import theme from './theme'
 
 const messages = defineMessages({
   groupDescription: {
@@ -203,4 +203,4 @@ class IncomingCall extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(injectIntl(IncomingCall))
+export default injectSheet(theme)(injectIntl(IncomingCall))

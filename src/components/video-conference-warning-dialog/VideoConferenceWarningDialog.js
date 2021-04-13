@@ -10,7 +10,7 @@ import {
 } from 'react-intl'
 
 import Dialog from '../dialog/Dialog'
-import styles from './theme'
+import theme from './theme'
 
 const messages = defineMessages({
   title: {
@@ -131,4 +131,4 @@ class VideoConferenceWarningDialog extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(injectIntl(VideoConferenceWarningDialog))
+export default injectSheet(theme)(injectIntl(VideoConferenceWarningDialog))

@@ -26,10 +26,6 @@ export const Contacts = props => (
   <FormattedMessage {...props} id="contacts" defaultMessage="Contacts" />
 )
 
-export const Groups = props => (
-  <FormattedMessage {...props} id="groups" defaultMessage="Groups" />
-)
-
 export function Description() {
   return <FormattedMessage id="description" defaultMessage="Description" />
 }

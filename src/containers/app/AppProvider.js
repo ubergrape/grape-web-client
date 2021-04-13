@@ -3,8 +3,13 @@ import { Provider as ReduxProvider, connect } from 'react-redux'
 import Spinner from 'grape-web/lib/components/spinner'
 import theme from 'grape-web/lib/mui-theme'
 import ThemeProvider from 'grape-web/lib/components/theme-provider'
+import { ThemeProvider as AuroraThemeProvider } from '@ubergrape/aurora-ui'
 import { JssProvider, jss } from 'grape-web/lib/jss'
 import { IntlProvider } from 'react-intl'
+import { OverlayProvider } from '@react-aria/overlays'
+
+// Styles from overlayscrollbars package for custom scrollbar
+import '@ubergrape/aurora-ui/build/index.css'
 
 import { mapActionsToProps } from '../../app/redux'
 import { appSelector } from '../../selectors'
@@ -46,14 +51,18 @@ export default class AppProvider extends PureComponent {
     return (
       <ReduxProvider store={getStore()}>
         <JssProvider jss={jss}>
-          <ThemeProvider theme={theme}>
-            <IntlProvider
-              locale={conf.user.languageCode}
-              messages={translations[conf.user.languageCode]}
-            >
-              <AppOrLoginConnected {...this.props} />
-            </IntlProvider>
-          </ThemeProvider>
+          <AuroraThemeProvider>
+            <ThemeProvider theme={theme}>
+              <IntlProvider
+                locale={conf.user.languageCode}
+                messages={translations[conf.user.languageCode]}
+              >
+                <OverlayProvider style={{ height: '100%' }}>
+                  <AppOrLoginConnected {...this.props} />
+                </OverlayProvider>
+              </IntlProvider>
+            </ThemeProvider>
+          </AuroraThemeProvider>
         </JssProvider>
       </ReduxProvider>
     )

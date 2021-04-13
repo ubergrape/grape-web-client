@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
-import 'jest-dom/extend-expect' // this add custom jest matchers from jest-dom
+import '@testing-library/jest-dom' // this add custom jest matchers from jest-dom
 import Render from '../render'
 
 afterEach(cleanup)

@@ -1,9 +1,10 @@
 const path = require('path')
-const webpack = require('webpack') // eslint-disable-line import/no-extraneous-dependencies
-const CopyFilesPlugin = require('copy-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // eslint-disable-line import/no-extraneous-dependencies
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin') // eslint-disable-line import/no-extraneous-dependencies
+const webpack = require('webpack')
+const CopyFilesPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const TerserPlugin = require('terser-webpack-plugin')
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 const { NODE_ENV, STATIC_PATH, APP, ANALIZE, THEME, PRODUCT_NAME } = process.env
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
@@ -37,10 +38,19 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
   }),
   new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en|de/),
+  new webpack.optimize.ModuleConcatenationPlugin(),
+  new LodashModuleReplacementPlugin({
+    shorthands: true,
+    collections: true,
+    flattening: true,
+    paths: true,
+  }),
   new DuplicatePackageCheckerPlugin(),
 ]
 
 const exportsObject = {
+  target: 'web',
+  mode: NODE_ENV === 'production' ? 'production' : 'development',
   entry: () => {
     const app = ['idempotent-babel-polyfill', './src/index.js']
     const embedded = ['idempotent-babel-polyfill', './src/embedded.js']
@@ -50,14 +60,20 @@ const exportsObject = {
   },
   output: {
     path: path.resolve(__dirname, 'dist/app'),
-    filename: '[name].js',
+    libraryTarget: 'umd',
+    libraryExport: 'default',
     library: 'grapeClient',
   },
+  devServer: {
+    writeToDisk: true,
+  },
+  bail: true,
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
         include: ['src', 'node_modules/pretty-bytes'].map(dir =>
           path.resolve(__dirname, dir),
         ),
@@ -73,6 +89,10 @@ const exportsObject = {
       {
         test: /\.html$/,
         loader: 'html-loader',
+      },
+      {
+        test: /\.css$/,
+        loader: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -102,15 +122,10 @@ if (isDevServer) {
 }
 
 if (NODE_ENV === 'production') {
-  exportsObject.plugins.push(
-    // This plugin turns all loader into minimize mode!!!
-    // https://github.com/webpack/webpack/issues/283
-    new UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    }),
-  )
+  exportsObject.optimization = {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  }
   exportsObject.performance = {
     hints: 'error',
     maxEntrypointSize: 4200 * 1024,
