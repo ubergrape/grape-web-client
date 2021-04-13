@@ -14,8 +14,7 @@ const NoRowsRenderer = ({ isMembersLoading, membersQuery, classes }) => (
       <Text className={classes.memberNotFound}>
         <FormattedMessage
           id="ncdCreateRoomPeopleSearchNotFound"
-          defaultMessage="No member named&nbsp;{searchTerm}&nbsp;could be
-        found."
+          defaultMessage="No member named {searchTerm} could be found."
           description="shown when people search in create room dialog returns 0 results"
           values={{
             searchTerm: <Text emphasis>{membersQuery}</Text>,
