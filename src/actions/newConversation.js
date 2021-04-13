@@ -21,7 +21,7 @@ export const setNewConversationTab = payload => ({
 })
 
 const requestGroupsNewConversation = payload => ({
-  type: types.REQUEST_GROUPS_SEARCH,
+  type: types.SET_GROUPS_SEARCH_LOADING_STATE,
   payload,
 })
 
@@ -38,6 +38,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
   const {
     groupsQuery,
+    groups,
     isMemberOfEachGroup,
     groupsPage,
   } = newConversationSelector(getState())
@@ -46,10 +47,22 @@ const loadMembershipGroups = () => (dispatch, getState) => {
     .getRooms(id, {
       pageSize: itemsToLoad,
       membership: true,
-      groupsPage,
+      page: groupsPage,
       query: groupsQuery,
     })
     .then(({ results }) => {
+      if (
+        groupsPage === 1 &&
+        !groups.length &&
+        !results.length &&
+        !groupsQuery
+      ) {
+        dispatch({ type: types.HANDLE_NO_OTHER_GROUPS_IN_ORG })
+        return
+      }
+      if (!groups.length && groupsPage === 1 && !groupsQuery) {
+        dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
+      }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
         dispatch(
           handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
@@ -78,19 +91,16 @@ export const onSearchGroups = () => (dispatch, getState) => {
     .getRooms(id, {
       pageSize: itemsToLoad,
       membership: false,
-      groupsPage,
+      page: groupsPage,
       query: groupsQuery,
     })
     .then(({ results }) => {
+      dispatch(handleGroupsResults(results))
+
       if (results.length < itemsToLoad) {
-        if (!results.length && groupsPage === 1) {
-          dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
-        }
         dispatch({ type: types.REQUEST_MEMBERSHIP_GROUPS_LOADING })
         dispatch(loadMembershipGroups())
       }
-
-      dispatch(handleGroupsResults(results))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -105,7 +115,7 @@ export const onChangeGroupsQuery = payload => dispatch => {
 }
 
 const requestPeopleNewConversation = payload => ({
-  type: types.REQUEST_PEOPLE_SEARCH,
+  type: types.SET_PEOPLE_SEARCH_LOADING_STATE,
   payload,
 })
 
@@ -131,7 +141,7 @@ const loadMembershipPeople = () => (dispatch, getState) => {
     .getUsers(id, {
       pageSize: itemsToLoad,
       membership: true,
-      peoplePage,
+      page: peoplePage,
       query: peopleQuery,
     })
     .then(({ results }) => {
@@ -150,7 +160,7 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       }
       // check here if no other people are left to join and not in
       // onSearchPeople
-      if (!people && peoplePage === 1 && !peopleQuery) {
+      if (!results.length && peoplePage === 1 && !peopleQuery) {
         dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
       }
       if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
@@ -184,7 +194,7 @@ export const onSearchPeople = () => (dispatch, getState) => {
     .getUsers(id, {
       pageSize: itemsToLoad,
       membership: false,
-      peoplePage,
+      page: peoplePage,
       query: peopleQuery,
     })
     .then(({ results }) => {

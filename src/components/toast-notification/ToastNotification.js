@@ -23,7 +23,7 @@ const styles = {
     right: 0,
     top: headerHeight,
     width,
-    zIndex: zIndex('base'),
+    zIndex: zIndex('toast'),
   },
   // We don't want notification to cover sidebar.
   hasSidebar: {
@@ -89,8 +89,7 @@ const styleNotification = notification => {
   }
 }
 
-@injectSheet(styles)
-export default class ToastNotification extends PureComponent {
+class ToastNotification extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -127,3 +126,5 @@ export default class ToastNotification extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(ToastNotification)

@@ -56,136 +56,103 @@ const People = ({
     openPm(id)
   }
 
+  if (isNoOtherPerson) {
+    return (
+      <Flex direction="column" className={classes.member}>
+        <Text maxWidth="initial" emphasis>
+          <FormattedMessage
+            id="ncdPeopleSearchNoOtherPeople1"
+            defaultMessage="Feeling lonely here?"
+            description="shown when there are no people in the organisation"
+          />
+        </Text>
+        <Text maxWidth="initial" className={classes.description}>
+          <FormattedMessage
+            id="ncdPeopleSearchNoOtherPeople2"
+            defaultMessage="It seems that {organizationName} has no other member than you yet, so why not invite someone? As soon as they join, you can come back and start a conversation."
+            description="shown when there are no people in the organisation"
+            values={{ organizationName: orgName }}
+          />
+        </Text>
+        <ActionLink
+          variant="primary"
+          onClick={onInviteToOrgClick}
+          className={classes.link}
+          href="#invite-to-organization"
+          icon="people"
+          title={formatMessage({
+            id: 'ncdInviteToOrga',
+            defaultMessage: 'Invite members to {organizationName}',
+            description: 'Action link title, shown when there a no members',
+            values: { organizationName: orgName },
+          })}
+        />
+      </Flex>
+    )
+  }
+
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
-      {isNoOtherPerson ? (
-        <>
-          <Flex direction="column" className={classes.member}>
-            <Text maxWidth="initial" emphasis>
-              <FormattedMessage
-                id="ncdPeopleSearchNoOtherPeople1"
-                defaultMessage="Feeling lonely here?"
-                description="shown when there are no people in the organisation"
-              />
-            </Text>
-            <Text maxWidth="initial" className={classes.description}>
-              <FormattedMessage
-                id="ncdPeopleSearchNoOtherPeople2"
-                defaultMessage="It seems that {organizationName} has no other member than you yet, so why not invite someone? As soon as they join, you can come back and start a conversation."
-                description="shown when there are no people in the organisation"
-                values={{ organizationName: orgName }}
-              />
-            </Text>
-            <ActionLink
-              variant="primary"
-              onClick={onInviteToOrgClick}
-              className={classes.link}
-              href="#invite-to-organization"
-              icon="people"
-              title={formatMessage({
-                id: 'ncdInviteToOrga',
-                defaultMessage: 'Invite members to {organizationName}',
-                description: 'Action link title, shown when there a no members',
-                values: { organizationName: orgName },
-              })}
+      {isInPmWithEveryPerson && !!people.length && (
+        <Flex direction="column" className={classes.member}>
+          <Text maxWidth="initial" emphasis>
+            <FormattedMessage
+              id="ncdInPmWithEveryPerson1"
+              defaultMessage="You're a very communicative person!"
             />
-          </Flex>
-        </>
-      ) : (
-        <>
-          {isInPmWithEveryPerson && (
-            <Flex direction="column" className={classes.member}>
-              <Text maxWidth="initial" emphasis>
-                <FormattedMessage
-                  id="ncdInPmWithEveryPerson1"
-                  defaultMessage="You're a very communicative person!"
-                />
-              </Text>
-              <Text maxWidth="initial" className={classes.description}>
-                <FormattedMessage
-                  id="ncdInPmWithEveryPerson2"
-                  defaultMessage="All members are already chatting with you. Keep in touch with them."
-                />
-              </Text>
-            </Flex>
-          )}
-          <SearchField
-            onChange={debounce(
-              query => onChangePeopleQuery(query),
-              debouncingTime,
-            )}
-            aria-label={formatMessage({
-              id: 'ncdPersonSearchLabel',
-              defaultMessage: 'Person search',
-            })}
-            className={classes.search}
-            placeholder={formatMessage({
-              id: 'ncdPersonSearchPlaceholder',
-              defaultMessage: 'Search for a person ...',
-            })}
-          />
-          <div className={classes.listWrapper}>
-            <div className={classes.list}>
-              <InfiniteAutoRowHeightList
-                rowHeight={rowHeight}
-                loadMoreRows={onSearchPeople}
-                isRowLoaded={isRowLoaded}
-                list={people}
-                minimumBatchSize={50}
-                width={680 - overflowPadding}
-                threshold={25}
-                rowRenderer={(index, key, style) => (
-                  <RowRenderer
-                    index={index}
-                    key={key}
-                    style={style}
-                    classes={classes}
-                    people={people}
-                    onListItemClick={onListItemClick}
-                  />
-                )}
-                noRowsRenderer={() => (
-                  <NoRowsRenderer
-                    classes={classes}
-                    isPeopleLoading={isPeopleLoading}
-                  />
-                )}
-              />
-              <div className={classes.listWrapper}>
-                <div className={classes.list}>
-                  <InfiniteAutoRowHeightList
-                    rowHeight={rowHeight}
-                    loadMoreRows={onSearchPeople}
-                    isListLoading={isPeopleLoading}
-                    isRowLoaded={isRowLoaded}
-                    list={people}
-                    minimumBatchSize={50}
-                    width={680 - overflowPadding}
-                    threshold={25}
-                    overscanRowCount={25}
-                    rowRenderer={(index, key, style) => (
-                      <RowRenderer
-                        index={index}
-                        key={key}
-                        style={style}
-                        classes={classes}
-                        people={people}
-                        onListItemClick={onListItemClick}
-                      />
-                    )}
-                    noRowsRenderer={() => (
-                      <NoRowsRenderer
-                        classes={classes}
-                        isPeopleLoading={isPeopleLoading}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
+          </Text>
+          <Text maxWidth="initial" className={classes.description}>
+            <FormattedMessage
+              id="ncdInPmWithEveryPerson2"
+              defaultMessage="All members are already chatting with you. Keep in touch with them."
+            />
+          </Text>
+        </Flex>
       )}
+      <SearchField
+        onChange={debounce(query => onChangePeopleQuery(query), debouncingTime)}
+        aria-label={formatMessage({
+          id: 'ncdPersonSearchLabel',
+          defaultMessage: 'Person search',
+        })}
+        className={classes.search}
+        placeholder={formatMessage({
+          id: 'ncdPersonSearchPlaceholder',
+          defaultMessage: 'Search for a person ...',
+        })}
+      />
+      <div className={classes.listWrapper}>
+        <div className={classes.list}>
+          <InfiniteAutoRowHeightList
+            rowHeight={rowHeight}
+            loadMoreRows={onSearchPeople}
+            isListLoading={isPeopleLoading}
+            isRowLoaded={isRowLoaded}
+            list={people}
+            minimumBatchSize={50}
+            width={680 - overflowPadding}
+            threshold={25}
+            overscanRowCount={25}
+            rowRenderer={({ index, key, style }) => (
+              <RowRenderer
+                index={index}
+                key={key}
+                style={style}
+                classes={classes}
+                people={people}
+                onListItemClick={onListItemClick}
+              />
+            )}
+            noRowsRenderer={() => (
+              <NoRowsRenderer
+                classes={classes}
+                orgName={orgName}
+                isPeopleLoading={isPeopleLoading}
+              />
+            )}
+          />
+        </div>
+      </div>
     </Flex>
   )
 }
