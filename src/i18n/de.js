@@ -280,7 +280,7 @@ export default {
   "downloadGrapeDesktop": "Grape Desktop herunterladen",
   "altenativeBrowser": "Alternativ können Sie Grape mit {browsers} in vollem Umfang verwenden.",
   "ncdCreateGroup": "Neue Gruppe erstellen",
-  "ncdCreateRoomPeopleSearchNotFound": "Keine Mitglieder mit dem Name&nbsp;{searchTerm}&nbsp;gefunden.",
+  "ncdCreateRoomPeopleSearchNotFound": "Keine Mitglieder mit dem Namen {searchTerm} gefunden.",
   "ncdGroupCreateButton": "Gruppe erstellen",
   "ncdGroupCreateCancelButton": "Abbrechen",
   "ncdGroupDescriptionDescription": "Hilft anderen zu verstehen was der Zweck der Gruppe ist.",
