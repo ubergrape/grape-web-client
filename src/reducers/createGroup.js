@@ -40,8 +40,8 @@ const handleMemberSelectChange = ({ members, index, payload, isSelected }) => {
 
 export const states = {
   [types.HIDE_NEW_CONVERSATION]: () => initial,
-  [types.HIDE_CREATE_ROOM]: () => initial,
-  [types.SHOW_CREATE_ROOM]: (state, payload) => ({
+  [types.HIDE_CREATE_GROUP]: () => initial,
+  [types.SHOW_CREATE_GROUP]: (state, payload) => ({
     ...state,
     isPrivate: payload,
   }),
@@ -57,7 +57,7 @@ export const states = {
     ...state,
     description: payload,
   }),
-  [types.HANDLE_CREATE_ROOM_ERROR_DETAILS]: (state, payload) => ({
+  [types.HANDLE_CREATE_GROUP_ERROR_DETAILS]: (state, payload) => ({
     ...state,
     errorDetails: payload,
   }),

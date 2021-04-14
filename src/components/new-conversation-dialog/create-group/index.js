@@ -24,7 +24,7 @@ import NoRowsRenderer from './NoRowsRenderer'
 
 import theme from './theme'
 
-const CreateRoom = ({
+const CreateGroup = ({
   classes,
   overflowPadding,
   members,
@@ -34,7 +34,7 @@ const CreateRoom = ({
   isPrivate,
   currentSelectedMember,
   isMembersLoading,
-  hideCreateRoom,
+  hideCreateGroup,
   setIsPrivate,
   isTagsInputInteracted,
   onGroupNameChange,
@@ -44,7 +44,7 @@ const CreateRoom = ({
   onSearchMembers,
   onMemberSelect,
   onMemberRemove,
-  onCreateRoom,
+  onCreateGroup,
   intl: { formatMessage },
 }) => {
   const ref = useRef()
@@ -91,7 +91,7 @@ const CreateRoom = ({
 
   const onSubmit = () => {
     ref.current.reportValidity()
-    onCreateRoom()
+    onCreateGroup()
   }
 
   const { focus, onFocusVisible } = useFocusStyle({ isInvalid: false })
@@ -101,7 +101,7 @@ const CreateRoom = ({
       <div className={classes.backWrapper}>
         <a
           aria-label="Go back to groups tab"
-          onClick={hideCreateRoom}
+          onClick={hideCreateGroup}
           href="#new-conversation"
           className={cn(classes.back, onFocusVisible)}
         >
@@ -126,6 +126,7 @@ const CreateRoom = ({
             defaultMessage: 'Make group private',
             description: 'switch label',
           })}
+          isSelected={isPrivate}
           onChange={setIsPrivate}
           className={classes.switch}
           helpText={formatMessage({
@@ -255,7 +256,11 @@ const CreateRoom = ({
               defaultMessage="Create group"
             />
           </Button>
-          <Button onClick={hideCreateRoom} variant="basic" appearance="minimal">
+          <Button
+            onClick={hideCreateGroup}
+            variant="basic"
+            appearance="minimal"
+          >
             <FormattedMessage
               id="ncdGroupCreateCancelButton"
               defaultMessage="Cancel"
@@ -267,4 +272,4 @@ const CreateRoom = ({
   )
 }
 
-export default injectSheet(theme)(injectIntl(CreateRoom))
+export default injectSheet(theme)(injectIntl(CreateGroup))
