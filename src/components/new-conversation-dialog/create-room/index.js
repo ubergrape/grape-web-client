@@ -121,28 +121,27 @@ const CreateRoom = ({
         </Headline>
       </div>
       <form ref={ref} className={classes.form}>
-        {org.defaults?.groupDefaults?.visibility !== 'private' && (
-          <Switch
-            label={formatMessage({
-              id: 'ncdGroupPrivateLabel',
-              defaultMessage: 'Make group private',
-              description: 'switch label',
-            })}
-            aria-label={formatMessage({
-              id: 'ncdGroupPrivateLabel',
-              defaultMessage: 'Make group private',
-              description: 'switch label',
-            })}
-            onChange={setIsPrivate}
-            className={classes.switch}
-            helpText={formatMessage({
-              id: 'ncdGroupPrivateHelpText',
-              defaultMessage:
-                'Only group members can view a private group and invite other people to join.',
-              description: 'switch help text',
-            })}
-          />
-        )}
+        <Switch
+          label={formatMessage({
+            id: 'ncdGroupPrivateLabel',
+            defaultMessage: 'Make group private',
+            description: 'switch label',
+          })}
+          aria-label={formatMessage({
+            id: 'ncdGroupPrivateLabel',
+            defaultMessage: 'Make group private',
+            description: 'switch label',
+          })}
+          onChange={setIsPrivate}
+          className={classes.switch}
+          helpText={formatMessage({
+            id: 'ncdGroupPrivateHelpText',
+            defaultMessage:
+              'Only group members can view a private group and invite other people to join.',
+            description: 'switch help text',
+          })}
+          isChecked={org.defaults?.groupDefaults?.visibility === 'private'}
+        />
         <TextField
           label={formatMessage({
             id: 'ncdGroupNameLabel',
