@@ -121,7 +121,7 @@ const CreateRoom = ({
         </Headline>
       </div>
       <form ref={ref} className={classes.form}>
-        {org.defaults.groupDefaults.visibility !== 'private' && (
+        {org.defaults?.groupDefaults?.visibility !== 'private' && (
           <Switch
             label={formatMessage({
               id: 'ncdGroupPrivateLabel',
