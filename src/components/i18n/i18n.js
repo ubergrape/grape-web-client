@@ -47,8 +47,8 @@ export const InviteSuccess = ({ invited }) => {
       id="justInvited"
       defaultMessage={`{justInvitedCongratulations} {amount, plural,
         =0 {}
-        one {{amountOnePlural}}
-        other {{amountOtherPlural}}
+        one {{justInvitedAmountOnePlural}}
+        other {{justInvitedAmountOtherPlural}}
       }.`}
       values={{
         user,

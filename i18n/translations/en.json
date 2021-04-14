@@ -185,7 +185,7 @@
   "joinGroup": "Join a group",
   "joinVideoConference": "Join video conference",
   "_joinVideoConference.comment": "Sidebar: link to join a video conference",
-  "justInvited": "{justInvitedCongratulations} {amount, plural, =0 {} one {{amountOnePlural}} other {{amountOtherPlural}} }.",
+  "justInvited": "{justInvitedCongratulations} {amount, plural, =0 {} one {{justInvitedAmountOnePlural}} other {{justInvitedAmountOtherPlural}} }.",
   "justInvitedAmountOnePlural": "and one more member",
   "justInvitedAmountOtherPlural": "and {amount} more members",
   "justInvitedCongratulations": "Congratulations! You just invited {user}",
