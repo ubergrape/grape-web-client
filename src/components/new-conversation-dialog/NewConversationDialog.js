@@ -33,6 +33,7 @@ const NewConversationDialog = ({
     <OverlayContainer>
       <div className={classes.wrapper}>
         <TakeoverDialog
+          id="new-conversation-dialog"
           title={formatMessage({
             id: 'ncdTitle',
             defaultMessage: 'New conversation',

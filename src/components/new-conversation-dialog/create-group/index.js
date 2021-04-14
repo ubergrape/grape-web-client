@@ -51,9 +51,7 @@ const CreateGroup = ({
 
   useEffect(() => {
     // https://github.com/adobe/react-spectrum/issues/874
-    document
-      .querySelector('[aria-labelledby="New conversation"] .os-viewport')
-      .focus()
+    document.querySelector('#new-conversation-dialog .os-viewport').focus()
   }, [])
 
   useEffect(() => {
@@ -71,16 +69,12 @@ const CreateGroup = ({
     }
 
     document
-      .querySelector(
-        '[aria-labelledby="New conversation"] .ReactVirtualized__List',
-      )
+      .querySelector('#new-conversation-dialog .ReactVirtualized__List')
       .addEventListener('keydown', handleKeyDown)
 
     return () => {
       document
-        .querySelector(
-          '[aria-labelledby="New conversation"] .ReactVirtualized__List',
-        )
+        .querySelector('#new-conversation-dialog .ReactVirtualized__List')
         .removeEventListener('keydown', handleKeyDown)
     }
   }, [members, currentSelectedMember])
@@ -141,6 +135,7 @@ const CreateGroup = ({
               'Only group members can view a private group and invite other people to join.',
             description: 'switch help text',
           })}
+          isChecked={isPrivate}
         />
         <TextField
           label={formatMessage({
