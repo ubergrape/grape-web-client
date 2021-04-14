@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
+import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
@@ -19,6 +20,7 @@ const rowHeight = (list, index) => {
 const Groups = ({
   classes,
   overflowPadding,
+  org,
   groups,
   isGroupsLoading,
   isMemberOfEachGroup,
@@ -26,7 +28,7 @@ const Groups = ({
   onChangeGroupsQuery,
   onSearchGroups,
   hideNewConversation,
-  showCreateRoom,
+  showCreateGroup,
   goToChannel,
   joinChannel,
   intl: { formatMessage },
@@ -38,6 +40,10 @@ const Groups = ({
   const isRowLoaded = useCallback(({ index }) => Boolean(groups[index]), [
     groups,
   ])
+
+  const onCreateGroupClick = () => {
+    showCreateGroup(get(org, 'defaults.groupDefaults.visibility') || false)
+  }
 
   const onListItemClick = (id, membership) => {
     hideNewConversation()
@@ -69,7 +75,7 @@ const Groups = ({
         </Flex>
         <ActionLink
           variant="primary"
-          onClick={showCreateRoom}
+          onClick={onCreateGroupClick}
           className={classes.link}
           href="#create-room"
           icon="people"
@@ -92,7 +98,7 @@ const Groups = ({
       </Text>
       <ActionLink
         variant="primary"
-        onClick={showCreateRoom}
+        onClick={showCreateGroup}
         className={classes.link}
         href="#create-room"
         icon="people"

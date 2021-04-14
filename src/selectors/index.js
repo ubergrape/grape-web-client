@@ -284,8 +284,8 @@ export const newConversationSelector = createSelector(
   state => state,
 )
 
-export const createRoomSelector = createSelector(
-  state => state.createRoom,
+export const createGroupSelector = createSelector(
+  state => state.createGroup,
   state => state,
 )
 
@@ -318,11 +318,11 @@ const isInviterSelector = createSelector(
 )
 
 export const newConversationComponentSelector = createSelector(
-  [newConversationSelector, createRoomSelector, orgSelector],
-  (newConversation, createRoom, { name: orgName }) => ({
+  [newConversationSelector, createGroupSelector, orgSelector],
+  (newConversation, createGroup, org) => ({
     ...newConversation,
-    ...createRoom,
-    orgName,
+    ...createGroup,
+    org,
   }),
 )
 

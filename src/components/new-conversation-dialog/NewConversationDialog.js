@@ -6,7 +6,7 @@ import { OverlayContainer, useModal } from '@react-aria/overlays'
 
 import Groups from './groups'
 import People from './people'
-import CreateRoom from './create-room'
+import CreateGroup from './create-group'
 import theme from './theme'
 
 const NewConversationDialog = ({
@@ -78,7 +78,7 @@ const NewConversationDialog = ({
               </Tab>
             </Tabs>
           ) : (
-            <CreateRoom overflowPadding={overflowPadding} {...props} />
+            <CreateGroup overflowPadding={overflowPadding} {...props} />
           )}
         </TakeoverDialog>
       </div>

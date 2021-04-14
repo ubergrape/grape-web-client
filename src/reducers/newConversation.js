@@ -28,11 +28,11 @@ export const states = {
     ...state,
     isOpen: true,
   }),
-  [types.HIDE_CREATE_ROOM]: state => ({
+  [types.HIDE_CREATE_GROUP]: state => ({
     ...state,
     view: 'tabs',
   }),
-  [types.SHOW_CREATE_ROOM]: state => ({
+  [types.SHOW_CREATE_GROUP]: state => ({
     ...state,
     view: 'create',
   }),
