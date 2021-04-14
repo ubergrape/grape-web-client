@@ -44,6 +44,7 @@ const CreateRoom = ({
   onMemberSelect,
   onMemberRemove,
   onCreateRoom,
+  org,
   intl: { formatMessage },
 }) => {
   const ref = useRef()
@@ -120,26 +121,28 @@ const CreateRoom = ({
         </Headline>
       </div>
       <form ref={ref} className={classes.form}>
-        <Switch
-          label={formatMessage({
-            id: 'ncdGroupPrivateLabel',
-            defaultMessage: 'Make group private',
-            description: 'switch label',
-          })}
-          aria-label={formatMessage({
-            id: 'ncdGroupPrivateLabel',
-            defaultMessage: 'Make group private',
-            description: 'switch label',
-          })}
-          onChange={setIsPrivate}
-          className={classes.switch}
-          helpText={formatMessage({
-            id: 'ncdGroupPrivateHelpText',
-            defaultMessage:
-              'Only group members can view a private group and invite other people to join.',
-            description: 'switch help text',
-          })}
-        />
+        {org.defaults.groupDefaults.visibility !== 'private' && (
+          <Switch
+            label={formatMessage({
+              id: 'ncdGroupPrivateLabel',
+              defaultMessage: 'Make group private',
+              description: 'switch label',
+            })}
+            aria-label={formatMessage({
+              id: 'ncdGroupPrivateLabel',
+              defaultMessage: 'Make group private',
+              description: 'switch label',
+            })}
+            onChange={setIsPrivate}
+            className={classes.switch}
+            helpText={formatMessage({
+              id: 'ncdGroupPrivateHelpText',
+              defaultMessage:
+                'Only group members can view a private group and invite other people to join.',
+              description: 'switch help text',
+            })}
+          />
+        )}
         <TextField
           label={formatMessage({
             id: 'ncdGroupNameLabel',
