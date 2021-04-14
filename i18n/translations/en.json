@@ -301,7 +301,7 @@
   "ncdJoinGroupHeader": "Join an existing group or create a new one. Groups are best organized around a topic.",
   "ncdMemberOfEachGroup1": "You won't miss any chat going on!",
   "enterGroupName": "Enter group name",
-  "ncdMemberOfEachGroup2": "You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to conversations going.",
+  "ncdMemberOfEachGroup2": "You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to keep the conversations going.",
   "private": "Private",
   "ncdNoGroups1": "You're the first!",
   "public": "Public",
