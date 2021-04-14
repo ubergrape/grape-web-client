@@ -320,7 +320,7 @@
   "_ncdTitle.comment": "title for new conversation dialog",
   "newConversation": "Nueva conversación",
   "_newConversation.comment": "*Describe NewConversation*: this is used in Navigation",
-  "newImportantMessages": "{amount} {amount, plural, one {{newImportantMessagesOne}} other {{newImportantMessagesOther}}}",
+  "newImportantMessages": "{amount} {amount, plural, one {{newImportantMessagesOne}} other {{newImportantMessagesOther}} }",
   "newImportantMessagesOne": "nuevo mensaje importante",
   "newImportantMessagesOther": "nuevos mensajes importantes",
   "noChannelsToChatIn": "No tiene personas o grupos con los que enviar mensajes en este momento. Únase a un grupo o comience una nueva conversación.",
