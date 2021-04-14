@@ -31,6 +31,7 @@ const CreateRoom = ({
   selectedMembers,
   membersQuery,
   errorDetails,
+  isPrivate,
   currentSelectedMember,
   isMembersLoading,
   hideCreateRoom,
@@ -44,7 +45,6 @@ const CreateRoom = ({
   onMemberSelect,
   onMemberRemove,
   onCreateRoom,
-  org,
   intl: { formatMessage },
 }) => {
   const ref = useRef()
@@ -140,7 +140,7 @@ const CreateRoom = ({
               'Only group members can view a private group and invite other people to join.',
             description: 'switch help text',
           })}
-          isChecked={org.defaults?.groupDefaults?.visibility === 'private'}
+          isChecked={isPrivate}
         />
         <TextField
           label={formatMessage({

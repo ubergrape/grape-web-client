@@ -29,6 +29,7 @@ const Groups = ({
   showCreateRoom,
   goToChannel,
   joinChannel,
+  org,
   intl: { formatMessage },
 }) => {
   useEffect(() => {
@@ -38,6 +39,10 @@ const Groups = ({
   const isRowLoaded = useCallback(({ index }) => Boolean(groups[index]), [
     groups,
   ])
+
+  const onCreateGroupClick = () => {
+    showCreateRoom(org.defaults?.groupDefaults?.visibility === 'private')
+  }
 
   const onListItemClick = (id, membership) => {
     hideNewConversation()
@@ -69,7 +74,7 @@ const Groups = ({
         </Flex>
         <ActionLink
           variant="primary"
-          onClick={showCreateRoom}
+          onClick={onCreateGroupClick}
           className={classes.link}
           href="#create-room"
           icon="people"
@@ -92,7 +97,7 @@ const Groups = ({
       </Text>
       <ActionLink
         variant="primary"
-        onClick={showCreateRoom}
+        onClick={onCreateGroupClick}
         className={classes.link}
         href="#create-room"
         icon="people"
