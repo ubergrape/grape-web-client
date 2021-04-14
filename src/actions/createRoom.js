@@ -4,8 +4,9 @@ import { itemsToLoad } from '../constants/navigation'
 import { createRoomSelector, orgSelector } from '../selectors'
 import { goToChannel, hideNewConversation, error } from './'
 
-export const showCreateRoom = () => ({
+export const showCreateRoom = payload => ({
   type: types.SHOW_CREATE_ROOM,
+  payload,
 })
 
 export const hideCreateRoom = () => ({

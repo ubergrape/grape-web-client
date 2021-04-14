@@ -319,10 +319,10 @@ const isInviterSelector = createSelector(
 
 export const newConversationComponentSelector = createSelector(
   [newConversationSelector, createRoomSelector, orgSelector],
-  (newConversation, createRoom, { name: orgName }) => ({
+  (newConversation, createRoom, org) => ({
     ...newConversation,
     ...createRoom,
-    orgName,
+    org,
   }),
 )
 
