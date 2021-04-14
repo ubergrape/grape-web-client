@@ -49,7 +49,7 @@ const People = ({
     hideNewConversation()
 
     if (pm) {
-      goToChannel(id)
+      goToChannel(pm)
       return
     }
 
