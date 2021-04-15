@@ -12,7 +12,7 @@ export const searchChannelsForNavigation = search => (dispatch, getState) => {
 
   const org = orgSelector(getState())
   api
-    .searchChannels({
+    .searchOverview({
       orgId: org.id,
       search,
     })
