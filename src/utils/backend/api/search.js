@@ -15,6 +15,16 @@ export const searchChannels = ({
     { camelize: true },
   )
 
+export const searchOverview = ({ orgId, search = '', limit = 50 }) =>
+  rpc(
+    {
+      ns: 'search',
+      action: 'search_overview',
+      args: [orgId, search, limit],
+    },
+    { camelize: true },
+  )
+
 export const searchMentions = ({ orgId, offset, mentionTypes, channels }) =>
   rpc(
     {
