@@ -1863,10 +1863,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ubergrape/aurora-ui@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-0.0.7.tgz#2a6fa18243c0f0a1609d87ae6c34b47ef5729cbf"
-  integrity sha512-j3QR25VH06mmVu4aDYVQ4xAEia/6BsWDxlJ5cTQeQl1GttKBlXOVrA2+FPk2we9YqGd/6iCUxDLnoCxSTIjjJw==
+"@ubergrape/aurora-ui@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-0.0.8.tgz#216bd9cd8702085d88db7d0415171bc6dfb4ebb8"
+  integrity sha512-bG264dzoEIfEU9cxXcu05VJdgICOkJozKYuIfh5tTTak9wPfxEVI8JstKwxViI8YddudYJdm0F0wqhAcj47n9A==
   dependencies:
     "@react-aria/button" "^3.2.1"
     "@react-aria/checkbox" "^3.2.1"
