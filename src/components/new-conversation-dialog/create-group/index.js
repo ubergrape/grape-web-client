@@ -195,22 +195,20 @@ const CreateGroup = ({
           isNecessityLabel
           className={classes.members}
         >
-          {selectedMembers.map(tag => {
-            const { id, firstName, avatar, lastName, displayName } = tag
-            const name =
-              !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+          {selectedMembers.map(member => {
+            const { id, avatar, displayName } = member
 
             return (
               <Tag
                 key={id}
                 id={id}
                 avatarSrc={avatar}
-                avatarAlt={name}
+                avatarAlt={displayName}
                 onRemove={() => {
                   onMemberRemove(id)
                 }}
               >
-                {name}
+                {displayName}
               </Tag>
             )
           })}
