@@ -7,6 +7,7 @@ import {
   Switch,
   TextField,
   TextArea,
+  Tag,
   TagsInput,
   Text,
   ButtonGroup,
@@ -189,12 +190,31 @@ const CreateGroup = ({
             description: 'description for group members input',
           })}
           maxHeight={67}
-          tags={selectedMembers}
           onFocus={onTagsInputFocus}
           onRemove={onMemberRemove}
           isNecessityLabel
           className={classes.members}
-        />
+        >
+          {selectedMembers.map(tag => {
+            const { id, firstName, avatar, lastName, displayName } = tag
+            const name =
+              !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+
+            return (
+              <Tag
+                key={id}
+                id={id}
+                avatarSrc={avatar}
+                avatarAlt={name}
+                onRemove={() => {
+                  onMemberRemove(id)
+                }}
+              >
+                {name}
+              </Tag>
+            )
+          })}
+        </TagsInput>
         <div className={classes.membersListWrapper}>
           <Text className={classes.selectedMembers} size="small">
             <FormattedMessage
