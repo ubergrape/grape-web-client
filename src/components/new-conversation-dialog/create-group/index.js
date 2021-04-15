@@ -199,15 +199,7 @@ const CreateGroup = ({
             const { id, avatar, displayName } = member
 
             return (
-              <Tag
-                key={id}
-                id={id}
-                avatarSrc={avatar}
-                avatarAlt={displayName}
-                onRemove={() => {
-                  onMemberRemove(id)
-                }}
-              >
+              <Tag key={id} id={id} avatarSrc={avatar} avatarAlt={displayName}>
                 {displayName}
               </Tag>
             )
