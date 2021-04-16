@@ -20,18 +20,18 @@ export const setNewConversationTab = payload => ({
   payload,
 })
 
-const requestGroupsNewConversation = payload => ({
+const setGroupsLoadingNewConversation = payload => ({
   type: types.SET_GROUPS_SEARCH_LOADING_STATE,
   payload,
 })
 
-const handleGroupsResults = payload => dispatch => {
+const handleGroupsResults = (payload, isGroupsLoadingFinished) => dispatch => {
   dispatch({
     type: types.HANDLE_GROUPS_SEARCH,
     payload,
   })
 
-  dispatch(requestGroupsNewConversation(false))
+  if (isGroupsLoadingFinished) dispatch(setGroupsLoadingNewConversation(false))
 }
 
 const loadMembershipGroups = () => (dispatch, getState) => {
@@ -65,12 +65,15 @@ const loadMembershipGroups = () => (dispatch, getState) => {
       }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
         dispatch(
-          handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
+          handleGroupsResults(
+            [{ text: 'Groups you belong to' }, ...results],
+            true,
+          ),
         )
         return
       }
 
-      dispatch(handleGroupsResults(results))
+      dispatch(handleGroupsResults(results, true))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -83,7 +86,7 @@ export const onSearchGroups = () => (dispatch, getState) => {
     groupsPage,
   } = newConversationSelector(getState())
 
-  dispatch(requestGroupsNewConversation(true))
+  dispatch(setGroupsLoadingNewConversation(true))
 
   if (isGroupsWithMembershipLoading) return dispatch(loadMembershipGroups())
 
@@ -95,7 +98,7 @@ export const onSearchGroups = () => (dispatch, getState) => {
       query: groupsQuery,
     })
     .then(({ results }) => {
-      dispatch(handleGroupsResults(results))
+      dispatch(handleGroupsResults(results, false))
 
       if (results.length < itemsToLoad) {
         dispatch({ type: types.REQUEST_MEMBERSHIP_GROUPS_LOADING })
@@ -114,18 +117,18 @@ export const onChangeGroupsQuery = payload => dispatch => {
   dispatch(onSearchGroups())
 }
 
-const requestPeopleNewConversation = payload => ({
+const setPeopleLoadingNewConversation = payload => ({
   type: types.SET_PEOPLE_SEARCH_LOADING_STATE,
   payload,
 })
 
-const handlePeopleResults = payload => dispatch => {
+const handlePeopleResults = (payload, isPeopleLoadingFinished) => dispatch => {
   dispatch({
     type: types.HANDLE_PEOPLE_SEARCH,
     payload,
   })
 
-  dispatch(requestPeopleNewConversation(false))
+  if (isPeopleLoadingFinished) dispatch(setPeopleLoadingNewConversation(false))
 }
 
 const loadMembershipPeople = () => (dispatch, getState) => {
@@ -165,15 +168,18 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       }
       if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
         dispatch(
-          handlePeopleResults([
-            { text: 'People you already have a conversation with' },
-            ...results,
-          ]),
+          handlePeopleResults(
+            [
+              { text: 'People you already have a conversation with' },
+              ...results,
+            ],
+            true,
+          ),
         )
         return
       }
 
-      dispatch(handlePeopleResults(results))
+      dispatch(handlePeopleResults(results, true))
     })
     .catch(err => dispatch(error(err)))
 }
@@ -186,7 +192,7 @@ export const onSearchPeople = () => (dispatch, getState) => {
     peoplePage,
   } = newConversationSelector(getState())
 
-  dispatch(requestPeopleNewConversation(true))
+  dispatch(setPeopleLoadingNewConversation(true))
 
   if (isPeopleWithPmLoading) return dispatch(loadMembershipPeople())
 
@@ -200,7 +206,7 @@ export const onSearchPeople = () => (dispatch, getState) => {
     .then(({ results }) => {
       // call handlePeopleResults before loadMembershipPeople, because it
       // updates `people`, which is needed by loadMembershipPeople
-      dispatch(handlePeopleResults(results))
+      dispatch(handlePeopleResults(results, false))
 
       if (results.length < itemsToLoad) {
         dispatch({ type: types.REQUEST_MEMBERSHIP_PEOPLE_LOADING })
