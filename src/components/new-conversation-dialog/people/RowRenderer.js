@@ -8,7 +8,7 @@ import { userStatusMap } from '../../../constants/app'
 
 const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
   // Separator for list blocks with people with existing conversation and without
-  if (people[index].separator) {
+  if (people[index].isSeparator) {
     return (
       <Flex items="flex-end" key={people[index].text} style={style}>
         <Text maxWidth="initial" className={classes.cluster} emphasis>

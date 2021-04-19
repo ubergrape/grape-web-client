@@ -19,7 +19,7 @@ const colorMap = {
 
 const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
   // Separator for list blocks with groups where user is member and not.
-  if (groups[index].separator) {
+  if (groups[index].isSeparator) {
     return (
       <Flex items="flex-end" key={groups[index].text} style={style}>
         <Text maxWidth="initial" className={classes.cluster} emphasis>
