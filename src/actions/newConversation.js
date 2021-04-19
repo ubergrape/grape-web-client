@@ -130,12 +130,9 @@ const handlePeopleResults = payload => dispatch => {
 
 const loadMembershipPeople = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
-  const {
-    peopleQuery,
-    isInPmWithEveryPerson,
-    peoplePage,
-    people,
-  } = newConversationSelector(getState())
+  const { peopleQuery, peoplePage, people } = newConversationSelector(
+    getState(),
+  )
 
   api
     .getUsers(id, {
@@ -160,10 +157,9 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       }
       // check here if no other people are left to join and not in
       // onSearchPeople
-      if (!results.length && peoplePage === 1 && !peopleQuery) {
+      if (!people.length && !peopleQuery) {
         dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
-      }
-      if (peoplePage === 1 && results.length && !isInPmWithEveryPerson) {
+      } else if (peoplePage === 1 && results.length) {
         dispatch(
           handlePeopleResults([
             { text: 'People you already have a conversation with' },
