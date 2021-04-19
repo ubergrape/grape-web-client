@@ -2,13 +2,37 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import pick from 'lodash/pick'
 import { shouldPureComponentUpdate } from 'react-pure-render'
+import { defineMessages, injectIntl } from 'react-intl'
 
 import SectionHeader from '../../section-header/SectionHeader'
+
+const labels = defineMessages({
+  emoticons: {
+    id: 'emojiEmoticons',
+    defaultMessage: 'emoticons',
+  },
+  nature: {
+    id: 'emojiNature',
+    defaultMessage: 'nature',
+  },
+  objects: {
+    id: 'emojiObjects',
+    defaultMessage: 'objects',
+  },
+  places: {
+    id: 'emojiPlaces',
+    defaultMessage: 'places',
+  },
+  other: {
+    id: 'emojiOther',
+    defaultMessage: 'other',
+  },
+})
 
 /**
  * One grid section which has a title and items.
  */
-export default class Section extends Component {
+class Section extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,
     onItemDidMount: PropTypes.func,
@@ -48,11 +72,21 @@ export default class Section extends Component {
   }
 
   render() {
-    const { Item } = this.props
+    const {
+      Item,
+      intl: { formatMessage },
+    } = this.props
 
     return (
       <section>
-        <SectionHeader text={this.props.label} hint={this.props.hint} />
+        <SectionHeader
+          text={
+            labels[this.props.label]
+              ? formatMessage(labels[this.props.label])
+              : this.props.label
+          }
+          hint={this.props.hint}
+        />
         <div className={this.props.contentClassName} ref="content">
           {this.props.items.map((data, i) => {
             const props = pick(
@@ -78,3 +112,5 @@ export default class Section extends Component {
     )
   }
 }
+
+export default injectIntl(Section)

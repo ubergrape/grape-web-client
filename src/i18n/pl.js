@@ -19,7 +19,14 @@ export default {
   "yourBusinessTools": "twoje narzędzia biznesowe",
   "resultsAmountHint": "{amount} wyniki",
   "noResults": "Brak wyników.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
+  "resultsAmountResult": "Wynik",
+  "resultsAmountResults": "Wyniki",
   "serviesHeadline": "wybrana usługa",
-  "noServicesFound": "Nie znaleziono żadnych usług."
+  "noServicesFound": "Nie znaleziono żadnych usług.",
+  "emojiEmoticons": "emotikony",
+  "emojiNature": "charakter",
+  "emojiObjects": "obiekty",
+  "emojiPlaces": "miejsca",
+  "emojiOther": "inny"
 }

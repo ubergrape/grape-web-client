@@ -14,12 +14,19 @@ export default {
   "notInGroup": "не в групі",
   "insertAction": "Вставити в повідомлення",
   "openAction": "Вiдкрити",
-  "noDetailForItem": "Немає детальної інформації про цей товар",
+  "noDetailForItem": "Немає детальної інформації про цей предмет",
   "searchInfo": "Шукайте на Вiкiпедiї, YouTube, Giphy та {tools}, натискаючи на {plusIcon} або натискаючи клавішу плюса на клавіатурі",
   "yourBusinessTools": "ваші бізнес-інструменти",
   "resultsAmountHint": "{amount} результатів",
   "noResults": "Немає результатів.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
+  "resultsAmountResult": "Результат",
+  "resultsAmountResults": "Результати",
   "serviesHeadline": "виберіть послугу",
-  "noServicesFound": "Послуг не знайдено."
+  "noServicesFound": "Послуг не знайдено.",
+  "emojiEmoticons": "емодзі",
+  "emojiNature": "природа",
+  "emojiObjects": "об'єкти",
+  "emojiPlaces": "місця",
+  "emojiOther": "інше"
 }

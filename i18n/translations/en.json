@@ -17,8 +17,15 @@
   "resultsAmountHint": "{amount} results",
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
   "noResults": "No Results.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
+  "resultsAmountResult": "Result",
+  "resultsAmountResults": "Results",
   "serviesHeadline": "select service",
   "_serviesHeadline.comment": "**Headline in services list of grape-browser**",
-  "noServicesFound": "No services found."
+  "noServicesFound": "No services found.",
+  "emojiEmoticons": "emoticons",
+  "emojiNature": "nature",
+  "emojiObjects": "objects",
+  "emojiPlaces": "places",
+  "emojiOther": "other"
 }
