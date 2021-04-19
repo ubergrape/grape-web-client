@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
 import { Flex, Text, AvatarItem } from '@ubergrape/aurora-ui'
 
@@ -7,11 +8,14 @@ import { userStatusMap } from '../../../constants/app'
 
 const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
   // Separator for list blocks with people with existing conversation and without
-  if (people[index].text) {
+  if (people[index].separator) {
     return (
       <Flex items="flex-end" key={people[index].text} style={style}>
         <Text maxWidth="initial" className={classes.cluster} emphasis>
-          {people[index].text}
+          <FormattedMessage
+            id="ncdPeopleSeparator"
+            defaultMessage="People you already have a conversation with"
+          />
         </Text>
       </Flex>
     )

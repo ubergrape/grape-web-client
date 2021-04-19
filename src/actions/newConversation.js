@@ -64,9 +64,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
         dispatch({ type: types.HANDLE_NO_GROUPS_LEFT_TO_JOIN })
       }
       if (groupsPage === 1 && results.length && !isMemberOfEachGroup) {
-        dispatch(
-          handleGroupsResults([{ text: 'Groups you belong to' }, ...results]),
-        )
+        dispatch(handleGroupsResults([{ separator: true }, ...results]))
         return
       }
 
@@ -160,12 +158,7 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       if (!people.length && !peopleQuery) {
         dispatch({ type: types.HANDLE_NO_PEOPLE_LEFT_TO_JOIN })
       } else if (peoplePage === 1 && results.length) {
-        dispatch(
-          handlePeopleResults([
-            { text: 'People you already have a conversation with' },
-            ...results,
-          ]),
-        )
+        dispatch(handlePeopleResults([{ separator: true }, ...results]))
         return
       }
 
