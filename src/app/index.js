@@ -8,9 +8,6 @@ import pl from 'react-intl/locale-data/pl'
 import fr from 'react-intl/locale-data/fr'
 import it from 'react-intl/locale-data/it'
 import es from 'react-intl/locale-data/es'
-import ro from 'react-intl/locale-data/ro'
-import ru from 'react-intl/locale-data/ru'
-import tr from 'react-intl/locale-data/tr'
 import uk from 'react-intl/locale-data/uk'
 import moment from 'moment'
 
@@ -32,9 +29,6 @@ const languages = [
   ...fr,
   ...it,
   ...es,
-  ...ro,
-  ...ru,
-  ...tr,
   ...uk,
 ]
 
