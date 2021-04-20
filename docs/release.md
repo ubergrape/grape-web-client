@@ -10,11 +10,11 @@ Main branch is `master`.
 
 To release a new version of the repo make sure to complete the following steps (in order):
 
-- [ ] Make sure all strings are translated on [lingohub](https://translate.lingohub.com/ubergrape-gmbh/dashboard/web-client)
-  - Log into LingoHub and switch to the `Resouce Files` [tab](https://translate.lingohub.com/ubergrape-gmbh/dashboard/web-client/resources/)
-  - Click on `Pull Files` to fetch the latest translation files from the Github repository
-  - If no changes are indicated, everything is ok and you can proceed
-  - In case of changes click `Create PR based on …`, select the master branch and merge the PR
+- [ ] Update translations
+  - Make sure all strings are translated on [lingohub](https://translate.lingohub.com/ubergrape-gmbh/dashboard/web-client)
+  - Push them to Github as PR to make sure we have the latest data: Go to [Repository -> Export/Import](https://translate.lingohub.com/ubergrape-gmbh/dashboard/web-client/repository/export-import) and click "Push".
+  - Merge the PR
+  - Pull the changes locally and run `yarn i18n:import`
 - [ ] Create a new tag `npm version <major|minor|patch>`
 - [ ] Make sure that everything is fine: `git log`
 - [ ] Remove node_modules running `rm -rf node_modules` install `yarn` again
