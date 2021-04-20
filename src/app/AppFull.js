@@ -71,7 +71,7 @@ const Globals = () => (
   },
   { increaseSpecificity: false, isolate: false },
 )
-export default class App extends PureComponent {
+class App extends PureComponent {
   render() {
     return (
       <AppProvider>
@@ -93,3 +93,5 @@ export default class App extends PureComponent {
     )
   }
 }
+
+export default App
