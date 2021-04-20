@@ -22,15 +22,7 @@ let sheetsInsertionPoint
 let renderContainer
 // let isSuspended = true
 
-const languages = [
-  ...en,
-  ...de,
-  ...pl,
-  ...fr,
-  ...it,
-  ...es,
-  ...uk,
-]
+const languages = [...en, ...de, ...pl, ...fr, ...it, ...es, ...uk]
 
 export const resume = () => {
   // if (!isSuspended) return null
