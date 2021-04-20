@@ -1,1 +1,1 @@
-export InfiniteAutoRowHeightList from './InfiniteAutoRowHeightList'
+export InfiniteAutoRowHeightKeyStepperList from './InfiniteAutoRowHeightKeyStepperList'
