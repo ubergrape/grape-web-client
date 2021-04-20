@@ -25,6 +25,10 @@ module.exports = api => {
         messagesDir: './i18n',
       },
     ],
+    // needed until we upgrade to webpack 5
+    // https://github.com/webpack/webpack/issues/10227
+    '@babel/plugin-proposal-optional-chaining',
+    '@babel/plugin-proposal-nullish-coalescing-operator',
   ]
   const env = {
     production: {

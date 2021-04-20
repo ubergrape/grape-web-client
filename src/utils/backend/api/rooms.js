@@ -1,6 +1,6 @@
 import rpc from '../rpc'
 
-export const createRoom = params =>
+export const createGroup = params =>
   rpc(
     {
       ns: 'rooms',

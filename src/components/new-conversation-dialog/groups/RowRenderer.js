@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
 import { Flex, Text, GroupItem, Icon } from '@ubergrape/aurora-ui'
 
@@ -18,11 +19,14 @@ const colorMap = {
 
 const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
   // Separator for list blocks with groups where user is member and not.
-  if (groups[index].text) {
+  if (groups[index].isSeparator) {
     return (
       <Flex items="flex-end" key={groups[index].text} style={style}>
         <Text maxWidth="initial" className={classes.cluster} emphasis>
-          {groups[index].text}
+          <FormattedMessage
+            id="ncdGroupsSeparator"
+            defaultMessage="Groups you belong to"
+          />
         </Text>
       </Flex>
     )

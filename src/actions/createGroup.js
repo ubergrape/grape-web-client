@@ -1,15 +1,16 @@
 import * as api from '../utils/backend/api'
 import * as types from '../constants/actionTypes'
 import { itemsToLoad } from '../constants/navigation'
-import { createRoomSelector, orgSelector } from '../selectors'
-import { goToChannel, hideNewConversation, error } from './'
+import { createGroupSelector, orgSelector } from '../selectors'
+import { goToChannel, hideNewConversation, error } from '.'
 
-export const showCreateRoom = () => ({
-  type: types.SHOW_CREATE_ROOM,
+export const showCreateGroup = payload => ({
+  type: types.SHOW_CREATE_GROUP,
+  payload,
 })
 
-export const hideCreateRoom = () => ({
-  type: types.HIDE_CREATE_ROOM,
+export const hideCreateGroup = () => ({
+  type: types.HIDE_CREATE_GROUP,
 })
 
 export const setIsPrivate = () => ({
@@ -43,7 +44,7 @@ const onTagsInputInteraction = payload => ({
 
 export const onSearchMembers = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
-  const { membersQuery, page } = createRoomSelector(getState())
+  const { membersQuery, page } = createGroupSelector(getState())
 
   dispatch(requestMembersNewConversation(true))
 
@@ -90,19 +91,19 @@ export const onMemberRemove = payload => dispatch => {
   })
 }
 
-export const onCreateRoom = payload => (dispatch, getState) => {
+export const onCreateGroup = payload => (dispatch, getState) => {
   dispatch({
-    type: types.REQUEST_CREATE_ROOM,
+    type: types.REQUEST_CREATE_GROUP,
     payload,
   })
 
   const { id } = orgSelector(getState())
-  const { name, description, isPrivate, selectedMembers } = createRoomSelector(
+  const { name, description, isPrivate, selectedMembers } = createGroupSelector(
     getState(),
   )
 
   api
-    .createRoom({
+    .createGroup({
       name,
       organization: id,
       description,
@@ -116,7 +117,7 @@ export const onCreateRoom = payload => (dispatch, getState) => {
     .catch(err => {
       if (err.details) {
         dispatch({
-          type: types.HANDLE_CREATE_ROOM_ERROR_DETAILS,
+          type: types.HANDLE_CREATE_GROUP_ERROR_DETAILS,
           payload: err.details,
         })
         return

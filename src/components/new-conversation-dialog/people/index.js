@@ -28,7 +28,7 @@ const People = ({
   hideNewConversation,
   goToChannel,
   openPm,
-  orgName,
+  org,
   showInviteToOrg,
   intl: { formatMessage },
 }) => {
@@ -49,7 +49,7 @@ const People = ({
     hideNewConversation()
 
     if (pm) {
-      goToChannel(id)
+      goToChannel(pm)
       return
     }
 
@@ -71,7 +71,7 @@ const People = ({
             id="ncdPeopleSearchNoOtherPeople2"
             defaultMessage="It seems that {organizationName} has no other member than you yet, so why not invite someone? As soon as they join, you can come back and start a conversation."
             description="shown when there are no people in the organisation"
-            values={{ organizationName: orgName }}
+            values={{ organizationName: org.name }}
           />
         </Text>
         <ActionLink
@@ -84,7 +84,7 @@ const People = ({
             id: 'ncdInviteToOrga',
             defaultMessage: 'Invite members to {organizationName}',
             description: 'Action link title, shown when there a no members',
-            values: { organizationName: orgName },
+            values: { organizationName: org.name },
           })}
         />
       </Flex>
@@ -146,7 +146,7 @@ const People = ({
             noRowsRenderer={() => (
               <NoRowsRenderer
                 classes={classes}
-                orgName={orgName}
+                orgName={org.name}
                 isPeopleLoading={isPeopleLoading}
               />
             )}
