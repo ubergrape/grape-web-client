@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
-import { InfiniteAutoRowHeightList } from '../../list'
+import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 import theme from './theme'
 import RowRenderer from './RowRenderer'
@@ -123,7 +123,7 @@ const People = ({
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>
-          <InfiniteAutoRowHeightList
+          <InfiniteAutoRowHeightKeyStepperList
             rowHeight={rowHeight}
             loadMoreRows={onSearchPeople}
             isListLoading={isPeopleLoading}
@@ -132,6 +132,7 @@ const People = ({
             minimumBatchSize={50}
             width={680 - overflowPadding}
             threshold={25}
+            isKeyboardNavigationEnabled
             overscanRowCount={25}
             rowRenderer={({ index, key, style }) => (
               <RowRenderer
