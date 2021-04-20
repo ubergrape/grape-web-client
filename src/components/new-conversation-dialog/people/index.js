@@ -132,7 +132,6 @@ const People = ({
             minimumBatchSize={50}
             width={680 - overflowPadding}
             threshold={25}
-            isKeyboardNavigationEnabled
             overscanRowCount={25}
             rowRenderer={({ index, key, style }) => (
               <RowRenderer
