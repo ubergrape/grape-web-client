@@ -12,7 +12,7 @@ import theme from './theme'
 import RowRenderer from './RowRenderer'
 
 const rowHeight = (list, index) => {
-  if (list[index].text) return 62
+  if (list[index].isSeparator) return 62
   return 40
 }
 
