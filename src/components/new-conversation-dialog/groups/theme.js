@@ -42,9 +42,39 @@ export default {
       outline: 0,
     },
   },
-  cluster: {
+  separator: {
     marginLeft: 4,
     marginBottom: 12,
+  },
+  skeleton: {
+    padding: 4,
+    margin: [0, 2],
+    display: 'flex',
+  },
+  skeletonAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: '50%',
+    backgroundColor: '#f1f1f1',
+  },
+  skeletonText: {
+    marginLeft: 8,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  skeletonTitle: {
+    width: 100,
+    height: 12,
+    margin: [2, 0],
+    backgroundColor: '#f1f1f1',
+  },
+  skeletonDescription: {
+    width: 300,
+    height: 12,
+    margin: [2, 0],
+    backgroundColor: '#f1f1f1',
   },
   group: {
     flex: 1,

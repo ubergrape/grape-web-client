@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
 
 import { Flex, AvatarItem } from '@ubergrape/aurora-ui'
 
@@ -8,35 +7,25 @@ import { userStatusMap } from '../../../constants/app'
 
 const RowRenderer = ({
   members,
+  key,
   onMemberRemove,
   onMemberSelect,
-  className,
   index,
   style,
   classes,
 }) => {
-  const {
-    id,
-    firstName,
-    lastName,
-    displayName,
-    isSelected,
-    avatar,
-    status,
-    whatIDo,
-  } = members[index]
-
-  const name =
-    !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+  const { id, displayName, isSelected, avatar, status, whatIDo } = members[
+    index
+  ]
 
   return (
-    <Flex items="flex-end" key={id} style={style}>
-      <div className={cn(className, classes.itemWrapper)}>
+    <div style={style} key={key}>
+      <Flex items="flex-end">
         <AvatarItem
           className={classes.item}
           src={avatar}
-          alt={name}
-          name={name}
+          alt={displayName}
+          name={displayName}
           size="small"
           isSelected={isSelected}
           excludeFromTabOrder
@@ -51,8 +40,8 @@ const RowRenderer = ({
           {...(userStatusMap[status] === 'online' && userStatusMap[status])}
           description={whatIDo}
         />
-      </div>
-    </Flex>
+      </Flex>
+    </div>
   )
 }
 
@@ -62,6 +51,7 @@ RowRenderer.defaultProps = {
 
 RowRenderer.propTypes = {
   members: PropTypes.array.isRequired,
+  key: PropTypes.string.isRequired,
   onMemberRemove: PropTypes.func.isRequired,
   onMemberSelect: PropTypes.func.isRequired,
   className: PropTypes.string,

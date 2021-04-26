@@ -21,6 +21,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
 import RowRenderer from './RowRenderer'
+import RowRendererScrolling from './RowRendererScrolling'
 import NoRowsRenderer from './NoRowsRenderer'
 
 import theme from './theme'
@@ -95,7 +96,7 @@ const CreateGroup = ({
     onCreateGroup()
   }
 
-  const { focus, onFocusVisible } = useFocusStyle({ isInvalid: false })
+  const { onFocusVisible } = useFocusStyle({ isInvalid: false })
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
@@ -228,9 +229,25 @@ const CreateGroup = ({
                 threshold={25}
                 overscanRowCount={25}
                 isKeyboardNavigationEnabled
-                rowRenderer={({ index, key, style, scrollToRow }) => {
+                rowRenderer={({
+                  index,
+                  key,
+                  style,
+                  isScrolling,
+                  scrollToRow,
+                }) => {
                   if (scrollToRow !== currentSelectedMember) {
                     onSelectedMemberChange(scrollToRow)
+                  }
+
+                  if (isScrolling) {
+                    return (
+                      <RowRendererScrolling
+                        key={key}
+                        style={style}
+                        classes={classes}
+                      />
+                    )
                   }
 
                   return (
@@ -242,9 +259,6 @@ const CreateGroup = ({
                       onMemberRemove={onMemberRemove}
                       onMemberSelect={onMemberSelect}
                       classes={classes}
-                      {...(scrollToRow === index && {
-                        className: focus,
-                      })}
                     />
                   )
                 }}

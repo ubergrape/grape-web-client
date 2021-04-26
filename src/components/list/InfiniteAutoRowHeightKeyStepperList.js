@@ -23,7 +23,7 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
     rowHeight,
   }) => {
     const [scrollToSelectedRow, setScrollToSelectedRow] = useState(0)
-    const [isScrolling, setScrolling] = useState(false)
+    const [isScrollUsed, setScrollUsed] = useState(false)
 
     return (
       <InfiniteLoader
@@ -43,7 +43,7 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
                 rowCount={list.length}
                 isControlled
                 onScrollToChange={({ scrollToRow }) => {
-                  setScrolling(false)
+                  setScrollUsed(false)
                   if (scrollToRow !== scrollToSelectedRow) {
                     setScrollToSelectedRow(scrollToRow)
                   }
@@ -56,7 +56,7 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
                     width={width}
                     height={height}
                     {...(isKeyboardNavigationEnabled &&
-                      !isScrolling && {
+                      !isScrollUsed && {
                         scrollToIndex: scrollToSelectedRow,
                       })}
                     rowHeight={({ index }) => rowHeight(list, index)}
@@ -64,13 +64,14 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
                     overscanRowCount={overscanRowCount}
                     onRowsRendered={onRowsRendered}
                     onScroll={() => {
-                      if (!isScrolling) setScrolling(true)
+                      if (!isScrollUsed) setScrollUsed(true)
                     }}
-                    rowRenderer={({ index, key, style }) =>
+                    rowRenderer={({ index, key, style, isScrolling }) =>
                       rowRenderer({
                         index,
                         key,
                         style,
+                        isScrolling,
                         scrollToRow: scrollToSelectedRow,
                       })
                     }

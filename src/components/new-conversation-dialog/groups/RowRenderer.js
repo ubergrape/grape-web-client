@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
-import { Flex, Text, GroupItem, Icon } from '@ubergrape/aurora-ui'
+import { Flex, GroupItem, Icon } from '@ubergrape/aurora-ui'
 
 const colorMap = {
   '#707782': 1,
@@ -17,21 +16,14 @@ const colorMap = {
   '#36BDBD': 10,
 }
 
-const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
-  // Separator for list blocks with groups where user is member and not.
-  if (groups[index].isSeparator) {
-    return (
-      <Flex items="flex-end" key={groups[index].text} style={style}>
-        <Text maxWidth="initial" className={classes.cluster} emphasis>
-          <FormattedMessage
-            id="ncdGroupsSeparator"
-            defaultMessage="Groups you belong to"
-          />
-        </Text>
-      </Flex>
-    )
-  }
-
+const RowRenderer = ({
+  groups,
+  key,
+  index,
+  style,
+  onListItemClick,
+  classes,
+}) => {
   const {
     id,
     name,
@@ -43,7 +35,7 @@ const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
   } = groups[index]
 
   return (
-    <div style={style} key={id}>
+    <div style={style} key={key}>
       <Flex>
         <GroupItem
           className={classes.group}
@@ -72,6 +64,7 @@ const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
 RowRenderer.propTypes = {
   groups: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   onListItemClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

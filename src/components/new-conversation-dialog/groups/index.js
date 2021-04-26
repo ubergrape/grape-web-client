@@ -7,9 +7,10 @@ import { debouncingTime } from 'grape-web/lib/constants/time'
 
 import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
-
 import theme from './theme'
+import Separator from './Separator'
 import RowRenderer from './RowRenderer'
+import RowRendererScrolling from './RowRendererScrolling'
 
 const rowHeight = (list, index) => {
   if (list[index].text) return 62
@@ -146,16 +147,35 @@ const Groups = ({
             width={680 - overflowPadding}
             threshold={25}
             overscanRowCount={25}
-            rowRenderer={({ index, key, style }) => (
-              <RowRenderer
-                index={index}
-                key={key}
-                style={style}
-                classes={classes}
-                groups={groups}
-                onListItemClick={onListItemClick}
-              />
-            )}
+            rowRenderer={({ index, key, style, isScrolling }) => {
+              // Separator for list blocks with groups where user is member and not.
+              if (groups[index].isSeparator) {
+                return <Separator key={key} style={style} classes={classes} />
+              }
+
+              if (isScrolling) {
+                return (
+                  <RowRendererScrolling
+                    index={index}
+                    key={key}
+                    style={style}
+                    classes={classes}
+                    groups={groups}
+                  />
+                )
+              }
+
+              return (
+                <RowRenderer
+                  index={index}
+                  key={key}
+                  style={style}
+                  classes={classes}
+                  groups={groups}
+                  onListItemClick={onListItemClick}
+                />
+              )
+            }}
             noRowsRenderer={() => (
               <NoRowsRenderer
                 classes={classes}

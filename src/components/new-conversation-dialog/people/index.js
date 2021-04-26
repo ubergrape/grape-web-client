@@ -9,7 +9,9 @@ import { debouncingTime } from 'grape-web/lib/constants/time'
 import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 import theme from './theme'
+import Separator from './Separator'
 import RowRenderer from './RowRenderer'
+import RowRendererScrolling from './RowRendererScrolling'
 
 const rowHeight = (list, index) => {
   if (list[index].text) return 62
@@ -33,7 +35,9 @@ const People = ({
   intl: { formatMessage },
 }) => {
   useEffect(() => {
-    onSearchPeople()
+    if (!people.length) {
+      onSearchPeople()
+    }
   }, [])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(people[index]), [
@@ -133,16 +137,43 @@ const People = ({
             width={680 - overflowPadding}
             threshold={25}
             overscanRowCount={25}
-            rowRenderer={({ index, key, style }) => (
-              <RowRenderer
-                index={index}
-                key={key}
-                style={style}
-                classes={classes}
-                people={people}
-                onListItemClick={onListItemClick}
-              />
-            )}
+            rowRenderer={({ index, key, style, isScrolling }) => {
+              // Separator for list blocks with people with existing conversation and without
+              if (people[index].isSeparator) {
+                return (
+                  <Separator
+                    key={key}
+                    people={people}
+                    index={index}
+                    style={style}
+                    classes={classes}
+                  />
+                )
+              }
+
+              if (isScrolling) {
+                return (
+                  <RowRendererScrolling
+                    index={index}
+                    key={key}
+                    style={style}
+                    classes={classes}
+                    people={people}
+                  />
+                )
+              }
+
+              return (
+                <RowRenderer
+                  index={index}
+                  key={key}
+                  style={style}
+                  classes={classes}
+                  people={people}
+                  onListItemClick={onListItemClick}
+                />
+              )
+            }}
             noRowsRenderer={() => (
               <NoRowsRenderer
                 classes={classes}

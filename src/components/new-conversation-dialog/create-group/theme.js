@@ -64,12 +64,31 @@ export default {
       outline: 0,
     },
   },
-  itemWrapper: {
-    width: '100%',
-    margin: [0, 2],
-  },
   item: {
     width: '100%',
+  },
+  skeleton: {
+    padding: 4,
+    display: 'flex',
+  },
+  skeletonAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: '50%',
+    backgroundColor: '#f1f1f1',
+  },
+  skeletonText: {
+    marginLeft: 8,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  skeletonTitle: {
+    width: 100,
+    height: 12,
+    margin: [2, 0],
+    backgroundColor: '#f1f1f1',
   },
   buttons: {
     flex: '0 0 auto',

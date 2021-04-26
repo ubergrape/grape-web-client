@@ -1,47 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
-import { Flex, Text, AvatarItem } from '@ubergrape/aurora-ui'
+import { Flex, AvatarItem } from '@ubergrape/aurora-ui'
 
 import { userStatusMap } from '../../../constants/app'
 
-const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
-  // Separator for list blocks with people with existing conversation and without
-  if (people[index].isSeparator) {
-    return (
-      <Flex items="flex-end" key={people[index].text} style={style}>
-        <Text maxWidth="initial" className={classes.cluster} emphasis>
-          <FormattedMessage
-            id="ncdPeopleSeparator"
-            defaultMessage="People you already have a conversation with"
-          />
-        </Text>
-      </Flex>
-    )
-  }
-
-  const {
-    id,
-    firstName,
-    lastName,
-    displayName,
-    avatar,
-    status,
-    whatIDo,
-    pm,
-  } = people[index]
-
-  const name =
-    !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+const RowRenderer = ({ people, key, index, style, onListItemClick }) => {
+  const { id, displayName, avatar, status, whatIDo, pm } = people[index]
 
   return (
-    <div style={style} key={id}>
+    <div style={style} key={key}>
       <Flex items="center">
         <AvatarItem
           src={avatar}
-          alt={name}
-          name={name}
+          alt={displayName}
+          name={displayName}
           status={userStatusMap[status]}
           description={whatIDo}
           size="regular"
@@ -64,9 +37,9 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
 RowRenderer.propTypes = {
   people: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   onListItemClick: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
 }
 
 export default RowRenderer
