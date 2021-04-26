@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import List from 'react-finite-list'
 import { FormattedMessage } from 'react-intl'
 
-export default class FilteredList extends PureComponent {
+class FilteredList extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
@@ -37,8 +37,8 @@ export default class FilteredList extends PureComponent {
       return (
         <div className={classes.notFound}>
           <FormattedMessage
-            id="searchMembersAndGroups"
-            defaultMessage="Search members and groups…"
+            id="filterConversations"
+            defaultMessage="Filter Conversations…"
           />
         </div>
       )
@@ -66,3 +66,5 @@ export default class FilteredList extends PureComponent {
     )
   }
 }
+
+export default FilteredList
