@@ -50,10 +50,7 @@ export default {
     flex: 1,
   },
   icon: {
-    position: 'absolute',
     pointerEvents: 'none',
-    right: 16,
     top: '50%',
-    transform: 'translateY(-50%)',
   },
 }

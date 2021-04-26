@@ -52,7 +52,6 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
             then whole width of container. There's no custom scrollbar for list,
             so I can't calculate in dynamicaly.
           */
-          maxWidth={672}
           excludeFromTabOrder
           onClick={() => onListItemClick(id, pm)}
         />
