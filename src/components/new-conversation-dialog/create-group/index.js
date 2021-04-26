@@ -96,7 +96,7 @@ const CreateGroup = ({
     onCreateGroup()
   }
 
-  const { onFocusVisible } = useFocusStyle({ isInvalid: false })
+  const { focus, onFocusVisible } = useFocusStyle({ isInvalid: false })
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
@@ -261,6 +261,9 @@ const CreateGroup = ({
                       onMemberRemove={onMemberRemove}
                       onMemberSelect={onMemberSelect}
                       classes={classes}
+                      {...(scrollToRow === index && {
+                        className: focus,
+                      })}
                     />
                   )
                 }}
