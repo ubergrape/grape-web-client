@@ -16,14 +16,7 @@ const colorMap = {
   '#36BDBD': 10,
 }
 
-const RowRenderer = ({
-  groups,
-  key,
-  index,
-  style,
-  onListItemClick,
-  classes,
-}) => {
+const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
   const {
     id,
     name,
@@ -35,7 +28,7 @@ const RowRenderer = ({
   } = groups[index]
 
   return (
-    <div style={style} key={key}>
+    <div style={style}>
       <Flex>
         <GroupItem
           className={classes.group}
@@ -63,7 +56,6 @@ const RowRenderer = ({
 RowRenderer.propTypes = {
   groups: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   onListItemClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

@@ -140,36 +140,28 @@ const People = ({
             rowRenderer={({ index, key, style, isScrolling }) => {
               // Separator for list blocks with people with existing conversation and without
               if (people[index].isSeparator) {
-                return (
-                  <Separator
-                    key={key}
-                    people={people}
-                    index={index}
-                    style={style}
-                    classes={classes}
-                  />
-                )
+                return <Separator key={key} style={style} classes={classes} />
               }
 
               if (isScrolling) {
                 return (
                   <RowRendererScrolling
+                    people={people}
                     index={index}
                     key={key}
                     style={style}
                     classes={classes}
-                    people={people}
                   />
                 )
               }
 
               return (
                 <RowRenderer
+                  people={people}
                   index={index}
                   key={key}
                   style={style}
                   classes={classes}
-                  people={people}
                   onListItemClick={onListItemClick}
                 />
               )

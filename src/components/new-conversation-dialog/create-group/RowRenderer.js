@@ -7,7 +7,6 @@ import { userStatusMap } from '../../../constants/app'
 
 const RowRenderer = ({
   members,
-  key,
   onMemberRemove,
   onMemberSelect,
   index,
@@ -19,7 +18,7 @@ const RowRenderer = ({
   ]
 
   return (
-    <div style={style} key={key}>
+    <div style={style}>
       <Flex items="flex-end">
         <AvatarItem
           className={classes.item}
@@ -51,7 +50,6 @@ RowRenderer.defaultProps = {
 
 RowRenderer.propTypes = {
   members: PropTypes.array.isRequired,
-  key: PropTypes.string.isRequired,
   onMemberRemove: PropTypes.func.isRequired,
   onMemberSelect: PropTypes.func.isRequired,
   className: PropTypes.string,

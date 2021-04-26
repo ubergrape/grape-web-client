@@ -5,11 +5,11 @@ import { Flex, AvatarItem } from '@ubergrape/aurora-ui'
 
 import { userStatusMap } from '../../../constants/app'
 
-const RowRenderer = ({ people, key, index, style, onListItemClick }) => {
+const RowRenderer = ({ people, index, style, onListItemClick }) => {
   const { id, displayName, avatar, status, whatIDo, pm } = people[index]
 
   return (
-    <div style={style} key={key}>
+    <div style={style}>
       <Flex items="center">
         <AvatarItem
           src={avatar}
@@ -36,7 +36,6 @@ const RowRenderer = ({ people, key, index, style, onListItemClick }) => {
 RowRenderer.propTypes = {
   people: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   onListItemClick: PropTypes.func.isRequired,
 }

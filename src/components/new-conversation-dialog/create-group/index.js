@@ -244,6 +244,8 @@ const CreateGroup = ({
                     return (
                       <RowRendererScrolling
                         key={key}
+                        members={members}
+                        index={index}
                         style={style}
                         classes={classes}
                       />

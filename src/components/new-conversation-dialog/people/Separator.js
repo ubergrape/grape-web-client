@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl'
 
 import { Flex, Text } from '@ubergrape/aurora-ui'
 
-const Separator = ({ key, style, classes }) => (
-  <Flex items="flex-end" key={key} style={style}>
+const Separator = ({ style, classes }) => (
+  <Flex items="flex-end" style={style}>
     <Text maxWidth="initial" className={classes.separator} emphasis>
       <FormattedMessage
         id="ncdPeopleSeparator"
@@ -16,7 +16,6 @@ const Separator = ({ key, style, classes }) => (
 )
 
 Separator.propTypes = {
-  key: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 }

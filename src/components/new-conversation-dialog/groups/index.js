@@ -156,22 +156,22 @@ const Groups = ({
               if (isScrolling) {
                 return (
                   <RowRendererScrolling
+                    groups={groups}
                     index={index}
                     key={key}
                     style={style}
                     classes={classes}
-                    groups={groups}
                   />
                 )
               }
 
               return (
                 <RowRenderer
+                  groups={groups}
                   index={index}
                   key={key}
                   style={style}
                   classes={classes}
-                  groups={groups}
                   onListItemClick={onListItemClick}
                 />
               )
