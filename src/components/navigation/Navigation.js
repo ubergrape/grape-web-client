@@ -28,9 +28,7 @@ const messages = defineMessages({
   },
 })
 
-@injectSheet(styles)
-@injectIntl
-export default class Navigation extends PureComponent {
+class Navigation extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -282,12 +280,10 @@ export default class Navigation extends PureComponent {
     if (isLoading) return null
     return (
       <div className={classes.navigationWrapper}>
-        {!this.state.filter && (
-          <Actions
-            onNewConversation={showNewConversation}
-            permissions={permissions}
-          />
-        )}
+        <Actions
+          onNewConversation={showNewConversation}
+          permissions={permissions}
+        />
         {this.renderList()}
       </div>
     )
@@ -319,3 +315,5 @@ export default class Navigation extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(injectIntl(Navigation))

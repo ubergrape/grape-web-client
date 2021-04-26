@@ -45,7 +45,6 @@ const RowRenderer = ({
           color={colorMap[color]}
           {...(!isPublic && { groupType: 'private' })}
           excludeFromTabOrder
-          maxWidth={672}
           onClick={() => onListItemClick(id, membership)}
         />
         {membership && (
