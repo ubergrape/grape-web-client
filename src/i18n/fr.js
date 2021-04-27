@@ -73,6 +73,7 @@ export default {
   "fileTooBig": "Le fichier dépasse la limite de taille de {limit}mb.",
   "fileUploadStatus": "État du chargement",
   "fileUploadTitle": "Téléchargement de {uploading} fichiers sur {total}",
+  "filterConversations": "Filtrer les conversations...",
   "grapeCallPmInvitationContent": "vous invite à un Grape Call...",
   "grapeCallPmMissedContent": "vous a appelé",
   "groupColor": "Couleur du groupe",
