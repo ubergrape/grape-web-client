@@ -94,6 +94,7 @@
   "_fileUploadStatus.comment": "Upload notification title",
   "fileUploadTitle": "Caricando {uploading} di {total} file",
   "_fileUploadTitle.comment": "Upload notification title",
+  "filterConversations": "Filtrare le conversazioni..",
   "grapeCallPmInvitationContent": "vi invita a una Grape Call..",
   "_grapeCallPmInvitationContent.comment": "Browser notification for incoming pm Grape Call.",
   "grapeCallPmMissedContent": "vi ha chiamato",
