@@ -88,6 +88,7 @@ export default class FileUpload extends PureComponent {
         onDropRejected={this.onReject}
         maxSize={maxSize}
         className={className}
+        inputProps={{ style: { opacity: 0 }}}
       >
         {children}
         {isDragging && <DropOverlay />}
