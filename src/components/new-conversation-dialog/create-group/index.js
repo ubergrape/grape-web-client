@@ -169,6 +169,9 @@ const CreateGroup = ({
             defaultMessage: 'Help others understand the purpose of this group.',
             description: 'text area description',
           })}
+          {...(errorDetails.description && {
+            validationHelp: errorDetails.description[0].message,
+          })}
           isNecessityLabel
           maxLength={120}
           className={classes.description}
