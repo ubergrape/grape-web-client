@@ -51,6 +51,13 @@ const loadMembershipGroups = () => (dispatch, getState) => {
       query: groupsQuery,
     })
     .then(({ results }) => {
+      const { groupsQuery: groupsQueryNow } = newConversationSelector(
+        getState(),
+      )
+      if (groupsQuery !== groupsQueryNow) {
+        // ignore outdated results
+        return
+      }
       if (
         groupsPage === 1 &&
         !groups.length &&
@@ -93,6 +100,14 @@ export const onSearchGroups = () => (dispatch, getState) => {
       query: groupsQuery,
     })
     .then(({ results }) => {
+      const { groupsQuery: groupsQueryNow } = newConversationSelector(
+        getState(),
+      )
+      if (groupsQuery !== groupsQueryNow) {
+        // ignore outdated results
+        return
+      }
+
       dispatch(handleGroupsResults(results, false))
 
       if (results.length < itemsToLoad) {
@@ -140,6 +155,13 @@ const loadMembershipPeople = () => (dispatch, getState) => {
       query: peopleQuery,
     })
     .then(({ results }) => {
+      const { peopleQuery: peopleQueryNow } = newConversationSelector(
+        getState(),
+      )
+      if (peopleQuery !== peopleQueryNow) {
+        // ignore outdated results
+        return
+      }
       // we don't have the information on how many users this organization has
       // if both RPC calls return zero results (with an empty query!),
       // so `people` and `results` arrays are empty, we can assume that there
@@ -187,6 +209,13 @@ export const onSearchPeople = () => (dispatch, getState) => {
       query: peopleQuery,
     })
     .then(({ results }) => {
+      const { peopleQuery: peopleQueryNow } = newConversationSelector(
+        getState(),
+      )
+      if (peopleQuery !== peopleQueryNow) {
+        // ignore outdated results
+        return
+      }
       // call handlePeopleResults before loadMembershipPeople, because it
       // updates `people`, which is needed by loadMembershipPeople
       dispatch(handlePeopleResults(results, false))
