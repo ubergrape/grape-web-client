@@ -12,14 +12,22 @@ const NoRowsRenderer = ({ isMembersLoading, membersQuery, classes }) => (
       </Text>
     ) : (
       <Text className={classes.memberNotFound}>
-        <FormattedMessage
-          id="ncdCreateRoomPeopleSearchNotFound"
-          defaultMessage="No member named {searchTerm} could be found."
-          description="shown when people search in create room dialog returns 0 results"
-          values={{
-            searchTerm: <Text emphasis>{membersQuery}</Text>,
-          }}
-        />
+        {membersQuery === '' ? (
+          <FormattedMessage
+            id="ncdCreateRoomPeopleSearchNoMembers"
+            defaultMessage="No members yet."
+            description="shown when peoplse search has 0 results because the organization has no members"
+          />
+        ) : (
+          <FormattedMessage
+            id="ncdCreateRoomPeopleSearchNotFound"
+            defaultMessage="No member named {searchTerm} could be found."
+            description="shown when people search in create room dialog returns 0 results"
+            values={{
+              searchTerm: <Text emphasis>{membersQuery}</Text>,
+            }}
+          />
+        )}
       </Text>
     )}
   </div>
