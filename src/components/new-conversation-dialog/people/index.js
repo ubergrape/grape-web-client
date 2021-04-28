@@ -80,12 +80,14 @@ const People = ({
           className={classes.link}
           href="#invite-to-organization"
           icon="people"
-          title={formatMessage({
-            id: 'ncdInviteToOrga',
-            defaultMessage: 'Invite members to {organizationName}',
-            description: 'Action link title, shown when there a no members',
-            values: { organizationName: org.name },
-          })}
+          title={formatMessage(
+            {
+              id: 'ncdInviteToOrga',
+              defaultMessage: 'Invite members to {organizationName}',
+              description: 'Action link title, shown when there a no members',
+            },
+            { organizationName: org.name },
+          )}
         />
       </Flex>
     )
