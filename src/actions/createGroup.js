@@ -27,11 +27,6 @@ export const onGroupDescriptionChange = payload => ({
   payload,
 })
 
-export const onSelectedMemberChange = payload => ({
-  type: types.HANDLE_SELECTED_MEMBER_CHANGE,
-  payload,
-})
-
 const requestMembersNewConversation = payload => ({
   type: types.REQUEST_MEMBERS_SEARCH,
   payload,
