@@ -27,7 +27,6 @@ const actionNames = {
   onMemberRemove: 'onMemberRemove',
   onCreateGroup: 'onCreateGroup',
   showInviteToOrg: 'showInviteToOrg',
-  onSelectedMemberChange: 'onSelectedMemberChange',
 }
 
 const ConnectedNewConversationDialog = connect(

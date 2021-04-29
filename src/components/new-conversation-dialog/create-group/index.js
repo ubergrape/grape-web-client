@@ -33,7 +33,6 @@ const CreateGroup = ({
   membersQuery,
   errorDetails,
   isPrivate,
-  currentSelectedMember,
   isMembersLoading,
   hideCreateGroup,
   setIsPrivate,
@@ -41,7 +40,6 @@ const CreateGroup = ({
   onGroupNameChange,
   onGroupDescriptionChange,
   onChangeMembersQuery,
-  onSelectedMemberChange,
   onSearchMembers,
   onMemberSelect,
   onMemberRemove,
@@ -54,31 +52,6 @@ const CreateGroup = ({
     // https://github.com/adobe/react-spectrum/issues/874
     document.querySelector('#new-conversation-dialog .os-viewport').focus()
   }, [])
-
-  useEffect(() => {
-    const handleKeyDown = e => {
-      if (document.activeElement.classList.contains('ReactVirtualized__List')) {
-        if (e.keyCode === 13) {
-          const { id, isSelected } = members[currentSelectedMember]
-          if (isSelected) {
-            onMemberRemove(id)
-          } else {
-            onMemberSelect(id)
-          }
-        }
-      }
-    }
-
-    document
-      .querySelector('#new-conversation-dialog .ReactVirtualized__List')
-      .addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document
-        .querySelector('#new-conversation-dialog .ReactVirtualized__List')
-        .removeEventListener('keydown', handleKeyDown)
-    }
-  }, [members, currentSelectedMember])
 
   const isRowLoaded = useCallback(({ index }) => Boolean(members[index]), [
     members,
@@ -95,7 +68,7 @@ const CreateGroup = ({
     onCreateGroup()
   }
 
-  const { focus, onFocusVisible } = useFocusStyle({ isInvalid: false })
+  const { onFocusVisible } = useFocusStyle({ isInvalid: false })
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
@@ -230,27 +203,17 @@ const CreateGroup = ({
                 width={680 - overflowPadding}
                 threshold={25}
                 overscanRowCount={25}
-                isKeyboardNavigationEnabled
-                rowRenderer={({ index, key, style, scrollToRow }) => {
-                  if (scrollToRow !== currentSelectedMember) {
-                    onSelectedMemberChange(scrollToRow)
-                  }
-
-                  return (
-                    <RowRenderer
-                      index={index}
-                      key={key}
-                      style={style}
-                      members={members}
-                      onMemberRemove={onMemberRemove}
-                      onMemberSelect={onMemberSelect}
-                      classes={classes}
-                      {...(scrollToRow === index && {
-                        className: focus,
-                      })}
-                    />
-                  )
-                }}
+                rowRenderer={({ index, key, style }) => (
+                  <RowRenderer
+                    index={index}
+                    key={key}
+                    style={style}
+                    members={members}
+                    onMemberRemove={onMemberRemove}
+                    onMemberSelect={onMemberSelect}
+                    classes={classes}
+                  />
+                )}
                 noRowsRenderer={() => (
                   <NoRowsRenderer
                     classes={classes}
