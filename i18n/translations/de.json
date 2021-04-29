@@ -281,7 +281,7 @@
   "ncdInPmWithEveryPerson2": "Alle Mitglieder schreiben bereits mit Ihnen. Bleiben Sie in Kontakt!",
   "ncdInviteToOrga": "Personen zu {organizationName} einladen",
   "_ncdInviteToOrga.comment": "Action link title, shown when there a no members",
-  "ncdJoinButDontCreateGroupHeader": "",
+  "ncdJoinButDontCreateGroupHeader": "Sie können alle Gruppen sehen, auf die Sie Zugriff haben. Ihre Benutzerrolle erlaubt es Ihnen nicht, Gruppen zu erstellen.",
   "ncdJoinGroupHeader": "Treten Sie einer Gruppe bei oder erstellen Sie eine neue. Am besten ist es, Gruppen rund um eine Thema zu organisieren.",
   "ncdMemberOfEachGroup1": "Sie verpassen nichts.",
   "ncdMemberOfEachGroup2": "Sie sind bereits Mitglied in jeder Gruppe. Ihnen entgeht nichts, was öffentlich gesagt wird. Halten Sie die Gespräche am Laufen!",
