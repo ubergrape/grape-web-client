@@ -12,7 +12,7 @@ const NoRowsRenderer = ({ isMembersLoading, membersQuery, classes }) => (
       </Text>
     ) : (
       <Text className={classes.memberNotFound}>
-        {membersQuery === '' ? (
+        {!membersQuery.length ? (
           <FormattedMessage
             id="ncdCreateRoomPeopleSearchNoMembers"
             defaultMessage="No members yet."
