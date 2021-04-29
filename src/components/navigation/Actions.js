@@ -20,28 +20,26 @@ const styles = () => ({
 })
 
 function Actions(props) {
-  const { onNewConversation, classes, permissions } = props
+  const { onNewConversation, classes } = props
 
   return (
     <List className={classes.root}>
-      {permissions.canCreateRoom && (
-        <Action icon="createConversation" onClick={onNewConversation}>
-          {({ renderText }) => (
-            <FormattedMessage
-              id="newConversation"
-              description="*Describe NewConversation*: this is used in Navigation"
-              defaultMessage="New Conversation"
-            >
-              {(...children) => (
-                <span>
-                  {renderText(children)}
-                  <Beacon id="pm" placement="right" shift={beaconShift} />
-                </span>
-              )}
-            </FormattedMessage>
-          )}
-        </Action>
-      )}
+      <Action icon="createConversation" onClick={onNewConversation}>
+        {({ renderText }) => (
+          <FormattedMessage
+            id="newConversation"
+            description="*Describe NewConversation*: this is used in Navigation"
+            defaultMessage="New Conversation"
+          >
+            {(...children) => (
+              <span>
+                {renderText(children)}
+                <Beacon id="pm" placement="right" shift={beaconShift} />
+              </span>
+            )}
+          </FormattedMessage>
+        )}
+      </Action>
     </List>
   )
 }
@@ -49,11 +47,6 @@ function Actions(props) {
 Actions.propTypes = {
   classes: PropTypes.object.isRequired,
   onNewConversation: PropTypes.func.isRequired,
-  permissions: PropTypes.object,
-}
-
-Actions.defaultProps = {
-  permissions: {},
 }
 
 export default injectSheet(styles)(Actions)
