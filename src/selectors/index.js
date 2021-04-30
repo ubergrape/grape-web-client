@@ -420,6 +420,7 @@ export const navigationSelector = createSelector(
     foundChannelsSelector,
     searchingChannelsSelector,
     confSelector,
+    orgSelector,
   ],
   (
     channels,
@@ -429,6 +430,7 @@ export const navigationSelector = createSelector(
     foundChannels,
     searchingChannels,
     { organization: { colors } },
+    { permissions },
   ) => {
     const recent = channels
       .filter(_channel => !_channel.favorited)
@@ -447,6 +449,7 @@ export const navigationSelector = createSelector(
       foundChannels,
       searchingChannels,
       colors,
+      permissions,
     }
   },
 )

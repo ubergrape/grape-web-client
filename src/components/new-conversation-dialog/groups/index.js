@@ -89,49 +89,38 @@ const Groups = ({
 
   return (
     <Flex direction="column" items="start" className={classes.wrapper}>
-      {org.permissions.canCreateRoom ? (
-        <>
-          <Text maxWidth="initial" className={classes.header}>
+      <Text maxWidth="initial" className={classes.header}>
+        <FormattedMessage
+          id="ncdJoinGroupHeader"
+          defaultMessage="Join an existing group or create a new one. Groups are best organized around a topic."
+        />
+      </Text>
+      <ActionLink
+        variant="primary"
+        onClick={onCreateGroupClick}
+        className={classes.link}
+        href="#create-room"
+        icon="people"
+        title={formatMessage({
+          id: 'ncdCreateGroup',
+          defaultMessage: 'Create a new group',
+        })}
+      />
+      {isMemberOfEachGroup && (
+        <Flex direction="column" className={classes.member}>
+          <Text maxWidth="initial" emphasis>
             <FormattedMessage
-              id="ncdJoinGroupHeader"
-              defaultMessage="Join an existing group or create a new one. Groups are best organized around a topic."
+              id="ncdMemberOfEachGroup1"
+              defaultMessage="You won't miss any chat going on!"
             />
           </Text>
-          <ActionLink
-            variant="primary"
-            onClick={onCreateGroupClick}
-            className={classes.link}
-            href="#create-room"
-            icon="people"
-            title={formatMessage({
-              id: 'ncdCreateGroup',
-              defaultMessage: 'Create a new group',
-            })}
-          />
-          {isMemberOfEachGroup && (
-            <Flex direction="column" className={classes.member}>
-              <Text maxWidth="initial" emphasis>
-                <FormattedMessage
-                  id="ncdMemberOfEachGroup1"
-                  defaultMessage="You won't miss any chat going on!"
-                />
-              </Text>
-              <Text maxWidth="initial" className={classes.description}>
-                <FormattedMessage
-                  id="ncdMemberOfEachGroup2"
-                  defaultMessage="You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to conversations going."
-                />
-              </Text>
-            </Flex>
-          )}
-        </>
-      ) : (
-        <Text maxWidth="initial" className={classes.header}>
-          <FormattedMessage
-            id="ncdJoinButDontCreateGroupHeader"
-            defaultMessage="You can see all groups which you have access to. Your user role does not allow you to create groups."
-          />
-        </Text>
+          <Text maxWidth="initial" className={classes.description}>
+            <FormattedMessage
+              id="ncdMemberOfEachGroup2"
+              defaultMessage="You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to conversations going."
+            />
+          </Text>
+        </Flex>
       )}
       <SearchField
         onChange={debounce(query => onChangeGroupsQuery(query), debouncingTime)}
