@@ -196,7 +196,7 @@ export default {
   "ncdInPmWithEveryPerson1": "Eres una persona muy comunicativa",
   "ncdInPmWithEveryPerson2": "Todos los miembros ya están chateando contigo. Mantén el contacto con ellos.",
   "ncdInviteToOrga": "Invitar a los miembros a {organizationName}",
-  "ncdJoinButDontCreateGroupHeader": "Puede ver todos los grupos a los que tiene acceso. Su rol de usuario no le permite crear grupos.",
+  "ncdJoinButDontCreateGroupHeader": "Puedes ver todos los grupos a los que tienes acceso. Tu rol de usuario no te permite crear grupos.",
   "ncdJoinGroupHeader": "Únete a un grupo existente o crea uno nuevo. Los grupos se organizan mejor en torno a un tema.",
   "ncdMemberOfEachGroup1": "No te perderás ninguna charla",
   "ncdMemberOfEachGroup2": "Ya formas parte de todos los grupos existentes aquí, no hay nada que se pueda decir públicamente sin tu opinión. Es posible que desees hacer conversaciones.",

@@ -196,7 +196,6 @@ export default {
   "ncdInPmWithEveryPerson1": "You're a very communicative person!",
   "ncdInPmWithEveryPerson2": "All members are already chatting with you. Keep in touch with them.",
   "ncdInviteToOrga": "Invite members to {organizationName}",
-  "ncdJoinButDontCreateGroupHeader": "You can see all groups which you have access to. Your user role does not allow you to create groups.",
   "ncdJoinGroupHeader": "Join an existing group or create a new one. Groups are best organized around a topic.",
   "ncdMemberOfEachGroup1": "You won't miss any chat going on!",
   "ncdMemberOfEachGroup2": "You're already part of every existing group here, there is nothing that can be publicly said without your notice. You may want to keep the conversations going.",
