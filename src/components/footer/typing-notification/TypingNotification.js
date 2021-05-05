@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
+import animationInterval from '../../../utils/animation-interval'
 import TypingUsers from './TypingUsers'
 
 /**
@@ -19,11 +20,14 @@ export default class TypingNotification extends PureComponent {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(this.cleanup, 1000)
+    this.controller = new AbortController()
+    animationInterval(1000, this.controller.signal, () => {
+      this.cleanup()
+    })
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId)
+    this.controller.abort()
   }
 
   cleanup = () => {

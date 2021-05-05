@@ -15,9 +15,7 @@ describe('callStatus reducer', () => {
       ),
     ).toEqual({
       show: true,
-      timer: Math.floor(
-        (Date.now() - Date.parse('2019-08-19T06:15:18.464772+00:00')) / 1000,
-      ),
+      timer: 0,
       data: cs1,
     })
   })
@@ -38,12 +36,12 @@ describe('callStatus reducer', () => {
   it('should handle UPDATE_CALL_STATUS_TIMER', () => {
     expect(
       callStatus(
-        { show: true, timer: 1, data: cs1 },
-        { type: types.UPDATE_CALL_STATUS_TIMER },
+        { show: true, timer: 30, data: cs1 },
+        { type: types.UPDATE_CALL_STATUS_TIMER, payload: 31 },
       ),
     ).toEqual({
       show: true,
-      timer: 2,
+      timer: 31,
       data: cs1,
     })
   })

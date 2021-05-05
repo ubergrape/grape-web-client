@@ -5,6 +5,7 @@ import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
+import animationInterval from '../animation-interval'
 import Backoff from './Backoff'
 
 const log = debug('ws')
@@ -35,7 +36,10 @@ export default class WampClient {
     if (this.wamp) return this.out
     log('connected')
     this.open()
-    this.intervalId = setInterval(this.ping, this.pingInterval)
+    this.controller = new AbortController()
+    animationInterval(this.pingInterval, this.controller.signal, () => {
+      this.ping()
+    })
     return this.out
   }
 
@@ -53,7 +57,7 @@ export default class WampClient {
     this.id = null
     this.reopening = false
     this.connected = false
-    if (this.intervalId) clearInterval(this.intervalId)
+    if (this.controller) this.controller.abort()
   }
 
   open() {
