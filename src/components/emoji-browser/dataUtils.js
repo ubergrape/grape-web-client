@@ -3,7 +3,6 @@ import find from 'lodash/find'
 import keyBy from 'lodash/keyBy'
 import values from 'lodash/values'
 import compact from 'lodash/compact'
-import clone from 'lodash/clone'
 
 import * as grid from './grid'
 import EMOJI_META from '../emoji/meta'
@@ -165,7 +164,7 @@ export function getSection(sections, facet) {
 export function getTabs({ hasSearch, selected, orgLogo }) {
   if (!allSections.length) return []
 
-  const sections = clone(allSections)
+  const sections = [...allSections]
 
   if (hasSearch) sections.unshift({ id: 'search' })
 
