@@ -21,27 +21,15 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
     )
   }
 
-  const {
-    id,
-    firstName,
-    lastName,
-    displayName,
-    avatar,
-    status,
-    whatIDo,
-    pm,
-  } = people[index]
-
-  const name =
-    !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+  const { id, displayName, avatar, status, whatIDo, pm } = people[index]
 
   return (
     <div style={style} key={id}>
       <Flex items="center">
         <AvatarItem
           src={avatar}
-          alt={name}
-          name={name}
+          alt={displayName}
+          name={displayName}
           status={userStatusMap[status]}
           description={whatIDo}
           size="regular"
