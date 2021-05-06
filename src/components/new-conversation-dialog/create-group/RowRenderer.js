@@ -15,19 +15,9 @@ const RowRenderer = ({
   style,
   classes,
 }) => {
-  const {
-    id,
-    firstName,
-    lastName,
-    displayName,
-    isSelected,
-    avatar,
-    status,
-    whatIDo,
-  } = members[index]
-
-  const name =
-    !firstName || !lastName ? displayName : `${firstName} ${lastName}`
+  const { id, displayName, isSelected, avatar, status, whatIDo } = members[
+    index
+  ]
 
   return (
     <Flex items="flex-end" key={id} style={style}>
@@ -35,8 +25,8 @@ const RowRenderer = ({
         <AvatarItem
           className={classes.item}
           src={avatar}
-          alt={name}
-          name={name}
+          alt={displayName}
+          name={displayName}
           size="small"
           isSelected={isSelected}
           excludeFromTabOrder
