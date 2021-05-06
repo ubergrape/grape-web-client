@@ -15,11 +15,9 @@ To release a new version of the repo make sure to complete the following steps (
   - Push them to Github as PR to make sure we have the latest data: Go to [Repository -> Export/Import](https://translate.lingohub.com/ubergrape-gmbh/dashboard/web-client/repository/export-import) and click "Push".
   - Merge the PR
   - Pull the changes locally and run `yarn i18n:import`
-- [ ] Create a new tag `npm version <major|minor|patch>`
-- [ ] Make sure that everything is fine: `git log`
-- [ ] Remove node_modules running `rm -rf node_modules` install `yarn` again
-- [ ] Release on npm `npm publish`
-- [ ] Push updates and tags `git push && git push --tags`
+- [ ] To release v4.0.0 for example, run `./bin/release.sh 4.0.0` and `./bin/release.sh 4.0.0-unicorn`.
+
+Note: The environment variables for the unicorn release will be set automatically if the release version ends with "unicorn".
 
 ## Environment variable
 
