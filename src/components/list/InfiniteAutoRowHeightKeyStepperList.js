@@ -35,11 +35,12 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
                 rowCount={list.length}
                 overscanRowCount={overscanRowCount}
                 onRowsRendered={onRowsRendered}
-                rowRenderer={({ index, key, style }) =>
+                rowRenderer={({ index, key, style, isVisible }) =>
                   rowRenderer({
                     index,
                     key,
                     style,
+                    isVisible,
                   })
                 }
                 noRowsRenderer={noRowsRenderer}

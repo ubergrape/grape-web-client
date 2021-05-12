@@ -6,7 +6,14 @@ import { Flex, Text, AvatarItem } from '@ubergrape/aurora-ui'
 
 import { userStatusMap } from '../../../constants/app'
 
-const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
+const RowRenderer = ({
+  people,
+  index,
+  style,
+  isVisible,
+  onListItemClick,
+  classes,
+}) => {
   // Separator for list blocks with people with existing conversation and without
   if (people[index].isSeparator) {
     return (
@@ -32,6 +39,8 @@ const RowRenderer = ({ people, index, style, onListItemClick, classes }) => {
           name={displayName}
           status={userStatusMap[status]}
           description={whatIDo}
+          isVisible={isVisible}
+          avatarImageRenderDelay={500}
           size="regular"
           /*
             680px - 8px of scrollbar width.
@@ -52,6 +61,7 @@ RowRenderer.propTypes = {
   people: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
   style: PropTypes.object.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   onListItemClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 }

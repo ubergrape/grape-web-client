@@ -13,6 +13,7 @@ const RowRenderer = ({
   className,
   index,
   style,
+  isVisible,
   classes,
 }) => {
   const { id, displayName, isSelected, avatar, status, whatIDo } = members[
@@ -29,6 +30,8 @@ const RowRenderer = ({
           name={displayName}
           size="small"
           isSelected={isSelected}
+          isVisible={isVisible}
+          avatarImageRenderDelay={500}
           excludeFromTabOrder
           onClick={() => {
             if (isSelected) {
@@ -57,6 +60,7 @@ RowRenderer.propTypes = {
   className: PropTypes.string,
   index: PropTypes.number.isRequired,
   style: PropTypes.object.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
 }
 
