@@ -5609,10 +5609,10 @@ graceful-fs@^4.1.15, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
-grape-browser@^3.27.2:
-  version "3.27.2"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.27.2.tgz#4796ef7152f9417b8196db6f4cb8d96b04b82ccb"
-  integrity sha512-Xo9ysq9GSd+fNiupErUhw7WL+T6hpbHFmmtTBO30Xd7+NBGhmPifTJcyuOGBPVG58jA2cbsDjmYrXQSxkDfhjA==
+grape-browser@^3.27.3:
+  version "3.27.3"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.27.3.tgz#a22dd377276d54a27bdc181da85cf81ff160b365"
+  integrity sha512-L/OsorqmGdUvkXF1ZmzeEW4C3bamUOT+JN4m+sz3DipXrxtrr6CvVTRO4tpQTO8MKqwk2FmWp41b99f51dFXrA==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -5637,7 +5637,7 @@ grape-browser@^3.27.2:
     redux-thunk "^1.0.0"
     reselect "^2.0.1"
 
-"grape-icons@github:ubergrape/grape-icons":
+grape-icons@ubergrape/grape-icons:
   version "0.0.0"
   resolved "https://codeload.github.com/ubergrape/grape-icons/tar.gz/35d5c23c533d7e5cef7021b774c5461718eaa40f"
 
