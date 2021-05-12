@@ -1863,10 +1863,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ubergrape/aurora-ui@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-0.1.0.tgz#6c48d49e464f7f900f53a84ff231fb8139fe7020"
-  integrity sha512-LBlR+Hb31DuKOg+/+8xBhgQ2satDU/31DGewYAmPMj95YtRiwotl+CrfauOqA8KSJg5LpOtlomf7B8hEK2rpPQ==
+"@ubergrape/aurora-ui@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-1.0.0.tgz#9f649a427e5aeb7b00384b622fdc18b3866ad7f9"
+  integrity sha512-SNBLmW0Yx319iwr8V46w2joHM2Fc9uz4OLP6CXe4zJIkBObVMQnM98wyjbnDv4BFNTUoQVznTS79z/5MykkOZQ==
   dependencies:
     "@react-aria/button" "^3.2.1"
     "@react-aria/checkbox" "^3.2.1"
@@ -5637,7 +5637,7 @@ grape-browser@^3.27.2:
     redux-thunk "^1.0.0"
     reselect "^2.0.1"
 
-grape-icons@ubergrape/grape-icons:
+"grape-icons@github:ubergrape/grape-icons":
   version "0.0.0"
   resolved "https://codeload.github.com/ubergrape/grape-icons/tar.gz/35d5c23c533d7e5cef7021b774c5461718eaa40f"
 
