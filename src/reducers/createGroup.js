@@ -111,10 +111,12 @@ export const states = {
       isSelected: true,
     })
 
+    const { avatar, displayName, id } = members[index]
+
     return {
       ...newState,
       members: newMembers,
-      selectedMembers: [...selectedMembers, members[index]],
+      selectedMembers: [...selectedMembers, { avatar, displayName, id }],
     }
   },
   [types.HANDLE_MEMBER_REMOVE]: (state, payload) => {
