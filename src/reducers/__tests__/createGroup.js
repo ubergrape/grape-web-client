@@ -111,6 +111,28 @@ describe('createGroup reducer', () => {
     })
   })
 
+  it('should handle HANDLE_CREATE_GROUP_ERROR_DETAILS', () => {
+    expect(
+      createGroup(
+        { errorDetails: {} },
+        {
+          type: types.HANDLE_CREATE_GROUP_ERROR_DETAILS,
+          payload: {
+            name: [
+              { message: 'Group name too long (max 30 characters)', code: '' },
+            ],
+          },
+        },
+      ),
+    ).toEqual({
+      errorDetails: {
+        name: [
+          { message: 'Group name too long (max 30 characters)', code: '' },
+        ],
+      },
+    })
+  })
+
   it('should handle CHANGE_MEMBERS_QUERY', () => {
     const selectedMembers = generateArray(getSelectedMember, 2)
     const members = generateArray(getMember, 3)
