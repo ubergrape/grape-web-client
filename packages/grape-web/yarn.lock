@@ -4988,10 +4988,10 @@ node-releases@^1.1.46:
   dependencies:
     semver "^6.3.0"
 
-normalize-jss@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/normalize-jss/-/normalize-jss-3.1.0.tgz#2d94f698205a115b133d8d55978ec99941217328"
-  integrity sha1-LZT2mCBaEVsTPY1Vl47JmUEhcyg=
+normalize-jss@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/normalize-jss/-/normalize-jss-4.0.0.tgz#355e514127e7ba8f4b38a7e705cfeb86507ea0dd"
+  integrity sha512-zsn6yP0fOoDpzktjHCWKGVDMssYso0h6wxjW3+ABUp5CeEPpYc9YUy6cy7/SLO2yrPvtEzx0vu79Y9iEF2qSnA==
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4:
   version "2.5.0"

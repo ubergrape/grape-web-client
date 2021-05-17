@@ -21,7 +21,7 @@
     "lodash": "^4.17.19",
     "material-ui": "1.0.0-beta.22",
     "mdurl": "^1.0.1",
-    "normalize-jss": "^3.1.0",
+    "normalize-jss": "^4.0.0",
     "prop-types": "^15.5.10",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
