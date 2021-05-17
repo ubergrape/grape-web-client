@@ -2,11 +2,8 @@
 node_modules
 coverage
 npm-debug.log
-i18n/src
 *.tgz
 *.patch
 *.diff
 dist
 lib
-ca/mozilla-root-certs.pem
-.http-mitm-proxy
