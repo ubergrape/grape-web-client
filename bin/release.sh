@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! hash jq 2>/dev/null; then
+    echo "jq is not installed. Please install it"
+    echo "https://stedolan.github.io/jq/download/"
+    exit 1
+fi
 if [ -z "$1" ]; then
     echo "Please supply the version to be released as first argument"
     echo "e.g. ./bin/release.sh 4.0.0"
