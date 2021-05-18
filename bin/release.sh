@@ -17,7 +17,8 @@ else
 fi
 
 # set env vars for untis, based on version name
-if [ "${release_version: -7}" = "unicorn" ]; then
+# note: double brackets "if" is bash specific syntax
+if [[ $release_version == *"unicorn"* ]]; then
     echo "Releasing unicorn version"
     export THEME='unicorn'
     export PRODUCT_NAME='Untis Messenger'
