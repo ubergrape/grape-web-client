@@ -17,7 +17,14 @@ const colorMap = {
   '#36BDBD': 10,
 }
 
-const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
+const RowRenderer = ({
+  groups,
+  index,
+  style,
+  isVisible,
+  onListItemClick,
+  classes,
+}) => {
   // Separator for list blocks with groups where user is member and not.
   if (groups[index].isSeparator) {
     return (
@@ -51,6 +58,8 @@ const RowRenderer = ({ groups, index, style, onListItemClick, classes }) => {
           description={description}
           members={membersCount}
           color={colorMap[color]}
+          isVisible={isVisible}
+          groupImageRenderDelay={500}
           {...(!isPublic && { groupType: 'private' })}
           excludeFromTabOrder
           onClick={() => onListItemClick(id, membership)}
@@ -72,6 +81,7 @@ RowRenderer.propTypes = {
   groups: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
   style: PropTypes.object.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   onListItemClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 }

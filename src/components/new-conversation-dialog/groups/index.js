@@ -145,12 +145,13 @@ const Groups = ({
             minimumBatchSize={50}
             width={680 - overflowPadding}
             threshold={25}
-            overscanRowCount={25}
-            rowRenderer={({ index, key, style }) => (
+            overscanRowCount={10}
+            rowRenderer={({ index, key, style, isVisible }) => (
               <RowRenderer
                 index={index}
                 key={key}
                 style={style}
+                isVisible={isVisible}
                 classes={classes}
                 groups={groups}
                 onListItemClick={onListItemClick}
