@@ -5,6 +5,19 @@ if ! hash jq 2>/dev/null; then
     echo "https://stedolan.github.io/jq/download/"
     exit 1
 fi
+
+for i in "$@"; do
+    case $i in
+        -f|--force)
+        force=YES
+        shift # past argument with no value
+        ;;
+        *)
+              # unknown option
+        ;;
+    esac
+done
+
 if [ -z "$1" ]; then
     echo "Please supply the version to be released as first argument"
     echo "e.g. ./bin/release.sh 4.0.0"
@@ -16,8 +29,12 @@ release_version=$1
 # make sure we have clean git working directory
 if [ -z "$(git status --porcelain)" ]; then
     echo "Working directory clean."
+elif [ "$force" = YES ]; then
+    echo "Uncommitted changes in git. Continuing anyway"
 else
     echo "Uncommitted changes in git. Please stash or commit them first."
+    echo "You can also force it with --force but this is dangerous, npm will probably fail to create a new tag in git and fail to make a commit for the new version."
+    echo "e.g. ./bin/release.sh --force 4.0.0"
     exit 1
 fi
 
@@ -51,7 +68,11 @@ else
     echo "Press any key to continue"
     read -n 1
     echo "Creating new version..."
-    npm version $release_version
+    if [ "$force" = YES ]; then
+        npm version $release_version --force
+    else
+        npm version $release_version
+    fi
 fi
 
 echo "Deleting node_modules..."
