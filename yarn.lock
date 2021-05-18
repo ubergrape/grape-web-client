@@ -1863,10 +1863,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ubergrape/aurora-ui@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-1.0.0.tgz#9f649a427e5aeb7b00384b622fdc18b3866ad7f9"
-  integrity sha512-SNBLmW0Yx319iwr8V46w2joHM2Fc9uz4OLP6CXe4zJIkBObVMQnM98wyjbnDv4BFNTUoQVznTS79z/5MykkOZQ==
+"@ubergrape/aurora-ui@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ubergrape/aurora-ui/-/aurora-ui-1.1.0.tgz#d6821e314c5893b1bf47e7ca6ef9286f196b6bd6"
+  integrity sha512-W3TF9RQRFchLcnlklbbYsqHq65nIc9wjrLjNFS+K+GNq4bMHRIlK1/GJfsBMN4oE3qztvsErvKbUJ6YDCApUPQ==
   dependencies:
     "@react-aria/button" "^3.2.1"
     "@react-aria/checkbox" "^3.2.1"
@@ -1892,6 +1892,7 @@
     overlayscrollbars "^1.13.0"
     overlayscrollbars-react "^0.2.2"
     react-jss "^10.3.0"
+    slugify "^1.5.2"
 
 "@vue/compiler-core@3.0.11", "@vue/compiler-core@^3.0.0":
   version "3.0.11"
@@ -5637,7 +5638,7 @@ grape-browser@^3.27.3:
     redux-thunk "^1.0.0"
     reselect "^2.0.1"
 
-grape-icons@ubergrape/grape-icons:
+"grape-icons@github:ubergrape/grape-icons":
   version "0.0.0"
   resolved "https://codeload.github.com/ubergrape/grape-icons/tar.gz/35d5c23c533d7e5cef7021b774c5461718eaa40f"
 
@@ -10891,6 +10892,11 @@ slice-ansi@1.0.0:
   integrity sha512-POqxBK6Lb3q6s047D/XsDVNPnF9Dl8JSaqe9h9lURl0OdNqy/ujDrOiIHtsqXMGbWWTIomRzAMaTyawAU//Reg==
   dependencies:
     is-fullwidth-code-point "^2.0.0"
+
+slugify@^1.5.2:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.5.3.tgz#36e009864f5476bfd5db681222643d92339c890d"
+  integrity sha512-/HkjRdwPY3yHJReXu38NiusZw2+LLE2SrhkWJtmlPDB1fqFSvioYj62NkPcrKiNCgRLeGcGK7QBvr1iQwybeXw==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
