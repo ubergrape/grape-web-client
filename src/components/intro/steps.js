@@ -57,30 +57,29 @@ export default permissions => {
       />
     ))
 
-  if (permissions.canCreateRoom)
-    steps.push(props => (
-      <View
-        {...props}
-        beacon="pm"
-        headline={
-          <FormattedMessage
-            id="introHlPm"
-            defaultMessage="Communicate 1-to-1"
-            description="Intro data hl."
-          />
-        }
-        text={
-          <FormattedMessage
-            id="introTextPm"
-            defaultMessage="Start private conversations with your colleagues - even if they haven’t joined {product} yet."
-            description="Intro data text."
-            values={{ product: __PRODUCT_NAME__ }}
-          />
-        }
-        image={mascot.holdingMail}
-        background={purple}
-      />
-    ))
+  steps.push(props => (
+    <View
+      {...props}
+      beacon="pm"
+      headline={
+        <FormattedMessage
+          id="introHlPm"
+          defaultMessage="Communicate 1-to-1"
+          description="Intro data hl."
+        />
+      }
+      text={
+        <FormattedMessage
+          id="introTextPm"
+          defaultMessage="Start private conversations with your colleagues - even if they haven’t joined {product} yet."
+          description="Intro data text."
+          values={{ product: __PRODUCT_NAME__ }}
+        />
+      }
+      image={mascot.holdingMail}
+      background={purple}
+    />
+  ))
 
   steps.push(props => (
     <View
