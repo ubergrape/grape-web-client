@@ -14,6 +14,8 @@ import {
   NotificationSettingsItem,
   TutorialItem,
   SupportItem,
+  PrivacyPolicyItem,
+  TermsOfServiceItem,
   SwitchOrganizationsItem,
   LogoutItem,
 } from './menuItems'
@@ -89,6 +91,8 @@ class Menu extends PureComponent {
     }
 
     items.push(<SupportItem href={supportLink} key={++key} />)
+    items.push(<PrivacyPolicyItem key={++key} />)
+    items.push(<TermsOfServiceItem key={++key} />)
 
     if (canSwitchOrganization) {
       items.push(<SwitchOrganizationsItem key={++key} />)
