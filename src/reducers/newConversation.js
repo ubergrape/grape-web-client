@@ -32,7 +32,7 @@ export const states = {
     ...state,
     view: 'tabs',
   }),
-  [types.SHOW_CREATE_GROUP]: state => ({
+  [types.HANDLE_CREATE_GROUP]: state => ({
     ...state,
     view: 'create',
   }),

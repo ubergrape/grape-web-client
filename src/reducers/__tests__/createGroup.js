@@ -23,7 +23,7 @@ const getSelectedMember = dataToOverwrite => {
   }
 }
 
-const getMember = dataToOverwrite => {
+export const getMember = dataToOverwrite => {
   const firstName = faker.name.firstName()
   const lastName = faker.name.lastName()
 
@@ -56,12 +56,56 @@ const getMember = dataToOverwrite => {
 
 describe('createGroup reducer', () => {
   const { createGroup } = reducers
-  it('should handle SHOW_CREATE_GROUP', () => {
+  it('should handle HIDE_NEW_CONVERSATION', () => {
+    expect(
+      createGroup(
+        { isPrivate: true },
+        {
+          type: types.HIDE_NEW_CONVERSATION,
+        },
+      ),
+    ).toEqual({
+      isPrivate: false,
+      name: '',
+      description: '',
+      membersQuery: '',
+      members: [],
+      selectedMembers: [],
+      page: 1,
+      errorDetails: {},
+      isTagsInputInteracted: false,
+      isMembersLoading: false,
+    })
+  })
+
+  it('should handle HIDE_CREATE_GROUP', () => {
+    expect(
+      createGroup(
+        { isPrivate: true },
+        {
+          type: types.HIDE_CREATE_GROUP,
+        },
+      ),
+    ).toEqual({
+      isPrivate: false,
+      name: '',
+      description: '',
+      membersQuery: '',
+      members: [],
+      selectedMembers: [],
+      page: 1,
+      errorDetails: {},
+      isTagsInputInteracted: false,
+      isMembersLoading: false,
+    })
+  })
+
+  it('should handle HANDLE_CREATE_GROUP', () => {
     expect(
       createGroup(
         { isPrivate: false },
         {
-          type: types.SHOW_CREATE_GROUP,
+          type: types.HANDLE_CREATE_GROUP,
           payload: true,
         },
       ),

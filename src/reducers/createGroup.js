@@ -40,7 +40,7 @@ const handleMemberSelectChange = ({ members, index, payload, isSelected }) => {
 export const states = {
   [types.HIDE_NEW_CONVERSATION]: () => initial,
   [types.HIDE_CREATE_GROUP]: () => initial,
-  [types.SHOW_CREATE_GROUP]: (state, payload) => ({
+  [types.HANDLE_CREATE_GROUP]: (state, payload) => ({
     ...state,
     isPrivate: payload,
   }),

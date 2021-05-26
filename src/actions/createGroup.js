@@ -4,8 +4,8 @@ import { itemsToLoad } from '../constants/navigation'
 import { createGroupSelector, orgSelector } from '../selectors'
 import { goToChannel, hideNewConversation, error } from '.'
 
-export const showCreateGroup = payload => ({
-  type: types.SHOW_CREATE_GROUP,
+export const flipCreateGroup = payload => ({
+  type: types.HANDLE_CREATE_GROUP,
   payload,
 })
 
