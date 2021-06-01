@@ -5,13 +5,11 @@ import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
 import { isElectron } from 'grape-web/lib/x-platform/electron'
 
-import animationInterval from '../animation-interval'
 import Backoff from './Backoff'
 
 const logWs = debug('ws')
 const logWamp = debug('wamp')
 const prefix = 'http://domain/'
-const pingInterval = 10000
 
 // https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
 const wsCloseCodeMap = {
@@ -47,7 +45,6 @@ export default class WampClient {
   constructor(options = {}) {
     this.out = new Emitter()
     this.backoff = new Backoff(options.backoff)
-    this.pingInterval = options.pingInterval || pingInterval
     this.url = options.url
     this.reset()
     this.watchOnlineStatus()
@@ -57,10 +54,6 @@ export default class WampClient {
     if (this.wamp) return this.out
     logWs('connected')
     this.open()
-    this.controller = new AbortController()
-    animationInterval(this.pingInterval, this.controller.signal, () => {
-      this.ping()
-    })
     return this.out
   }
 
@@ -115,22 +108,14 @@ export default class WampClient {
   }
 
   /**
-   * Ping is needed for server. Otherwise it doesn't know when to cleanupn the
+   * Pong is needed for server. Otherwise it doesn't know when to cleanupn the
    * session.
    */
-  ping = () => {
+  pong = () => {
     if (!this.connected || this.reopening) return
-    if (this.waitingForPong) {
-      this.waitingForPong = false
-      onConnectionEvent("didn't receive a pong")
-      this.onError(new Error("Didn't receive a pong."))
-      return
-    }
-    onConnectionEvent('ping')
-    logWamp('ping')
-    this.waitingForPong = true
-    this.call('ping', (err, res) => {
-      this.waitingForPong = false
+    onConnectionEvent('pong')
+    logWamp('pong')
+    this.call('pong', (err, res) => {
       if (err) return this.onError(err)
       return logWamp(res)
     })

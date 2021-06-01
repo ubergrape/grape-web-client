@@ -26,3 +26,7 @@ export const open = () => {
 export const disconnect = () => {
   get().disconnect()
 }
+
+export const pong = () => {
+  get().pong()
+}
