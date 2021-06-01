@@ -45,14 +45,12 @@ class Navigation extends PureComponent {
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
-    permissions: PropTypes.object,
   }
 
   static defaultProps = {
     shortcuts: ['mod+k'],
     colors: {},
     isLoading: false,
-    permissions: {},
   }
 
   constructor(props) {
@@ -276,14 +274,11 @@ class Navigation extends PureComponent {
   }
 
   renderNavigation() {
-    const { isLoading, classes, showNewConversation, permissions } = this.props
+    const { isLoading, classes, showNewConversation } = this.props
     if (isLoading) return null
     return (
       <div className={classes.navigationWrapper}>
-        <Actions
-          onNewConversation={showNewConversation}
-          permissions={permissions}
-        />
+        <Actions onNewConversation={showNewConversation} />
         {this.renderList()}
       </div>
     )
