@@ -1,6 +1,7 @@
 import debug from 'debug'
 import request from 'superagent'
 import assign from 'lodash/assign'
+import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
 import conf from '../../conf'
@@ -14,7 +15,10 @@ let rpc
 
 if (__TEST__) {
   rpc = (data, callback) => {
-    const res = dataMocks[camelCase(data.action)](toCamel(data))
+    const camelizedData = toCamel(data)
+    const res = dataMocks[
+      `${camelizedData.ns}${upperFirst(camelCase(camelizedData.action))}`
+    ](camelizedData)
     callback(
       // eslint-disable-next-line no-underscore-dangle
       global.__TEST_ERROR__ ? { message: '__TEST_ERROR__', details: {} } : null,

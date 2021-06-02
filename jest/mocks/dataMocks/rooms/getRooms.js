@@ -2,26 +2,32 @@
 import faker from 'faker'
 import moment from 'moment'
 
-import { generateArray } from '../../helpers'
+import { generateArrayOfObjects } from '../../../helpers'
 
-export const create = () => {
+export const getRoom = () => {
   const product = faker.commerce.product()
-  const creator = faker.datatype.number()
 
   return {
     abbr: faker.hacker.abbreviation(),
+    calls: faker.datatype.array(),
     color: faker.internet.color(),
     created: moment(faker.datatype.datetime()).format(
       'YYYY-MM-DDTHH:mm:ss.SSSSSSZ',
     ),
-    creator,
+    creator: faker.datatype.number(),
     description: faker.commerce.productDescription(),
+    grapecallUrl: faker.internet.url(),
     icon: '',
     id: faker.datatype.number(),
-    invites: [],
+    isEncrypted: faker.datatype.boolean(),
     isManaged: faker.datatype.boolean(),
     isPublic: faker.datatype.boolean(),
+    manageMembersUrl: faker.internet.url(),
+    membersCount: faker.datatype.number(),
+    membership: faker.datatype.boolean(),
     name: product,
+    notifyRoom: faker.datatype.boolean(),
+    organization: faker.datatype.number(),
     referenceLabel: null,
     referenceUrl: null,
     slug: product
@@ -29,6 +35,10 @@ export const create = () => {
       .split(' ')
       .join('-'),
     type: 'room',
-    users: [creator, ...generateArray(faker.datatype.number, 3)],
+    videoconferenceUrl: faker.internet.url(),
   }
 }
+
+export const getRooms = length => ({
+  results: generateArrayOfObjects(getRoom, length),
+})

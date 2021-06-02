@@ -15,7 +15,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onCreateGroup', () => {
-  it('onCreateGroup should dispatch REQUEST_CREATE_GROUP and HIDE_NEW_CONVERSATION action', done => {
+  it('onCreateGroup should dispatch REQUEST_CREATE_GROUP, HIDE_NEW_CONVERSATION, GO_TO_CHANNEL and ADD_CHANNEL actions', done => {
     expect(onCreateGroup()).toDispatchActionsWithState(
       {
         org: {
@@ -31,6 +31,8 @@ describe('onCreateGroup', () => {
       [
         { type: types.REQUEST_CREATE_GROUP },
         { type: types.HIDE_NEW_CONVERSATION },
+        { type: types.GO_TO_CHANNEL },
+        { type: types.ADD_CHANNEL },
       ],
       err => {
         onError(done, err)

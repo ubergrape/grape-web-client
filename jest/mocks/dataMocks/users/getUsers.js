@@ -2,9 +2,9 @@
 import faker from 'faker'
 import moment from 'moment'
 
-import { getRandomElement, generateArrayOfObjects } from '../../helpers'
+import { getRandomElement, generateArrayOfObjects } from '../../../helpers'
 
-import { userStatusMap, userRolesMap } from '../../../src/constants/app'
+import { userStatusMap, userRolesMap } from '../../../../src/constants/app'
 
 export const getUser = dataToOverwrite => {
   const firstName = faker.name.firstName()
