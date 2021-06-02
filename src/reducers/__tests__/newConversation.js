@@ -1,47 +1,9 @@
-import faker from 'faker'
-import moment from 'moment'
-
 import * as types from '../../constants/actionTypes'
 import { reducers } from '../../app/store'
 
-import { generateArray } from '../../tests/helpers'
+import { generateArrayOfObjects } from '../../../jest/helpers'
 
-import { getMember } from './createGroup'
-
-const getGroup = () => {
-  const product = faker.commerce.product()
-
-  return {
-    abbr: faker.hacker.abbreviation(),
-    calls: faker.datatype.array(),
-    color: faker.internet.color(),
-    created: moment(faker.datatype.datetime()).format(
-      'YYYY-MM-DDTHH:mm:ss.SSSSSSZ',
-    ),
-    creator: faker.datatype.number(),
-    description: faker.commerce.productDescription(),
-    grapecallUrl: faker.internet.url(),
-    icon: '',
-    id: faker.datatype.number(),
-    isEncrypted: faker.datatype.boolean(),
-    isManaged: faker.datatype.boolean(),
-    isPublic: faker.datatype.boolean(),
-    manageMembersUrl: faker.internet.url(),
-    membersCount: faker.datatype.number(),
-    membership: faker.datatype.boolean(),
-    name: product,
-    notifyRoom: faker.datatype.boolean(),
-    organization: faker.datatype.number(),
-    referenceLabel: null,
-    referenceUrl: null,
-    slug: product
-      .toLowerCase()
-      .split(' ')
-      .join('-'),
-    type: 'room',
-    videoconferenceUrl: faker.internet.url(),
-  }
-}
+import { getRoom } from '../../../jest/mocks/dataMocks'
 
 describe('newConversation reducer', () => {
   const { newConversation } = reducers
@@ -173,8 +135,8 @@ describe('newConversation reducer', () => {
   })
 
   it('should handle HANDLE_GROUPS_SEARCH', () => {
-    const groups1 = generateArray(getGroup, 3, [{ id: 1 }])
-    const groups2 = generateArray(getGroup, 3, [{ id: 1 }])
+    const groups1 = generateArrayOfObjects(getRoom, 3, [{ id: 1 }])
+    const groups2 = generateArrayOfObjects(getRoom, 3, [{ id: 1 }])
 
     expect(
       newConversation(
@@ -275,8 +237,8 @@ describe('newConversation reducer', () => {
   })
 
   it('should handle HANDLE_PEOPLE_SEARCH', () => {
-    const people1 = generateArray(getMember, 3, [{ id: 1 }])
-    const people2 = generateArray(getMember, 3, [{ id: 1 }])
+    const people1 = generateArrayOfObjects(getRoom, 3, [{ id: 1 }])
+    const people2 = generateArrayOfObjects(getRoom, 3, [{ id: 1 }])
 
     expect(
       newConversation(

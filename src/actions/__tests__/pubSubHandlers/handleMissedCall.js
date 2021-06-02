@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleMissedCall } from '../..'
 import { psb8, psb9, psb18 } from '../data/pubSubHandlers'
@@ -14,11 +15,6 @@ import { c2 } from '../data/channels'
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
-
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
 
 describe('handleMissedCall action', () => {
   it('handleMissedCall should not dispatch any actions if organization ids different', done => {

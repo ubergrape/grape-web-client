@@ -26,7 +26,7 @@ const Groups = ({
   onChangeGroupsQuery,
   onSearchGroups,
   hideNewConversation,
-  showCreateGroup,
+  flipCreateGroup,
   goToChannel,
   joinChannel,
   org,
@@ -41,7 +41,7 @@ const Groups = ({
   ])
 
   const onCreateGroupClick = () => {
-    showCreateGroup(org.defaults?.groupDefaults?.visibility === 'private')
+    flipCreateGroup(org.defaults?.groupDefaults?.visibility === 'private')
   }
 
   const onListItemClick = (id, membership) => {

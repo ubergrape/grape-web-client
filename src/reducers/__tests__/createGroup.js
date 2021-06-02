@@ -1,17 +1,12 @@
 import faker from 'faker'
-import moment from 'moment'
 
 import * as types from '../../constants/actionTypes'
-import { userStatusMap, userRolesMap } from '../../constants/app'
 import { reducers } from '../../app/store'
 
-import {
-  getRandomElement,
-  generateArray,
-  overwriteArray,
-} from '../../tests/helpers'
+import { getUser } from '../../../jest/mocks/dataMocks'
+import { generateArrayOfObjects, overwriteArray } from '../../../jest/helpers'
 
-const getSelectedMember = dataToOverwrite => {
+export const getSelectedMember = dataToOverwrite => {
   const firstName = faker.name.firstName()
   const lastName = faker.name.lastName()
 
@@ -19,37 +14,6 @@ const getSelectedMember = dataToOverwrite => {
     avatar: faker.image.imageUrl(),
     displayName: `${firstName} ${lastName}`,
     id: faker.datatype.number(),
-    ...dataToOverwrite,
-  }
-}
-
-export const getMember = dataToOverwrite => {
-  const firstName = faker.name.firstName()
-  const lastName = faker.name.lastName()
-
-  return {
-    avatar: faker.image.imageUrl(),
-    displayName: `${firstName} ${lastName}`,
-    email: faker.internet.email(),
-    firstName,
-    hideEmailField: faker.datatype.boolean(),
-    highlighted: `${firstName} <em>${lastName}</em>`,
-    id: faker.datatype.number(),
-    isActive: faker.datatype.boolean(),
-    lastMessageTimestamp: moment(faker.datatype.datetime()).format(
-      'YYYY-MM-DDTHH:mm:ss.SSSSSSZ',
-    ),
-    lastName,
-    phoneNumber: faker.phone.phoneNumber(),
-    pm: faker.datatype.number(),
-    role: getRandomElement(Object.values(userRolesMap)),
-    section: '#',
-    skypeForBusiness: faker.internet.email(),
-    skype_username: faker.internet.userName(),
-    status: parseInt(getRandomElement(Object.keys(userStatusMap)), 10),
-    title: faker.name.jobTitle(),
-    username: faker.internet.userName(),
-    whatIDo: faker.name.jobDescriptor(),
     ...dataToOverwrite,
   }
 }
@@ -178,8 +142,8 @@ describe('createGroup reducer', () => {
   })
 
   it('should handle CHANGE_MEMBERS_QUERY', () => {
-    const selectedMembers = generateArray(getSelectedMember, 2)
-    const members = generateArray(getMember, 3)
+    const selectedMembers = generateArrayOfObjects(getSelectedMember, 2)
+    const members = generateArrayOfObjects(getUser, 3)
 
     expect(
       createGroup(
@@ -233,8 +197,8 @@ describe('createGroup reducer', () => {
   })
 
   it('should handle HANDLE_MEMBERS_SEARCH with empty selectedMembers', () => {
-    const members1 = generateArray(getMember, 3)
-    const members2 = generateArray(getMember, 3)
+    const members1 = generateArrayOfObjects(getUser, 3)
+    const members2 = generateArrayOfObjects(getUser, 3)
 
     expect(
       createGroup(
@@ -252,13 +216,13 @@ describe('createGroup reducer', () => {
   })
 
   it('should handle HANDLE_MEMBERS_SEARCH with filled selectedMembers', () => {
-    const members1 = generateArray(getMember, 3, [
+    const members1 = generateArrayOfObjects(getUser, 3, [
       { id: 1 },
       { id: 2 },
       { id: 3 },
     ])
-    const members2 = generateArray(getMember, 3)
-    const selectedMembers = generateArray(getSelectedMember, 3, [
+    const members2 = generateArrayOfObjects(getUser, 3)
+    const selectedMembers = generateArrayOfObjects(getSelectedMember, 3, [
       { id: 1 },
       { id: 2 },
       { id: 3 },
@@ -287,10 +251,10 @@ describe('createGroup reducer', () => {
   })
 
   it('should handle HANDLE_MEMBER_SELECT', () => {
-    const members1 = generateArray(getMember, 3, [
+    const members1 = generateArrayOfObjects(getUser, 3, [
       { id: 1, displayName: 'Name' },
     ])
-    const selectedMembers1 = generateArray(getSelectedMember, 3)
+    const selectedMembers1 = generateArrayOfObjects(getSelectedMember, 3)
     const newSelectedMember = getSelectedMember({ id: 1, displayName: 'Name' })
 
     expect(
@@ -308,15 +272,15 @@ describe('createGroup reducer', () => {
   })
 
   it('should handle HANDLE_MEMBER_REMOVE', () => {
-    const members1 = generateArray(getMember, 3, [
+    const members1 = generateArrayOfObjects(getUser, 3, [
       { id: 1, displayName: 'Name 1' },
     ])
-    const selectedMembers1 = generateArray(getSelectedMember, 3, [
+    const selectedMembers1 = generateArrayOfObjects(getSelectedMember, 3, [
       { id: 1, displayName: 'Name 1' },
       { id: 2, displayName: 'Name 2' },
       { id: 3, displayName: 'Name 3' },
     ])
-    const selectedMembers2 = generateArray(getSelectedMember, 2, [
+    const selectedMembers2 = generateArrayOfObjects(getSelectedMember, 2, [
       { id: 2, displayName: 'Name 2' },
       { id: 3, displayName: 'Name 3' },
     ])

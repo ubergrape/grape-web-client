@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleRejectedCall } from '../..'
 import { psb1, psb2, psb21 } from '../data/pubSubHandlers'
@@ -13,11 +14,6 @@ import { ic1 } from '../data/incomingCall'
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
-
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
 
 describe('handleRejectedCall action', () => {
   it('handleRejectedCall should not dispatch any actions if call ids different', done => {

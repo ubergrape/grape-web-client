@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleIncomingCall } from '../..'
 import { ic5 } from '../data/incomingCall'
@@ -13,11 +14,6 @@ import { с3 } from '../data/channels'
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
-
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
 
 describe('handleIncomingCall action', () => {
   it('handleIncomingCall should not dispatch any actions if organization ids different', done => {

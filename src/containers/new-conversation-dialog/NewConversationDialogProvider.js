@@ -16,7 +16,7 @@ const actionNames = {
   goToChannel: 'goToChannel',
   joinChannel: 'joinChannel',
   openPm: 'openPm',
-  showCreateGroup: 'showCreateGroup',
+  flipCreateGroup: 'flipCreateGroup',
   hideCreateGroup: 'hideCreateGroup',
   setIsPrivate: 'setIsPrivate',
   onGroupNameChange: 'onGroupNameChange',

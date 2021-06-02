@@ -173,7 +173,7 @@
   ],
   "jest": {
     "setupFiles": [
-      "<rootDir>/jest-mocks/globalMocks.js",
+      "<rootDir>/jest/mocks/globalMocks.js",
       "jest-localstorage-mock"
     ],
     "modulePathIgnorePatterns": [
@@ -182,7 +182,7 @@
     ],
     "testURL": "http://www.example.com",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "<rootDir>/jest-mocks/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "<rootDir>/jest/mocks/fileMock.js"
     }
   },
   "prettier": {

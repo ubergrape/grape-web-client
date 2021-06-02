@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleJoinedCall } from '../..'
 import { psb20, psb5, psb6, psb7, psb11, psb12 } from '../data/pubSubHandlers'
@@ -14,11 +15,6 @@ import { c1 } from '../data/channels'
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
-
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
 
 describe('handleJoinedCall action', () => {
   it('handleJoinedCall should not dispatch any actions if organization ids different', done => {

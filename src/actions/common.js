@@ -39,7 +39,7 @@ export function error(err) {
     })
     dispatch(showToastNotification(err.message))
     // eslint-disable-next-line no-console
-    console.error(err.stack)
+    if (err.stack) console.error(err.stack)
   }
 }
 

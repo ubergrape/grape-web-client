@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleHungUpCall } from '../..'
 import { psb19, psb3, psb4, psb10, psb22, psb23 } from '../data/pubSubHandlers'
@@ -13,11 +14,6 @@ import { ic2 } from '../data/incomingCall'
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
-
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
 
 describe('handleHungUpCall action', () => {
   it('handleHungUpCall should not dispatch any actions if organization ids different', done => {
