@@ -83,12 +83,8 @@ export const SupportItem = ({ href }) => (
   </Item>
 )
 
-export const PrivacyPolicyItem = () => (
-  <Item
-    icon="doorLock"
-    href="https://www.grape.io/privacy"
-    target="grape-privacy-policy"
-  >
+export const PrivacyPolicyItem = ({ href }) => (
+  <Item icon="doorLock" href={href} target="grape-privacy-policy">
     <FormattedMessage
       id="privacyPolicy"
       defaultMessage="Privacy Policy"
@@ -97,12 +93,8 @@ export const PrivacyPolicyItem = () => (
   </Item>
 )
 
-export const TermsOfServiceItem = () => (
-  <Item
-    icon="bookBookmarked"
-    href="https://www.grape.io/terms-of-service"
-    target="grape-terms-of-service"
-  >
+export const TermsOfServiceItem = ({ href }) => (
+  <Item icon="bookBookmarked" href={href} target="grape-terms-of-service">
     <FormattedMessage
       id="termsOfService"
       defaultMessage="Terms Of Service"
