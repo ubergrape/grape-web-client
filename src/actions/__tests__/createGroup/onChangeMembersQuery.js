@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onChangeMembersQuery', () => {
-  it('onChangeMembersQuery should dispatch CHANGE_MEMBERS_QUERY, REQUEST_MEMBERS_SEARCH, HANDLE_MEMBERS_SEARCH, REQUEST_MEMBERS_SEARCH and HANDLE_TAGS_INPUT_INTERACTION action', done => {
+  it('onChangeMembersQuery should dispatch CHANGE_MEMBERS_QUERY, REQUEST_MEMBERS_SEARCH, HANDLE_MEMBERS_SEARCH, REQUEST_MEMBERS_SEARCH and HANDLE_TAGS_INPUT_INTERACTION actions', done => {
     expect(onChangeMembersQuery()).toDispatchActionsWithState(
       {
         org: {
@@ -38,7 +38,7 @@ describe('onChangeMembersQuery', () => {
     )
   })
 
-  it('onChangeMembersQuery should dispatch CHANGE_MEMBERS_QUERY, REQUEST_MEMBERS_SEARCH, HANDLE_ERROR and SHOW_TOAST_NOTIFICATION action', done => {
+  it('onChangeMembersQuery should dispatch CHANGE_MEMBERS_QUERY, REQUEST_MEMBERS_SEARCH, HANDLE_ERROR and SHOW_TOAST_NOTIFICATION actions', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_ERROR__ = true
 

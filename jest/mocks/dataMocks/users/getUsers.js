@@ -38,5 +38,12 @@ export const getUser = dataToOverwrite => {
 }
 
 export const getUsers = data => ({
-  results: generateArrayOfObjects(getUser, data.args[1].pageSize),
+  // eslint-disable-next-line no-underscore-dangle
+  results: global.__TEST_EMPTY_RESULTS__
+    ? []
+    : generateArrayOfObjects(
+        getUser,
+        // eslint-disable-next-line no-underscore-dangle
+        global.__TEST_RESULTS_LENGTH__ || data.args[1].pageSize,
+      ),
 })

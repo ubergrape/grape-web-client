@@ -39,6 +39,13 @@ export const getRoom = () => {
   }
 }
 
-export const getRooms = length => ({
-  results: generateArrayOfObjects(getRoom, length),
+export const getRooms = data => ({
+  // eslint-disable-next-line no-underscore-dangle
+  results: global.__TEST_EMPTY_RESULTS__
+    ? []
+    : generateArrayOfObjects(
+        getRoom,
+        // eslint-disable-next-line no-underscore-dangle
+        global.__TEST_RESULTS_LENGTH__ || data.args[1].pageSize,
+      ),
 })
