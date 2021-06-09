@@ -1,5 +1,6 @@
 import omit from 'lodash/omit'
 import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
 import moment from 'moment-timezone'
 
 import conf from '../conf'
@@ -180,8 +181,31 @@ export const loadInitialData = clientId => (dispatch, getState) => {
     .then(([org, channels, pinnedChannels, profile, labelsConfig, calls]) => {
       const allChannels = [...channels, ...pinnedChannels]
       dispatch(handleUserProfile(profile))
+
       dispatch(setCalls(calls))
+      if (calls.length) {
+        const call = calls[0]
+
+        const promises = [api.getUser(conf.organization.id, call.initiator)]
+
+        if (findIndex(channels, { id: call.channel }) === -1) {
+          promises.push(api.getChannel(call.channel))
+        }
+
+        Promise.all(promises).then(([author, channel]) => {
+          dispatch({
+            type: types.HANDLE_EXISTING_CALL,
+            payload: {
+              call,
+              author,
+              channel: channel || find(channels, { id: call.channel }),
+            },
+          })
+        })
+      }
+
       dispatch(setChannels(allChannels))
+
       dispatch(
         setOrg({
           ...omit(org, 'users', 'channels', 'rooms', 'pms'),
