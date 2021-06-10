@@ -1894,18 +1894,18 @@
     react-jss "^10.3.0"
     slugify "^1.5.2"
 
-"@ubergrape/wamp1@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@ubergrape/wamp1/-/wamp1-1.2.1.tgz#691b3e6807295bd87dfb1563916f9a1ee71a4ebc"
-  integrity sha512-nekOBaLtXk07I7D2Le/ABIVFJReDd2uKIstm7Lnpls1WkId4VwWijtZw33tQkG2NEXeBVxNjlVROGkCcgqo1sw==
+"@ubergrape/wamp1@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@ubergrape/wamp1/-/wamp1-1.2.3.tgz#89ab1c481df8090e31c5a5dd998dad6ed84bd846"
+  integrity sha512-P0WqYFnYru4m0f0fMVjSHn+y5hvKgnFEbNz63HcyAg/oa++yloAp8K+d9pJphevTyrDGGK3pWsti4+KxGwFALg==
   dependencies:
-    "@ubergrape/websocket-buffering" "0.0.3"
+    "@ubergrape/websocket-buffering" "0.0.4"
     component-emitter "^1.3.0"
 
-"@ubergrape/websocket-buffering@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@ubergrape/websocket-buffering/-/websocket-buffering-0.0.3.tgz#87256773ec4ad0cd00e7bb00c596199d3809fe0e"
-  integrity sha512-7YHk+soeXrflln72WhmeQmSg3t8O1+IjwpyT7zyRiRY7t6iwOsHf+goCkBx2zNVsmBSUmOQVqtCDIO6+rB9k+g==
+"@ubergrape/websocket-buffering@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ubergrape/websocket-buffering/-/websocket-buffering-0.0.4.tgz#4160cdaa42da5b14bf79ee9042b1bd4f1c011abe"
+  integrity sha512-CBxqMcZV5XUOnQ/uiGBqrbrjMBR2mXMcrBlzXQnfC3A3fUlWoPJdZhin0TPw3W01h2A6MZhOR3jvD94mU+8Kmw==
   dependencies:
     component-emitter "*"
     ws "*"
