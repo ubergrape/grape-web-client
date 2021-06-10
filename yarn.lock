@@ -1894,13 +1894,21 @@
     react-jss "^10.3.0"
     slugify "^1.5.2"
 
-"@ubergrape/wamp1@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ubergrape/wamp1/-/wamp1-1.2.0.tgz#f83d8c5d78aca04c254898f6541c440deba2a598"
-  integrity sha512-2XfM+kUAppDP3GUQruCbC/FwXeFyowz4/wDvK9zEblmuz0dabtCLbGeI4nU9ooYIY5QWYq+TFwt68JtXwhgJIQ==
+"@ubergrape/wamp1@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@ubergrape/wamp1/-/wamp1-1.2.1.tgz#691b3e6807295bd87dfb1563916f9a1ee71a4ebc"
+  integrity sha512-nekOBaLtXk07I7D2Le/ABIVFJReDd2uKIstm7Lnpls1WkId4VwWijtZw33tQkG2NEXeBVxNjlVROGkCcgqo1sw==
   dependencies:
+    "@ubergrape/websocket-buffering" "0.0.3"
     component-emitter "^1.3.0"
-    websocket-buffering "0.0.2"
+
+"@ubergrape/websocket-buffering@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ubergrape/websocket-buffering/-/websocket-buffering-0.0.3.tgz#87256773ec4ad0cd00e7bb00c596199d3809fe0e"
+  integrity sha512-7YHk+soeXrflln72WhmeQmSg3t8O1+IjwpyT7zyRiRY7t6iwOsHf+goCkBx2zNVsmBSUmOQVqtCDIO6+rB9k+g==
+  dependencies:
+    component-emitter "*"
+    ws "*"
 
 "@vue/compiler-core@3.0.11", "@vue/compiler-core@^3.0.0":
   version "3.0.11"
@@ -3566,7 +3574,7 @@ component-delegate@0.2.4, component-delegate@^0.2.3:
     component-closest "*"
     component-event "*"
 
-component-emitter@^1.1.3, component-emitter@^1.2.0, component-emitter@^1.2.1, component-emitter@^1.3.0:
+component-emitter@*, component-emitter@^1.1.3, component-emitter@^1.2.0, component-emitter@^1.2.1, component-emitter@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
@@ -12301,13 +12309,6 @@ webpack@^4.42.2:
     terser-webpack-plugin "^1.4.3"
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
-
-websocket-buffering@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/websocket-buffering/-/websocket-buffering-0.0.2.tgz#50673ee11c6dd5cbb291287b514b0e30f29f7cc0"
-  integrity sha1-UGc+4Rxt1cuykSh7UUsOMPKffMA=
-  dependencies:
-    ws "*"
 
 websocket-driver@>=0.5.1:
   version "0.7.3"

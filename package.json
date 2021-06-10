@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "3.1.0-19534.0.0",
+  "version": "3.1.0-19534.1.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -12,7 +12,7 @@
     "@react-aria/overlays": "^3.6.1",
     "@react-stately/overlays": "^3.1.1",
     "@ubergrape/aurora-ui": "^1.1.1",
-    "@ubergrape/wamp1": "^1.2.0",
+    "@ubergrape/wamp1": "^1.2.1",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "common-tags": "^1.4.0",
