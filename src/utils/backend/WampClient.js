@@ -1,5 +1,5 @@
 import Emitter from 'component-emitter'
-import Wamp from 'wamp1'
+import Wamp from '@ubergrape/wamp1'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
@@ -81,6 +81,7 @@ export default class WampClient {
     this.wamp = new Wamp(this.socket, { omitSubscribe: true }, this.onOpen)
     this.wamp.on('error', this.onError)
     this.wamp.on('event', this.onEvent)
+    this.wamp.on('call', this.onCall)
   }
 
   close() {
@@ -107,18 +108,9 @@ export default class WampClient {
     }, backoff)
   }
 
-  /**
-   * Pong is needed for server. Otherwise it doesn't know when to cleanupn the
-   * session.
-   */
-  pong = () => {
-    if (!this.connected || this.reopening) return
-    onConnectionEvent('pong')
-    logWamp('pong')
-    this.call('pong', (err, res) => {
-      if (err) return this.onError(err)
-      return logWamp(res)
-    })
+  onCall = (endpoint, args, callback) => {
+    logWamp('onCall')
+    if (endpoint === 'ping') callback('pong')
   }
 
   /**
@@ -157,7 +149,6 @@ export default class WampClient {
 
     const argsClone = [...args, callback]
     argsClone[0] = prefix + args[0]
-
     this.wamp.call(...argsClone)
   }
 
