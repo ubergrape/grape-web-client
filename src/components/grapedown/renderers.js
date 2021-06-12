@@ -13,7 +13,7 @@ import { LineBreak } from '../line-break'
 // In case there are no children we need to set it to an empty array
 // to make sure createElement gets a parameter other than undefined or null.
 export function renderTag(tag, props, children = []) {
-  const { href, key, forcebreak, user, tag: messageTag } = props
+  const { href, channel, key, forcebreak, user, tag: messageTag } = props
 
   if (tag === 'br' && forcebreak) {
     return createElement(LineBreak, { key })
@@ -35,7 +35,7 @@ export function renderTag(tag, props, children = []) {
     }
 
     return (
-      <Link key={key} tag={messageTag} href={href}>
+      <Link key={key} tag={messageTag} channel={channel} href={href}>
         {children}
       </Link>
     )
