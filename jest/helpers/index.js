@@ -1,5 +1,5 @@
 export const getRandomElement = arr =>
-  arr[Math.floor(Math.random() * arr.length)]
+  arr[Math.floor(Math.random() * (arr.length - 1))]
 
 export const generateArray = (getElement, length) =>
   new Array(length).fill(null).map(() => {
