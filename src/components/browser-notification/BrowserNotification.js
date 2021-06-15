@@ -247,7 +247,7 @@ class BrowserNotification extends PureComponent {
           {
             type: 'grapeClient.updateNotification',
             payload: {
-              data: {
+              args: {
                 type,
                 properties,
                 callbacks,
@@ -291,7 +291,7 @@ class BrowserNotification extends PureComponent {
         {
           type: 'grapeClient.createNotification',
           payload: {
-            data: {
+            args: {
               type,
               properties,
               callbacks,
