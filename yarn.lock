@@ -5615,10 +5615,10 @@ graceful-fs@^4.1.15, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
-grape-browser@^3.27.3:
-  version "3.27.3"
-  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.27.3.tgz#a22dd377276d54a27bdc181da85cf81ff160b365"
-  integrity sha512-L/OsorqmGdUvkXF1ZmzeEW4C3bamUOT+JN4m+sz3DipXrxtrr6CvVTRO4tpQTO8MKqwk2FmWp41b99f51dFXrA==
+grape-browser@^3.27.4:
+  version "3.27.4"
+  resolved "https://registry.yarnpkg.com/grape-browser/-/grape-browser-3.27.4.tgz#a7ca15863aa6aedda8a8fe6e6b43838b33deba37"
+  integrity sha512-2GLtUdolw9nX326NYolubT4/KyxlGDIBFqqOtZaIWsy9o3RBFgEHhoYAEZsekBpW17qRfI13Ux5Dsdck43Eq4A==
   dependencies:
     color "^0.10.1"
     component-query "^0.0.3"
@@ -5628,7 +5628,7 @@ grape-browser@^3.27.3:
     grape-web "^1.12.0"
     images-loader "^0.1.2"
     keyname "^0.1.0"
-    lodash "^4.17.19"
+    lodash "^4.17.21"
     moment "^2.10.3"
     prop-types "^15.5.10"
     react "^16.7.0"
@@ -5645,7 +5645,6 @@ grape-browser@^3.27.3:
 
 grape-icons@ubergrape/grape-icons:
   version "0.0.0"
-  uid "35d5c23c533d7e5cef7021b774c5461718eaa40f"
   resolved "https://codeload.github.com/ubergrape/grape-icons/tar.gz/35d5c23c533d7e5cef7021b774c5461718eaa40f"
 
 grape-js-emoji@^3.4.0:
@@ -5691,10 +5690,10 @@ grape-web@^1.12.0:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
-grape-web@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.0.tgz#d0893fc81fd31fcd84c7a7f042f8ebd1132c0041"
-  integrity sha512-sBbKp8KZe9FynYm7J+ionpOYJYPnHU+oKWCMazSigsrqhZMGcA8mBzHJPGGDdliM+Lb19qQrdJXUo5ikEum7YQ==
+grape-web@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.1.tgz#2f3384045df98baf381e7ca66f3329434538455d"
+  integrity sha512-UOeTnJ/X5foLD1KQSmUDzGgq+e3wAvhaMlO8F2bLdkmmJrIlUwyvwCayb4zzGUUnP9ynn/MnUfB3MnAe/PmxPg==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -5709,7 +5708,7 @@ grape-web@^1.13.0:
     jss-isolate "^5.1.0"
     jss-props-sort "^6.0.0"
     jss-vendor-prefixer "^8.0.1"
-    lodash "^4.17.19"
+    lodash "^4.17.21"
     material-ui "1.0.0-beta.22"
     mdurl "^1.0.1"
     normalize-jss "^3.1.0"
@@ -7938,7 +7937,7 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
