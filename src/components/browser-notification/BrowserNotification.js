@@ -243,19 +243,22 @@ class BrowserNotification extends PureComponent {
       updateNotification({ type }, this.props, nextProps)
 
       if (window.parent) {
-        window.parent.postMessage({
-          type: 'grape.updateNotification',
-          payload: {
-            data: {
-              type,
-              properties,
-              callbacks,
-              params,
+        window.parent.postMessage(
+          {
+            type: 'grapeClient.updateNotification',
+            payload: {
+              data: {
+                type,
+                properties,
+                callbacks,
+                params,
+              },
+              props: this.props,
+              nextProps,
             },
-            props: this.props,
-            nextProps,
           },
-        })
+          '*',
+        )
       }
 
       return
@@ -284,19 +287,22 @@ class BrowserNotification extends PureComponent {
     })
 
     if (window.parent) {
-      window.parent.postMessage({
-        type: 'grape.createNotification',
-        payload: {
-          data: {
-            type,
-            properties,
-            callbacks,
-            params,
+      window.parent.postMessage(
+        {
+          type: 'grapeClient.createNotification',
+          payload: {
+            data: {
+              type,
+              properties,
+              callbacks,
+              params,
+            },
+            props: this.props,
+            nextProps,
           },
-          props: this.props,
-          nextProps,
         },
-      })
+        '*',
+      )
     }
 
     setNotification(
