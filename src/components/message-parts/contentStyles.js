@@ -57,7 +57,6 @@ export default {
     background: white,
     wordBreak: 'break-all',
     fontFamily: 'monospace',
-    whiteSpace: 'pre',
   },
   '& pre code': {
     isolate: false,
