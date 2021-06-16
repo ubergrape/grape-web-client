@@ -64,17 +64,17 @@ describe('createGroup reducer', () => {
     })
   })
 
-  it('should handle HANDLE_CREATE_GROUP', () => {
+  it('should handle SHOW_CREATE_GROUP', () => {
     expect(
       createGroup(
         { isPrivate: false },
         {
-          type: types.HANDLE_CREATE_GROUP,
-          payload: true,
+          type: types.SHOW_CREATE_GROUP,
+          payload: false,
         },
       ),
     ).toEqual({
-      isPrivate: true,
+      isPrivate: false,
     })
   })
 
@@ -196,57 +196,59 @@ describe('createGroup reducer', () => {
     })
   })
 
-  it('should handle HANDLE_MEMBERS_SEARCH with empty selectedMembers', () => {
-    const members1 = generateArrayOfObjects(getUser, 3)
-    const members2 = generateArrayOfObjects(getUser, 3)
+  describe('HANDLE_MEMBERS_SEARCH', () => {
+    it('should handle with empty selectedMembers', () => {
+      const members1 = generateArrayOfObjects(getUser, 3)
+      const members2 = generateArrayOfObjects(getUser, 3)
 
-    expect(
-      createGroup(
-        { page: 1, members: members1, selectedMembers: [] },
-        {
-          type: types.HANDLE_MEMBERS_SEARCH,
-          payload: members2,
-        },
-      ),
-    ).toEqual({
-      page: 2,
-      members: [...members1, ...members2],
-      selectedMembers: [],
+      expect(
+        createGroup(
+          { page: 1, members: members1, selectedMembers: [] },
+          {
+            type: types.HANDLE_MEMBERS_SEARCH,
+            payload: members2,
+          },
+        ),
+      ).toEqual({
+        page: 2,
+        members: [...members1, ...members2],
+        selectedMembers: [],
+      })
     })
-  })
 
-  it('should handle HANDLE_MEMBERS_SEARCH with filled selectedMembers', () => {
-    const members1 = generateArrayOfObjects(getUser, 3, [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-    ])
-    const members2 = generateArrayOfObjects(getUser, 3)
-    const selectedMembers = generateArrayOfObjects(getSelectedMember, 3, [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-    ])
+    it('should handle with filled selectedMembers', () => {
+      const members1 = generateArrayOfObjects(getUser, 3, [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+      ])
+      const members2 = generateArrayOfObjects(getUser, 3)
+      const selectedMembers = generateArrayOfObjects(getSelectedMember, 3, [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+      ])
 
-    expect(
-      createGroup(
-        { page: 1, members: members1, selectedMembers },
-        {
-          type: types.HANDLE_MEMBERS_SEARCH,
-          payload: members2,
-        },
-      ),
-    ).toEqual({
-      page: 2,
-      members: [
-        ...overwriteArray(members1, [
-          { isSelected: true },
-          { isSelected: true },
-          { isSelected: true },
-        ]),
-        ...members2,
-      ],
-      selectedMembers,
+      expect(
+        createGroup(
+          { page: 1, members: members1, selectedMembers },
+          {
+            type: types.HANDLE_MEMBERS_SEARCH,
+            payload: members2,
+          },
+        ),
+      ).toEqual({
+        page: 2,
+        members: [
+          ...overwriteArray(members1, [
+            { isSelected: true },
+            { isSelected: true },
+            { isSelected: true },
+          ]),
+          ...members2,
+        ],
+        selectedMembers,
+      })
     })
   })
 

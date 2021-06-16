@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('showNewConversation', () => {
-  it('showNewConversation should dispatch SHOW_NEW_CONVERSATION action', done => {
+  it('should dispatch SHOW_NEW_CONVERSATION action', done => {
     expect(showNewConversation()).toDispatchActionsWithState(
       {},
       [{ type: types.SHOW_NEW_CONVERSATION }],

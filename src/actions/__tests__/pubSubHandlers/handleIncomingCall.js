@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('handleIncomingCall action', () => {
-  it('handleIncomingCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {
@@ -30,7 +30,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
+  it('should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         channels: [с3],
@@ -54,7 +54,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS and HANDLE_INCOMING_CALL actions', done => {
+  it('should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS and HANDLE_INCOMING_CALL actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {

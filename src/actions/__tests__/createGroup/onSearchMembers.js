@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onSearchMembers', () => {
-  it('onSearchMembers should dispatch REQUEST_MEMBERS_SEARCH, HANDLE_MEMBERS_SEARCH, REQUEST_MEMBERS_SEARCH and HANDLE_TAGS_INPUT_INTERACTION actions', done => {
+  it('should dispatch REQUEST_MEMBERS_SEARCH, HANDLE_MEMBERS_SEARCH, REQUEST_MEMBERS_SEARCH and HANDLE_TAGS_INPUT_INTERACTION actions', done => {
     expect(onSearchMembers()).toDispatchActionsWithState(
       {
         org: {
@@ -37,7 +37,7 @@ describe('onSearchMembers', () => {
     )
   })
 
-  it('onSearchMembers should dispatch REQUEST_MEMBERS_SEARCH, HANDLE_ERROR and SHOW_TOAST_NOTIFICATION actions', done => {
+  it('should dispatch REQUEST_MEMBERS_SEARCH, HANDLE_ERROR and SHOW_TOAST_NOTIFICATION actions', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_ERROR__ = true
 

@@ -15,7 +15,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('handleFinishedCall action', () => {
-  it('handleFinishedCall should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
+  it('should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
         org: {
@@ -44,7 +44,7 @@ describe('handleFinishedCall action', () => {
     )
   })
 
-  it('handleFinishedCall should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
+  it('should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
         org: {
@@ -77,7 +77,7 @@ describe('handleFinishedCall action', () => {
     )
   })
 
-  it('handleFinishedCall should not dispatch any actions if channel related to event not in store', done => {
+  it('should not dispatch any actions if channel related to event not in store', done => {
     expect(handleFinishedCall(psb17)).toDispatchActionsWithState(
       {
         org: {

@@ -15,7 +15,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onCreateGroup', () => {
-  it('onCreateGroup should dispatch REQUEST_CREATE_GROUP, HIDE_NEW_CONVERSATION, GO_TO_CHANNEL and ADD_CHANNEL actions', done => {
+  it('should dispatch REQUEST_CREATE_GROUP, HIDE_NEW_CONVERSATION, GO_TO_CHANNEL and ADD_CHANNEL actions', done => {
     expect(onCreateGroup()).toDispatchActionsWithState(
       {
         org: {
@@ -40,7 +40,7 @@ describe('onCreateGroup', () => {
     )
   })
 
-  it('onCreateGroup should dispatch REQUEST_CREATE_GROUP and HANDLE_CREATE_GROUP_ERROR_DETAILS actions', done => {
+  it('should dispatch REQUEST_CREATE_GROUP and HANDLE_CREATE_GROUP_ERROR_DETAILS actions', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_ERROR__ = true
 

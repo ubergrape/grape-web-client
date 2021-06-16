@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('hideCreateGroup', () => {
-  it('hideCreateGroup should dispatch HIDE_CREATE_GROUP action', done => {
+  it('should dispatch HIDE_CREATE_GROUP action', done => {
     expect(hideCreateGroup()).toDispatchActionsWithState(
       {},
       [{ type: types.HIDE_CREATE_GROUP }],

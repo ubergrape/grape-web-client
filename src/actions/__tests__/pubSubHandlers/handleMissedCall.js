@@ -17,7 +17,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('handleMissedCall action', () => {
-  it('handleMissedCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleMissedCall(psb18)).toDispatchActionsWithState(
       {
         org: {
@@ -36,7 +36,7 @@ describe('handleMissedCall action', () => {
     )
   })
 
-  it('handleMissedCall should not dispatch any actions if call ids different', done => {
+  it('should not dispatch any actions if call ids different', done => {
     expect(handleMissedCall(psb8)).toDispatchActionsWithState(
       {
         org: {
@@ -55,7 +55,7 @@ describe('handleMissedCall action', () => {
     )
   })
 
-  it('handleMissedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and HANDLE_NOTIFICATION actions', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and HANDLE_NOTIFICATION actions', done => {
     expect(handleMissedCall(psb9)).toDispatchActionsWithState(
       {
         org: {

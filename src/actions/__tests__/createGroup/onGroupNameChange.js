@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onGroupNameChange', () => {
-  it('onGroupNameChange should dispatch HANDLE_GROUP_NAME_CHANGE action', done => {
+  it('should dispatch HANDLE_GROUP_NAME_CHANGE action', done => {
     expect(onGroupNameChange()).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_GROUP_NAME_CHANGE }],

@@ -63,12 +63,12 @@ describe('newConversation reducer', () => {
     })
   })
 
-  it('should handle HANDLE_CREATE_GROUP', () => {
+  it('should handle SHOW_CREATE_GROUP', () => {
     expect(
       newConversation(
         { view: 'tabs' },
         {
-          type: types.HANDLE_CREATE_GROUP,
+          type: types.SHOW_CREATE_GROUP,
         },
       ),
     ).toEqual({

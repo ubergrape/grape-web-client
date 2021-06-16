@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('requestMembersNewConversation', () => {
-  it('requestMembersNewConversation should dispatch REQUEST_MEMBERS_SEARCH action', done => {
+  it('should dispatch REQUEST_MEMBERS_SEARCH action', done => {
     expect(requestMembersNewConversation()).toDispatchActionsWithState(
       {},
       [{ type: types.REQUEST_MEMBERS_SEARCH }],

@@ -7,17 +7,17 @@ import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
 import { onError } from '../../../../jest/helpers'
 
-import { flipCreateGroup } from '../..'
+import { showCreateGroup } from '../..'
 
 beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-describe('flipCreateGroup', () => {
-  it('flipCreateGroup should dispatch HANDLE_CREATE_GROUP action', done => {
-    expect(flipCreateGroup()).toDispatchActionsWithState(
+describe('showCreateGroup', () => {
+  it('should dispatch SHOW_CREATE_GROUP action', done => {
+    expect(showCreateGroup()).toDispatchActionsWithState(
       {},
-      [{ type: types.HANDLE_CREATE_GROUP }],
+      [{ type: types.SHOW_CREATE_GROUP }],
       err => {
         onError(done, err)
       },

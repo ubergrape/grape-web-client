@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('handlePeopleResults', () => {
-  it('handlePeopleResults should dispatch HANDLE_PEOPLE_SEARCH action', done => {
+  it('should dispatch HANDLE_PEOPLE_SEARCH action', done => {
     expect(handlePeopleResults([], false)).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_PEOPLE_SEARCH }],
@@ -24,7 +24,7 @@ describe('handlePeopleResults', () => {
     )
   })
 
-  it('handleGroupsResults should dispatch HANDLE_PEOPLE_SEARCH and SET_PEOPLE_SEARCH_LOADING_STATE actions', done => {
+  it('should dispatch HANDLE_PEOPLE_SEARCH and SET_PEOPLE_SEARCH_LOADING_STATE actions', done => {
     expect(handlePeopleResults([], true)).toDispatchActionsWithState(
       {},
       [

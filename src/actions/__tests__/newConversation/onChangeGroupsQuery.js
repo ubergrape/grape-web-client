@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onChangeGroupsQuery', () => {
-  it('onChangeGroupsQuery should dispatch CHANGE_GROUPS_QUERY action', done => {
+  it('should dispatch CHANGE_GROUPS_QUERY action', done => {
     expect(onChangeGroupsQuery()).toDispatchActionsWithState(
       {
         org: {

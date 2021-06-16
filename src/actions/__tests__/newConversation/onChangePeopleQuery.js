@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onChangePeopleQuery', () => {
-  it('onChangePeopleQuery should dispatch CHANGE_PEOPLE_QUERY action', done => {
+  it('should dispatch CHANGE_PEOPLE_QUERY action', done => {
     expect(onChangePeopleQuery()).toDispatchActionsWithState(
       {
         org: {

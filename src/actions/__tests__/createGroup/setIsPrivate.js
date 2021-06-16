@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('setIsPrivate', () => {
-  it('setIsPrivate should dispatch SET_IS_PRIVATE action', done => {
+  it('should dispatch SET_IS_PRIVATE action', done => {
     expect(setIsPrivate()).toDispatchActionsWithState(
       {},
       [{ type: types.SET_IS_PRIVATE }],

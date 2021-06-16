@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('setNewConversationTab', () => {
-  it('setNewConversationTab should dispatch SET_NEW_CONVERSATION_TAB action', done => {
+  it('should dispatch SET_NEW_CONVERSATION_TAB action', done => {
     expect(setNewConversationTab()).toDispatchActionsWithState(
       {},
       [{ type: types.SET_NEW_CONVERSATION_TAB }],

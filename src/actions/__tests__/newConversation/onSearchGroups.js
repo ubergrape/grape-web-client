@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onSearchGroups', () => {
-  it('onSearchGroups should not dispatch any actions', done => {
+  it('should not dispatch any actions', done => {
     expect(onSearchGroups()).toDispatchActionsWithState(
       {
         org: {
@@ -36,7 +36,7 @@ describe('onSearchGroups', () => {
     )
   })
 
-  it('onSearchGroups should dispatch HANDLE_GROUPS_SEARCH action', done => {
+  it('should dispatch HANDLE_GROUPS_SEARCH action', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_RESULTS_LENGTH__ = itemsToLoad - 1
     expect(onSearchGroups()).toDispatchActionsWithState(
@@ -58,7 +58,7 @@ describe('onSearchGroups', () => {
     )
   })
 
-  it('onSearchGroups should dispatch HANDLE_GROUPS_SEARCH and REQUEST_MEMBERSHIP_GROUPS_LOADING actions', done => {
+  it('should dispatch HANDLE_GROUPS_SEARCH and REQUEST_MEMBERSHIP_GROUPS_LOADING actions', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_RESULTS_LENGTH__ = itemsToLoad - 1
     expect(onSearchGroups()).toDispatchActionsWithState(

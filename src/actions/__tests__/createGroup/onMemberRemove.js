@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onMemberRemove', () => {
-  it('onMemberRemove should dispatch HANDLE_MEMBER_REMOVE action', done => {
+  it('should dispatch HANDLE_MEMBER_REMOVE action', done => {
     expect(onMemberRemove()).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_MEMBER_REMOVE }],

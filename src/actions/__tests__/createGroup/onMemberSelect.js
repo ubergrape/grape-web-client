@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onMemberSelect', () => {
-  it('onMemberSelect should dispatch HANDLE_MEMBER_SELECT action', done => {
+  it('should dispatch HANDLE_MEMBER_SELECT action', done => {
     expect(onMemberSelect()).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_MEMBER_SELECT }],

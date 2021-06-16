@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('handleHungUpCall action', () => {
-  it('handleHungUpCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleHungUpCall(psb19)).toDispatchActionsWithState(
       {
         org: {
@@ -39,7 +39,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should not dispatch any actions if call ids different', done => {
+  it('should not dispatch any actions if call ids different', done => {
     expect(handleHungUpCall(psb3)).toDispatchActionsWithState(
       {
         org: {
@@ -65,7 +65,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for 1-1 call', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for 1-1 call', done => {
     expect(handleHungUpCall(psb4)).toDispatchActionsWithState(
       {
         org: {
@@ -97,7 +97,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for group calls', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA, CLOSE_CALL_STATUS and REMOVE_CALL actions for group calls', done => {
     expect(handleHungUpCall(psb10)).toDispatchActionsWithState(
       {
         org: {
@@ -129,7 +129,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and CLEAR_INCOMING_CALL_DATA actions for 1-1 call', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL and CLEAR_INCOMING_CALL_DATA actions for 1-1 call', done => {
     expect(handleHungUpCall(psb22)).toDispatchActionsWithState(
       {
         org: {
@@ -159,7 +159,7 @@ describe('handleHungUpCall action', () => {
     )
   })
 
-  it('handleHungUpCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for group calls', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and CLOSE_CALL_STATUS actions for group calls', done => {
     expect(handleHungUpCall(psb23)).toDispatchActionsWithState(
       {
         org: {

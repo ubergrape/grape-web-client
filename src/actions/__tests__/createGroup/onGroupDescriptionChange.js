@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onSearchMembers', () => {
-  it('onGroupDescriptionChange should dispatch HANDLE_GROUP_DESCRIPTION_CHANGE action', done => {
+  it('should dispatch HANDLE_GROUP_DESCRIPTION_CHANGE action', done => {
     expect(onGroupDescriptionChange()).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_GROUP_DESCRIPTION_CHANGE }],

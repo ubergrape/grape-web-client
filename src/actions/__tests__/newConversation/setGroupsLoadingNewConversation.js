@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('setGroupsLoadingNewConversation', () => {
-  it('setGroupsLoadingNewConversation should dispatch SET_GROUPS_SEARCH_LOADING_STATE action', done => {
+  it('should dispatch SET_GROUPS_SEARCH_LOADING_STATE action', done => {
     expect(setGroupsLoadingNewConversation()).toDispatchActionsWithState(
       {},
       [{ type: types.SET_GROUPS_SEARCH_LOADING_STATE }],

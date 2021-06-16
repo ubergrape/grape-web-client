@@ -16,7 +16,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('loadMembershipPeople', () => {
-  it('loadMembershipPeople should dispatch HANDLE_NO_OTHER_PEOPLE_IN_ORG action', done => {
+  it('should dispatch HANDLE_NO_OTHER_PEOPLE_IN_ORG action', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_EMPTY_RESULTS__ = true
     expect(loadMembershipPeople()).toDispatchActionsWithState(
@@ -37,7 +37,7 @@ describe('loadMembershipPeople', () => {
     )
   })
 
-  it('loadMembershipPeople should dispatch HANDLE_NO_PEOPLE_LEFT_TO_JOIN action', done => {
+  it('should dispatch HANDLE_NO_PEOPLE_LEFT_TO_JOIN action', done => {
     expect(loadMembershipPeople()).toDispatchActionsWithState(
       {
         org: {
@@ -56,7 +56,7 @@ describe('loadMembershipPeople', () => {
     )
   })
 
-  it('loadMembershipPeople should dispatch HANDLE_PEOPLE_SEARCH action', done => {
+  it('should dispatch HANDLE_PEOPLE_SEARCH action', done => {
     expect(loadMembershipPeople()).toDispatchActionsWithState(
       {
         org: {
@@ -75,7 +75,7 @@ describe('loadMembershipPeople', () => {
     )
   })
 
-  it('loadMembershipPeople should dispatch HANDLE_PEOPLE_SEARCH action', done => {
+  it('should dispatch HANDLE_PEOPLE_SEARCH action', done => {
     expect(loadMembershipPeople()).toDispatchActionsWithState(
       {
         org: {
@@ -94,7 +94,7 @@ describe('loadMembershipPeople', () => {
     )
   })
 
-  it('loadMembershipPeople should dispatch HANDLE_GROUPS_SEARCH action', done => {
+  it('should dispatch HANDLE_ERROR and SHOW_TOAST_NOTIFICATION actions', done => {
     // eslint-disable-next-line no-underscore-dangle
     global.__TEST_ERROR__ = true
     expect(loadMembershipPeople()).toDispatchActionsWithState(

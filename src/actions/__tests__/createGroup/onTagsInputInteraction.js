@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('onTagsInputInteraction', () => {
-  it('onTagsInputInteraction should dispatch HANDLE_TAGS_INPUT_INTERACTION action', done => {
+  it('should dispatch HANDLE_TAGS_INPUT_INTERACTION action', done => {
     expect(onTagsInputInteraction()).toDispatchActionsWithState(
       {},
       [{ type: types.HANDLE_TAGS_INPUT_INTERACTION }],

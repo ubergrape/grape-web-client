@@ -14,7 +14,7 @@ beforeEach(registerAssertions)
 registerMiddlewares([thunk, routerMiddleware(history)])
 
 describe('hideNewConversation', () => {
-  it('hideNewConversation should dispatch HIDE_NEW_CONVERSATION action', done => {
+  it('should dispatch HIDE_NEW_CONVERSATION action', done => {
     expect(hideNewConversation()).toDispatchActionsWithState(
       {},
       [{ type: types.HIDE_NEW_CONVERSATION }],
