@@ -3,9 +3,6 @@
     "packages/*"
   ],
   "version": "independent",
-  "command": {
-    "run": {
-      "npmClient": "yarn"
-    }
-  }
+  "npmClient": "yarn",
+  "useWorkspaces": true
 }
