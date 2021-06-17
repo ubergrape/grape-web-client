@@ -27,12 +27,12 @@ export const onGroupDescriptionChange = payload => ({
   payload,
 })
 
-const requestMembersNewConversation = payload => ({
+export const requestMembersNewConversation = payload => ({
   type: types.REQUEST_MEMBERS_SEARCH,
   payload,
 })
 
-const onTagsInputInteraction = payload => ({
+export const onTagsInputInteraction = payload => ({
   type: types.HANDLE_TAGS_INPUT_INTERACTION,
   payload,
 })

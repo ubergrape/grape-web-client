@@ -8,7 +8,6 @@ import pl from 'react-intl/locale-data/pl'
 import fr from 'react-intl/locale-data/fr'
 import it from 'react-intl/locale-data/it'
 import es from 'react-intl/locale-data/es'
-import uk from 'react-intl/locale-data/uk'
 import moment from 'moment'
 
 import conf from '../conf'
@@ -22,7 +21,7 @@ let sheetsInsertionPoint
 let renderContainer
 // let isSuspended = true
 
-const languages = [...en, ...de, ...pl, ...fr, ...it, ...es, ...uk]
+const languages = [...en, ...de, ...pl, ...fr, ...it, ...es]
 
 export const resume = () => {
   // if (!isSuspended) return null

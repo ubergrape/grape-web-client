@@ -17,7 +17,6 @@ export default options =>
         'intl/locale-data/jsonp/fr.js',
         'intl/locale-data/jsonp/it.js',
         'intl/locale-data/jsonp/es.js',
-        'intl/locale-data/jsonp/uk.js',
       ],
       require => {
         require('intl')
@@ -27,7 +26,6 @@ export default options =>
         require('intl/locale-data/jsonp/fr.js')
         require('intl/locale-data/jsonp/it.js')
         require('intl/locale-data/jsonp/es.js')
-        require('intl/locale-data/jsonp/uk.js')
         resolve()
       },
     )

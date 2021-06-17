@@ -7,9 +7,29 @@ import { isElectron } from 'grape-web/lib/x-platform/electron'
 
 import Backoff from './Backoff'
 
-const log = debug('ws')
+const logWs = debug('ws')
+const logWamp = debug('wamp')
 const prefix = 'http://domain/'
 const pingInterval = 10000
+
+// https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
+const wsCloseCodeMap = {
+  1000: 'Normal Closure',
+  1001: 'Going Away',
+  1002: 'Protocol Error',
+  1003: 'Unsupported Data',
+  1005: 'No Status Received',
+  1006: 'Abnormal Closure',
+  1007: 'Invalid frame payload data',
+  1008: 'Policy Violation',
+  1009: 'Message Too Big',
+  1010: 'Mandatory Extension',
+  1011: 'Internal Error',
+  1012: 'Service Restart',
+  1013: 'Try Again Later',
+  1014: 'Bad Gateway',
+  1015: 'TLS Handshake',
+}
 
 let onConnectionEvent = () => {}
 
@@ -29,18 +49,19 @@ export default class WampClient {
     this.pingInterval = options.pingInterval || pingInterval
     this.url = options.url
     this.reset()
+    this.watchOnlineStatus()
   }
 
   connect() {
     if (this.wamp) return this.out
-    log('connected')
+    logWs('connected')
     this.open()
     this.intervalId = setInterval(this.ping, this.pingInterval)
     return this.out
   }
 
   disconnect() {
-    log('disconnected')
+    logWs('disconnected')
     this.close()
     this.onDisconnected()
     this.reset()
@@ -79,12 +100,12 @@ export default class WampClient {
     const backoff = this.backoff.duration()
     this.out.emit('set:timer', backoff)
     if (backoff >= this.backoff.max) this.onDisconnected()
-    log('reopen in %sms', backoff)
+    logWs('reopen in %sms', backoff)
     onConnectionEvent('reopen in %sms', backoff)
     setTimeout(() => {
       this.reopening = false
       onConnectionEvent('reopening')
-      log('reopening')
+      logWs('reopening')
       this.open()
     }, backoff)
   }
@@ -102,13 +123,22 @@ export default class WampClient {
       return
     }
     onConnectionEvent('ping')
-    log('ping')
+    logWamp('ping')
     this.waitingForPong = true
     this.call('ping', (err, res) => {
       this.waitingForPong = false
       if (err) return this.onError(err)
-      return log(res)
+      return logWamp(res)
     })
+  }
+
+  /**
+   * Watch the connection status, as reported by the browser.
+   * we only use this for logging currently
+   */
+  watchOnlineStatus = () => {
+    window.addEventListener('online', this.onOnlineStatusChange)
+    window.addEventListener('offline', this.onOnlineStatusChange)
   }
 
   /**
@@ -119,14 +149,19 @@ export default class WampClient {
   call(...args) {
     let callback = args.pop()
 
-    if (log.enabled) {
+    if (logWamp.enabled) {
       const originCallback = callback
       const start = Date.now()
       callback = (...callbackArgs) => {
         const size = callbackArgs[1]
           ? JSON.stringify(callbackArgs[1]).length
           : 0
-        log('stats %s %s ms %s', args[0], Date.now() - start, prettyBytes(size))
+        logWamp(
+          'stats %s %s ms %s',
+          args[0],
+          Date.now() - start,
+          prettyBytes(size),
+        )
         originCallback(...callbackArgs)
       }
     }
@@ -141,7 +176,7 @@ export default class WampClient {
     this.onConnected()
     if (sessionId !== this.id) {
       this.id = sessionId
-      log('new session id %s', this.id)
+      logWs('new session id %s', this.id)
       onConnectionEvent('new session id', this.id)
       this.out.emit('set:id', this.id)
     }
@@ -152,7 +187,7 @@ export default class WampClient {
     if (this.connected) return
     this.connected = true
     onConnectionEvent('connected')
-    log('connected')
+    logWs('connected')
     this.out.emit('connected')
   }
 
@@ -161,7 +196,7 @@ export default class WampClient {
     this.id = null
     this.connected = false
     onConnectionEvent('disconnected')
-    log('disconnected')
+    logWs('disconnected')
     this.out.emit('disconnected')
   }
 
@@ -174,13 +209,13 @@ export default class WampClient {
       .split('/')
       .pop()
       .replace('#', '.')
-    log('received event "%s"', event, data)
+    logWamp('received event "%s"', event, data)
     this.out.emit('data', { ...data, event })
   }
 
   onError = err => {
     onConnectionEvent('error', err)
-    log(err)
+    logWs(err)
     this.out.emit('error', err)
     this.close()
     this.reopen()
@@ -188,7 +223,7 @@ export default class WampClient {
 
   onSocketError = event => {
     onConnectionEvent('socket error', event)
-    log('socket error', event)
+    logWs('socket error', event)
     const err = new Error('Socket error.')
     err.event = event
     this.onError(err)
@@ -196,8 +231,19 @@ export default class WampClient {
 
   onSocketClose = event => {
     onConnectionEvent('socket close', event)
-    log('socket close', event)
+    logWs(
+      'socket close. Code: %s (%s). Reason: %s. Was Clean: %s',
+      event.code,
+      wsCloseCodeMap[event.code] || 'Unknown',
+      event.reason || 'None',
+      event.wasClean,
+      event,
+    )
     this.close()
     this.reopen()
+  }
+
+  onOnlineStatusChange = event => {
+    logWs('browser connection status: %s', event.type, event)
   }
 }

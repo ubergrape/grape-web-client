@@ -1,6 +1,8 @@
 import merge from 'lodash/merge'
 import parseUrl from 'grape-web/lib/parse-url'
 
+import { userRolesMap } from './constants/app'
+
 const parseServiceUrl = url => {
   const { protocol, host } = parseUrl(url)
   return {
@@ -11,13 +13,7 @@ const parseServiceUrl = url => {
 
 class Config {
   constants = {
-    roles: {
-      ROLE_USER: 0,
-      ROLE_ADMIN: 1,
-      ROLE_OWNER: 2,
-      ROLE_GUEST: 3,
-      ROLE_INVITED: 5,
-    },
+    roles: userRolesMap,
   }
   user = {
     languageCode: 'en',

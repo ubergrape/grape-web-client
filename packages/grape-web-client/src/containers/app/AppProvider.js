@@ -52,7 +52,13 @@ export default class AppProvider extends PureComponent {
       <ReduxProvider store={getStore()}>
         <JssProvider jss={jss}>
           <AuroraThemeProvider>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider
+              {...(!conf.embed && {
+                hasGlobalReset: true,
+                hasGlobalOverrides: true,
+              })}
+              theme={theme}
+            >
               <IntlProvider
                 locale={conf.user.languageCode}
                 messages={translations[conf.user.languageCode]}

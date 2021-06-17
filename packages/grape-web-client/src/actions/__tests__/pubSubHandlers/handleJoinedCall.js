@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleJoinedCall } from '../..'
 import { psb20, psb5, psb6, psb7, psb11, psb12 } from '../data/pubSubHandlers'
@@ -15,13 +16,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleJoinedCall action', () => {
-  it('handleJoinedCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleJoinedCall(psb20)).toDispatchActionsWithState(
       {
         org: {
@@ -40,7 +36,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should not dispatch any actions for 1-1 call with different call id', done => {
+  it('should not dispatch any actions for 1-1 call with different call id', done => {
     expect(handleJoinedCall(psb5)).toDispatchActionsWithState(
       {
         org: {
@@ -59,7 +55,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch HANDLE_JOINED_CALL action for user who is creating 1-1 call', done => {
+  it('should dispatch HANDLE_JOINED_CALL action for user who is creating 1-1 call', done => {
     expect(handleJoinedCall(psb6)).toDispatchActionsWithState(
       {
         org: {
@@ -81,7 +77,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who accepting 1-1 call', done => {
     expect(handleJoinedCall(psb7)).toDispatchActionsWithState(
       {
         org: {
@@ -110,7 +106,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who joining group call', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, ADD_CALL and HANDLE_JOINED_CALL actions for user who joining group call', done => {
     expect(handleJoinedCall(psb11)).toDispatchActionsWithState(
       {
         org: {
@@ -138,7 +134,7 @@ describe('handleJoinedCall action', () => {
     )
   })
 
-  it('handleJoinedCall should not dispatch any actions for group call to user who started call', done => {
+  it('should not dispatch any actions for group call to user who started call', done => {
     expect(handleJoinedCall(psb12)).toDispatchActionsWithState(
       {
         org: {

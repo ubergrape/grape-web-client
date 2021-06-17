@@ -24,7 +24,7 @@ if (__DEV__ && window && window.__REDUX_DEVTOOLS_EXTENSION__) {
 
 // Allows to export `states` and `initial` objects which descrirbe a separate
 // reducer per action.
-const reducers = mapValues(reducersOrStateMaps, reducer => {
+export const reducers = mapValues(reducersOrStateMaps, reducer => {
   if (typeof reducer === 'function') return reducer
   const { states, initial } = reducer
   return (state = initial, { type, payload }) =>

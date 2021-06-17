@@ -14,6 +14,8 @@ import {
   NotificationSettingsItem,
   TutorialItem,
   SupportItem,
+  PrivacyPolicyItem,
+  TermsOfServiceItem,
   SwitchOrganizationsItem,
   LogoutItem,
 } from './menuItems'
@@ -24,6 +26,8 @@ class Menu extends PureComponent {
     onInvite: PropTypes.func,
     onShowIntro: PropTypes.func,
     supportLink: PropTypes.string.isRequired,
+    privacyPolicy: PropTypes.string.isRequired,
+    termsOfService: PropTypes.string.isRequired,
     permissions: PropTypes.object,
   }
 
@@ -39,8 +43,11 @@ class Menu extends PureComponent {
       onInvite,
       onShowIntro,
       supportLink,
+      privacyPolicy,
+      termsOfService,
       permissions,
     } = this.props
+
     const items = []
     let key = 0
 
@@ -89,6 +96,8 @@ class Menu extends PureComponent {
     }
 
     items.push(<SupportItem href={supportLink} key={++key} />)
+    items.push(<PrivacyPolicyItem href={privacyPolicy} key={++key} />)
+    items.push(<TermsOfServiceItem href={termsOfService} key={++key} />)
 
     if (canSwitchOrganization) {
       items.push(<SwitchOrganizationsItem key={++key} />)

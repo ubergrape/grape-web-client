@@ -20,12 +20,15 @@ export const setNewConversationTab = payload => ({
   payload,
 })
 
-const setGroupsLoadingNewConversation = payload => ({
+export const setGroupsLoadingNewConversation = payload => ({
   type: types.SET_GROUPS_SEARCH_LOADING_STATE,
   payload,
 })
 
-const handleGroupsResults = (payload, isGroupsLoadingFinished) => dispatch => {
+export const handleGroupsResults = (
+  payload,
+  isGroupsLoadingFinished,
+) => dispatch => {
   dispatch({
     type: types.HANDLE_GROUPS_SEARCH,
     payload,
@@ -34,7 +37,7 @@ const handleGroupsResults = (payload, isGroupsLoadingFinished) => dispatch => {
   if (isGroupsLoadingFinished) dispatch(setGroupsLoadingNewConversation(false))
 }
 
-const loadMembershipGroups = () => (dispatch, getState) => {
+export const loadMembershipGroups = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
   const {
     groupsQuery,
@@ -58,6 +61,7 @@ const loadMembershipGroups = () => (dispatch, getState) => {
         // ignore outdated results
         return
       }
+
       if (
         groupsPage === 1 &&
         !groups.length &&
@@ -127,12 +131,15 @@ export const onChangeGroupsQuery = payload => dispatch => {
   dispatch(onSearchGroups())
 }
 
-const setPeopleLoadingNewConversation = payload => ({
+export const setPeopleLoadingNewConversation = payload => ({
   type: types.SET_PEOPLE_SEARCH_LOADING_STATE,
   payload,
 })
 
-const handlePeopleResults = (payload, isPeopleLoadingFinished) => dispatch => {
+export const handlePeopleResults = (
+  payload,
+  isPeopleLoadingFinished,
+) => dispatch => {
   dispatch({
     type: types.HANDLE_PEOPLE_SEARCH,
     payload,
@@ -141,7 +148,7 @@ const handlePeopleResults = (payload, isPeopleLoadingFinished) => dispatch => {
   if (isPeopleLoadingFinished) dispatch(setPeopleLoadingNewConversation(false))
 }
 
-const loadMembershipPeople = () => (dispatch, getState) => {
+export const loadMembershipPeople = () => (dispatch, getState) => {
   const { id } = orgSelector(getState())
   const { peopleQuery, peoplePage, people } = newConversationSelector(
     getState(),

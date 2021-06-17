@@ -372,12 +372,14 @@ export const orgInfoSelector = createSelector(
     { logo, name, inviterRole, supportLink, permissions },
     isLoading,
     user,
-    { organization: { colors } },
+    { organization: { colors }, server: { termsOfService, privacyPolicy } },
   ) => ({
     logo,
     name,
     inviterRole,
     supportLink,
+    termsOfService,
+    privacyPolicy,
     permissions,
     isLoading,
     user,
@@ -420,7 +422,6 @@ export const navigationSelector = createSelector(
     foundChannelsSelector,
     searchingChannelsSelector,
     confSelector,
-    orgSelector,
   ],
   (
     channels,
@@ -430,7 +431,6 @@ export const navigationSelector = createSelector(
     foundChannels,
     searchingChannels,
     { organization: { colors } },
-    { permissions },
   ) => {
     const recent = channels
       .filter(_channel => !_channel.favorited)
@@ -449,7 +449,6 @@ export const navigationSelector = createSelector(
       foundChannels,
       searchingChannels,
       colors,
-      permissions,
     }
   },
 )

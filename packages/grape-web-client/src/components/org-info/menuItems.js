@@ -83,6 +83,26 @@ export const SupportItem = ({ href }) => (
   </Item>
 )
 
+export const PrivacyPolicyItem = ({ href }) => (
+  <Item icon="doorLock" href={href} target="grape-privacy-policy">
+    <FormattedMessage
+      id="privacyPolicy"
+      defaultMessage="Privacy Policy"
+      description="Main org dropdown menu"
+    />
+  </Item>
+)
+
+export const TermsOfServiceItem = ({ href }) => (
+  <Item icon="bookBookmarked" href={href} target="grape-terms-of-service">
+    <FormattedMessage
+      id="termsOfService"
+      defaultMessage="Terms Of Service"
+      description="Main org dropdown menu"
+    />
+  </Item>
+)
+
 export const SwitchOrganizationsItem = () => (
   <Item icon="random" href="/accounts/organization/dashboard">
     <FormattedMessage

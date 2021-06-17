@@ -11,6 +11,7 @@ export default (state = initialState, action) => {
   switch (type) {
     case types.HANDLE_JOINED_CALL:
     case types.HANDLE_STARTED_CALL:
+    case types.HANDLE_EXISTING_CALL:
       return {
         ...state,
         show: true,

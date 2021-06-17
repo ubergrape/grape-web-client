@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "3.0.1-unicorn2",
+  "version": "3.2.0-alpha.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.13.10",
     "@react-aria/overlays": "^3.6.1",
     "@react-stately/overlays": "^3.1.1",
-    "@ubergrape/aurora-ui": "^0.1.0",
+    "@ubergrape/aurora-ui": "^1.1.1",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "common-tags": "^1.4.0",
@@ -23,10 +23,10 @@
     "custom-event-polyfill": "^0.2.1",
     "debug": "^2.2.0",
     "fbjs": "^0.8.14",
-    "grape-browser": "^3.27.2",
+    "grape-browser": "^3.27.4",
     "grape-js-emoji": "^3.4.0",
     "grape-theme": "^3.6.0",
-    "grape-web": "^1.13.0",
+    "grape-web": "^1.13.1",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",
@@ -108,6 +108,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.9.1",
     "extract-text-webpack-plugin": "^2.1.2",
+    "faker": "^5.5.3",
     "file-loader": "^0.8.4",
     "glob": "^7.0.6",
     "html-loader": "^0.5.5",
@@ -172,7 +173,7 @@
   ],
   "jest": {
     "setupFiles": [
-      "<rootDir>/jest-mocks/globalMocks.js",
+      "<rootDir>/jest/mocks/globalMocks.js",
       "jest-localstorage-mock"
     ],
     "modulePathIgnorePatterns": [
@@ -181,7 +182,7 @@
     ],
     "testURL": "http://www.example.com",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "<rootDir>/jest-mocks/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$": "<rootDir>/jest/mocks/fileMock.js"
     }
   },
   "prettier": {

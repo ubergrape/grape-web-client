@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleFinishedCall } from '../..'
 import { psb15, psb16, psb17 } from '../data/pubSubHandlers'
@@ -13,13 +14,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleFinishedCall action', () => {
-  it('handleFinishedCall should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
+  it('should dispatch REMOVE_CALL and REMOVE_CALL_FROM_CHANNEL actions', done => {
     expect(handleFinishedCall(psb15)).toDispatchActionsWithState(
       {
         org: {
@@ -48,7 +44,7 @@ describe('handleFinishedCall action', () => {
     )
   })
 
-  it('handleFinishedCall should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
+  it('should dispatch CLOSE_CALL_STATUS, REMOVE_CALL and REMOVE_CALL actions', done => {
     expect(handleFinishedCall(psb16)).toDispatchActionsWithState(
       {
         org: {
@@ -81,7 +77,7 @@ describe('handleFinishedCall action', () => {
     )
   })
 
-  it('handleFinishedCall should not dispatch any actions if channel related to event not in store', done => {
+  it('should not dispatch any actions if channel related to event not in store', done => {
     expect(handleFinishedCall(psb17)).toDispatchActionsWithState(
       {
         org: {

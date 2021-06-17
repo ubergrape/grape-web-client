@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleIncomingCall } from '../..'
 import { ic5 } from '../data/incomingCall'
@@ -14,13 +15,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleIncomingCall action', () => {
-  it('handleIncomingCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {
@@ -34,7 +30,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
+  it('should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS, HANDLE_INCOMING_CALL, SHOW_INCOMING_CALL and HANDLE_NOTIFICATION actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         channels: [с3],
@@ -58,7 +54,7 @@ describe('handleIncomingCall action', () => {
     )
   })
 
-  it('handleIncomingCall should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS and HANDLE_INCOMING_CALL actions', done => {
+  it('should dispatch CLOSE_INCOMING_CALL, CLOSE_CALL_STATUS and HANDLE_INCOMING_CALL actions', done => {
     expect(handleIncomingCall(ic5)).toDispatchActionsWithState(
       {
         org: {

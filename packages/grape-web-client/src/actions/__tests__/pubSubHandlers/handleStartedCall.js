@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleStartedCall } from '../..'
 import { psb13, psb14 } from '../data/pubSubHandlers'
@@ -13,13 +14,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleStartedCall action', () => {
-  it('handleStartedCall should dispatch ADD_CALL_TO_CHANNEL action', done => {
+  it('should dispatch ADD_CALL_TO_CHANNEL action', done => {
     expect(handleStartedCall(psb13)).toDispatchActionsWithState(
       {
         org: {
@@ -36,7 +32,7 @@ describe('handleStartedCall action', () => {
     )
   })
 
-  it('handleStartedCall should dispatch HANDLE_JOINED_CALL, ADD_CALL and ADD_CALL_TO_CHANNEL actions', done => {
+  it('should dispatch HANDLE_JOINED_CALL, ADD_CALL and ADD_CALL_TO_CHANNEL actions', done => {
     expect(handleStartedCall(psb14)).toDispatchActionsWithState(
       {
         org: {
