@@ -146,6 +146,9 @@ export default function subscribe(channel) {
       case 'call.finished':
         boundActions.handleFinishedCall(cData)
         break
+      case 'ping':
+        boundActions.handlePing(cData)
+        break
       default:
     }
   })

@@ -6,8 +6,9 @@ import cn from 'classnames'
 import injectSheet from 'grape-web/lib/jss'
 import Icon from 'grape-web/lib/svg-icons/Icon'
 import { injectIntl } from 'react-intl'
-import { defaultIconSlug } from '../../constants/channel'
 
+import { defaultIconSlug } from '../../constants/channel'
+import animationInterval from '../../utils/animation-interval'
 import theme from './theme'
 
 const secondsToHms = s => ({
@@ -32,18 +33,21 @@ class CallStatus extends PureComponent {
     } = this.props
 
     if (show && prevProps.callStatus.show !== show) {
-      this.timer = setInterval(() => {
-        updateCallStatusTimer()
-      }, 1000)
+      this.controller = new AbortController()
+      animationInterval(1000, this.controller.signal, (time, start) => {
+        updateCallStatusTimer(
+          parseInt(time / 1000, 10) - parseInt(start / 1000, 10),
+        )
+      })
     }
 
     if (!show && prevProps.callStatus.show !== show) {
-      window.clearInterval(this.timer)
+      if (this.controller) this.controller.abort()
     }
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.timer)
+    if (this.controller) this.controller.abort()
   }
 
   onCancel = () => {

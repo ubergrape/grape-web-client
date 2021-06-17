@@ -12,6 +12,7 @@
     "@react-aria/overlays": "^3.6.1",
     "@react-stately/overlays": "^3.1.1",
     "@ubergrape/aurora-ui": "^1.1.1",
+    "@ubergrape/wamp1": "^1.2.3",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
     "common-tags": "^1.4.0",
@@ -65,7 +66,6 @@
     "reselect": "^2.0.1",
     "scrollbar-size": "^2.1.0",
     "superagent": "^3.8.3",
-    "wamp1": "ubergrape/wamp1#2.0.0",
     "warning": "^3.0.0",
     "websocket-wrapper": "^0.1.2",
     "window-location-origin": "^0.1.0"

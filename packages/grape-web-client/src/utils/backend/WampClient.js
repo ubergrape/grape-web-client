@@ -1,5 +1,5 @@
 import Emitter from 'component-emitter'
-import Wamp from 'wamp1'
+import Wamp from '@ubergrape/wamp1'
 import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 import prettyBytes from 'pretty-bytes'
@@ -10,7 +10,6 @@ import Backoff from './Backoff'
 const logWs = debug('ws')
 const logWamp = debug('wamp')
 const prefix = 'http://domain/'
-const pingInterval = 10000
 
 // https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
 const wsCloseCodeMap = {
@@ -46,7 +45,6 @@ export default class WampClient {
   constructor(options = {}) {
     this.out = new Emitter()
     this.backoff = new Backoff(options.backoff)
-    this.pingInterval = options.pingInterval || pingInterval
     this.url = options.url
     this.reset()
     this.watchOnlineStatus()
@@ -56,7 +54,6 @@ export default class WampClient {
     if (this.wamp) return this.out
     logWs('connected')
     this.open()
-    this.intervalId = setInterval(this.ping, this.pingInterval)
     return this.out
   }
 
@@ -74,7 +71,7 @@ export default class WampClient {
     this.id = null
     this.reopening = false
     this.connected = false
-    if (this.intervalId) clearInterval(this.intervalId)
+    if (this.controller) this.controller.abort()
   }
 
   open() {
@@ -84,6 +81,7 @@ export default class WampClient {
     this.wamp = new Wamp(this.socket, { omitSubscribe: true }, this.onOpen)
     this.wamp.on('error', this.onError)
     this.wamp.on('event', this.onEvent)
+    this.wamp.on('call', this.onCall)
   }
 
   close() {
@@ -110,26 +108,9 @@ export default class WampClient {
     }, backoff)
   }
 
-  /**
-   * Ping is needed for server. Otherwise it doesn't know when to cleanupn the
-   * session.
-   */
-  ping = () => {
-    if (!this.connected || this.reopening) return
-    if (this.waitingForPong) {
-      this.waitingForPong = false
-      onConnectionEvent("didn't receive a pong")
-      this.onError(new Error("Didn't receive a pong."))
-      return
-    }
-    onConnectionEvent('ping')
-    logWamp('ping')
-    this.waitingForPong = true
-    this.call('ping', (err, res) => {
-      this.waitingForPong = false
-      if (err) return this.onError(err)
-      return logWamp(res)
-    })
+  onCall = (endpoint, args, callback) => {
+    logWamp('onCall')
+    if (endpoint === 'ping') callback('pong')
   }
 
   /**
@@ -168,7 +149,6 @@ export default class WampClient {
 
     const argsClone = [...args, callback]
     argsClone[0] = prefix + args[0]
-
     this.wamp.call(...argsClone)
   }
 

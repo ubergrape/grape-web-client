@@ -15,9 +15,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         show: true,
-        timer: Math.floor(
-          (Date.now() - Date.parse(payload.call.started)) / 1000,
-        ),
+        timer: 0,
         data: payload,
       }
     case types.CLOSE_CALL_STATUS:
@@ -30,7 +28,7 @@ export default (state = initialState, action) => {
     case types.UPDATE_CALL_STATUS_TIMER:
       return {
         ...state,
-        timer: state.timer + 1,
+        timer: payload,
       }
     default:
       return state
