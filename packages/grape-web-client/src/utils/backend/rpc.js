@@ -8,12 +8,12 @@ import conf from '../../conf'
 import { toSnake, toCamel } from '../convert-case'
 import client from './client'
 
-import dataMocks from '../../../jest/mocks/dataMocks'
-
 const log = debug('rpc')
 let rpc
 
 if (__TEST__) {
+  // eslint-disable-next-line global-require
+  const dataMocks = require('../../../jest/mocks/dataMocks').default
   rpc = (data, callback) => {
     const camelizedData = toCamel(data)
     const res = dataMocks[

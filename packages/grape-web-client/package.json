@@ -144,7 +144,7 @@
     "start:proxy": "node ./bin/proxy.js",
     "build": "yarn clear:build && yarn build:lib && webpack",
     "build:lib": "babel src --out-dir lib",
-    "build:watch": "webpack --progress --colors --watch",
+    "build:watch": "webpack --progress --watch",
     "build:analize": "cross-env ANALIZE=true NODE_ENV=production yarn build:watch",
     "test": "jest",
     "test:watch": "yarn:test --watch",
