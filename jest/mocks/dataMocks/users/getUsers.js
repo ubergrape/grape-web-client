@@ -26,7 +26,6 @@ export const getUser = dataToOverwrite => {
     phoneNumber: faker.phone.phoneNumber(),
     pm: faker.datatype.number(),
     role: getRandomElement(Object.values(userRolesMap)),
-    section: '#',
     skypeForBusiness: faker.internet.email(),
     skype_username: faker.internet.userName(),
     status: parseInt(getRandomElement(Object.keys(userStatusMap)), 10),
