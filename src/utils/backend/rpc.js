@@ -1,15 +1,31 @@
 import debug from 'debug'
 import request from 'superagent'
 import assign from 'lodash/assign'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
 
 import conf from '../../conf'
 import { toSnake, toCamel } from '../convert-case'
 import client from './client'
 
+import dataMocks from '../../../jest/mocks/dataMocks'
+
 const log = debug('rpc')
 let rpc
 
-if (conf.forceLongpolling) {
+if (__TEST__) {
+  rpc = (data, callback) => {
+    const camelizedData = toCamel(data)
+    const res = dataMocks[
+      `${camelizedData.ns}${upperFirst(camelCase(camelizedData.action))}`
+    ](camelizedData)
+    callback(
+      // eslint-disable-next-line no-underscore-dangle
+      global.__TEST_ERROR__ ? { message: '__TEST_ERROR__', details: {} } : null,
+      res,
+    )
+  }
+} else if (conf.forceLongpolling) {
   rpc = (data, callback) => {
     request
       .post(conf.rpcUrl)

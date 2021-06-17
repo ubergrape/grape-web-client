@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleMissedCall } from '../..'
 import { psb8, psb9, psb18 } from '../data/pubSubHandlers'
@@ -15,13 +16,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleMissedCall action', () => {
-  it('handleMissedCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleMissedCall(psb18)).toDispatchActionsWithState(
       {
         org: {
@@ -40,7 +36,7 @@ describe('handleMissedCall action', () => {
     )
   })
 
-  it('handleMissedCall should not dispatch any actions if call ids different', done => {
+  it('should not dispatch any actions if call ids different', done => {
     expect(handleMissedCall(psb8)).toDispatchActionsWithState(
       {
         org: {
@@ -59,7 +55,7 @@ describe('handleMissedCall action', () => {
     )
   })
 
-  it('handleMissedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and HANDLE_NOTIFICATION actions', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL, CLEAR_INCOMING_CALL_DATA and HANDLE_NOTIFICATION actions', done => {
     expect(handleMissedCall(psb9)).toDispatchActionsWithState(
       {
         org: {

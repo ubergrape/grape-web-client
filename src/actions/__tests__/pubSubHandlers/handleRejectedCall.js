@@ -5,6 +5,7 @@ import { routerMiddleware } from 'grape-web/lib/router'
 
 import history from '../../../app/history'
 import * as types from '../../../constants/actionTypes'
+import { onError } from '../../../../jest/helpers'
 
 import { handleRejectedCall } from '../..'
 import { psb1, psb2, psb21 } from '../data/pubSubHandlers'
@@ -14,13 +15,8 @@ beforeEach(registerAssertions)
 
 registerMiddlewares([thunk, routerMiddleware(history)])
 
-const onError = (done, err) => {
-  if (err) done.fail(err)
-  done()
-}
-
 describe('handleRejectedCall action', () => {
-  it('handleRejectedCall should not dispatch any actions if call ids different', done => {
+  it('should not dispatch any actions if call ids different', done => {
     expect(handleRejectedCall(psb1)).toDispatchActionsWithState(
       {
         org: {
@@ -39,7 +35,7 @@ describe('handleRejectedCall action', () => {
     )
   })
 
-  it('handleRejectedCall should not dispatch any actions if organization ids different', done => {
+  it('should not dispatch any actions if organization ids different', done => {
     expect(handleRejectedCall(psb21)).toDispatchActionsWithState(
       {
         org: {
@@ -58,7 +54,7 @@ describe('handleRejectedCall action', () => {
     )
   })
 
-  it('handleRejectedCall should dispatch END_SOUND, CLOSE_INCOMING_CALL and CLEAR_INCOMING_CALL_DATA actions', done => {
+  it('should dispatch END_SOUND, CLOSE_INCOMING_CALL and CLEAR_INCOMING_CALL_DATA actions', done => {
     expect(handleRejectedCall(psb2)).toDispatchActionsWithState(
       {
         org: {
