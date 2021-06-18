@@ -1,0 +1,61 @@
+[
+  {
+    "id": 0,
+    "type": "room",
+    "name": "current public room",
+    "slug": "ccc",
+    "isPrivate": false,
+    "rank": 3,
+    "currentRoom": true,
+    "note": "— notify everyone in this room"
+  },
+  {
+    "id": 1,
+    "type": "room",
+    "name": "private room",
+    "slug": "ccc",
+    "isPrivate": true,
+    "rank": 3,
+    "currentRoom": false,
+    "note": "— notify everyone in this room"
+  },
+  {
+    "id": 2,
+    "type": "room",
+    "name": "current private room",
+    "slug": "ccc",
+    "isPrivate": true,
+    "rank": 3,
+    "currentRoom": true,
+    "note": "— notify everyone in this room"
+  },
+  {
+    "id": 3,
+    "type": "room",
+    "name": "public room",
+    "slug": "ccc",
+    "isPrivate": false,
+    "rank": 3,
+    "currentRoom": false,
+    "note": "— notify everyone in this room"
+  },
+  {
+    "id": 4,
+    "name": "John Merkel",
+    "username": "user-3",
+    "iconURL": "http://localhost:6060/mocks/images/avatar.gif",
+    "inRoom": true,
+    "rank": 0,
+    "type": "user"
+  },
+  {
+    "id": 5,
+    "name": "Zoran Liepiņš",
+    "username": "user-4",
+    "iconURL": "http://localhost:6060/mocks/images/avatar.gif",
+    "inRoom": false,
+    "rank": 0,
+    "type": "user",
+    "note": "— not in room"
+  }
+]

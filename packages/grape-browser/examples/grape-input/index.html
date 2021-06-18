@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'/>
+    <title>Content editable example</title>
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
+    <style>
+      body {
+        font-family: Roboto, sans-serif;
+      }
+      grape-input {
+        position: relative;
+        display: block;
+        margin-top: 350px;
+        border: 1px solid #666;
+        min-height: 35px;
+        font-size: 13px;
+      }
+      *, *:before, *:after {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../../node_modules/document-register-element/build/document-register-element.max.js"></script>
+    <script src="/build/grape-browser.js"></script>
+    <script src="./data.js"></script>
+    <button onclick="setProps({focused: true}); input.setTextContent('new text content')">Set text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('\nnew text\n content', {caretPosition: 'start'})">Set text and carret at the beginning.</button>
+    <button onclick="console.log(input.getTextContent())">Get text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('new multiline \n text content')">Set multiline text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('[Marketing Plan](cg://googledrive|file|e1331cc1513186b0e0a2d622e0111231|https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk||)')">Set markdown content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('hello :smile:')">Set emoji content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('<h1>must be rendered as text</h1>')">Set html content</button>
+
+    <button onclick="setProps({focused: true})">Set focus</button>
+    <button onclick="setProps({disabled: true})">Disable</button>
+    <button onclick="setProps({disabled: false})">Enable</button>
+    <button onmousedown="setProps({browser: 'emoji', ignoreSuggest: true, setTrigger: true}); return false;">Show emoji browser</button>
+    <button onmousedown="showSearchDelayed(); return false;">Show search browser</button>
+    <button onmousedown="showSearchDelayed(500); return false;">Show search browser delayed 500ms</button>
+    <button onmousedown="showSearchDelayed(2000); return false;">Show search browser delayed 2s</button>
+
+    <grape-input></grape-input>
+
+    <script src="./example.js"></script>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+  </body>
+</html>
