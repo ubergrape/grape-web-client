@@ -242,7 +242,7 @@ class BrowserNotification extends PureComponent {
       // Some notifications should be update
       updateNotification({ type }, this.props, nextProps)
 
-      if (window.parent) {
+      if (window.top !== window.self) {
         window.parent.postMessage(
           {
             type: 'grapeClient.updateNotification',
@@ -286,7 +286,7 @@ class BrowserNotification extends PureComponent {
       conf,
     })
 
-    if (window.parent) {
+    if (window.top !== window.self) {
       window.parent.postMessage(
         {
           type: 'grapeClient.createNotification',
