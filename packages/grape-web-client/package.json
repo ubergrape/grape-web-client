@@ -27,7 +27,7 @@
     "grape-browser": "^3.27.4",
     "grape-js-emoji": "^3.4.0",
     "grape-theme": "^3.6.0",
-    "grape-web": "^1.13.1",
+    "grape-web": "^1.13.1-19700.0.0",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",

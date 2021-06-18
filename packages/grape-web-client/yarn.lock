@@ -5706,10 +5706,10 @@ grape-web@^1.12.0:
     reset-jss "^0.1.0"
     styled-jss "^2.2.3"
 
-grape-web@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.1.tgz#2f3384045df98baf381e7ca66f3329434538455d"
-  integrity sha512-UOeTnJ/X5foLD1KQSmUDzGgq+e3wAvhaMlO8F2bLdkmmJrIlUwyvwCayb4zzGUUnP9ynn/MnUfB3MnAe/PmxPg==
+grape-web@^1.13.1-19700.0.0:
+  version "1.13.1-19700.0.0"
+  resolved "https://registry.yarnpkg.com/grape-web/-/grape-web-1.13.1-19700.0.0.tgz#d8fa1e4ce67dc5ba72afa8a932794cdb1c85d845"
+  integrity sha512-wgMfdsvUFYj6ctpmJUcDzWq8p1TK5l6wdLMTOyRYVzBkp8QvD9FNe1irjhc4quEx/4iZENg5KJYuDGPygixAQA==
   dependencies:
     classnames "^2.2.5"
     color "^0.10.1"
@@ -5727,7 +5727,7 @@ grape-web@^1.13.1:
     lodash "^4.17.21"
     material-ui "1.0.0-beta.22"
     mdurl "^1.0.1"
-    normalize-jss "^3.1.0"
+    normalize-jss "^4.0.0"
     prop-types "^15.5.10"
     react "^16.7.0"
     react-dom "^16.7.0"
@@ -8699,6 +8699,11 @@ normalize-jss@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/normalize-jss/-/normalize-jss-3.1.0.tgz#2d94f698205a115b133d8d55978ec99941217328"
   integrity sha1-LZT2mCBaEVsTPY1Vl47JmUEhcyg=
+
+normalize-jss@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/normalize-jss/-/normalize-jss-4.0.0.tgz#355e514127e7ba8f4b38a7e705cfeb86507ea0dd"
+  integrity sha512-zsn6yP0fOoDpzktjHCWKGVDMssYso0h6wxjW3+ABUp5CeEPpYc9YUy6cy7/SLO2yrPvtEzx0vu79Y9iEF2qSnA==
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.5.0:
   version "2.5.0"
