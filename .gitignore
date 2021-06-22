@@ -7,3 +7,13 @@ npm-debug.log
 *.diff
 dist
 lib
+
+# Yarn in root and sub directories
+
+**/.yarn/*
+**/!.yarn/patches
+**/!.yarn/releases
+**/!.yarn/plugins
+**/!.yarn/sdks
+**/!.yarn/versions
+**/.pnp.*
