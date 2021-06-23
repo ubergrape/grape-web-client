@@ -20,6 +20,9 @@ export default class LinkAttachments extends PureComponent {
     onRemove: PropTypes.func,
     isAdmin: PropTypes.bool,
     messageText: PropTypes.string,
+    style: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -34,13 +37,16 @@ export default class LinkAttachments extends PureComponent {
   }
 
   render() {
-    const { onRemove, attachments, classes, messageText } = this.props
+    const { onRemove, parent, style, scrollTop, attachments, classes, messageText } = this.props
 
     return (
       <div className={classes.root}>
         {attachments.map(meta => (
           <LinkAttachment
             {...meta}
+            parent={parent}
+            style={style}
+            scrollTop={scrollTop}
             key={`${meta.sourceUrl}${meta.footerIcon}`}
             messageText={messageText}
             onRemove={onRemove && this.makeOnRemove(meta.sourceUrl)}
