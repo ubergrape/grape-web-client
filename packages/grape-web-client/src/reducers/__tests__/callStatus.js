@@ -1,3 +1,5 @@
+import MockDate from 'mockdate'
+
 import callStatus from '../callStatus'
 import * as types from '../../constants/actionTypes'
 
@@ -5,6 +7,8 @@ import { cs1 } from './data/callStatus'
 
 describe('callStatus reducer', () => {
   it('should handle HANDLE_JOINED_CALL', () => {
+    MockDate.set('2019-08-19T06:16:18.464772+00:00')
+
     expect(
       callStatus(
         { show: false, timer: 0, data: {} },
@@ -15,9 +19,11 @@ describe('callStatus reducer', () => {
       ),
     ).toEqual({
       show: true,
-      timer: 0,
+      timer: 60,
       data: cs1,
     })
+
+    MockDate.reset()
   })
 
   it('should handle CLOSE_CALL_STATUS', () => {
