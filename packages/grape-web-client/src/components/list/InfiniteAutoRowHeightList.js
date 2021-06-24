@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized'
 
-const InfiniteAutoRowHeightKeyStepperList = memo(
+const InfiniteAutoRowHeightList = memo(
   ({
     isRowLoaded,
     loadMoreRows,
@@ -56,7 +56,7 @@ const InfiniteAutoRowHeightKeyStepperList = memo(
     prevProps.isListLoading === nextProps.isListLoading,
 )
 
-InfiniteAutoRowHeightKeyStepperList.propTypes = {
+InfiniteAutoRowHeightList.propTypes = {
   isRowLoaded: PropTypes.func.isRequired,
   loadMoreRows: PropTypes.func.isRequired,
   rowRenderer: PropTypes.func.isRequired,
@@ -69,10 +69,10 @@ InfiniteAutoRowHeightKeyStepperList.propTypes = {
   rowHeight: PropTypes.func.isRequired,
 }
 
-InfiniteAutoRowHeightKeyStepperList.defaultProps = {
+InfiniteAutoRowHeightList.defaultProps = {
   threshold: 15,
   overscanRowCount: 15,
   minimumBatchSize: 10,
 }
 
-export default InfiniteAutoRowHeightKeyStepperList
+export default InfiniteAutoRowHeightList

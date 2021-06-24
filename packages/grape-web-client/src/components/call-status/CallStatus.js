@@ -34,9 +34,14 @@ class CallStatus extends PureComponent {
 
     if (show && prevProps.callStatus.show !== show) {
       this.controller = new AbortController()
-      animationInterval(1000, this.controller.signal, (time, start) => {
+      animationInterval(1000, this.controller.signal, () => {
         updateCallStatusTimer(
-          parseInt(time / 1000, 10) - parseInt(start / 1000, 10),
+          parseInt(
+            (new Date().getTime() -
+              new Date(this.props.call.started).getTime()) /
+              1000,
+            10,
+          ),
         )
       })
     }
