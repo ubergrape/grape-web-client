@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
-import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
+import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 
 import theme from './theme'
@@ -147,7 +147,7 @@ const Groups = ({
       />
       <div className={classes.listWrapper}>
         <div className={classes.list}>
-          <InfiniteAutoRowHeightKeyStepperList
+          <InfiniteAutoRowHeightList
             rowHeight={rowHeight}
             loadMoreRows={onSearchGroups}
             isListLoading={isGroupsLoading}

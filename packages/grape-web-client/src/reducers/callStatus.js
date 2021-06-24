@@ -15,7 +15,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         show: true,
-        timer: 0,
+        timer: parseInt(
+          (new Date().getTime() - new Date(payload.call.started).getTime()) /
+            1000,
+          10,
+        ),
         data: payload,
       }
     case types.CLOSE_CALL_STATUS:

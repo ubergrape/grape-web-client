@@ -1,5 +1,7 @@
 export default (ms, signal, callback) => {
-  const start = document.timeline.currentTime
+  const start = document.timeline
+    ? document.timeline.currentTime
+    : new Date().getTime() - performance.timing.connectStart
 
   const frame = time => {
     if (signal.aborted) return

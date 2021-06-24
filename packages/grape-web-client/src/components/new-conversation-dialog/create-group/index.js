@@ -19,7 +19,7 @@ import {
 import { debouncingTime } from 'grape-web/lib/constants/time'
 import injectSheet from 'grape-web/lib/jss'
 
-import { InfiniteAutoRowHeightKeyStepperList } from '../../list'
+import { InfiniteAutoRowHeightList } from '../../list'
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
 
@@ -194,7 +194,7 @@ const CreateGroup = ({
           </Text>
           <div className={classes.listWrapper}>
             <div className={classes.list}>
-              <InfiniteAutoRowHeightKeyStepperList
+              <InfiniteAutoRowHeightList
                 rowHeight={() => 32}
                 loadMoreRows={onSearchMembers}
                 isRowLoaded={isRowLoaded}
