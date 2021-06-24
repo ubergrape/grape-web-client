@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.13.10",
     "@react-aria/overlays": "^3.6.1",
     "@react-stately/overlays": "^3.1.1",
-    "@ubergrape/aurora-ui": "^1.1.1",
+    "@ubergrape/aurora-ui": "^1.2.1",
     "@ubergrape/wamp1": "^1.2.3",
     "classnames": "^2.2.5",
     "color": "^0.10.1",
