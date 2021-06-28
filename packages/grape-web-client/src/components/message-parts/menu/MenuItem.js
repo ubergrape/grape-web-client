@@ -85,6 +85,9 @@ export default class MenuItem extends PureComponent {
     onRefItem: PropTypes.func,
     name: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
+    style: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
     index: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
   }
@@ -99,10 +102,17 @@ export default class MenuItem extends PureComponent {
   }
 
   render() {
-    const { name, classes, index, total, onRefItem } = this.props
+    const { name, classes, index, parent, style, scrollTop, total, onRefItem } = this.props
+
+    let placement = "bottom"
+
+    // 75 approximate required indentation for tooltip to the top edge
+    if (scrollTop + parent.props.height > style.top && scrollTop + 75 < style.top) {
+      placement = "top"
+    }
 
     return (
-      <Tooltip key={name} placement="top" message={messages[name]}>
+      <Tooltip key={name} placement={placement} message={messages[name]}>
         <button
           className={getItemClassName(classes, name, index, total)}
           onClick={this.onSelect}

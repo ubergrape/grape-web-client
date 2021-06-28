@@ -27,6 +27,9 @@ export default class Menu extends PureComponent {
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    parent: PropTypes.object.isRequired,
+    style: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   onSelectMenuItem = ({ name }) => {
@@ -35,7 +38,15 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const { user, channel, permissions, getContentNode } = this.props
+    const {
+      user,
+      parent,
+      style,
+      scrollTop,
+      channel,
+      permissions,
+      getContentNode,
+    } = this.props
     const items = [...baseItems]
 
     if (
@@ -51,6 +62,9 @@ export default class Menu extends PureComponent {
         onSelect={this.onSelectMenuItem}
         getContentNode={getContentNode}
         items={items}
+        parent={parent}
+        style={style}
+        scrollTop={scrollTop}
       />
     )
   }

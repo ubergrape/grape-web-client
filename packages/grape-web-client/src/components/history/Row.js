@@ -63,7 +63,9 @@ export default class Row extends PureComponent {
     isPm: PropTypes.bool.isRequired,
     duplicates: PropTypes.arrayOf(PropTypes.string),
     style: PropTypes.object,
-    colors: PropTypes.object,
+    parent: PropTypes.object.isRequired,
+    colors: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
     key: PropTypes.string,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
@@ -80,7 +82,6 @@ export default class Row extends PureComponent {
     isExpanded: false,
     duplicates: [],
     prevMessage: null,
-    style: null,
     key: null,
     colors: {},
     selectedMessageId: null,
@@ -143,7 +144,9 @@ export default class Row extends PureComponent {
       onUnpin,
       isExpanded,
       isPm,
+      parent,
       style,
+      scrollTop,
       key,
       colors,
       permissions,
@@ -187,6 +190,9 @@ export default class Row extends PureComponent {
       onCopyLink: this.onCopyLink,
       onQuote: this.onQuote,
       onRemoveLinkAttachment,
+      style,
+      parent,
+      scrollTop,
     }
 
     if (message.type === 'activity') {

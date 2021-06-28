@@ -162,7 +162,7 @@ export default class InfiniteList extends PureComponent {
       key={key}
       rowIndex={index}
     >
-      {this.props.renderRow({ index, key, style })}
+      {this.props.renderRow({ index, parent, key, style })}
     </CellMeasurer>
   )
 
@@ -178,6 +178,7 @@ export default class InfiniteList extends PureComponent {
       classes,
       scrollToAlignment,
       loadedNewerMessage,
+      onHistoryScroll,
     } = this.props
 
     const scrollToRow = scrollTo ? findIndex(rows, { id: scrollTo }) : undefined
@@ -203,6 +204,7 @@ export default class InfiniteList extends PureComponent {
                   rows={rows}
                   height={height}
                   scrollToIndex={scrollToRow}
+                  onHistoryScroll={onHistoryScroll}
                   scrollToAlignment={scrollToAlignment}
                   minEndThreshold={lastRowBottomSpace}
                   scrollToPosition={this.scrollToPosition}
@@ -227,6 +229,7 @@ export default class InfiniteList extends PureComponent {
                       }}
                       onScroll={params => {
                         onScroll(params)
+                        onHistoryScroll(params)
                         onScrollInAutoScroll(params)
                         onScrollInInfiniteLoader(params)
                       }}

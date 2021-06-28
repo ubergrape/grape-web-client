@@ -195,6 +195,9 @@ export default class RegularMessage extends PureComponent {
       docType,
       action,
       isAdmin,
+      style,
+      parent,
+      scrollTop
     } = this.props
 
     const { isMenuOpened, isMenuDropdownOpened } = this.state
@@ -274,6 +277,9 @@ export default class RegularMessage extends PureComponent {
                     messageText={text}
                     isAdmin={isAdmin}
                     onRemove={onRemoveLinkAttachment}
+                    style={style}
+                    parent={parent}
+                    scrollTop={scrollTop}
                   />
                 )}
               </div>
@@ -283,6 +289,9 @@ export default class RegularMessage extends PureComponent {
                   isLinkAttachments={
                     !text && linkAttachments && linkAttachments.length > 0
                   }
+                  parent={parent}
+                  style={style}
+                  scrollTop={scrollTop}
                   onSelect={this.onSelectMenuItem}
                   isDropdownOpened={isMenuDropdownOpened}
                   getContentNode={this.getContentNode}
@@ -301,6 +310,9 @@ export default class RegularMessage extends PureComponent {
                 messageText={text}
                 isAdmin={isAdmin}
                 onRemove={onRemoveLinkAttachment}
+                style={style}
+                parent={parent}
+                scrollTop={scrollTop}
               />
             )}
           </div>

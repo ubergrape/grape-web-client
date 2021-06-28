@@ -23,6 +23,8 @@ export default class More extends PureComponent {
     menuItems: PropTypes.array.isRequired,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
+    style: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -46,6 +48,9 @@ export default class More extends PureComponent {
       onSelect,
       items,
       menuItems,
+      style,
+      parent,
+      scrollTop,
     } = this.props
 
     return (
@@ -56,6 +61,9 @@ export default class More extends PureComponent {
           total={menuItems.length + 1}
           onSelect={onSelect}
           onRefItem={this.onRefMoreIcon}
+          style={style}
+          parent={parent}
+          scrollTop={scrollTop}
         />
         {isDropdownOpened && (
           <Popover

@@ -300,6 +300,13 @@ export function unsetHistoryScrollTo() {
   }
 }
 
+export const setScrollTop = payload => disptach => {
+  disptach({
+    type: types.SET_SCROLL_TOP,
+    payload,
+  })
+}
+
 export function removeMessages(messages) {
   return (dispatch, getState) => {
     dispatch({
