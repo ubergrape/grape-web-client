@@ -107,7 +107,6 @@ export default class MenuItem extends PureComponent {
     let placement = "bottom"
 
     // 75 approximate required indentation for tooltip to the top edge
-    console.log(scrollTop, parent.props.height, style.top)
     if (scrollTop + parent.props.height > style.top && scrollTop + 75 < style.top) {
       placement = "top"
     }
