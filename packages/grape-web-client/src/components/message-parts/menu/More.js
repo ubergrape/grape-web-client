@@ -25,6 +25,7 @@ export default class More extends PureComponent {
     isDropdownOpened: PropTypes.bool,
     style: PropTypes.object.isRequired,
     parent: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -77,19 +78,39 @@ export default class More extends PureComponent {
                   icon="iconLink"
                   name="copyLink"
                   onSelect={onSelect}
+                  style={style}
+                  parent={parent}
+                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('edit') && (
-                <PopoverItem icon="pencil" name="edit" onSelect={onSelect} />
+                <PopoverItem
+                  icon="pencil"
+                  name="edit"
+                  onSelect={onSelect}
+                  style={style}
+                  parent={parent}
+                  scrollTop={scrollTop}
+                />
               )}
               {items.includes('quote') && (
-                <PopoverItem icon="quote" name="quote" onSelect={onSelect} />
+                <PopoverItem
+                  icon="quote"
+                  name="quote"
+                  onSelect={onSelect}
+                  style={style}
+                  parent={parent}
+                  scrollTop={scrollTop}
+                />
               )}
               {items.includes('pin') && (
                 <PopoverItem
                   icon={isPinned ? 'unpin' : 'pin'}
                   name={isPinned ? 'unpin' : 'pin'}
                   onSelect={onSelect}
+                  style={style}
+                  parent={parent}
+                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('remove') && <Divider />}
@@ -98,6 +119,9 @@ export default class More extends PureComponent {
                   icon="deleteMessage"
                   name="remove"
                   onSelect={onSelect}
+                  style={style}
+                  parent={parent}
+                  scrollTop={scrollTop}
                 />
               )}
             </MenuList>

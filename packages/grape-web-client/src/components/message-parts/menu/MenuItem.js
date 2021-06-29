@@ -85,15 +85,18 @@ export default class MenuItem extends PureComponent {
     onRefItem: PropTypes.func,
     name: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
-    parent: PropTypes.object.isRequired,
-    style: PropTypes.object.isRequired,
-    scrollTop: PropTypes.number.isRequired,
-    index: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
+    parent: PropTypes.object,
+    style: PropTypes.object,
+    scrollTop: PropTypes.number,
+    index: PropTypes.number,
+    total: PropTypes.number,
   }
 
   static defaultProps = {
     onRefItem: undefined,
+    scrollTop: undefined,
+    style: undefined,
+    parent: undefined
   }
 
   onSelect = () => {
@@ -106,8 +109,11 @@ export default class MenuItem extends PureComponent {
 
     let placement = "bottom"
 
+    if (!parent || !style || !scrollTop) {
+      placement = "top"
+    }
     // 75 approximate required indentation for tooltip to the top edge
-    if (scrollTop + parent.props.height > style.top && scrollTop + 75 < style.top) {
+    else if (scrollTop + parent.props.height > style.top && scrollTop + 75 < style.top) {
       placement = "top"
     }
 

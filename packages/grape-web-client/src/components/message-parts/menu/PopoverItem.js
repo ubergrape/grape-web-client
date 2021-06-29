@@ -36,6 +36,9 @@ export default class PopoverItem extends PureComponent {
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
+    style: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   onSelect = () => {
@@ -44,10 +47,17 @@ export default class PopoverItem extends PureComponent {
   }
 
   render() {
-    const { classes, icon, name } = this.props
+    const { classes, icon, name, style, parent, scrollTop } = this.props
 
     return (
-      <MenuItem className={classes.root} onClick={this.onSelect} dense>
+      <MenuItem
+        style={style}
+        parent={parent}
+        scrollTop={scrollTop}
+        className={classes.root}
+        onClick={this.onSelect}
+        dense
+      >
         <Icon name={icon} className={classes.icon} />
         <span className={classes.text}>{messages[name]}</span>
       </MenuItem>

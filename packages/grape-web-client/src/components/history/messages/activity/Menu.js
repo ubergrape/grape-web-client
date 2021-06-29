@@ -27,9 +27,15 @@ export default class Menu extends PureComponent {
     onCopyLink: PropTypes.func.isRequired,
     onQuote: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    parent: PropTypes.object.isRequired,
-    style: PropTypes.object.isRequired,
-    scrollTop: PropTypes.number.isRequired,
+    parent: PropTypes.object,
+    style: PropTypes.object,
+    scrollTop: PropTypes.number,
+  }
+
+  static defaultProps = {
+    scrollTop: undefined,
+    style: undefined,
+    parent: undefined,
   }
 
   onSelectMenuItem = ({ name }) => {
