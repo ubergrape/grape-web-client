@@ -36,9 +36,6 @@ export default class PopoverItem extends PureComponent {
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
-    style: PropTypes.object.isRequired,
-    parent: PropTypes.object.isRequired,
-    scrollTop: PropTypes.number.isRequired,
   }
 
   onSelect = () => {
@@ -51,9 +48,6 @@ export default class PopoverItem extends PureComponent {
 
     return (
       <MenuItem
-        style={style}
-        parent={parent}
-        scrollTop={scrollTop}
         className={classes.root}
         onClick={this.onSelect}
         dense

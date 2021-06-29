@@ -78,9 +78,6 @@ export default class More extends PureComponent {
                   icon="iconLink"
                   name="copyLink"
                   onSelect={onSelect}
-                  style={style}
-                  parent={parent}
-                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('edit') && (
@@ -88,9 +85,6 @@ export default class More extends PureComponent {
                   icon="pencil"
                   name="edit"
                   onSelect={onSelect}
-                  style={style}
-                  parent={parent}
-                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('quote') && (
@@ -98,9 +92,6 @@ export default class More extends PureComponent {
                   icon="quote"
                   name="quote"
                   onSelect={onSelect}
-                  style={style}
-                  parent={parent}
-                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('pin') && (
@@ -108,9 +99,6 @@ export default class More extends PureComponent {
                   icon={isPinned ? 'unpin' : 'pin'}
                   name={isPinned ? 'unpin' : 'pin'}
                   onSelect={onSelect}
-                  style={style}
-                  parent={parent}
-                  scrollTop={scrollTop}
                 />
               )}
               {items.includes('remove') && <Divider />}
@@ -119,9 +107,6 @@ export default class More extends PureComponent {
                   icon="deleteMessage"
                   name="remove"
                   onSelect={onSelect}
-                  style={style}
-                  parent={parent}
-                  scrollTop={scrollTop}
                 />
               )}
             </MenuList>
