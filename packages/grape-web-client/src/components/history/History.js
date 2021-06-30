@@ -7,7 +7,7 @@ import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './no-content'
-import NoContentEmbed from './no-content-embed'
+import NoContentEmbedded from './no-content-embedded'
 import NoChannels from './NoChannels'
 import ReadRow from './ReadRow'
 import Jumper from './Jumper'
@@ -221,7 +221,7 @@ class History extends Component {
     if (!rows.length) {
       if (showNoContent) {
         if (this.props.conf.embed) {
-          return <NoContentEmbed channel={channel} />
+          return <NoContentEmbedded channel={channel} />
         }
 
         return (

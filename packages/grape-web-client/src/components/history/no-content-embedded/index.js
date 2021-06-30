@@ -24,7 +24,7 @@ class NoContentEmbed extends PureComponent {
         <div className={classes.wrapper}>
           <h2 className={classes.title}>
             <FormattedMessage
-              id="embedWelcomeTo"
+              id="embeddedWelcomeTo"
               defaultMessage="Welcome to {channelName}"
               values={{ channelName: channel.name }}
             />
