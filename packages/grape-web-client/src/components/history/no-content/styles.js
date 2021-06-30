@@ -2,9 +2,9 @@ import color from 'color'
 import { biggest, normal } from 'grape-theme/dist/fonts'
 import { blue } from 'grape-theme/dist/base-colors'
 
-import staticUrl from '../../utils/static-url'
-import linkButton from '../button/link'
-import buttonIcon from '../button/icon'
+import staticUrl from '../../../utils/static-url'
+import linkButton from '../../button/link'
+import buttonIcon from '../../button/icon'
 
 const hoverColor = color(blue)
   .lighten(0.05)
@@ -33,7 +33,7 @@ const image = {
   backgroundRepeat: 'no-repeat',
 }
 
-export const styles = {
+const styles = {
   noContent: {
     display: 'flex',
     padding: [80, 20],
@@ -74,3 +74,5 @@ export const styles = {
     paddingTop: 20,
   },
 }
+
+export default styles

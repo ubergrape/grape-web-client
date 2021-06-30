@@ -6,7 +6,8 @@ import isEmpty from 'lodash/isEmpty'
 import injectSheet from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
-import NoContent from './NoContent'
+import NoContent from './no-content'
+import NoContentEmbed from './no-content-embed'
 import NoChannels from './NoChannels'
 import ReadRow from './ReadRow'
 import Jumper from './Jumper'
@@ -219,6 +220,10 @@ class History extends Component {
     // show messages later.
     if (!rows.length) {
       if (showNoContent) {
+        if (this.props.conf.embed) {
+          return <NoContentEmbed channel={channel} />
+        }
+
         return (
           <NoContent
             channel={channel}

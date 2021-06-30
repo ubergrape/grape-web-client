@@ -4,7 +4,7 @@ import injectSheet from 'grape-web/lib/jss'
 import { FormattedMessage } from 'react-intl'
 import noop from 'lodash/noop'
 
-import { styles } from './noContentTheme'
+import styles from './styles'
 
 function Illustration({ type, theme: { classes } }) {
   return (
