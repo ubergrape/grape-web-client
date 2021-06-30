@@ -46,13 +46,16 @@ class Menu extends PureComponent {
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     showDropdown: PropTypes.bool,
-    style: PropTypes.object.isRequired,
-    parent: PropTypes.object.isRequired,
-    scrollTop: PropTypes.number.isRequired,
+    style: PropTypes.object,
+    parent: PropTypes.object,
+    scrollTop: PropTypes.number,
   }
 
   static defaultProps = {
     showDropdown: false,
+    parent: undefined,
+    style: undefined,
+    scrollTop: undefined,
   }
 
   render() {
