@@ -13,6 +13,7 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    padding: [0, 40],
   },
   icon: {
     height: 53,
