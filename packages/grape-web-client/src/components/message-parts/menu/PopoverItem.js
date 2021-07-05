@@ -44,10 +44,14 @@ export default class PopoverItem extends PureComponent {
   }
 
   render() {
-    const { classes, icon, name } = this.props
+    const { classes, icon, name, style, parent, scrollTop } = this.props
 
     return (
-      <MenuItem className={classes.root} onClick={this.onSelect} dense>
+      <MenuItem
+        className={classes.root}
+        onClick={this.onSelect}
+        dense
+      >
         <Icon name={icon} className={classes.icon} />
         <span className={classes.text}>{messages[name]}</span>
       </MenuItem>

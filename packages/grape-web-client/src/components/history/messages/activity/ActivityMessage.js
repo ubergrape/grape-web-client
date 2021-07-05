@@ -36,6 +36,9 @@ class ActivityMessage extends PureComponent {
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
+    style: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
     channel: PropTypes.object.isRequired,
     permissions: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool,
@@ -91,6 +94,9 @@ class ActivityMessage extends PureComponent {
       onQuote,
       onRemove,
       text,
+      style,
+      parent,
+      scrollTop,
       linkAttachments,
       permissions,
     } = this.props
@@ -100,6 +106,9 @@ class ActivityMessage extends PureComponent {
         isLinkAttachments={
           !text && linkAttachments && linkAttachments.length > 0
         }
+        style={style}
+        parent={parent}
+        scrollTop={scrollTop}
         getContentNode={this.getContentNode}
         user={user}
         channel={channel}
@@ -130,6 +139,9 @@ class ActivityMessage extends PureComponent {
       customEmojis,
       isAdmin,
       text,
+      style,
+      parent,
+      scrollTop,
     } = this.props
 
     const Bubble = isSelected ? SelectedBubble : ActivityBubble
@@ -180,6 +192,9 @@ class ActivityMessage extends PureComponent {
                       messageText={text}
                       isAdmin={isAdmin}
                       onRemove={onRemoveLinkAttachment}
+                      style={style}
+                      parent={parent}
+                      scrollTop={scrollTop}
                     />
                   )}
                 </div>
@@ -193,6 +208,9 @@ class ActivityMessage extends PureComponent {
                 messageText={text}
                 isAdmin={isAdmin}
                 onRemove={onRemoveLinkAttachment}
+                style={style}
+                parent={parent}
+                scrollTop={scrollTop}
               />
             )}
           </div>

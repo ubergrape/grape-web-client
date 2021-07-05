@@ -23,6 +23,9 @@ export default class More extends PureComponent {
     menuItems: PropTypes.array.isRequired,
     isPinned: PropTypes.bool,
     isDropdownOpened: PropTypes.bool,
+    style: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -46,6 +49,9 @@ export default class More extends PureComponent {
       onSelect,
       items,
       menuItems,
+      style,
+      parent,
+      scrollTop,
     } = this.props
 
     return (
@@ -56,6 +62,9 @@ export default class More extends PureComponent {
           total={menuItems.length + 1}
           onSelect={onSelect}
           onRefItem={this.onRefMoreIcon}
+          style={style}
+          parent={parent}
+          scrollTop={scrollTop}
         />
         {isDropdownOpened && (
           <Popover
@@ -72,10 +81,18 @@ export default class More extends PureComponent {
                 />
               )}
               {items.includes('edit') && (
-                <PopoverItem icon="pencil" name="edit" onSelect={onSelect} />
+                <PopoverItem
+                  icon="pencil"
+                  name="edit"
+                  onSelect={onSelect}
+                />
               )}
               {items.includes('quote') && (
-                <PopoverItem icon="quote" name="quote" onSelect={onSelect} />
+                <PopoverItem
+                  icon="quote"
+                  name="quote"
+                  onSelect={onSelect}
+                />
               )}
               {items.includes('pin') && (
                 <PopoverItem

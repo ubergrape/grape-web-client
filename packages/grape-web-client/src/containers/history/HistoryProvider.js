@@ -25,6 +25,7 @@ const actionNames = {
   pinMessage: 'onPin',
   unpinMessage: 'onUnpin',
   showNewConversation: 'onNewConversation',
+  setScrollTop: 'setScrollTop',
 }
 
 const ConnectedHistory = connect(

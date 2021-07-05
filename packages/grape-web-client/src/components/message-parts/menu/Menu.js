@@ -17,7 +17,8 @@ const getWidth = total => {
 }
 
 const getPosition = (contentNode, total) => {
-  const canFit = contentNode.offsetWidth > getWidth(total)
+  // 100 is rough tooltip width
+  const canFit = contentNode.offsetWidth > getWidth(total) + 100
   return canFit ? 'top' : 'right'
 }
 
@@ -45,10 +46,16 @@ class Menu extends PureComponent {
     getContentNode: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     showDropdown: PropTypes.bool,
+    style: PropTypes.object,
+    parent: PropTypes.object,
+    scrollTop: PropTypes.number,
   }
 
   static defaultProps = {
     showDropdown: false,
+    parent: undefined,
+    style: undefined,
+    scrollTop: undefined,
   }
 
   render() {
@@ -58,6 +65,9 @@ class Menu extends PureComponent {
       getContentNode,
       showDropdown,
       onSelect,
+      style,
+      parent,
+      scrollTop,
       ...dropdownProps
     } = this.props
 
@@ -74,6 +84,9 @@ class Menu extends PureComponent {
           <MenuItem
             name={name}
             index={index}
+            style={style}
+            parent={parent}
+            scrollTop={scrollTop}
             total={menuItems.length + (showDropdown ? 1 : 0)}
             onSelect={onSelect}
             key={name}
@@ -83,6 +96,9 @@ class Menu extends PureComponent {
           <More
             {...dropdownProps}
             onSelect={onSelect}
+            style={style}
+            parent={parent}
+            scrollTop={scrollTop}
             items={items}
             menuItems={menuItems}
           />

@@ -45,12 +45,14 @@ class History extends Component {
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     onNewConversation: PropTypes.func.isRequired,
+    setScrollTop: PropTypes.func.isRequired,
     showNoContent: PropTypes.bool,
     channel: PropTypes.object.isRequired,
     users: PropTypes.array,
     messages: PropTypes.array,
     user: PropTypes.object,
     selectedMessageId: PropTypes.string,
+    scrollTop: PropTypes.number,
     selectedMessageIdTimestamp: PropTypes.number,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
@@ -69,6 +71,7 @@ class History extends Component {
     isLoading: false,
     user: null,
     users: [],
+    scrollTop: 0,
     selectedMessageId: null,
     selectedMessageIdTimestamp: null,
     scrollTo: null,
@@ -147,6 +150,10 @@ class History extends Component {
     this.setState({ rows })
   }
 
+  onHistoryScroll = ({ scrollTop }) => {
+    this.props.setScrollTop(scrollTop)
+  }
+
   load() {
     const { isLoading, channel, onLoad, isMemberOfAnyRooms } = this.props
     if (
@@ -160,15 +167,19 @@ class History extends Component {
     }
   }
 
-  renderRow = ({ index, key, style }) => (
-    <Row
-      {...this.state.rows[index]}
-      key={key}
-      style={style}
-      permissions={this.props.permissions}
-      onToggleExpander={this.onToggleExpander}
-    />
-  )
+  renderRow = ({ index, parent, key, style }) => {
+    return (
+      <Row
+        {...this.state.rows[index]}
+        key={key}
+        parent={parent}
+        style={style}
+        scrollTop={this.props.scrollTop}
+        permissions={this.props.permissions}
+        onToggleExpander={this.onToggleExpander}
+      />
+    )
+  }
 
   render() {
     const {
@@ -242,6 +253,7 @@ class History extends Component {
                     this.onRowsRendered(params)
                   }}
                   onScroll={onScroll}
+                  onHistoryScroll={this.onHistoryScroll}
                   scrollTo={scrollTo}
                   scrollToAlignment={scrollToAlignment}
                   rows={rows}
