@@ -11,6 +11,12 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         ...payload,
+        backoff: payload,
+      }
+    case types.SET_OPEN_TIME:
+      return {
+        ...state,
+        openTime: payload,
       }
     case types.HANDLE_RECONNECTING_CHANGE:
       return {

@@ -155,11 +155,15 @@ export default function subscribe(channel) {
 
   channel.on('error', boundActions.handleConnectionError)
 
-  channel.on('set:timer', backoff => {
+  channel.on('setOpenTime', timestamp => {
+    boundActions.setOpenTime(timestamp)
+  })
+
+  channel.on('setTimer', backoff => {
     boundActions.setTimer(parseInt(backoff / 1000, 10))
   })
 
-  channel.on('set:reconnecting:state', () => {
+  channel.on('setReconnectingState', () => {
     setTimeout(() => {
       boundActions.handleReconnecting(false)
     }, 1000)

@@ -49,7 +49,6 @@ export function handleConnectionError(err) {
     dispatch(
       showAlert({
         level: 'danger',
-        delay: 3000,
         type: alerts.CONNECTION_LOST,
       }),
     )
