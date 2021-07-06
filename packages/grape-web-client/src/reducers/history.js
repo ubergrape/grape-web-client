@@ -74,7 +74,7 @@ export default function reduce(state = initialState, action) {
         scrollToAlignment,
         selectedMessageId,
         backendHasNewerMessages,
-        showNoContent: messages.length === 0 && !conf.embed,
+        showNoContent: messages.length === 0,
         loadedNewerMessage: false,
       }
     }
