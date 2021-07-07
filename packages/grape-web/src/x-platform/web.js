@@ -52,6 +52,20 @@ export const createNotification = (...args) => {
 }
 
 /**
+ * Update existing notification
+ */
+export const updateNotification = ({ type }, props, nextProps) => {
+  const { incomingCall, notification } = nextProps
+
+  if (type === 'calls') {
+    const { show } = incomingCall
+    if (!show && show !== props.incomingCall.show && notification.close) {
+      notification.close()
+    }
+  }
+}
+
+/**
  * Open an url in browser.
  */
 export openUrl from './open-url'

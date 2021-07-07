@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "3.2.2-unicorn",
+  "version": "3.2.2-19700.0.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -27,7 +27,7 @@
     "grape-browser": "^3.27.5",
     "grape-js-emoji": "^3.4.0",
     "grape-theme": "^3.6.0",
-    "grape-web": "^1.13.1",
+    "grape-web": "^1.13.1-19700.0.0",
     "history": "^4.7.2",
     "html5-notification": "^3.0.0",
     "image-zoom": "ubergrape/image-zoom",
@@ -41,7 +41,6 @@
     "markdown-it": "^8.4.2",
     "markdown-it-emoji": "^1.4.0",
     "markdown-react-js": "^1.0.2",
-    "mockdate": "^3.0.5",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.4",
     "mousetrap": "^1.5.3",
@@ -122,6 +121,7 @@
     "lint-staged": "^7.2.0",
     "lodash-webpack-plugin": "^0.11.6",
     "minimist": "^1.2.0",
+    "mockdate": "^3.0.5",
     "prettier": "^1.19.1",
     "raw-loader": "^0.5.1",
     "react-testing-library": "^4.1.2",
