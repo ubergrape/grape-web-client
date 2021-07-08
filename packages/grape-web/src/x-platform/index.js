@@ -13,6 +13,13 @@ export function createNotification(...args) {
   return null
 }
 
+export function updateNotification(...args) {
+  if (implementation.updateNotification) {
+    return implementation.updateNotification(...args)
+  }
+  return null
+}
+
 export function openUrl(...args) {
   if (implementation.openUrl) return implementation.openUrl(...args)
   return null

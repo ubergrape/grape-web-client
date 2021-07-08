@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import { createNotification } from 'grape-web/lib/x-platform'
+import {
+  createNotification,
+  updateNotification,
+} from 'grape-web/lib/x-platform'
 import MarkdownIt from 'markdown-it'
 import mdEmoji from 'markdown-it-emoji'
 import { defineMessages, injectIntl } from 'react-intl'
@@ -181,46 +184,6 @@ const normalizeNotificationData = ({ dispatcher, props, conf }) => {
   return undefined
 }
 
-const updateNotification = (props, nextProps) => {
-  const {
-    conf,
-    incomingCall,
-    notification,
-    browserNotification: { dispatcher },
-  } = nextProps
-
-  const { type } = normalizeNotificationData({
-    dispatcher,
-    props,
-    conf,
-  })
-
-  if (type === 'calls') {
-    const { show } = incomingCall
-    if (!show && show !== props.incomingCall.show && notification.close) {
-      notification.close()
-    }
-  }
-}
-
-const renderNotification = props => {
-  const { browserNotification, conf } = props
-  const { dispatcher } = browserNotification
-
-  const { properties, callbacks, params } = normalizeNotificationData({
-    dispatcher,
-    props,
-    conf,
-  })
-
-  const notification = createNotification({
-    properties,
-    params,
-    callbacks,
-  })
-  return notification
-}
-
 class BrowserNotification extends PureComponent {
   static propTypes = {
     setNotification: PropTypes.func.isRequired,
@@ -240,6 +203,7 @@ class BrowserNotification extends PureComponent {
       content: PropTypes.string,
       event: PropTypes.string.isRequired,
     }),
+    conf: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     notification: PropTypes.object,
   }
@@ -262,8 +226,41 @@ class BrowserNotification extends PureComponent {
     const isNew = browserNotification !== this.props.browserNotification
 
     if (!isNew && notification && !isElectron) {
+      const {
+        conf,
+        browserNotification: { dispatcher },
+      } = nextProps
+
+      const { type, properties, callbacks, params } = normalizeNotificationData(
+        {
+          dispatcher,
+          props: this.props,
+          conf,
+        },
+      )
+
       // Some notifications should be update
-      updateNotification(this.props, nextProps)
+      updateNotification({ type }, this.props, nextProps)
+
+      if (window.top !== window.self) {
+        window.parent.postMessage(
+          {
+            type: 'grapeClient.updateNotification',
+            payload: {
+              args: {
+                type,
+                properties,
+                callbacks,
+                params,
+              },
+              props: this.props,
+              nextProps,
+            },
+          },
+          '*',
+        )
+      }
+
       return
     }
 
@@ -280,7 +277,41 @@ class BrowserNotification extends PureComponent {
 
     if (!isNew || !notify) return
 
-    setNotification(renderNotification(nextProps))
+    const { conf } = this.props
+    const { dispatcher } = browserNotification
+
+    const { type, properties, callbacks, params } = normalizeNotificationData({
+      dispatcher,
+      props: nextProps,
+      conf,
+    })
+
+    if (window.top !== window.self) {
+      window.parent.postMessage(
+        {
+          type: 'grapeClient.createNotification',
+          payload: {
+            args: {
+              type,
+              properties,
+              callbacks,
+              params,
+            },
+            props: this.props,
+            nextProps,
+          },
+        },
+        '*',
+      )
+    }
+
+    setNotification(
+      createNotification({
+        properties,
+        params,
+        callbacks,
+      }),
+    )
   }
 
   render() {

@@ -23,11 +23,11 @@
   <script>
     (function(a){var b=document.createElement("script");b.async=1;b.src=a.staticBaseUrl+"app/embedded.js";b.onload=function(){grapeClient.embed(a);if(a.onReady)a.onReady()};document.head.appendChild(b)})({
       container: '#grape-client',
-      channelId: 8991,
+      channelId: 15042,
       //channelId: 2253,
       orgId: 1,
       serviceUrl: 'https://uebergrape.staging.chatgrape.com',
-      staticBaseUrl: 'https://unpkg.com/grape-web-client/dist/',
+      staticBaseUrl: 'http://localhost:8081/dist/',
       // staticBaseUrl: 'http://10.0.2.2:8081/static/',
       onReady: function() {
         console.log('Grape Client initialized')
