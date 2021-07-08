@@ -13,6 +13,7 @@ const initialState = {
   loadedNewerMessage: false,
   scrollTo: null,
   scrollToAlignment: null,
+  scrollTop: null,
   backendHasNewerMessages: true,
 }
 
@@ -73,7 +74,7 @@ export default function reduce(state = initialState, action) {
         scrollToAlignment,
         selectedMessageId,
         backendHasNewerMessages,
-        showNoContent: messages.length === 0 && !conf.embed,
+        showNoContent: messages.length === 0,
         loadedNewerMessage: false,
       }
     }
@@ -151,6 +152,11 @@ export default function reduce(state = initialState, action) {
         scrollTo: null,
         scrollToAlignment: null,
         loadedNewerMessage: false,
+      }
+    case types.SET_SCROLL_TOP:
+      return {
+        ...state,
+        scrollTop: payload,
       }
     case types.REMOVE_MESSAGE:
       return {

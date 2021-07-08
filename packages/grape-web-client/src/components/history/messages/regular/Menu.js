@@ -31,6 +31,9 @@ export default class Menu extends PureComponent {
     isDropdownOpened: PropTypes.bool,
     isLinkAttachments: PropTypes.bool,
     state: PropTypes.string,
+    parent: PropTypes.object.isRequired,
+    style: PropTypes.object.isRequired,
+    scrollTop: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -57,6 +60,9 @@ export default class Menu extends PureComponent {
       getContentNode,
       isDropdownOpened,
       isLinkAttachments,
+      parent,
+      style,
+      scrollTop,
     } = this.props
 
     if (state === 'pending') return null
@@ -74,6 +80,9 @@ export default class Menu extends PureComponent {
         onSelect={this.onSelectMenuItem}
         getContentNode={getContentNode}
         items={items}
+        parent={parent}
+        scrollTop={scrollTop}
+        style={style}
         isPinned={isPinned}
         isDropdownOpened={isDropdownOpened}
         showDropdown={items.length > 2}

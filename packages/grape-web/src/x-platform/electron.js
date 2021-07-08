@@ -1,6 +1,9 @@
 import random from 'lodash/random'
-
-import { openUrl, createNotification as createWebNotification } from './web'
+import {
+  openUrl,
+  updateNotification,
+  createNotification as createWebNotification,
+} from './web'
 
 export const createNotification = options => {
   const { properties, params, callbacks } = options
@@ -39,6 +42,11 @@ export const createNotification = options => {
  * Electron implements the web api.
  */
 export { openUrl }
+
+/**
+ * Electron implements updating existing notification
+ */
+export { updateNotification }
 
 /**
  * Add badge will:

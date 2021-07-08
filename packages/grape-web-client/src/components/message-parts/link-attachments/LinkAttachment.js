@@ -282,12 +282,19 @@ export default class LinkAttachment extends PureComponent {
 
   renderRemoveButton = () => {
     const { isMenuOpened } = this.state
+    const { parent, scrollTop, style } = this.props
 
     const isAllowedToRemove = this.props.onRemove && isMenuOpened
 
     return (
       isAllowedToRemove && (
-        <Menu {...this.menuProps} getContentNode={this.getContentNode} />
+        <Menu
+          {...this.menuProps}
+          parent={parent}
+          scrollTop={scrollTop}
+          style={style}
+          getContentNode={this.getContentNode}
+        />
       )
     )
   }
