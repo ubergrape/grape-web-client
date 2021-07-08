@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
+import conf from '../../../conf'
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 
@@ -29,6 +30,7 @@ const Groups = ({
   showCreateGroup,
   goToChannel,
   joinChannel,
+  user,
   org,
   intl: { formatMessage },
 }) => {
@@ -56,19 +58,42 @@ const Groups = ({
   }
 
   if (isNoOtherGroups) {
+    if (user.role === conf.constants.roles.ROLE_GUEST) {
+      return (
+        <Flex direction="column" className={classes.noMemberGuest}>
+          <Text maxWidth="initial" emphasis>
+            <FormattedMessage
+              id="ncdNoGroupsGuest1"
+              defaultMessage="You are not part of any group!"
+              description="shown for guest user when there are no groups in the organisation"
+            />
+          </Text>
+          <Text maxWidth="initial" className={classes.description}>
+            <FormattedMessage
+              id="ncdNoGroupsGuest2"
+              defaultMessage="It seems that you do not have access to any groups yet and your user role does not allow you to create new ones. Please wait until you get added to a group."
+              description="shown for guest user when there are no groups in the organisation"
+            />
+          </Text>
+        </Flex>
+      )
+    }
+
     return (
       <Flex direction="column" items="start" className={classes.wrapper}>
-        <Flex direction="column" className={classes.empty}>
+        <Flex direction="column" className={classes.noMember}>
           <Text maxWidth="initial" emphasis>
             <FormattedMessage
               id="ncdNoGroups1"
               defaultMessage="You're the first!"
+              description="shown when there are no groups in the organisation"
             />
           </Text>
           <Text maxWidth="initial" className={classes.description}>
             <FormattedMessage
               id="ncdNoGroups2"
               defaultMessage="No one else has created a group yet. Don't be too stressed and just create the first group around a topic that comes to your mind. You can invite other people to this group later."
+              description="shown when there are no groups in the organisation"
             />
           </Text>
         </Flex>

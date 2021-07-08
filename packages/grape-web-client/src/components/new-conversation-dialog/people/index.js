@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import { Text, ActionLink, Flex, SearchField } from '@ubergrape/aurora-ui'
 import { debouncingTime } from 'grape-web/lib/constants/time'
 
+import conf from '../../../conf'
 import { InfiniteAutoRowHeightList } from '../../list'
 import NoRowsRenderer from './NoRowsRenderer'
 import theme from './theme'
@@ -28,6 +29,7 @@ const People = ({
   hideNewConversation,
   goToChannel,
   openPm,
+  user,
   org,
   showInviteToOrg,
   intl: { formatMessage },
@@ -57,8 +59,29 @@ const People = ({
   }
 
   if (isNoOtherPerson) {
+    if (user.role === conf.constants.roles.ROLE_GUEST) {
+      return (
+        <Flex direction="column" className={classes.noMemberGuest}>
+          <Text maxWidth="initial" emphasis>
+            <FormattedMessage
+              id="ncdPeopleSearchNoOtherPeopleGuest1"
+              defaultMessage="You are not part of any group!"
+              description="shown for guest user when there are no people in the organisation"
+            />
+          </Text>
+          <Text maxWidth="initial" className={classes.description}>
+            <FormattedMessage
+              id="ncdPeopleSearchNoOtherPeopleGuest2"
+              defaultMessage="That means there is also no one you can chat with yet. Please wait until you get added to a group and you will see people appearing here."
+              description="shown for guest user when there are no people in the organisation"
+            />
+          </Text>
+        </Flex>
+      )
+    }
+
     return (
-      <Flex direction="column" className={classes.member}>
+      <Flex direction="column" className={classes.noMember}>
         <Text maxWidth="initial" emphasis>
           <FormattedMessage
             id="ncdPeopleSearchNoOtherPeople1"
