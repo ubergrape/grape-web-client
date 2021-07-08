@@ -19,7 +19,13 @@ export default function reduce(state = initialState, action) {
         return { ...state }
       return {
         ...state,
-        users: [...state.users, payload.user],
+        users: [
+          ...state.users,
+          {
+            ...payload.user,
+            joinedAt: payload.time,
+          },
+        ],
       }
     }
     case types.CHANGE_SIDEBAR_USER_STATUS: {

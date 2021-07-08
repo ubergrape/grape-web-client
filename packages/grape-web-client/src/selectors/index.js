@@ -329,15 +329,13 @@ export const newConversationComponentSelector = createSelector(
 export const inviteDialogSelector = createSelector(
   [
     channelSelector,
-    channelMembersSelector,
     inviteChannelMembersSelector,
     isInviterSelector,
     confSelector,
   ],
-  (channel, channelMembers, inviteChannelMembers, isInviter, conf) => ({
+  (channel, inviteChannelMembers, isInviter, conf) => ({
     ...inviteChannelMembers,
     users: inviteChannelMembers.users
-      .filter(user => !channelMembers.users.some(({ id }) => id === user.id))
       // Sift users which picked to be invited
       .filter(
         user => !inviteChannelMembers.listed.some(({ id }) => id === user.id),
