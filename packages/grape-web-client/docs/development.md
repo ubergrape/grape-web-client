@@ -120,26 +120,14 @@ Allow all of cookies in IE:
 
 You can use your Mac's public IP address and default bridged network adapter to configure the proxy instead of 0.0.0.0.
 
-## Develop dependencies like grape-web, grape-browser or aurora-ui locally
+## Develop dependencies like aurora-ui locally
 
 You can use `yarn link` to switch to the specific package and use it locally.
 
-```sh
-cd <your_path>/grape-browser
-yarn link
-
-cd <your_path>/grape-web-client
-yarn link grape-browser
-yarn run start:dev:all # node_modules are cached! restart this process if it was already running
-
-# in a second terminal
-cd <your_path>/grape-browser
-yarn run build:watch
-```
-
 Ideally the package has a `build:watch` script so you do not constantly need to re-run the build. If not please add one.
 
-for **aurora-ui**, be sure to link the `web` directory:
+For **aurora-ui**, be sure to link the `web` directory.
+
 
 ```sh
 cd <your_path>/grape-ds/web
