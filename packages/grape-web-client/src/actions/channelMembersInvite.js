@@ -29,16 +29,16 @@ export function removeFromChannelMembersInvite(user) {
   }
 }
 
-export const searchUsersToInvite = searchText => (dispatch, getState) => {
+export const searchUsersToInvite = search => (dispatch, getState) => {
   dispatch({
     type: types.FILTER_CHANNEL_MEMBERS_INVITE,
-    payload: searchText,
+    payload: search,
   })
 
   api
     .searchUsersForRoom({
       channelId: channelSelector(getState()).id,
-      searchText,
+      search,
       limit: 50,
     })
     .then(({ results }) => {

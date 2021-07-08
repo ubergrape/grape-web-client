@@ -90,7 +90,11 @@ export const autocomplete = (orgId, text, options = {}) =>
     { camelize: true },
   )
 
-export const searchUsersForRoom = ({ channelId, searchText, limit = 25 }) =>
+export const searchUsersForRoom = ({
+  channelId,
+  search: searchText,
+  limit = 25,
+}) =>
   rpc(
     {
       ns: 'search',
