@@ -18,13 +18,17 @@ export default {
     flex: '0 0 auto',
     marginTop: ({ isMemberOfEachGroup }) => (isMemberOfEachGroup ? 16 : 24),
   },
-  empty: {
+  noMember: {
     flex: '0 0 auto',
     marginTop: 24,
   },
   member: {
     flex: '0 0 auto',
     marginTop: 24,
+  },
+  noMemberGuest: {
+    flex: '0 0 auto',
+    marginTop: 16,
   },
   listWrapper: {
     flex: 1,

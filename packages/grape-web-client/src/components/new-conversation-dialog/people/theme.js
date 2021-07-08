@@ -14,7 +14,11 @@ export default {
     flex: '0 0 auto',
     marginTop: 24,
   },
-  member: {
+  noMember: {
+    flex: '0 0 auto',
+    marginTop: 16,
+  },
+  noMemberGuest: {
     flex: '0 0 auto',
     marginTop: 16,
   },
