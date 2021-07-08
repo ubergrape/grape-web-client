@@ -260,6 +260,7 @@ export const handleJoinedChannel = ({
   channelData: channel,
   userData: user,
   organizationId,
+  time,
 }) => (dispatch, getState) => {
   const state = getState()
   const org = orgSelector(state)
@@ -283,6 +284,7 @@ export const handleJoinedChannel = ({
     payload: {
       channel,
       user,
+      time,
       currentChannelId: currentChannel.id,
       isCurrentUser: id === user.id,
     },

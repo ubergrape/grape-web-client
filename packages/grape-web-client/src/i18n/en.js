@@ -263,6 +263,7 @@ export default {
   "recent": "Recent",
   "reconnectAlert": "You've been successfully reconnected!",
   "reconnectNow": "try it now",
+  "searchMembersAndGroups": "Search members and groups…",
   "reconnectSeconds": "s, or you can",
   "removeFromFavorites": "Remove from Favorites",
   "replyWithMessage": "Reply with a message",
