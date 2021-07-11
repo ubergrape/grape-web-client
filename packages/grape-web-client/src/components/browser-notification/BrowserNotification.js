@@ -42,6 +42,8 @@ const messages = defineMessages({
   },
 })
 
+const getDomain = str => new URL(str).hostname.replace(/^[^.]+\./g, '')
+
 const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdForcebreak)
   .use(mdEmoji)
@@ -244,19 +246,21 @@ class BrowserNotification extends PureComponent {
 
       if (window.top !== window.self) {
         window.parent.postMessage(
-          {
-            type: 'grapeClient.updateNotification',
-            payload: {
-              args: {
-                type,
-                properties,
-                callbacks,
-                params,
+          JSON.parse(
+            JSON.stringify({
+              type: 'grapeClient.updateNotification',
+              payload: {
+                args: {
+                  type,
+                  properties,
+                  callbacks,
+                  params,
+                },
+                props: this.props,
+                nextProps,
               },
-              props: this.props,
-              nextProps,
-            },
-          },
+            }),
+          ),
           '*',
         )
       }
@@ -286,21 +290,26 @@ class BrowserNotification extends PureComponent {
       conf,
     })
 
-    if (window.top !== window.self) {
+    if (
+      window.top !== window.self &&
+      getDomain(document.referrer) === getDomain(window.self.location.href)
+    ) {
       window.parent.postMessage(
-        {
-          type: 'grapeClient.createNotification',
-          payload: {
-            args: {
-              type,
-              properties,
-              callbacks,
-              params,
+        JSON.parse(
+          JSON.stringify({
+            type: 'grapeClient.createNotification',
+            payload: {
+              args: {
+                type,
+                properties,
+                callbacks,
+                params,
+              },
+              props: this.props,
+              nextProps,
             },
-            props: this.props,
-            nextProps,
-          },
-        },
+          }),
+        ),
         '*',
       )
     }

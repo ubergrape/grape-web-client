@@ -43,7 +43,7 @@ export const setNotification = payload => dispatch => {
 
 export function ensureBrowserNotificationPermission() {
   return dispatch => {
-    if (shouldRequestPermission()) {
+    if (shouldRequestPermission() && window.top === window.self) {
       dispatch(
         showAlert({
           level: 'info',
