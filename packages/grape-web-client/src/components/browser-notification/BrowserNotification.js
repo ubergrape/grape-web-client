@@ -246,21 +246,19 @@ class BrowserNotification extends PureComponent {
 
       if (window.top !== window.self) {
         window.parent.postMessage(
-          JSON.parse(
-            JSON.stringify({
-              type: 'grapeClient.updateNotification',
-              payload: {
-                args: {
-                  type,
-                  properties,
-                  callbacks,
-                  params,
-                },
-                props: this.props,
-                nextProps,
+          JSON.stringify({
+            type: 'grapeClient.updateNotification',
+            payload: {
+              args: {
+                type,
+                properties,
+                callbacks,
+                params,
               },
-            }),
-          ),
+              props: this.props,
+              nextProps,
+            },
+          }),
           '*',
         )
       }
@@ -295,21 +293,19 @@ class BrowserNotification extends PureComponent {
       getDomain(document.referrer) === getDomain(window.self.location.href)
     ) {
       window.parent.postMessage(
-        JSON.parse(
-          JSON.stringify({
-            type: 'grapeClient.createNotification',
-            payload: {
-              args: {
-                type,
-                properties,
-                callbacks,
-                params,
-              },
-              props: this.props,
-              nextProps,
+        JSON.stringify({
+          type: 'grapeClient.createNotification',
+          payload: {
+            args: {
+              type,
+              properties,
+              callbacks,
+              params,
             },
-          }),
-        ),
+            props: this.props,
+            nextProps,
+          },
+        }),
         '*',
       )
     }
