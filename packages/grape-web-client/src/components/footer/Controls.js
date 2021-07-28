@@ -39,7 +39,7 @@ const AttachmentButton = props => {
       disableClick={isPostingLimited}
       onDropAccepted={onDropAccepted}
       onDropRejected={onDropRejected}
-      inputProps={{ style: { opacity: 0 }}}
+      inputProps={{ style: { opacity: 0, width: '100%' }}}
     >
       <IconButton
         className={classes.button}
