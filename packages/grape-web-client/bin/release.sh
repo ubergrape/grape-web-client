@@ -26,6 +26,16 @@ fi
 
 release_version=$1
 
+# make sure we are logged in to npm
+npm_user=$(npm whoami 2>/dev/null)
+if [ $? == 0 ]; then
+    echo "Logged in to npm with user: ${npm_user}"
+else
+    echo "You are not logged in to npm. Run 'npm adduser' to login"
+    exit 1
+fi
+
+
 # make sure we have clean git working directory
 if [ -z "$(git status --porcelain)" ]; then
     echo "Working directory clean."
