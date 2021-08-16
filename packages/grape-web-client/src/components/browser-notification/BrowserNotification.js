@@ -42,6 +42,8 @@ const messages = defineMessages({
   },
 })
 
+const getDomain = str => new URL(str).hostname.replace(/^[^.]+\./g, '')
+
 const md = new MarkdownIt({ breaks: true, typographer: true })
   .use(mdForcebreak)
   .use(mdEmoji)
@@ -244,7 +246,7 @@ class BrowserNotification extends PureComponent {
 
       if (window.top !== window.self) {
         window.parent.postMessage(
-          {
+          JSON.stringify({
             type: 'grapeClient.updateNotification',
             payload: {
               args: {
@@ -256,7 +258,7 @@ class BrowserNotification extends PureComponent {
               props: this.props,
               nextProps,
             },
-          },
+          }),
           '*',
         )
       }
@@ -286,9 +288,12 @@ class BrowserNotification extends PureComponent {
       conf,
     })
 
-    if (window.top !== window.self) {
+    if (
+      window.top !== window.self &&
+      getDomain(document.referrer) === getDomain(window.self.location.href)
+    ) {
       window.parent.postMessage(
-        {
+        JSON.stringify({
           type: 'grapeClient.createNotification',
           payload: {
             args: {
@@ -300,7 +305,7 @@ class BrowserNotification extends PureComponent {
             props: this.props,
             nextProps,
           },
-        },
+        }),
         '*',
       )
     }
