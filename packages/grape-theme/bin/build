@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+var path = require('path')
+var babel = require('babel-core')
+
+var ROOT = path.resolve(__dirname, '..')
+var SOURCE = path.join(ROOT, 'src')
+var DIST = path.join(ROOT, 'dist')
+
+try {
+  fs.mkdirSync(DIST)
+} catch (err) {}
+
+fs.readdirSync(SOURCE).forEach(function (fileName) {
+  if (path.extname(fileName) != '.js') return
+  var name = path.basename(fileName, '.js')
+
+  // Create js files
+  var data = babel.transform(fs.readFileSync(path.join(SOURCE, fileName))).code
+  var js = path.join(DIST, name + '.js')
+  fs.writeFileSync(js, data)
+
+  // Create json files
+  var data = JSON.stringify(require(js), null, '  ')
+  var json = path.join(DIST, name + '.json')
+  fs.writeFileSync(json, data)
+})

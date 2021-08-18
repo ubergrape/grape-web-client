@@ -1,8 +1,14 @@
 {
   "private": true,
-  "workspaces": ["grape-web-client", "grape-browser", "grape-web"],
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^4.0.0",
     "lerna-wizard": "^1.1.1"
+  },
+  "scripts": {
+    "test": "lerna run test",
+    "test:coveralls": "lerna run test:coveralls"
   }
 }

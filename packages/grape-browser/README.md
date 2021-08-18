@@ -10,14 +10,10 @@ yarn build
 ## Developing with grape-web-client
 
 ```sh
-cd <your_path>/grape-browser
-yarn link
+cd packages/grape-web-client
+yarn run start:dev:all
 
-cd <your_path>/grape-web-client
-yarn link grape-browser
-yarn run start:dev:all # node_modules are cached! restart this process if it was already running
-
-cd <your_path>/grape-browser
+cd packages/grape-browser
 yarn run build:watch
 ```
 
