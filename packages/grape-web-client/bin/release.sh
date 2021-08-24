@@ -97,7 +97,18 @@ yarn build
 echo "Publishing the new version on npm..."
 npm publish
 
-echo "Pushing changes and tags to git origin"
+echo "Committing version number changes and tags to git"
+git diff
+
+echo ""
+echo "Press any key to continue"
+read -n 1
+
+git add packages/grape-web-client/package.json
+git commit -m "v$release_version"
+git tag v$release_version
+
+echo "Pushing git changes to remote"
 git push
 git push origin v$release_version
 
