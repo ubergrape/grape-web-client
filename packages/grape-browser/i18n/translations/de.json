@@ -3,7 +3,7 @@
   "enterKeywordPlaceholder": "Stichwort eingeben…",
   "enterMessagePlaceholder": "Nachricht eingeben...",
   "groupPostingLimitedPlaceholder": "Posten in diese Gruppe wurde eingeschränkt.",
-  "willNotifyGroup": "— jeden in dieser Gruppe benachrichtigen",
+  "willNotifyGroup": "— jede in dieser Gruppe benachrichtigen",
   "_willNotifyGroup.comment": "*Describe willNotifyGroup*: this string is describing action",
   "wontNotifyGroup": "— Benachrichtigt keine Gruppenmitglieder",
   "_wontNotifyGroup.comment": "*Describe wontNotifyGroup*: this string is describing action",
