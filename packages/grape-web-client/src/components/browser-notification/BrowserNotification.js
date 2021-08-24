@@ -45,6 +45,7 @@ const messages = defineMessages({
 const getDomain = str => new URL(str).hostname.replace(/^[^.]+\./g, '')
 
 const md = new MarkdownIt({ breaks: true, typographer: true })
+  .disable('list')
   .use(mdForcebreak)
   .use(mdEmoji)
   .use(mdNotification)
