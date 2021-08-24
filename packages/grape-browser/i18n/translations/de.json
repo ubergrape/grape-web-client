@@ -17,7 +17,7 @@
   "resultsAmountHint": "{amount} Ergebnisse",
   "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
   "noResults": "Keine Ergebnisse.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} andere{{resultsAmountResults}}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {{resultsAmountResult}} other {{resultsAmountResults}}}",
   "resultsAmountResult": "Ergebnis",
   "resultsAmountResults": "Ergebnisse",
   "serviesHeadline": "Service auswählen",
