@@ -19,7 +19,17 @@ To release a new version of the repo make sure to complete the following steps (
 
 Note: The environment variables for the unicorn release will be set automatically if the release version ends with "unicorn".
 
-## Environment variable
+## Use the new release on "chatgrape"
+
+On the `chatgrape` repo:
+
+- [ ] Update the CHANGELOG – exclude information about `chore` changes here
+- [ ] Update the version of grape-web-client in `client/version.txt` to reflect the one you just published
+- [ ] Create a PR onto `develop` and ask someone to review
+
+## Environment variables
+
+Note: The environment variables explained here are automatically set by the release script, depending on the end of the version string, i.e. adding "-unicorn", as shown above, is all you need to do.
 
 ### THEME variable
 
@@ -34,10 +44,4 @@ The version of release should match with default version, but the theme name end
 To replace `Grape` (used by default) product name to another one, use `PRODUCT_NAME` environment variable while releasing/debugging.
 E.g `PRODUCT_NAME='Grain' npm publish`.
 
-## Use the new release on "chatgrape"
 
-On the `chatgrape` repo:
-
-- [ ] Update the CHANGELOG – exclude information about `chore` changes here
-- [ ] Update the version of grape-web-client in `client/version.txt` to reflect the one you just published
-- [ ] Create a PR onto `develop` and ask someone to review
