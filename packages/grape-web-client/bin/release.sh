@@ -104,7 +104,7 @@ echo ""
 echo "Press any key to continue"
 read -n 1
 
-git add packages/grape-web-client/package.json
+git package.json
 git commit -m "v$release_version"
 git tag v$release_version
 
